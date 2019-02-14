@@ -16,7 +16,6 @@ import Warning from '../../styledComponents/Typography/Warning';
 import CardStyles from '../../static/jss/material-kit-pro-react/views/componentsSections/sectionCards';
 
 const Event = ({ event, classes }) => {
-	console.log(event);
 	return (
 		<GridItem xs={12} sm={6} md={4} lg={3}>
 			<Card blog>

@@ -32,13 +32,14 @@ const Filters = ({ classes, refetch, location, page }) => {
 	};
 
 	const handleDateFilters = ({ target: { id } }) => {
-		dataFilters.indexOf(id) !== -1
+		dateFilters.indexOf(id) !== -1
 			? setDateFilters(dateFilters.filter(i => i !== id))
 			: setDateFilters([ ...dateFilters, id ]);
 	};
 
 	useEffect(
 		() => {
+			console.log(categoryFilters, dateFilters);
 			refetch({
 				variables: {
 					location,
@@ -253,13 +254,13 @@ const Filters = ({ classes, refetch, location, page }) => {
 														tabIndex={-1}
 														onClick={handleDateFilters}
 														checked={
-															dateFilters.indexOf('all') !== -1 ? (
+															dateFilters.indexOf('All') !== -1 ? (
 																true
 															) : (
 																false
 															)
 														}
-														id='all'
+														id='All'
 														checkedIcon={
 															<Check
 																className={classes.checkedIcon}
@@ -285,13 +286,13 @@ const Filters = ({ classes, refetch, location, page }) => {
 														tabIndex={-1}
 														onClick={handleDateFilters}
 														checked={
-															dateFilters.indexOf('today') !== -1 ? (
+															dateFilters.indexOf('Today') !== -1 ? (
 																true
 															) : (
 																false
 															)
 														}
-														id='today'
+														id='Today'
 														checkedIcon={
 															<Check
 																className={classes.checkedIcon}
@@ -317,14 +318,14 @@ const Filters = ({ classes, refetch, location, page }) => {
 														tabIndex={-1}
 														onClick={handleDateFilters}
 														checked={
-															dateFilters.indexOf('this weekend') !==
+															dateFilters.indexOf('This Weekend') !==
 															-1 ? (
 																true
 															) : (
 																false
 															)
 														}
-														id='this weekend'
+														id='This Weekend'
 														checkedIcon={
 															<Check
 																className={classes.checkedIcon}

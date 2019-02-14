@@ -27,7 +27,7 @@ const Query = {
 		);
 	},
 	async getEvents(parent, { location, page, ...args }, ctx, info) {
-		// searches for events based on the genre provided
+		console.log(args);
 		let categories = args.categories.toString() || 'music,comedy,performing_arts,sports';
 		let dates = args.dates.toString() || 'all';
 		console.log(categories, dates, page, location);

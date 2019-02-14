@@ -22,7 +22,12 @@ const Events = ({ classes }) => {
 							<h2 style={{ textAlign: 'center' }}>Upcoming Events Near You</h2>
 							{data.getLocation ? (
 								<EventsQuery
-									variables={{ location: getLocation.location, page: page }}
+									variables={{
+										location: getLocation.location,
+										page: page,
+										categories: [],
+										dates: [],
+									}}
 								>
 									{({ data, error, loading, refetch }) => (
 										<Fragment>
@@ -48,52 +53,63 @@ const Events = ({ classes }) => {
 														</GridContainer>
 													)}
 												</GridItem>
-												<Paginations
-													pages={[
-														{ text: 'PREV' },
+												{!loading &&
+												!error && (
+													<Paginations
+														pages={[
+															{ text: 'PREV' },
 
-														{
-															text:
-																data.getEvents.page_number > 2 &&
-																data.getEvents.page_number - 2,
-															onClick: () =>
-																setPage(
+															{
+																text:
+																	data.getEvents.page_number >
+																		2 &&
 																	data.getEvents.page_number - 2,
-																),
-														},
-														{
-															text:
-																data.getEvents.page_number > 1 &&
-																data.getEvents.page_number - 1,
-															onClick: () =>
-																setPage(
+																onClick: () =>
+																	setPage(
+																		data.getEvents.page_number -
+																			2,
+																	),
+															},
+															{
+																text:
+																	data.getEvents.page_number >
+																		1 &&
 																	data.getEvents.page_number - 1,
-																),
-														},
-														{
-															active: true,
-															text: data.getEvents.page_number,
-														},
-														{
-															text: data.getEvents.page_number + 1,
-															onClick: () =>
-																setPage(
+																onClick: () =>
+																	setPage(
+																		data.getEvents.page_number -
+																			1,
+																	),
+															},
+															{
+																active: true,
+																text: data.getEvents.page_number,
+															},
+															{
+																text:
 																	data.getEvents.page_number + 1,
-																),
-														},
-														{
-															text: data.getEvents.page_number + 2,
-															onClick: () =>
-																setPage(
+																onClick: () =>
+																	setPage(
+																		data.getEvents.page_number +
+																			1,
+																	),
+															},
+															{
+																text:
 																	data.getEvents.page_number + 2,
-																),
-														},
-														{ text: '...' },
-														{ text: data.getEvents.page_count },
+																onClick: () =>
+																	setPage(
+																		data.getEvents.page_number +
+																			2,
+																	),
+															},
+															{ text: '...' },
+															{ text: data.getEvents.page_count },
 
-														{ text: 'NEXT' },
-													]}
-												/>
+															{ text: 'NEXT' },
+														]}
+													/>
+												)}
 											</GridContainer>
 										</Fragment>
 									)}
