@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { randomBytes } = require('crypto');
 const { transport, formatEmail } = require('../mail');
+const stripe = require('../stripe');
 
 const Mutation = {
 	async createEvent(parent, args, { db }, info) {
@@ -167,6 +168,34 @@ const Mutation = {
 			},
 			info
 		);
+	},
+	async createOrder(parent, args, ctx, info) {
+		const { userId } = ctx.request;
+		
+		if (!userId) throw new Error('You must be signed in to complete this order.');
+		const user = await ctx.db.query.user({ where: { id: userId } }, `
+		{id firstName lastName email}`);
+
+		const charge = await stripe.charges.create({
+			amount: 999,
+			currency: 'USD',
+			source: args.token,
+		});
+
+		const order = await ctx.db.mutation.createOrder({
+			data: {
+				total: 999,
+				charge: 'Subscription',
+				subscription: 'MONTHLY',
+				user: {
+					connect: {
+						id: user.id
+					}
+				}
+			}
+		});
+
+		return order;
 	}
 };
 
