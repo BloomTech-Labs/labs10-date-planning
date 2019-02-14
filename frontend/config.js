@@ -1,1 +1,1 @@
-export const endpoint = `https://dateplanning.herokuapp.com/`;
+export const endpoint = `https://up4api.herokuapp.com/`;
