@@ -47,13 +47,15 @@ type User {
 type Event {
 	id: ID!
 	title: String!
-	details: Details
+	url: String
+	description: String
+	times: [String]
 	location: Location
 	image_url: String
 }
 
 type Location {
-	region: String
+	city: String
 	venue: String
 	address: String
 	zipCode: String

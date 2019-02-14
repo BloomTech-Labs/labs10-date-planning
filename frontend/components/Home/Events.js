@@ -17,18 +17,19 @@ export const ALL_EVENTS_QUERY = gql`
 			events {
 				id
 				title
-				details {
-					url
-					description
-					start_time
-					bio
-					tags {
-						title
-						owner
-					}
-				}
+				url
+				description
+				times
+				# bio
+				# 	tags {
+				# 		title
+				# 		owner
+				# 	}
+				# }
 				location {
 					venue
+					city
+					address
 				}
 				image_url
 			}

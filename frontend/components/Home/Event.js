@@ -45,7 +45,7 @@ const Event = ({ event, classes }) => {
 				<CardFooter>
 					<div className={`${classes.stats} ${classes.mlAuto}`}>
 						{/* <Schedule /> */}
-						{moment(event.details.start_time).format('dddd, MMMM Do, h:mm a')}
+						{event.times.map(ev => moment(ev).format('dddd, MMMM Do, h:mm a'))}
 					</div>
 				</CardFooter>
 				<Button

@@ -35,7 +35,7 @@ const Query = {
 
 		// shapes return object into sveldt, beautiful object with whimsical designs
 		let events = transformEvents(data.events);
-		console.log(events);
+
 		return {
 			events: events,
 			total_items: data.total_items,
