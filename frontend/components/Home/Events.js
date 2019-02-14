@@ -32,16 +32,18 @@ export const ALL_EVENTS_QUERY = gql`
 
 const Events = () => {
 	return (
-		<GridContainer style={{ maxWidth: 'calc(100% - 200px)', marginLeft: '200px' }}>
+		<div>
 			<h1 style={{ textAlign: 'center' }}>Upcoming Events Near You</h1>
-			<Query query={ALL_EVENTS_QUERY}>
-				{({ data, error, loading }) => {
-					if (loading) return <p>Loading...</p>;
-					if (error) return <p>Error: {error.message}</p>;
-					return data.getEvents.map(event => <Event event={event} key={event.id} />);
-				}}
-			</Query>
-		</GridContainer>
+			<GridContainer style={{ maxWidth: 'calc(100% - 200px)', marginLeft: '200px' }}>
+				<Query query={ALL_EVENTS_QUERY}>
+					{({ data, error, loading }) => {
+						if (loading) return <p>Loading...</p>;
+						if (error) return <p>Error: {error.message}</p>;
+						return data.getEvents.map(event => <Event event={event} key={event.id} />);
+					}}
+				</Query>
+			</GridContainer>
+		</div>
 	);
 };
 

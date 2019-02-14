@@ -29,6 +29,7 @@ import Styles from '../../static/jss/material-kit-pro-react/views/componentsSect
 
 const Register = ({ classes }) => {
 	const [ modalShowing, setModalShowing ] = useState(false);
+
 	return (
 		<Fragment>
 			<Button round onClick={() => setModalShowing(true)}>
