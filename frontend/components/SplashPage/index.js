@@ -29,7 +29,7 @@ const Splash = ({ classes }) => {
 				</GridContainer>
 			</div>
 		</Parallax>
-	);
+	); 
 };
 
 export default withStyles(Styles)(Splash);
