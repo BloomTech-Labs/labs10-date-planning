@@ -30,5 +30,10 @@
     "react-dom": "^16.8.1",
     "react-jss": "^8.6.1",
     "react-stripe-checkout": "^2.6.3"
+  },
+  "devDependencies": {
+    "enzyme": "^3.8.0",
+    "enzyme-adapter-react-16": "^1.9.1",
+    "jest": "^24.1.0"
   }
 }
