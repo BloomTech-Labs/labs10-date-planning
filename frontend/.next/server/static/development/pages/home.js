@@ -88,7 +88,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -106,14 +106,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_apollo__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-apollo */ "react-apollo");
 /* harmony import */ var react_apollo__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_apollo__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _styles_components_Grid_GridItem__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../styles/components/Grid/GridItem */ "./styles/components/Grid/GridItem.js");
-/* harmony import */ var _styles_components_Card_Card__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../styles/components/Card/Card */ "./styles/components/Card/Card/index.js");
-/* harmony import */ var _styles_components_Card_CardHeader__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../styles/components/Card/CardHeader */ "./styles/components/Card/CardHeader/index.js");
-/* harmony import */ var _styles_components_Card_CardBody__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../styles/components/Card/CardBody */ "./styles/components/Card/CardBody/index.js");
-/* harmony import */ var _styles_Typography_Warning__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../styles/Typography/Warning */ "./styles/Typography/Warning.js");
-/* harmony import */ var _material_ui_icons_Add__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @material-ui/icons/Add */ "@material-ui/icons/Add");
-/* harmony import */ var _material_ui_icons_Add__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_material_ui_icons_Add__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _styles_components_Button__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../styles/components/Button */ "./styles/components/Button/index.js");
+/* harmony import */ var _material_ui_icons_Add__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @material-ui/icons/Add */ "@material-ui/icons/Add");
+/* harmony import */ var _material_ui_icons_Add__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_material_ui_icons_Add__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _styledComponents_Grid_GridItem__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../styledComponents/Grid/GridItem */ "./styledComponents/Grid/GridItem.jsx");
+/* harmony import */ var _styledComponents_CustomButtons_Button__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../styledComponents/CustomButtons/Button */ "./styledComponents/CustomButtons/Button.jsx");
+/* harmony import */ var _styledComponents_Card_Card__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../styledComponents/Card/Card */ "./styledComponents/Card/Card.jsx");
+/* harmony import */ var _styledComponents_Card_CardHeader__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../styledComponents/Card/CardHeader */ "./styledComponents/Card/CardHeader.jsx");
+/* harmony import */ var _styledComponents_Card_CardBody__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../styledComponents/Card/CardBody */ "./styledComponents/Card/CardBody.jsx");
+/* harmony import */ var _styledComponents_Typography_Warning__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../styledComponents/Typography/Warning */ "./styledComponents/Typography/Warning.jsx");
 var _jsxFileName = "/Users/lauren/Lambda-School/Labs/labs10-date-planning/frontend/components/Home/Event.js";
 
 
@@ -128,7 +128,7 @@ var _jsxFileName = "/Users/lauren/Lambda-School/Labs/labs10-date-planning/fronte
 var Event = function Event(_ref) {
   var event = _ref.event,
       classes = _ref.classes;
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styles_components_Grid_GridItem__WEBPACK_IMPORTED_MODULE_2__["default"], {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styledComponents_Grid_GridItem__WEBPACK_IMPORTED_MODULE_3__["default"], {
     xs: 12,
     sm: 4,
     md: 3,
@@ -137,14 +137,14 @@ var Event = function Event(_ref) {
       lineNumber: 14
     },
     __self: this
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styles_components_Card_Card__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styledComponents_Card_Card__WEBPACK_IMPORTED_MODULE_5__["default"], {
     blog: true,
     __source: {
       fileName: _jsxFileName,
       lineNumber: 15
     },
     __self: this
-  }, ' ', react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styles_components_Card_CardHeader__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }, ' ', react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styledComponents_Card_CardHeader__WEBPACK_IMPORTED_MODULE_6__["default"], {
     image: true,
     __source: {
       fileName: _jsxFileName,
@@ -180,13 +180,13 @@ var Event = function Event(_ref) {
       lineNumber: 21
     },
     __self: this
-  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styles_components_Card_CardBody__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styledComponents_Card_CardBody__WEBPACK_IMPORTED_MODULE_7__["default"], {
     __source: {
       fileName: _jsxFileName,
       lineNumber: 29
     },
     __self: this
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styles_Typography_Warning__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styledComponents_Typography_Warning__WEBPACK_IMPORTED_MODULE_8__["default"], {
     __source: {
       fileName: _jsxFileName,
       lineNumber: 30
@@ -216,7 +216,7 @@ var Event = function Event(_ref) {
       lineNumber: 34
     },
     __self: this
-  }, event.title))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styles_components_Button__WEBPACK_IMPORTED_MODULE_8__["default"], {
+  }, event.title))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styledComponents_CustomButtons_Button__WEBPACK_IMPORTED_MODULE_4__["default"], {
     justIcon: true,
     round: true,
     color: "primary",
@@ -233,7 +233,7 @@ var Event = function Event(_ref) {
       lineNumber: 39
     },
     __self: this
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_Add__WEBPACK_IMPORTED_MODULE_7___default.a, {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_Add__WEBPACK_IMPORTED_MODULE_2___default.a, {
     __source: {
       fileName: _jsxFileName,
       lineNumber: 52
@@ -263,14 +263,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_apollo__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_apollo__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var graphql_tag__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! graphql-tag */ "graphql-tag");
 /* harmony import */ var graphql_tag__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(graphql_tag__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _styles_components_Grid_GridItem__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../styles/components/Grid/GridItem */ "./styles/components/Grid/GridItem.js");
-/* harmony import */ var _styles_components_Card_Card__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../styles/components/Card/Card */ "./styles/components/Card/Card/index.js");
-/* harmony import */ var _styles_components_Card_CardHeader__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../styles/components/Card/CardHeader */ "./styles/components/Card/CardHeader/index.js");
-/* harmony import */ var _Event__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Event */ "./components/Home/Event.js");
-/* harmony import */ var _material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @material-ui/core/styles/withStyles */ "@material-ui/core/styles/withStyles");
-/* harmony import */ var _material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_8__);
-/* harmony import */ var _styles_components_Card_sectioncard__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../styles/components/Card/sectioncard */ "./styles/components/Card/sectioncard.js");
-/* harmony import */ var _styles_components_Grid_GridContainer__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../styles/components/Grid/GridContainer */ "./styles/components/Grid/GridContainer.js");
+/* harmony import */ var _material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @material-ui/core/styles/withStyles */ "@material-ui/core/styles/withStyles");
+/* harmony import */ var _material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _Event__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Event */ "./components/Home/Event.js");
+/* harmony import */ var _styledComponents_Grid_GridContainer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../styledComponents/Grid/GridContainer */ "./styledComponents/Grid/GridContainer.jsx");
+/* harmony import */ var _static_jss_material_kit_pro_react_views_componentsSections_sectionCards__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../static/jss/material-kit-pro-react/views/componentsSections/sectionCards */ "./static/jss/material-kit-pro-react/views/componentsSections/sectionCards.jsx");
 
 var _jsxFileName = "/Users/lauren/Lambda-School/Labs/labs10-date-planning/frontend/components/Home/Events.js";
 
@@ -291,14 +288,11 @@ function _templateObject() {
 
 
 
-
-
-
 var ALL_EVENTS_QUERY = graphql_tag__WEBPACK_IMPORTED_MODULE_3___default()(_templateObject());
 
 var Events = function Events(_ref) {
   var classes = _ref.classes;
-  return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_styles_components_Grid_GridContainer__WEBPACK_IMPORTED_MODULE_10__["default"], {
+  return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_styledComponents_Grid_GridContainer__WEBPACK_IMPORTED_MODULE_6__["default"], {
     style: {
       maxWidth: 'calc(100% - 200px)',
       marginLeft: '200px'
@@ -334,7 +328,7 @@ var Events = function Events(_ref) {
       __self: this
     }, "Error: ", error.message);
     return data.getEvents.map(function (event) {
-      return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Event__WEBPACK_IMPORTED_MODULE_7__["default"], {
+      return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Event__WEBPACK_IMPORTED_MODULE_5__["default"], {
         event: event,
         classes: classes,
         key: event.id,
@@ -348,7 +342,7 @@ var Events = function Events(_ref) {
   }));
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (_material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_8___default()(_styles_components_Card_sectioncard__WEBPACK_IMPORTED_MODULE_9__["default"])(Events));
+/* harmony default export */ __webpack_exports__["default"] = (_material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_4___default()(_static_jss_material_kit_pro_react_views_componentsSections_sectionCards__WEBPACK_IMPORTED_MODULE_7__["default"])(Events));
 
 /***/ }),
 
@@ -742,244 +736,308 @@ var Home = function Home() {
 
 /***/ }),
 
-/***/ "./styles/Typography/Warning.js":
-/*!**************************************!*\
-  !*** ./styles/Typography/Warning.js ***!
-  \**************************************/
-/*! exports provided: default */
+/***/ "./static/jss/material-kit-pro-react.jsx":
+/*!***********************************************!*\
+  !*** ./static/jss/material-kit-pro-react.jsx ***!
+  \***********************************************/
+/*! exports provided: drawerWidth, transition, container, containerFluid, boxShadow, card, defaultFont, primaryColor, secondaryColor, warningColor, dangerColor, successColor, infoColor, roseColor, grayColor, primaryBoxShadow, infoBoxShadow, successBoxShadow, warningBoxShadow, dangerBoxShadow, roseBoxShadow, warningCardHeader, successCardHeader, dangerCardHeader, infoCardHeader, primaryCardHeader, roseCardHeader, cardActions, cardHeader, defaultBoxShadow, title, cardTitle, description, cardLink, cardSubtitle, main, mainRaised, section, sectionDark, sectionDescription, mlAuto, mrAuto, btnLink, coloredShadow */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/extends */ "./node_modules/@babel/runtime-corejs2/helpers/esm/extends.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! prop-types */ "prop-types");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @material-ui/core/styles/withStyles */ "@material-ui/core/styles/withStyles");
-/* harmony import */ var _material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _index__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./index */ "./styles/Typography/index.js");
-
-var _jsxFileName = "/Users/lauren/Lambda-School/Labs/labs10-date-planning/frontend/styles/Typography/Warning.js";
- // nodejs library to set properties for components
-
- // @material-ui/core components
-
- // core components
-
-
-
-function Warning(_ref) {
-  var props = Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, _ref);
-
-  var classes = props.classes,
-      children = props.children;
-  return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-    className: classes.defaultFontStyle + ' ' + classes.warningText,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 11
-    },
-    __self: this
-  }, children);
-}
-
-Warning.propTypes = {
-  classes: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.object.isRequired
-};
-/* harmony default export */ __webpack_exports__["default"] = (_material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_3___default()(_index__WEBPACK_IMPORTED_MODULE_4__["default"])(Warning));
-
-/***/ }),
-
-/***/ "./styles/Typography/index.js":
-/*!************************************!*\
-  !*** ./styles/Typography/index.js ***!
-  \************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "drawerWidth", function() { return drawerWidth; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "transition", function() { return transition; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "container", function() { return container; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "containerFluid", function() { return containerFluid; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "boxShadow", function() { return boxShadow; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "card", function() { return card; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "defaultFont", function() { return defaultFont; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "primaryColor", function() { return primaryColor; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "secondaryColor", function() { return secondaryColor; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "warningColor", function() { return warningColor; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dangerColor", function() { return dangerColor; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "successColor", function() { return successColor; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "infoColor", function() { return infoColor; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "roseColor", function() { return roseColor; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "grayColor", function() { return grayColor; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "primaryBoxShadow", function() { return primaryBoxShadow; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "infoBoxShadow", function() { return infoBoxShadow; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "successBoxShadow", function() { return successBoxShadow; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "warningBoxShadow", function() { return warningBoxShadow; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dangerBoxShadow", function() { return dangerBoxShadow; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "roseBoxShadow", function() { return roseBoxShadow; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "warningCardHeader", function() { return warningCardHeader; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "successCardHeader", function() { return successCardHeader; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dangerCardHeader", function() { return dangerCardHeader; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "infoCardHeader", function() { return infoCardHeader; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "primaryCardHeader", function() { return primaryCardHeader; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "roseCardHeader", function() { return roseCardHeader; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cardActions", function() { return cardActions; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cardHeader", function() { return cardHeader; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "defaultBoxShadow", function() { return defaultBoxShadow; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "title", function() { return title; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cardTitle", function() { return cardTitle; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "description", function() { return description; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cardLink", function() { return cardLink; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cardSubtitle", function() { return cardSubtitle; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "main", function() { return main; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mainRaised", function() { return mainRaised; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "section", function() { return section; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sectionDark", function() { return sectionDark; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sectionDescription", function() { return sectionDescription; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mlAuto", function() { return mlAuto; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mrAuto", function() { return mrAuto; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "btnLink", function() { return btnLink; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "coloredShadow", function() { return coloredShadow; });
 /* harmony import */ var _babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/objectSpread */ "./node_modules/@babel/runtime-corejs2/helpers/esm/objectSpread.js");
-/* harmony import */ var _material_kit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../material-kit */ "./styles/material-kit.js");
 
 
-var typographyStyle = {
-  defaultFontStyle: Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, _material_kit__WEBPACK_IMPORTED_MODULE_1__["defaultFont"], {
-    fontSize: '14px'
-  }),
-  defaultHeaderMargins: {
-    marginTop: '20px',
-    marginBottom: '10px'
+/*!
+
+ =========================================================
+ * Material Kit PRO React - v1.2.0 based on Material Kit PRO - v2.0.3
+ =========================================================
+
+ * Product Page: https://www.creative-tim.com/product/material-kit-pro-react
+ * Copyright 2018 Creative Tim (https://www.creative-tim.com)
+ * Licensed under MIT (https://github.com/creativetimofficial/ct-material-kit-pro-react/blob/master/LICENSE.md)
+
+ =========================================================
+
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+ */
+// ##############################
+// // // Variables - Styles that are used on more than one component
+// #############################
+var drawerWidth = 260;
+var transition = {
+  transition: "all 0.33s cubic-bezier(0.685, 0.0473, 0.346, 1)"
+};
+var containerFluid = {
+  paddingRight: "15px",
+  paddingLeft: "15px",
+  marginRight: "auto",
+  marginLeft: "auto",
+  width: "100%"
+};
+
+var container = Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, containerFluid, {
+  "@media (min-width: 576px)": {
+    maxWidth: "540px"
   },
-  quote: {
-    padding: '10px 20px',
-    margin: '0 0 20px',
-    fontSize: '1.25rem',
-    borderLeft: '5px solid #eee'
+  "@media (min-width: 768px)": {
+    maxWidth: "720px"
   },
-  quoteText: {
-    margin: '0 0 10px',
-    fontStyle: 'italic'
+  "@media (min-width: 992px)": {
+    maxWidth: "960px"
   },
-  quoteAuthor: {
-    display: 'block',
-    fontSize: '80%',
-    lineHeight: '1.42857143',
-    color: '#777'
-  },
-  mutedText: {
-    '&, & *': {
-      color: '#6c757d',
-      display: 'inline-block'
-    }
-  },
-  primaryText: {
-    '&, & *': {
-      color: _material_kit__WEBPACK_IMPORTED_MODULE_1__["primaryColor"],
-      display: 'inline-block'
-    }
-  },
-  infoText: {
-    '&, & *': {
-      color: _material_kit__WEBPACK_IMPORTED_MODULE_1__["infoColor"],
-      display: 'inline-block'
-    }
-  },
-  successText: {
-    '&, & *': {
-      color: _material_kit__WEBPACK_IMPORTED_MODULE_1__["successColor"],
-      display: 'inline-block'
-    }
-  },
-  warningText: {
-    '&, & *': {
-      color: _material_kit__WEBPACK_IMPORTED_MODULE_1__["warningColor"],
-      display: 'inline-block'
-    }
-  },
-  dangerText: {
-    '&, & *': {
-      color: _material_kit__WEBPACK_IMPORTED_MODULE_1__["dangerColor"],
-      display: 'inline-block'
-    }
-  },
-  roseText: {
-    '&, & *': {
-      color: _material_kit__WEBPACK_IMPORTED_MODULE_1__["roseColor"],
-      display: 'inline-block'
-    }
-  },
-  smallText: {
-    fontSize: '65%',
-    fontWeight: '400',
-    lineHeight: '1',
-    color: '#777'
+  "@media (min-width: 1200px)": {
+    maxWidth: "1140px"
+  }
+});
+
+var boxShadow = {
+  boxShadow: "0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)"
+};
+var card = {
+  display: "inline-block",
+  position: "relative",
+  width: "100%",
+  margin: "25px 0",
+  boxShadow: "0 1px 4px 0 rgba(0, 0, 0, 0.14)",
+  borderRadius: "3px",
+  color: "rgba(0, 0, 0, 0.87)",
+  background: "#fff"
+};
+var defaultFont = {
+  fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+  fontWeight: "300",
+  lineHeight: "1.5em"
+};
+var primaryColor = "#9c27b0";
+var secondaryColor = "#fafafa";
+var warningColor = "#ff9800";
+var dangerColor = "#f44336";
+var successColor = "#4caf50";
+var infoColor = "#00acc1";
+var roseColor = "#e91e63";
+var grayColor = "#999999";
+var primaryBoxShadow = {
+  boxShadow: "0 12px 20px -10px rgba(156, 39, 176, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(156, 39, 176, 0.2)"
+};
+var infoBoxShadow = {
+  boxShadow: "0 12px 20px -10px rgba(0, 188, 212, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(0, 188, 212, 0.2)"
+};
+var successBoxShadow = {
+  boxShadow: "0 12px 20px -10px rgba(76, 175, 80, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(76, 175, 80, 0.2)"
+};
+var warningBoxShadow = {
+  boxShadow: "0 12px 20px -10px rgba(255, 152, 0, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(255, 152, 0, 0.2)"
+};
+var dangerBoxShadow = {
+  boxShadow: "0 12px 20px -10px rgba(244, 67, 54, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(244, 67, 54, 0.2)"
+};
+var roseBoxShadow = {
+  boxShadow: "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(233, 30, 99, 0.4)"
+};
+
+var warningCardHeader = Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({
+  color: "#fff",
+  background: "linear-gradient(60deg, #ffa726, #fb8c00)"
+}, warningBoxShadow);
+
+var successCardHeader = Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({
+  color: "#fff",
+  background: "linear-gradient(60deg, #66bb6a, #43a047)"
+}, successBoxShadow);
+
+var dangerCardHeader = Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({
+  color: "#fff",
+  background: "linear-gradient(60deg, #ef5350, #e53935)"
+}, dangerBoxShadow);
+
+var infoCardHeader = Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({
+  color: "#fff",
+  background: "linear-gradient(60deg, #26c6da, #00acc1)"
+}, infoBoxShadow);
+
+var primaryCardHeader = Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({
+  color: "#fff",
+  background: "linear-gradient(60deg, #ab47bc, #8e24aa)"
+}, primaryBoxShadow);
+
+var roseCardHeader = Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({
+  color: "#fff",
+  background: "linear-gradient(60deg, #ec407a, #d81b60)"
+}, roseBoxShadow);
+
+var cardActions = Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({
+  margin: "0 20px 10px",
+  paddingTop: "10px",
+  borderTop: "1px solid #eeeeee",
+  height: "auto"
+}, defaultFont);
+
+var cardHeader = {
+  margin: "-30px 15px 0",
+  borderRadius: "3px",
+  padding: "15px"
+};
+var defaultBoxShadow = {
+  border: "0",
+  borderRadius: "3px",
+  boxShadow: "0 10px 20px -12px rgba(0, 0, 0, 0.42), 0 3px 20px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)",
+  padding: "10px 0",
+  transition: "all 150ms ease 0s"
+};
+var title = {
+  color: "#3C4858",
+  textDecoration: "none",
+  fontWeight: "700",
+  marginTop: "30px",
+  marginBottom: "25px",
+  minHeight: "32px",
+  fontFamily: "\"Roboto Slab\", \"Times New Roman\", serif"
+};
+var cardTitle = {
+  "&, & a": Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, title, {
+    marginTop: ".625rem",
+    marginBottom: "0.75rem",
+    minHeight: "auto"
+  })
+};
+var cardLink = {
+  "& + $cardLink": {
+    marginLeft: "1.25rem"
   }
 };
-/* harmony default export */ __webpack_exports__["default"] = (typographyStyle);
-
-/***/ }),
-
-/***/ "./styles/components/Button/index.js":
-/*!*******************************************!*\
-  !*** ./styles/components/Button/index.js ***!
-  \*******************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/extends */ "./node_modules/@babel/runtime-corejs2/helpers/esm/extends.js");
-/* harmony import */ var _babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/defineProperty */ "./node_modules/@babel/runtime-corejs2/helpers/esm/defineProperty.js");
-/* harmony import */ var _babel_runtime_corejs2_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/objectWithoutProperties */ "./node_modules/@babel/runtime-corejs2/helpers/esm/objectWithoutProperties.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! classnames */ "classnames");
-/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! prop-types */ "prop-types");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @material-ui/core/styles/withStyles */ "@material-ui/core/styles/withStyles");
-/* harmony import */ var _material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _material_ui_core_Button__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @material-ui/core/Button */ "@material-ui/core/Button");
-/* harmony import */ var _material_ui_core_Button__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _styles__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./styles */ "./styles/components/Button/styles.js");
-
-
-
-var _jsxFileName = "/Users/lauren/Lambda-School/Labs/labs10-date-planning/frontend/styles/components/Button/index.js";
- // nodejs library that concatenates classes
-
- // nodejs library to set properties for components
-
- // @material-ui/core components
-
-
-
-
-
-function RegularButton(props) {
-  var _classNames;
-
-  var classes = props.classes,
-      color = props.color,
-      round = props.round,
-      children = props.children,
-      fullWidth = props.fullWidth,
-      disabled = props.disabled,
-      simple = props.simple,
-      size = props.size,
-      block = props.block,
-      link = props.link,
-      justIcon = props.justIcon,
-      fileButton = props.fileButton,
-      className = props.className,
-      rest = Object(_babel_runtime_corejs2_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_2__["default"])(props, ["classes", "color", "round", "children", "fullWidth", "disabled", "simple", "size", "block", "link", "justIcon", "fileButton", "className"]);
-
-  var btnClasses = classnames__WEBPACK_IMPORTED_MODULE_4___default()((_classNames = {}, Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_1__["default"])(_classNames, classes.button, true), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_1__["default"])(_classNames, classes[size], size), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_1__["default"])(_classNames, classes[color], color), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_1__["default"])(_classNames, classes.round, round), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_1__["default"])(_classNames, classes.fullWidth, fullWidth), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_1__["default"])(_classNames, classes.disabled, disabled), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_1__["default"])(_classNames, classes.simple, simple), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_1__["default"])(_classNames, classes.block, block), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_1__["default"])(_classNames, classes.link, link), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_1__["default"])(_classNames, classes.justIcon, justIcon), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_1__["default"])(_classNames, classes.fileButton, fileButton), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_1__["default"])(_classNames, className, className), _classNames));
-  return react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_7___default.a, Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, rest, {
-    className: btnClasses,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 44
-    },
-    __self: this
-  }), children);
-}
-
-RegularButton.propTypes = {
-  classes: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.object.isRequired,
-  color: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.oneOf(['primary', 'secondary', 'info', 'success', 'warning', 'danger', 'rose', 'white', 'twitter', 'facebook', 'google', 'linkedin', 'pinterest', 'youtube', 'tumblr', 'github', 'behance', 'dribbble', 'reddit', 'instagram', 'transparent']),
-  size: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.oneOf(['sm', 'lg']),
-  simple: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool,
-  round: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool,
-  fullWidth: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool,
-  disabled: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool,
-  block: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool,
-  link: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool,
-  justIcon: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool,
-  fileButton: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool
+var cardSubtitle = {
+  marginBottom: "0",
+  marginTop: "-.375rem"
 };
-/* harmony default export */ __webpack_exports__["default"] = (_material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_6___default()(_styles__WEBPACK_IMPORTED_MODULE_8__["default"])(RegularButton));
+var main = {
+  background: "#FFFFFF",
+  position: "relative",
+  zIndex: "3"
+};
+var mainRaised = {
+  "@media (max-width: 576px)": {
+    marginTop: "-30px"
+  },
+  "@media (max-width: 830px)": {
+    marginLeft: "10px",
+    marginRight: "10px"
+  },
+  margin: "-60px 30px 0px",
+  borderRadius: "6px",
+  boxShadow: "0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)"
+};
+var section = {
+  backgroundPosition: "50%",
+  backgroundSize: "cover"
+};
+var sectionDark = {
+  backgroundColor: "#343434",
+  background: "radial-gradient(ellipse at center,#585858 0,#232323 100%)"
+};
+var sectionDescription = {
+  marginTop: "130px"
+};
+var description = {
+  color: "#999"
+};
+var mlAuto = {
+  marginLeft: "auto"
+};
+var mrAuto = {
+  marginRight: "auto"
+};
+var btnLink = {
+  backgroundColor: "transparent",
+  boxShdow: "none",
+  marginTop: "5px",
+  marginBottom: "5px"
+};
+var coloredShadow = {
+  // some jss/css to make the cards look a bit better on Internet Explorer
+  "@media all and (-ms-high-contrast: none), (-ms-high-contrast: active)": {
+    display: "none !important"
+  },
+  transform: "scale(0.94)",
+  top: "12px",
+  filter: "blur(12px)",
+  position: "absolute",
+  width: "100%",
+  height: "100%",
+  backgroundSize: "cover",
+  zIndex: "-1",
+  transition: "opacity .45s",
+  opacity: "0"
+};
+
 
 /***/ }),
 
-/***/ "./styles/components/Button/styles.js":
-/*!********************************************!*\
-  !*** ./styles/components/Button/styles.js ***!
-  \********************************************/
+/***/ "./static/jss/material-kit-pro-react/components/buttonStyle.jsx":
+/*!**********************************************************************!*\
+  !*** ./static/jss/material-kit-pro-react/components/buttonStyle.jsx ***!
+  \**********************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _material_kit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../material-kit */ "./styles/material-kit.js");
+/* harmony import */ var _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../material-kit-pro-react */ "./static/jss/material-kit-pro-react.jsx");
+// ##############################
+// // // Button styles
+// #############################
 
 var buttonStyle = {
   button: {
     minHeight: 'auto',
     minWidth: 'auto',
-    backgroundColor: _material_kit__WEBPACK_IMPORTED_MODULE_0__["grayColor"],
+    backgroundColor: _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_0__["grayColor"],
     color: '#FFFFFF',
     boxShadow: '0 2px 2px 0 rgba(153, 153, 153, 0.14), 0 3px 1px -2px rgba(153, 153, 153, 0.2), 0 1px 5px 0 rgba(153, 153, 153, 0.12)',
     border: 'none',
@@ -1001,7 +1059,7 @@ var buttonStyle = {
     cursor: 'pointer',
     '&:hover,&:focus': {
       color: '#FFFFFF',
-      backgroundColor: _material_kit__WEBPACK_IMPORTED_MODULE_0__["grayColor"],
+      backgroundColor: _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_0__["grayColor"],
       boxShadow: '0 14px 26px -12px rgba(153, 153, 153, 0.42), 0 4px 23px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(153, 153, 153, 0.2)'
     },
     '& .fab,& .fas,& .far,& .fal,& .material-icons': {
@@ -1042,16 +1100,16 @@ var buttonStyle = {
     width: '100%'
   },
   primary: {
-    backgroundColor: _material_kit__WEBPACK_IMPORTED_MODULE_0__["primaryColor"],
+    backgroundColor: _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_0__["primaryColor"],
     boxShadow: '0 2px 2px 0 rgba(156, 39, 176, 0.14), 0 3px 1px -2px rgba(156, 39, 176, 0.2), 0 1px 5px 0 rgba(156, 39, 176, 0.12)',
     '&:hover,&:focus': {
-      backgroundColor: _material_kit__WEBPACK_IMPORTED_MODULE_0__["primaryColor"],
+      backgroundColor: _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_0__["primaryColor"],
       boxShadow: '0 14px 26px -12px rgba(156, 39, 176, 0.42), 0 4px 23px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(156, 39, 176, 0.2)'
     }
   },
   secondary: {
     color: 'rgba(0,0,0,.87)',
-    backgroundColor: _material_kit__WEBPACK_IMPORTED_MODULE_0__["secondaryColor"],
+    backgroundColor: _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_0__["secondaryColor"],
     boxShadow: '0 2px 2px 0 hsla(0,0%,98%,.14), 0 3px 1px -2px hsla(0,0%,98%,.2), 0 1px 5px 0 hsla(0,0%,98%,.12)',
     '&:hover,&:focus': {
       boxShdow: '0 14px 26px -12px hsla(0,0%,98%,.42), 0 4px 23px 0 rgba(0,0,0,.12), 0 8px 10px -5px hsla(0,0%,98%,.2)',
@@ -1060,49 +1118,49 @@ var buttonStyle = {
     }
   },
   info: {
-    backgroundColor: _material_kit__WEBPACK_IMPORTED_MODULE_0__["infoColor"],
+    backgroundColor: _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_0__["infoColor"],
     boxShadow: '0 2px 2px 0 rgba(0, 188, 212, 0.14), 0 3px 1px -2px rgba(0, 188, 212, 0.2), 0 1px 5px 0 rgba(0, 188, 212, 0.12)',
     '&:hover,&:focus': {
-      backgroundColor: _material_kit__WEBPACK_IMPORTED_MODULE_0__["infoColor"],
+      backgroundColor: _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_0__["infoColor"],
       boxShadow: '0 14px 26px -12px rgba(0, 188, 212, 0.42), 0 4px 23px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 188, 212, 0.2)'
     }
   },
   success: {
-    backgroundColor: _material_kit__WEBPACK_IMPORTED_MODULE_0__["successColor"],
+    backgroundColor: _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_0__["successColor"],
     boxShadow: '0 2px 2px 0 rgba(76, 175, 80, 0.14), 0 3px 1px -2px rgba(76, 175, 80, 0.2), 0 1px 5px 0 rgba(76, 175, 80, 0.12)',
     '&:hover,&:focus': {
-      backgroundColor: _material_kit__WEBPACK_IMPORTED_MODULE_0__["successColor"],
+      backgroundColor: _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_0__["successColor"],
       boxShadow: '0 14px 26px -12px rgba(76, 175, 80, 0.42), 0 4px 23px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(76, 175, 80, 0.2)'
     }
   },
   warning: {
-    backgroundColor: _material_kit__WEBPACK_IMPORTED_MODULE_0__["warningColor"],
+    backgroundColor: _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_0__["warningColor"],
     boxShadow: '0 2px 2px 0 rgba(255, 152, 0, 0.14), 0 3px 1px -2px rgba(255, 152, 0, 0.2), 0 1px 5px 0 rgba(255, 152, 0, 0.12)',
     '&:hover,&:focus': {
-      backgroundColor: _material_kit__WEBPACK_IMPORTED_MODULE_0__["warningColor"],
+      backgroundColor: _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_0__["warningColor"],
       boxShadow: '0 14px 26px -12px rgba(255, 152, 0, 0.42), 0 4px 23px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(255, 152, 0, 0.2)'
     }
   },
   danger: {
-    backgroundColor: _material_kit__WEBPACK_IMPORTED_MODULE_0__["dangerColor"],
+    backgroundColor: _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_0__["dangerColor"],
     boxShadow: '0 2px 2px 0 rgba(244, 67, 54, 0.14), 0 3px 1px -2px rgba(244, 67, 54, 0.2), 0 1px 5px 0 rgba(244, 67, 54, 0.12)',
     '&:hover,&:focus': {
-      backgroundColor: _material_kit__WEBPACK_IMPORTED_MODULE_0__["dangerColor"],
+      backgroundColor: _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_0__["dangerColor"],
       boxShadow: '0 14px 26px -12px rgba(244, 67, 54, 0.42), 0 4px 23px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(244, 67, 54, 0.2)'
     }
   },
   rose: {
-    backgroundColor: _material_kit__WEBPACK_IMPORTED_MODULE_0__["roseColor"],
+    backgroundColor: _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_0__["roseColor"],
     boxShadow: '0 2px 2px 0 rgba(233, 30, 99, 0.14), 0 3px 1px -2px rgba(233, 30, 99, 0.2), 0 1px 5px 0 rgba(233, 30, 99, 0.12)',
     '&:hover,&:focus': {
-      backgroundColor: _material_kit__WEBPACK_IMPORTED_MODULE_0__["roseColor"],
+      backgroundColor: _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_0__["roseColor"],
       boxShadow: '0 14px 26px -12px rgba(233, 30, 99, 0.42), 0 4px 23px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(233, 30, 99, 0.2)'
     }
   },
   white: {
     '&,&:focus,&:hover': {
       backgroundColor: '#FFFFFF',
-      color: _material_kit__WEBPACK_IMPORTED_MODULE_0__["grayColor"]
+      color: _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_0__["grayColor"]
     }
   },
   twitter: {
@@ -1233,32 +1291,32 @@ var buttonStyle = {
     },
     '&$primary': {
       '&,&:focus,&:hover,&:visited': {
-        color: _material_kit__WEBPACK_IMPORTED_MODULE_0__["primaryColor"]
+        color: _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_0__["primaryColor"]
       }
     },
     '&$info': {
       '&,&:focus,&:hover,&:visited': {
-        color: _material_kit__WEBPACK_IMPORTED_MODULE_0__["infoColor"]
+        color: _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_0__["infoColor"]
       }
     },
     '&$success': {
       '&,&:focus,&:hover,&:visited': {
-        color: _material_kit__WEBPACK_IMPORTED_MODULE_0__["successColor"]
+        color: _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_0__["successColor"]
       }
     },
     '&$warning': {
       '&,&:focus,&:hover,&:visited': {
-        color: _material_kit__WEBPACK_IMPORTED_MODULE_0__["warningColor"]
+        color: _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_0__["warningColor"]
       }
     },
     '&$rose': {
       '&,&:focus,&:hover,&:visited': {
-        color: _material_kit__WEBPACK_IMPORTED_MODULE_0__["roseColor"]
+        color: _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_0__["roseColor"]
       }
     },
     '&$danger': {
       '&,&:focus,&:hover,&:visited': {
-        color: _material_kit__WEBPACK_IMPORTED_MODULE_0__["dangerColor"]
+        color: _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_0__["dangerColor"]
       }
     },
     '&$twitter': {
@@ -1403,344 +1461,10 @@ var buttonStyle = {
 
 /***/ }),
 
-/***/ "./styles/components/Card/Card/index.js":
-/*!**********************************************!*\
-  !*** ./styles/components/Card/Card/index.js ***!
-  \**********************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/defineProperty */ "./node_modules/@babel/runtime-corejs2/helpers/esm/defineProperty.js");
-/* harmony import */ var _babel_runtime_corejs2_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/objectWithoutProperties */ "./node_modules/@babel/runtime-corejs2/helpers/esm/objectWithoutProperties.js");
-/* harmony import */ var _babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/extends */ "./node_modules/@babel/runtime-corejs2/helpers/esm/extends.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! classnames */ "classnames");
-/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! prop-types */ "prop-types");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @material-ui/core/styles/withStyles */ "@material-ui/core/styles/withStyles");
-/* harmony import */ var _material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _styles__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./styles */ "./styles/components/Card/Card/styles.js");
-
-
-
-var _jsxFileName = "/Users/lauren/Lambda-School/Labs/labs10-date-planning/frontend/styles/components/Card/Card/index.js";
- // nodejs library that concatenates classes
-
- // nodejs library to set properties for components
-
- // @material-ui/core components
-
- // @material-ui/icons
-// core components
-
-
-
-function Card(_ref) {
-  var _classNames;
-
-  var props = Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_2__["default"])({}, _ref);
-
-  var classes = props.classes,
-      className = props.className,
-      children = props.children,
-      plain = props.plain,
-      profile = props.profile,
-      blog = props.blog,
-      raised = props.raised,
-      background = props.background,
-      pricing = props.pricing,
-      color = props.color,
-      product = props.product,
-      testimonial = props.testimonial,
-      rest = Object(_babel_runtime_corejs2_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__["default"])(props, ["classes", "className", "children", "plain", "profile", "blog", "raised", "background", "pricing", "color", "product", "testimonial"]);
-
-  var cardClasses = classnames__WEBPACK_IMPORTED_MODULE_4___default()((_classNames = {}, Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes.card, true), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes.cardPlain, plain), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes.cardProfile, profile || testimonial), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes.cardBlog, blog), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes.cardRaised, raised), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes.cardBackground, background), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes.cardPricingColor, pricing && color !== undefined || pricing && background !== undefined), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes[color], color), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes.cardPricing, pricing), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes.cardProduct, product), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, className, className !== undefined), _classNames));
-  return react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("div", Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_2__["default"])({
-    className: cardClasses
-  }, rest, {
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 44
-    },
-    __self: this
-  }), children);
-}
-
-Card.propTypes = {
-  classes: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.object.isRequired,
-  className: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.string,
-  plain: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool,
-  profile: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool,
-  blog: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool,
-  raised: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool,
-  background: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool,
-  pricing: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool,
-  testimonial: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool,
-  color: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.oneOf(['primary', 'info', 'success', 'warning', 'danger', 'rose']),
-  product: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool
-};
-/* harmony default export */ __webpack_exports__["default"] = (_material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_6___default()(_styles__WEBPACK_IMPORTED_MODULE_7__["default"])(Card));
-
-/***/ }),
-
-/***/ "./styles/components/Card/Card/styles.js":
-/*!***********************************************!*\
-  !*** ./styles/components/Card/Card/styles.js ***!
-  \***********************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-var cardStyle = {
-  card: {
-    border: '0',
-    marginBottom: '30px',
-    marginTop: '30px',
-    borderRadius: '6px',
-    color: 'rgba(0, 0, 0, 0.87)',
-    background: '#fff',
-    width: '100%',
-    boxShadow: '0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12)',
-    position: 'relative',
-    display: 'flex',
-    flexDirection: 'column',
-    minWidth: '0',
-    wordWrap: 'break-word',
-    fontSize: '.875rem',
-    // some jss/css to make the cards look a bit better on Internet Explorer
-    '@media all and (-ms-high-contrast: none), (-ms-high-contrast: active)': {
-      display: 'inline-block !important'
-    }
-  },
-  cardPlain: {
-    background: 'transparent',
-    boxShadow: 'none'
-  },
-  cardProfile: {
-    marginTop: '30px',
-    textAlign: 'center'
-  },
-  cardBlog: {
-    marginTop: '60px'
-  },
-  cardRaised: {
-    boxShadow: '0 16px 38px -12px rgba(0, 0, 0, 0.56), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)'
-  },
-  cardBackground: {
-    backgroundPosition: '50%',
-    backgroundSize: 'cover',
-    textAlign: 'center',
-    color: '#fff',
-    '& h3': {
-      color: '#fff !important'
-    },
-    '& p': {
-      color: 'rgba(255,255,255,0.7)!important'
-    },
-    '&:after': {
-      position: 'absolute',
-      zIndex: '1',
-      width: '100%',
-      height: '100%',
-      display: 'block',
-      left: '0',
-      top: '0',
-      content: '""',
-      backgroundColor: 'rgba(0, 0, 0, 0.56)',
-      borderRadius: '6px'
-    },
-    '& small': {
-      color: 'rgba(255, 255, 255, 0.7) !important'
-    }
-  },
-  cardPricing: {
-    textAlign: 'center',
-    '&:after': {
-      backgroundColor: 'rgba(0, 0, 0, 0.7) !important'
-    },
-    '& ul': {
-      listStyle: 'none',
-      padding: 0,
-      maxWidth: '240px',
-      margin: '10px auto'
-    },
-    '& ul li': {
-      color: '#999999',
-      textAlign: 'center',
-      padding: '12px 0px',
-      borderBottom: '1px solid rgba(153,153,153,0.3)'
-    },
-    '& ul li:last-child': {
-      border: 0
-    },
-    '& ul li b': {
-      color: '#3c4858'
-    },
-    '& h1': {
-      marginTop: '30px'
-    },
-    '& h1 small': {
-      display: 'inline-flex',
-      height: 0,
-      fontSize: '18px'
-    },
-    '& h1 small:first-child': {
-      position: 'relative',
-      top: '-17px',
-      fontSize: '26px'
-    },
-    '& ul li svg,& ul li .fab,& ul li .fas,& ul li .far,& ul li .fal,& ul li .material-icons': {
-      position: 'relative',
-      top: '7px'
-    }
-  },
-  cardPricingColor: {
-    '& ul li': {
-      color: '#fff',
-      borderColor: 'rgba(255,255,255,0.3)',
-      '& b, & svg,& .fab,& .fas,& .far,& .fal,& .material-icons': {
-        color: '#fff',
-        fontWeight: '700'
-      }
-    }
-  },
-  cardProduct: {
-    marginTop: '30px'
-  },
-  primary: {
-    background: 'linear-gradient(60deg,#ab47bc,#7b1fa2)',
-    '& h1 small': {
-      color: 'rgba(255, 255, 255, 0.8)'
-    },
-    color: '#FFFFFF'
-  },
-  info: {
-    background: 'linear-gradient(60deg,#26c6da,#0097a7)',
-    '& h1 small': {
-      color: 'rgba(255, 255, 255, 0.8)'
-    },
-    color: '#FFFFFF'
-  },
-  success: {
-    background: 'linear-gradient(60deg,#66bb6a,#388e3c)',
-    '& h1 small': {
-      color: 'rgba(255, 255, 255, 0.8)'
-    },
-    color: '#FFFFFF'
-  },
-  warning: {
-    background: 'linear-gradient(60deg,#ffa726,#f57c00)',
-    '& h1 small': {
-      color: 'rgba(255, 255, 255, 0.8)'
-    },
-    color: '#FFFFFF'
-  },
-  danger: {
-    background: 'linear-gradient(60deg,#ef5350,#d32f2f)',
-    '& h1 small': {
-      color: 'rgba(255, 255, 255, 0.8)'
-    },
-    color: '#FFFFFF'
-  },
-  rose: {
-    background: 'linear-gradient(60deg,#ec407a,#c2185b)',
-    '& h1 small': {
-      color: 'rgba(255, 255, 255, 0.8)'
-    },
-    color: '#FFFFFF'
-  }
-};
-/* harmony default export */ __webpack_exports__["default"] = (cardStyle);
-
-/***/ }),
-
-/***/ "./styles/components/Card/CardBody/index.js":
-/*!**************************************************!*\
-  !*** ./styles/components/Card/CardBody/index.js ***!
-  \**************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/defineProperty */ "./node_modules/@babel/runtime-corejs2/helpers/esm/defineProperty.js");
-/* harmony import */ var _babel_runtime_corejs2_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/objectWithoutProperties */ "./node_modules/@babel/runtime-corejs2/helpers/esm/objectWithoutProperties.js");
-/* harmony import */ var _babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/extends */ "./node_modules/@babel/runtime-corejs2/helpers/esm/extends.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! classnames */ "classnames");
-/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! prop-types */ "prop-types");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @material-ui/core/styles/withStyles */ "@material-ui/core/styles/withStyles");
-/* harmony import */ var _material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _styles__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./styles */ "./styles/components/Card/CardBody/styles.js");
-
-
-
-var _jsxFileName = "/Users/lauren/Lambda-School/Labs/labs10-date-planning/frontend/styles/components/Card/CardBody/index.js";
- // nodejs library that concatenates classes
-
- // nodejs library to set properties for components
-
- // @material-ui/core components
-
- // @material-ui/icons
-// core components
-
-
-
-function CardBody(_ref) {
-  var _classNames;
-
-  var props = Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_2__["default"])({}, _ref);
-
-  var classes = props.classes,
-      className = props.className,
-      children = props.children,
-      background = props.background,
-      plain = props.plain,
-      formHorizontal = props.formHorizontal,
-      pricing = props.pricing,
-      signup = props.signup,
-      color = props.color,
-      rest = Object(_babel_runtime_corejs2_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__["default"])(props, ["classes", "className", "children", "background", "plain", "formHorizontal", "pricing", "signup", "color"]);
-
-  var cardBodyClasses = classnames__WEBPACK_IMPORTED_MODULE_4___default()((_classNames = {}, Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes.cardBody, true), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes.cardBodyBackground, background), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes.cardBodyPlain, plain), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes.cardBodyFormHorizontal, formHorizontal), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes.cardPricing, pricing), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes.cardSignup, signup), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes.cardBodyColor, color), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, className, className !== undefined), _classNames));
-  return react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("div", Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_2__["default"])({
-    className: cardBodyClasses
-  }, rest, {
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 37
-    },
-    __self: this
-  }), children);
-}
-
-CardBody.propTypes = {
-  classes: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.object.isRequired,
-  className: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.string,
-  background: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool,
-  plain: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool,
-  formHorizontal: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool,
-  pricing: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool,
-  signup: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool,
-  color: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool
-};
-/* harmony default export */ __webpack_exports__["default"] = (_material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_6___default()(_styles__WEBPACK_IMPORTED_MODULE_7__["default"])(CardBody));
-
-/***/ }),
-
-/***/ "./styles/components/Card/CardBody/styles.js":
-/*!***************************************************!*\
-  !*** ./styles/components/Card/CardBody/styles.js ***!
-  \***************************************************/
+/***/ "./static/jss/material-kit-pro-react/components/cardBodyStyle.jsx":
+/*!************************************************************************!*\
+  !*** ./static/jss/material-kit-pro-react/components/cardBodyStyle.jsx ***!
+  \************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1748,43 +1472,43 @@ CardBody.propTypes = {
 __webpack_require__.r(__webpack_exports__);
 var cardBodyStyle = {
   cardBody: {
-    padding: '0.9375rem 1.875rem',
-    flex: '1 1 auto',
-    WebkitBoxFlex: '1'
+    padding: "0.9375rem 1.875rem",
+    flex: "1 1 auto",
+    WebkitBoxFlex: "1"
   },
   cardBodyBackground: {
-    position: 'relative',
-    zIndex: '2',
-    minHeight: '280px',
-    paddingTop: '40px',
-    paddingBottom: '40px',
-    maxWidth: '440px',
-    margin: '0 auto'
+    position: "relative",
+    zIndex: "2",
+    minHeight: "280px",
+    paddingTop: "40px",
+    paddingBottom: "40px",
+    maxWidth: "440px",
+    margin: "0 auto"
   },
   cardBodyPlain: {
-    paddingLeft: '5px',
-    paddingRight: '5px'
+    paddingLeft: "5px",
+    paddingRight: "5px"
   },
   cardBodyFormHorizontal: {
-    paddingLeft: '15px',
-    paddingRight: '15px',
-    '& form': {
-      margin: '0'
+    paddingLeft: "15px",
+    paddingRight: "15px",
+    "& form": {
+      margin: "0"
     }
   },
   cardPricing: {
-    padding: '15px!important',
-    margin: '0px!important'
+    padding: "15px!important",
+    margin: "0px!important"
   },
   cardSignup: {
-    padding: '0px 30px 0px 30px'
+    padding: "0px 30px 0px 30px"
   },
   cardBodyColor: {
-    borderRadius: '6px',
-    '&': {
-      'h1, h2, h3': {
-        '& small': {
-          color: 'rgba(255, 255, 255, 0.8)'
+    borderRadius: "6px",
+    "&": {
+      "h1, h2, h3": {
+        "& small": {
+          color: "rgba(255, 255, 255, 0.8)"
         }
       }
     }
@@ -1794,96 +1518,16 @@ var cardBodyStyle = {
 
 /***/ }),
 
-/***/ "./styles/components/Card/CardHeader/index.js":
-/*!****************************************************!*\
-  !*** ./styles/components/Card/CardHeader/index.js ***!
-  \****************************************************/
+/***/ "./static/jss/material-kit-pro-react/components/cardHeaderStyle.jsx":
+/*!**************************************************************************!*\
+  !*** ./static/jss/material-kit-pro-react/components/cardHeaderStyle.jsx ***!
+  \**************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/defineProperty */ "./node_modules/@babel/runtime-corejs2/helpers/esm/defineProperty.js");
-/* harmony import */ var _babel_runtime_corejs2_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/objectWithoutProperties */ "./node_modules/@babel/runtime-corejs2/helpers/esm/objectWithoutProperties.js");
-/* harmony import */ var _babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/extends */ "./node_modules/@babel/runtime-corejs2/helpers/esm/extends.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! classnames */ "classnames");
-/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! prop-types */ "prop-types");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @material-ui/core/styles/withStyles */ "@material-ui/core/styles/withStyles");
-/* harmony import */ var _material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _styles__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./styles */ "./styles/components/Card/CardHeader/styles.js");
-
-
-
-var _jsxFileName = "/Users/lauren/Lambda-School/Labs/labs10-date-planning/frontend/styles/components/Card/CardHeader/index.js";
- // nodejs library that concatenates classes
-
- // nodejs library to set properties for components
-
- // @material-ui/core components
-
- // @material-ui/icons
-// core components
-
-
-
-function CardHeader(_ref) {
-  var _classNames;
-
-  var props = Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_2__["default"])({}, _ref);
-
-  var classes = props.classes,
-      className = props.className,
-      children = props.children,
-      color = props.color,
-      plain = props.plain,
-      image = props.image,
-      contact = props.contact,
-      signup = props.signup,
-      noShadow = props.noShadow,
-      rest = Object(_babel_runtime_corejs2_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__["default"])(props, ["classes", "className", "children", "color", "plain", "image", "contact", "signup", "noShadow"]);
-
-  var cardHeaderClasses = classnames__WEBPACK_IMPORTED_MODULE_4___default()((_classNames = {}, Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes.cardHeader, true), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes[color + 'CardHeader'], color), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes.cardHeaderPlain, plain), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes.cardHeaderImage, image), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes.cardHeaderContact, contact), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes.cardHeaderSignup, signup), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes.noShadow, noShadow), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, className, className !== undefined), _classNames));
-  return react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("div", Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_2__["default"])({
-    className: cardHeaderClasses
-  }, rest, {
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 37
-    },
-    __self: this
-  }), children);
-}
-
-CardHeader.propTypes = {
-  classes: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.object.isRequired,
-  className: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.string,
-  color: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.oneOf(['warning', 'success', 'danger', 'info', 'primary', 'rose']),
-  plain: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool,
-  image: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool,
-  contact: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool,
-  signup: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool,
-  noShadow: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool
-};
-/* harmony default export */ __webpack_exports__["default"] = (_material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_6___default()(_styles__WEBPACK_IMPORTED_MODULE_7__["default"])(CardHeader));
-
-/***/ }),
-
-/***/ "./styles/components/Card/CardHeader/styles.js":
-/*!*****************************************************!*\
-  !*** ./styles/components/Card/CardHeader/styles.js ***!
-  \*****************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/objectSpread */ "./node_modules/@babel/runtime-corejs2/helpers/esm/objectSpread.js");
-/* harmony import */ var _material_kit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../material-kit */ "./styles/material-kit.js");
-
+/* harmony import */ var _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../material-kit-pro-react */ "./static/jss/material-kit-pro-react.jsx");
 
 var cardHeaderStyle = {
   cardHeader: {
@@ -1895,9 +1539,6 @@ var cardHeaderStyle = {
     border: '0',
     marginBottom: '0'
   },
-  cardTitleWhite: Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, _material_kit__WEBPACK_IMPORTED_MODULE_1__["cardTitle"], {
-    color: '#FFFFFF !important'
-  }),
   cardHeaderPlain: {
     marginLeft: '0px',
     marginRight: '0px',
@@ -1940,29 +1581,343 @@ var cardHeaderStyle = {
     width: '100%',
     marginBottom: '15px'
   },
-  cardLoginHeader: {
-    marginTop: '-40px',
-    padding: '20px 0',
-    width: '100%',
-    marginBottom: '15px'
-  },
-  warningCardHeader: _material_kit__WEBPACK_IMPORTED_MODULE_1__["warningCardHeader"],
-  successCardHeader: _material_kit__WEBPACK_IMPORTED_MODULE_1__["successCardHeader"],
-  dangerCardHeader: _material_kit__WEBPACK_IMPORTED_MODULE_1__["dangerCardHeader"],
-  infoCardHeader: _material_kit__WEBPACK_IMPORTED_MODULE_1__["infoCardHeader"],
-  primaryCardHeader: _material_kit__WEBPACK_IMPORTED_MODULE_1__["primaryCardHeader"],
-  roseCardHeader: _material_kit__WEBPACK_IMPORTED_MODULE_1__["roseCardHeader"],
-  coloredShadow: _material_kit__WEBPACK_IMPORTED_MODULE_1__["coloredShadow"],
-  cardTitle: _material_kit__WEBPACK_IMPORTED_MODULE_1__["cardTitle"]
+  warningCardHeader: _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_0__["warningCardHeader"],
+  successCardHeader: _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_0__["successCardHeader"],
+  dangerCardHeader: _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_0__["dangerCardHeader"],
+  infoCardHeader: _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_0__["infoCardHeader"],
+  primaryCardHeader: _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_0__["primaryCardHeader"],
+  roseCardHeader: _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_0__["roseCardHeader"]
 };
 /* harmony default export */ __webpack_exports__["default"] = (cardHeaderStyle);
 
 /***/ }),
 
-/***/ "./styles/components/Card/rotatingcards.js":
-/*!*************************************************!*\
-  !*** ./styles/components/Card/rotatingcards.js ***!
-  \*************************************************/
+/***/ "./static/jss/material-kit-pro-react/components/cardStyle.jsx":
+/*!********************************************************************!*\
+  !*** ./static/jss/material-kit-pro-react/components/cardStyle.jsx ***!
+  \********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// import {
+//
+// } from "assets/jss/material-kit-pro-react.jsx";
+var cardStyle = {
+  card: {
+    border: "0",
+    marginBottom: "30px",
+    marginTop: "30px",
+    borderRadius: "6px",
+    color: "rgba(0, 0, 0, 0.87)",
+    background: "#fff",
+    width: "100%",
+    boxShadow: "0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12)",
+    position: "relative",
+    display: "flex",
+    flexDirection: "column",
+    minWidth: "0",
+    wordWrap: "break-word",
+    fontSize: ".875rem",
+    // some jss/css to make the cards look a bit better on Internet Explorer
+    "@media all and (-ms-high-contrast: none), (-ms-high-contrast: active)": {
+      display: "inline-block !important"
+    }
+  },
+  cardPlain: {
+    background: "transparent",
+    boxShadow: "none"
+  },
+  cardProfile: {
+    marginTop: "30px",
+    textAlign: "center"
+  },
+  cardBlog: {
+    marginTop: "60px"
+  },
+  cardRaised: {
+    boxShadow: "0 16px 38px -12px rgba(0, 0, 0, 0.56), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)"
+  },
+  cardBackground: {
+    backgroundPosition: "50%",
+    backgroundSize: "cover",
+    textAlign: "center",
+    color: "#fff",
+    "& h3": {
+      color: "#fff !important"
+    },
+    "& p": {
+      color: "rgba(255,255,255,0.7)!important"
+    },
+    "&:after": {
+      position: "absolute",
+      zIndex: "1",
+      width: "100%",
+      height: "100%",
+      display: "block",
+      left: "0",
+      top: "0",
+      content: '""',
+      backgroundColor: "rgba(0, 0, 0, 0.56)",
+      borderRadius: "6px"
+    },
+    "& small": {
+      color: "rgba(255, 255, 255, 0.7) !important"
+    }
+  },
+  cardPricing: {
+    textAlign: "center",
+    "&:after": {
+      backgroundColor: "rgba(0, 0, 0, 0.7) !important"
+    },
+    "& ul": {
+      listStyle: "none",
+      padding: 0,
+      maxWidth: "240px",
+      margin: "10px auto"
+    },
+    "& ul li": {
+      color: "#999999",
+      textAlign: "center",
+      padding: "12px 0px",
+      borderBottom: "1px solid rgba(153,153,153,0.3)"
+    },
+    "& ul li:last-child": {
+      border: 0
+    },
+    "& ul li b": {
+      color: "#3c4858"
+    },
+    "& h1": {
+      marginTop: "30px"
+    },
+    "& h1 small": {
+      display: "inline-flex",
+      height: 0,
+      fontSize: "18px"
+    },
+    "& h1 small:first-child": {
+      position: "relative",
+      top: "-17px",
+      fontSize: "26px"
+    },
+    "& ul li svg,& ul li .fab,& ul li .fas,& ul li .far,& ul li .fal,& ul li .material-icons": {
+      position: "relative",
+      top: "7px"
+    }
+  },
+  cardPricingColor: {
+    "& ul li": {
+      color: "#fff",
+      borderColor: "rgba(255,255,255,0.3)",
+      "& b, & svg,& .fab,& .fas,& .far,& .fal,& .material-icons": {
+        color: "#fff",
+        fontWeight: "700"
+      }
+    }
+  },
+  cardProduct: {
+    marginTop: "30px"
+  },
+  primary: {
+    background: "linear-gradient(60deg,#ab47bc,#7b1fa2)",
+    "& h1 small": {
+      color: "rgba(255, 255, 255, 0.8)"
+    },
+    color: "#FFFFFF"
+  },
+  info: {
+    background: "linear-gradient(60deg,#26c6da,#0097a7)",
+    "& h1 small": {
+      color: "rgba(255, 255, 255, 0.8)"
+    },
+    color: "#FFFFFF"
+  },
+  success: {
+    background: "linear-gradient(60deg,#66bb6a,#388e3c)",
+    "& h1 small": {
+      color: "rgba(255, 255, 255, 0.8)"
+    },
+    color: "#FFFFFF"
+  },
+  warning: {
+    background: "linear-gradient(60deg,#ffa726,#f57c00)",
+    "& h1 small": {
+      color: "rgba(255, 255, 255, 0.8)"
+    },
+    color: "#FFFFFF"
+  },
+  danger: {
+    background: "linear-gradient(60deg,#ef5350,#d32f2f)",
+    "& h1 small": {
+      color: "rgba(255, 255, 255, 0.8)"
+    },
+    color: "#FFFFFF"
+  },
+  rose: {
+    background: "linear-gradient(60deg,#ec407a,#c2185b)",
+    "& h1 small": {
+      color: "rgba(255, 255, 255, 0.8)"
+    },
+    color: "#FFFFFF"
+  }
+};
+/* harmony default export */ __webpack_exports__["default"] = (cardStyle);
+
+/***/ }),
+
+/***/ "./static/jss/material-kit-pro-react/components/typographyStyle.jsx":
+/*!**************************************************************************!*\
+  !*** ./static/jss/material-kit-pro-react/components/typographyStyle.jsx ***!
+  \**************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/objectSpread */ "./node_modules/@babel/runtime-corejs2/helpers/esm/objectSpread.js");
+/* harmony import */ var _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../material-kit-pro-react */ "./static/jss/material-kit-pro-react.jsx");
+
+// ##############################
+// // // Typography styles
+// #############################
+
+var typographyStyle = {
+  defaultFontStyle: Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_1__["defaultFont"], {
+    fontSize: '14px'
+  }),
+  defaultHeaderMargins: {
+    marginTop: '20px',
+    marginBottom: '10px'
+  },
+  quote: {
+    padding: '10px 20px',
+    margin: '0 0 20px',
+    fontSize: '1.25rem',
+    borderLeft: '5px solid #eee'
+  },
+  quoteText: {
+    margin: '0 0 10px',
+    fontStyle: 'italic'
+  },
+  quoteAuthor: {
+    display: 'block',
+    fontSize: '80%',
+    lineHeight: '1.42857143',
+    color: '#777'
+  },
+  mutedText: {
+    '&, & *': {
+      color: '#6c757d',
+      display: 'inline-block'
+    }
+  },
+  primaryText: {
+    '&, & *': {
+      color: _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_1__["primaryColor"],
+      display: 'inline-block'
+    }
+  },
+  infoText: {
+    '&, & *': {
+      color: _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_1__["infoColor"],
+      display: 'inline-block'
+    }
+  },
+  successText: {
+    '&, & *': {
+      color: _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_1__["successColor"],
+      display: 'inline-block'
+    }
+  },
+  warningText: {
+    '&, & *': {
+      color: _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_1__["warningColor"],
+      display: 'inline-block'
+    }
+  },
+  dangerText: {
+    '&, & *': {
+      color: _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_1__["dangerColor"],
+      display: 'inline-block'
+    }
+  },
+  roseText: {
+    '&, & *': {
+      color: _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_1__["roseColor"],
+      display: 'inline-block'
+    }
+  },
+  smallText: {
+    fontSize: '65%',
+    fontWeight: '400',
+    lineHeight: '1',
+    color: '#777'
+  }
+};
+/* harmony default export */ __webpack_exports__["default"] = (typographyStyle);
+
+/***/ }),
+
+/***/ "./static/jss/material-kit-pro-react/imagesStyles.jsx":
+/*!************************************************************!*\
+  !*** ./static/jss/material-kit-pro-react/imagesStyles.jsx ***!
+  \************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var imagesStyles = {
+  imgFluid: {
+    maxWidth: "100%",
+    height: "auto"
+  },
+  imgRounded: {
+    borderRadius: "6px !important"
+  },
+  imgRoundedCircle: {
+    borderRadius: "50% !important"
+  },
+  imgRaised: {
+    boxShadow: "0 5px 15px -8px rgba(0, 0, 0, 0.24), 0 8px 10px -5px rgba(0, 0, 0, 0.2)"
+  },
+  imgGallery: {
+    width: "100%",
+    marginBottom: "2.142rem"
+  },
+  imgCardTop: {
+    width: "100%",
+    borderTopLeftRadius: "calc(.25rem - 1px)",
+    borderTopRightRadius: "calc(.25rem - 1px)"
+  },
+  imgCardBottom: {
+    width: "100%",
+    borderBottomLeftRadius: "calc(.25rem - 1px)",
+    borderBottomRightRadius: "calc(.25rem - 1px)"
+  },
+  imgCard: {
+    width: "100%",
+    borderRadius: "calc(.25rem - 1px)"
+  },
+  imgCardOverlay: {
+    position: "absolute",
+    top: "0",
+    right: "0",
+    bottom: "0",
+    left: "0",
+    padding: "1.25rem"
+  }
+};
+/* harmony default export */ __webpack_exports__["default"] = (imagesStyles);
+
+/***/ }),
+
+/***/ "./static/jss/material-kit-pro-react/rotatingCards.jsx":
+/*!*************************************************************!*\
+  !*** ./static/jss/material-kit-pro-react/rotatingCards.jsx ***!
+  \*************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1970,145 +1925,145 @@ var cardHeaderStyle = {
 __webpack_require__.r(__webpack_exports__);
 var style = {
   rotatingCardContainer: {
-    perspective: '800px',
-    '& $cardRotate $back': {
-      transform: 'rotateY(180deg)',
-      zIndex: '5',
-      textAlign: 'center',
-      width: '100%',
-      height: '100%'
+    perspective: "800px",
+    "& $cardRotate $back": {
+      transform: "rotateY(180deg)",
+      zIndex: "5",
+      textAlign: "center",
+      width: "100%",
+      height: "100%"
     },
-    '&:not($manualRotate):hover $cardRotate': {
-      transform: 'rotateY(180deg)'
+    "&:not($manualRotate):hover $cardRotate": {
+      transform: "rotateY(180deg)"
     },
-    '&$manualRotate$activateRotate $cardRotate': {
-      transform: 'rotateY(180deg)'
+    "&$manualRotate$activateRotate $cardRotate": {
+      transform: "rotateY(180deg)"
     },
-    '& $cardRotate $front': {
-      zIndex: '2',
-      position: 'relative'
+    "& $cardRotate $front": {
+      zIndex: "2",
+      position: "relative"
     },
-    '& $cardRotate $front, & $cardRotate $back': {
-      backfaceVisibility: 'hidden',
-      boxShadow: '0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2)',
-      position: 'absolute',
-      backgroundColor: '#fff',
-      borderRadius: '6px',
-      top: '0',
-      left: '0',
-      WebkitBoxPack: 'center',
-      MsFlexPack: 'center',
-      justifyContent: 'center',
-      MsFlexLinePack: 'center',
-      alignContent: 'center',
-      display: 'flex',
-      WebkitBoxOrient: 'vertical',
-      WebkitBoxDirection: 'normal',
-      flexDirection: 'column'
+    "& $cardRotate $front, & $cardRotate $back": {
+      backfaceVisibility: "hidden",
+      boxShadow: "0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2)",
+      position: "absolute",
+      backgroundColor: "#fff",
+      borderRadius: "6px",
+      top: "0",
+      left: "0",
+      WebkitBoxPack: "center",
+      MsFlexPack: "center",
+      justifyContent: "center",
+      MsFlexLinePack: "center",
+      alignContent: "center",
+      display: "flex",
+      WebkitBoxOrient: "vertical",
+      WebkitBoxDirection: "normal",
+      flexDirection: "column"
     }
   },
   activateRotate: {},
   manualRotate: {},
   cardRotate: {
-    transition: 'all 0.8s cubic-bezier(0.34, 1.45, 0.7, 1)',
-    transformStyle: 'preserve-3d',
-    position: 'relative',
-    background: 'transparent'
+    transition: "all 0.8s cubic-bezier(0.34, 1.45, 0.7, 1)",
+    transformStyle: "preserve-3d",
+    position: "relative",
+    background: "transparent"
   },
   front: {},
   back: {},
   wrapperBackground: {
-    backgroundPosition: '50%',
-    backgroundSize: 'cover',
-    textAlign: 'center',
-    '&:after': {
-      position: 'absolute',
-      zIndex: '1',
-      width: '100%',
-      height: '100%',
-      display: 'block',
-      left: '0',
-      top: '0',
+    backgroundPosition: "50%",
+    backgroundSize: "cover",
+    textAlign: "center",
+    "&:after": {
+      position: "absolute",
+      zIndex: "1",
+      width: "100%",
+      height: "100%",
+      display: "block",
+      left: "0",
+      top: "0",
       content: "''",
-      backgroundColor: 'rgba(0, 0, 0, 0.56)',
-      borderRadius: '6px'
+      backgroundColor: "rgba(0, 0, 0, 0.56)",
+      borderRadius: "6px"
     }
   },
   cardBodyRotate: {
-    WebkitBoxPack: 'center',
-    MsFlexPack: 'center',
-    justifyContent: 'center',
-    MsFlexLinePack: 'center',
-    alignContent: 'center',
-    display: 'flex',
-    WebkitBoxOrient: 'vertical',
-    WebkitBoxDirection: 'normal',
-    flexDirection: 'column'
+    WebkitBoxPack: "center",
+    MsFlexPack: "center",
+    justifyContent: "center",
+    MsFlexLinePack: "center",
+    alignContent: "center",
+    display: "flex",
+    WebkitBoxOrient: "vertical",
+    WebkitBoxDirection: "normal",
+    flexDirection: "column"
   },
   wrapperPrimary: {
-    background: 'linear-gradient(60deg,#ab47bc,#7b1fa2)',
-    '& h1 small': {
-      color: 'rgba(255, 255, 255, 0.8)'
+    background: "linear-gradient(60deg,#ab47bc,#7b1fa2)",
+    "& h1 small": {
+      color: "rgba(255, 255, 255, 0.8)"
     },
-    color: '#FFFFFF'
+    color: "#FFFFFF"
   },
   wrapperInfo: {
-    background: 'linear-gradient(60deg,#26c6da,#0097a7)',
-    color: '#FFFFFF'
+    background: "linear-gradient(60deg,#26c6da,#0097a7)",
+    color: "#FFFFFF"
   },
   wrapperSuccess: {
-    background: 'linear-gradient(60deg,#66bb6a,#388e3c)',
-    color: '#FFFFFF'
+    background: "linear-gradient(60deg,#66bb6a,#388e3c)",
+    color: "#FFFFFF"
   },
   wrapperWarning: {
-    background: 'linear-gradient(60deg,#ffa726,#f57c00)',
-    color: '#FFFFFF'
+    background: "linear-gradient(60deg,#ffa726,#f57c00)",
+    color: "#FFFFFF"
   },
   wrapperDanger: {
-    background: 'linear-gradient(60deg,#ef5350,#d32f2f)',
-    color: '#FFFFFF'
+    background: "linear-gradient(60deg,#ef5350,#d32f2f)",
+    color: "#FFFFFF"
   },
   wrapperRose: {
-    background: 'linear-gradient(60deg,#ec407a,#c2185b)',
-    color: '#FFFFFF'
+    background: "linear-gradient(60deg,#ec407a,#c2185b)",
+    color: "#FFFFFF"
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = (style);
 
 /***/ }),
 
-/***/ "./styles/components/Card/sectioncard.js":
-/*!***********************************************!*\
-  !*** ./styles/components/Card/sectioncard.js ***!
-  \***********************************************/
+/***/ "./static/jss/material-kit-pro-react/views/componentsSections/sectionCards.jsx":
+/*!*************************************************************************************!*\
+  !*** ./static/jss/material-kit-pro-react/views/componentsSections/sectionCards.jsx ***!
+  \*************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/objectSpread */ "./node_modules/@babel/runtime-corejs2/helpers/esm/objectSpread.js");
-/* harmony import */ var _material_kit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../material-kit */ "./styles/material-kit.js");
-/* harmony import */ var _Image__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Image */ "./styles/components/Image/index.js");
-/* harmony import */ var _rotatingcards__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./rotatingcards */ "./styles/components/Card/rotatingcards.js");
+/* harmony import */ var _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../material-kit-pro-react */ "./static/jss/material-kit-pro-react.jsx");
+/* harmony import */ var _material_kit_pro_react_imagesStyles__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../material-kit-pro-react/imagesStyles */ "./static/jss/material-kit-pro-react/imagesStyles.jsx");
+/* harmony import */ var _material_kit_pro_react_rotatingCards__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../material-kit-pro-react/rotatingCards */ "./static/jss/material-kit-pro-react/rotatingCards.jsx");
 
 
 
 
 
 var styles = Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({
-  container: _material_kit__WEBPACK_IMPORTED_MODULE_1__["container"],
-  coloredShadow: _material_kit__WEBPACK_IMPORTED_MODULE_1__["coloredShadow"],
-  title: _material_kit__WEBPACK_IMPORTED_MODULE_1__["title"],
-  mlAuto: _material_kit__WEBPACK_IMPORTED_MODULE_1__["mlAuto"],
-  cardTitle: _material_kit__WEBPACK_IMPORTED_MODULE_1__["cardTitle"]
-}, _Image__WEBPACK_IMPORTED_MODULE_2__["default"], _rotatingcards__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  container: _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_1__["container"],
+  coloredShadow: _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_1__["coloredShadow"],
+  title: _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_1__["title"],
+  mlAuto: _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_1__["mlAuto"],
+  cardTitle: _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_1__["cardTitle"]
+}, _material_kit_pro_react_imagesStyles__WEBPACK_IMPORTED_MODULE_2__["default"], _material_kit_pro_react_rotatingCards__WEBPACK_IMPORTED_MODULE_3__["default"], {
   sectionGray: {
     background: '#E5E5E5'
   },
   sectionWhite: {
     background: '#FFFFFF'
   },
-  cardTitleAbsolute: Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, _material_kit__WEBPACK_IMPORTED_MODULE_1__["cardTitle"], {
+  cardTitleAbsolute: Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_1__["cardTitle"], {
     position: 'absolute !important',
     bottom: '15px !important',
     left: '15px !important',
@@ -2117,7 +2072,7 @@ var styles = Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMP
     textShadow: '0 2px 5px rgba(33, 33, 33, 0.5) !important'
   }),
   cardTitleWhite: {
-    '&, & a': Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, _material_kit__WEBPACK_IMPORTED_MODULE_1__["title"], {
+    '&, & a': Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_1__["title"], {
       marginTop: '.625rem',
       marginBottom: '0',
       minHeight: 'auto',
@@ -2168,7 +2123,7 @@ var styles = Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMP
     marginTop: '10px',
     color: '#FFFFFF'
   },
-  cardDescription: Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, _material_kit__WEBPACK_IMPORTED_MODULE_1__["description"]),
+  cardDescription: Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_1__["description"]),
   cardDescriptionWhite: {
     color: 'rgba(255, 255, 255, 0.8)'
   },
@@ -2260,10 +2215,10 @@ var styles = Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMP
     color: '#FFFFFF'
   },
   iconRose: {
-    color: _material_kit__WEBPACK_IMPORTED_MODULE_1__["roseColor"]
+    color: _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_1__["roseColor"]
   },
   iconInfo: {
-    color: _material_kit__WEBPACK_IMPORTED_MODULE_1__["infoColor"]
+    color: _material_kit_pro_react__WEBPACK_IMPORTED_MODULE_1__["infoColor"]
   },
   marginTop30: {
     marginTop: '30px'
@@ -2280,9 +2235,332 @@ var styles = Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMP
 
 /***/ }),
 
-/***/ "./styles/components/Grid/GridContainer.js":
+/***/ "./styledComponents/Card/Card.jsx":
+/*!****************************************!*\
+  !*** ./styledComponents/Card/Card.jsx ***!
+  \****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/defineProperty */ "./node_modules/@babel/runtime-corejs2/helpers/esm/defineProperty.js");
+/* harmony import */ var _babel_runtime_corejs2_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/objectWithoutProperties */ "./node_modules/@babel/runtime-corejs2/helpers/esm/objectWithoutProperties.js");
+/* harmony import */ var _babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/extends */ "./node_modules/@babel/runtime-corejs2/helpers/esm/extends.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! classnames */ "classnames");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! prop-types */ "prop-types");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @material-ui/core/styles/withStyles */ "@material-ui/core/styles/withStyles");
+/* harmony import */ var _material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _static_jss_material_kit_pro_react_components_cardStyle_jsx__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../static/jss/material-kit-pro-react/components/cardStyle.jsx */ "./static/jss/material-kit-pro-react/components/cardStyle.jsx");
+
+
+
+var _jsxFileName = "/Users/lauren/Lambda-School/Labs/labs10-date-planning/frontend/styledComponents/Card/Card.jsx";
+ // nodejs library that concatenates classes
+
+ // nodejs library to set properties for components
+
+ // @material-ui/core components
+
+ // @material-ui/icons
+// core components
+
+
+
+function Card(_ref) {
+  var _classNames;
+
+  var props = Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_2__["default"])({}, _ref);
+
+  var classes = props.classes,
+      className = props.className,
+      children = props.children,
+      plain = props.plain,
+      profile = props.profile,
+      blog = props.blog,
+      raised = props.raised,
+      background = props.background,
+      pricing = props.pricing,
+      color = props.color,
+      product = props.product,
+      testimonial = props.testimonial,
+      rest = Object(_babel_runtime_corejs2_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__["default"])(props, ["classes", "className", "children", "plain", "profile", "blog", "raised", "background", "pricing", "color", "product", "testimonial"]);
+
+  var cardClasses = classnames__WEBPACK_IMPORTED_MODULE_4___default()((_classNames = {}, Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes.card, true), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes.cardPlain, plain), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes.cardProfile, profile || testimonial), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes.cardBlog, blog), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes.cardRaised, raised), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes.cardBackground, background), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes.cardPricingColor, pricing && color !== undefined || pricing && background !== undefined), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes[color], color), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes.cardPricing, pricing), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes.cardProduct, product), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, className, className !== undefined), _classNames));
+  return react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("div", Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_2__["default"])({
+    className: cardClasses
+  }, rest, {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 44
+    },
+    __self: this
+  }), children);
+}
+
+Card.propTypes = {
+  classes: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.object.isRequired,
+  className: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.string,
+  plain: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool,
+  profile: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool,
+  blog: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool,
+  raised: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool,
+  background: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool,
+  pricing: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool,
+  testimonial: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool,
+  color: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.oneOf(['primary', 'info', 'success', 'warning', 'danger', 'rose']),
+  product: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool
+};
+/* harmony default export */ __webpack_exports__["default"] = (_material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_6___default()(_static_jss_material_kit_pro_react_components_cardStyle_jsx__WEBPACK_IMPORTED_MODULE_7__["default"])(Card));
+
+/***/ }),
+
+/***/ "./styledComponents/Card/CardBody.jsx":
+/*!********************************************!*\
+  !*** ./styledComponents/Card/CardBody.jsx ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/defineProperty */ "./node_modules/@babel/runtime-corejs2/helpers/esm/defineProperty.js");
+/* harmony import */ var _babel_runtime_corejs2_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/objectWithoutProperties */ "./node_modules/@babel/runtime-corejs2/helpers/esm/objectWithoutProperties.js");
+/* harmony import */ var _babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/extends */ "./node_modules/@babel/runtime-corejs2/helpers/esm/extends.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! classnames */ "classnames");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! prop-types */ "prop-types");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @material-ui/core/styles/withStyles */ "@material-ui/core/styles/withStyles");
+/* harmony import */ var _material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _static_jss_material_kit_pro_react_components_cardBodyStyle_jsx__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../static/jss/material-kit-pro-react/components/cardBodyStyle.jsx */ "./static/jss/material-kit-pro-react/components/cardBodyStyle.jsx");
+
+
+
+var _jsxFileName = "/Users/lauren/Lambda-School/Labs/labs10-date-planning/frontend/styledComponents/Card/CardBody.jsx";
+ // nodejs library that concatenates classes
+
+ // nodejs library to set properties for components
+
+ // @material-ui/core components
+
+ // @material-ui/icons
+// core components
+
+
+
+function CardBody(_ref) {
+  var _classNames;
+
+  var props = Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_2__["default"])({}, _ref);
+
+  var classes = props.classes,
+      className = props.className,
+      children = props.children,
+      background = props.background,
+      plain = props.plain,
+      formHorizontal = props.formHorizontal,
+      pricing = props.pricing,
+      signup = props.signup,
+      color = props.color,
+      rest = Object(_babel_runtime_corejs2_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__["default"])(props, ["classes", "className", "children", "background", "plain", "formHorizontal", "pricing", "signup", "color"]);
+
+  var cardBodyClasses = classnames__WEBPACK_IMPORTED_MODULE_4___default()((_classNames = {}, Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes.cardBody, true), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes.cardBodyBackground, background), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes.cardBodyPlain, plain), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes.cardBodyFormHorizontal, formHorizontal), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes.cardPricing, pricing), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes.cardSignup, signup), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes.cardBodyColor, color), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, className, className !== undefined), _classNames));
+  return react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("div", Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_2__["default"])({
+    className: cardBodyClasses
+  }, rest, {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 37
+    },
+    __self: this
+  }), children);
+}
+
+CardBody.propTypes = {
+  classes: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.object.isRequired,
+  className: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.string,
+  background: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool,
+  plain: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool,
+  formHorizontal: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool,
+  pricing: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool,
+  signup: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool,
+  color: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool
+};
+/* harmony default export */ __webpack_exports__["default"] = (_material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_6___default()(_static_jss_material_kit_pro_react_components_cardBodyStyle_jsx__WEBPACK_IMPORTED_MODULE_7__["default"])(CardBody));
+
+/***/ }),
+
+/***/ "./styledComponents/Card/CardHeader.jsx":
+/*!**********************************************!*\
+  !*** ./styledComponents/Card/CardHeader.jsx ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/defineProperty */ "./node_modules/@babel/runtime-corejs2/helpers/esm/defineProperty.js");
+/* harmony import */ var _babel_runtime_corejs2_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/objectWithoutProperties */ "./node_modules/@babel/runtime-corejs2/helpers/esm/objectWithoutProperties.js");
+/* harmony import */ var _babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/extends */ "./node_modules/@babel/runtime-corejs2/helpers/esm/extends.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! classnames */ "classnames");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! prop-types */ "prop-types");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @material-ui/core/styles/withStyles */ "@material-ui/core/styles/withStyles");
+/* harmony import */ var _material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _static_jss_material_kit_pro_react_components_cardHeaderStyle_jsx__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../static/jss/material-kit-pro-react/components/cardHeaderStyle.jsx */ "./static/jss/material-kit-pro-react/components/cardHeaderStyle.jsx");
+
+
+
+var _jsxFileName = "/Users/lauren/Lambda-School/Labs/labs10-date-planning/frontend/styledComponents/Card/CardHeader.jsx";
+ // nodejs library that concatenates classes
+
+ // nodejs library to set properties for components
+
+ // @material-ui/core components
+
+ // @material-ui/icons
+// core components
+
+
+
+function CardHeader(_ref) {
+  var _classNames;
+
+  var props = Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_2__["default"])({}, _ref);
+
+  var classes = props.classes,
+      className = props.className,
+      children = props.children,
+      color = props.color,
+      plain = props.plain,
+      image = props.image,
+      contact = props.contact,
+      signup = props.signup,
+      noShadow = props.noShadow,
+      rest = Object(_babel_runtime_corejs2_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__["default"])(props, ["classes", "className", "children", "color", "plain", "image", "contact", "signup", "noShadow"]);
+
+  var cardHeaderClasses = classnames__WEBPACK_IMPORTED_MODULE_4___default()((_classNames = {}, Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes.cardHeader, true), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes[color + 'CardHeader'], color), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes.cardHeaderPlain, plain), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes.cardHeaderImage, image), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes.cardHeaderContact, contact), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes.cardHeaderSignup, signup), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, classes.noShadow, noShadow), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_classNames, className, className !== undefined), _classNames));
+  return react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("div", Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_2__["default"])({
+    className: cardHeaderClasses
+  }, rest, {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 37
+    },
+    __self: this
+  }), children);
+}
+
+CardHeader.propTypes = {
+  classes: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.object.isRequired,
+  className: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.string,
+  color: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.oneOf(['warning', 'success', 'danger', 'info', 'primary', 'rose']),
+  plain: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool,
+  image: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool,
+  contact: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool,
+  signup: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool,
+  noShadow: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool
+};
+/* harmony default export */ __webpack_exports__["default"] = (_material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_6___default()(_static_jss_material_kit_pro_react_components_cardHeaderStyle_jsx__WEBPACK_IMPORTED_MODULE_7__["default"])(CardHeader));
+
+/***/ }),
+
+/***/ "./styledComponents/CustomButtons/Button.jsx":
+/*!***************************************************!*\
+  !*** ./styledComponents/CustomButtons/Button.jsx ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/extends */ "./node_modules/@babel/runtime-corejs2/helpers/esm/extends.js");
+/* harmony import */ var _babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/defineProperty */ "./node_modules/@babel/runtime-corejs2/helpers/esm/defineProperty.js");
+/* harmony import */ var _babel_runtime_corejs2_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/objectWithoutProperties */ "./node_modules/@babel/runtime-corejs2/helpers/esm/objectWithoutProperties.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! classnames */ "classnames");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! prop-types */ "prop-types");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @material-ui/core/styles/withStyles */ "@material-ui/core/styles/withStyles");
+/* harmony import */ var _material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _material_ui_core_Button__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @material-ui/core/Button */ "@material-ui/core/Button");
+/* harmony import */ var _material_ui_core_Button__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _static_jss_material_kit_pro_react_components_buttonStyle_jsx__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../static/jss/material-kit-pro-react/components/buttonStyle.jsx */ "./static/jss/material-kit-pro-react/components/buttonStyle.jsx");
+
+
+
+var _jsxFileName = "/Users/lauren/Lambda-School/Labs/labs10-date-planning/frontend/styledComponents/CustomButtons/Button.jsx";
+ // nodejs library that concatenates classes
+
+ // nodejs library to set properties for components
+
+ // @material-ui/core components
+
+
+
+
+
+function RegularButton(props) {
+  var _classNames;
+
+  var classes = props.classes,
+      color = props.color,
+      round = props.round,
+      children = props.children,
+      fullWidth = props.fullWidth,
+      disabled = props.disabled,
+      simple = props.simple,
+      size = props.size,
+      block = props.block,
+      link = props.link,
+      justIcon = props.justIcon,
+      fileButton = props.fileButton,
+      className = props.className,
+      rest = Object(_babel_runtime_corejs2_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_2__["default"])(props, ["classes", "color", "round", "children", "fullWidth", "disabled", "simple", "size", "block", "link", "justIcon", "fileButton", "className"]);
+
+  var btnClasses = classnames__WEBPACK_IMPORTED_MODULE_4___default()((_classNames = {}, Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_1__["default"])(_classNames, classes.button, true), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_1__["default"])(_classNames, classes[size], size), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_1__["default"])(_classNames, classes[color], color), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_1__["default"])(_classNames, classes.round, round), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_1__["default"])(_classNames, classes.fullWidth, fullWidth), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_1__["default"])(_classNames, classes.disabled, disabled), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_1__["default"])(_classNames, classes.simple, simple), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_1__["default"])(_classNames, classes.block, block), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_1__["default"])(_classNames, classes.link, link), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_1__["default"])(_classNames, classes.justIcon, justIcon), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_1__["default"])(_classNames, classes.fileButton, fileButton), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_1__["default"])(_classNames, className, className), _classNames));
+  return react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_7___default.a, Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, rest, {
+    className: btnClasses,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 44
+    },
+    __self: this
+  }), children);
+}
+
+RegularButton.propTypes = {
+  classes: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.object.isRequired,
+  color: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.oneOf(['primary', 'secondary', 'info', 'success', 'warning', 'danger', 'rose', 'white', 'twitter', 'facebook', 'google', 'linkedin', 'pinterest', 'youtube', 'tumblr', 'github', 'behance', 'dribbble', 'reddit', 'instagram', 'transparent']),
+  size: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.oneOf(['sm', 'lg']),
+  simple: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool,
+  round: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool,
+  fullWidth: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool,
+  disabled: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool,
+  block: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool,
+  link: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool,
+  justIcon: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool,
+  fileButton: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.bool
+};
+/* harmony default export */ __webpack_exports__["default"] = (_material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_6___default()(_static_jss_material_kit_pro_react_components_buttonStyle_jsx__WEBPACK_IMPORTED_MODULE_8__["default"])(RegularButton));
+
+/***/ }),
+
+/***/ "./styledComponents/Grid/GridContainer.jsx":
 /*!*************************************************!*\
-  !*** ./styles/components/Grid/GridContainer.js ***!
+  !*** ./styledComponents/Grid/GridContainer.jsx ***!
   \*************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -2301,7 +2579,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_5__);
 
 
-var _jsxFileName = "/Users/lauren/Lambda-School/Labs/labs10-date-planning/frontend/styles/components/Grid/GridContainer.js";
+var _jsxFileName = "/Users/lauren/Lambda-School/Labs/labs10-date-planning/frontend/styledComponents/Grid/GridContainer.jsx";
  // nodejs library to set properties for components
 
  // @material-ui/core components
@@ -2310,9 +2588,9 @@ var _jsxFileName = "/Users/lauren/Lambda-School/Labs/labs10-date-planning/fronte
 
 var style = {
   grid: {
-    marginRight: '-15px',
-    marginLeft: '-15px',
-    width: 'auto'
+    marginRight: "-15px",
+    marginLeft: "-15px",
+    width: "auto"
   }
 };
 
@@ -2327,7 +2605,7 @@ function GridContainer(_ref) {
   return react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_5___default.a, Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_1__["default"])({
     container: true
   }, rest, {
-    className: classes.grid + ' ' + className,
+    className: classes.grid + " " + className,
     __source: {
       fileName: _jsxFileName,
       lineNumber: 20
@@ -2337,7 +2615,7 @@ function GridContainer(_ref) {
 }
 
 GridContainer.defaultProps = {
-  className: ''
+  className: ""
 };
 GridContainer.propTypes = {
   classes: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.object.isRequired,
@@ -2348,9 +2626,9 @@ GridContainer.propTypes = {
 
 /***/ }),
 
-/***/ "./styles/components/Grid/GridItem.js":
+/***/ "./styledComponents/Grid/GridItem.jsx":
 /*!********************************************!*\
-  !*** ./styles/components/Grid/GridItem.js ***!
+  !*** ./styledComponents/Grid/GridItem.jsx ***!
   \********************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -2367,18 +2645,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_4__);
 
 
-var _jsxFileName = "/Users/lauren/Lambda-School/Labs/labs10-date-planning/frontend/styles/components/Grid/GridItem.js";
+var _jsxFileName = "/Users/lauren/Lambda-School/Labs/labs10-date-planning/frontend/styledComponents/Grid/GridItem.jsx";
  // @material-ui/core components
 
 
 
 var style = {
   grid: {
-    position: 'relative',
-    width: '100%',
-    minHeight: '1px',
-    paddingRight: '15px',
-    paddingLeft: '15px'
+    position: "relative",
+    width: "100%",
+    minHeight: "1px",
+    paddingRight: "15px",
+    paddingLeft: "15px"
     /* flexBasis: "auto" */
 
   }
@@ -2395,7 +2673,7 @@ function GridItem(_ref) {
   return react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_4___default.a, Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_1__["default"])({
     item: true
   }, rest, {
-    className: classes.grid + ' ' + className,
+    className: classes.grid + " " + className,
     __source: {
       fileName: _jsxFileName,
       lineNumber: 20
@@ -2408,325 +2686,56 @@ function GridItem(_ref) {
 
 /***/ }),
 
-/***/ "./styles/components/Image/index.js":
-/*!******************************************!*\
-  !*** ./styles/components/Image/index.js ***!
-  \******************************************/
+/***/ "./styledComponents/Typography/Warning.jsx":
+/*!*************************************************!*\
+  !*** ./styledComponents/Typography/Warning.jsx ***!
+  \*************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-var imagesStyles = {
-  imgFluid: {
-    maxWidth: '100%',
-    height: 'auto'
-  },
-  imgRounded: {
-    borderRadius: '6px !important'
-  },
-  imgRoundedCircle: {
-    borderRadius: '50% !important'
-  },
-  imgRaised: {
-    boxShadow: '0 5px 15px -8px rgba(0, 0, 0, 0.24), 0 8px 10px -5px rgba(0, 0, 0, 0.2)'
-  },
-  imgGallery: {
-    width: '100%',
-    marginBottom: '2.142rem'
-  },
-  imgCardTop: {
-    width: '100%',
-    borderTopLeftRadius: 'calc(.25rem - 1px)',
-    borderTopRightRadius: 'calc(.25rem - 1px)'
-  },
-  imgCardBottom: {
-    width: '100%',
-    borderBottomLeftRadius: 'calc(.25rem - 1px)',
-    borderBottomRightRadius: 'calc(.25rem - 1px)'
-  },
-  imgCard: {
-    width: '100%',
-    borderRadius: 'calc(.25rem - 1px)'
-  },
-  imgCardOverlay: {
-    position: 'absolute',
-    top: '0',
-    right: '0',
-    bottom: '0',
-    left: '0',
-    padding: '1.25rem'
-  }
+/* harmony import */ var _babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/extends */ "./node_modules/@babel/runtime-corejs2/helpers/esm/extends.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! prop-types */ "prop-types");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @material-ui/core/styles/withStyles */ "@material-ui/core/styles/withStyles");
+/* harmony import */ var _material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _static_jss_material_kit_pro_react_components_typographyStyle_jsx__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../static/jss/material-kit-pro-react/components/typographyStyle.jsx */ "./static/jss/material-kit-pro-react/components/typographyStyle.jsx");
+
+var _jsxFileName = "/Users/lauren/Lambda-School/Labs/labs10-date-planning/frontend/styledComponents/Typography/Warning.jsx";
+ // nodejs library to set properties for components
+
+ // @material-ui/core components
+
+ // core components
+
+
+
+function Warning(_ref) {
+  var props = Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, _ref);
+
+  var classes = props.classes,
+      children = props.children;
+  return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: classes.defaultFontStyle + ' ' + classes.warningText,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 11
+    },
+    __self: this
+  }, children);
+}
+
+Warning.propTypes = {
+  classes: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.object.isRequired
 };
-/* harmony default export */ __webpack_exports__["default"] = (imagesStyles);
+/* harmony default export */ __webpack_exports__["default"] = (_material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_3___default()(_static_jss_material_kit_pro_react_components_typographyStyle_jsx__WEBPACK_IMPORTED_MODULE_4__["default"])(Warning));
 
 /***/ }),
 
-/***/ "./styles/material-kit.js":
-/*!********************************!*\
-  !*** ./styles/material-kit.js ***!
-  \********************************/
-/*! exports provided: drawerWidth, transition, container, containerFluid, boxShadow, card, defaultFont, primaryColor, secondaryColor, warningColor, dangerColor, successColor, infoColor, roseColor, grayColor, primaryBoxShadow, infoBoxShadow, successBoxShadow, warningBoxShadow, dangerBoxShadow, roseBoxShadow, warningCardHeader, successCardHeader, dangerCardHeader, infoCardHeader, primaryCardHeader, roseCardHeader, cardActions, cardHeader, defaultBoxShadow, title, cardTitle, description, cardLink, cardSubtitle, main, mainRaised, section, sectionDark, sectionDescription, mlAuto, mrAuto, btnLink, coloredShadow */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "drawerWidth", function() { return drawerWidth; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "transition", function() { return transition; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "container", function() { return container; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "containerFluid", function() { return containerFluid; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "boxShadow", function() { return boxShadow; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "card", function() { return card; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "defaultFont", function() { return defaultFont; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "primaryColor", function() { return primaryColor; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "secondaryColor", function() { return secondaryColor; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "warningColor", function() { return warningColor; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dangerColor", function() { return dangerColor; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "successColor", function() { return successColor; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "infoColor", function() { return infoColor; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "roseColor", function() { return roseColor; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "grayColor", function() { return grayColor; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "primaryBoxShadow", function() { return primaryBoxShadow; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "infoBoxShadow", function() { return infoBoxShadow; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "successBoxShadow", function() { return successBoxShadow; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "warningBoxShadow", function() { return warningBoxShadow; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dangerBoxShadow", function() { return dangerBoxShadow; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "roseBoxShadow", function() { return roseBoxShadow; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "warningCardHeader", function() { return warningCardHeader; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "successCardHeader", function() { return successCardHeader; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dangerCardHeader", function() { return dangerCardHeader; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "infoCardHeader", function() { return infoCardHeader; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "primaryCardHeader", function() { return primaryCardHeader; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "roseCardHeader", function() { return roseCardHeader; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cardActions", function() { return cardActions; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cardHeader", function() { return cardHeader; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "defaultBoxShadow", function() { return defaultBoxShadow; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "title", function() { return title; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cardTitle", function() { return cardTitle; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "description", function() { return description; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cardLink", function() { return cardLink; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cardSubtitle", function() { return cardSubtitle; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "main", function() { return main; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mainRaised", function() { return mainRaised; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "section", function() { return section; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sectionDark", function() { return sectionDark; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sectionDescription", function() { return sectionDescription; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mlAuto", function() { return mlAuto; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mrAuto", function() { return mrAuto; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "btnLink", function() { return btnLink; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "coloredShadow", function() { return coloredShadow; });
-/* harmony import */ var _babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/objectSpread */ "./node_modules/@babel/runtime-corejs2/helpers/esm/objectSpread.js");
-
-var drawerWidth = 260;
-var transition = {
-  transition: 'all 0.33s cubic-bezier(0.685, 0.0473, 0.346, 1)'
-};
-var containerFluid = {
-  paddingRight: '15px',
-  paddingLeft: '15px',
-  marginRight: 'auto',
-  marginLeft: 'auto',
-  width: '100%'
-};
-
-var container = Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, containerFluid, {
-  '@media (min-width: 576px)': {
-    maxWidth: '540px'
-  },
-  '@media (min-width: 768px)': {
-    maxWidth: '720px'
-  },
-  '@media (min-width: 992px)': {
-    maxWidth: '960px'
-  },
-  '@media (min-width: 1200px)': {
-    maxWidth: '1140px'
-  }
-});
-
-var boxShadow = {
-  boxShadow: '0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)'
-};
-var card = {
-  display: 'inline-block',
-  position: 'relative',
-  width: '100%',
-  margin: '25px 0',
-  boxShadow: '0 1px 4px 0 rgba(0, 0, 0, 0.14)',
-  borderRadius: '3px',
-  color: 'rgba(0, 0, 0, 0.87)',
-  background: '#fff'
-};
-var defaultFont = {
-  fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-  fontWeight: '300',
-  lineHeight: '1.5em'
-};
-var primaryColor = '#4CB5AD';
-var secondaryColor = '#fafafa';
-var warningColor = '#ff9800';
-var dangerColor = '#f44336';
-var successColor = '#4caf50';
-var infoColor = '#00acc1';
-var roseColor = '#e91e63';
-var grayColor = '#cabac8';
-var primaryBoxShadow = {
-  boxShadow: '0 12px 20px -10px rgba(156, 39, 176, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(156, 39, 176, 0.2)'
-};
-var infoBoxShadow = {
-  boxShadow: '0 12px 20px -10px rgba(0, 188, 212, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(0, 188, 212, 0.2)'
-};
-var successBoxShadow = {
-  boxShadow: '0 12px 20px -10px rgba(76, 175, 80, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(76, 175, 80, 0.2)'
-};
-var warningBoxShadow = {
-  boxShadow: '0 12px 20px -10px rgba(255, 152, 0, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(255, 152, 0, 0.2)'
-};
-var dangerBoxShadow = {
-  boxShadow: '0 12px 20px -10px rgba(244, 67, 54, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(244, 67, 54, 0.2)'
-};
-var roseBoxShadow = {
-  boxShadow: '0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(233, 30, 99, 0.4)'
-};
-
-var warningCardHeader = Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({
-  color: '#fff',
-  background: 'linear-gradient(60deg, #ffa726, #fb8c00)'
-}, warningBoxShadow);
-
-var successCardHeader = Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({
-  color: '#fff',
-  background: 'linear-gradient(60deg, #66bb6a, #43a047)'
-}, successBoxShadow);
-
-var dangerCardHeader = Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({
-  color: '#fff',
-  background: 'linear-gradient(60deg, #ef5350, #e53935)'
-}, dangerBoxShadow);
-
-var infoCardHeader = Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({
-  color: '#fff',
-  background: 'linear-gradient(60deg, #26c6da, #00acc1)'
-}, infoBoxShadow);
-
-var primaryCardHeader = Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({
-  color: '#fff',
-  background: 'linear-gradient(60deg, #76D1CA, #2D9A92)'
-}, primaryBoxShadow);
-
-var roseCardHeader = Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({
-  color: '#fff',
-  background: 'linear-gradient(60deg, #ec407a, #d81b60)'
-}, roseBoxShadow);
-
-var cardActions = Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({
-  margin: '0 20px 10px',
-  paddingTop: '10px',
-  borderTop: '1px solid #eeeeee',
-  height: 'auto'
-}, defaultFont);
-
-var cardHeader = {
-  margin: '-30px 15px 0',
-  borderRadius: '3px',
-  padding: '15px'
-};
-var defaultBoxShadow = {
-  border: '0',
-  borderRadius: '3px',
-  boxShadow: '0 10px 20px -12px rgba(0, 0, 0, 0.42), 0 3px 20px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)',
-  padding: '10px 0',
-  transition: 'all 150ms ease 0s'
-};
-var title = {
-  color: '#3C4858',
-  textDecoration: 'none',
-  fontWeight: '700',
-  marginTop: '30px',
-  marginBottom: '25px',
-  minHeight: '32px',
-  fontFamily: "\"Roboto Slab\", \"Times New Roman\", serif"
-};
-var cardTitle = {
-  '&, & a': Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, title, {
-    marginTop: '.625rem',
-    marginBottom: '0.75rem',
-    minHeight: 'auto'
-  })
-};
-var cardLink = {
-  '& + $cardLink': {
-    marginLeft: '1.25rem'
-  }
-};
-var cardSubtitle = {
-  marginBottom: '0',
-  marginTop: '-.375rem'
-};
-var main = {
-  background: '#FFFFFF',
-  position: 'relative',
-  zIndex: '3'
-};
-var mainRaised = {
-  '@media (max-width: 576px)': {
-    marginTop: '-30px'
-  },
-  '@media (max-width: 830px)': {
-    marginLeft: '10px',
-    marginRight: '10px'
-  },
-  margin: '-60px 30px 0px',
-  borderRadius: '6px',
-  boxShadow: '0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)'
-};
-var section = {
-  backgroundPosition: '50%',
-  backgroundSize: 'cover'
-};
-var sectionDark = {
-  backgroundColor: '#343434',
-  background: 'radial-gradient(ellipse at center,#585858 0,#232323 100%)'
-};
-var sectionDescription = {
-  marginTop: '130px'
-};
-var description = {
-  color: '#999'
-};
-var mlAuto = {
-  marginLeft: 'auto'
-};
-var mrAuto = {
-  marginRight: 'auto'
-};
-var btnLink = {
-  backgroundColor: 'transparent',
-  boxShdow: 'none',
-  marginTop: '5px',
-  marginBottom: '5px'
-};
-var coloredShadow = {
-  // some jss/css to make the cards look a bit better on Internet Explorer
-  '@media all and (-ms-high-contrast: none), (-ms-high-contrast: active)': {
-    display: 'none !important'
-  },
-  transform: 'scale(0.94)',
-  top: '12px',
-  filter: 'blur(12px)',
-  position: 'absolute',
-  width: '100%',
-  height: '100%',
-  backgroundSize: 'cover',
-  zIndex: '-1',
-  transition: 'opacity .45s',
-  opacity: '0'
-};
-
-
-/***/ }),
-
-/***/ 4:
+/***/ 3:
 /*!*****************************!*\
   !*** multi ./pages/home.js ***!
   \*****************************/

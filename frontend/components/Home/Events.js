@@ -1,14 +1,14 @@
 import React from 'react';
-import { Query } from 'react-apollo';
 
+import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
-import GridItem from '../../styles/components/Grid/GridItem';
-import Card from '../../styles/components/Card/Card';
-import CardHeader from '../../styles/components/Card/CardHeader';
-import Event from './Event';
 import withStyles from '@material-ui/core/styles/withStyles';
-import CardStyles from '../../styles/components/Card/sectioncard';
-import GridContainer from '../../styles/components/Grid/GridContainer';
+
+import Event from './Event';
+
+import GridContainer from '../../styledComponents/Grid/GridContainer';
+
+import CardStyles from '../../static/jss/material-kit-pro-react/views/componentsSections/sectionCards';
 
 export const ALL_EVENTS_QUERY = gql`
 	query ALL_EVENTS_QUERY($genre: String! = "music") {

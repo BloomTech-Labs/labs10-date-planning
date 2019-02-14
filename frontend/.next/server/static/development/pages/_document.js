@@ -2071,37 +2071,35 @@ function (_Document) {
 
   Object(_babel_runtime_corejs2_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_3__["default"])(MyDocument, [{
     key: "render",
-    // const styleTags = sheet.getStyleElement();
-    // return { ...page, styleTags };
     value: function render() {
       return react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("html", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 39
+          lineNumber: 30
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(next_document__WEBPACK_IMPORTED_MODULE_8__["Head"], {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 40
+          lineNumber: 31
         },
         __self: this
       }), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("body", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 42
+          lineNumber: 32
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(next_document__WEBPACK_IMPORTED_MODULE_8__["Main"], {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 43
+          lineNumber: 33
         },
         __self: this
       }), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(next_document__WEBPACK_IMPORTED_MODULE_8__["NextScript"], {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 44
+          lineNumber: 34
         },
         __self: this
       })));
@@ -2123,7 +2121,7 @@ function (_Document) {
           }));
         };
       });
-      var css; // It might be undefined, e.g. after an error.
+      var css;
 
       if (pageContext) {
         css = pageContext.sheetsRegistry.toString();
@@ -2131,22 +2129,20 @@ function (_Document) {
 
       return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, page, {
         pageContext: pageContext,
-        // Styles fragment is rendered after the app and page rendering finish.
         styles: react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_7___default.a.Fragment, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 22
+            lineNumber: 20
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("style", {
-          id: "jss-server-side" // eslint-disable-next-line react/no-danger
-          ,
+          id: "jss-server-side",
           dangerouslySetInnerHTML: {
             __html: css
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 23
+            lineNumber: 21
           },
           __self: this
         }), styled_jsx_server__WEBPACK_IMPORTED_MODULE_9___default()() || null)

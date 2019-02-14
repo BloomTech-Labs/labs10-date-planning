@@ -1,22 +1,26 @@
 import React, { useEffect, useState, Fragment } from 'react';
-import Button from '../../styles/components/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import ModalStyles from '../../styles/components/Modal/styles';
-import withStyles from '@material-ui/core/styles/withStyles';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import Mail from '@material-ui/icons/Mail';
-import Face from '@material-ui/icons/Face';
-import Card from '../../styles/components/Card/Card';
-import CardHeader from '../../styles/components/Card/CardHeader';
-import CardBody from '../../styles/components/Card/CardBody';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Close from '@material-ui/icons/Close';
-import Icon from '@material-ui/core/Icon';
-import CustomInput from '../../styles/components/Input';
-import DialogContent from '@material-ui/core/DialogContent';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
+
+import withStyles from '@material-ui/core/styles/withStyles';
+
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
+
+import Mail from '@material-ui/icons/Mail';
+import Icon from '@material-ui/core/Icon';
+import Close from '@material-ui/icons/Close';
+
+import Button from '../../styledComponents/CustomButtons/Button';
+import Card from '../../styledComponents/Card/Card';
+import CardHeader from '../../styledComponents/Card/CardHeader';
+import CardBody from '../../styledComponents/Card/CardBody';
+import CustomInput from '../../styledComponents/CustomInput/CustomInput';
+
+import Styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles';
 
 const LOGIN_USER = gql`
 	mutation LOGIN_USER($email: String!, $password: String!) {
@@ -186,4 +190,4 @@ const Login = ({ classes }) => {
 	);
 };
 
-export default withStyles(ModalStyles)(Login);
+export default withStyles(Styles)(Login);

@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { Query } from 'react-apollo';
-
-import GridItem from '../../styles/components/Grid/GridItem';
-import Card from '../../styles/components/Card/Card';
-import CardHeader from '../../styles/components/Card/CardHeader';
-import CardBody from '../../styles/components/Card/CardBody';
-import Warning from '../../styles/Typography/Warning';
 import AddIcon from '@material-ui/icons/Add';
-import Button from '../../styles/components/Button';
+
+import GridItem from '../../styledComponents/Grid/GridItem';
+import Button from '../../styledComponents/CustomButtons/Button';
+import Card from '../../styledComponents/Card/Card';
+import CardHeader from '../../styledComponents/Card/CardHeader';
+import CardBody from '../../styledComponents/Card/CardBody';
+import Warning from '../../styledComponents/Typography/Warning';
 
 const Event = ({ event, classes }) => {
 	return (

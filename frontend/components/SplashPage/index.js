@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import Parallax from '../../styles/components/Parallex';
-import GridContainer from '../../styles/components/Grid/GridContainer';
-import GridItem from '../../styles/components/Grid/GridItem';
+import Parallax from '../../styledComponents/Parallax/Parallax';
+import GridContainer from '../../styledComponents/Grid/GridContainer';
+import GridItem from '../../styledComponents/Grid/GridItem';
 import Register from './Register';
 import Login from './Login';
 import withStyles from '@material-ui/core/styles/withStyles';
-import Styles from '../../styles/components/Splash/styles';
+import Styles from '../../static/jss/material-kit-pro-react/views/landingPageStyle';
 
 const Splash = ({ classes }) => {
 	useEffect(() => {
