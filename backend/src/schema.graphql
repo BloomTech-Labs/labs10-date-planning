@@ -19,6 +19,7 @@ type Query {
 	getEvent(id: String!): Event
 	currentUser: User
 	user(where: UserWhereUniqueInput!): User
+	getLocation(latitude: Float!, longitude: Float!): UserLocation!
 }
 
 type User {
@@ -49,6 +50,10 @@ type Location {
 	venue: String
 	address: String
 	zipCode: String
+}
+
+type UserLocation {
+	location: String!
 }
 
 type Details {

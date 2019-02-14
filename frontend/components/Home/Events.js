@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import Event from './Event';
-
+import Location from '../Queries/Location';
 import GridContainer from '../../styledComponents/Grid/GridContainer';
 
 export const ALL_EVENTS_QUERY = gql`
-	query ALL_EVENTS_QUERY($genre: String! = "music") {
+	query ALL_EVENTS_QUERY($genre: String! = "Seattle") {
 		getEvents(genre: $genre) {
 			id
 			title
@@ -32,18 +32,33 @@ export const ALL_EVENTS_QUERY = gql`
 
 const Events = () => {
 	return (
-		<div>
-			<h1 style={{ textAlign: 'center' }}>Upcoming Events Near You</h1>
-			<GridContainer style={{ maxWidth: 'calc(100% - 200px)', marginLeft: '200px' }}>
-				<Query query={ALL_EVENTS_QUERY}>
-					{({ data, error, loading }) => {
-						if (loading) return <p>Loading...</p>;
-						if (error) return <p>Error: {error.message}</p>;
-						return data.getEvents.map(event => <Event event={event} key={event.id} />);
-					}}
-				</Query>
-			</GridContainer>
-		</div>
+		<Location>
+			{({ data: { getLocation } }) => {
+				console.log(getLocation);
+				return (
+					<div>
+						<h1 style={{ textAlign: 'center' }}>Upcoming Events Near You</h1>
+						{getLocation ? (
+							<GridContainer
+								style={{ maxWidth: 'calc(100% - 200px)', marginLeft: '200px' }}
+							>
+								<Query query={ALL_EVENTS_QUERY} variables={getLocation}>
+									{({ data, error, loading }) => {
+										if (loading) return <p>Loading...</p>;
+										if (error) return <p>Error: {error.message}</p>;
+										return data.getEvents.map(event => (
+											<Event event={event} key={event.id} />
+										));
+									}}
+								</Query>
+							</GridContainer>
+						) : (
+							<div>getting location</div>
+						)}
+					</div>
+				);
+			}}
+		</Location>
 	);
 };
 
