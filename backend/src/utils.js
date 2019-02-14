@@ -7,7 +7,7 @@ module.exports = {
 			details: {
 				url: event.url || null,
 				description: event.description || `no description bc we're annoying af`,
-				start_time: event.start_time
+				start_time: event.start_time,
 				// performer: event.performers.performer ? event.performers.performer.name : 'not listed',
 				// bio: event.performers.performer.short_bio
 			},
@@ -15,9 +15,11 @@ module.exports = {
 				region: event.olson_path,
 				venue: event.venue_name,
 				address: event.venue_address,
-				zipCode: event.postal_code
+				zipCode: event.postal_code,
 			},
-			image_url: event.image ? event.image.url : 'default_image_url'
+			image_url: event.image
+				? event.image.medium && event.image.medium.url
+				: 'https://screenshotlayer.com/images/assets/placeholder.png',
 		}));
-	}
+	},
 };
