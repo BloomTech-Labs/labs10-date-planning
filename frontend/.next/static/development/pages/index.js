@@ -42904,7 +42904,7 @@ Parallax.propTypes = {
 
 /***/ }),
 
-/***/ 3:
+/***/ 4:
 /*!**************************************************************************************************************************************************************!*\
   !*** multi next-client-pages-loader?page=%2F&absolutePagePath=%2FUsers%2Flauren%2FLambda-School%2FLabs%2Flabs10-date-planning%2Ffrontend%2Fpages%2Findex.js ***!
   \**************************************************************************************************************************************************************/
@@ -42927,5 +42927,5 @@ module.exports = dll_ce267202ee8be2590427;
 
 /***/ })
 
-},[[3,"static/runtime/webpack.js"]]]));;
+},[[4,"static/runtime/webpack.js"]]]));;
 //# sourceMappingURL=index.js.map
