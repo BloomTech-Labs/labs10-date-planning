@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Query } from 'react-apollo';
+import moment from 'moment';
 import AddIcon from '@material-ui/icons/Add';
 
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -8,6 +9,7 @@ import GridItem from '../../styledComponents/Grid/GridItem';
 import Button from '../../styledComponents/CustomButtons/Button';
 import Card from '../../styledComponents/Card/Card';
 import CardHeader from '../../styledComponents/Card/CardHeader';
+import CardFooter from '../../styledComponents/Card/CardFooter';
 import CardBody from '../../styledComponents/Card/CardBody';
 import Warning from '../../styledComponents/Typography/Warning';
 
@@ -40,7 +42,12 @@ const Event = ({ event, classes }) => {
 						</a>
 					</h4>
 				</CardBody>
-
+				<CardFooter>
+					<div className={`${classes.stats} ${classes.mlAuto}`}>
+						{/* <Schedule /> */}
+						{moment(event.details.start_time).format('dddd, MMMM Do, h:mm a')}
+					</div>
+				</CardFooter>
 				<Button
 					justIcon
 					round
