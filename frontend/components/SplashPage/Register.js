@@ -1,28 +1,31 @@
 import React, { useEffect, useState, Fragment } from 'react';
-import Button from '../../styles/components/Button';
-import Assignment from '@material-ui/icons/Assignment';
-import GridContainer from '../../styles/components/Grid/GridContainer';
-import GridItem from '../../styles/components/Grid/GridItem';
-import Card from '../../styles/components/Card/Card';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Close from '@material-ui/icons/Close';
-import Dialog from '@material-ui/core/Dialog';
-import ModalStyles from '../../styles/components/Modal/styles';
+
 import withStyles from '@material-ui/core/styles/withStyles';
+
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
-import InfoArea from '../../styles/components/InfoArea';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+
 import Timeline from '@material-ui/icons/Timeline';
 import Code from '@material-ui/icons/Code';
 import Group from '@material-ui/icons/Group';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import CustomInput from '../../styles/components/Input';
 import Face from '@material-ui/icons/Face';
 import Icon from '@material-ui/core/Icon';
 import Email from '@material-ui/icons/Email';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Check from '@material-ui/icons/Check';
+import Close from '@material-ui/icons/Close';
+
+import Button from '../../styledComponents/CustomButtons/Button';
+import Card from '../../styledComponents/Card/Card';
+import GridContainer from '../../styledComponents/Grid/GridContainer';
+import GridItem from '../../styledComponents/Grid/GridItem';
+import CustomInput from '../../styledComponents/CustomInput/CustomInput';
+import InfoArea from '../../styledComponents/InfoArea/InfoArea';
+
+import Styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles';
 
 const Register = ({ classes }) => {
 	const [ modalShowing, setModalShowing ] = useState(false);
@@ -214,4 +217,4 @@ const Register = ({ classes }) => {
 	);
 };
 
-export default withStyles(ModalStyles)(Register);
+export default withStyles(Styles)(Register);
