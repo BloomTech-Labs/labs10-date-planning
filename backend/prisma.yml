@@ -1,5 +1,6 @@
-endpoint: http://localhost:4466
-# endpoint: ${env:PRISMA_ENDPOINT}
+#endpoint: http://localhost:4466
+# endpoint: https://labs-dateplan-3b7949a916.herokuapp.com/dateplan-backend/dev
+endpoint: ${env:PRISMA_ENDPOINT}
 datamodel: datamodel.graphql
 # secret: ${env:PRISMA_SECRET}
 hooks:
