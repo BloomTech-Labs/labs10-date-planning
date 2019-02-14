@@ -39,7 +39,6 @@ const Filters = ({ classes, refetch, location, page }) => {
 
 	useEffect(
 		() => {
-			console.log(categoryFilters, dateFilters);
 			refetch({
 				variables: {
 					location,
