@@ -15,7 +15,7 @@ type Mutation {
 type Query {
 	users: [User]!
 	events: [Event]!
-	getEvents(location: String, page: Int): AllEvents
+	getEvents(location: String, page: Int, categories: [String], dates: [String]): AllEvents
 	getEvent(id: String!): Event
 	currentUser: User
 	user(where: UserWhereUniqueInput!): User

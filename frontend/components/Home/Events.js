@@ -1,118 +1,107 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 
-import { Query } from 'react-apollo';
-import gql from 'graphql-tag';
-
+import EventsQuery from '../Queries/AllEvents';
+import Filters from './Filters';
 import Event from './Event';
 import Location from '../Queries/Location';
 import GridContainer from '../../styledComponents/Grid/GridContainer';
+import GridItem from '../../styledComponents/Grid/GridItem';
 import Paginations from '../../styledComponents/Pagination/Pagination';
+import withStyles from '@material-ui/core/styles/withStyles';
+import styles from '../../static/jss/material-kit-pro-react/views/ecommerceSections/productsStyle.jsx';
 
-export const ALL_EVENTS_QUERY = gql`
-	query ALL_EVENTS_QUERY($location: String!, $page: Int) {
-		getEvents(location: $location, page: $page) {
-			page_count
-			total_items
-			page_number
-			events {
-				id
-				title
-				url
-				description
-				times
-				# bio
-				# 	tags {
-				# 		title
-				# 		owner
-				# 	}
-				# }
-				location {
-					venue
-					city
-					address
-				}
-				image_url
-			}
-		}
-	}
-`;
-
-const Events = () => {
+const Events = ({ classes }) => {
 	const [ page, setPage ] = useState(1);
 	return (
 		<Location>
 			{({ data }) => {
+				let { getLocation } = data;
 				return (
-					<div
-						style={{ padding: '10px 50px' }}
-						// style={{
-						// 	maxWidth: 'calc(100% - 200px)',
-						// 	marginLeft: '200px',
-						// 	height: '100%',
-						// }}
-					>
-						<h1 style={{ textAlign: 'center' }}>Upcoming Events Near You</h1>
-						{data.getLocation ? (
-							<Query
-								query={ALL_EVENTS_QUERY}
-								variables={{ location: data.getLocation.location, page: page }}
-							>
-								{({ data, error, loading }) => {
-									if (loading) return <p>Loading...</p>;
-									if (error) return <p>Error: {error.message}</p>;
-
-									return (
-										<div style={{ height: '100%' }}>
+					<div className={classes.section} style={{ paddingTop: '40px' }}>
+						<div className={classes.container}>
+							<h2 style={{ textAlign: 'center' }}>Upcoming Events Near You</h2>
+							{data.getLocation ? (
+								<EventsQuery
+									variables={{ location: getLocation.location, page: page }}
+								>
+									{({ data, error, loading, refetch }) => (
+										<Fragment>
 											<GridContainer>
-												{data.getEvents.events.map(event => (
-													<Event event={event} key={event.id} />
-												))}
+												<Filters
+													refetch={refetch}
+													location={getLocation.location}
+													page={page}
+												/>
+
+												<GridItem md={9} sm={9}>
+													{loading && <p>Loading...</p>}
+													{error && <p>Error: {error.message}</p>}
+													{!loading &&
+													!error && (
+														<GridContainer>
+															{data.getEvents.events.map(event => (
+																<Event
+																	event={event}
+																	key={event.id}
+																/>
+															))}
+														</GridContainer>
+													)}
+												</GridItem>
+												<Paginations
+													pages={[
+														{ text: 'PREV' },
+
+														{
+															text:
+																data.getEvents.page_number > 2 &&
+																data.getEvents.page_number - 2,
+															onClick: () =>
+																setPage(
+																	data.getEvents.page_number - 2,
+																),
+														},
+														{
+															text:
+																data.getEvents.page_number > 1 &&
+																data.getEvents.page_number - 1,
+															onClick: () =>
+																setPage(
+																	data.getEvents.page_number - 1,
+																),
+														},
+														{
+															active: true,
+															text: data.getEvents.page_number,
+														},
+														{
+															text: data.getEvents.page_number + 1,
+															onClick: () =>
+																setPage(
+																	data.getEvents.page_number + 1,
+																),
+														},
+														{
+															text: data.getEvents.page_number + 2,
+															onClick: () =>
+																setPage(
+																	data.getEvents.page_number + 2,
+																),
+														},
+														{ text: '...' },
+														{ text: data.getEvents.page_count },
+
+														{ text: 'NEXT' },
+													]}
+												/>
 											</GridContainer>
-											<Paginations
-												pages={[
-													{ text: 'PREV' },
-
-													{
-														text:
-															data.getEvents.page_number > 2 &&
-															data.getEvents.page_number - 2,
-														onClick: () =>
-															setPage(data.getEvents.page_number - 2),
-													},
-													{
-														text:
-															data.getEvents.page_number > 1 &&
-															data.getEvents.page_number - 1,
-														onClick: () =>
-															setPage(data.getEvents.page_number - 1),
-													},
-													{
-														active: true,
-														text: data.getEvents.page_number,
-													},
-													{
-														text: data.getEvents.page_number + 1,
-														onClick: () =>
-															setPage(data.getEvents.page_number + 1),
-													},
-													{
-														text: data.getEvents.page_number + 2,
-														onClick: () =>
-															setPage(data.getEvents.page_number + 2),
-													},
-													{ text: '...' },
-													{ text: data.getEvents.page_count },
-
-													{ text: 'NEXT' },
-												]}
-											/>
-										</div>
-									);
-								}}
-							</Query>
-						) : (
-							<div>getting location</div>
-						)}
+										</Fragment>
+									)}
+								</EventsQuery>
+							) : (
+								<div>getting location</div>
+							)}
+						</div>
 					</div>
 				);
 			}}
@@ -120,4 +109,4 @@ const Events = () => {
 	);
 };
 
-export default Events;
+export default withStyles(styles)(Events);

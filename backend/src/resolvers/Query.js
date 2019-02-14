@@ -26,10 +26,13 @@ const Query = {
 			info,
 		);
 	},
-	async getEvents(parent, { location, page }, ctx, info) {
+	async getEvents(parent, { location, page, ...args }, ctx, info) {
 		// searches for events based on the genre provided
+		let categories = args.categories.toString() || 'music,comedy,performing_arts,sports';
+		let dates = args.dates.toString() || 'all';
+		console.log(categories, dates, page, location);
 		const { data } = await axios.get(
-			`https://api.eventful.com/json/events/search?location=${location}&category=music,comedy,performing_arts,sports&page_number=${page}&page_size=24&app_key=${process
+			`https://api.eventful.com/json/events/search?location=${location}&category=${categories}&date=${dates}&page_number=${page}&page_size=15&app_key=${process
 				.env.API_KEY}`,
 		);
 

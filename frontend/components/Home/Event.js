@@ -18,7 +18,7 @@ import CardStyles from '../../static/jss/material-kit-pro-react/views/components
 const Event = ({ event, classes }) => {
 	console.log(event);
 	return (
-		<GridItem xs={12} sm={6} md={3} lg={2}>
+		<GridItem xs={12} sm={6} md={4} lg={3}>
 			<Card blog>
 				<CardHeader image>
 					<a href='#pablo' onClick={e => e.preventDefault()}>
@@ -43,9 +43,14 @@ const Event = ({ event, classes }) => {
 					</h4>
 				</CardBody>
 				<CardFooter>
-					<div className={`${classes.stats} ${classes.mlAuto}`}>
+					<div
+						className={`${classes.stats} ${classes.mlAuto}`}
+						style={{ display: 'block' }}
+					>
 						{/* <Schedule /> */}
-						{event.times.map(ev => moment(ev).format('dddd, MMMM Do, h:mm a'))}
+						{event.times.map(ev => (
+							<div key={ev}>{moment(ev).format('dddd, MMMM Do, h:mm a')}</div>
+						))}
 					</div>
 				</CardFooter>
 				<Button
