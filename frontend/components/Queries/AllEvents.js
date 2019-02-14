@@ -20,12 +20,6 @@ export const ALL_EVENTS_QUERY = gql`
 				url
 				description
 				times
-				# bio
-				# 	tags {
-				# 		title
-				# 		owner
-				# 	}
-				# }
 				location {
 					venue
 					city
