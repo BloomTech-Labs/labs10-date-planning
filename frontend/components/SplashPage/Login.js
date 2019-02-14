@@ -37,9 +37,6 @@ const Login = ({ classes }) => {
 	const [ user, setUser ] = useState({ email: '', password: '' });
 	const [ modalShowing, setModalShowing ] = useState(false);
 
-	const login = () => {
-		console.log(user);
-	};
 	return (
 		<Mutation mutation={LOGIN_USER} variables={{ email: user.email, password: user.password }}>
 			{(signin, { error, loading, called }) => {
@@ -88,6 +85,13 @@ const Login = ({ classes }) => {
 												link
 												className={classes.socialLineButton}
 											>
+												<i className='fab fa-google' />
+											</Button>
+											<Button
+												justIcon
+												link
+												className={classes.socialLineButton}
+											>
 												<i className='fab fa-facebook-square' />
 											</Button>
 											<Button
@@ -95,14 +99,7 @@ const Login = ({ classes }) => {
 												link
 												className={classes.socialLineButton}
 											>
-												<i className='fab fa-twitter' />
-											</Button>
-											<Button
-												justIcon
-												link
-												className={classes.socialLineButton}
-											>
-												<i className='fab fa-google-plus-g' />
+												<i className='fab fa-instagram' />
 											</Button>
 										</div>
 									</CardHeader>
@@ -111,7 +108,7 @@ const Login = ({ classes }) => {
 									id='login-modal-slide-description'
 									className={classes.modalBody}
 								>
-									<form id='loginform' onSubmit={login}>
+									<form id='loginform' onSubmit={() => signin()}>
 										<p
 											className={`${classes.description} ${classes.textCenter}`}
 										>
@@ -169,16 +166,9 @@ const Login = ({ classes }) => {
 										size='lg'
 										onClick={() => {
 											signin();
-											setModalShowing(false);
 										}}
 									>
 										Get started
-									</Button>
-									<Button justIcon link className={classes.socialLineButton}>
-										<i className='fab fa-twitter' />
-									</Button>
-									<Button justIcon link className={classes.socialLineButton}>
-										<i className='fab fa-google-plus-g' />
 									</Button>
 								</DialogActions>
 							</Card>

@@ -17,7 +17,7 @@
   ],
   "undefined": [
     {
-      "id": 2,
+      "id": 1,
       "name": null,
       "file": "static/chunks/styles.js",
       "publicPath": "static/chunks/styles.js"
