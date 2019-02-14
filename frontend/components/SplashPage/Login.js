@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
-
+import { CURRENT_USER_QUERY } from '../Queries/User';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 import Dialog from '@material-ui/core/Dialog';
@@ -38,7 +38,11 @@ const Login = ({ classes }) => {
 	const [ modalShowing, setModalShowing ] = useState(false);
 
 	return (
-		<Mutation mutation={LOGIN_USER} variables={{ email: user.email, password: user.password }}>
+		<Mutation
+			mutation={LOGIN_USER}
+			variables={{ email: user.email, password: user.password }}
+			refetchQueries={[ { query: CURRENT_USER_QUERY } ]}
+		>
 			{(signin, { error, loading, called }) => {
 				return (
 					<Fragment>

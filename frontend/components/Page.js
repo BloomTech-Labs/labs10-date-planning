@@ -9,7 +9,7 @@ const Page = ({ children }) => {
 			{({ data: { currentUser } }) => (
 				<Fragment>
 					<Meta />
-					{currentUser && <Header />}
+					{currentUser != undefined && <Header />}
 
 					<div>{children}</div>
 				</Fragment>

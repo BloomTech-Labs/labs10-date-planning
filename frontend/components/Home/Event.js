@@ -18,7 +18,7 @@ import CardStyles from '../../static/jss/material-kit-pro-react/views/components
 const Event = ({ event, classes }) => {
 	console.log(event);
 	return (
-		<GridItem xs={12} sm={4} md={2}>
+		<GridItem xs={12} sm={6} md={3} lg={2}>
 			<Card blog>
 				<CardHeader image>
 					<a href='#pablo' onClick={e => e.preventDefault()}>

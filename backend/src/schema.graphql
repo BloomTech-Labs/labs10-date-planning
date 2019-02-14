@@ -79,5 +79,5 @@ type Tag {
 }
 
 type Message {
-	body: String
+	message: String
 }
