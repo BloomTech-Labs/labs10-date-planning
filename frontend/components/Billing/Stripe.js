@@ -14,8 +14,8 @@ const CREATE_ORDER_MUTATION = gql`
   }
 `;
 
-class Billing extends Component {
-  onToken = async (res, createOrder) => {
+const Billing = props => {
+  const onToken = async (res, createOrder) => {
     await createOrder({
       variables: {
         token: res.id,
@@ -29,31 +29,29 @@ class Billing extends Component {
     return null
   }
 
-  render() {
-    return (
-      <Mutation mutation={CREATE_ORDER_MUTATION}>
-        {
-          (createOrder) => {
-            return (
-              <StripeCheckout
-                amount={999}
-                name="Up4"
-                description="One year subscription"
-                stripeKey="pk_test_XMzhj8sz1Y1twtwn6sLLpy9C"
-                currency="USD"
-                email={"boom@boom.com"}
-                token={res => this.onToken(res, createOrder)}
-              >
-                <div>
-                  {this.props.children}
-                </div>
-              </StripeCheckout>
-            );
-          }
+  return (
+    <Mutation mutation={CREATE_ORDER_MUTATION}>
+      {
+        (createOrder) => {
+          return (
+            <StripeCheckout
+              amount={props.subsType === 'MONTHLY' ? 999 : 2999}
+              name="Up4"
+              description="One year subscription"
+              stripeKey="pk_test_XMzhj8sz1Y1twtwn6sLLpy9C"
+              currency="USD"
+              email={"boom@boom.com"}
+              token={res => onToken(res, createOrder)}
+            >
+              <div>
+                {props.children}
+              </div>
+            </StripeCheckout>
+          );
         }
-      </Mutation>
-    );
-  }
+      }
+    </Mutation>
+  );
 };
 
 export default Billing;
