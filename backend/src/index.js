@@ -10,7 +10,7 @@ const server = createServer();
 server.express.use(cookieParser());
 
 // commented out bc it messes up testing queries and mutations in the graphql playground
-server.express.use(async (req, res, next) => {
+server.express.use((req, res, next) => {
 	const { token } = req.cookies;
 	if (token) {
 		const { userId } = jwt.verify(token, process.env.APP_SECRET);
@@ -24,10 +24,10 @@ server.start(
 	{
 		cors: {
 			credentials: true,
-			origin: process.env.FRONTEND_URL
-		}
+			origin: process.env.FRONTEND_URL,
+		},
 	},
 	details => {
 		console.log(`Server is now running on port http://localhost:${details.port}`);
-	}
+	},
 );

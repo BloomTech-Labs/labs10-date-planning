@@ -109,18 +109,17 @@ const Register = ({ classes }) => {
 							</GridItem>
 							<GridItem xs={12} sm={5} md={5} className={classes.mrAuto}>
 								<div className={classes.textCenter}>
-									<Button justIcon round color='twitter'>
-										<i className='fab fa-twitter' />
+									<Button justIcon round color='google'>
+										<i className='fab fa-google' />
 									</Button>
-									{` `}
-									<Button justIcon round color='dribbble'>
-										<i className='fab fa-dribbble' />
-									</Button>
-									{` `}
+
 									<Button justIcon round color='facebook'>
 										<i className='fab fa-facebook-f' />
 									</Button>
-									{` `}
+									<Button justIcon round color='instagram'>
+										<i className='fab fa-instagram' />
+									</Button>
+
 									<h4 className={classes.socialTitle}>or be classical</h4>
 								</div>
 								<form className={classes.form}>
@@ -138,7 +137,7 @@ const Register = ({ classes }) => {
 													<Face className={classes.inputAdornmentIcon} />
 												</InputAdornment>
 											),
-											placeholder: 'First Name...',
+											placeholder: 'Full Name...',
 										}}
 									/>
 									<CustomInput
@@ -184,7 +183,7 @@ const Register = ({ classes }) => {
 										control={
 											<Checkbox
 												tabIndex={-1}
-												onClick={() => this.handleToggle(1)}
+												// onClick={() => handleToggle(1)}
 												checkedIcon={
 													<Check className={classes.checkedIcon} />
 												}
@@ -197,8 +196,7 @@ const Register = ({ classes }) => {
 										}
 										label={
 											<span>
-												I agree to the{' '}
-												<a href='#pablo'>terms and conditions</a>.
+												I agree to the <a href='#'>terms and conditions</a>.
 											</span>
 										}
 									/>

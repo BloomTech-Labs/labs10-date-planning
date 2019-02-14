@@ -29,6 +29,7 @@
     "react": "^16.8.1",
     "react-apollo": "^2.4.1",
     "react-dom": "^16.8.1",
+    "react-image-gallery": "^0.8.12",
     "react-jss": "^8.6.1",
     "react-stripe-checkout": "^2.6.3"
   },
