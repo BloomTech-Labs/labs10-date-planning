@@ -6,5 +6,21 @@
       "file": "static/chunks/0.js",
       "publicPath": "static/chunks/0.js"
     }
+  ],
+  "../static/scss/material-kit-pro-react.scss": [
+    {
+      "id": "./static/scss/material-kit-pro-react.scss",
+      "name": "./static/scss/material-kit-pro-react.scss",
+      "file": "static/chunks/styles.js",
+      "publicPath": "static/chunks/styles.js"
+    }
+  ],
+  "undefined": [
+    {
+      "id": 2,
+      "name": null,
+      "file": "static/chunks/styles.js",
+      "publicPath": "static/chunks/styles.js"
+    }
   ]
 }

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Query } from 'react-apollo';
 import AddIcon from '@material-ui/icons/Add';
 
+import withStyles from '@material-ui/core/styles/withStyles';
+
 import GridItem from '../../styledComponents/Grid/GridItem';
 import Button from '../../styledComponents/CustomButtons/Button';
 import Card from '../../styledComponents/Card/Card';
@@ -9,9 +11,11 @@ import CardHeader from '../../styledComponents/Card/CardHeader';
 import CardBody from '../../styledComponents/Card/CardBody';
 import Warning from '../../styledComponents/Typography/Warning';
 
+import CardStyles from '../../static/jss/material-kit-pro-react/views/componentsSections/sectionCards';
+
 const Event = ({ event, classes }) => {
 	return (
-		<GridItem xs={12} sm={4} md={3}>
+		<GridItem xs={12} sm={4} md={2}>
 			<Card blog>
 				{' '}
 				<CardHeader image>
@@ -56,4 +60,4 @@ const Event = ({ event, classes }) => {
 	);
 };
 
-export default Event;
+export default withStyles(CardStyles)(Event);

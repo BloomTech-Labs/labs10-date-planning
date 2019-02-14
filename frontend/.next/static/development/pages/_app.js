@@ -55727,6 +55727,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_jss_lib_JssProvider__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! react-jss/lib/JssProvider */ "./node_modules/react-jss/lib/JssProvider.js");
 /* harmony import */ var react_jss_lib_JssProvider__WEBPACK_IMPORTED_MODULE_17___default = /*#__PURE__*/__webpack_require__.n(react_jss_lib_JssProvider__WEBPACK_IMPORTED_MODULE_17__);
 /* harmony import */ var _utils_getPageContext__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../utils/getPageContext */ "./utils/getPageContext.js");
+/* harmony import */ var _static_scss_material_kit_pro_react_scss__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../static/scss/material-kit-pro-react.scss */ "./static/scss/material-kit-pro-react.scss");
+/* harmony import */ var _static_scss_material_kit_pro_react_scss__WEBPACK_IMPORTED_MODULE_19___default = /*#__PURE__*/__webpack_require__.n(_static_scss_material_kit_pro_react_scss__WEBPACK_IMPORTED_MODULE_19__);
 
 
 
@@ -55738,6 +55740,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var _jsxFileName = "/Users/lauren/Lambda-School/Labs/labs10-date-planning/frontend/pages/_app.js";
+
 
 
 
@@ -56004,5 +56007,5 @@ module.exports = dll_ce267202ee8be2590427;
 
 /***/ })
 
-},[["./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2F_app&absolutePagePath=private-next-pages%2F_app.js!./","static/runtime/webpack.js"]]]));;
+},[["./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2F_app&absolutePagePath=private-next-pages%2F_app.js!./","static/runtime/webpack.js","styles"]]]));;
 //# sourceMappingURL=_app.js.map
