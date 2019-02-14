@@ -17,13 +17,9 @@ const Splash = ({ classes }) => {
 			<div className={classes.container}>
 				<GridContainer>
 					<GridItem xs={12} sm={6} md={6}>
-						<h1 className={classes.title}>Where will up4 take you?</h1>
+						<h2 className={classes.title}>Music. Food.  Special Events.  Your city is alive.  What are you up for?</h2>
 						<h4>
-							Trying something new can feel like a chore. Why is that? Are we boring?
-							Unimaginative? Chicken? We don’t think so. Whether it’s a restaurant, an
-							art exhibit, a concert, or something else, you’re surrounded by new ways
-							to enjoy your life. Sign up for Up4 today to let us help you help your
-							dating life.
+							Exciting events are all around you but they can be hard to find.  Up4 helps ensure you'll never miss another adventure.
 						</h4>
 						<div>
 							<Register />
@@ -33,7 +29,7 @@ const Splash = ({ classes }) => {
 				</GridContainer>
 			</div>
 		</Parallax>
-	);
+	); 
 };
 
 export default withStyles(Styles)(Splash);
