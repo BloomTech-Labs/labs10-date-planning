@@ -170,30 +170,49 @@ const Mutation = {
 		);
 	},
 	async createOrder(parent, args, ctx, info) {
+		// Check user's login status
 		const { userId } = ctx.request;
-		
 		if (!userId) throw new Error('You must be signed in to complete this order.');
+
+		// Get user's info
 		const user = await ctx.db.query.user({ where: { id: userId } }, `
 		{id firstName lastName email}`);
 
+		// Charge the credit card
+		const amount = args.subscription === 'MONTHLY' ? 999 : 2999;
 		const charge = await stripe.charges.create({
-			amount: 999,
+			amount,
 			currency: 'USD',
 			source: args.token,
 		});
 
+		// Record the order
 		const order = await ctx.db.mutation.createOrder({
 			data: {
-				total: 999,
+				total: amount,
 				charge: 'Subscription',
-				subscription: 'MONTHLY',
+				subscription: args.subscription,
 				user: {
 					connect: {
 						id: user.id
 					}
 				}
 			}
-		});
+		}, info);
+
+		// Update user's permission type
+		ctx.db.mutation.updateUser(
+			{
+				data: {
+					permissions: {
+						set: [args.subscription]
+					}
+				},
+				where: {
+					id: user.id
+				}
+			}
+		);
 
 		return order;
 	}
