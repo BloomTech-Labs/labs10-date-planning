@@ -1,10 +1,8 @@
-import {
-    makeExecutableSchema,
-    addMockFunctionsToSchema,
-    mockServer
-  } from 'graphql-tools';
+import { makeExecutableSchema } from 'graphql-tools';
+import { addMockFunctionsToSchema } from 'graphql-tools';
+import { mockServer } from 'graphql-tools';
 
-import graphql from 'graphql';
+import { graphql } from 'graphql';
   
 const schemaString = `type Mutation {
 	signup(email: String!, password: String!, firstName: String!, lastName: String!): User!

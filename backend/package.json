@@ -3,6 +3,32 @@
 	"version": "1.0.0",
 	"description": "",
 	"main": "index.js",
+	"jest": {
+		"testEnvironment": "node",
+		"testPathIgnorePatterns": [
+			"/node_modules/",
+			"./dist"
+		],
+		"coverageReporters": [
+			"lcov",
+			"html"
+		],
+		"moduleNameMapper": {
+			"^mongoose$": "<rootDir>/node_modules/mongoose"
+		},
+		"transform": {
+			"\\.(gql|graphql)$": "jest-transform-graphql",
+			".*": "babel-jest"
+		},
+		"moduleFileExtensions": [
+			"web.js",
+			"js",
+			"json",
+			"web.jsx",
+			"jsx",
+			"node"
+		]
+	},
 	"dependencies": {
 		"axios": "^0.18.0",
 		"bcryptjs": "^2.4.3",
@@ -19,6 +45,7 @@
 		"prisma-binding": "^2.3.2"
 	},
 	"devDependencies": {
+		"graphql-tools": "^4.0.4",
 		"jest": "^24.1.0",
 		"jest-cli": "^24.1.0",
 		"jest-transform-graphql": "^2.1.0"
