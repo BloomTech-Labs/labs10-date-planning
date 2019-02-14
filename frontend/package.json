@@ -1,51 +1,52 @@
 {
-  "name": "frontend",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "dev": "next",
-    "build": "next build",
-    "start": "next start -p 8000"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@material-ui/core": "^3.9.2",
-    "@material-ui/icons": "^3.0.2",
-    "@material-ui/styles": "^3.0.0-alpha.10",
-    "@zeit/next-sass": "^1.0.1",
-    "apollo-boost": "^0.1.28",
-    "apollo-client": "^2.4.13",
-    "classnames": "^2.2.6",
-    "graphql": "^14.1.1",
-    "graphql-tag": "^2.10.1",
-    "jss": "^9.8.7",
-    "moment": "^2.24.0",
-    "next": "^8.0.1",
-    "next-images": "^1.0.4",
-    "next-with-apollo": "^3.3.2",
-    "node-sass": "^4.11.0",
-    "prop-types": "^15.7.2",
-    "react": "^16.8.1",
-    "react-apollo": "^2.4.1",
-    "react-dom": "^16.8.1",
-    "react-image-gallery": "^0.8.12",
-    "react-jss": "^8.6.1",
-    "react-stripe-checkout": "^2.6.3"
-  },
-  "babel": {
-    "env": {
-      "development": {
-        "presets": [
-          "next/babel"
-        ]
-      },
-      "production": {
-        "presets": [
-          "next/babel"
-        ]
-      }
-    }
-  }
+	"name": "frontend",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"dev": "next",
+		"build": "next build",
+		"start": "next start -p 8000",
+		"heroku-postbuild": "next build"
+	},
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"@material-ui/core": "^3.9.2",
+		"@material-ui/icons": "^3.0.2",
+		"@material-ui/styles": "^3.0.0-alpha.10",
+		"@zeit/next-sass": "^1.0.1",
+		"apollo-boost": "^0.1.28",
+		"apollo-client": "^2.4.13",
+		"classnames": "^2.2.6",
+		"graphql": "^14.1.1",
+		"graphql-tag": "^2.10.1",
+		"jss": "^9.8.7",
+		"moment": "^2.24.0",
+		"next": "^8.0.1",
+		"next-images": "^1.0.4",
+		"next-with-apollo": "^3.3.2",
+		"node-sass": "^4.11.0",
+		"prop-types": "^15.7.2",
+		"react": "^16.8.1",
+		"react-apollo": "^2.4.1",
+		"react-dom": "^16.8.1",
+		"react-image-gallery": "^0.8.12",
+		"react-jss": "^8.6.1",
+		"react-stripe-checkout": "^2.6.3"
+	},
+	"babel": {
+		"env": {
+			"development": {
+				"presets": [
+					"next/babel"
+				]
+			},
+			"production": {
+				"presets": [
+					"next/babel"
+				]
+			}
+		}
+	}
 }
