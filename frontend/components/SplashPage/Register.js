@@ -15,7 +15,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import ButtonBase from '@material-ui/core/ButtonBase';
 
 import MusicNote from '@material-ui/icons/MusicNote';
-import TheaterMasks from '../../static/img/icons/TheaterMasks';
+// import TheaterMasks from '../../static/img/icons/TheaterMasks';
 import Restaurant from '@material-ui/icons/Restaurant';
 import Face from '@material-ui/icons/Face';
 import Icon from '@material-ui/core/Icon';
@@ -156,7 +156,7 @@ const Register = ({ classes }) => {
 														live performances.
 													</p>
 												}
-												icon={TheaterMasks}
+//												icon={TheaterMasks}
 												iconColor='primary'
 											/>
 											<InfoArea

@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 import Stripe from './Stripe';
 
-class Billing extends React.Component {
-  render() {
-    return (
-      <div>
-        <h1>Billing</h1>
-        <Stripe>
-          <button>CheckOut</button>
-        </Stripe>
-      </div>
-    );
-  }
+const Billing = () => {
+  return (
+    <div>
+      <h1>Billing</h1>
+      <Stripe subsType='MONTHLY'>
+        <button>Monthly</button>
+      </Stripe>
+      <Stripe subsType='YEARLY'>
+        <button>Premium</button>
+      </Stripe>
+    </div>
+  );
 };
 
 export default Billing;
