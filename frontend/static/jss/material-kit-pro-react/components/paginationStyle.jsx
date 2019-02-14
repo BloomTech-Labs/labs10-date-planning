@@ -14,6 +14,7 @@ import {
 const paginationStyle = {
 	pagination: {
 		display: 'flex',
+		justifyContent: 'center',
 		paddingLeft: '0',
 		listStyle: 'none',
 		borderRadius: '0.25rem',
