@@ -6,52 +6,109 @@ import gql from 'graphql-tag';
 import Event from './Event';
 import Location from '../Queries/Location';
 import GridContainer from '../../styledComponents/Grid/GridContainer';
+import Paginations from '../../styledComponents/Pagination/Pagination';
 
 export const ALL_EVENTS_QUERY = gql`
-	query ALL_EVENTS_QUERY($genre: String! = "Seattle") {
-		getEvents(genre: $genre) {
-			id
-			title
-			details {
-				url
-				description
-				start_time
-				bio
-				tags {
-					title
-					owner
+	query ALL_EVENTS_QUERY($location: String!, $page: Int) {
+		getEvents(location: $location, page: $page) {
+			page_count
+			total_items
+			page_number
+			events {
+				id
+				title
+				details {
+					url
+					description
+					start_time
+					bio
+					tags {
+						title
+						owner
+					}
 				}
+				location {
+					venue
+				}
+				image_url
 			}
-			location {
-				venue
-			}
-			image_url
 		}
 	}
 `;
 
 const Events = () => {
+	const [ page, setPage ] = useState(1);
 	return (
 		<Location>
-			{({ data: { getLocation } }) => {
-				console.log(getLocation);
+			{({ data }) => {
 				return (
-					<div>
+					<div
+						style={{ padding: '10px 50px' }}
+						// style={{
+						// 	maxWidth: 'calc(100% - 200px)',
+						// 	marginLeft: '200px',
+						// 	height: '100%',
+						// }}
+					>
 						<h1 style={{ textAlign: 'center' }}>Upcoming Events Near You</h1>
-						{getLocation ? (
-							<GridContainer
-								style={{ maxWidth: 'calc(100% - 200px)', marginLeft: '200px' }}
+						{data.getLocation ? (
+							<Query
+								query={ALL_EVENTS_QUERY}
+								variables={{ location: data.getLocation.location, page: page }}
 							>
-								<Query query={ALL_EVENTS_QUERY} variables={getLocation}>
-									{({ data, error, loading }) => {
-										if (loading) return <p>Loading...</p>;
-										if (error) return <p>Error: {error.message}</p>;
-										return data.getEvents.map(event => (
-											<Event event={event} key={event.id} />
-										));
-									}}
-								</Query>
-							</GridContainer>
+								{({ data, error, loading }) => {
+									if (loading) return <p>Loading...</p>;
+									if (error) return <p>Error: {error.message}</p>;
+
+									return (
+										<div style={{ height: '100%' }}>
+											<GridContainer>
+												{data.getEvents.events.map(event => (
+													<Event event={event} key={event.id} />
+												))}
+											</GridContainer>
+											<Paginations
+												pages={[
+													{ text: 'PREV' },
+
+													{
+														text:
+															data.getEvents.page_number > 2 &&
+															data.getEvents.page_number - 2,
+														onClick: () =>
+															setPage(data.getEvents.page_number - 2),
+													},
+													{
+														text:
+															data.getEvents.page_number > 1 &&
+															data.getEvents.page_number - 1,
+														onClick: () =>
+															setPage(data.getEvents.page_number - 1),
+													},
+													{
+														active: true,
+														text: data.getEvents.page_number,
+													},
+													{
+														text: data.getEvents.page_number + 1,
+														onClick: () =>
+															setPage(data.getEvents.page_number + 1),
+													},
+													{
+														text: data.getEvents.page_number + 2,
+														onClick: () =>
+															setPage(data.getEvents.page_number + 2),
+													},
+													{ text: '...' },
+													{ text: data.getEvents.page_count },
+
+													{ text: 'NEXT' },
+												]}
+											/>
+										</div>
+									);
+								}}
+							</Query>
 						) : (
 							<div>getting location</div>
 						)}

@@ -26,16 +26,22 @@ const Query = {
 			info,
 		);
 	},
-	async getEvents(parent, { genre }, ctx, info) {
+	async getEvents(parent, { location, page }, ctx, info) {
 		// searches for events based on the genre provided
-		const eventList = await axios.get(
-			`https://api.eventful.com/json/events/search?location=${genre}&category=music,comedy,food,attractions,performing_arts,sports&app_key=${process
+		const { data } = await axios.get(
+			`https://api.eventful.com/json/events/search?location=${location}&category=music,comedy,performing_arts,sports&page_number=${page}&page_size=24&app_key=${process
 				.env.API_KEY}`,
 		);
-		const { event } = eventList.data.events;
-		console.log(event);
+
 		// shapes return object into sveldt, beautiful object with whimsical designs
-		return transformEvents(event);
+		let events = transformEvents(data.events);
+		console.log(events);
+		return {
+			events: events,
+			total_items: data.total_items,
+			page_count: data.page_count,
+			page_number: data.page_number,
+		};
 	},
 	async getEvent(parent, args, ctx, info) {
 		// find specific event

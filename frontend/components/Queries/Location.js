@@ -28,7 +28,7 @@ const Location = ({ children }) => {
 				{payload => children(payload)}
 			</Query>
 		);
-	} else return children({ data: { getLocation: null } });
+	} else return children({ data: {} });
 };
 Location.propTypes = {
 	children: PropTypes.func.isRequired,

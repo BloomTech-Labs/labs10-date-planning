@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { Query } from 'react-apollo';
 import AddIcon from '@material-ui/icons/Add';
 
@@ -14,10 +14,10 @@ import Warning from '../../styledComponents/Typography/Warning';
 import CardStyles from '../../static/jss/material-kit-pro-react/views/componentsSections/sectionCards';
 
 const Event = ({ event, classes }) => {
+	console.log(event);
 	return (
 		<GridItem xs={12} sm={4} md={2}>
 			<Card blog>
-				{' '}
 				<CardHeader image>
 					<a href='#pablo' onClick={e => e.preventDefault()}>
 						<img src={event.image_url} alt='...' />
@@ -30,7 +30,7 @@ const Event = ({ event, classes }) => {
 						}}
 					/>
 				</CardHeader>
-				<CardBody>
+				<CardBody className={classes.cardBodyRotate}>
 					<Warning>
 						<h6 className={classes.cardCategory}>{event.location.venue}</h6>
 					</Warning>
@@ -40,6 +40,7 @@ const Event = ({ event, classes }) => {
 						</a>
 					</h4>
 				</CardBody>
+
 				<Button
 					justIcon
 					round

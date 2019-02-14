@@ -1,13 +1,20 @@
-import React, { Component } from 'react';
+import React, { Fragment } from 'react';
 import Meta from './Meta';
+import User from './Queries/User';
+import Header from './Header';
 
 const Page = ({ children }) => {
 	return (
-		<div>
-			<Meta />
-
-			<div>{children}</div>
-		</div>
+		<User>
+			{({ data: { currentUser } }) => (
+				<Fragment>
+					<Meta />
+					{/* {currentUser && <Header />} */}
+					<Header />
+					<div>{children}</div>
+				</Fragment>
+			)}
+		</User>
 	);
 };
 

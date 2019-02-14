@@ -3,7 +3,7 @@ import Events from '../components/Home/Events';
 
 const Home = () => (
 	<div>
-		<Sidebar />
+		{/* <Sidebar /> */}
 		<Events />
 	</div>
 );
