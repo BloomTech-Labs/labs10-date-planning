@@ -9,8 +9,8 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
-import Timeline from '@material-ui/icons/Timeline';
-import Code from '@material-ui/icons/Code';
+import MusicNote from '@material-ui/icons/MusicNote';
+import TheaterMasks from '../../static/img/icons/TheaterMasks';
 import Group from '@material-ui/icons/Group';
 import Face from '@material-ui/icons/Face';
 import Icon from '@material-ui/core/Icon';
@@ -80,7 +80,7 @@ const Register = ({ classes }) => {
 											was a very interesting collaboration.
 										</p>
 									}
-									icon={Timeline}
+									icon={MusicNote}
 									iconColor='rose'
 								/>
 								<InfoArea
@@ -92,7 +92,7 @@ const Register = ({ classes }) => {
 											client has access to the code using GitHub.
 										</p>
 									}
-									icon={Code}
+									icon={TheaterMasks}
 									iconColor='primary'
 								/>
 								<InfoArea
