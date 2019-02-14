@@ -6,8 +6,8 @@ import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 
 const CREATE_ORDER_MUTATION = gql`
-  mutation createOrder($token: String!) {
-    createOrder(token: $token) {
+  mutation createOrder($token: String!, $subscription: Permission!) {
+    createOrder(token: $token, subscription: $subscription) {
       id
       total
     }
@@ -15,10 +15,11 @@ const CREATE_ORDER_MUTATION = gql`
 `;
 
 const Billing = props => {
-  const onToken = async (res, createOrder) => {
+  const onToken = async (res, subsType, createOrder) => {
     await createOrder({
       variables: {
         token: res.id,
+        subscription: subsType
       },
     }).catch(err => {
       alert(err.message);
@@ -41,7 +42,7 @@ const Billing = props => {
               stripeKey="pk_test_XMzhj8sz1Y1twtwn6sLLpy9C"
               currency="USD"
               email={"boom@boom.com"}
-              token={res => onToken(res, createOrder)}
+              token={res => onToken(res, props.subsType, createOrder)}
             >
               <div>
                 {props.children}
