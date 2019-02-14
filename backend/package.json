@@ -16,7 +16,8 @@
 		"nodemon": "^1.18.10",
 		"postmark": "^2.2.4",
 		"prisma": "^1.26.4",
-		"prisma-binding": "^2.3.2"
+		"prisma-binding": "^2.3.2",
+		"stripe": "^6.25.0"
 	},
 	"devDependencies": {},
 	"scripts": {
