@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { Query } from 'react-apollo';
+import moment from 'moment';
 import AddIcon from '@material-ui/icons/Add';
 
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -8,6 +9,7 @@ import GridItem from '../../styledComponents/Grid/GridItem';
 import Button from '../../styledComponents/CustomButtons/Button';
 import Card from '../../styledComponents/Card/Card';
 import CardHeader from '../../styledComponents/Card/CardHeader';
+import CardFooter from '../../styledComponents/Card/CardFooter';
 import CardBody from '../../styledComponents/Card/CardBody';
 import Warning from '../../styledComponents/Typography/Warning';
 
@@ -15,9 +17,8 @@ import CardStyles from '../../static/jss/material-kit-pro-react/views/components
 
 const Event = ({ event, classes }) => {
 	return (
-		<GridItem xs={12} sm={4} md={2}>
+		<GridItem xs={12} sm={6} md={4} lg={3}>
 			<Card blog>
-				{' '}
 				<CardHeader image>
 					<a href='#pablo' onClick={e => e.preventDefault()}>
 						<img src={event.image_url} alt='...' />
@@ -30,7 +31,7 @@ const Event = ({ event, classes }) => {
 						}}
 					/>
 				</CardHeader>
-				<CardBody>
+				<CardBody className={classes.cardBodyRotate}>
 					<Warning>
 						<h6 className={classes.cardCategory}>{event.location.venue}</h6>
 					</Warning>
@@ -40,6 +41,17 @@ const Event = ({ event, classes }) => {
 						</a>
 					</h4>
 				</CardBody>
+				<CardFooter>
+					<div
+						className={`${classes.stats} ${classes.mlAuto}`}
+						style={{ display: 'block' }}
+					>
+						{/* <Schedule /> */}
+						{event.times.map(ev => (
+							<div key={ev}>{moment(ev).format('dddd, MMMM Do, h:mm a')}</div>
+						))}
+					</div>
+				</CardFooter>
 				<Button
 					justIcon
 					round

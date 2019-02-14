@@ -15,10 +15,18 @@ type Mutation {
 type Query {
 	users: [User]!
 	events: [Event]!
-	getEvents(genre: String): [Event]
+	getEvents(location: String, page: Int, categories: [String], dates: [String]): AllEvents
 	getEvent(id: String!): Event
 	currentUser: User
 	user(where: UserWhereUniqueInput!): User
+	getLocation(latitude: Float!, longitude: Float!): UserLocation!
+}
+
+type AllEvents {
+	events: [Event]
+	total_items: Int,
+	page_count: Int,
+	page_number: Int,
 }
 
 type User {
@@ -39,16 +47,22 @@ type User {
 type Event {
 	id: ID!
 	title: String!
-	details: Details
+	url: String
+	description: String
+	times: [String]
 	location: Location
 	image_url: String
 }
 
 type Location {
-	region: String
+	city: String
 	venue: String
 	address: String
 	zipCode: String
+}
+
+type UserLocation {
+	location: String!
 }
 
 type Details {
@@ -67,5 +81,5 @@ type Tag {
 }
 
 type Message {
-	body: String
+	message: String
 }
