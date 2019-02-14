@@ -1,0 +1,70 @@
+# import * from './generated/prisma.graphql'
+
+type Mutation {
+	signup(email: String!, password: String!, firstName: String!, lastName: String!): User!
+	signin(email: String!, password: String!): User!
+	signout: Message
+	createEvent(title: String!, description: String!): Event!
+	deleteEvent(where: EventWhereUniqueInput!): Event
+	requestReset(email: String!): Message
+	resetPassword(resetToken: String!, password: String!, confirmPassword: String!): User!
+	updatePermissions(permissions: [Permission], userId: ID!): User
+}
+
+type Query {
+	users: [User]!
+	events: [Event]!
+	getEvents(genre: String): [Event]
+	getEvent(id: String!): Event
+	currentUser: User
+	user(where: UserWhereUniqueInput!): User
+}
+
+type User {
+	id: ID!
+	firstName: String!
+	lastName: String!
+	email: String!
+	zipcode: String
+	gender: Gender
+	password: String
+	permissions: [Permission!]!
+	interests: [Category]
+	events: [Event]
+	createdAt: DateTime!
+	updatedAt: DateTime!
+}
+
+type Event {
+	id: ID!
+	title: String!
+	details: Details
+	location: Location
+	image_url: String
+}
+
+type Location {
+	region: String
+	venue: String
+	address: String
+	zipCode: String
+}
+
+type Details {
+	url: String
+	performer: String
+	description: String
+	start_time: String
+	bio: String
+	tags: [Tag] ## can only query tags on single events
+}
+
+type Tag {
+	id: String
+	title: String
+	owner: String
+}
+
+type Message {
+	body: String
+}
