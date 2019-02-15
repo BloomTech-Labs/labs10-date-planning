@@ -1,7 +1,7 @@
 const { forwardTo } = require('prisma-binding');
 const axios = require('axios');
 const moment = require('moment');
-const { transformEvents } = require('../utils');
+const { transformEvents, fetchEvents } = require('../utils');
 
 const Query = {
 	users: forwardTo('db'),
@@ -27,25 +27,29 @@ const Query = {
 			info,
 		);
 	},
-	async getEvents(parent, { location, page, ...args }, ctx, info) {
-		var now = moment.now();
-		const parsed = moment('20190218').format('YYYY-MM-DD');
-		let today = new Date();
-		console.log(now, today.getDate(), parsed);
-		// console.log(args);
+	async getEvents(parent, { location, alt, page, ...args }, ctx, info) {
+		// var now = moment.now();
+		// console.log(location, alt);
 		let categories = args.categories
 			? args.categories.toString()
 			: 'music,comedy,performing_arts,sports';
 		let dates = args.dates ? args.dates.toString() : 'all';
 		// console.log(categories, dates, page, location);
-		const { data } = await axios.get(
-			`https://api.eventful.com/json/events/search?location=${location}&category=${categories}&date=${dates}&page_number=${page}&page_size=15&app_key=${
-				process.env.API_KEY
-			}`
-		);
+		let response = await fetchEvents(location, categories, dates, page);
 
-		// shapes return object into sveldt, beautiful object with whimsical designs
-		let events = transformEvents(data.events);
+		let data = response.data,
+			events;
+
+		if (data.events) {
+			events = transformEvents(data.events);
+		} else {
+			response = await fetchEvents(alt, categories, dates, page);
+			data = response.data;
+			events = transformEvents(data.events);
+		}
+		if (!data) {
+			throw new Error('There is no event info for your current location');
+		}
 
 		return {
 			events: events,
@@ -55,7 +59,6 @@ const Query = {
 		};
 	},
 	async getEvent(parent, args, ctx, info) {
-		// find specific event
 		const event = await axios.get(
 			`http://api.eventful.com/json/events/get?&id=${args.id}&app_key=${process.env.API_KEY}`,
 		);
@@ -63,7 +66,6 @@ const Query = {
 		return {
 			title: event.data.title,
 			id: event.data.id,
-			// url: event.data.url,
 			location: {
 				venue: event.data.venue_name,
 			},
@@ -78,11 +80,15 @@ const Query = {
 				process.env.GOOGLE_API_KEY
 			}`
 		);
+
 		let city = location.data.results[0].address_components[3].long_name;
 		let state = location.data.results[0].address_components[5].short_name;
-		console.log(city, state);
+		let county = location.data.results[0].address_components[4].long_name;
+		// console.log(city, county, state);
+
 		return {
-			location: `${city}, ${state}`
+			city: `${city}, ${state}`,
+			county: `${county}, ${state}`
 		};
 	}
 };

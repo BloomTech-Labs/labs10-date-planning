@@ -19,15 +19,28 @@ server.express.use((req, res, next) => {
 	next();
 });
 
-// kinda self explanatory but by putting a comment here I feel like i've done a better job
+// maybe a decent way to setup cors for app since we have multiple URLs
+// server.use(function(req, res, next) {
+// 	var allowedOrigins = ['up4api.heroku.com', 'http://localhost:3000'];
+// 	var origin = req.headers.origin;
+// 	if (allowedOrigins.indexOf(origin) > -1) {
+// 		res.setHeader('Access-Control-Allow-Origin', origin);
+// 	}
+// 	//res.header('Access-Control-Allow-Origin', 'http://127.0.0.1:8020');
+// 	res.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
+// 	res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+// 	res.header('Access-Control-Allow-Credentials', true);
+// 	return next();
+// });
+
 server.start(
 	{
 		cors: {
 			credentials: true,
-			origin: process.env.FRONTEND_URL,
-		},
+			origin: process.env.FRONTEND_URL
+		}
 	},
 	details => {
 		console.log(`Server is now running on port http://localhost:${details.port}`);
-	},
+	}
 );

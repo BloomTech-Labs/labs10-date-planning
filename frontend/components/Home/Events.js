@@ -11,7 +11,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import styles from '../../static/jss/material-kit-pro-react/views/ecommerceSections/productsStyle.jsx';
 
 const Events = ({ classes }) => {
-	const [ page, setPage ] = useState(1);
+	const [page, setPage] = useState(1);
 	return (
 		<Location>
 			{({ data }) => {
@@ -23,90 +23,60 @@ const Events = ({ classes }) => {
 							{data.getLocation ? (
 								<EventsQuery
 									variables={{
-										location: getLocation.location,
+										location: getLocation.city,
+										alt: getLocation.county,
 										page: page,
 										categories: [],
-										dates: [],
+										dates: []
 									}}
 								>
 									{({ data, error, loading, refetch }) => (
 										<Fragment>
 											<GridContainer>
-												<Filters
-													refetch={refetch}
-													location={getLocation.location}
-													page={page}
-												/>
+												<Filters refetch={refetch} location={getLocation.location} page={page} />
 
 												<GridItem md={9} sm={9}>
 													{loading && <p>Loading...</p>}
 													{error && <p>Error: {error.message}</p>}
-													{!loading &&
-													!error && (
+													{!loading && !error && (
 														<GridContainer>
 															{data.getEvents.events.map(event => (
-																<Event
-																	event={event}
-																	key={event.id}
-																/>
+																<Event event={event} key={event.id} />
 															))}
 														</GridContainer>
 													)}
 												</GridItem>
-												{!loading &&
-												!error && (
+												{!loading && !error && (
 													<Paginations
 														pages={[
 															{ text: 'PREV' },
 
 															{
 																text:
-																	data.getEvents.page_number >
-																		2 &&
-																	data.getEvents.page_number - 2,
-																onClick: () =>
-																	setPage(
-																		data.getEvents.page_number -
-																			2,
-																	),
+																	data.getEvents.page_number > 2 && data.getEvents.page_number - 2,
+																onClick: () => setPage(data.getEvents.page_number - 2)
 															},
 															{
 																text:
-																	data.getEvents.page_number >
-																		1 &&
-																	data.getEvents.page_number - 1,
-																onClick: () =>
-																	setPage(
-																		data.getEvents.page_number -
-																			1,
-																	),
+																	data.getEvents.page_number > 1 && data.getEvents.page_number - 1,
+																onClick: () => setPage(data.getEvents.page_number - 1)
 															},
 															{
 																active: true,
-																text: data.getEvents.page_number,
+																text: data.getEvents.page_number
 															},
 															{
-																text:
-																	data.getEvents.page_number + 1,
-																onClick: () =>
-																	setPage(
-																		data.getEvents.page_number +
-																			1,
-																	),
+																text: data.getEvents.page_number + 1,
+																onClick: () => setPage(data.getEvents.page_number + 1)
 															},
 															{
-																text:
-																	data.getEvents.page_number + 2,
-																onClick: () =>
-																	setPage(
-																		data.getEvents.page_number +
-																			2,
-																	),
+																text: data.getEvents.page_number + 2,
+																onClick: () => setPage(data.getEvents.page_number + 2)
 															},
 															{ text: '...' },
 															{ text: data.getEvents.page_count },
 
-															{ text: 'NEXT' },
+															{ text: 'NEXT' }
 														]}
 													/>
 												)}
