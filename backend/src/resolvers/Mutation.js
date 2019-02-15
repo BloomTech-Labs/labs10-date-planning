@@ -376,5 +376,5 @@ const Mutation = {
 	}
 };
 
-//hmm
+//hmm neat
 module.exports = Mutation;
