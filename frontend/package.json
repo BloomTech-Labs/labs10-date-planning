@@ -32,8 +32,10 @@
     "react-stripe-checkout": "^2.6.3"
   },
   "devDependencies": {
+    "babel-jest": "^24.1.0",
     "enzyme": "^3.8.0",
     "enzyme-adapter-react-16": "^1.9.1",
-    "jest": "^24.1.0"
+    "jest": "^24.1.0",
+    "jest-transform-graphql": "^2.1.0"
   }
 }
