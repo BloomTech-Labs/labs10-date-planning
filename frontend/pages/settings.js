@@ -1,6 +1,10 @@
+import Input from '@material-ui/core/Input';
+
 const Settings = () => (
 	<div>
-		<h1>Settings</h1>
+		<h1>
+			<Input type='file' />
+		</h1>
 	</div>
 );
 
