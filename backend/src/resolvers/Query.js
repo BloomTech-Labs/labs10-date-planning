@@ -91,6 +91,20 @@ const Query = {
 			county: `${county}, ${state}`,
 		};
 	},
+
+	async getUserOrder(parent, args, ctx, info) {
+		// Check user's login status
+		const { userId } = ctx.request;
+		if (!userId) throw new Error('You must be signed in to access orders.');
+
+		return ctx.db.query.orders({
+			where: {
+				user: {
+					id: args.userId
+				}
+			}
+		}, info)
+	}
 };
 
 module.exports = Query;

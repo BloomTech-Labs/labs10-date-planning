@@ -26,6 +26,7 @@ type Query {
 	currentUser: User
 	user(where: UserWhereUniqueInput!): User
 	getLocation(latitude: Float!, longitude: Float!): UserLocation!
+	getUserOrder(userId: String!): [Order!]!
 }
 
 type AllEvents {
