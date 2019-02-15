@@ -13,14 +13,15 @@ const CURRENT_LOCATION_QUERY = gql`
 `;
 
 const Location = ({ children }) => {
-	const [location, setLocation] = useState({});
+	const [ location, setLocation ] = useState({});
 
 	useEffect(() => {
-		navigator.geolocation.getCurrentPosition(position => {
-			let { latitude, longitude } = position.coords;
+		setLocation({ longitude: -122.3321, latitude: 47.6062 });
+		// navigator.geolocation.getCurrentPosition(position => {
+		// 	let { latitude, longitude } = position.coords;
 
-			setLocation({ latitude, longitude });
-		});
+		// 	setLocation({ latitude, longitude });
+		// });
 	}, []);
 
 	if (location.latitude && location.longitude) {
@@ -32,7 +33,7 @@ const Location = ({ children }) => {
 	} else return children({ data: {} });
 };
 Location.propTypes = {
-	children: PropTypes.func.isRequired
+	children: PropTypes.func.isRequired,
 };
 
 export default Location;

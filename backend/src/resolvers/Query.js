@@ -13,18 +13,18 @@ const Query = {
 		}
 		return db.query.user(
 			{
-				where: { id: request.userId }
+				where: { id: request.userId },
 			},
-			info
+			info,
 		);
 	},
 	user(parent, args, { db }, info) {
 		// finds a user based on the args provided in the mutation
 		return db.query.user(
 			{
-				...args
+				...args,
 			},
-			info
+			info,
 		);
 	},
 	async getEvents(parent, { location, alt, page, ...args }, ctx, info) {
@@ -55,30 +55,30 @@ const Query = {
 			events: events,
 			total_items: data.total_items,
 			page_count: data.page_count,
-			page_number: data.page_number
+			page_number: data.page_number,
 		};
 	},
 	async getEvent(parent, args, ctx, info) {
 		const event = await axios.get(
-			`http://api.eventful.com/json/events/get?&id=${args.id}&app_key=${process.env.API_KEY}`
+			`http://api.eventful.com/json/events/get?&id=${args.id}&app_key=${process.env.API_KEY}`,
 		);
 		// gonna make another helper to shape this bad boy too
 		return {
 			title: event.data.title,
 			id: event.data.id,
 			location: {
-				venue: event.data.venue_name
+				venue: event.data.venue_name,
 			},
 			details: {
-				tags: event.data.tags.tag
-			}
+				tags: event.data.tags.tag,
+			},
 		};
 	},
 	async getLocation(parent, { latitude, longitude }, ctx, info) {
+		console.log(longitude, latitude);
 		const location = await axios.get(
-			`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude}, ${longitude}&key=${
-				process.env.GOOGLE_API_KEY
-			}`
+			`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude}, ${longitude}&key=${process
+				.env.GOOGLE_API_KEY}`,
 		);
 
 		let city = location.data.results[0].address_components[3].long_name;
@@ -88,9 +88,9 @@ const Query = {
 
 		return {
 			city: `${city}, ${state}`,
-			county: `${county}, ${state}`
+			county: `${county}, ${state}`,
 		};
-	}
+	},
 };
 
 module.exports = Query;
