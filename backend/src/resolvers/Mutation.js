@@ -141,10 +141,9 @@ const Mutation = {
 	async updatePermissions(parent, args, { request, db }, info) {
 		// will be used to upgrade user from FREE tier to monthly/yearly subscription plan
 
-		// this is commented out bc it messes up testing queries in the graphQL playground
-		// if (!ctx.response.userId) {
-		// 	throw new Error('you must be logged in to create events');
-		// }
+		if (!ctx.response.userId) {
+			throw new Error('you must be logged in to create events');
+		}
 		const user = await db.query.user(
 			{
 				where: { id: request.userId }
@@ -175,10 +174,13 @@ const Mutation = {
 		if (!userId) throw new Error('You must be signed in to complete this order.');
 
 		// Get user's info
-		const user = await ctx.db.query.user({ where: { id: userId } }, `
-		{id firstName lastName email permissions}`);
+		const user = await ctx.db.query.user(
+			{ where: { id: userId } },
+			`
+		{id firstName lastName email permissions}`
+		);
 
-		console.log({user});
+		console.log({ user });
 
 		// Check user's subscription status
 		if (user.permissions[0] === args.subscription) {
@@ -192,36 +194,37 @@ const Mutation = {
 		const charge = await stripe.charges.create({
 			amount,
 			currency: 'USD',
-			source: args.token,
+			source: args.token
 		});
 
 		// Record the order
-		const order = await ctx.db.mutation.createOrder({
-			data: {
-				total: amount,
-				charge: 'Subscription',
-				subscription: args.subscription,
-				user: {
-					connect: {
-						id: user.id
-					}
-				}
-			}
-		}, info);
-
-		// Update user's permission type
-		ctx.db.mutation.updateUser(
+		const order = await ctx.db.mutation.createOrder(
 			{
 				data: {
-					permissions: {
-						set: [args.subscription]
+					total: amount,
+					charge: 'Subscription',
+					subscription: args.subscription,
+					user: {
+						connect: {
+							id: user.id
+						}
 					}
-				},
-				where: {
-					id: user.id
 				}
-			}
+			},
+			info
 		);
+
+		// Update user's permission type
+		ctx.db.mutation.updateUser({
+			data: {
+				permissions: {
+					set: [args.subscription]
+				}
+			},
+			where: {
+				id: user.id
+			}
+		});
 
 		return order;
 	}

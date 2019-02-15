@@ -6,13 +6,14 @@ import PropTypes from 'prop-types';
 const CURRENT_LOCATION_QUERY = gql`
 	query($latitude: Float!, $longitude: Float!) {
 		getLocation(latitude: $latitude, longitude: $longitude) {
-			location
+			city
+			county
 		}
 	}
 `;
 
 const Location = ({ children }) => {
-	const [ location, setLocation ] = useState({});
+	const [location, setLocation] = useState({});
 
 	useEffect(() => {
 		navigator.geolocation.getCurrentPosition(position => {
@@ -31,7 +32,7 @@ const Location = ({ children }) => {
 	} else return children({ data: {} });
 };
 Location.propTypes = {
-	children: PropTypes.func.isRequired,
+	children: PropTypes.func.isRequired
 };
 
 export default Location;

@@ -9,13 +9,19 @@ type Mutation {
 	requestReset(email: String!): Message
 	resetPassword(resetToken: String!, password: String!, confirmPassword: String!): User!
 	updatePermissions(permissions: [Permission], userId: ID!): User
-	createOrder(token: String!, subscription:Permission!):Order!
+	createOrder(token: String!, subscription: Permission!): Order!
 }
 
 type Query {
 	users: [User]!
 	events: [Event]!
-	getEvents(location: String, page: Int, categories: [String], dates: [String]): AllEvents
+	getEvents(
+		location: String
+		alt: String
+		page: Int
+		categories: [String]
+		dates: [String]
+	): AllEvents
 	getEvent(id: String!): Event
 	currentUser: User
 	user(where: UserWhereUniqueInput!): User
@@ -24,9 +30,9 @@ type Query {
 
 type AllEvents {
 	events: [Event]
-	total_items: Int,
-	page_count: Int,
-	page_number: Int,
+	total_items: Int
+	page_count: Int
+	page_number: Int
 }
 
 type User {
@@ -62,7 +68,8 @@ type Location {
 }
 
 type UserLocation {
-	location: String!
+	city: String!
+	county: String!
 }
 
 type Details {
