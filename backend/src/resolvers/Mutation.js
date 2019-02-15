@@ -141,7 +141,7 @@ const Mutation = {
 	async updatePermissions(parent, args, { request, db }, info) {
 		// will be used to upgrade user from FREE tier to monthly/yearly subscription plan
 
-		if (!ctx.response.userId) {
+		if (!request.userId) {
 			throw new Error('you must be logged in to create events');
 		}
 		const user = await db.query.user(
@@ -227,6 +227,35 @@ const Mutation = {
 		});
 
 		return order;
+	},
+	async internalPasswordReset(parent, args, { db, request }, info) {
+		if (args.newPassword1 !== args.newPassword2) {
+			throw new Error('New passwords must match!');
+		}
+		// check to make sure user is logged in
+		const user = await db.query.user({
+			where: { id: request.userId }
+		});
+		if (!user) {
+			throw new Error('You must be logged in!');
+		}
+		// compare oldpassword to password from user object
+		const samePass = await bcrypt.compare(args.oldPassword, user.password);
+		if (!samePass) throw new Error('Incorrect password, please try again.');
+		// update password
+		const updatedUser = await db.mutation.updateUser({
+			where: { id: user.id },
+			data: {
+				password: args.newPassword1
+			}
+		});
+		const token = jwt.sign({ userId: updatedUser.id }, process.env.APP_SECRET);
+		// put new token onto cookie so that any other session opened with previous pass is no invalidated
+		response.cookie('token', token, {
+			httpOnly: true,
+			maxAge: 1000 * 60 * 60 * 24 * 365
+		});
+		return updatedUser;
 	}
 };
 
