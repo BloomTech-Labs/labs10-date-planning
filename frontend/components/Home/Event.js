@@ -20,14 +20,14 @@ const Event = ({ event, classes }) => {
 		<GridItem xs={12} sm={6} md={4} lg={3}>
 			<Card blog>
 				<CardHeader image>
-					<a href='#pablo' onClick={e => e.preventDefault()}>
-						<img src={event.image_url} alt='...' />
+					<a href="#pablo" onClick={e => e.preventDefault()}>
+						<img src={event.image_url} alt="..." />
 					</a>
 					<div
 						className={classes.coloredShadow}
 						style={{
 							backgroundImage: `url(${event.image_url})`,
-							opacity: '1',
+							opacity: '1'
 						}}
 					/>
 				</CardHeader>
@@ -36,16 +36,13 @@ const Event = ({ event, classes }) => {
 						<h6 className={classes.cardCategory}>{event.location.venue}</h6>
 					</Warning>
 					<h4 className={classes.cardTitle}>
-						<a href='#pablo' onClick={e => e.preventDefault()}>
+						<a href="#pablo" onClick={e => e.preventDefault()}>
 							{event.title}
 						</a>
 					</h4>
 				</CardBody>
 				<CardFooter>
-					<div
-						className={`${classes.stats} ${classes.mlAuto}`}
-						style={{ display: 'block' }}
-					>
+					<div className={`${classes.stats} ${classes.mlAuto}`} style={{ display: 'block' }}>
 						{/* <Schedule /> */}
 						{event.times.map(ev => (
 							<div key={ev}>{moment(ev).format('dddd, MMMM Do, h:mm a')}</div>
@@ -55,14 +52,14 @@ const Event = ({ event, classes }) => {
 				<Button
 					justIcon
 					round
-					color='primary'
+					color="primary"
 					style={{
 						position: 'absolute',
 						zIndex: 1,
 						bottom: -18,
 						left: 0,
 						right: 0,
-						margin: '0 auto',
+						margin: '0 auto'
 					}}
 				>
 					<AddIcon />
