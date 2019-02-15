@@ -69,4 +69,5 @@ const Event = ({ event, classes }) => {
 	);
 };
 
+export default Event;
 export default withStyles(CardStyles)(Event);
