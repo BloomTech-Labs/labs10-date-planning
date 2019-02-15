@@ -134,6 +134,16 @@ const Billing = (props) => {
                         </Button>
                       </Stripe>
                     }
+                    {
+                      currentSubs === 'YEARLY' &&
+                        <Button
+													color='rose'
+													disabled
+                          round
+                        >
+                        	CURRENT SUBSCRIPTION
+                        </Button>
+                    }
                   </CardBody>
                 </Card>
               </GridItem>
