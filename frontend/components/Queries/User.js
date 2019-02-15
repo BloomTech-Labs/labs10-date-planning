@@ -11,6 +11,7 @@ const CURRENT_USER_QUERY = gql`
 			gender
 			email
 			createdAt
+			permissions
 		}
 	}
 `;
