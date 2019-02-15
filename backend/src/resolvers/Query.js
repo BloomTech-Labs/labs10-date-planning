@@ -28,15 +28,6 @@ const Query = {
 		);
 	},
 	async getEvents(parent, { location, page, ...args }, ctx, info) {
-<<<<<<< HEAD
-		console.log(args);
-		let categories = args.categories.toString() || 'music,comedy,performing_arts,sports';
-		let dates = args.dates.toString() || 'all';
-		console.log(categories, dates, page, location);
-		const { data } = await axios.get(
-			`https://api.eventful.com/json/events/search?location=${location}&category=${categories}&date=${dates}&page_number=${page}&page_size=15&app_key=${process
-				.env.API_KEY}`,
-=======
 		var now = moment.now();
 		const parsed = moment('20190218').format('YYYY-MM-DD');
 		let today = new Date();
@@ -51,7 +42,6 @@ const Query = {
 			`https://api.eventful.com/json/events/search?location=${location}&category=${categories}&date=${dates}&page_number=${page}&page_size=15&app_key=${
 				process.env.API_KEY
 			}`
->>>>>>> 9e30d83d283c14a3d2d80714c92b322d665e036d
 		);
 
 		// shapes return object into sveldt, beautiful object with whimsical designs
@@ -61,11 +51,7 @@ const Query = {
 			events: events,
 			total_items: data.total_items,
 			page_count: data.page_count,
-<<<<<<< HEAD
-			page_number: data.page_number,
-=======
 			page_number: data.page_number
->>>>>>> 9e30d83d283c14a3d2d80714c92b322d665e036d
 		};
 	},
 	async getEvent(parent, args, ctx, info) {
@@ -88,28 +74,17 @@ const Query = {
 	},
 	async getLocation(parent, { latitude, longitude }, ctx, info) {
 		const location = await axios.get(
-<<<<<<< HEAD
-			`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude}, ${longitude}&key=${process
-				.env.GOOGLE_API_KEY}`,
-=======
 			`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude}, ${longitude}&key=${
 				process.env.GOOGLE_API_KEY
 			}`
->>>>>>> 9e30d83d283c14a3d2d80714c92b322d665e036d
 		);
 		let city = location.data.results[0].address_components[3].long_name;
 		let state = location.data.results[0].address_components[5].short_name;
 		console.log(city, state);
 		return {
-<<<<<<< HEAD
-			location: `${city}, ${state}`,
-		};
-	},
-=======
 			location: `${city}, ${state}`
 		};
 	}
->>>>>>> 9e30d83d283c14a3d2d80714c92b322d665e036d
 };
 
 module.exports = Query;
