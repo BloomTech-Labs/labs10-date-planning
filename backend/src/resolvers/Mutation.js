@@ -176,7 +176,16 @@ const Mutation = {
 
 		// Get user's info
 		const user = await ctx.db.query.user({ where: { id: userId } }, `
-		{id firstName lastName email}`);
+		{id firstName lastName email permissions}`);
+
+		console.log({user});
+
+		// Check user's subscription status
+		if (user.permissions[0] === args.subscription) {
+			throw new Error(`User already has ${args.subscription} subscription`);
+		} else if (user.permissions[0] === 'YEARLY') {
+			throw new Error(`User already has the highest level of ${args.subscription} subscription`);
+		}
 
 		// Charge the credit card
 		const amount = args.subscription === 'MONTHLY' ? 999 : 2999;
