@@ -41,7 +41,7 @@ const Billing = props => {
               description="One year subscription"
               stripeKey="pk_test_XMzhj8sz1Y1twtwn6sLLpy9C"
               currency="USD"
-              email={"boom@boom.com"}
+              email={props.user.email}
               token={res => onToken(res, props.subsType, createOrder)}
             >
               <div>

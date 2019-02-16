@@ -55,7 +55,7 @@ const Query = {
 			events: events,
 			total_items: data.total_items,
 			page_count: data.page_count,
-			page_number: data.page_number
+			page_number: data.page_number,
 		};
 	},
 	async getEvent(parent, args, ctx, info) {
@@ -75,10 +75,10 @@ const Query = {
 		};
 	},
 	async getLocation(parent, { latitude, longitude }, ctx, info) {
+		console.log(longitude, latitude);
 		const location = await axios.get(
-			`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude}, ${longitude}&key=${
-				process.env.GOOGLE_API_KEY
-			}`
+			`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude}, ${longitude}&key=${process
+				.env.GOOGLE_API_KEY}`,
 		);
 
 		let city = location.data.results[0].address_components[3].long_name;
@@ -88,8 +88,22 @@ const Query = {
 
 		return {
 			city: `${city}, ${state}`,
-			county: `${county}, ${state}`
+			county: `${county}, ${state}`,
 		};
+	},
+
+	async getUserOrder(parent, args, ctx, info) {
+		// Check user's login status
+		const { userId } = ctx.request;
+		if (!userId) throw new Error('You must be signed in to access orders.');
+
+		return ctx.db.query.orders({
+			where: {
+				user: {
+					id: args.userId
+				}
+			}
+		}, info)
 	}
 };
 

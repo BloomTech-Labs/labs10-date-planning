@@ -19,6 +19,8 @@ server.express.use((req, res, next) => {
 	next();
 });
 
+
+
 // maybe a decent way to setup cors for app since we have multiple URLs
 // server.use(function(req, res, next) {
 // 	var allowedOrigins = ['up4api.heroku.com', 'http://localhost:3000'];

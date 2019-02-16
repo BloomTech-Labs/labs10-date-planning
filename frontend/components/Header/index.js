@@ -46,16 +46,16 @@ const Nav = ({ classes }) => {
 		<User>
 			{({ data: { currentUser } }) => (
 				<Header
-					brand='Up4'
-					color='primary'
+					brand="Up4"
+					color="primary"
 					links={
 						<List className={classes.list + ' ' + classes.mlAuto}>
 							<ListItem className={classes.listItem}>
 								<Button
-									href='#pablo'
+									href="#pablo"
 									className={classes.navLink}
 									onClick={e => e.preventDefault()}
-									color='transparent'
+									color="transparent"
 								>
 									Discover
 								</Button>
@@ -63,35 +63,21 @@ const Nav = ({ classes }) => {
 
 							<Mutation
 								mutation={SIGNOUT_MUTATION}
-								refetchQueries={[ { query: CURRENT_USER_QUERY } ]}
+								refetchQueries={[{ query: CURRENT_USER_QUERY }]}
 							>
 								{signout => (
 									<ListItem className={classes.listItem}>
 										<CustomDropdown
 											left
 											caret={false}
-											hoverColor='dark'
+											hoverColor="dark"
 											dropdownHeader={currentUser.firstName}
-											buttonText={
-												<img
-													src={profileImage}
-													className={classes.img}
-													alt='profile'
-												/>
-											}
+											buttonText={<img src={profileImage} className={classes.img} alt="profile" />}
 											buttonProps={{
-												className:
-													classes.navLink +
-													' ' +
-													classes.imageDropdownButton,
-												color: 'transparent',
+												className: classes.navLink + ' ' + classes.imageDropdownButton,
+												color: 'transparent'
 											}}
-											dropdownList={[
-												'Dates',
-												'Billing',
-												'Settings',
-												'Sign out',
-											]}
+											dropdownList={['Dates', 'Billing', 'Settings', 'Sign out']}
 											onClick={e => handleClick(e, signout)}
 										/>
 									</ListItem>
