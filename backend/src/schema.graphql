@@ -10,6 +10,7 @@ type Mutation {
 	resetPassword(resetToken: String!, password: String!, confirmPassword: String!): User!
 	updatePermissions(permissions: [Permission], userId: ID!): User
 	createOrder(token: String!, subscription: Permission!): Order!
+	internalPasswordReset(oldPassword: String!, newPassword1: String!, newPassword2: String!): User!
 }
 
 type Query {
