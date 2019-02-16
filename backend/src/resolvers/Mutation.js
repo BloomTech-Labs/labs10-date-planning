@@ -228,7 +228,7 @@ const Mutation = {
 
 		return order;
 	},
-	async internalPasswordReset(parent, args, { db, request }, info) {
+	async internalPasswordReset(parent, args, { db, request, response }, info) {
 		if (args.newPassword1 !== args.newPassword2) {
 			throw new Error('New passwords must match!');
 		}
@@ -242,11 +242,12 @@ const Mutation = {
 		// compare oldpassword to password from user object
 		const samePass = await bcrypt.compare(args.oldPassword, user.password);
 		if (!samePass) throw new Error('Incorrect password, please try again.');
+		const newPassword = await bcrypt.hash(args.newPassword1, 10);
 		// update password
 		const updatedUser = await db.mutation.updateUser({
 			where: { id: user.id },
 			data: {
-				password: args.newPassword1
+				password: newPassword
 			}
 		});
 		const token = jwt.sign({ userId: updatedUser.id }, process.env.APP_SECRET);
