@@ -27,7 +27,7 @@ const TransactionList = () => {
               {({ data: { getUserOrder } }) => {
                 return <div>
                   {getUserOrder.map(order => (
-                    <div>
+                    <div key={order.id}>
                       {
                         `${order.id} ${order.total} ${order.createdAt} ${order.subscription}`
                       }
