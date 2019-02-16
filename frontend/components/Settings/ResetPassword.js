@@ -5,6 +5,7 @@ import Router from 'next/router';
 import Icon from '@material-ui/core/Icon';
 import React, { useState } from 'react';
 import gql from 'graphql-tag';
+//things
 
 import Styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles';
 import CustomInput from '../../styledComponents/CustomInput/CustomInput';
