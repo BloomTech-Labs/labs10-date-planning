@@ -51,18 +51,18 @@ const REGISTER_USER = gql`
 `;
 
 const Register = ({ classes }) => {
-	const [ modalShowing, setModalShowing ] = useState(false);
-	const [ termsShowing, setTermsShowing ] = useState(false);
-	const [ terms, setTerms ] = useState(false);
-	const [ user, setUser ] = useState({
+	const [modalShowing, setModalShowing] = useState(false);
+	const [termsShowing, setTermsShowing] = useState(false);
+	const [terms, setTerms] = useState(false);
+	const [user, setUser] = useState({
 		name: undefined,
 		email: undefined,
-		password: undefined,
+		password: undefined
 	});
-	const [ err, setError ] = useState({
+	const [err, setError] = useState({
 		name: undefined,
 		email: undefined,
-		password: undefined,
+		password: undefined
 	});
 
 	const handleChange = ({ target: { name, value } }) => {
@@ -80,8 +80,8 @@ const Register = ({ classes }) => {
 					email: user.email,
 					password: user.password,
 					firstName: nameArray[0],
-					lastName: nameArray[1],
-				},
+					lastName: nameArray[1]
+				}
 			}).catch(err => console.log(err));
 			if (newUser) Router.push('/home');
 		}
@@ -95,7 +95,7 @@ const Register = ({ classes }) => {
 			<Dialog
 				classes={{
 					root: classes.modalRoot,
-					paper: classes.modal + ' ' + classes.modalSignup,
+					paper: classes.modal + ' ' + classes.modalSignup
 				}}
 				open={modalShowing}
 				// TransitionComponent={Transition}
@@ -103,8 +103,8 @@ const Register = ({ classes }) => {
 				onClose={() => {
 					setModalShowing(false);
 				}}
-				aria-labelledby='signup-modal-slide-title'
-				aria-describedby='signup-modal-slide-description'
+				aria-labelledby="signup-modal-slide-title"
+				aria-describedby="signup-modal-slide-description"
 			>
 				{
 					<Card plain className={classes.modalSignupCard}>
@@ -113,90 +113,80 @@ const Register = ({ classes }) => {
 						) : (
 							<div>
 								<DialogTitle
-									id='signup-modal-slide-title'
+									id="signup-modal-slide-title"
 									disableTypography
 									className={classes.modalHeader}
 								>
 									<Button
 										simple
 										className={classes.modalCloseButton}
-										key='close'
-										aria-label='Close'
+										key="close"
+										aria-label="Close"
 										onClick={() => setModalShowing(false)}
 									>
 										{' '}
 										<Close className={classes.modalClose} />
 									</Button>
-									<h3 className={`${classes.cardTitle} ${classes.modalTitle}`}>
-										Register
-									</h3>
+									<h3 className={`${classes.cardTitle} ${classes.modalTitle}`}>Register</h3>
 								</DialogTitle>
-								<DialogContent
-									id='signup-modal-slide-description'
-									className={classes.modalBody}
-								>
+								<DialogContent id="signup-modal-slide-description" className={classes.modalBody}>
 									<GridContainer>
 										<GridItem xs={12} sm={5} md={5} className={classes.mlAuto}>
 											<InfoArea
 												className={classes.infoArea}
-												title='Concerts'
+												title="Concerts"
 												description={
 													<p>
-														Find shows near you according to your tastes
-														and get notified when your favorite
-														performers are in town.
+														Find shows near you according to your tastes and get notified when your
+														favorite performers are in town.
 													</p>
 												}
 												icon={MusicNote}
-												iconColor='rose'
+												iconColor="rose"
 											/>
 											<InfoArea
 												className={classes.infoArea}
-												title='Comedy and Theater'
+												title="Comedy and Theater"
 												description={
 													<p>
-														Get the scoop on nearby comedy and
-														theatrical events as well as other kind of
-														live performances.
+														Get the scoop on nearby comedy and theatrical events as well as other
+														kind of live performances.
 													</p>
 												}
 												icon={TheaterMasks}
-												iconColor='primary'
+												iconColor="primary"
 											/>
 											<InfoArea
 												className={classes.infoArea}
-												title='Epicurean Adventures'
+												title="Epicurean Adventures"
 												description={
 													<p>
-														Be the first to make a reservation at nearby
-														restaurant grand openings or prix fixe
-														events.
+														Be the first to make a reservation at nearby restaurant grand openings
+														or prix fixe events.
 													</p>
 												}
 												icon={Restaurant}
-												iconColor='info'
+												iconColor="info"
 											/>
 										</GridItem>
 										<GridItem xs={12} sm={5} md={5} className={classes.mrAuto}>
 											<div className={classes.textCenter}>
-												<Button justIcon round color='google'>
-													<i className='fab fa-google' />
+												<Button justIcon round color="google">
+													<i className="fab fa-google" />
 												</Button>
 
-												<Button justIcon round color='facebook'>
-													<i className='fab fa-facebook-f' />
+												<Button justIcon round color="facebook">
+													<i className="fab fa-facebook-f" />
 												</Button>
-												<Button justIcon round color='instagram'>
-													<i className='fab fa-instagram' />
+												<Button justIcon round color="instagram">
+													<i className="fab fa-instagram" />
 												</Button>
 
-												<h4 className={classes.socialTitle}>
-													or be classical
-												</h4>
+												<h4 className={classes.socialTitle}>or be classical</h4>
 											</div>
 											<Mutation
 												mutation={REGISTER_USER}
-												refetchQueries={[ { query: CURRENT_USER_QUERY } ]}
+												refetchQueries={[{ query: CURRENT_USER_QUERY }]}
 											>
 												{(signup, { error, loading }) => (
 													<form
@@ -214,25 +204,18 @@ const Register = ({ classes }) => {
 														>
 															<CustomInput
 																error={err.name}
-																id='name'
+																id="name"
 																formControlProps={{
 																	fullWidth: true,
-																	className:
-																		classes.customFormControlClasses,
+																	className: classes.customFormControlClasses
 																}}
 																inputProps={{
 																	startAdornment: (
 																		<InputAdornment
-																			position='start'
-																			className={
-																				classes.inputAdornment
-																			}
+																			position="start"
+																			className={classes.inputAdornment}
 																		>
-																			<Face
-																				className={
-																					classes.inputAdornmentIcon
-																				}
-																			/>
+																			<Face className={classes.inputAdornmentIcon} />
 																		</InputAdornment>
 																	),
 																	placeholder: 'Full Name...',
@@ -241,68 +224,54 @@ const Register = ({ classes }) => {
 																	required: true,
 																	name: 'name',
 																	value: user.name,
-																	onChange: handleChange,
+																	onChange: handleChange
 																}}
 																labelText={err.name}
 																labelProps={{
-																	error: true,
+																	error: true
 																}}
 															/>
 															<CustomInput
 																error={err.email}
-																id='email'
+																id="email"
 																formControlProps={{
 																	fullWidth: true,
-																	className:
-																		classes.customFormControlClasses,
+																	className: classes.customFormControlClasses
 																}}
 																inputProps={{
 																	startAdornment: (
 																		<InputAdornment
-																			position='start'
-																			className={
-																				classes.inputAdornment
-																			}
+																			position="start"
+																			className={classes.inputAdornment}
 																		>
-																			<Email
-																				className={
-																					classes.inputAdornmentIcon
-																				}
-																			/>
+																			<Email className={classes.inputAdornmentIcon} />
 																		</InputAdornment>
 																	),
 																	placeholder: 'Email...',
 																	required: true,
 																	name: 'email',
 																	value: user.email,
-																	onChange: handleChange,
+																	onChange: handleChange
 																}}
 																label={err.email}
 																labelProps={{
-																	error: true,
+																	error: true
 																}}
 															/>
 															<CustomInput
 																error={err.password}
-																id='password'
+																id="password"
 																formControlProps={{
 																	fullWidth: true,
-																	className:
-																		classes.customFormControlClasses,
+																	className: classes.customFormControlClasses
 																}}
 																inputProps={{
 																	startAdornment: (
 																		<InputAdornment
-																			position='start'
-																			className={
-																				classes.inputAdornment
-																			}
+																			position="start"
+																			className={classes.inputAdornment}
 																		>
-																			<Icon
-																				className={
-																					classes.inputAdornmentIcon
-																				}
-																			>
+																			<Icon className={classes.inputAdornmentIcon}>
 																				lock_outline
 																			</Icon>
 																		</InputAdornment>
@@ -313,55 +282,35 @@ const Register = ({ classes }) => {
 																	name: 'password',
 																	value: user.password,
 																	onChange: handleChange,
-																	error: err.password,
+																	error: err.password
 																}}
 																label={err.password}
 																labelProps={{
-																	error: true,
+																	error: true
 																}}
 															/>
 															<FormControlLabel
 																classes={{
-																	label: classes.label,
+																	label: classes.label
 																}}
 																control={
 																	<Checkbox
 																		tabIndex={-1}
 																		checked={terms}
 																		required={true}
-																		onClick={() =>
-																			setTerms(!terms)}
-																		checkedIcon={
-																			<Check
-																				className={
-																					classes.checkedIcon
-																				}
-																			/>
-																		}
-																		icon={
-																			<Check
-																				className={
-																					classes.uncheckedIcon
-																				}
-																			/>
-																		}
+																		onClick={() => setTerms(!terms)}
+																		checkedIcon={<Check className={classes.checkedIcon} />}
+																		icon={<Check className={classes.uncheckedIcon} />}
 																		classes={{
-																			checked:
-																				classes.checked,
-																			root: classes.checkRoot,
+																			checked: classes.checked,
+																			root: classes.checkRoot
 																		}}
 																	/>
 																}
 																label={
 																	<span>
 																		I agree to the{' '}
-																		<a
-																			onClick={() =>
-																				setTermsShowing(
-																					true,
-																				)}
-																			href='#'
-																		>
+																		<a onClick={() => setTermsShowing(true)} href="#">
 																			terms and conditions
 																		</a>
 																		.
@@ -369,12 +318,8 @@ const Register = ({ classes }) => {
 																}
 															/>
 															<div className={classes.textCenter}>
-																<ButtonBase type='submit'>
-																	<Button
-																		round
-																		color='primary'
-																		component='div'
-																	>
+																<ButtonBase type="submit">
+																	<Button round color="primary" component="div">
 																		Get Started
 																	</Button>
 																</ButtonBase>{' '}
