@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Wed Feb 13 2019 20:50:56 GMT-0600 (Central Standard Time)
+# timestamp: Sat Feb 16 2019 16:30:16 GMT-0800 (Pacific Standard Time)
 
 type AggregateEvent {
   count: Int!
@@ -333,6 +333,7 @@ input EventUpdateManyMutationInput {
 input EventUpdateManyWithoutAttendingInput {
   create: [EventCreateWithoutAttendingInput!]
   connect: [EventWhereUniqueInput!]
+  set: [EventWhereUniqueInput!]
   disconnect: [EventWhereUniqueInput!]
   delete: [EventWhereUniqueInput!]
   update: [EventUpdateWithWhereUniqueWithoutAttendingInput!]
@@ -1726,6 +1727,7 @@ input UserUpdateManyMutationInput {
 input UserUpdateManyWithoutEventsInput {
   create: [UserCreateWithoutEventsInput!]
   connect: [UserWhereUniqueInput!]
+  set: [UserWhereUniqueInput!]
   disconnect: [UserWhereUniqueInput!]
   delete: [UserWhereUniqueInput!]
   update: [UserUpdateWithWhereUniqueWithoutEventsInput!]
