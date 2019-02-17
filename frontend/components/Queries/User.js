@@ -10,6 +10,8 @@ const CURRENT_USER_QUERY = gql`
 			lastName
 			gender
 			email
+			imageThumbnail
+			imageLarge
 			createdAt
 			permissions
 		}
@@ -23,7 +25,7 @@ const User = props => (
 );
 
 User.propTypes = {
-	children: PropTypes.func.isRequired
+	children: PropTypes.func.isRequired,
 };
 
 export default User;

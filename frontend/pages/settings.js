@@ -1,10 +1,9 @@
-import Input from '@material-ui/core/Input';
 import ResetPassword from '../components/Settings/ResetPassword';
-
+import ImageUpload from '../components/Settings/ImageUpload';
 const Settings = () => (
 	<div>
 		<h1>
-			<Input type="file" />
+			<ImageUpload />
 			<ResetPassword />
 		</h1>
 	</div>

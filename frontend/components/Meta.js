@@ -9,7 +9,10 @@ const Meta = () => (
 			type='text/css'
 			href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons'
 		/>
-
+		<script
+			type='text/javascript'
+			src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBgGlSLj3HRUxNefFZBGEgJM58NMf-OcP4&libraries=places'
+		/>
 		<link href='https://use.fontawesome.com/releases/v5.0.10/css/all.css' rel='stylesheet' />
 		{/* <link rel='shortcut icon' href='/static/favicon.png' /> */}
 		{/* <link rel='stylesheet' type='text/css' href='/static/nprogress.css' /> */}

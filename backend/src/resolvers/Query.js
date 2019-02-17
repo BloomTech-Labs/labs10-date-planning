@@ -29,7 +29,7 @@ const Query = {
 	},
 	async getEvents(parent, { location, alt, page, ...args }, ctx, info) {
 		// var now = moment.now();
-		// console.log(location, alt);
+		console.log(location, alt);
 		let categories = args.categories
 			? args.categories.toString()
 			: 'music,comedy,performing_arts,sports';
@@ -56,26 +56,32 @@ const Query = {
 			total_items: data.total_items,
 			page_count: data.page_count,
 			page_number: data.page_number,
+			location: location,
 		};
 	},
 	async getEvent(parent, args, ctx, info) {
-		const event = await axios.get(
+		const { data } = await axios.get(
 			`http://api.eventful.com/json/events/get?&id=${args.id}&app_key=${process.env.API_KEY}`,
 		);
-		// gonna make another helper to shape this bad boy too
+		console.log(data);
 		return {
-			title: event.data.title,
-			id: event.data.id,
+			title: data.title,
+			id: data.id,
+			url: data.url || null,
 			location: {
-				venue: event.data.venue_name,
+				city: data.city_name,
+				venue: data.venue_name,
+				address: data.venue_address,
+				zipCode: data.postal_code,
 			},
-			details: {
-				tags: event.data.tags.tag,
-			},
+			image_url: data.images
+				? data.images.image.medium && data.images.image.medium.url
+				: 'https://screenshotlayer.com/images/assets/placeholder.png',
+			description: data.description || null,
+			times: [ data.start_time ],
 		};
 	},
 	async getLocation(parent, { latitude, longitude }, ctx, info) {
-		console.log(longitude, latitude);
 		const location = await axios.get(
 			`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude}, ${longitude}&key=${process
 				.env.GOOGLE_API_KEY}`,
@@ -84,26 +90,39 @@ const Query = {
 		let city = location.data.results[0].address_components[3].long_name;
 		let state = location.data.results[0].address_components[5].short_name;
 		let county = location.data.results[0].address_components[4].long_name;
-		// console.log(city, county, state);
+		console.log(city, county, state);
 
 		return {
 			city: `${city}, ${state}`,
 			county: `${county}, ${state}`,
 		};
 	},
-
+	async locationSearch(parent, args, { db }, info) {
+		const response = await axios(
+			`https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${args.city}&types=(cities)&key=${process
+				.env.GOOGLE_API_KEY}`,
+		);
+		const results = response.data.predictions;
+		const city = results.map(result => {
+			return { city: result.description };
+		});
+		return city;
+	},
 	async getUserOrder(parent, args, ctx, info) {
 		// Check user's login status
 		const { userId } = ctx.request;
 		if (!userId) throw new Error('You must be signed in to access orders.');
 
-		return ctx.db.query.orders({
-			where: {
-				user: {
-					id: args.userId
-				}
-			}
-		}, info)
+		return ctx.db.query.orders(
+			{
+				where: {
+					user: {
+						id: args.userId,
+					},
+				},
+			},
+			info,
+		);
 	},
 
 	async getRemainingDates(parent, args, ctx, info) {
@@ -115,17 +134,16 @@ const Query = {
 			{ where: { id: userId } },
 			`
 				{id permissions events {id}}
-			`
+			`,
 		);
 
 		// TO DO: define subscription level and benefit!!!
 		let datesCount = 5;
-		if (user.permissions[0] === 'MONTLY') datesCount += 3;
+		if (user.permissions[0] === 'MONTHLY') datesCount += 3;
 		if (user.permissions[0] === 'YEARLY') datesCount += 5;
-		
 
 		return { count: datesCount };
-	}
+	},
 };
 
 module.exports = Query;

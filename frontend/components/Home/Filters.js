@@ -21,7 +21,7 @@ import GridItem from '../../styledComponents/Grid/GridItem';
 
 import styles from '../../static/jss/material-kit-pro-react/views/ecommerceSections/productsStyle.jsx';
 
-const Filters = ({ classes, refetch, location, page }) => {
+const Filters = ({ classes, getEvents, location, page }) => {
 	const [ categoryFilters, setCategeoryFilters ] = useState([]);
 	const [ dateFilters, setDateFilters ] = useState([]);
 
@@ -36,16 +36,17 @@ const Filters = ({ classes, refetch, location, page }) => {
 			? setDateFilters(dateFilters.filter(i => i !== id))
 			: setDateFilters([ ...dateFilters, id ]);
 	};
+	useEffect(() => {
+		console.log(moment().format('YYYYMMDD'));
+	}, []);
 
 	useEffect(
 		() => {
-			refetch({
-				variables: {
-					location,
-					page,
-					categories: categoryFilters,
-					dates: dateFilters,
-				},
+			getEvents({
+				location,
+				page,
+				categories: categoryFilters,
+				dates: dateFilters,
 			});
 		},
 		[ categoryFilters, dateFilters ],
@@ -66,6 +67,10 @@ const Filters = ({ classes, refetch, location, page }) => {
 								link
 								justIcon
 								size='sm'
+								onClick={() => {
+									setCategeoryFilters([]);
+									setDateFilters([]);
+								}}
 								className={`${classes.pullRight} ${classes.refineButton}`}
 							>
 								<Cached />
@@ -74,7 +79,7 @@ const Filters = ({ classes, refetch, location, page }) => {
 						<Clearfix />
 					</h4>
 					<Accordion
-						active={[ 0, 2 ]}
+						active={[ 0, 1 ]}
 						activeColor='rose'
 						collapses={[
 							{
