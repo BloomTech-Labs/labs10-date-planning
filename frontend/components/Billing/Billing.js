@@ -41,8 +41,8 @@ const Billing = ({ classes, currentUser }) => {
             <h2>Pricing</h2>
           </GridItem>
         </GridContainer>
-        <GridContainer>
-          <GridItem md={4} sm={4}>
+        <GridContainer justify="center">
+          <GridItem md={6} sm={6}>
             <Card pricing plain>
               <CardBody pricing>
               <h6
