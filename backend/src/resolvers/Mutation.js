@@ -3,6 +3,15 @@ const jwt = require('jsonwebtoken');
 const { randomBytes } = require('crypto');
 const { transport, formatEmail } = require('../mail');
 const stripe = require('../stripe');
+const {
+	admin,
+	createUserToken,
+	verifyUserToken,
+	verifyIdToken,
+	getUserRecord,
+	getUID,
+	setUserClaims
+} = require('../firebase/firebase');
 
 const Mutation = {
 	async createEvent(parent, args, { db }, info) {
@@ -40,6 +49,31 @@ const Mutation = {
 
 		return user;
 	},
+	async firebaseSignup(parent, args, ctx, info) {
+		const { uid } = await verifyIdToken(args.idToken);
+
+		const firebaseUser = await getUserRecord(uid);
+		const { email, displayName, phoneNumber, id } = firebaseUser;
+
+		const user = await ctx.db.mutation.createUser({
+			data: {
+				id,
+				firstName: displayName,
+				email,
+				lastName: '',
+				phone: phoneNumber
+			}
+		});
+		await setUserClaims(uid, { id: user.id, admin: false });
+		const { token } = await createuserToken(args, ctx);
+
+		// response.cookie('firebaseToken', token, {
+		// 	httpOnly: true,
+		// 	maxAge: 1000 * 60 * 60 * 24 * 365 // 1 year long cookie bc why not. FIGHT ME
+		// });
+
+		return { token, user };
+	},
 	async signin(parent, { email, password }, { db, response }, info) {
 		const user = await db.query.user({ where: { email } });
 		if (!user) {
@@ -57,6 +91,23 @@ const Mutation = {
 		});
 
 		return user;
+	},
+	async firebaseSignin(parent, args, ctx, info) {
+		const verify = await verifyIdToken(args.idToken);
+		if (!verify.user_id) throw new Error({ message: 'User is not registered' });
+
+		const user = await ctx.db.query.user({ where: { email: verify.email } });
+		if (!user) {
+			throw new Error({ message: 'User account does not exist' });
+		}
+
+		const token = await createUserToken(args, ctx);
+		ctx.response.cookie('userId', user.id, {
+			httpOnly: true,
+			maxAge: 1000 * 60 * 60 * 24 * 365 // 1 year long cookie bc why not. FIGHT ME
+		});
+
+		return { token, user };
 	},
 	signout(parent, args, { response }, info) {
 		response.clearCookie('token');
