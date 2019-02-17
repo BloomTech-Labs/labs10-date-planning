@@ -112,7 +112,12 @@ const Login = ({ classes }) => {
 									id='login-modal-slide-description'
 									className={classes.modalBody}
 								>
-									<form id='loginform' onSubmit={() => signin()}>
+									<form
+										onSubmit={e => {
+											e.preventDefault();
+											signin();
+										}}
+									>
 										<p
 											className={`${classes.description} ${classes.textCenter}`}
 										>
