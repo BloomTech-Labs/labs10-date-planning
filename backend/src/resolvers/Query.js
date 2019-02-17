@@ -104,6 +104,27 @@ const Query = {
 				}
 			}
 		}, info)
+	},
+
+	async getRemainingDates(parent, args, ctx, info) {
+		// Check user's login status
+		const { userId } = ctx.request;
+		if (!userId) throw new Error('You must be signed in to access this app.');
+
+		const user = await ctx.db.query.user(
+			{ where: { id: userId } },
+			`
+				{id permissions events {id}}
+			`
+		);
+
+		// TO DO: define subscription level and benefit!!!
+		let datesCount = 5;
+		if (user.permissions[0] === 'MONTLY') datesCount += 3;
+		if (user.permissions[0] === 'YEARLY') datesCount += 5;
+		
+
+		return { count: datesCount };
 	}
 };
 
