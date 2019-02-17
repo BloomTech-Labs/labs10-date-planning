@@ -16,12 +16,12 @@ const Location = ({ children }) => {
 	const [ location, setLocation ] = useState({});
 
 	useEffect(() => {
-		setLocation({ longitude: -122.3321, latitude: 47.6062 });
-		// navigator.geolocation.getCurrentPosition(position => {
-		// 	let { latitude, longitude } = position.coords;
+		// setLocation({ longitude: -122.3321, latitude: 47.6062 });
+		navigator.geolocation.getCurrentPosition(position => {
+			let { latitude, longitude } = position.coords;
 
-		// 	setLocation({ latitude, longitude });
-		// });
+			setLocation({ latitude, longitude });
+		});
 	}, []);
 
 	if (location.latitude && location.longitude) {

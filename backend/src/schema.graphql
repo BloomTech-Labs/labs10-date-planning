@@ -4,8 +4,10 @@ type Mutation {
 	signup(email: String!, password: String!, firstName: String!, lastName: String!): User!
 	signin(email: String!, password: String!): User!
 	signout: Message
+	updateImage(thumbnail: String!, image: String!): User!
 	createEvent(title: String!, description: String!): Event!
 	deleteEvent(where: EventWhereUniqueInput!): Event
+	addEvent(eventId: String!): Message
 	requestReset(email: String!): Message
 	resetPassword(resetToken: String!, password: String!, confirmPassword: String!): User!
 	updatePermissions(permissions: [Permission], userId: ID!): User
@@ -27,6 +29,7 @@ type Query {
 	currentUser: User
 	user(where: UserWhereUniqueInput!): User
 	getLocation(latitude: Float!, longitude: Float!): UserLocation!
+	locationSearch(city: String!): [Locations]
 	getUserOrder(userId: String!): [Order!]!
 	getRemainingDates: DatesCount!
 }
@@ -36,8 +39,11 @@ type AllEvents {
 	total_items: Int
 	page_count: Int
 	page_number: Int
+	location: String
 }
-
+type Locations {
+	city: String
+}
 type User {
 	id: ID!
 	firstName: String!
@@ -46,6 +52,8 @@ type User {
 	zipcode: String
 	gender: Gender
 	password: String
+	imageThumbnail: String
+	imageLarge: String
 	permissions: [Permission!]!
 	interests: [Category]
 	events: [Event]
@@ -91,7 +99,7 @@ type Tag {
 }
 
 type Message {
-	message: String
+	message: [String]
 }
 
 type DatesCount {
