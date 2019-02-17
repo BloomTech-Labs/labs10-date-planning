@@ -7,6 +7,7 @@ const GET_USER_ORDER = gql`
     getUserOrder(userId: $userId) {
       id
       total
+      charge
       createdAt
       subscription
     }
@@ -25,7 +26,11 @@ const TransactionList = ({ currentUser }) => {
             {getUserOrder.map(order => (
               <div key={order.id}>
                 {
-                  `${order.id} ${order.total} ${order.createdAt} ${order.subscription}`
+                  order.charge.startsWith('https:') &&
+                  <a href={order.charge} target='_blank'>receipt</a>
+                }
+                {
+                  ` - ${order.createdAt} ${order.subscription} - Subscription`
                 }
               </div>
             ))}

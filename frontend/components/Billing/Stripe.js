@@ -50,7 +50,7 @@ const Billing = props => {
               amount={props.subsType === 'MONTHLY' ? 999 : 2999}
               name="Up4"
               description="One year subscription"
-              stripeKey="pk_test_XMzhj8sz1Y1twtwn6sLLpy9C"
+              stripeKey="pk_test_cwlMq3xP1YmTHtoyiwqKNwYb"
               currency="USD"
               email={props.user.email}
               token={res => onToken(res, props.subsType, createOrder)}
