@@ -31,6 +31,7 @@ class ImageUpload extends React.Component {
 			});
 		};
 		reader.readAsDataURL(file);
+		this.props.handleUpload(file);
 	}
 	handleSubmit(e) {
 		e.preventDefault();
@@ -52,7 +53,12 @@ class ImageUpload extends React.Component {
 		var { avatar, addButtonProps, changeButtonProps, removeButtonProps } = this.props;
 		return (
 			<div className='fileinput text-center'>
-				<input type='file' onChange={this.handleImageChange} ref='fileInput' />
+				<input
+					type='file'
+					onChange={this.handleImageChange}
+					ref='fileInput'
+					style={{ display: 'none' }}
+				/>
 				<div className={'thumbnail' + (avatar ? ' img-circle' : '')}>
 					<img src={this.state.imagePreviewUrl} alt='...' />
 				</div>
@@ -83,6 +89,7 @@ ImageUpload.propTypes = {
 	addButtonProps: PropTypes.object,
 	changeButtonProps: PropTypes.object,
 	removeButtonProps: PropTypes.object,
+	handleUpload: PropTypes.func,
 };
 
 export default ImageUpload;

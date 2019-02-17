@@ -53,7 +53,7 @@ type User {
 	resetToken: String
 	resetTokenExpiry: Float
 	interests: [Category]
-	events: [Event]
+	events: [Event!]!
 	permissions: [Permission!]!
 	createdAt: DateTime!
 	updatedAt: DateTime!

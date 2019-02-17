@@ -28,6 +28,7 @@ type Query {
 	user(where: UserWhereUniqueInput!): User
 	getLocation(latitude: Float!, longitude: Float!): UserLocation!
 	getUserOrder(userId: String!): [Order!]!
+	getRemainingDates: DatesCount!
 }
 
 type AllEvents {
@@ -91,4 +92,8 @@ type Tag {
 
 type Message {
 	message: String
+}
+
+type DatesCount {
+	count: Int!
 }
