@@ -11,19 +11,19 @@ const GET_REMAINING_DATES = gql`
 `;
 
 const DatesLeft = ({ currentUser }) => {
-  return <div>
+  return (
     <Query query={GET_REMAINING_DATES}>
       {
         ({ data: {getRemainingDates} }) => {
           return (
             <div style={{ textAlign: "right" }}>
-              {`Dates Remaining: ${getRemainingDates.count}`}
+              {`Dates Remaining: ${getRemainingDates.count} [${currentUser.permissions[0]} subscription]`}
             </div>
           )
         }
       }
     </Query>
-  </div>
-}
+  )}
 
 export default DatesLeft;
+export { GET_REMAINING_DATES };

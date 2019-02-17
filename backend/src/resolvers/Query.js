@@ -120,7 +120,7 @@ const Query = {
 
 		// TO DO: define subscription level and benefit!!!
 		let datesCount = 5;
-		if (user.permissions[0] === 'MONTLY') datesCount += 3;
+		if (user.permissions[0] === 'MONTHLY') datesCount += 3;
 		if (user.permissions[0] === 'YEARLY') datesCount += 5;
 		
 

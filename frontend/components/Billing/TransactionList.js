@@ -37,3 +37,4 @@ const TransactionList = ({ currentUser }) => {
 };
 
 export default TransactionList;
+export { GET_USER_ORDER };
