@@ -54,7 +54,11 @@ const Register = ({ classes }) => {
 	const [ modalShowing, setModalShowing ] = useState(false);
 	const [ termsShowing, setTermsShowing ] = useState(false);
 	const [ terms, setTerms ] = useState(false);
-	const [ user, setUser ] = useState({ name: undefined, email: undefined, password: undefined });
+	const [ user, setUser ] = useState({
+		name: undefined,
+		email: undefined,
+		password: undefined,
+	});
 	const [ err, setError ] = useState({
 		name: undefined,
 		email: undefined,
@@ -192,12 +196,16 @@ const Register = ({ classes }) => {
 											</div>
 											<Mutation
 												mutation={REGISTER_USER}
-												refetchQueries={[ { query: CURRENT_USER_QUERY } ]}
+												// refetchQueries={[ { query: CURRENT_USER_QUERY } ]}
 											>
 												{(signup, { error, loading }) => (
 													<form
 														className={classes.form}
-														onSubmit={e => handleSubmit(e, signup)}
+														onKeyPress={event => {
+															if (event.key === 'Enter') {
+																handleSubmit(event, signup);
+															}
+														}}
 													>
 														<fieldset
 															style={{ border: 'none' }}
