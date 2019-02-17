@@ -4,6 +4,7 @@ type Mutation {
 	signup(email: String!, password: String!, firstName: String!, lastName: String!): User!
 	signin(email: String!, password: String!): User!
 	signout: Message
+	updateImage(thumbnail: String!, image: String!): User!
 	createEvent(title: String!, description: String!): Event!
 	deleteEvent(where: EventWhereUniqueInput!): Event
 	requestReset(email: String!): Message
@@ -46,6 +47,8 @@ type User {
 	zipcode: String
 	gender: Gender
 	password: String
+	imageThumbnail: String
+	imageLarge: String
 	permissions: [Permission!]!
 	interests: [Category]
 	events: [Event]

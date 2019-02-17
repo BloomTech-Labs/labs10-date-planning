@@ -196,7 +196,7 @@ const Register = ({ classes }) => {
 											</div>
 											<Mutation
 												mutation={REGISTER_USER}
-												// refetchQueries={[ { query: CURRENT_USER_QUERY } ]}
+												refetchQueries={[ { query: CURRENT_USER_QUERY } ]}
 											>
 												{(signup, { error, loading }) => (
 													<form
