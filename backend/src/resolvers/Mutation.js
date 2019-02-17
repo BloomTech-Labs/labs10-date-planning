@@ -202,8 +202,6 @@ const Mutation = {
 			`,
 		);
 
-		console.log({ user });
-
 		// Check user's subscription status
 		if (user.permissions[0] === args.subscription) {
 			throw new Error(`User already has ${args.subscription} subscription`);
@@ -218,7 +216,11 @@ const Mutation = {
 		const charge = await stripe.charges.create({
 			amount,
 			currency: 'USD',
+
+			description: `UP4 ${args.subscription} subscription`,
 			source: args.token,
+			receipt_email: user.email
+
 		});
 
 		// Record the order
@@ -226,7 +228,7 @@ const Mutation = {
 			{
 				data: {
 					total: amount,
-					charge: 'Subscription',
+					charge: charge.receipt_url,
 					subscription: args.subscription,
 					user: {
 						connect: {
