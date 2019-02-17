@@ -1,5 +1,6 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import EventsQuery from '../Queries/AllEvents';
+import { withApollo } from 'react-apollo';
+import EventsQuery, { ALL_EVENTS_QUERY } from '../Queries/AllEvents';
 import Filters from './Filters';
 import Event from './Event';
 import LocationSearch from './LocationSearch';
@@ -10,133 +11,111 @@ import Paginations from '../../styledComponents/Pagination/Pagination';
 import withStyles from '@material-ui/core/styles/withStyles';
 import styles from '../../static/jss/material-kit-pro-react/views/ecommerceSections/productsStyle.jsx';
 
-const Events = ({ classes }) => {
+const Events = ({ classes, client }) => {
 	const [ page, setPage ] = useState(1);
+	const [ events, setEvents ] = useState(undefined);
 
+	useEffect(() => {
+		getEvents({
+			location: 'New York, NY',
+			alt: 'all',
+			page: page,
+			categories: [],
+			dates: [],
+		});
+	}, []);
+	const getEvents = async variables => {
+		let { data, loading } = await client.query({
+			query: ALL_EVENTS_QUERY,
+			variables: variables,
+		});
+		console.log(data, loading);
+		setEvents(data.getEvents);
+	};
 	return (
 		<Location>
 			{({ data, loading, error }) => {
 				let { getLocation } = data;
 				console.log(data);
 				if (loading) return <div>getting location</div>;
-				else if (getLocation)
+				else if (!events) return <div>loading</div>;
+				else
 					return (
 						<div className={classes.section} style={{ paddingTop: '40px' }}>
 							<div className={classes.container}>
 								<h2 style={{ textAlign: 'center' }}>Upcoming Events Near You</h2>
 
-								<EventsQuery
-									variables={{
-										location: getLocation.city,
-										alt: getLocation.county,
-										page: page,
-										categories: [],
-										dates: [],
-									}}
-								>
-									{({ data, error, loading, refetch }) => (
-										<Fragment>
-											<div
-												style={{
-													display: 'flex',
-													alignItems: 'center',
-													justifyContent: 'space-between',
-												}}
-											>
-												<p>Showing events near {getLocation.city}.</p>
+								<Fragment>
+									<div
+										style={{
+											display: 'flex',
+											alignItems: 'center',
+											justifyContent: 'space-between',
+										}}
+									>
+										<p>Showing events near {events.location}.</p>
 
-												<LocationSearch refetch={refetch} />
-											</div>
+										<LocationSearch getEvents={getEvents} />
+									</div>
+									<GridContainer>
+										<Filters
+											location={events.location}
+											page={page}
+											getEvents={getEvents}
+										/>
+
+										<GridItem md={9} sm={9}>
 											<GridContainer>
-												<Filters
-													refetch={refetch}
-													location={getLocation.location}
-													page={page}
-												/>
-
-												<GridItem md={9} sm={9}>
-													{loading && <p>Loading...</p>}
-													{error && <p>Error: {error.message}</p>}
-													{!loading &&
-													!error && (
-														<GridContainer>
-															{data.getEvents.events.map(event => (
-																<Event
-																	event={event}
-																	key={event.id}
-																/>
-															))}
-														</GridContainer>
-													)}
-												</GridItem>
-												{!loading &&
-												!error && (
-													<Paginations
-														pages={[
-															{ text: 'PREV' },
-
-															{
-																text:
-																	data.getEvents.page_number >
-																		2 &&
-																	data.getEvents.page_number - 2,
-																onClick: () =>
-																	setPage(
-																		data.getEvents.page_number -
-																			2,
-																	),
-															},
-															{
-																text:
-																	data.getEvents.page_number >
-																		1 &&
-																	data.getEvents.page_number - 1,
-																onClick: () =>
-																	setPage(
-																		data.getEvents.page_number -
-																			1,
-																	),
-															},
-															{
-																active: true,
-																text: data.getEvents.page_number,
-															},
-															{
-																text:
-																	data.getEvents.page_number + 1,
-																onClick: () =>
-																	setPage(
-																		data.getEvents.page_number +
-																			1,
-																	),
-															},
-															{
-																text:
-																	data.getEvents.page_number + 2,
-																onClick: () =>
-																	setPage(
-																		data.getEvents.page_number +
-																			2,
-																	),
-															},
-															{ text: '...' },
-															{ text: data.getEvents.page_count },
-
-															{ text: 'NEXT' },
-														]}
-													/>
-												)}
+												{events.events.map(event => (
+													<Event event={event} key={event.id} />
+												))}
 											</GridContainer>
-										</Fragment>
-									)}
-								</EventsQuery>
+										</GridItem>
+
+										<Paginations
+											pages={[
+												{ text: 'PREV' },
+
+												{
+													text:
+														events.page_number > 2 &&
+														events.page_number - 2,
+													onClick: () => setPage(events.page_number - 2),
+												},
+												{
+													text:
+														events.page_number > 1 &&
+														events.page_number - 1,
+													onClick: () => setPage(events.page_number - 1),
+												},
+												{
+													active: true,
+													text: events.page_number,
+												},
+												{
+													text: events.page_number + 1,
+													onClick: () => setPage(events.page_number + 1),
+												},
+												{
+													text: events.page_number + 2,
+													onClick: () => setPage(events.page_number + 2),
+												},
+												{ text: '...' },
+												{
+													text: events.page_count,
+												},
+
+												{ text: 'NEXT' },
+											]}
+										/>
+									</GridContainer>
+								</Fragment>
 							</div>
 						</div>
 					);
-				else return <div />;
 			}}
 		</Location>
 	);
 };
 
-export default withStyles(styles)(Events);
+export default withApollo(withStyles(styles)(Events));

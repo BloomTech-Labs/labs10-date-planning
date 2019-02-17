@@ -6,6 +6,7 @@ import Input from '../../styledComponents/CustomInput/CustomInput';
 import SearchIcon from '@material-ui/icons/Search';
 import Paper from '@material-ui/core/Paper';
 import Button from '../../styledComponents/CustomButtons/Button';
+import MenuItem from '@material-ui/core/MenuItem';
 
 const LOCATION_SUGGESTION_QUERY = gql`
 	query LOCATION_SUGGESTION_QUERY($city: String!) {
@@ -15,11 +16,10 @@ const LOCATION_SUGGESTION_QUERY = gql`
 	}
 `;
 
-const Search = ({ refetch }) => {
+const Search = ({ getEvents }) => {
 	const [ input, setInput ] = useState('');
 	const [ items, setItems ] = useState([]);
 	const onChange = selectedItem => {
-		console.log(selectedItem);
 		setInput(selectedItem.city);
 	};
 
@@ -56,7 +56,22 @@ const Search = ({ refetch }) => {
 								}}
 								formControlProps={{ style: { paddingTop: '12px' } }}
 							/>
-							<Button justIcon round>
+							<Button
+								justIcon
+								round
+								disabled={!selectedItem}
+								onClick={() => {
+									let city = input.slice(0, -5);
+									console.log(city);
+									getEvents({
+										location: city,
+										alt: city,
+										page: 1,
+										categories: [],
+										dates: [],
+									});
+								}}
+							>
 								<SearchIcon />
 							</Button>
 
@@ -65,15 +80,15 @@ const Search = ({ refetch }) => {
 									style={{
 										position: 'absolute',
 										zIndex: 2,
-										padding: '8px 12px',
+
 										width: '200px',
 									}}
 								>
 									{items.map((result, index) => {
 										return (
-											<div {...getItemProps({ item: result.city })}>
+											<MenuItem {...getItemProps({ item: result.city })}>
 												{result.city}
-											</div>
+											</MenuItem>
 										);
 									})}
 								</Paper>

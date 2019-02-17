@@ -29,7 +29,7 @@ const Query = {
 	},
 	async getEvents(parent, { location, alt, page, ...args }, ctx, info) {
 		// var now = moment.now();
-		// console.log(location, alt);
+		console.log(location, alt);
 		let categories = args.categories
 			? args.categories.toString()
 			: 'music,comedy,performing_arts,sports';
@@ -56,6 +56,7 @@ const Query = {
 			total_items: data.total_items,
 			page_count: data.page_count,
 			page_number: data.page_number,
+			location: location,
 		};
 	},
 	async getEvent(parent, args, ctx, info) {
@@ -75,7 +76,6 @@ const Query = {
 		};
 	},
 	async getLocation(parent, { latitude, longitude }, ctx, info) {
-		console.log(longitude, latitude);
 		const location = await axios.get(
 			`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude}, ${longitude}&key=${process
 				.env.GOOGLE_API_KEY}`,

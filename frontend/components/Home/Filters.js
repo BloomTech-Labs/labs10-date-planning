@@ -21,7 +21,7 @@ import GridItem from '../../styledComponents/Grid/GridItem';
 
 import styles from '../../static/jss/material-kit-pro-react/views/ecommerceSections/productsStyle.jsx';
 
-const Filters = ({ classes, refetch, location, page }) => {
+const Filters = ({ classes, getEvents, location, page }) => {
 	const [ categoryFilters, setCategeoryFilters ] = useState([]);
 	const [ dateFilters, setDateFilters ] = useState([]);
 
@@ -39,13 +39,11 @@ const Filters = ({ classes, refetch, location, page }) => {
 
 	useEffect(
 		() => {
-			refetch({
-				variables: {
-					location,
-					page,
-					categories: categoryFilters,
-					dates: dateFilters,
-				},
+			getEvents({
+				location,
+				page,
+				categories: categoryFilters,
+				dates: dateFilters,
 			});
 		},
 		[ categoryFilters, dateFilters ],

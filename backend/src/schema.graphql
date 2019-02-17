@@ -38,6 +38,7 @@ type AllEvents {
 	total_items: Int
 	page_count: Int
 	page_number: Int
+	location: String
 }
 type Locations {
 	city: String
