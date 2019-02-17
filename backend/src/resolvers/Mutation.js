@@ -177,7 +177,8 @@ const Mutation = {
 		const user = await ctx.db.query.user(
 			{ where: { id: userId } },
 			`
-		{id firstName lastName email permissions}`
+				{id firstName lastName email permissions}
+			`
 		);
 
 		console.log({ user });
