@@ -114,9 +114,14 @@ const Login = ({ classes }) => {
                   id="login-modal-slide-description"
                   className={classes.modalBody}
                 >
-                  <form id="loginform" onKeyPress={(event) =>{ if (event.key === 'Enter'){
-					  signin()
-				  }}}>
+                  <form
+                    id="loginform"
+                    onKeyPress={event => {
+                      if (event.key === "Enter") {
+                        signin();
+                      }
+                    }}
+                  >
                     <p
                       className={`${classes.description} ${classes.textCenter}`}
                     >
