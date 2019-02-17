@@ -60,19 +60,25 @@ const Query = {
 		};
 	},
 	async getEvent(parent, args, ctx, info) {
-		const event = await axios.get(
+		const { data } = await axios.get(
 			`http://api.eventful.com/json/events/get?&id=${args.id}&app_key=${process.env.API_KEY}`,
 		);
-		// gonna make another helper to shape this bad boy too
+		console.log(data);
 		return {
-			title: event.data.title,
-			id: event.data.id,
+			title: data.title,
+			id: data.id,
+			url: data.url || null,
 			location: {
-				venue: event.data.venue_name,
+				city: data.city_name,
+				venue: data.venue_name,
+				address: data.venue_address,
+				zipCode: data.postal_code,
 			},
-			details: {
-				tags: event.data.tags.tag,
-			},
+			image_url: data.images
+				? data.images.image.medium && data.images.image.medium.url
+				: 'https://screenshotlayer.com/images/assets/placeholder.png',
+			description: data.description || null,
+			times: [ data.start_time ],
 		};
 	},
 	async getLocation(parent, { latitude, longitude }, ctx, info) {

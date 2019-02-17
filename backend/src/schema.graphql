@@ -7,6 +7,7 @@ type Mutation {
 	updateImage(thumbnail: String!, image: String!): User!
 	createEvent(title: String!, description: String!): Event!
 	deleteEvent(where: EventWhereUniqueInput!): Event
+	addEvent(eventId: String!): Message
 	requestReset(email: String!): Message
 	resetPassword(resetToken: String!, password: String!, confirmPassword: String!): User!
 	updatePermissions(permissions: [Permission], userId: ID!): User

@@ -36,6 +36,9 @@ const Filters = ({ classes, getEvents, location, page }) => {
 			? setDateFilters(dateFilters.filter(i => i !== id))
 			: setDateFilters([ ...dateFilters, id ]);
 	};
+	useEffect(() => {
+		console.log(moment().format('YYYYMMDD'));
+	}, []);
 
 	useEffect(
 		() => {
@@ -76,7 +79,7 @@ const Filters = ({ classes, getEvents, location, page }) => {
 						<Clearfix />
 					</h4>
 					<Accordion
-						active={[ 0, 2 ]}
+						active={[ 0, 1 ]}
 						activeColor='rose'
 						collapses={[
 							{

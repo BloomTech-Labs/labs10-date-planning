@@ -25,6 +25,7 @@ const Events = ({ classes, client }) => {
 		});
 	}, []);
 	const getEvents = async variables => {
+		console.log(variables);
 		let { data, loading } = await client.query({
 			query: ALL_EVENTS_QUERY,
 			variables: variables,
@@ -36,7 +37,6 @@ const Events = ({ classes, client }) => {
 		<Location>
 			{({ data, loading, error }) => {
 				let { getLocation } = data;
-				console.log(data);
 				if (loading) return <div>getting location</div>;
 				else if (!events) return <div>loading</div>;
 				else
@@ -66,9 +66,34 @@ const Events = ({ classes, client }) => {
 
 										<GridItem md={9} sm={9}>
 											<GridContainer>
-												{events.events.map(event => (
-													<Event event={event} key={event.id} />
-												))}
+												<GridItem sm={6} md={4} lg={3}>
+													{events.events
+														.slice(0, 3)
+														.map(event => (
+															<Event event={event} key={event.id} />
+														))}
+												</GridItem>
+												<GridItem sm={6} md={4} lg={3}>
+													{events.events
+														.slice(4, 7)
+														.map(event => (
+															<Event event={event} key={event.id} />
+														))}
+												</GridItem>
+												<GridItem sm={6} md={4} lg={3}>
+													{events.events
+														.slice(8, 11)
+														.map(event => (
+															<Event event={event} key={event.id} />
+														))}
+												</GridItem>
+												<GridItem sm={6} md={4} lg={3}>
+													{events.events
+														.slice(12, 15)
+														.map(event => (
+															<Event event={event} key={event.id} />
+														))}
+												</GridItem>
 											</GridContainer>
 										</GridItem>
 
