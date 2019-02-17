@@ -1,9 +1,5 @@
 # source: http://localhost:4466
-<<<<<<< HEAD
-# timestamp: Thu Feb 14 2019 18:56:11 GMT-0800 (Pacific Standard Time)
-=======
 # timestamp: Wed Feb 13 2019 20:50:56 GMT-0600 (Central Standard Time)
->>>>>>> 70928238c7abaac701aad7c596135de25e6cb5d4
 
 type AggregateEvent {
   count: Int!
@@ -375,11 +371,7 @@ type Mutation {
   updateManyEvents(data: EventUpdateInput!, where: EventWhereInput): BatchPayload!
   deleteManyOrders(where: OrderWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
-<<<<<<< HEAD
-  deleteManyEvents(where: EventWhereInput): BatchPayload!
-=======
   executeRaw(database: PrismaDatabase, query: String!): Json!
->>>>>>> 70928238c7abaac701aad7c596135de25e6cb5d4
 }
 
 enum MutationType {
