@@ -84,26 +84,39 @@ const Query = {
 		let city = location.data.results[0].address_components[3].long_name;
 		let state = location.data.results[0].address_components[5].short_name;
 		let county = location.data.results[0].address_components[4].long_name;
-		// console.log(city, county, state);
+		console.log(city, county, state);
 
 		return {
 			city: `${city}, ${state}`,
 			county: `${county}, ${state}`,
 		};
 	},
-
+	async locationSearch(parent, args, { db }, info) {
+		const response = await axios(
+			`https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${args.city}&types=(cities)&key=${process
+				.env.GOOGLE_API_KEY}`,
+		);
+		const results = response.data.predictions;
+		const city = results.map(result => {
+			return { city: result.description };
+		});
+		return city;
+	},
 	async getUserOrder(parent, args, ctx, info) {
 		// Check user's login status
 		const { userId } = ctx.request;
 		if (!userId) throw new Error('You must be signed in to access orders.');
 
-		return ctx.db.query.orders({
-			where: {
-				user: {
-					id: args.userId
-				}
-			}
-		}, info)
+		return ctx.db.query.orders(
+			{
+				where: {
+					user: {
+						id: args.userId,
+					},
+				},
+			},
+			info,
+		);
 	},
 
 	async getRemainingDates(parent, args, ctx, info) {
@@ -115,17 +128,16 @@ const Query = {
 			{ where: { id: userId } },
 			`
 				{id permissions events {id}}
-			`
+			`,
 		);
 
 		// TO DO: define subscription level and benefit!!!
 		let datesCount = 5;
 		if (user.permissions[0] === 'MONTLY') datesCount += 3;
 		if (user.permissions[0] === 'YEARLY') datesCount += 5;
-		
 
 		return { count: datesCount };
-	}
+	},
 };
 
 module.exports = Query;

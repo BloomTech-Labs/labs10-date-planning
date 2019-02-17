@@ -66,6 +66,10 @@ const Filters = ({ classes, refetch, location, page }) => {
 								link
 								justIcon
 								size='sm'
+								onClick={() => {
+									setCategeoryFilters([]);
+									setDateFilters([]);
+								}}
 								className={`${classes.pullRight} ${classes.refineButton}`}
 							>
 								<Cached />

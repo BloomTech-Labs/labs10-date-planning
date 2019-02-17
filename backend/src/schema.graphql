@@ -28,6 +28,7 @@ type Query {
 	currentUser: User
 	user(where: UserWhereUniqueInput!): User
 	getLocation(latitude: Float!, longitude: Float!): UserLocation!
+	locationSearch(city: String!): [Locations]
 	getUserOrder(userId: String!): [Order!]!
 	getRemainingDates: DatesCount!
 }
@@ -38,7 +39,9 @@ type AllEvents {
 	page_count: Int
 	page_number: Int
 }
-
+type Locations {
+	city: String
+}
 type User {
 	id: ID!
 	firstName: String!
@@ -94,7 +97,7 @@ type Tag {
 }
 
 type Message {
-	message: String
+	message: [String]
 }
 
 type DatesCount {
