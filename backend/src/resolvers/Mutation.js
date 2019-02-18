@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const axios = require('axios');
 const { randomBytes } = require('crypto');
 const { transport, formatEmail } = require('../mail');
 const stripe = require('../stripe');
@@ -219,8 +220,7 @@ const Mutation = {
 
 			description: `UP4 ${args.subscription} subscription`,
 			source: args.token,
-			receipt_email: user.email
-
+			receipt_email: user.email,
 		});
 
 		// Record the order
@@ -283,6 +283,48 @@ const Mutation = {
 			maxAge: 1000 * 60 * 60 * 24 * 365,
 		});
 		return updatedUser;
+	},
+	async addEvent(parent, args, { db, request }, info) {
+		const { userId } = request;
+		if (!userId) throw new Error('You must be signed in to add an event.');
+		const user = await db.query.user(
+			{ where: { id: userId } },
+			`
+				{id firstName lastName email permissions events { id }}
+			`,
+		);
+		if (user.permissions[0] === 'FREE' && user.events.length === 5) {
+			throw new Error('You have reached the free tier limit');
+		}
+		const { data } = await axios.get(
+			`http://api.eventful.com/json/events/get?&id=${args.eventId}&app_key=${process.env
+				.API_KEY}`,
+		);
+		const event = await db.mutation.createEvent({
+			data: {
+				eventfulID: data.id,
+				title: data.title,
+				url: data.url || null,
+				location: data.venue_name,
+				description: data.description || null,
+				times: { set: [ data.start_time ] },
+			},
+		});
+		const addedEvent = await db.mutation.updateUser({
+			data: {
+				events: {
+					connect: {
+						id: event.id,
+					},
+				},
+			},
+			where: {
+				id: user.id,
+			},
+		});
+		if (user.permissions[0] === 'FREE') {
+			return { message: `You have used ${user.events.length + 1} of your 5 free events` };
+		} else return { message: 'Event successfully added!' };
 	},
 };
 

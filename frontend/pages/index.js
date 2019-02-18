@@ -4,11 +4,13 @@ import Home from './home'
 
 const Index = () => (
   <User>
-    {({data: {currentUser}}) => (
+    {({data: {currentUser}}) => {
+      console.log(currentUser)
+      return (
       <>
       {currentUser ? <Home /> : <Splash />}
       </>
-    )}
+    )}}
   </User>
 
 );

@@ -99,7 +99,7 @@ type Tag {
 }
 
 type Message {
-	message: [String]
+	message: String
 }
 
 type DatesCount {
