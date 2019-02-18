@@ -4,6 +4,8 @@ import Cached from '@material-ui/icons/Cached';
 import classNames from 'classnames';
 import Accordion from '../../styledComponents/Accordion/Accordion.jsx';
 import TextField from '@material-ui/core/TextField';
+import { MuiPickersUtilsProvider, DatePicker } from 'material-ui-pickers';
+import MomentUtils from '@date-io/moment';
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -21,9 +23,10 @@ import GridItem from '../../styledComponents/Grid/GridItem';
 
 import styles from '../../static/jss/material-kit-pro-react/views/ecommerceSections/productsStyle.jsx';
 
-const Filters = ({ classes, refetch, location, page }) => {
+const Filters = ({ classes, getEvents, location, page }) => {
 	const [ categoryFilters, setCategeoryFilters ] = useState([]);
 	const [ dateFilters, setDateFilters ] = useState([]);
+	const [ selectedDate, setSelectedDate ] = useState(null);
 
 	const handleCategoryFilters = ({ target: { id } }) => {
 		categoryFilters.indexOf(id) !== -1
@@ -36,22 +39,27 @@ const Filters = ({ classes, refetch, location, page }) => {
 			? setDateFilters(dateFilters.filter(i => i !== id))
 			: setDateFilters([ ...dateFilters, id ]);
 	};
+	const handleDateChange = date => {
+		console.log(date);
+		setSelectedDate(date);
+	};
+	useEffect(() => {
+		console.log(moment().format('YYYY-MM-DD'));
+	}, []);
 
 	useEffect(
 		() => {
-			refetch({
-				variables: {
-					location,
-					page,
-					categories: categoryFilters,
-					dates: dateFilters,
-				},
+			getEvents({
+				location,
+				page,
+				categories: categoryFilters,
+				dates: dateFilters,
 			});
 		},
 		[ categoryFilters, dateFilters ],
 	);
 	return (
-		<GridItem md={3} sm={3}>
+		
 			<Card plain>
 				<CardBody className={classes.cardBodyRefine}>
 					<h4 className={`${classes.cardTitle} ${classes.textLeft}`}>
@@ -66,6 +74,10 @@ const Filters = ({ classes, refetch, location, page }) => {
 								link
 								justIcon
 								size='sm'
+								onClick={() => {
+									setCategeoryFilters([]);
+									setDateFilters([]);
+								}}
 								className={`${classes.pullRight} ${classes.refineButton}`}
 							>
 								<Cached />
@@ -74,8 +86,8 @@ const Filters = ({ classes, refetch, location, page }) => {
 						<Clearfix />
 					</h4>
 					<Accordion
-						active={[ 0, 2 ]}
-						activeColor='rose'
+						active={[ 0, 1 ]}
+						activeColor='trevor'
 						collapses={[
 							{
 								title: 'Category',
@@ -230,23 +242,26 @@ const Filters = ({ classes, refetch, location, page }) => {
 								content: (
 									<div className={classes.customExpandPanel}>
 										<div
+											style={{ marginTop: 0 }}
 											className={
 												classes.checkboxAndRadio +
 												' ' +
 												classes.checkboxAndRadioHorizontal
 											}
 										>
-											<TextField
-												id='date'
-												label='Select a date'
-												type='date'
-												defaultValue={moment().format('L')}
-												className={classes.textField}
-												InputLabelProps={{
-													shrink: true,
-												}}
-											/>
-											<p>or</p>
+											<MuiPickersUtilsProvider utils={MomentUtils}>
+												<DatePicker
+													margin='none'
+													clearable
+													autoOk
+													disablePast
+													label='Select a date'
+													value={selectedDate}
+													onChange={handleDateChange}
+												/>
+											</MuiPickersUtilsProvider>
+
+											<p style={{ marginTop: '5px' }}>or</p>
 											<FormControlLabel
 												control={
 													<Checkbox
@@ -385,7 +400,6 @@ const Filters = ({ classes, refetch, location, page }) => {
 					/>
 				</CardBody>
 			</Card>
-		</GridItem>
 	);
 };
 

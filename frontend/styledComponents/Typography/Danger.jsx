@@ -7,8 +7,12 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import typographyStyle from '../../static/jss/material-kit-pro-react/components/typographyStyle.jsx';
 
 function Danger({ ...props }) {
-	const { classes, children } = props;
-	return <div className={classes.defaultFontStyle + ' ' + classes.dangerText}>{children}</div>;
+	const { classes, children, style } = props;
+	return (
+		<div style={style} className={classes.defaultFontStyle + ' ' + classes.dangerText}>
+			{children}
+		</div>
+	);
 }
 
 Danger.propTypes = {

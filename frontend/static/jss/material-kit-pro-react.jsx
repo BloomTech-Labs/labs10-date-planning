@@ -73,14 +73,14 @@ const primaryColor = '#4cb5ae';
 const secondaryColor = '#fafafa';
 const warningColor = '#ff9800';
 const dangerColor = '#f44336';
-const successColor = '#4caf50';
-const infoColor = '#00acc1';
-const roseColor = '#e91e63';
+const successColor = '#b2ddf7';
+const infoColor = '#81d6e3';
+const roseColor = '#ff101f';
 const grayColor = '#cabac8';
 
 const primaryBoxShadow = {
 	boxShadow:
-		'0 12px 20px -10px rgba(156, 39, 176, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(156, 39, 176, 0.2)',
+		'0 12px 20px -10px rgba(76,181,174, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(76,181,174, 0.2)',
 };
 const infoBoxShadow = {
 	boxShadow:

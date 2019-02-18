@@ -1,7 +1,7 @@
-const Dates = () => (
-	<div>
-		<h1>Hi</h1>
-	</div>
-);
+import Settings from '../components/Settings';
+import Header from '../components/Header'
+const SettingsPage = () => <><Header /><Settings /></>;
 
-export default Dates;
+export default SettingsPage;
+
+// hmm
