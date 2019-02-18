@@ -1,9 +1,9 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { withApollo, Mutation } from 'react-apollo';
 import EventsQuery, { ALL_EVENTS_QUERY } from '../Queries/AllEvents';
-import User from '../Queries/User';
+import User, { CURRENT_USER_QUERY } from '../Queries/User';
 import _ from 'lodash';
-import Nprogress from 'nprogress';
+import NProgress from 'nprogress';
 import { UPDATE_LOCATION_MUTATION } from '../Mutations/updateLocation';
 import Filters from './Filters';
 import Event from './Event';
@@ -20,23 +20,49 @@ import styles from '../../static/jss/material-kit-pro-react/views/ecommerceSecti
 const Events = ({ classes, client }) => {
 	const [ page, setPage ] = useState(1);
 	const [ events, setEvents ] = useState(undefined);
-
+	const [ location, setLocation ] = useState('New York, NY');
+	const [ user, setUser ] = useState(undefined);
 	useEffect(() => {
-		getEvents({
-			location: 'New York, NY',
-			alt: 'all',
-			page: 1,
-			categories: [],
-			dates: [],
-		});
+		getUser();
 	}, []);
+
+	useEffect(
+		() => {
+			getEvents({
+				location: location,
+				alt: 'all',
+				page: 1,
+				categories: [],
+				dates: [],
+			});
+		},
+		[ location ],
+	);
+	const getUser = async () => {
+		let { data, loading } = await client.query({
+			query: CURRENT_USER_QUERY,
+		});
+		if (loading) NProgress.start();
+		if (data.currentUser) {
+			NProgress.set(0.5);
+			setUser(data.currentUser);
+			if (data.currentUser.location) await setLocation(data.currentUser.location);
+			getEvents({
+				location: location,
+				alt: 'all',
+				page: 1,
+				categories: [],
+				dates: [],
+			});
+		}
+	};
 	const getEvents = async variables => {
 		let { data, loading } = await client.query({
 			query: ALL_EVENTS_QUERY,
 			variables: variables,
 		});
-
-		let events = _.chunk(data.getEvents.events, 8);
+		if (data.getEvents) NProgress.done();
+		let events = _.chunk(data.getEvents.events, 12);
 		let newEvents = { ...data.getEvents, events: events };
 
 		setEvents(newEvents);
@@ -45,7 +71,7 @@ const Events = ({ classes, client }) => {
 	const loadMore = page => {
 		if (page < events.page_count - 1) {
 			getEvents({
-				location: events.location,
+				location: location,
 				page: page + 1,
 			});
 		}
@@ -54,111 +80,94 @@ const Events = ({ classes, client }) => {
 	if (!events) return <div>loading</div>;
 	else
 		return (
-			<User>
-				{data => (
-					<div className={classes.section} style={{ paddingTop: '40px' }}>
-						<div className={classes.container}>
-							{/* <h2 style={{ textAlign: 'center' }}>Upcoming Events Near You</h2> */}
-
-							<Fragment>
-								<GridContainer>
-									<GridItem md={3} sm={3}>
-										<div
-										// style={{
-										// 	display: 'flex',
-										// 	alignItems: 'center',
-										// 	justifyContent: 'space-between',
-										// }}
-										>
-											<Mutation
-												mutation={UPDATE_LOCATION_MUTATION}
-												variables={{ city: events.location }}
-												onCompleted={() => Nprogress.done()}
-											>
-												{(updateLocation, { error, loading, called }) => {
-													if (called) Nprogress.start();
-													return (
-														<div
-															style={{
-																display: 'flex',
-																alignItems: 'center',
-															}}
+			<div className={classes.section} style={{ paddingTop: '40px' }}>
+				<div className={classes.container}>
+					<Fragment>
+						<GridContainer>
+							<GridItem md={3} sm={3}>
+								<div>
+									<LocationSearch setLocation={setLocation} />
+									<p style={{ margin: 0 }}>Showing events near {location}.</p>
+									<Mutation
+										mutation={UPDATE_LOCATION_MUTATION}
+										variables={{ city: location }}
+										onCompleted={async () => {
+											NProgress.done();
+											let { data, loading } = await client.query({
+												query: CURRENT_USER_QUERY,
+											});
+											setUser(data.currentUser);
+										}}
+									>
+										{(updateLocation, { error, loading, called }) => {
+											console.log(user.location, location);
+											if (called) NProgress.start();
+											return (
+												<div
+													style={{
+														display: 'flex',
+														alignItems: 'center',
+													}}
+												>
+													{user && user.location !== location ? (
+														<Button
+															color='primary'
+															simple
+															size='sm'
+															style={{ padding: '12px 7px' }}
+															onClick={updateLocation}
 														>
-															{data.currentUser &&
-															data.currentUser.location !==
-																events.location && (
-																<Button
-																	color='primary'
-																	simple
-																	size='sm'
-																	style={{ padding: '12px 7px' }}
-																	onClick={updateLocation}
-																>
-																	make default location?
-																</Button>
-															)}
-														</div>
-													);
-												}}
-											</Mutation>
-											<LocationSearch getEvents={getEvents} />
-											<p style={{ margin: 0 }}>
-												Showing events near {events.location}.
-											</p>
-										</div>
-										<Filters
-											location={events.location}
-											page={page}
-											getEvents={getEvents}
-										/>
+															make default location?
+														</Button>
+													) : (
+														<div style={{ height: '50px' }} />
+													)}
+												</div>
+											);
+										}}
+									</Mutation>
+								</div>
+								<Filters location={location} page={page} getEvents={getEvents} />
+							</GridItem>
+
+							<GridItem md={9} sm={9}>
+								<GridContainer>
+									<GridItem sm={6} md={4} lg={4}>
+										<InfiniteScroll
+											pageStart={0}
+											loadMore={loadMore}
+											hasMore={page < events.page_count}
+											threshold={400}
+											loader={
+												<div className='loader' key={0}>
+													Loading ...
+												</div>
+											}
+										>
+											{events.events[0].map(event => (
+												<Event event={event} key={event.id} />
+											))}
+										</InfiniteScroll>
 									</GridItem>
 
-									<GridItem md={9} sm={9}>
-										<GridContainer>
-											<GridItem sm={6} md={4} lg={4}>
-												<InfiniteScroll
-													pageStart={0}
-													loadMore={loadMore}
-													hasMore={page < events.page_count}
-													threshold={400}
-													loader={
-														<div className='loader' key={0}>
-															Loading ...
-														</div>
-													}
-												>
-													{events.events[0].map(event => (
-														<Event event={event} key={event.id} />
-													))}
-												</InfiniteScroll>
-											</GridItem>
-
-											<GridItem sm={6} md={4} lg={4}>
-												{events.events[1] &&
-													events.events[1].map(event => (
-														<Event event={event} key={event.id} />
-													))}
-											</GridItem>
-											<GridItem sm={6} md={4} lg={4}>
-												{events.events[2] &&
-													events.events[2].map(event => (
-														<Event event={event} key={event.id} />
-													))}
-											</GridItem>
-											{/* <GridItem sm={6} md={4} lg={3}>
-                        {events.events[3] &&
-                          events.events[3].map(event => (
-                            <Event event={event} key={event.id} />
-                          ))}
-                      </GridItem> */}
-										</GridContainer>
+									<GridItem sm={6} md={4} lg={4}>
+										{events.events[1] &&
+											events.events[1].map(event => (
+												<Event event={event} key={event.id} />
+											))}
+									</GridItem>
+									<GridItem sm={6} md={4} lg={4}>
+										{events.events[2] &&
+											events.events[2].map(event => (
+												<Event event={event} key={event.id} />
+											))}
 									</GridItem>
 								</GridContainer>
-							</Fragment>
-						</div>
-					</div>
-				)}
-			</User>
+							</GridItem>
+						</GridContainer>
+					</Fragment>
+				</div>
+			</div>
 		);
 };
 
