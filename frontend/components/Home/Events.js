@@ -25,12 +25,11 @@ const Events = ({ classes, client }) => {
 		});
 	}, []);
 	const getEvents = async variables => {
-		console.log(variables);
 		let { data, loading } = await client.query({
 			query: ALL_EVENTS_QUERY,
 			variables: variables,
 		});
-		console.log(data, loading);
+
 		setEvents(data.getEvents);
 	};
 	return (
@@ -53,7 +52,12 @@ const Events = ({ classes, client }) => {
 											justifyContent: 'space-between',
 										}}
 									>
-										<p>Showing events near {events.location}.</p>
+										<div style={{ display: 'flex' }}>
+											<p>Showing events near {events.location}.</p>
+											<a style={{ fontSize: '12px' }}>
+												save as default location?
+											</a>
+										</div>
 
 										<LocationSearch getEvents={getEvents} />
 									</div>
