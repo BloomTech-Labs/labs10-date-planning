@@ -1,7 +1,8 @@
+import React from 'react';
 import { mount } from 'enzyme';
 import wait from 'waait';
 import toJSON from 'enzyme-to-json';
-import { MockedProvider } from 'react-apollo/test-utils';
+import { MockedProvider } from 'react-apollo/lib/test-utils';
 import { ApolloConsumer } from 'react-apollo';
 import Register, { FIREBASE_SIGNUP } from '../components/Register';
 import { CURRENT_USER_QUERY } from '../components/User';
@@ -43,7 +44,7 @@ function type(wrapper, name, value) {
     },
   ];
   
-  describe('<Signup/>', () => {
+  describe('<Register/>', () => {
     it('renders and matches snapshot', async () => {
       const wrapper = mount(
         <MockedProvider>
