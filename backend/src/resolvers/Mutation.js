@@ -76,7 +76,7 @@ const Mutation = {
 		});
 
 		await setUserClaims(uid, { id: user.id, admin: false });
-		const { token } = await createuserToken(args, ctx);
+		const { token } = await createUserToken(args, ctx);
 
 		ctx.response.cookie('userId', user.id, {
 			httpOnly: true,
