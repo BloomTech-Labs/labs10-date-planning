@@ -57,7 +57,7 @@ const Nav = ({ classes }) => {
 									onClick={e => e.preventDefault()}
 									color='transparent'
 								>
-									Discover
+									<Explore /> Discover
 								</Button>
 							</ListItem>
 
