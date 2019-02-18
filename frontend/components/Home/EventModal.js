@@ -63,7 +63,7 @@ const EventModal = ({ modal, showModal, classes, id, client }) => {
 									id='notice-modal-slide-title'
 									disableTypography
 									className={classes.modalHeader}
-									styles={{ maxHeight: '600px', overflow: 'scroll' }}
+									style={{ backgroundColor: "#81d6e3", borderTopLeftRadius: '6px', borderTopRightRadius: '6px', paddingBottom: '15px', color: '#fafafa'}}
 								>
 									{' '}
 									<Button
@@ -79,7 +79,7 @@ const EventModal = ({ modal, showModal, classes, id, client }) => {
 										{' '}
 										<Close className={classes.modalClose} />
 									</Button>
-									<h4 className={classes.modalTitle}>{event.title}</h4>
+									<h4 style={{fontWeight: 700}}className={classes.modalTitle}>{event.title}</h4>
 								</DialogTitle>
 								<DialogContent
 									id='notice-modal-slide-description'
