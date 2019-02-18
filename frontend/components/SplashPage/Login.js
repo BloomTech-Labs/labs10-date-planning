@@ -161,7 +161,7 @@ const Login = ({ classes }) => {
 								</DialogTitle>
 								<form onSubmit={(e) => {e.preventDefault(); signin()}} onKeyPress={event => {
 															if (event.key === 'Enter') {
-																handleSubmit(event, signup);
+																signin();
 															}
 														}}>
 								<DialogContent id="login-modal-slide-description" className={classes.modalBody}>

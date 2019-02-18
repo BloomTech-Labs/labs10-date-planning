@@ -52,7 +52,7 @@ const Nav = ({ classes }) => {
 	const handleClick = async (e, signout) => {
 		if (e === 'Sign out') {
 			await signout();
-			Router.push('/');
+			Router.push('/joinus');
 		} else {
 			Router.push(`/${e.toLowerCase()}`);
 		}
