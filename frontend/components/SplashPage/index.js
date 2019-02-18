@@ -20,8 +20,8 @@ const Splash = ({ classes }) => {
 							Music. Food. Special Events. Your city is alive. What are you up for?
 						</h1>
 						<h4>
-							Exciting events are all around you but they can be hard to find. Up4
-							helps ensure you'll never miss another adventure.
+							Exciting events are all around you but they can be hard to find. Up4 helps ensure
+							you'll never miss another adventure.
 						</h4>
 						<div>
 							<Register />
