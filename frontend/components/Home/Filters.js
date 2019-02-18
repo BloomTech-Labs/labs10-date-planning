@@ -4,6 +4,8 @@ import Cached from '@material-ui/icons/Cached';
 import classNames from 'classnames';
 import Accordion from '../../styledComponents/Accordion/Accordion.jsx';
 import TextField from '@material-ui/core/TextField';
+import { MuiPickersUtilsProvider, DatePicker } from 'material-ui-pickers';
+import MomentUtils from '@date-io/moment';
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -24,6 +26,7 @@ import styles from '../../static/jss/material-kit-pro-react/views/ecommerceSecti
 const Filters = ({ classes, getEvents, location, page }) => {
 	const [ categoryFilters, setCategeoryFilters ] = useState([]);
 	const [ dateFilters, setDateFilters ] = useState([]);
+	const [ selectedDate, setSelectedDate ] = useState(null);
 
 	const handleCategoryFilters = ({ target: { id } }) => {
 		categoryFilters.indexOf(id) !== -1
@@ -35,6 +38,10 @@ const Filters = ({ classes, getEvents, location, page }) => {
 		dateFilters.indexOf(id) !== -1
 			? setDateFilters(dateFilters.filter(i => i !== id))
 			: setDateFilters([ ...dateFilters, id ]);
+	};
+	const handleDateChange = date => {
+		console.log(date);
+		setSelectedDate(date);
 	};
 	useEffect(() => {
 		console.log(moment().format('YYYY-MM-DD'));
@@ -235,23 +242,26 @@ const Filters = ({ classes, getEvents, location, page }) => {
 								content: (
 									<div className={classes.customExpandPanel}>
 										<div
+											style={{ marginTop: 0 }}
 											className={
 												classes.checkboxAndRadio +
 												' ' +
 												classes.checkboxAndRadioHorizontal
 											}
 										>
-											<TextField
-												id='date'
-												label='Select a date'
-												type='date'
-												// defaultValue={moment().format('YYYY-MM-DD')}
-												className={classes.textField}
-												InputLabelProps={{
-													shrink: true,
-												}}
-											/>
-											<p>or</p>
+											<MuiPickersUtilsProvider utils={MomentUtils}>
+												<DatePicker
+													margin='none'
+													clearable
+													autoOk
+													disablePast
+													label='Select a date'
+													value={selectedDate}
+													onChange={handleDateChange}
+												/>
+											</MuiPickersUtilsProvider>
+
+											<p style={{ marginTop: '5px' }}>or</p>
 											<FormControlLabel
 												control={
 													<Checkbox
