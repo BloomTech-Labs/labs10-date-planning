@@ -11,7 +11,7 @@ const {
 	verifyIdToken,
 	getUserRecord,
 	getUID,
-	setUserClaims,
+	setUserClaims
 } = require('../firebase/firebase');
 
 const Mutation = {
@@ -21,9 +21,9 @@ const Mutation = {
 		// }
 		const event = await db.mutation.createEvent(
 			{
-				data: { ...args },
+				data: { ...args }
 			},
-			info,
+			info
 		);
 		return event;
 	},
@@ -36,16 +36,16 @@ const Mutation = {
 				data: {
 					...args,
 					password,
-					permissions: { set: [ 'FREE' ] }, // default permission for user is FREE tier
-				},
+					permissions: { set: ['FREE'] } // default permission for user is FREE tier
+				}
 			},
-			info,
+			info
 		);
 		const token = await jwt.sign({ userId: user.id }, process.env.APP_SECRET);
 		// adding that token to the cookie bc its neighborly
 		response.cookie('token', token, {
 			httpOnly: true,
-			maxAge: 1000 * 60 * 60 * 24 * 365, // 1 year cookie
+			maxAge: 1000 * 60 * 60 * 24 * 365 // 1 year cookie
 		});
 
 		return user;
@@ -54,24 +54,37 @@ const Mutation = {
 		const { uid } = await verifyIdToken(args.idToken);
 
 		const firebaseUser = await getUserRecord(uid);
-		const { email, displayName, phoneNumber, id } = firebaseUser;
+		// console.log(firebaseUser);
+		const { email, displayName } = firebaseUser;
 
-		const user = await ctx.db.mutation.createUser({
-			data: {
-				id,
-				firstName: displayName,
-				email,
-				lastName: '',
-				phone: phoneNumber,
-			},
+		const notUnique = await ctx.db.query.user({
+			where: { email }
 		});
+
+		if (notUnique) {
+			throw new Error('A user with that email already exists');
+		}
+
+		const user = await ctx.db.mutation.createUser(
+			{
+				data: {
+					// id: uid,
+					firstName: displayName,
+					email,
+					password: 'firebaseAuth',
+					lastName: ''
+				}
+			},
+			`id firstName email`
+		);
+
 		await setUserClaims(uid, { id: user.id, admin: false });
 		const { token } = await createuserToken(args, ctx);
 
-		// response.cookie('firebaseToken', token, {
-		// 	httpOnly: true,
-		// 	maxAge: 1000 * 60 * 60 * 24 * 365 // 1 year long cookie bc why not. FIGHT ME
-		// });
+		ctx.response.cookie('userId', user.id, {
+			httpOnly: true,
+			maxAge: 1000 * 60 * 60 * 24 * 365 // 1 year long cookie bc why not. FIGHT ME
+		});
 
 		return { token, user };
 	},
@@ -88,7 +101,7 @@ const Mutation = {
 		// attach token to cookie even if that seems kinda obvious
 		response.cookie('token', token, {
 			httpOnly: true,
-			maxAge: 1000 * 60 * 60 * 24 * 365, // 1 year long cookie bc why not. FIGHT ME
+			maxAge: 1000 * 60 * 60 * 24 * 365 // 1 year long cookie bc why not. FIGHT ME
 		});
 
 		return user;
@@ -105,7 +118,7 @@ const Mutation = {
 		const token = await createUserToken(args, ctx);
 		ctx.response.cookie('userId', user.id, {
 			httpOnly: true,
-			maxAge: 1000 * 60 * 60 * 24 * 365, // 1 year long cookie bc why not. FIGHT ME
+			maxAge: 1000 * 60 * 60 * 24 * 365 // 1 year long cookie bc why not. FIGHT ME
 		});
 
 		return { token, user };
@@ -126,7 +139,7 @@ const Mutation = {
 		const resetTokenExpiry = Date.now() + 3600000; // 1 hr from now
 		const res = await db.mutation.updateUser({
 			where: { email: args.email },
-			data: { resetToken, resetTokenExpiry },
+			data: { resetToken, resetTokenExpiry }
 		});
 		console.log(res); // just to check and make sure the resetToken and expiry are getting set
 		const mailRes = await transport.sendMail({
@@ -135,7 +148,7 @@ const Mutation = {
 			subject: 'Your Password Reset Token',
 			html: formatEmail(`Your Password Reset Token is here!
 		  \n\n
-		  <a href="${process.env.FRONTEND_URL}/reset?resetToken=${resetToken}">Click Here to Reset</a>`),
+		  <a href="${process.env.FRONTEND_URL}/reset?resetToken=${resetToken}">Click Here to Reset</a>`)
 		});
 
 		// this is the SMTP Holden has setup that we can use to send emails once we go into production (have a hard cap of 100 emails/month though)
@@ -152,7 +165,7 @@ const Mutation = {
 	},
 	async updateImage(parent, { thumbnail, image }, { db, response, request }, info) {
 		const user = await db.query.user({
-			where: { id: request.userId },
+			where: { id: request.userId }
 		});
 		if (!user) {
 			throw new Error('You must be logged in!');
@@ -161,19 +174,19 @@ const Mutation = {
 		return db.mutation.updateUser(
 			{
 				where: {
-					id: user.id,
+					id: user.id
 				},
 				data: {
 					imageThumbnail: thumbnail,
-					imageLarge: image,
-				},
+					imageLarge: image
+				}
 			},
-			info,
+			info
 		);
 	},
 	async updateLocation(parent, { city }, { db, request }, info) {
 		const user = await db.query.user({
-			where: { id: request.userId },
+			where: { id: request.userId }
 		});
 		if (!user) {
 			throw new Error('You must be logged in!');
@@ -181,24 +194,24 @@ const Mutation = {
 		return db.mutation.updateUser(
 			{
 				where: {
-					id: user.id,
+					id: user.id
 				},
 				data: {
-					location: city,
-				},
+					location: city
+				}
 			},
-			info,
+			info
 		);
 	},
 	async resetPassword(parent, args, { db, response }, info) {
 		if (args.password !== args.confirmPassword) {
 			throw new Error('Passwords must match!');
 		}
-		const [ user ] = await db.query.users({
+		const [user] = await db.query.users({
 			where: {
 				resetToken: args.resetToken,
-				resetTokenExpiry_gte: Date.now() - 3600000, // make sure reset Token is still within 1hr time limit
-			},
+				resetTokenExpiry_gte: Date.now() - 3600000 // make sure reset Token is still within 1hr time limit
+			}
 		});
 		if (!user) {
 			throw new Error('This token is either invalid or expired');
@@ -210,14 +223,14 @@ const Mutation = {
 			data: {
 				password,
 				resetToken: null,
-				resetTokenExpiry: null,
-			},
+				resetTokenExpiry: null
+			}
 		});
 		const token = jwt.sign({ userId: updatedUser.id }, process.env.APP_SECRET);
 		// put new token onto cookie bc i said so
 		response.cookie('token', token, {
 			httpOnly: true,
-			maxAge: 1000 * 60 * 60 * 24 * 365,
+			maxAge: 1000 * 60 * 60 * 24 * 365
 		});
 		return updatedUser;
 	},
@@ -225,9 +238,9 @@ const Mutation = {
 		// just a test mutation for removing the malformed events I was adding
 		return db.mutation.deleteEvent(
 			{
-				...args,
+				...args
 			},
-			info,
+			info
 		);
 	},
 	async updatePermissions(parent, args, { request, db }, info) {
@@ -238,9 +251,9 @@ const Mutation = {
 		}
 		const user = await db.query.user(
 			{
-				where: { id: request.userId },
+				where: { id: request.userId }
 			},
-			info,
+			info
 		);
 		// if somehow user makes it to backend when they shouldn't, we can have a secondary check to make sure they dont already have a plan
 		if (user.permissions.includes(args.permission)) {
@@ -250,14 +263,14 @@ const Mutation = {
 			{
 				data: {
 					permissions: {
-						set: args.permissions,
-					},
+						set: args.permissions
+					}
 				},
 				where: {
-					id: user.id,
-				},
+					id: user.id
+				}
 			},
-			info,
+			info
 		);
 	},
 	async createOrder(parent, args, ctx, info) {
@@ -270,16 +283,14 @@ const Mutation = {
 			{ where: { id: userId } },
 			`
 				{id firstName lastName email permissions}
-			`,
+			`
 		);
 
 		// Check user's subscription status
 		if (user.permissions[0] === args.subscription) {
 			throw new Error(`User already has ${args.subscription} subscription`);
 		} else if (user.permissions[0] === 'YEARLY') {
-			throw new Error(
-				`User already has the highest level of ${args.subscription} subscription`,
-			);
+			throw new Error(`User already has the highest level of ${args.subscription} subscription`);
 		}
 
 		// Charge the credit card
@@ -290,7 +301,7 @@ const Mutation = {
 
 			description: `UP4 ${args.subscription} subscription`,
 			source: args.token,
-			receipt_email: user.email,
+			receipt_email: user.email
 		});
 
 		// Record the order
@@ -302,24 +313,24 @@ const Mutation = {
 					subscription: args.subscription,
 					user: {
 						connect: {
-							id: user.id,
-						},
-					},
-				},
+							id: user.id
+						}
+					}
+				}
 			},
-			info,
+			info
 		);
 
 		// Update user's permission type
 		ctx.db.mutation.updateUser({
 			data: {
 				permissions: {
-					set: [ args.subscription ],
-				},
+					set: [args.subscription]
+				}
 			},
 			where: {
-				id: user.id,
-			},
+				id: user.id
+			}
 		});
 
 		return order;
@@ -330,7 +341,7 @@ const Mutation = {
 		}
 		// check to make sure user is logged in
 		const user = await db.query.user({
-			where: { id: request.userId },
+			where: { id: request.userId }
 		});
 		if (!user) {
 			throw new Error('You must be logged in!');
@@ -343,14 +354,14 @@ const Mutation = {
 		const updatedUser = await db.mutation.updateUser({
 			where: { id: user.id },
 			data: {
-				password: newPassword,
-			},
+				password: newPassword
+			}
 		});
 		const token = jwt.sign({ userId: updatedUser.id }, process.env.APP_SECRET);
 		// put new token onto cookie so that any other session opened with previous pass is no invalidated
 		response.cookie('token', token, {
 			httpOnly: true,
-			maxAge: 1000 * 60 * 60 * 24 * 365,
+			maxAge: 1000 * 60 * 60 * 24 * 365
 		});
 		return updatedUser;
 	},
@@ -361,14 +372,13 @@ const Mutation = {
 			{ where: { id: userId } },
 			`
 				{id firstName lastName email permissions events { id }}
-			`,
+			`
 		);
 		if (user.permissions[0] === 'FREE' && user.events.length === 5) {
 			throw new Error('You have reached the free tier limit');
 		}
 		const { data } = await axios.get(
-			`http://api.eventful.com/json/events/get?&id=${args.eventId}&app_key=${process.env
-				.API_KEY}`,
+			`http://api.eventful.com/json/events/get?&id=${args.eventId}&app_key=${process.env.API_KEY}`
 		);
 		const event = await db.mutation.createEvent({
 			data: {
@@ -377,25 +387,25 @@ const Mutation = {
 				url: data.url || null,
 				location: data.venue_name,
 				description: data.description || null,
-				times: { set: [ data.start_time ] },
-			},
+				times: { set: [data.start_time] }
+			}
 		});
 		const addedEvent = await db.mutation.updateUser({
 			data: {
 				events: {
 					connect: {
-						id: event.id,
-					},
-				},
+						id: event.id
+					}
+				}
 			},
 			where: {
-				id: user.id,
-			},
+				id: user.id
+			}
 		});
 		if (user.permissions[0] === 'FREE') {
 			return { message: `You have used ${user.events.length + 1} of your 5 free events` };
 		} else return { message: 'Event successfully added!' };
-	},
+	}
 };
 
 //hmm
