@@ -15,6 +15,10 @@ import Button from '../../styledComponents/CustomButtons/Button.jsx';
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
 import Weekend from '@material-ui/icons/Weekend';
+import Done from '@material-ui/icons/Done';
+import DoneAll from '@material-ui/icons/DoneAll';
+import DoneOutline from '@material-ui/icons/DoneOutline';
+import Code from '@material-ui/icons/Code';
 import img from '../../static/img/billingImage.jpg';
 
 import pricingStyle from '../../static/jss/material-kit-pro-react/views/sectionsSections/pricingStyle.jsx';
@@ -54,7 +58,7 @@ const Billing = ({ classes, currentUser }) => {
 									Basic
 								</h6>
 								<div className={classes.icon}>
-									<Weekend
+									<Done
 										className={
 											currentSubs === 'FREE' ? (
 												classes.iconRose
@@ -103,7 +107,7 @@ const Billing = ({ classes, currentUser }) => {
 									Month to Month
 								</h6>
 								<div className={classes.icon}>
-									<Weekend
+									<DoneAll
 										className={
 											currentSubs === 'MONTHLY' ? (
 												classes.iconRose
@@ -154,7 +158,7 @@ const Billing = ({ classes, currentUser }) => {
 									Yearly
 								</h6>
 								<div className={classes.icon}>
-									<Weekend
+									<DoneOutline
 										className={
 											currentSubs === 'YEARLY' ? (
 												classes.iconRose

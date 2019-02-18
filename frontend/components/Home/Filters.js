@@ -59,7 +59,7 @@ const Filters = ({ classes, getEvents, location, page }) => {
 		[ categoryFilters, dateFilters ],
 	);
 	return (
-		<GridItem md={3} sm={3}>
+		
 			<Card plain>
 				<CardBody className={classes.cardBodyRefine}>
 					<h4 className={`${classes.cardTitle} ${classes.textLeft}`}>
@@ -400,7 +400,6 @@ const Filters = ({ classes, getEvents, location, page }) => {
 					/>
 				</CardBody>
 			</Card>
-		</GridItem>
 	);
 };
 
