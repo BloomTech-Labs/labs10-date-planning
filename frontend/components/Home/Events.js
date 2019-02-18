@@ -24,7 +24,7 @@ const Events = ({ classes, client }) => {
 		getEvents({
 			location: 'New York, NY',
 			alt: 'all',
-			page: page,
+			page: 1,
 			categories: [],
 			dates: [],
 		});
