@@ -32,42 +32,32 @@ module.exports = {
 		}, []);
 	},
 	checkDates: function(dates, events) {
-		let date, start, end;
-		switch (dates) {
+		let date, start, end, filteredEvents;
+		switch (dates.toLowerCase()) {
 			case 'all':
 				return events;
 			case 'today':
 				date = moment().format('YYYY-MM-DD');
-				return events.filter(ev =>
-					ev.times.some(t => moment(t).format('YYYY-MM-DD') === date),
-				);
+				return events.filter(ev => ev.times.some(t => moment(t).format('YYYY-MM-DD') === date));
 			case 'this weekend':
 				start = moment().endOf('isoWeek').subtract(2, 'days').format('YYYY-MM-DD');
 				end = moment().endOf('isoWeek').format('YYYY-MM-DD');
-				return events.filter(ev =>
-					ev.times.some(
-						t =>
-							moment(t).format('YYYY-MM-DD') >= start &&
+				return events.filter(ev => ev.times.some(
+						t => moment(t).format('YYYY-MM-DD') >= start &&
 							moment(t).format('YYYY-MM-DD') <= end,
 					),
 				);
 			case 'next week':
 				start = moment().add(1, 'weeks').startOf('isoWeek').format('YYYY-MM-DD');
 				end = moment().add(1, 'weeks').endOf('isoWeek').format('YYYY-MM-DD');
-				return events.filter(ev =>
-					ev.times.some(
-						t =>
-							moment(t).format('YYYY-MM-DD') >= start &&
+				return events.filter(ev => ev.times.some(
+						t => moment(t).format('YYYY-MM-DD') >= start &&
 							moment(t).format('YYYY-MM-DD') <= end,
 					),
 				);
 			default:
-				date = moment(`${moment().format('YYYY')} ${dates}`, 'YYYY MMM DD').format(
-					'YYYY-MM-DD',
-				);
-				return events.filter(ev =>
-					ev.times.some(t => moment(t).format('YYYY-MM-DD') === date),
-				);
+				date = moment(`${moment().format('YYYY')} ${dates}`, 'YYYY MMM DD').format('YYYY-MM-DD');
+				return events.filter(ev => ev.times.some(t => moment(t).format('YYYY-MM-DD') === date));
 		}
 	},
 	fetchEvents: function(location, cat, dates, page) {
