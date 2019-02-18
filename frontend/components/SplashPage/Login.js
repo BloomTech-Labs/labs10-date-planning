@@ -57,6 +57,18 @@ const Login = ({ classes }) => {
 	const googlePopup = async (e, firebaseSignin) => {
 		e.preventDefault();
 		try {
+			let provider = new firebase.auth.GoogleAuthProvider();
+			const complete = await auth.signInWithPopup(provider);
+			const idToken = await auth.currentUser.getIdToken(true);
+			const success = await firebaseSignin({ variables: { idToken } });
+		} catch (err) {
+			console.log(err);
+		}
+	};
+	const fbookPopup = async (e, firebaseSignin) => {
+		e.preventDefault();
+		try {
+			let provider = new firebase.auth.FacebookAuthProvider();
 			const complete = await auth.signInWithPopup(provider);
 			const idToken = await auth.currentUser.getIdToken(true);
 			const success = await firebaseSignin({ variables: { idToken } });
@@ -117,23 +129,30 @@ const Login = ({ classes }) => {
 												refetchQueries={[{ query: CURRENT_USER_QUERY }]}
 											>
 												{(firebaseSignin, { loading, error }) => (
-													<Button
-														justIcon
-														link
-														className={classes.socialLineButton}
-														onClick={e => googlePopup(e, firebaseSignin)}
-													>
-														<i className="fab fa-google" />
-													</Button>
+													<>
+														<Button
+															justIcon
+															link
+															className={classes.socialLineButton}
+															onClick={e => googlePopup(e, firebaseSignin)}
+														>
+															<i className="fab fa-google" />
+														</Button>
+														<Button
+															justIcon
+															link
+															className={classes.socialLineButton}
+															onClick={e => fbookPopup(e, firebaseSignin)}
+														>
+															<i className="fab fa-facebook-square" />
+														</Button>
+
+														<Button justIcon link className={classes.socialLineButton}>
+															<i className="fab fa-instagram" />
+														</Button>
+													</>
 												)}
 											</Mutation>
-											<Button justIcon link className={classes.socialLineButton}>
-												<i className="fab fa-facebook-square" />
-											</Button>
-
-											<Button justIcon link className={classes.socialLineButton}>
-												<i className="fab fa-instagram" />
-											</Button>
 										</div>
 									</CardHeader>
 								</DialogTitle>
