@@ -38,7 +38,6 @@ const LOGIN_USER = gql`
 `;
 
 const Login = ({ classes }) => {
-	// auth = process.env.NODE_ENV === 'development' ? auth : prodAuth;
 	const [user, setUser] = useState({ email: '', password: '' });
 	const [modalShowing, setModalShowing] = useState(false);
 
