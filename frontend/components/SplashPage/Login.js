@@ -23,8 +23,8 @@ import CustomInput from '../../styledComponents/CustomInput/CustomInput';
 
 import Styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles';
 
-import { auth } from '../../utils/firebase';
-import { prodAuth } from '../../utils/firebaseProd';
+// import { auth } from '../../utils/firebase';
+import { auth } from '../../utils/firebaseProd';
 
 const LOGIN_USER = gql`
 	mutation LOGIN_USER($email: String!, $password: String!) {
@@ -51,7 +51,7 @@ const FIREBASE_LOGIN = gql`
 `;
 
 const Login = ({ classes }) => {
-	auth = process.env.NODE_ENV === 'development' ? auth : prodAuth;
+	// auth = process.env.NODE_ENV === 'development' ? auth : prodAuth;
 	const [user, setUser] = useState({ email: '', password: '' });
 	const [modalShowing, setModalShowing] = useState(false);
 
