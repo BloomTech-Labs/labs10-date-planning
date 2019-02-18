@@ -6,51 +6,15 @@ import Register from './Register';
 import Login from './Login';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Styles from '../../static/jss/material-kit-pro-react/views/landingPageStyle';
-import Table from '../../static/img/splashTable.jpg'
 
 const Splash = ({ classes }) => {
 	useEffect(() => {
 		window.scrollTo(0, 0);
 	}, []);
-
-	// const imageContainer = {
-	// 	position: 'fixed',
-  	// 	top: '-50%',
-  	// 	left: '-50%',
-  	// 	width: '200%',
-  	// 	height: '200%',
-	// }
-
-	// const splashImage = {
-	// 	position: 'absolute',
-	// 	top: '0',
-	// 	left: '0',
-	// 	right: '0',
-	// 	bottom: '0',
-	// 	margin: 'auto',
-	// 	minWidth: '50%',
-	// 	maxWidth: '100%',
-	// 	minHeigth: '50%',
-
-	// }
-
-	const imageContainer ={
-		background: `url(${Table}) no-repeat center center fixed`,
-		// backgroundSize: 'cover',
-		height: '100vh',
-		width: '100%'
-	}
-
-
 	return (
-		// <Parallax>
-			// <div className={classes.container}>
-				<GridContainer alignItems='center' style={{height: '100vh'}}>
-					<GridItem xs={12} sm={6} md={6}>
-						<div style={imageContainer}>
-						</div>
-
-					</GridItem>
+		<Parallax>
+			<div className={classes.container}>
+				<GridContainer>
 					<GridItem xs={12} sm={6} md={6}>
 						<h1 className={classes.title}>
 							Music. Food. Special Events. Your city is alive. What are you up for?
@@ -65,8 +29,8 @@ const Splash = ({ classes }) => {
 						</div>
 					</GridItem>
 				</GridContainer>
-			// </div>
-		// </Parallax>
+			</div>
+		</Parallax>
 	);
 };
 
