@@ -171,6 +171,25 @@ const Mutation = {
 			info,
 		);
 	},
+	async updateLocation(parent, { city }, { db, request }, info) {
+		const user = await db.query.user({
+			where: { id: request.userId },
+		});
+		if (!user) {
+			throw new Error('You must be logged in!');
+		}
+		return db.mutation.updateUser(
+			{
+				where: {
+					id: user.id,
+				},
+				data: {
+					location: city,
+				},
+			},
+			info,
+		);
+	},
 	async resetPassword(parent, args, { db, response }, info) {
 		if (args.password !== args.confirmPassword) {
 			throw new Error('Passwords must match!');

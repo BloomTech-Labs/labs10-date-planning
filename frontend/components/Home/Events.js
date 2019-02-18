@@ -1,8 +1,11 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import { withApollo } from 'react-apollo';
+import { withApollo, Mutation } from 'react-apollo';
 import EventsQuery, { ALL_EVENTS_QUERY } from '../Queries/AllEvents';
+import User from '../Queries/User';
+import { UPDATE_LOCATION_MUTATION } from '../Mutations/updateLocation';
 import Filters from './Filters';
 import Event from './Event';
+import Button from '../../styledComponents/CustomButtons/Button';
 import LocationSearch from './LocationSearch';
 import Location from '../Queries/Location';
 import GridContainer from '../../styledComponents/Grid/GridContainer';
@@ -32,119 +35,147 @@ const Events = ({ classes, client }) => {
 
 		setEvents(data.getEvents);
 	};
-	return (
-		<Location>
-			{({ data, loading, error }) => {
-				let { getLocation } = data;
-				if (loading) return <div>getting location</div>;
-				else if (!events) return <div>loading</div>;
-				else
-					return (
-						<div className={classes.section} style={{ paddingTop: '40px' }}>
-							<div className={classes.container}>
-								<h2 style={{ textAlign: 'center' }}>Upcoming Events Near You</h2>
+	// return (
+	// 	<Location>
+	// 		{({ data, loading, error }) => {
+	// 			let { getLocation } = data;
+	// 			if (loading) return <div>getting location</div>;
+	if (!events) return <div>loading</div>;
+	else
+		return (
+			<User>
+				{data => (
+					<div className={classes.section} style={{ paddingTop: '40px' }}>
+						<div className={classes.container}>
+							<h2 style={{ textAlign: 'center' }}>Upcoming Events Near You</h2>
 
-								<Fragment>
-									<div
-										style={{
-											display: 'flex',
-											alignItems: 'center',
-											justifyContent: 'space-between',
-										}}
+							<Fragment>
+								<div
+									style={{
+										display: 'flex',
+										alignItems: 'center',
+										justifyContent: 'space-between',
+									}}
+								>
+									<Mutation
+										mutation={UPDATE_LOCATION_MUTATION}
+										variables={{ city: events.location }}
 									>
-										<div style={{ display: 'flex' }}>
-											<p>Showing events near {events.location}.</p>
-											<a style={{ fontSize: '12px' }}>
-												save as default location?
-											</a>
-										</div>
+										{(updateLocation, { error, loading, called }) => {
+											return (
+												<div
+													style={{
+														display: 'flex',
+														alignItems: 'center',
+													}}
+												>
+													<p style={{ margin: 0 }}>
+														Showing events near {events.location}.
+													</p>
+													{data.currentUser &&
+													data.currentUser.location !==
+														events.location && (
+														<Button
+															color='primary'
+															simple
+															size='sm'
+															style={{ padding: '12px 7px' }}
+															onClick={updateLocation}
+														>
+															make default location?
+														</Button>
+													)}
+												</div>
+											);
+										}}
+									</Mutation>
+									<LocationSearch getEvents={getEvents} />
+								</div>
+								<GridContainer>
+									<Filters
+										location={events.location}
+										page={page}
+										getEvents={getEvents}
+									/>
 
-										<LocationSearch getEvents={getEvents} />
-									</div>
-									<GridContainer>
-										<Filters
-											location={events.location}
-											page={page}
-											getEvents={getEvents}
-										/>
+									<GridItem md={9} sm={9}>
+										<GridContainer>
+											<GridItem sm={6} md={4} lg={3}>
+												{events.events
+													.slice(0, 3)
+													.map(event => (
+														<Event event={event} key={event.id} />
+													))}
+											</GridItem>
+											<GridItem sm={6} md={4} lg={3}>
+												{events.events
+													.slice(4, 7)
+													.map(event => (
+														<Event event={event} key={event.id} />
+													))}
+											</GridItem>
+											<GridItem sm={6} md={4} lg={3}>
+												{events.events
+													.slice(8, 11)
+													.map(event => (
+														<Event event={event} key={event.id} />
+													))}
+											</GridItem>
+											<GridItem sm={6} md={4} lg={3}>
+												{events.events
+													.slice(12, 15)
+													.map(event => (
+														<Event event={event} key={event.id} />
+													))}
+											</GridItem>
+										</GridContainer>
+									</GridItem>
 
-										<GridItem md={9} sm={9}>
-											<GridContainer>
-												<GridItem sm={6} md={4} lg={3}>
-													{events.events
-														.slice(0, 3)
-														.map(event => (
-															<Event event={event} key={event.id} />
-														))}
-												</GridItem>
-												<GridItem sm={6} md={4} lg={3}>
-													{events.events
-														.slice(4, 7)
-														.map(event => (
-															<Event event={event} key={event.id} />
-														))}
-												</GridItem>
-												<GridItem sm={6} md={4} lg={3}>
-													{events.events
-														.slice(8, 11)
-														.map(event => (
-															<Event event={event} key={event.id} />
-														))}
-												</GridItem>
-												<GridItem sm={6} md={4} lg={3}>
-													{events.events
-														.slice(12, 15)
-														.map(event => (
-															<Event event={event} key={event.id} />
-														))}
-												</GridItem>
-											</GridContainer>
-										</GridItem>
+									<Paginations
+										pages={[
+											{ text: 'PREV' },
 
-										<Paginations
-											pages={[
-												{ text: 'PREV' },
+											{
+												text:
+													events.page_number > 2 &&
+													events.page_number - 2,
+												onClick: () => setPage(events.page_number - 2),
+											},
+											{
+												text:
+													events.page_number > 1 &&
+													events.page_number - 1,
+												onClick: () => setPage(events.page_number - 1),
+											},
+											{
+												active: true,
+												text: events.page_number,
+											},
+											{
+												text: events.page_number + 1,
+												onClick: () => setPage(events.page_number + 1),
+											},
+											{
+												text: events.page_number + 2,
+												onClick: () => setPage(events.page_number + 2),
+											},
+											{ text: '...' },
+											{
+												text: events.page_count,
+											},
 
-												{
-													text:
-														events.page_number > 2 &&
-														events.page_number - 2,
-													onClick: () => setPage(events.page_number - 2),
-												},
-												{
-													text:
-														events.page_number > 1 &&
-														events.page_number - 1,
-													onClick: () => setPage(events.page_number - 1),
-												},
-												{
-													active: true,
-													text: events.page_number,
-												},
-												{
-													text: events.page_number + 1,
-													onClick: () => setPage(events.page_number + 1),
-												},
-												{
-													text: events.page_number + 2,
-													onClick: () => setPage(events.page_number + 2),
-												},
-												{ text: '...' },
-												{
-													text: events.page_count,
-												},
-
-												{ text: 'NEXT' },
-											]}
-										/>
-									</GridContainer>
-								</Fragment>
-							</div>
+											{ text: 'NEXT' },
+										]}
+									/>
+								</GridContainer>
+							</Fragment>
 						</div>
-					);
-			}}
-		</Location>
-	);
+					</div>
+				)}
+			</User>
+		);
+
+	// );
 };
 
 export default withApollo(withStyles(styles)(Events));

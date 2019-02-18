@@ -5,6 +5,7 @@ type Mutation {
 	signin(email: String!, password: String!): User!
 	signout: Message
 	updateImage(thumbnail: String!, image: String!): User!
+	updateLocation(city: String!): User!
 	createEvent(title: String!, description: String!): Event!
 	deleteEvent(where: EventWhereUniqueInput!): Event
 	addEvent(eventId: String!): Message
@@ -51,7 +52,7 @@ type User {
 	firstName: String!
 	lastName: String!
 	email: String!
-	zipcode: String
+	location: String
 	gender: Gender
 	password: String
 	imageThumbnail: String

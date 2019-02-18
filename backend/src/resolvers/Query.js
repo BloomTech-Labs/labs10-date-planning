@@ -142,7 +142,7 @@ const Query = {
 		if (user.permissions[0] === 'MONTHLY') datesCount += 3;
 		if (user.permissions[0] === 'YEARLY') datesCount += 5;
 
-		return { count: datesCount };
+		return { count: datesCount - user.events.length };
 	},
 };
 
