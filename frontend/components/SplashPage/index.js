@@ -10,7 +10,6 @@ import Styles from '../../static/jss/material-kit-pro-react/views/landingPageSty
 const Splash = ({ classes }) => {
 	useEffect(() => {
 		window.scrollTo(0, 0);
-		// document.body.scrollTop = 0;
 	}, []);
 	return (
 		<Parallax>
