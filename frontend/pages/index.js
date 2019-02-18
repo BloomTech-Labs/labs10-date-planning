@@ -5,7 +5,7 @@ import Home from './home';
 const Index = () => (
   <User>
     {({data}) => {
-     
+     console.log(data)
       return (
       <>
       {data.currentUser ? <Home /> : <JoinUs />}

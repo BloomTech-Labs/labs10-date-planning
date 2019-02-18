@@ -1,5 +1,6 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import gql from 'graphql-tag';
+import Router from 'next/router'
 import firebase from 'firebase/app';
 import { Mutation } from 'react-apollo';
 import { CURRENT_USER_QUERY } from '../Queries/User';
@@ -87,6 +88,7 @@ const Login = ({ classes }) => {
 			refetchQueries={[{ query: CURRENT_USER_QUERY }]}
 		>
 			{(signin, { error, loading, called }) => {
+				console.log(error, loading, called)
 				return (
 					<Fragment>
 						<Button round onClick={() => setModalShowing(true)}>
@@ -159,9 +161,10 @@ const Login = ({ classes }) => {
 										</div>
 									</CardHeader>
 								</DialogTitle>
-								<form onSubmit={(e) => {e.preventDefault(); signin()}} onKeyPress={event => {
+								<form onSubmit={async (e) => {e.preventDefault(); await signin(); Router.push('/home')}} onKeyPress={async event => {
 															if (event.key === 'Enter') {
-																signin();
+																await signin();
+																Router.push('/home')
 															}
 														}}>
 								<DialogContent id="login-modal-slide-description" className={classes.modalBody}>
@@ -209,6 +212,7 @@ const Login = ({ classes }) => {
 													),
 													placeholder: 'Password...',
 													value: user.password,
+													type: passwordShowing ? 'text' : 'password',
 													onChange: e =>
 														setUser({
 															...user,

@@ -49,9 +49,9 @@ const SIGNOUT_MUTATION = gql`
 	}
 `;
 const Nav = ({ classes }) => {
-	const handleClick = async (e, signout) => {
+	const handleClick = (e, signout) => {
 		if (e === 'Sign out') {
-			await signout();
+			signout();
 			Router.push('/joinus');
 		} else {
 			Router.push(`/${e.toLowerCase()}`);
