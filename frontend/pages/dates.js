@@ -1,6 +1,8 @@
+import DatesWrapper from '../components/Dates/Dates';
+
 const Dates = () => (
 	<div>
-		<h1>Hi</h1>
+		<DatesWrapper />
 	</div>
 );
 
