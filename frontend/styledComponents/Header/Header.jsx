@@ -67,7 +67,9 @@ class Header extends React.Component {
 			<AppBar className={appBarClasses}>
 				<Toolbar className={classes.container}>
 					<Link href='/'>
-						<Button className={classes.title}>{brand}</Button>
+						<Button className={classes.title}>
+							<img src={brand} style={{ maxHeight: '40px' }} />
+						</Button>
 					</Link>
 					<Hidden smDown implementation='css' className={classes.hidden}>
 						<div className={classes.collapse}>{links}</div>
@@ -126,7 +128,7 @@ Header.propTypes = {
 		'dark',
 	]),
 	links: PropTypes.node,
-	brand: PropTypes.string,
+	brand: PropTypes.node,
 	fixed: PropTypes.bool,
 	absolute: PropTypes.bool,
 	// this will cause the sidebar to change the color from

@@ -1,6 +1,6 @@
 import Splash from '../components/SplashPage';
-import User from '../components/Queries/User'
-import Home from './home'
+import User from '../components/Queries/User';
+import Home from './home';
 
 const Index = () => (
   <User>
@@ -12,7 +12,7 @@ const Index = () => (
       </>
     )}}
   </User>
-
 );
 
 export default Index;
+//
