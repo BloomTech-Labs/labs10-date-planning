@@ -65,18 +65,15 @@ const Mutation = {
 			throw new Error('A user with that email already exists');
 		}
 
-		const user = await ctx.db.mutation.createUser(
-			{
-				data: {
-					// id: uid,
-					firstName: displayName,
-					email,
-					password: 'firebaseAuth',
-					lastName: ''
-				}
-			},
-			`id firstName email`
-		);
+		const user = await ctx.db.mutation.createUser({
+			data: {
+				// id: uid,
+				firstName: displayName,
+				email,
+				password: 'firebaseAuth',
+				lastName: ''
+			}
+		});
 
 		await setUserClaims(uid, { id: user.id, admin: false });
 		const { token } = await createuserToken(args, ctx);
@@ -108,11 +105,11 @@ const Mutation = {
 	},
 	async firebaseSignin(parent, args, ctx, info) {
 		const verify = await verifyIdToken(args.idToken);
-		if (!verify.user_id) throw new Error({ message: 'User is not registered' });
+		if (!verify.user_id) throw new Error('User is not registered');
 
 		const user = await ctx.db.query.user({ where: { email: verify.email } });
 		if (!user) {
-			throw new Error({ message: 'User account does not exist' });
+			throw new Error('User account does not exist');
 		}
 
 		const token = await createUserToken(args, ctx);

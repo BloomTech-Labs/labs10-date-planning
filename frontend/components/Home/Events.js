@@ -106,7 +106,9 @@ const Events = ({ classes, client }) => {
 										onCompleted={handleCompleted}
 									>
 										{(updateLocation, { error, loading, called }) => {
+
 											console.log(user.location, location);
+
 											if (called) NProgress.start();
 											return (
 												<div
