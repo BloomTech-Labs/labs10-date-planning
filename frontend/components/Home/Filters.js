@@ -87,7 +87,7 @@ const Filters = ({ classes, getEvents, location, page }) => {
 					</h4>
 					<Accordion
 						active={[ 0, 1 ]}
-						activeColor='rose'
+						activeColor='trevor'
 						collapses={[
 							{
 								title: 'Category',

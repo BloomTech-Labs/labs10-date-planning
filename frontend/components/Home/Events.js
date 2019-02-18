@@ -57,7 +57,7 @@ const Events = ({ classes, client }) => {
 				{data => (
 					<div className={classes.section} style={{ paddingTop: '40px' }}>
 						<div className={classes.container}>
-							<h2 style={{ textAlign: 'center' }}>Upcoming Events Near You</h2>
+							{/* <h2 style={{ textAlign: 'center' }}>Upcoming Events Near You</h2> */}
 
 							<Fragment>
 								<div
