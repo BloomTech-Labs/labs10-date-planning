@@ -11,4 +11,4 @@ const config = {
 };
 
 export default (!firebase.apps.length ? firebase.initializeApp(config) : firebase.app());
-export const prodAuth = firebase.auth();
+export const auth = firebase.auth();
