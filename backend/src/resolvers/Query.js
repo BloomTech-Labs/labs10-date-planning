@@ -1,6 +1,7 @@
 const { forwardTo } = require('prisma-binding');
 const axios = require('axios');
-const { transformEvents } = require('../utils');
+const moment = require('moment');
+const { transformEvents, fetchEvents } = require('../utils');
 
 const Query = {
 	users: forwardTo('db'),
@@ -26,42 +27,58 @@ const Query = {
 			info,
 		);
 	},
-	async getEvents(parent, { location, page, ...args }, ctx, info) {
-		console.log(args);
-		let categories = args.categories.toString() || 'music,comedy,performing_arts,sports';
-		let dates = args.dates.toString() || 'all';
-		console.log(categories, dates, page, location);
-		const { data } = await axios.get(
-			`https://api.eventful.com/json/events/search?location=${location}&category=${categories}&date=${dates}&page_number=${page}&page_size=15&app_key=${process
-				.env.API_KEY}`,
-		);
+	async getEvents(parent, { location, alt, page, ...args }, ctx, info) {
+		// var now = moment.now();
+		console.log(location, alt);
+		let categories = args.categories
+			? args.categories.toString()
+			: 'music,comedy,performing_arts,sports';
+		let dates = args.dates ? args.dates.toString() : 'all';
+		// console.log(categories, dates, page, location);
+		let response = await fetchEvents(location, categories, dates, page);
 
-		// shapes return object into sveldt, beautiful object with whimsical designs
-		let events = transformEvents(data.events);
+		let data = response.data,
+			events;
+
+		if (data.events) {
+			events = transformEvents(data.events);
+		} else {
+			response = await fetchEvents(alt, categories, dates, page);
+			data = response.data;
+			events = transformEvents(data.events);
+		}
+		if (!data) {
+			throw new Error('There is no event info for your current location');
+		}
 
 		return {
 			events: events,
 			total_items: data.total_items,
 			page_count: data.page_count,
 			page_number: data.page_number,
+			location: location,
 		};
 	},
 	async getEvent(parent, args, ctx, info) {
-		// find specific event
-		const event = await axios.get(
+		const { data } = await axios.get(
 			`http://api.eventful.com/json/events/get?&id=${args.id}&app_key=${process.env.API_KEY}`,
 		);
-		// gonna make another helper to shape this bad boy too
+		console.log(data);
 		return {
-			title: event.data.title,
-			id: event.data.id,
-			// url: event.data.url,
+			title: data.title,
+			id: data.id,
+			url: data.url || null,
 			location: {
-				venue: event.data.venue_name,
+				city: data.city_name,
+				venue: data.venue_name,
+				address: data.venue_address,
+				zipCode: data.postal_code,
 			},
-			details: {
-				tags: event.data.tags.tag,
-			},
+			image_url: data.images
+				? data.images.image.medium && data.images.image.medium.url
+				: 'https://screenshotlayer.com/images/assets/placeholder.png',
+			description: data.description || null,
+			times: [ data.start_time ],
 		};
 	},
 	async getLocation(parent, { latitude, longitude }, ctx, info) {
@@ -69,161 +86,64 @@ const Query = {
 			`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude}, ${longitude}&key=${process
 				.env.GOOGLE_API_KEY}`,
 		);
+
 		let city = location.data.results[0].address_components[3].long_name;
 		let state = location.data.results[0].address_components[5].short_name;
-		console.log(city, state);
+		let county = location.data.results[0].address_components[4].long_name;
+		console.log(city, county, state);
+
 		return {
-			location: `${city}, ${state}`,
+			city: `${city}, ${state}`,
+			county: `${county}, ${state}`,
 		};
+	},
+	async locationSearch(parent, args, { db }, info) {
+		const response = await axios(
+			`https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${args.city}&types=(cities)&key=${process
+				.env.GOOGLE_API_KEY}`,
+		);
+		const results = response.data.predictions;
+		const city = results.map(result => {
+			return { city: result.description };
+		});
+		return city;
+	},
+	async getUserOrder(parent, args, ctx, info) {
+		// Check user's login status
+		const { userId } = ctx.request;
+		if (!userId) throw new Error('You must be signed in to access orders.');
+
+		return ctx.db.query.orders(
+			{
+				where: {
+					user: {
+						id: args.userId,
+					},
+				},
+			},
+			info,
+		);
+	},
+
+	async getRemainingDates(parent, args, ctx, info) {
+		// Check user's login status
+		const { userId } = ctx.request;
+		if (!userId) throw new Error('You must be signed in to access this app.');
+
+		const user = await ctx.db.query.user(
+			{ where: { id: userId } },
+			`
+				{id permissions events {id}}
+			`,
+		);
+
+		// TO DO: define subscription level and benefit!!!
+		let datesCount = 5;
+		if (user.permissions[0] === 'MONTHLY') datesCount += 3;
+		if (user.permissions[0] === 'YEARLY') datesCount += 5;
+
+		return { count: datesCount - user.events.length };
 	},
 };
 
 module.exports = Query;
-
-// const search_categories = [
-// 	{
-// 		name: 'Concerts &amp; Tour Dates',
-// 		event_count: null,
-// 		id: 'music'
-// 	},
-// 	{
-// 		name: 'Conferences &amp; Tradeshows',
-// 		event_count: null,
-// 		id: 'conference'
-// 	},
-// 	{
-// 		name: 'Comedy',
-// 		event_count: null,
-// 		id: 'comedy'
-// 	},
-// 	{
-// 		name: 'Education',
-// 		event_count: null,
-// 		id: 'learning_education'
-// 	},
-// 	{
-// 		name: 'Kids &amp; Family',
-// 		event_count: null,
-// 		id: 'family_fun_kids'
-// 	},
-// 	{
-// 		name: 'Festivals',
-// 		event_count: null,
-// 		id: 'festivals_parades'
-// 	},
-// 	{
-// 		name: 'Film',
-// 		event_count: null,
-// 		id: 'movies_film'
-// 	},
-// 	{
-// 		name: 'Food &amp; Wine',
-// 		event_count: null,
-// 		id: 'food'
-// 	},
-// 	{
-// 		name: 'Fundraising &amp; Charity',
-// 		event_count: null,
-// 		id: 'fundraisers'
-// 	},
-// 	{
-// 		name: 'Art Galleries &amp; Exhibits',
-// 		event_count: null,
-// 		id: 'art'
-// 	},
-// 	{
-// 		name: 'Health &amp; Wellness',
-// 		event_count: null,
-// 		id: 'support'
-// 	},
-// 	{
-// 		name: 'Holiday',
-// 		event_count: null,
-// 		id: 'holiday'
-// 	},
-// 	{
-// 		name: 'Literary &amp; Books',
-// 		event_count: null,
-// 		id: 'books'
-// 	},
-// 	{
-// 		name: 'Museums &amp; Attractions',
-// 		event_count: null,
-// 		id: 'attractions'
-// 	},
-// 	{
-// 		name: 'Neighborhood',
-// 		event_count: null,
-// 		id: 'community'
-// 	},
-// 	{
-// 		name: 'Business &amp; Networking',
-// 		event_count: null,
-// 		id: 'business'
-// 	},
-// 	{
-// 		name: 'Nightlife &amp; Singles',
-// 		event_count: null,
-// 		id: 'singles_social'
-// 	},
-// 	{
-// 		name: 'University &amp; Alumni',
-// 		event_count: null,
-// 		id: 'schools_alumni'
-// 	},
-// 	{
-// 		name: 'Organizations &amp; Meetups',
-// 		event_count: null,
-// 		id: 'clubs_associations'
-// 	},
-// 	{
-// 		name: 'Outdoors &amp; Recreation',
-// 		event_count: null,
-// 		id: 'outdoors_recreation'
-// 	},
-// 	{
-// 		name: 'Performing Arts',
-// 		event_count: null,
-// 		id: 'performing_arts'
-// 	},
-// 	{
-// 		name: 'Pets',
-// 		event_count: null,
-// 		id: 'animals'
-// 	},
-// 	{
-// 		name: 'Politics &amp; Activism',
-// 		event_count: null,
-// 		id: 'politics_activism'
-// 	},
-// 	{
-// 		name: 'Sales &amp; Retail',
-// 		event_count: null,
-// 		id: 'sales'
-// 	},
-// 	{
-// 		name: 'Science',
-// 		event_count: null,
-// 		id: 'science'
-// 	},
-// 	{
-// 		name: 'Religion &amp; Spirituality',
-// 		event_count: null,
-// 		id: 'religion_spirituality'
-// 	},
-// 	{
-// 		name: 'Sports',
-// 		event_count: null,
-// 		id: 'sports'
-// 	},
-// 	{
-// 		name: 'Technology',
-// 		event_count: null,
-// 		id: 'technology'
-// 	},
-// 	{
-// 		name: 'Other &amp; Miscellaneous',
-// 		event_count: null,
-// 		id: 'other'
-// 	}
-// ];

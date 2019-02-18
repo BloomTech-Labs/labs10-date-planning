@@ -4,42 +4,62 @@ type Mutation {
 	signup(email: String!, password: String!, firstName: String!, lastName: String!): User!
 	signin(email: String!, password: String!): User!
 	signout: Message
+	updateImage(thumbnail: String!, image: String!): User!
+	updateLocation(city: String!): User!
 	createEvent(title: String!, description: String!): Event!
 	deleteEvent(where: EventWhereUniqueInput!): Event
+	addEvent(eventId: String!): Message
 	requestReset(email: String!): Message
 	resetPassword(resetToken: String!, password: String!, confirmPassword: String!): User!
 	updatePermissions(permissions: [Permission], userId: ID!): User
-	createOrder(token: String!):Order!
+	createOrder(token: String!, subscription: Permission!): Order!
+	internalPasswordReset(oldPassword: String!, newPassword1: String!, newPassword2: String!): User!
+	firebaseSignin(idToken: String!): FirebasePayload
+	firebaseSignup(idToken: String!): FirebasePayload
 }
 
 type Query {
 	users: [User]!
 	events: [Event]!
-	getEvents(location: String, page: Int, categories: [String], dates: [String]): AllEvents
+	getEvents(
+		location: String
+		alt: String
+		page: Int
+		categories: [String]
+		dates: [String]
+	): AllEvents
 	getEvent(id: String!): Event
 	currentUser: User
 	user(where: UserWhereUniqueInput!): User
 	getLocation(latitude: Float!, longitude: Float!): UserLocation!
+	locationSearch(city: String!): [Locations]
+	getUserOrder(userId: String!): [Order!]!
+	getRemainingDates: DatesCount!
 }
 
 type AllEvents {
 	events: [Event]
-	total_items: Int,
-	page_count: Int,
-	page_number: Int,
+	total_items: Int
+	page_count: Int
+	page_number: Int
+	location: String
 }
-
+type Locations {
+	city: String
+}
 type User {
 	id: ID!
 	firstName: String!
 	lastName: String!
 	email: String!
-	zipcode: String
+	location: String
 	gender: Gender
 	password: String
+	imageThumbnail: String
+	imageLarge: String
 	permissions: [Permission!]!
 	interests: [Category]
-	events: [Event]
+	events: [UserEvent]
 	createdAt: DateTime!
 	updatedAt: DateTime!
 }
@@ -54,6 +74,16 @@ type Event {
 	image_url: String
 }
 
+type UserEvent {
+	id: ID!
+	title: String!
+	url: String
+	description: String
+	times: [String]
+	location: String
+	image_url: String
+}
+
 type Location {
 	city: String
 	venue: String
@@ -62,7 +92,8 @@ type Location {
 }
 
 type UserLocation {
-	location: String!
+	city: String!
+	county: String!
 }
 
 type Details {
@@ -82,4 +113,13 @@ type Tag {
 
 type Message {
 	message: String
+}
+
+type DatesCount {
+	count: Int!
+}
+
+type FirebasePayload {
+	token: String!
+	user: User!
 }

@@ -6,7 +6,8 @@ import PropTypes from 'prop-types';
 const CURRENT_LOCATION_QUERY = gql`
 	query($latitude: Float!, $longitude: Float!) {
 		getLocation(latitude: $latitude, longitude: $longitude) {
-			location
+			city
+			county
 		}
 	}
 `;
@@ -15,6 +16,7 @@ const Location = ({ children }) => {
 	const [ location, setLocation ] = useState({});
 
 	useEffect(() => {
+		// setLocation({ longitude: -122.3321, latitude: 47.6062 });
 		navigator.geolocation.getCurrentPosition(position => {
 			let { latitude, longitude } = position.coords;
 

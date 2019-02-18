@@ -6,14 +6,22 @@ import gql from 'graphql-tag';
 export const ALL_EVENTS_QUERY = gql`
 	query ALL_EVENTS_QUERY(
 		$location: String!
+		$alt: String
 		$page: Int
 		$categories: [String]
 		$dates: [String]
 	) {
-		getEvents(location: $location, page: $page, categories: $categories, dates: $dates) {
+		getEvents(
+			location: $location
+			alt: $alt
+			page: $page
+			categories: $categories
+			dates: $dates
+		) {
 			page_count
 			total_items
 			page_number
+			location
 			events {
 				id
 				title
@@ -32,7 +40,6 @@ export const ALL_EVENTS_QUERY = gql`
 `;
 
 const Events = ({ children, variables }) => {
-	console.log(variables);
 	return (
 		<Query query={ALL_EVENTS_QUERY} variables={variables}>
 			{payload => children(payload)}

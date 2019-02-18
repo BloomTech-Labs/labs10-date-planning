@@ -1,11 +1,11 @@
-import Sidebar from '../components/Sidebar';
 import Events from '../components/Home/Events';
+import Header from '../components/Header'
 
 const Home = () => (
-	<div>
-		{/* <Sidebar /> */}
+	<>
+	<Header />
 		<Events />
-	</div>
+	</>
 );
 
 export default Home;

@@ -53,7 +53,7 @@ type User {
 	resetToken: String
 	resetTokenExpiry: Float
 	interests: [Category]
-	events: [Event]
+	events: [Event!]!
 	permissions: [Permission!]!
 	createdAt: DateTime!
 	updatedAt: DateTime!
@@ -61,10 +61,15 @@ type User {
 
 type Event {
 	id: ID! @unique
+	eventfulID: String! @unique
 	votes: Int
 	title: String
 	description: String
 	attending: [User]
+	times: [String]
+	location: String
+	image_url: String
+	url: String
 	# location: String!
 	# startTime: DateTime
 	# category: [Category]
