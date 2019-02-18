@@ -9,11 +9,12 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import Close from '@material-ui/icons/Close';
 import DialogContent from '@material-ui/core/DialogContent';
 import Downshift from 'downshift';
+import { CURRENT_USER_QUERY } from '../Queries/User';
 import { LOCATION_SUGGESTION_QUERY } from '../Queries/LocationSuggestion';
 import { ApolloConsumer, Mutation } from 'react-apollo';
 import { UPDATE_LOCATION_MUTATION } from '../Mutations/updateLocation';
 import Input from '../../styledComponents/CustomInput/CustomInput';
-import SearchIcon from '@material-ui/icons/Search';
+import WhereToVote from '@material-ui/icons/WhereToVote';
 import Paper from '@material-ui/core/Paper';
 import MenuItem from '@material-ui/core/MenuItem';
 
@@ -22,13 +23,16 @@ const Location = ({ user, classes }) => {
 	const [ input, setInput ] = useState('');
 	const [ items, setItems ] = useState([]);
 	const onChange = selectedItem => {
-		setInput(selectedItem.city);
+		console.log(selectedItem);
+		setInput(selectedItem);
 	};
 
 	return (
 		<div>
 			<Danger style={{ display: 'flex', alignItems: 'center' }}>
-				<h6 style={{ margin: 0 }}>{user.location}</h6>
+				<h6 style={{ margin: 0 }}>
+					{user.location ? user.location : 'Set your default location'}
+				</h6>
 				<Button justIcon simple round onClick={() => showModal(true)}>
 					<NearMe />
 				</Button>
@@ -47,7 +51,6 @@ const Location = ({ user, classes }) => {
 					id='notice-modal-slide-title'
 					disableTypography
 					className={classes.modalHeader}
-					styles={{ maxHeight: '600px', overflow: 'scroll' }}
 				>
 					{' '}
 					<Button
@@ -70,7 +73,9 @@ const Location = ({ user, classes }) => {
 						{client => (
 							<Mutation
 								mutation={UPDATE_LOCATION_MUTATION}
-								variables={{ city: input }}
+								variables={{ city: input.slice(0, -5) }}
+								refetchQueries={[ { query: CURRENT_USER_QUERY } ]}
+								onCompleted={() => showModal(false)}
 							>
 								{(updateLocation, { error, loading, called }) => {
 									return (
@@ -96,7 +101,7 @@ const Location = ({ user, classes }) => {
 												highlightedIndex,
 												selectedItem,
 											}) => (
-												<div>
+												<div style={{ width: '100%' }}>
 													<Input
 														inputProps={{
 															placeholder:
@@ -104,7 +109,10 @@ const Location = ({ user, classes }) => {
 															...getInputProps(),
 														}}
 														formControlProps={{
-															style: { paddingTop: '12px' },
+															style: {
+																paddingTop: '12px',
+																width: '90%',
+															},
 														}}
 													/>
 													<Button
@@ -115,7 +123,7 @@ const Location = ({ user, classes }) => {
 															updateLocation();
 														}}
 													>
-														<SearchIcon />
+														<WhereToVote />
 													</Button>
 
 													{isOpen ? (
@@ -124,7 +132,7 @@ const Location = ({ user, classes }) => {
 																position: 'absolute',
 																zIndex: 2,
 
-																width: '200px',
+																width: '90%',
 															}}
 														>
 															{items.map((result, index) => {

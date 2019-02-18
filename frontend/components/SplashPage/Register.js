@@ -4,7 +4,7 @@ import { Mutation } from 'react-apollo';
 import firebase from 'firebase/app';
 import Router from 'next/router';
 import withStyles from '@material-ui/core/styles/withStyles';
-
+import NProgress from 'nprogress';
 import { CURRENT_USER_QUERY } from '../Queries/User';
 
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -14,7 +14,9 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import ButtonBase from '@material-ui/core/ButtonBase';
-
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import IconButton from '@material-ui/core/IconButton';
 import MusicNote from '@material-ui/icons/MusicNote';
 import TheaterMasks from '../../static/icons/TheatreMask';
 import Restaurant from '@material-ui/icons/Restaurant';
@@ -67,6 +69,7 @@ const FIREBASE_SIGNUP = gql`
 `;
 
 const Register = ({ classes }) => {
+	const [passwordShowing, setPasswordShowing] = useState(true)
 	const [modalShowing, setModalShowing] = useState(false);
 	const [termsShowing, setTermsShowing] = useState(false);
 	const [terms, setTerms] = useState(false);
@@ -115,7 +118,7 @@ const Register = ({ classes }) => {
 					firstName: nameArray[0],
 					lastName: nameArray[1]
 				}
-			}).catch(err => console.log(err));
+			}).catch(error => {if (error.message.includes('unique')) { setError({...err, email: 'A user with this email already exists.'})}});
 			if (newUser) Router.push('/home');
 		}
 	};
@@ -131,6 +134,7 @@ const Register = ({ classes }) => {
 					paper: classes.modal + ' ' + classes.modalSignup
 				}}
 				open={modalShowing}
+				scroll='body'
 				// TransitionComponent={Transition}
 				keepMounted
 				onClose={() => {
@@ -244,10 +248,17 @@ const Register = ({ classes }) => {
 											<Mutation
 												mutation={REGISTER_USER}
 												refetchQueries={[{ query: CURRENT_USER_QUERY }]}
+												onCompleted={() => NProgress.done()}
+												onError={() => NProgress.done()}
 											>
-												{(signup, { error, loading }) => (
+												{(signup, { error, loading, called }) => {
+													if (called) NProgress.start();
+													
+													return (
+												
 													<form
 														className={classes.form}
+														onSubmit={(e) => handleSubmit(e, signup) }
 														onKeyPress={event => {
 															if (event.key === 'Enter') {
 																handleSubmit(event, signup);
@@ -310,7 +321,7 @@ const Register = ({ classes }) => {
 																	value: user.email,
 																	onChange: handleChange
 																}}
-																label={err.email}
+																labelText={err.email}
 																labelProps={{
 																	error: true
 																}}
@@ -322,7 +333,18 @@ const Register = ({ classes }) => {
 																	fullWidth: true,
 																	className: classes.customFormControlClasses
 																}}
+																
 																inputProps={{
+																	endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="Toggle password visibility"
+                  onClick={() => setPasswordShowing(!passwordShowing)}
+                >
+                  {passwordShowing ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+													),
 																	startAdornment: (
 																		<InputAdornment
 																			position="start"
@@ -337,6 +359,7 @@ const Register = ({ classes }) => {
 																	autoComplete: 'new-password',
 																	required: true,
 																	name: 'password',
+																	type: passwordShowing ? 'text' : 'password',
 																	value: user.password,
 																	onChange: handleChange,
 																	error: err.password
@@ -383,7 +406,7 @@ const Register = ({ classes }) => {
 															</div>
 														</fieldset>
 													</form>
-												)}
+												)}}
 											</Mutation>
 										</GridItem>
 									</GridContainer>

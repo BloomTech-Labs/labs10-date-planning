@@ -8,8 +8,8 @@ import blogsStyle from '../../static/jss/material-kit-pro-react/views/sectionsSe
 
 const Settings = ({ classes }) => {
 	return (
-		<div className={classes.blog}>
-			<GridContainer style={{ margin: 0 }}>
+		<div style={{ height: '100%' }}>
+			<GridContainer style={{ margin: 0, height: '100%' }}>
 				<GridItem md={3} lg={2}>
 					<Sidebar />
 				</GridItem>
