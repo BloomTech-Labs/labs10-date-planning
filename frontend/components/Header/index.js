@@ -23,7 +23,7 @@ import CustomDropdown from '../../styledComponents/CustomDropdown/CustomDropdown
 import Button from '../../styledComponents/CustomButtons/Button.jsx';
 import image from '../../static/img/bg.jpg';
 import profileImage from '../../static/img/placeholder.jpg';
-import Logo from '../../static/img/up4LogoWhite.png';
+import Logo from '../../static/img/up4Logo.png';
 
 import User from '../Queries/User';
 import { CURRENT_USER_QUERY } from '../Queries/User';
