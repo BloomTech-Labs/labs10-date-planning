@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import Meta from './Meta';
 import User from './Queries/User';
-import Header from './Header';
 
 const Page = ({ children }) => {
 	return (
@@ -9,7 +8,6 @@ const Page = ({ children }) => {
 			{({ data: { currentUser } }) => (
 				<Fragment>
 					<Meta />
-					{currentUser != undefined && <Header />}
 
 					<div>{children}</div>
 				</Fragment>

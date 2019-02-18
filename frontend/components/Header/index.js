@@ -1,6 +1,7 @@
+import React, { useEffect } from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 import navbarsStyle from '../../static/jss/material-kit-pro-react/views/componentsSections/navbarsStyle.jsx';
-import Router from 'next/router';
+import Router, { withRouter } from 'next/router';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 import List from '@material-ui/core/List';
@@ -23,7 +24,7 @@ import CustomDropdown from '../../styledComponents/CustomDropdown/CustomDropdown
 import Button from '../../styledComponents/CustomButtons/Button.jsx';
 import image from '../../static/img/bg.jpg';
 import profileImage from '../../static/img/placeholder.jpg';
-import Logo from '../../static/img/up4Logo.png';
+import Logo from '../../static/img/up4LogoWhite.png';
 
 import User from '../Queries/User';
 import { CURRENT_USER_QUERY } from '../Queries/User';
@@ -75,7 +76,7 @@ const Nav = ({ classes }) => {
 									}}
 									color='transparent'
 								>
-									<LocalActivity /> Your Dates
+									<AccountCircle /> Profile
 								</Button>
 							</ListItem>
 							<Mutation
@@ -109,7 +110,7 @@ const Nav = ({ classes }) => {
 													classes.imageDropdownButton,
 												color: 'transparent',
 											}}
-											dropdownList={[ 'Billing', 'Settings', 'Sign out' ]}
+											dropdownList={[ 'Billing', 'Sign out' ]}
 											onClick={e => handleClick(e, signout)}
 										/>
 									</ListItem>

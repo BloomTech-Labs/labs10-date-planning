@@ -1,20 +1,12 @@
 import React, { useState } from 'react';
 import Downshift from 'downshift';
-import gql from 'graphql-tag';
 import { ApolloConsumer } from 'react-apollo';
+import { LOCATION_SUGGESTION_QUERY } from '../Queries/LocationSuggestion';
 import Input from '../../styledComponents/CustomInput/CustomInput';
 import SearchIcon from '@material-ui/icons/Search';
 import Paper from '@material-ui/core/Paper';
 import Button from '../../styledComponents/CustomButtons/Button';
 import MenuItem from '@material-ui/core/MenuItem';
-
-const LOCATION_SUGGESTION_QUERY = gql`
-	query LOCATION_SUGGESTION_QUERY($city: String!) {
-		locationSearch(city: $city) {
-			city
-		}
-	}
-`;
 
 const Search = ({ getEvents }) => {
 	const [ input, setInput ] = useState('');

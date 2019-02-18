@@ -13,7 +13,7 @@ class ImageUpload extends React.Component {
 		super(props);
 		this.state = {
 			file: null,
-			imagePreviewUrl: this.props.image ? this.props.image : defaultAvatar,
+			imagePreviewUrl: this.props.image ? this.props.image : defaultImage,
 		};
 		this.handleImageChange = this.handleImageChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);

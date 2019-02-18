@@ -1,9 +1,7 @@
-import DatesWrapper from '../components/Dates/Dates';
+import Settings from '../components/Settings';
+import Header from '../components/Header'
+const SettingsPage = () => <><Header /><Settings /></>;
 
-const Dates = () => (
-	<div>
-		<DatesWrapper />
-	</div>
-);
+export default SettingsPage;
 
-export default Dates;
+// hmm
