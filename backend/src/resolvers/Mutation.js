@@ -290,23 +290,38 @@ const Mutation = {
 			throw new Error(`User already has the highest level of ${args.subscription} subscription`);
 		}
 
-		// Charge the credit card
-		const amount = args.subscription === 'MONTHLY' ? 999 : 2999;
-		const charge = await stripe.charges.create({
-			amount,
-			currency: 'USD',
-
-			description: `UP4 ${args.subscription} subscription`,
-			source: args.token,
-			receipt_email: user.email
+		// Create a customer
+		const customer = await stripe.customers.create({
+			email: user.email,
+			source: args.token
 		});
+
+		// Create a subscription
+		const subscription = await stripe.subscriptions.create({
+			customer: customer.id,
+			items: [{
+				plan: user.permissions[0] === 'MONTHLY' ? 'plan_EYPPZzmOjy3P3I' : 'plan_EYPg6RkTFwJFRA'
+			}]
+		})
+
+		console.log(subscription, customer.id);
+		// // Charge the credit card
+		const amount = args.subscription === 'MONTHLY' ? 999 : 2999;
+		// const charge = await stripe.charges.create({
+		// 	amount,
+		// 	currency: 'USD',
+
+		// 	description: `UP4 ${args.subscription} subscription`,
+		// 	source: args.token,
+		// 	receipt_email: user.email,
+		// });
 
 		// Record the order
 		const order = await ctx.db.mutation.createOrder(
 			{
 				data: {
 					total: amount,
-					charge: charge.receipt_url,
+					charge: '',
 					subscription: args.subscription,
 					user: {
 						connect: {
