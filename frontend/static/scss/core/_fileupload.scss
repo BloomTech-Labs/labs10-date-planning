@@ -48,7 +48,21 @@
       max-width: 100px;
   }
 }
-.fileinput .thumbnail > img {
+.thumbnail {
+  display: inline-block;
+  margin-bottom: 10px;
+  overflow: hidden;
+  text-align: center;
+  vertical-align: middle;
+  max-width: 360px;
+  box-shadow: 0 5px 15px -8px rgba(0, 0, 0, 0.24), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+
+  &.img-circle{
+      border-radius: 50%;
+      max-width: 100px;
+  }
+}
+.thumbnail > img {
   max-height: 100%;
   width: 100%;
 }
