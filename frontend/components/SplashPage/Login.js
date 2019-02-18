@@ -22,7 +22,7 @@ import Card from '../../styledComponents/Card/Card';
 import CardHeader from '../../styledComponents/Card/CardHeader';
 import CardBody from '../../styledComponents/Card/CardBody';
 import CustomInput from '../../styledComponents/CustomInput/CustomInput';
-
+import ErrorModal from './ErrorModal'
 import Styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles';
 
 // import { auth } from '../../utils/firebase';
@@ -57,6 +57,7 @@ const Login = ({ classes }) => {
 	const [passwordShowing, setPasswordShowing] = useState(true)
 	const [user, setUser] = useState({ email: '', password: '' });
 	const [modalShowing, setModalShowing] = useState(false);
+	const [serverError, setServerError] = useState(undefined)
 
 	const googlePopup = async (e, firebaseSignin) => {
 		e.preventDefault();
@@ -65,6 +66,7 @@ const Login = ({ classes }) => {
 			const complete = await auth.signInWithPopup(provider);
 			const idToken = await auth.currentUser.getIdToken(true);
 			const success = await firebaseSignin({ variables: { idToken } });
+			if (success.data) Router.push('/home')
 		} catch (err) {
 			console.log(err);
 		}
@@ -76,6 +78,7 @@ const Login = ({ classes }) => {
 			const complete = await auth.signInWithPopup(provider);
 			const idToken = await auth.currentUser.getIdToken(true);
 			const success = await firebaseSignin({ variables: { idToken } });
+			if (success.data) Router.push('/home')
 		} catch (err) {
 			console.log(err);
 		}
@@ -135,7 +138,9 @@ const Login = ({ classes }) => {
 												refetchQueries={[{ query: CURRENT_USER_QUERY }]}
 												
 											>
-												{(firebaseSignin, { loading, error }) => (
+												{(firebaseSignin, { loading, error }) => { 
+													if (error) setServerError(error)
+													return(
 													<>
 														<Button
 															justIcon
@@ -158,7 +163,7 @@ const Login = ({ classes }) => {
 															<i className="fab fa-instagram" />
 														</Button>
 													</>
-												)}
+												)}}
 											</Mutation>
 										</div>
 									</CardHeader>
@@ -240,6 +245,7 @@ const Login = ({ classes }) => {
 								</DialogActions>
 								</form>
 							</Card>
+							<ErrorModal error={serverError}/>
 						</Dialog>
 					</Fragment>
 				);
