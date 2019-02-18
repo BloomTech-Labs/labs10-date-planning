@@ -55,7 +55,7 @@ const Search = ({ setLocation }) => {
 								disabled={!selectedItem}
 								onClick={() => {
 									let city = input.slice(0, -5);
-									console.log(city);
+
 									setLocation(city);
 								}}
 							>

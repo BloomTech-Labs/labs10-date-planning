@@ -7,6 +7,7 @@ import NProgress from 'nprogress';
 import { UPDATE_LOCATION_MUTATION } from '../Mutations/updateLocation';
 import Filters from './Filters';
 import Event from './Event';
+import Primary from '../../styledComponents/Typography/Primary';
 import InfiniteScroll from 'react-infinite-scroller';
 import Button from '../../styledComponents/CustomButtons/Button';
 import LocationSearch from './LocationSearch';
@@ -77,6 +78,17 @@ const Events = ({ classes, client }) => {
 		}
 	};
 
+	const handleCompleted = async stff => {
+		console.log(stff);
+		NProgress.done();
+		let { data, loading } = await client.query({
+			query: CURRENT_USER_QUERY,
+		});
+		if (data.currentUser) {
+			setUser(data.currentUser);
+		}
+	};
+
 	if (!events) return <div>loading</div>;
 	else
 		return (
@@ -91,13 +103,7 @@ const Events = ({ classes, client }) => {
 									<Mutation
 										mutation={UPDATE_LOCATION_MUTATION}
 										variables={{ city: location }}
-										onCompleted={async () => {
-											NProgress.done();
-											let { data, loading } = await client.query({
-												query: CURRENT_USER_QUERY,
-											});
-											setUser(data.currentUser);
-										}}
+										onCompleted={handleCompleted}
 									>
 										{(updateLocation, { error, loading, called }) => {
 											console.log(user.location, location);
@@ -110,17 +116,16 @@ const Events = ({ classes, client }) => {
 													}}
 												>
 													{user && user.location !== location ? (
-														<Button
-															color='primary'
-															simple
-															size='sm'
-															style={{ padding: '12px 7px' }}
-															onClick={updateLocation}
-														>
-															make default location?
-														</Button>
+														<Primary>
+															<b
+																onClick={updateLocation}
+																style={{ cursor: 'pointer' }}
+															>
+																make default location?
+															</b>
+														</Primary>
 													) : (
-														<div style={{ height: '50px' }} />
+														<div style={{ height: '21px' }} />
 													)}
 												</div>
 											);
