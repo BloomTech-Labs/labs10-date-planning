@@ -8,11 +8,12 @@ import Paper from '@material-ui/core/Paper';
 import Button from '../../styledComponents/CustomButtons/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 
-const Search = ({ getEvents }) => {
+const Search = ({ setLocation }) => {
 	const [ input, setInput ] = useState('');
 	const [ items, setItems ] = useState([]);
 	const onChange = selectedItem => {
-		setInput(selectedItem.city);
+		console.log(selectedItem);
+		setInput(selectedItem);
 	};
 
 	return (
@@ -54,14 +55,8 @@ const Search = ({ getEvents }) => {
 								disabled={!selectedItem}
 								onClick={() => {
 									let city = input.slice(0, -5);
-									console.log(city);
-									getEvents({
-										location: city,
-										alt: city,
-										page: 1,
-										categories: [],
-										dates: [],
-									});
+
+									setLocation(city);
 								}}
 							>
 								<SearchIcon />

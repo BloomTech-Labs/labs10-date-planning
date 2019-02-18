@@ -1,6 +1,7 @@
-import Splash from '../components/SplashPage';
+import JoinUs from './joinus'
 import User from '../components/Queries/User';
 import Home from './home';
+import Router from 'next/router'
 
 const Index = () => (
   <User>
@@ -8,7 +9,7 @@ const Index = () => (
      console.log(data)
       return (
       <>
-      {data.currentUser ? <Home /> : <Splash />}
+      {data.currentUser ? <Home /> : <JoinUs />}
       </>
     )}}
   </User>

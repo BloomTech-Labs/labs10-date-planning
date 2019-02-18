@@ -46,6 +46,7 @@ class SnackbarContent extends React.Component {
 		this.state = {
 			alert: (
 				<Snack
+					anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
 					message={
 						<div>
 							{snackIcon}
