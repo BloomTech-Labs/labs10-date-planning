@@ -10,7 +10,7 @@ const Home = () => (
 		{({ data: { currentUser } }) => {
 			return (
 				<div>
-					<DatesLeft currentUser={currentUser} />
+					{/* <DatesLeft currentUser={currentUser} /> */}
 					<Billing currentUser={currentUser} />
 					<TransactionList currentUser={currentUser} />
 				</div>
