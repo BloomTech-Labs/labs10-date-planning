@@ -273,13 +273,13 @@ const Mutation = {
 			info
 		);
 	},
-	async createOrder(parent, args, ctx, info) {
+	async createOrder(parent, { subscription, token }, { request, db }, info) {
 		// Check user's login status
-		const { userId } = ctx.request;
+		const { userId } = request;
 		if (!userId) throw new Error('You must be signed in to complete this order.');
 
 		// Get user's info
-		const user = await ctx.db.query.user(
+		const user = await db.query.user(
 			{ where: { id: userId } },
 			`
 				{id firstName lastName email permissions}
@@ -287,14 +287,14 @@ const Mutation = {
 		);
 
 		// Check user's subscription status
-		if (user.permissions[0] === args.subscription) {
-			throw new Error(`User already has ${args.subscription} subscription`);
+		if (user.permissions[0] === subscription) {
+			throw new Error(`User already has ${ subscription } subscription`);
 		} else if (user.permissions[0] === 'YEARLY') {
 			throw new Error(`User already has the highest level of ${args.subscription} subscription`);
 		}
 
 		// Charge the credit card
-		const amount = args.subscription === 'MONTHLY' ? 999 : 2999;
+		const amount = subscription === 'MONTHLY' ? 999 : 2999;
 		const charge = await stripe.charges.create({
 			amount,
 			currency: 'USD',
@@ -305,7 +305,7 @@ const Mutation = {
 		});
 
 		// Record the order
-		const order = await ctx.db.mutation.createOrder(
+		const order = await db.mutation.createOrder(
 			{
 				data: {
 					total: amount,
@@ -322,7 +322,7 @@ const Mutation = {
 		);
 
 		// Update user's permission type
-		ctx.db.mutation.updateUser({
+		db.mutation.updateUser({
 			data: {
 				permissions: {
 					set: [args.subscription]

@@ -15,7 +15,7 @@ import Button from '../../styledComponents/CustomButtons/Button.jsx';
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
 import Weekend from '@material-ui/icons/Weekend';
-import img from '../../static/img/bg11.jpg';
+import img from '../../static/img/billingImage.jpg';
 
 import pricingStyle from '../../static/jss/material-kit-pro-react/views/sectionsSections/pricingStyle.jsx';
 
