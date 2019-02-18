@@ -1,6 +1,7 @@
+import React, { useEffect } from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 import navbarsStyle from '../../static/jss/material-kit-pro-react/views/componentsSections/navbarsStyle.jsx';
-import Router from 'next/router';
+import Router, { withRouter } from 'next/router';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 import List from '@material-ui/core/List';

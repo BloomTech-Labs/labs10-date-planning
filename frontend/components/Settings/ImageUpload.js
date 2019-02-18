@@ -40,7 +40,7 @@ const ImageUpload = () => {
 					>
 						{(uploadImage, { error, loading }) => (
 							<UploadImage
-								avatar
+								// avatar
 								image={currentUser.imageThumbnail}
 								addButtonProps={{ round: true }}
 								changeButtonProps={{ round: true }}
