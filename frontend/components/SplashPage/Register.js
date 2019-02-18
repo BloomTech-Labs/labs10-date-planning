@@ -25,7 +25,7 @@ import Icon from '@material-ui/core/Icon';
 import Email from '@material-ui/icons/Email';
 import Check from '@material-ui/icons/Check';
 import Close from '@material-ui/icons/Close';
-
+import ErrorModal from './ErrorModal'
 import Button from '../../styledComponents/CustomButtons/Button';
 import Card from '../../styledComponents/Card/Card';
 import GridContainer from '../../styledComponents/Grid/GridContainer';
@@ -82,7 +82,7 @@ const Register = ({ classes }) => {
 		email: undefined,
 		password: undefined
 	});
-
+	const [serverError, setServerError] = useState(undefined)
 	const handleChange = ({ target: { name, value } }) => {
 		setUser({ ...user, [name]: value });
 	};
@@ -94,11 +94,13 @@ const Register = ({ classes }) => {
 			const complete = await auth.signInWithPopup(provider);
 			const idToken = await auth.currentUser.getIdToken(true);
 			const success = await firebaseSignup({ variables: { idToken } });
+			if (success.data) Router.push('/home')
 		} else if (company === 'facebook') {
 			let provider = new firebase.auth.FacebookAuthProvider();
 			const complete = await auth.signInWithPopup(provider);
 			const idToken = await auth.currentUser.getIdToken(true);
 			const success = await firebaseSignup({ variables: { idToken } });
+			if (success.data) Router.push('/home')
 		} else {
 			// INSTAGRAM WILL GO HERE BUT WILL NEED DIFFERENT FUNCTION
 		}
@@ -211,7 +213,9 @@ const Register = ({ classes }) => {
 													mutation={FIREBASE_SIGNUP}
 													refetchQueries={[{ query: CURRENT_USER_QUERY }]}
 												>
-													{(signup, { loading, error }) => (
+													{(signup, { loading, error }) => {
+														if (error) setServerError(error)
+														return (
 														<>
 															<Button
 																justIcon
@@ -239,7 +243,7 @@ const Register = ({ classes }) => {
 																<i className="fab fa-instagram" />
 															</Button>
 														</>
-													)}
+													)}}
 												</Mutation>
 
 												<h4 className={classes.socialTitle}>or be classical</h4>
@@ -414,6 +418,7 @@ const Register = ({ classes }) => {
 						)}
 					</Card>
 				}
+				<ErrorModal error={serverError}/>
 			</Dialog>
 		</Fragment>
 	);
