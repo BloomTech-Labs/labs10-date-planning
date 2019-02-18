@@ -37,7 +37,7 @@ const Filters = ({ classes, getEvents, location, page }) => {
 			: setDateFilters([ ...dateFilters, id ]);
 	};
 	useEffect(() => {
-		console.log(moment().format('YYYYMMDD'));
+		console.log(moment().format('YYYY-MM-DD'));
 	}, []);
 
 	useEffect(
@@ -245,7 +245,7 @@ const Filters = ({ classes, getEvents, location, page }) => {
 												id='date'
 												label='Select a date'
 												type='date'
-												defaultValue={moment().format('L')}
+												// defaultValue={moment().format('YYYY-MM-DD')}
 												className={classes.textField}
 												InputLabelProps={{
 													shrink: true,

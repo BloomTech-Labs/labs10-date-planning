@@ -13,6 +13,7 @@ import Face from '@material-ui/icons/Face';
 import Settings from '@material-ui/icons/Settings';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Explore from '@material-ui/icons/Explore';
+import LocalActivity from '@material-ui/icons/LocalActivity';
 // core components
 import GridContainer from '../../styledComponents/Grid/GridContainer.jsx';
 import GridItem from '../../styledComponents/Grid/GridItem.jsx';
@@ -22,6 +23,7 @@ import CustomDropdown from '../../styledComponents/CustomDropdown/CustomDropdown
 import Button from '../../styledComponents/CustomButtons/Button.jsx';
 import image from '../../static/img/bg.jpg';
 import profileImage from '../../static/img/placeholder.jpg';
+import Logo from '../../static/img/up4Logo.png';
 
 import User from '../Queries/User';
 import { CURRENT_USER_QUERY } from '../Queries/User';
@@ -46,7 +48,7 @@ const Nav = ({ classes }) => {
 		<User>
 			{({ data: { currentUser } }) => (
 				<Header
-					brand='Up4'
+					brand={Logo}
 					color='primary'
 					links={
 						<List className={classes.list + ' ' + classes.mlAuto}>
@@ -54,13 +56,28 @@ const Nav = ({ classes }) => {
 								<Button
 									href='#pablo'
 									className={classes.navLink}
-									onClick={e => e.preventDefault()}
+									onClick={e => {
+										e.preventDefault();
+										Router.push('/');
+									}}
 									color='transparent'
 								>
 									<Explore /> Discover
 								</Button>
 							</ListItem>
-
+							<ListItem className={classes.listItem}>
+								<Button
+									href='#pablo'
+									className={classes.navLink}
+									onClick={e => {
+										e.preventDefault();
+										Router.push('/dates');
+									}}
+									color='transparent'
+								>
+									<LocalActivity /> Your Dates
+								</Button>
+							</ListItem>
 							<Mutation
 								mutation={SIGNOUT_MUTATION}
 								refetchQueries={[ { query: CURRENT_USER_QUERY } ]}
@@ -92,12 +109,7 @@ const Nav = ({ classes }) => {
 													classes.imageDropdownButton,
 												color: 'transparent',
 											}}
-											dropdownList={[
-												'Dates',
-												'Billing',
-												'Settings',
-												'Sign out',
-											]}
+											dropdownList={[ 'Billing', 'Settings', 'Sign out' ]}
 											onClick={e => handleClick(e, signout)}
 										/>
 									</ListItem>
