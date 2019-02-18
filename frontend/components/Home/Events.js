@@ -2,6 +2,7 @@ import React, { useState, useEffect, Fragment } from 'react';
 import { withApollo, Mutation } from 'react-apollo';
 import EventsQuery, { ALL_EVENTS_QUERY } from '../Queries/AllEvents';
 import User from '../Queries/User';
+import _ from 'lodash';
 import { UPDATE_LOCATION_MUTATION } from '../Mutations/updateLocation';
 import Filters from './Filters';
 import Event from './Event';
@@ -23,7 +24,7 @@ const Events = ({ classes, client }) => {
 		getEvents({
 			location: 'New York, NY',
 			alt: 'all',
-			page: page,
+			page: 1,
 			categories: [],
 			dates: [],
 		});
@@ -34,13 +35,21 @@ const Events = ({ classes, client }) => {
 			variables: variables,
 		});
 
-		setEvents(data.getEvents);
+		let events = _.chunk(data.getEvents.events, 8);
+		let newEvents = { ...data.getEvents, events: events };
+
+		setEvents(newEvents);
 	};
-	// return (
-	// 	<Location>
-	// 		{({ data, loading, error }) => {
-	// 			let { getLocation } = data;
-	// 			if (loading) return <div>getting location</div>;
+
+	const loadMore = page => {
+		if (page < events.page_count - 1) {
+			getEvents({
+				location: events.location,
+				page: page + 1,
+			});
+		}
+	};
+
 	if (!events) return <div>loading</div>;
 	else
 		return (
@@ -102,72 +111,43 @@ const Events = ({ classes, client }) => {
 									<GridItem md={9} sm={9}>
 										<GridContainer>
 											<GridItem sm={6} md={4} lg={3}>
-												{events.events
-													.slice(0, 3)
-													.map(event => (
+												<InfiniteScroll
+													pageStart={0}
+													loadMore={loadMore}
+													hasMore={page < events.page_count}
+													threshold={400}
+													loader={
+														<div className='loader' key={0}>
+															Loading ...
+														</div>
+													}
+												>
+													{events.events[0].map(event => (
+														<Event event={event} key={event.id} />
+													))}
+												</InfiniteScroll>
+											</GridItem>
+
+											<GridItem sm={6} md={4} lg={3}>
+												{events.events[1] &&
+													events.events[1].map(event => (
 														<Event event={event} key={event.id} />
 													))}
 											</GridItem>
 											<GridItem sm={6} md={4} lg={3}>
-												{events.events
-													.slice(4, 7)
-													.map(event => (
+												{events.events[2] &&
+													events.events[2].map(event => (
 														<Event event={event} key={event.id} />
 													))}
 											</GridItem>
 											<GridItem sm={6} md={4} lg={3}>
-												{events.events
-													.slice(8, 11)
-													.map(event => (
-														<Event event={event} key={event.id} />
-													))}
-											</GridItem>
-											<GridItem sm={6} md={4} lg={3}>
-												{events.events
-													.slice(12, 15)
-													.map(event => (
+												{events.events[3] &&
+													events.events[3].map(event => (
 														<Event event={event} key={event.id} />
 													))}
 											</GridItem>
 										</GridContainer>
 									</GridItem>
-
-									<Paginations
-										pages={[
-											{ text: 'PREV' },
-
-											{
-												text:
-													events.page_number > 2 &&
-													events.page_number - 2,
-												onClick: () => setPage(events.page_number - 2),
-											},
-											{
-												text:
-													events.page_number > 1 &&
-													events.page_number - 1,
-												onClick: () => setPage(events.page_number - 1),
-											},
-											{
-												active: true,
-												text: events.page_number,
-											},
-											{
-												text: events.page_number + 1,
-												onClick: () => setPage(events.page_number + 1),
-											},
-											{
-												text: events.page_number + 2,
-												onClick: () => setPage(events.page_number + 2),
-											},
-											{ text: '...' },
-											{
-												text: events.page_count,
-											},
-
-											{ text: 'NEXT' },
-										]}
-									/>
 								</GridContainer>
 							</Fragment>
 						</div>
@@ -175,8 +155,6 @@ const Events = ({ classes, client }) => {
 				)}
 			</User>
 		);
-
-	// );
 };
 
 export default withApollo(withStyles(styles)(Events));
