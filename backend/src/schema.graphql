@@ -13,6 +13,8 @@ type Mutation {
 	updatePermissions(permissions: [Permission], userId: ID!): User
 	createOrder(token: String!, subscription: Permission!): Order!
 	internalPasswordReset(oldPassword: String!, newPassword1: String!, newPassword2: String!): User!
+	firebaseSignin(idToken: String!): FirebasePayload
+	firebaseSignup(idToken: String!): FirebasePayload
 }
 
 type Query {
@@ -104,4 +106,9 @@ type Message {
 
 type DatesCount {
 	count: Int!
+}
+
+type FirebasePayload {
+	token: String!
+	user: User!
 }
