@@ -1,5 +1,6 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import gql from 'graphql-tag';
+import firebase from 'firebase/app';
 import { Mutation } from 'react-apollo';
 import { CURRENT_USER_QUERY } from '../Queries/User';
 import withStyles from '@material-ui/core/styles/withStyles';
