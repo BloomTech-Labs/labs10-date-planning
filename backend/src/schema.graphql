@@ -13,6 +13,8 @@ type Mutation {
 	updatePermissions(permissions: [Permission], userId: ID!): User
 	createOrder(token: String!, subscription: Permission!): Order!
 	internalPasswordReset(oldPassword: String!, newPassword1: String!, newPassword2: String!): User!
+	firebaseSignin(idToken: String!): FirebasePayload
+	firebaseSignup(idToken: String!): FirebasePayload
 }
 
 type Query {
@@ -56,7 +58,7 @@ type User {
 	imageLarge: String
 	permissions: [Permission!]!
 	interests: [Category]
-	events: [Event]
+	events: [UserEvent]
 	createdAt: DateTime!
 	updatedAt: DateTime!
 }
@@ -68,6 +70,16 @@ type Event {
 	description: String
 	times: [String]
 	location: Location
+	image_url: String
+}
+
+type UserEvent {
+	id: ID!
+	title: String!
+	url: String
+	description: String
+	times: [String]
+	location: String
 	image_url: String
 }
 
@@ -99,9 +111,14 @@ type Tag {
 }
 
 type Message {
-	message: [String]
+	message: String
 }
 
 type DatesCount {
 	count: Int!
+}
+
+type FirebasePayload {
+	token: String!
+	user: User!
 }

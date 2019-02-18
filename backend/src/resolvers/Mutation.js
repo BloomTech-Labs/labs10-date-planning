@@ -1,8 +1,18 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const axios = require('axios');
 const { randomBytes } = require('crypto');
 const { transport, formatEmail } = require('../mail');
 const stripe = require('../stripe');
+const {
+	admin,
+	createUserToken,
+	verifyUserToken,
+	verifyIdToken,
+	getUserRecord,
+	getUID,
+	setUserClaims,
+} = require('../firebase/firebase');
 
 const Mutation = {
 	async createEvent(parent, args, { db }, info) {
@@ -40,6 +50,31 @@ const Mutation = {
 
 		return user;
 	},
+	async firebaseSignup(parent, args, ctx, info) {
+		const { uid } = await verifyIdToken(args.idToken);
+
+		const firebaseUser = await getUserRecord(uid);
+		const { email, displayName, phoneNumber, id } = firebaseUser;
+
+		const user = await ctx.db.mutation.createUser({
+			data: {
+				id,
+				firstName: displayName,
+				email,
+				lastName: '',
+				phone: phoneNumber,
+			},
+		});
+		await setUserClaims(uid, { id: user.id, admin: false });
+		const { token } = await createuserToken(args, ctx);
+
+		// response.cookie('firebaseToken', token, {
+		// 	httpOnly: true,
+		// 	maxAge: 1000 * 60 * 60 * 24 * 365 // 1 year long cookie bc why not. FIGHT ME
+		// });
+
+		return { token, user };
+	},
 	async signin(parent, { email, password }, { db, response }, info) {
 		const user = await db.query.user({ where: { email } });
 		if (!user) {
@@ -57,6 +92,23 @@ const Mutation = {
 		});
 
 		return user;
+	},
+	async firebaseSignin(parent, args, ctx, info) {
+		const verify = await verifyIdToken(args.idToken);
+		if (!verify.user_id) throw new Error({ message: 'User is not registered' });
+
+		const user = await ctx.db.query.user({ where: { email: verify.email } });
+		if (!user) {
+			throw new Error({ message: 'User account does not exist' });
+		}
+
+		const token = await createUserToken(args, ctx);
+		ctx.response.cookie('userId', user.id, {
+			httpOnly: true,
+			maxAge: 1000 * 60 * 60 * 24 * 365, // 1 year long cookie bc why not. FIGHT ME
+		});
+
+		return { token, user };
 	},
 	signout(parent, args, { response }, info) {
 		response.clearCookie('token');
@@ -219,8 +271,7 @@ const Mutation = {
 
 			description: `UP4 ${args.subscription} subscription`,
 			source: args.token,
-			receipt_email: user.email
-
+			receipt_email: user.email,
 		});
 
 		// Record the order
@@ -284,6 +335,49 @@ const Mutation = {
 		});
 		return updatedUser;
 	},
+	async addEvent(parent, args, { db, request }, info) {
+		const { userId } = request;
+		if (!userId) throw new Error('You must be signed in to add an event.');
+		const user = await db.query.user(
+			{ where: { id: userId } },
+			`
+				{id firstName lastName email permissions events { id }}
+			`,
+		);
+		if (user.permissions[0] === 'FREE' && user.events.length === 5) {
+			throw new Error('You have reached the free tier limit');
+		}
+		const { data } = await axios.get(
+			`http://api.eventful.com/json/events/get?&id=${args.eventId}&app_key=${process.env
+				.API_KEY}`,
+		);
+		const event = await db.mutation.createEvent({
+			data: {
+				eventfulID: data.id,
+				title: data.title,
+				url: data.url || null,
+				location: data.venue_name,
+				description: data.description || null,
+				times: { set: [ data.start_time ] },
+			},
+		});
+		const addedEvent = await db.mutation.updateUser({
+			data: {
+				events: {
+					connect: {
+						id: event.id,
+					},
+				},
+			},
+			where: {
+				id: user.id,
+			},
+		});
+		if (user.permissions[0] === 'FREE') {
+			return { message: `You have used ${user.events.length + 1} of your 5 free events` };
+		} else return { message: 'Event successfully added!' };
+	},
 };
 
+//hmm
 module.exports = Mutation;
