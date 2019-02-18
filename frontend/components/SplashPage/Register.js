@@ -4,7 +4,7 @@ import { Mutation } from 'react-apollo';
 import firebase from 'firebase/app';
 import Router from 'next/router';
 import withStyles from '@material-ui/core/styles/withStyles';
-
+import NProgress from 'nprogress';
 import { CURRENT_USER_QUERY } from '../Queries/User';
 
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -133,6 +133,7 @@ const Register = ({ classes }) => {
 					paper: classes.modal + ' ' + classes.modalSignup
 				}}
 				open={modalShowing}
+				scroll='body'
 				// TransitionComponent={Transition}
 				keepMounted
 				onClose={() => {
@@ -246,8 +247,14 @@ const Register = ({ classes }) => {
 											<Mutation
 												mutation={REGISTER_USER}
 												refetchQueries={[{ query: CURRENT_USER_QUERY }]}
+												onCompleted={() => NProgress.done()}
+												onError={() => NProgress.done()}
 											>
-												{(signup, { error, loading }) => (
+												{(signup, { error, loading, called }) => {
+													if (called) NProgress.start();
+													
+													return (
+												
 													<form
 														className={classes.form}
 														onSubmit={(e) => handleSubmit(e, signup) }
@@ -351,6 +358,7 @@ const Register = ({ classes }) => {
 																	autoComplete: 'new-password',
 																	required: true,
 																	name: 'password',
+																	type: passwordShowing ? 'text' : 'password',
 																	value: user.password,
 																	onChange: handleChange,
 																	error: err.password
@@ -397,7 +405,7 @@ const Register = ({ classes }) => {
 															</div>
 														</fieldset>
 													</form>
-												)}
+												)}}
 											</Mutation>
 										</GridItem>
 									</GridContainer>

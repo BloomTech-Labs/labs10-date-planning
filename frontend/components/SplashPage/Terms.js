@@ -3,7 +3,7 @@ import Button from '../../styledComponents/CustomButtons/Button.jsx';
 
 const Terms = ({ setTermsShowing }) => {
 	return (
-		<div style={{ padding: '15px', height: '600px', overflow: 'scroll' }}>
+		<div style={{ padding: '15px' }}>
 			<Button onClick={() => setTermsShowing(false)}>Go Back</Button>
 			<h2>Welcome to Up4</h2>
 			<p>

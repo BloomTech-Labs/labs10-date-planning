@@ -12,7 +12,7 @@ const Search = ({ getEvents }) => {
 	const [ input, setInput ] = useState('');
 	const [ items, setItems ] = useState([]);
 	const onChange = selectedItem => {
-		setInput(selectedItem.city);
+		setInput(selectedItem);
 	};
 
 	return (

@@ -95,17 +95,20 @@ const Nav = ({ classes }) => {
 								refetchQueries={[ { query: CURRENT_USER_QUERY } ]}
 							>
 								{(signout, { called }) => {
-									if (called) Router.push('/joinus');
+									if (called) Router.replace('/joinus');
 									return (
 										<ListItem className={classes.listItem}>
 											<CustomDropdown
 												left
 												caret={false}
 												hoverColor='dark'
-												dropdownHeader={currentUser.firstName}
+												dropdownHeader={
+													currentUser && currentUser.firstName
+												}
 												buttonText={
 													<img
 														src={
+															currentUser &&
 															currentUser.imageThumbnail ? (
 																currentUser.imageThumbnail
 															) : (
