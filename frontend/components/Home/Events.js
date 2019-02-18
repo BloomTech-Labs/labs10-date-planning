@@ -5,6 +5,7 @@ import User from '../Queries/User';
 import { UPDATE_LOCATION_MUTATION } from '../Mutations/updateLocation';
 import Filters from './Filters';
 import Event from './Event';
+import InfiniteScroll from 'react-infinite-scroller';
 import Button from '../../styledComponents/CustomButtons/Button';
 import LocationSearch from './LocationSearch';
 import Location from '../Queries/Location';

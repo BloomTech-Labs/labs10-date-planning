@@ -59,6 +59,7 @@ const EventModal = ({ modal, showModal, classes, id, client }) => {
             onClose={() => showModal(false)}
             aria-labelledby="notice-modal-slide-title"
             aria-describedby="notice-modal-slide-description"
+			style={{height: '700px'}}
           >
             {event ? (
               <Fragment>

@@ -23,7 +23,7 @@ import CustomDropdown from '../../styledComponents/CustomDropdown/CustomDropdown
 import Button from '../../styledComponents/CustomButtons/Button.jsx';
 import image from '../../static/img/bg.jpg';
 import profileImage from '../../static/img/placeholder.jpg';
-import Logo from '../../static/img/up4Logo.png';
+import Logo from '../../static/img/up4LogoWhite.png';
 
 import User from '../Queries/User';
 import { CURRENT_USER_QUERY } from '../Queries/User';
@@ -50,6 +50,7 @@ const Nav = ({ classes }) => {
 				<Header
 					brand={Logo}
 					color='primary'
+					style={{ marginBottom: 0 }}
 					links={
 						<List className={classes.list + ' ' + classes.mlAuto}>
 							<ListItem className={classes.listItem}>
@@ -75,7 +76,7 @@ const Nav = ({ classes }) => {
 									}}
 									color='transparent'
 								>
-									<LocalActivity /> Your Dates
+									<AccountCircle /> Profile
 								</Button>
 							</ListItem>
 							<Mutation
@@ -109,7 +110,7 @@ const Nav = ({ classes }) => {
 													classes.imageDropdownButton,
 												color: 'transparent',
 											}}
-											dropdownList={[ 'Billing', 'Settings', 'Sign out' ]}
+											dropdownList={[ 'Billing', 'Sign out' ]}
 											onClick={e => handleClick(e, signout)}
 										/>
 									</ListItem>
