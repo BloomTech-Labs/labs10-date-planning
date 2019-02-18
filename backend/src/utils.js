@@ -31,16 +31,43 @@ module.exports = {
 			return events;
 		}, []);
 	},
-	// NEED TO ADD LATER
-	//
-	//
-	// checkDates: function(dates, events) {
-	// 	let today = moment.now();
-	// 	if (dates.length > 1) {
-	// 	} else {
-	// 		// let date = moment(dates.toString()).format('MMM DD')
-	// 	}
-	// },
+	checkDates: function (dates, events) {
+		let date, start, end;
+		switch (dates) {
+			case 'all':
+				return events;
+			case 'today':
+				date = moment().format("YYYY-MM-DD");
+				return events.filter(
+					ev => ev.times.some(
+						t => moment(t).format('YYYY-MM-DD') === date
+					)
+				);
+			case 'this weekend':
+				start = moment().endOf('isoWeek').subtract(2, 'days').format("YYYY-MM-DD");
+				end = moment().endOf('isoWeek').format("YYYY-MM-DD");
+				return events.filter(
+					ev => ev.times.some(
+						t => moment(t).format('YYYY-MM-DD') >= start && moment(t).format('YYYY-MM-DD') <= end
+					)
+				);
+			case 'next week':
+				start = moment().add(1, 'weeks').startOf('isoWeek').format("YYYY-MM-DD");
+				end = moment().add(1, 'weeks').endOf('isoWeek').format("YYYY-MM-DD");
+				return events.filter(
+					ev => ev.times.some(
+						t => moment(t).format('YYYY-MM-DD') >= start && moment(t).format('YYYY-MM-DD') <= end
+					)
+				);
+			default:
+				date = moment(`${moment().format('YYYY')} ${dates}`, 'YYYY MMM DD').format("YYYY-MM-DD");
+				return events.filter(
+					ev => ev.times.some(
+						t => moment(t).format('YYYY-MM-DD') === date
+					)
+				);
+		}
+	},
 	fetchEvents: function(location, cat, dates, page) {
 		return axios.get(
 			`https://api.eventful.com/json/events/search?location=${location}&category=${cat}&date=${dates}&page_number=${page}&page_size=15&app_key=${
