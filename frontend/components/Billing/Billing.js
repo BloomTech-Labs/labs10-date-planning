@@ -21,7 +21,7 @@ import pricingStyle from '../../static/jss/material-kit-pro-react/views/sections
 
 const Billing = ({ classes, currentUser }) => {
 	const currentSubs = currentUser.permissions[0];
-	console.log(typeof currentSubs);
+
 	return (
 		<div
 			className={`${classes.pricing} ${classes.pricing1} ${classes.section}`}
@@ -36,9 +36,9 @@ const Billing = ({ classes, currentUser }) => {
 						className={`${classes.mlAuto} ${classes.mrAuto} ${classes.textCenter}`}
 					>
 						<h2 className={classes.title}>Pick the best plan for you</h2>
-						<h5 className={classes.description}>
+						{/* <h5 className={classes.description}>
 							You have Free Unlimited Updates and Premium Support on each package.
-						</h5>
+						</h5> */}
 						<div className={classes.sectionSpace} />
 					</GridItem>
 				</GridContainer>
