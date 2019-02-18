@@ -50,7 +50,6 @@ const Nav = ({ classes }) => {
 				<Header
 					brand={Logo}
 					color='primary'
-					style={{ marginBottom: 0 }}
 					links={
 						<List className={classes.list + ' ' + classes.mlAuto}>
 							<ListItem className={classes.listItem}>
