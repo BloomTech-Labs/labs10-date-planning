@@ -37,8 +37,20 @@ const LOGIN_USER = gql`
 	}
 `;
 
+const FIREBASE_LOGIN = gql`
+	mutation FIREBASE_LOGIN($idToken: String!) {
+		firebaseSignin(idToken: $idToken) {
+			token
+			user {
+				id
+				firstName
+				email
+			}
+		}
+	}
+`;
+
 const Login = ({ classes }) => {
-	// auth = process.env.NODE_ENV === 'development' ? auth : prodAuth;
 	const [user, setUser] = useState({ email: '', password: '' });
 	const [modalShowing, setModalShowing] = useState(false);
 

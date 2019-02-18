@@ -1,6 +1,5 @@
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
-// require('dotenv').config();
 
 const config = {
 	apiKey: REPLACE_SECRET_HERE,
