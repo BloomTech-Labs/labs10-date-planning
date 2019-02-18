@@ -10,7 +10,6 @@ import Styles from '../../static/jss/material-kit-pro-react/views/landingPageSty
 const Splash = ({ classes }) => {
 	useEffect(() => {
 		window.scrollTo(0, 0);
-		// document.body.scrollTop = 0;
 	}, []);
 	return (
 		<Parallax>
@@ -21,8 +20,8 @@ const Splash = ({ classes }) => {
 							Music. Food. Special Events. Your city is alive. What are you up for?
 						</h1>
 						<h4>
-							Exciting events are all around you but they can be hard to find. Up4
-							helps ensure you'll never miss another adventure.
+							Exciting events are all around you but they can be hard to find. Up4 helps ensure
+							you'll never miss another adventure.
 						</h4>
 						<div>
 							<Register />
