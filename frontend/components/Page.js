@@ -9,7 +9,7 @@ const Page = ({ children }) => {
 				<Fragment>
 					<Meta />
 
-					<div>{children}</div>
+					<div style={{ height: '100vh' }}>{children}</div>
 				</Fragment>
 			)}
 		</User>

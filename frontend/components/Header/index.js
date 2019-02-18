@@ -6,6 +6,7 @@ import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+import NProgress from 'nprogress';
 
 // @material-ui/icons
 import Search from '@material-ui/icons/Search';
@@ -29,6 +30,17 @@ import Logo from '../../static/img/up4LogoWhite.png';
 import User from '../Queries/User';
 import { CURRENT_USER_QUERY } from '../Queries/User';
 
+Router.onRouteChangeStart = () => {
+	NProgress.start();
+};
+Router.onRouteChangeComplete = () => {
+	NProgress.done();
+};
+
+Router.onRouteChangeError = () => {
+	NProgress.done();
+};
+
 const SIGNOUT_MUTATION = gql`
 	mutation SIGNOUT_MUTATION {
 		signout {
@@ -37,10 +49,9 @@ const SIGNOUT_MUTATION = gql`
 	}
 `;
 const Nav = ({ classes }) => {
-	const handleClick = async (e, signout) => {
+	const handleClick = (e, signout) => {
 		if (e === 'Sign out') {
-			await signout();
-			Router.push('/');
+			signout();
 		} else {
 			Router.push(`/${e.toLowerCase()}`);
 		}
@@ -83,38 +94,44 @@ const Nav = ({ classes }) => {
 								mutation={SIGNOUT_MUTATION}
 								refetchQueries={[ { query: CURRENT_USER_QUERY } ]}
 							>
-								{signout => (
-									<ListItem className={classes.listItem}>
-										<CustomDropdown
-											left
-											caret={false}
-											hoverColor='dark'
-											dropdownHeader={currentUser.firstName}
-											buttonText={
-												<img
-													src={
-														currentUser.imageThumbnail ? (
-															currentUser.imageThumbnail
-														) : (
-															profileImage
-														)
-													}
-													className={classes.img}
-													alt='profile'
-												/>
-											}
-											buttonProps={{
-												className:
-													classes.navLink +
-													' ' +
-													classes.imageDropdownButton,
-												color: 'transparent',
-											}}
-											dropdownList={[ 'Billing', 'Sign out' ]}
-											onClick={e => handleClick(e, signout)}
-										/>
-									</ListItem>
-								)}
+								{(signout, { called }) => {
+									if (called) Router.replace('/joinus');
+									return (
+										<ListItem className={classes.listItem}>
+											<CustomDropdown
+												left
+												caret={false}
+												hoverColor='dark'
+												dropdownHeader={
+													currentUser && currentUser.firstName
+												}
+												buttonText={
+													<img
+														src={
+															currentUser &&
+															currentUser.imageThumbnail ? (
+																currentUser.imageThumbnail
+															) : (
+																profileImage
+															)
+														}
+														className={classes.img}
+														alt='profile'
+													/>
+												}
+												buttonProps={{
+													className:
+														classes.navLink +
+														' ' +
+														classes.imageDropdownButton,
+													color: 'transparent',
+												}}
+												dropdownList={[ 'Billing', 'Sign out' ]}
+												onClick={e => handleClick(e, signout)}
+											/>
+										</ListItem>
+									);
+								}}
 							</Mutation>
 						</List>
 					}
