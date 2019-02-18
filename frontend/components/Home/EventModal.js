@@ -9,6 +9,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 import Button from '../../styledComponents/CustomButtons/Button';
 import Close from '@material-ui/icons/Close';
 import styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles.jsx';
+import { green } from '@material-ui/core/colors';
+
+
 
 const EventModal = ({ modal, showModal, classes, id, client }) => {
 	const [ event, setEvent ] = useState(undefined);
@@ -32,10 +35,16 @@ const EventModal = ({ modal, showModal, classes, id, client }) => {
 		setEvent(data.getEvent);
 	};
 
+	const testing = {
+		backgroundColor: 'green',
+	}
+
+
+
 	return (
 		<Dialog
 			classes={{
-				root: classes.modalRoot,
+				root: classes.modalRoot, 
 				paper: classes.modal,
 			}}
 			open={modal}
@@ -51,7 +60,8 @@ const EventModal = ({ modal, showModal, classes, id, client }) => {
 						id='notice-modal-slide-title'
 						disableTypography
 						className={classes.modalHeader}
-						styles={{ maxHeight: '600px', overflow: 'scroll' }}
+						style={{ maxHeight: '600px', overflow: 'scroll', backgroundColor: 'green'}}
+						
 					>
 						{' '}
 						<Button
