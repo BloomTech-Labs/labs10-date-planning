@@ -8,6 +8,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import Styles from '../../static/jss/material-kit-pro-react/views/landingPageStyle';
 
 const Splash = ({ classes }) => {
+	console.log(process.env.FIREBASE_API_KEY);
 	useEffect(() => {
 		window.scrollTo(0, 0);
 		// document.body.scrollTop = 0;
@@ -21,8 +22,8 @@ const Splash = ({ classes }) => {
 							Music. Food. Special Events. Your city is alive. What are you up for?
 						</h1>
 						<h4>
-							Exciting events are all around you but they can be hard to find. Up4
-							helps ensure you'll never miss another adventure.
+							Exciting events are all around you but they can be hard to find. Up4 helps ensure
+							you'll never miss another adventure.
 						</h4>
 						<div>
 							<Register />
