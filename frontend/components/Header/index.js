@@ -52,7 +52,6 @@ const Nav = ({ classes }) => {
 	const handleClick = (e, signout) => {
 		if (e === 'Sign out') {
 			signout();
-			Router.push('/joinus');
 		} else {
 			Router.push(`/${e.toLowerCase()}`);
 		}
@@ -95,38 +94,41 @@ const Nav = ({ classes }) => {
 								mutation={SIGNOUT_MUTATION}
 								refetchQueries={[ { query: CURRENT_USER_QUERY } ]}
 							>
-								{signout => (
-									<ListItem className={classes.listItem}>
-										<CustomDropdown
-											left
-											caret={false}
-											hoverColor='dark'
-											dropdownHeader={currentUser.firstName}
-											buttonText={
-												<img
-													src={
-														currentUser.imageThumbnail ? (
-															currentUser.imageThumbnail
-														) : (
-															profileImage
-														)
-													}
-													className={classes.img}
-													alt='profile'
-												/>
-											}
-											buttonProps={{
-												className:
-													classes.navLink +
-													' ' +
-													classes.imageDropdownButton,
-												color: 'transparent',
-											}}
-											dropdownList={[ 'Billing', 'Sign out' ]}
-											onClick={e => handleClick(e, signout)}
-										/>
-									</ListItem>
-								)}
+								{(signout, { called }) => {
+									if (called) Router.push('/joinus');
+									return (
+										<ListItem className={classes.listItem}>
+											<CustomDropdown
+												left
+												caret={false}
+												hoverColor='dark'
+												dropdownHeader={currentUser.firstName}
+												buttonText={
+													<img
+														src={
+															currentUser.imageThumbnail ? (
+																currentUser.imageThumbnail
+															) : (
+																profileImage
+															)
+														}
+														className={classes.img}
+														alt='profile'
+													/>
+												}
+												buttonProps={{
+													className:
+														classes.navLink +
+														' ' +
+														classes.imageDropdownButton,
+													color: 'transparent',
+												}}
+												dropdownList={[ 'Billing', 'Sign out' ]}
+												onClick={e => handleClick(e, signout)}
+											/>
+										</ListItem>
+									);
+								}}
 							</Mutation>
 						</List>
 					}

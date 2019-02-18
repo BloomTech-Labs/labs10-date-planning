@@ -86,6 +86,7 @@ const Login = ({ classes }) => {
 			mutation={LOGIN_USER}
 			variables={{ email: user.email, password: user.password }}
 			refetchQueries={[{ query: CURRENT_USER_QUERY }]}
+			awaitRefetchQueries
 		>
 			{(signin, { error, loading, called }) => {
 				console.log(error, loading, called)
@@ -132,6 +133,7 @@ const Login = ({ classes }) => {
 											<Mutation
 												mutation={FIREBASE_LOGIN}
 												refetchQueries={[{ query: CURRENT_USER_QUERY }]}
+												
 											>
 												{(firebaseSignin, { loading, error }) => (
 													<>
