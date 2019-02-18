@@ -34,7 +34,18 @@ const Event = ({ event, classes }) => {
       )}
       <CardBody className={classes.cardBodyRotate}>
         {/* <h6 style={{border: '2px solid #b2ddf7', borderRadius: '6px', padding: '10px'}}className={classes.cardCategory}>{event.location.venue}</h6> */}
-        <h6 style={{backgroundColor: '#b2ddf7', color: '#fafafa', borderRadius: '6px', padding: '10px'}}className={classes.cardCategory}>{event.location.venue}</h6>
+        <h6
+          style={{
+            backgroundImage:
+              "linear-gradient(to right top, #4cb5ae, #58bdbc, #65c6ca, #72ced7, #81d6e3)",
+            color: "#fafafa",
+            borderRadius: "6px",
+            padding: "10px"
+          }}
+          className={classes.cardCategory}
+        >
+          {event.location.venue}
+        </h6>
         <h4 className={classes.cardTitle}>
           <a href="#pablo" onClick={e => e.preventDefault()}>
             {event.title}
