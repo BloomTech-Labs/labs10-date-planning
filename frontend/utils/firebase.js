@@ -2,7 +2,7 @@ import * as firebase from 'firebase/app';
 import 'firebase/auth';
 
 const config = {
-	apiKey: 'AIzaSyDQ1wUgadFuPSpRppfG9bmawP8H6HMgfQU',
+	apiKey: process.env.API_KEY,
 	authDomain: 'up4-life.firebaseapp.com',
 	databaseURL: 'https://up4-life.firebaseio.com',
 	projectId: 'up4-life',
