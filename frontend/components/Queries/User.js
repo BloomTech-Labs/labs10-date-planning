@@ -14,6 +14,15 @@ const CURRENT_USER_QUERY = gql`
 			imageLarge
 			createdAt
 			permissions
+			events {
+				id
+				title
+				description
+				url
+				image_url
+				times
+				location
+			}
 		}
 	}
 `;
