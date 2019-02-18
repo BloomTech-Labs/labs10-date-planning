@@ -77,7 +77,7 @@ const EventModal = ({ modal, showModal, classes, id, client }) => {
 										}}
 									>
 										{' '}
-										<Close className={classes.modalClose} />
+										<Close style={{color: '#fafafa'}}className={classes.modalClose} />
 									</Button>
 									<h4 style={{fontWeight: 700}}className={classes.modalTitle}>{event.title}</h4>
 								</DialogTitle>
