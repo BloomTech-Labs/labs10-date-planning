@@ -2,6 +2,7 @@ const { forwardTo } = require('prisma-binding');
 const axios = require('axios');
 const moment = require('moment');
 const { transformEvents, fetchEvents } = require('../utils');
+const { checkDates } = require('../utils');
 
 const Query = {
 	users: forwardTo('db'),
@@ -29,7 +30,7 @@ const Query = {
 	},
 	async getEvents(parent, { location, alt, page, ...args }, ctx, info) {
 		// var now = moment.now();
-		console.log(location, alt);
+		// console.log(location, args.dates);
 		let categories = args.categories
 			? args.categories.toString()
 			: 'music,comedy,performing_arts,sports';
@@ -50,15 +51,23 @@ const Query = {
 		if (!data) {
 			throw new Error('There is no event info for your current location');
 		}
+		
+		let filteredEvents = [];
+		if (args.dates.includes('All') || args.dates.length === 0) {
+			filteredEvents = [...events];
+		} else {
+			filteredEvents = args.dates.reduce((e, date) => [...e, ...checkDates(date, events)], []) ;
+		}
 
 		return {
-			events: events,
-			total_items: data.total_items,
+			events: filteredEvents,
+			total_items: data.total_items, // this is no longer correct coz we filtered the events
 			page_count: data.page_count,
 			page_number: data.page_number,
 			location: location,
 		};
 	},
+
 	async getEvent(parent, args, ctx, info) {
 		const { data } = await axios.get(
 			`http://api.eventful.com/json/events/get?&id=${args.id}&app_key=${process.env.API_KEY}`,
