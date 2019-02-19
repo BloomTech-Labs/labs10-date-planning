@@ -36,7 +36,8 @@ import InfoArea from '../../styledComponents/InfoArea/InfoArea';
 import Styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles';
 
 import Terms from '../../components/SplashPage/Terms';
-import { auth } from '../../utils/firebase';
+// import { auth } from '../../utils/firebase';
+import { auth } from '../../utils/firebaseProd';
 
 const REGISTER_USER = gql`
 	mutation REGISTER_USER(
