@@ -15,7 +15,7 @@ const Mutation = {
 	async signup(parent, args, { db, response }, info) {
 		// just in case some bozo puts their email in with capitalization for some reason
 		args.email = args.email.toLowerCase();
-		if (!/^(?=.*\d).{8,}$/.test(password)) {
+		if (!/^(?=.*\d).{8,}$/.test(args.password)) {
 			throw new Error('Password must be 8 characters with at least 1 number!');
 		}
 		const password = await bcrypt.hash(args.password, 10);
