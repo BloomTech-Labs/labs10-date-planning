@@ -63,6 +63,7 @@ const Events = ({ classes, client }) => {
 			variables: variables,
 		});
 		if (data.getEvents) NProgress.done();
+		console.log(data.getEvents.events);
 		let events = _.chunk(data.getEvents.events, 12);
 		let newEvents = { ...data.getEvents, events: events };
 
@@ -106,7 +107,6 @@ const Events = ({ classes, client }) => {
 										onCompleted={handleCompleted}
 									>
 										{(updateLocation, { error, loading, called }) => {
-
 											console.log(user.location, location);
 
 											if (called) NProgress.start();
