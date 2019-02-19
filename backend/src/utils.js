@@ -2,7 +2,7 @@ const moment = require('moment');
 const axios = require('axios');
 
 module.exports = {
-	transformEvents: async function(eventsArr) {
+	transformEvents: function(eventsArr) {
 		// maybe include seatmap?
 		return eventsArr._embedded.events.reduce((events, ev) => {
 			let existingEvent = events.findIndex(e => e.title === ev.name);
