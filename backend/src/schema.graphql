@@ -12,6 +12,7 @@ type Mutation {
 	updateLocation(city: String!): User!
 	addEvent(eventId: String!): Message
 	createOrder(token: String!, subscription: Permission!): Order!
+	cancelSubscription: Message
 }
 
 type Query {

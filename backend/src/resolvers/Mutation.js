@@ -228,7 +228,7 @@ const Mutation = {
 
 		// Create a subscription if user does not have one already
 		let subscription;
-		if (!user.stripeSubscriptionId) {
+		if (!user.tripeSubscriptionId) {
 			subscription = await stripe.subscriptions.create({
 				customer: user.stripeCustomerId || customer.id,
 				items: [
@@ -292,6 +292,47 @@ const Mutation = {
 		});
 
 		return order;
+	},
+	async cancelSubscription(parent, args, ctx, info) {
+		// Check user's login status
+		const { userId } = ctx.request;
+		if (!userId) throw new Error('You must be signed in to complete this order.');
+
+		// Get user's info
+		const user = await ctx.db.query.user(
+			{ where: { id: userId } },
+			`
+				{id email permissions stripeCustomerId stripeSubscriptionId}
+			`
+		);
+
+		if (!user.stripeCustomerId || !user.stripeSubscriptionId) {
+			throw new Error('User has no stripe customer Id or subscription Id');
+		}
+
+		const canceled = await stripe.subscriptions.del(
+			user.stripeSubscriptionId, {
+				invoice_now: true,
+				prorate: true
+			}
+		);
+
+		// Update user's permission type
+		ctx.db.mutation.updateUser({
+			data: {
+				permissions: {
+					set: ['FREE']
+				},
+				stripeSubscriptionId: null,
+			},
+			where: {
+				id: user.id
+			}
+		});
+
+		return {
+			message: `Your subscription has been ${canceled.status} at the end of the billing period`
+		}
 	},
 	async internalPasswordReset(parent, args, { db, request, response }, info) {
 		if (args.newPassword1 !== args.newPassword2) {
