@@ -11,13 +11,7 @@ export const ALL_EVENTS_QUERY = gql`
 		$categories: [String]
 		$dates: [String]
 	) {
-		getEvents(
-			location: $location
-			alt: $alt
-			page: $page
-			categories: $categories
-			dates: $dates
-		) {
+		getEvents(location: $location, alt: $alt, page: $page, categories: $categories, dates: $dates) {
 			page_count
 			total_items
 			page_number
@@ -26,14 +20,25 @@ export const ALL_EVENTS_QUERY = gql`
 				id
 				title
 				url
+				image_url
 				description
 				times
+				genre
+				notes
+				price {
+					min
+					max
+					currency
+				}
 				location {
 					venue
 					city
 					address
+					latLong {
+						lat
+						long
+					}
 				}
-				image_url
 			}
 		}
 	}
