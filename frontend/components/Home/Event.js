@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-// import { Query } from 'react-apollo';
 import moment from 'moment';
 import AddIcon from '@material-ui/icons/Add';
 import withStyles from '@material-ui/core/styles/withStyles';
