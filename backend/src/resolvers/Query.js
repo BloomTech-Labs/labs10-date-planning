@@ -1,5 +1,6 @@
 const axios = require('axios');
 const { transformEvents, fetchEvents } = require('../utils');
+const { checkDates } = require('../utils');
 
 const Query = {
 	currentUser(parent, args, { db, request }, info) {
@@ -35,6 +36,13 @@ const Query = {
 		if (!response.data) {
 			throw new Error('There is no event info for your current location');
 		}
+		
+		let filteredEvents = [];
+		if (args.dates.includes('All') || args.dates.length === 0) {
+			filteredEvents = [...events];
+		} else {
+			filteredEvents = args.dates.reduce((e, date) => [...e, ...checkDates(date, events)], []) ;
+		}
 
 		return {
 			events: events,
@@ -45,6 +53,7 @@ const Query = {
 			location: location
 		};
 	},
+
 	async getEvent(parent, args, ctx, info) {
 		const {
 			data: { _embedded }

@@ -4,7 +4,7 @@ import { Mutation } from 'react-apollo';
 import firebase from 'firebase/app';
 import Router from 'next/router';
 import withStyles from '@material-ui/core/styles/withStyles';
-
+import NProgress from 'nprogress';
 import { CURRENT_USER_QUERY } from '../Queries/User';
 
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -14,7 +14,9 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import ButtonBase from '@material-ui/core/ButtonBase';
-
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import IconButton from '@material-ui/core/IconButton';
 import MusicNote from '@material-ui/icons/MusicNote';
 import TheaterMasks from '../../static/icons/TheatreMask';
 import Restaurant from '@material-ui/icons/Restaurant';
@@ -23,7 +25,7 @@ import Icon from '@material-ui/core/Icon';
 import Email from '@material-ui/icons/Email';
 import Check from '@material-ui/icons/Check';
 import Close from '@material-ui/icons/Close';
-
+import ErrorModal from './ErrorModal'
 import Button from '../../styledComponents/CustomButtons/Button';
 import Card from '../../styledComponents/Card/Card';
 import GridContainer from '../../styledComponents/Grid/GridContainer';
@@ -67,6 +69,7 @@ const FIREBASE_SIGNUP = gql`
 `;
 
 const Register = ({ classes }) => {
+	const [passwordShowing, setPasswordShowing] = useState(true)
 	const [modalShowing, setModalShowing] = useState(false);
 	const [termsShowing, setTermsShowing] = useState(false);
 	const [terms, setTerms] = useState(false);
@@ -80,7 +83,7 @@ const Register = ({ classes }) => {
 		email: undefined,
 		password: undefined
 	});
-
+	const [serverError, setServerError] = useState(undefined)
 	const handleChange = ({ target: { name, value } }) => {
 		setUser({ ...user, [name]: value });
 	};
@@ -92,11 +95,13 @@ const Register = ({ classes }) => {
 			const complete = await auth.signInWithPopup(provider);
 			const idToken = await auth.currentUser.getIdToken(true);
 			const success = await firebaseSignup({ variables: { idToken } });
+			if (success.data) Router.push('/home')
 		} else if (company === 'facebook') {
 			let provider = new firebase.auth.FacebookAuthProvider();
 			const complete = await auth.signInWithPopup(provider);
 			const idToken = await auth.currentUser.getIdToken(true);
 			const success = await firebaseSignup({ variables: { idToken } });
+			if (success.data) Router.push('/home')
 		} else {
 			// INSTAGRAM WILL GO HERE BUT WILL NEED DIFFERENT FUNCTION
 		}
@@ -115,7 +120,7 @@ const Register = ({ classes }) => {
 					firstName: nameArray[0],
 					lastName: nameArray[1]
 				}
-			}).catch(err => console.log(err));
+			}).catch(error => {if (error.message.includes('unique')) { setError({...err, email: 'A user with this email already exists.'})}});
 			if (newUser) Router.push('/home');
 		}
 	};
@@ -131,6 +136,7 @@ const Register = ({ classes }) => {
 					paper: classes.modal + ' ' + classes.modalSignup
 				}}
 				open={modalShowing}
+				scroll='body'
 				// TransitionComponent={Transition}
 				keepMounted
 				onClose={() => {
@@ -208,7 +214,9 @@ const Register = ({ classes }) => {
 													mutation={FIREBASE_SIGNUP}
 													refetchQueries={[{ query: CURRENT_USER_QUERY }]}
 												>
-													{(signup, { loading, error }) => (
+													{(signup, { loading, error }) => {
+														if (error) setServerError(error)
+														return (
 														<>
 															<Button
 																justIcon
@@ -236,7 +244,7 @@ const Register = ({ classes }) => {
 																<i className="fab fa-instagram" />
 															</Button>
 														</>
-													)}
+													)}}
 												</Mutation>
 
 												<h4 className={classes.socialTitle}>or be classical</h4>
@@ -244,10 +252,17 @@ const Register = ({ classes }) => {
 											<Mutation
 												mutation={REGISTER_USER}
 												refetchQueries={[{ query: CURRENT_USER_QUERY }]}
+												onCompleted={() => NProgress.done()}
+												onError={() => NProgress.done()}
 											>
-												{(signup, { error, loading }) => (
+												{(signup, { error, loading, called }) => {
+													if (called) NProgress.start();
+													
+													return (
+												
 													<form
 														className={classes.form}
+														onSubmit={(e) => handleSubmit(e, signup) }
 														onKeyPress={event => {
 															if (event.key === 'Enter') {
 																handleSubmit(event, signup);
@@ -310,7 +325,7 @@ const Register = ({ classes }) => {
 																	value: user.email,
 																	onChange: handleChange
 																}}
-																label={err.email}
+																labelText={err.email}
 																labelProps={{
 																	error: true
 																}}
@@ -322,7 +337,18 @@ const Register = ({ classes }) => {
 																	fullWidth: true,
 																	className: classes.customFormControlClasses
 																}}
+																
 																inputProps={{
+																	endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="Toggle password visibility"
+                  onClick={() => setPasswordShowing(!passwordShowing)}
+                >
+                  {passwordShowing ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+													),
 																	startAdornment: (
 																		<InputAdornment
 																			position="start"
@@ -337,6 +363,7 @@ const Register = ({ classes }) => {
 																	autoComplete: 'new-password',
 																	required: true,
 																	name: 'password',
+																	type: passwordShowing ? 'text' : 'password',
 																	value: user.password,
 																	onChange: handleChange,
 																	error: err.password
@@ -383,7 +410,7 @@ const Register = ({ classes }) => {
 															</div>
 														</fieldset>
 													</form>
-												)}
+												)}}
 											</Mutation>
 										</GridItem>
 									</GridContainer>
@@ -392,6 +419,7 @@ const Register = ({ classes }) => {
 						)}
 					</Card>
 				}
+				<ErrorModal error={serverError}/>
 			</Dialog>
 		</Fragment>
 	);

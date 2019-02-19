@@ -1,26 +1,28 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import gql from 'graphql-tag';
+import Router from 'next/router'
 import firebase from 'firebase/app';
 import { Mutation } from 'react-apollo';
 import { CURRENT_USER_QUERY } from '../Queries/User';
 import withStyles from '@material-ui/core/styles/withStyles';
-
+import ButtonBase from '@material-ui/core/ButtonBase'
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
-
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Mail from '@material-ui/icons/Mail';
 import Icon from '@material-ui/core/Icon';
 import Close from '@material-ui/icons/Close';
-
+import IconButton from '@material-ui/core/IconButton';
 import Button from '../../styledComponents/CustomButtons/Button';
 import Card from '../../styledComponents/Card/Card';
 import CardHeader from '../../styledComponents/Card/CardHeader';
 import CardBody from '../../styledComponents/Card/CardBody';
 import CustomInput from '../../styledComponents/CustomInput/CustomInput';
-
+import ErrorModal from './ErrorModal'
 import Styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles';
 
 import { auth } from '../../utils/firebase';
@@ -52,8 +54,10 @@ const FIREBASE_LOGIN = gql`
 `;
 
 const Login = ({ classes }) => {
+	const [passwordShowing, setPasswordShowing] = useState(true)
 	const [user, setUser] = useState({ email: '', password: '' });
 	const [modalShowing, setModalShowing] = useState(false);
+	const [serverError, setServerError] = useState(undefined)
 
 	const googlePopup = async (e, firebaseSignin) => {
 		e.preventDefault();
@@ -62,6 +66,7 @@ const Login = ({ classes }) => {
 			const complete = await auth.signInWithPopup(provider);
 			const idToken = await auth.currentUser.getIdToken(true);
 			const success = await firebaseSignin({ variables: { idToken } });
+			if (success.data) Router.push('/home')
 		} catch (err) {
 			console.log(err);
 		}
@@ -73,6 +78,7 @@ const Login = ({ classes }) => {
 			const complete = await auth.signInWithPopup(provider);
 			const idToken = await auth.currentUser.getIdToken(true);
 			const success = await firebaseSignin({ variables: { idToken } });
+			if (success.data) Router.push('/home')
 		} catch (err) {
 			console.log(err);
 		}
@@ -83,8 +89,10 @@ const Login = ({ classes }) => {
 			mutation={LOGIN_USER}
 			variables={{ email: user.email, password: user.password }}
 			refetchQueries={[{ query: CURRENT_USER_QUERY }]}
+			awaitRefetchQueries
 		>
 			{(signin, { error, loading, called }) => {
+				console.log(error, loading, called)
 				return (
 					<Fragment>
 						<Button round onClick={() => setModalShowing(true)}>
@@ -128,8 +136,11 @@ const Login = ({ classes }) => {
 											<Mutation
 												mutation={FIREBASE_LOGIN}
 												refetchQueries={[{ query: CURRENT_USER_QUERY }]}
+												
 											>
-												{(firebaseSignin, { loading, error }) => (
+												{(firebaseSignin, { loading, error }) => { 
+													if (error) setServerError(error)
+													return(
 													<>
 														<Button
 															justIcon
@@ -152,13 +163,19 @@ const Login = ({ classes }) => {
 															<i className="fab fa-instagram" />
 														</Button>
 													</>
-												)}
+												)}}
 											</Mutation>
 										</div>
 									</CardHeader>
 								</DialogTitle>
+								<form onSubmit={async (e) => {e.preventDefault(); await signin(); Router.push('/home')}} onKeyPress={async event => {
+															if (event.key === 'Enter') {
+																await signin();
+																Router.push('/home')
+															}
+														}}>
 								<DialogContent id="login-modal-slide-description" className={classes.modalBody}>
-									<form id="loginform" onSubmit={() => signin()}>
+								
 										<p className={`${classes.description} ${classes.textCenter}`}>
 											Or Be Classical
 										</p>
@@ -185,6 +202,16 @@ const Login = ({ classes }) => {
 													fullWidth: true
 												}}
 												inputProps={{
+													endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="Toggle password visibility"
+                  onClick={() => setPasswordShowing(!passwordShowing)}
+                >
+                  {passwordShowing ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+													),
 													startAdornment: (
 														<InputAdornment position="start">
 															<Icon className={classes.icon}>lock_outline</Icon>
@@ -192,6 +219,7 @@ const Login = ({ classes }) => {
 													),
 													placeholder: 'Password...',
 													value: user.password,
+													type: passwordShowing ? 'text' : 'password',
 													onChange: e =>
 														setUser({
 															...user,
@@ -200,21 +228,24 @@ const Login = ({ classes }) => {
 												}}
 											/>
 										</CardBody>
-									</form>
+									
 								</DialogContent>
 								<DialogActions className={`${classes.modalFooter} ${classes.justifyContentCenter}`}>
+								<ButtonBase type="submit">
 									<Button
 										color="primary"
 										simple
 										size="lg"
-										onClick={() => {
-											signin();
-										}}
+										component='div'
+										
 									>
 										Get started
 									</Button>
+									</ButtonBase>
 								</DialogActions>
+								</form>
 							</Card>
+							<ErrorModal error={serverError}/>
 						</Dialog>
 					</Fragment>
 				);
