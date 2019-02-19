@@ -1,5 +1,6 @@
-# source: https://ykrueng-labs-73c509aab2.herokuapp.com/backend_magic/dev
-# timestamp: Mon Feb 18 2019 08:07:53 GMT-0600 (Central Standard Time)
+# source: http://localhost:4466
+# timestamp: Mon Feb 18 2019 16:52:38 GMT-0600 (Central Standard Time)
+
 
 type AggregateEvent {
 	count: Int!
@@ -768,14 +769,15 @@ input EventUpdateManyMutationInput {
 }
 
 input EventUpdateManyWithoutAttendingInput {
-	create: [EventCreateWithoutAttendingInput!]
-	connect: [EventWhereUniqueInput!]
-	disconnect: [EventWhereUniqueInput!]
-	delete: [EventWhereUniqueInput!]
-	update: [EventUpdateWithWhereUniqueWithoutAttendingInput!]
-	updateMany: [EventUpdateManyWithWhereNestedInput!]
-	deleteMany: [EventScalarWhereInput!]
-	upsert: [EventUpsertWithWhereUniqueWithoutAttendingInput!]
+  create: [EventCreateWithoutAttendingInput!]
+  connect: [EventWhereUniqueInput!]
+  set: [EventWhereUniqueInput!]
+  disconnect: [EventWhereUniqueInput!]
+  delete: [EventWhereUniqueInput!]
+  update: [EventUpdateWithWhereUniqueWithoutAttendingInput!]
+  updateMany: [EventUpdateManyWithWhereNestedInput!]
+  deleteMany: [EventScalarWhereInput!]
+  upsert: [EventUpsertWithWhereUniqueWithoutAttendingInput!]
 }
 
 input EventUpdateManyWithWhereNestedInput {
@@ -1336,6 +1338,9 @@ enum Gender {
 	MALE
 	FEMALE
 }
+
+"""Raw JSON value"""
+scalar Json
 
 """
 The `Long` scalar type represents non-fractional signed whole numeric values.
@@ -2009,9 +2014,256 @@ input UserCreateWithoutEventsInput {
 	permissions: UserCreatepermissionsInput
 }
 
-"""
-An edge in a connection.
-"""
+  """All values less than the given value."""
+  total_lt: Int
+
+  """All values less than or equal the given value."""
+  total_lte: Int
+
+  """All values greater than the given value."""
+  total_gt: Int
+
+  """All values greater than or equal the given value."""
+  total_gte: Int
+  charge: String
+
+  """All values that are not equal to given value."""
+  charge_not: String
+
+  """All values that are contained in given list."""
+  charge_in: [String!]
+
+  """All values that are not contained in given list."""
+  charge_not_in: [String!]
+
+  """All values less than the given value."""
+  charge_lt: String
+
+  """All values less than or equal the given value."""
+  charge_lte: String
+
+  """All values greater than the given value."""
+  charge_gt: String
+
+  """All values greater than or equal the given value."""
+  charge_gte: String
+
+  """All values containing the given string."""
+  charge_contains: String
+
+  """All values not containing the given string."""
+  charge_not_contains: String
+
+  """All values starting with the given string."""
+  charge_starts_with: String
+
+  """All values not starting with the given string."""
+  charge_not_starts_with: String
+
+  """All values ending with the given string."""
+  charge_ends_with: String
+
+  """All values not ending with the given string."""
+  charge_not_ends_with: String
+  subscription: Permission
+
+  """All values that are not equal to given value."""
+  subscription_not: Permission
+
+  """All values that are contained in given list."""
+  subscription_in: [Permission!]
+
+  """All values that are not contained in given list."""
+  subscription_not_in: [Permission!]
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  user: UserWhereInput
+}
+
+input OrderWhereUniqueInput {
+  id: ID
+}
+
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+}
+
+enum Permission {
+  FREE
+  MONTHLY
+  YEARLY
+  ADMIN
+}
+
+enum PrismaDatabase {
+  default
+}
+
+type Query {
+  events(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event]!
+  orders(where: OrderWhereInput, orderBy: OrderOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Order]!
+  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
+  event(where: EventWhereUniqueInput!): Event
+  order(where: OrderWhereUniqueInput!): Order
+  user(where: UserWhereUniqueInput!): User
+  eventsConnection(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): EventConnection!
+  ordersConnection(where: OrderWhereInput, orderBy: OrderOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): OrderConnection!
+  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+
+  """Fetches an object given its ID"""
+  node(
+    """The ID of an object"""
+    id: ID!
+  ): Node
+}
+
+type Subscription {
+  event(where: EventSubscriptionWhereInput): EventSubscriptionPayload
+  order(where: OrderSubscriptionWhereInput): OrderSubscriptionPayload
+  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+}
+
+type User implements Node {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  password: String!
+  gender: Gender
+  age: Int
+  location: String
+  email: String!
+  phone: String
+  biography: String
+  imageThumbnail: String
+  imageLarge: String
+  resetToken: String
+  resetTokenExpiry: Float
+  interests: [Category!]!
+  events(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event!]
+  permissions: [Permission!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""A connection to a list of items."""
+type UserConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [UserEdge]!
+  aggregate: AggregateUser!
+}
+
+input UserCreateInput {
+  firstName: String!
+  lastName: String!
+  password: String!
+  gender: Gender
+  age: Int
+  location: String
+  email: String!
+  phone: String
+  biography: String
+  imageThumbnail: String
+  imageLarge: String
+  resetToken: String
+  resetTokenExpiry: Float
+  interests: UserCreateinterestsInput
+  permissions: UserCreatepermissionsInput
+  events: EventCreateManyWithoutAttendingInput
+}
+
+input UserCreateinterestsInput {
+  set: [Category!]
+}
+
+input UserCreateManyWithoutEventsInput {
+  create: [UserCreateWithoutEventsInput!]
+  connect: [UserWhereUniqueInput!]
+}
+
+input UserCreateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreatepermissionsInput {
+  set: [Permission!]
+}
+
+input UserCreateWithoutEventsInput {
+  firstName: String!
+  lastName: String!
+  password: String!
+  gender: Gender
+  age: Int
+  location: String
+  email: String!
+  phone: String
+  biography: String
+  imageThumbnail: String
+  imageLarge: String
+  resetToken: String
+  resetTokenExpiry: Float
+  interests: UserCreateinterestsInput
+  permissions: UserCreatepermissionsInput
+}
+
+"""An edge in a connection."""
 type UserEdge {
 	"""
 	The item at the end of the edge.
@@ -3107,14 +3359,15 @@ input UserUpdateManyMutationInput {
 }
 
 input UserUpdateManyWithoutEventsInput {
-	create: [UserCreateWithoutEventsInput!]
-	connect: [UserWhereUniqueInput!]
-	disconnect: [UserWhereUniqueInput!]
-	delete: [UserWhereUniqueInput!]
-	update: [UserUpdateWithWhereUniqueWithoutEventsInput!]
-	updateMany: [UserUpdateManyWithWhereNestedInput!]
-	deleteMany: [UserScalarWhereInput!]
-	upsert: [UserUpsertWithWhereUniqueWithoutEventsInput!]
+  create: [UserCreateWithoutEventsInput!]
+  connect: [UserWhereUniqueInput!]
+  set: [UserWhereUniqueInput!]
+  disconnect: [UserWhereUniqueInput!]
+  delete: [UserWhereUniqueInput!]
+  update: [UserUpdateWithWhereUniqueWithoutEventsInput!]
+  updateMany: [UserUpdateManyWithWhereNestedInput!]
+  deleteMany: [UserScalarWhereInput!]
+  upsert: [UserUpsertWithWhereUniqueWithoutEventsInput!]
 }
 
 input UserUpdateManyWithWhereNestedInput {

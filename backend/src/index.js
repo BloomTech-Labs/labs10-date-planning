@@ -9,7 +9,6 @@ const db = require('./db');
 const server = createServer();
 server.express.use(cookieParser());
 
-// commented out bc it messes up testing queries and mutations in the graphql playground
 server.express.use(async (req, res, next) => {
 	const { token, session } = req.cookies;
 	if (token) {
