@@ -15,6 +15,9 @@ const Mutation = {
 	async signup(parent, args, { db, response }, info) {
 		// just in case some bozo puts their email in with capitalization for some reason
 		args.email = args.email.toLowerCase();
+		if (!/^(?=.*\d).{8,}$/.test(password)) {
+			throw new Error('Password must be 8 characters with at least 1 number!');
+		}
 		const password = await bcrypt.hash(args.password, 10);
 		const user = await db.mutation.createUser(
 			{
@@ -228,19 +231,23 @@ const Mutation = {
 		if (!user.stripeSubscriptionId) {
 			subscription = await stripe.subscriptions.create({
 				customer: user.stripeCustomerId || customer.id,
-				items: [{
-					plan: user.permissions[0] === 'MONTHLY' ? 'plan_EYPPZzmOjy3P3I' : 'plan_EYPg6RkTFwJFRA'
-				}]
-			})
+				items: [
+					{
+						plan: user.permissions[0] === 'MONTHLY' ? 'plan_EYPPZzmOjy3P3I' : 'plan_EYPg6RkTFwJFRA'
+					}
+				]
+			});
 		} else {
 			subscription = await stripe.subscriptions.retrieve(user.stripeSubscriptionId);
 			await stripe.subscriptions.update(user.stripeSubscriptionId, {
 				cancel_at_period_end: false,
-				items: [{
-					id: subscription.items.data[0].id,
-					plan: args.subscription === 'MONTHLY' ? 'plan_EYPPZzmOjy3P3I' : 'plan_EYPg6RkTFwJFRA'
-				}]
-			})
+				items: [
+					{
+						id: subscription.items.data[0].id,
+						plan: args.subscription === 'MONTHLY' ? 'plan_EYPPZzmOjy3P3I' : 'plan_EYPg6RkTFwJFRA'
+					}
+				]
+			});
 		}
 
 		// Charge the credit card
@@ -276,8 +283,8 @@ const Mutation = {
 				permissions: {
 					set: [args.subscription]
 				},
-				stripeSubscriptionId: subscription? subscription.id : user.stripeSubscriptionId,
-				stripeCustomerId: customer? customer.id : user.stripeCustomerId,
+				stripeSubscriptionId: subscription ? subscription.id : user.stripeSubscriptionId,
+				stripeCustomerId: customer ? customer.id : user.stripeCustomerId
 			},
 			where: {
 				id: user.id
