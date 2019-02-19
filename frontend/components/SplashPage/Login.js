@@ -42,7 +42,7 @@ const LOGIN_USER = gql`
 
 const FIREBASE_LOGIN = gql`
 	mutation FIREBASE_LOGIN($idToken: String!) {
-		firebaseSignin(idToken: $idToken) {
+		firebaseAuth(idToken: $idToken) {
 			token
 			user {
 				id
@@ -59,25 +59,25 @@ const Login = ({ classes }) => {
 	const [modalShowing, setModalShowing] = useState(false);
 	const [serverError, setServerError] = useState(undefined);
 
-	const googlePopup = async (e, firebaseSignin) => {
+	const googlePopup = async (e, firebaseAuth) => {
 		e.preventDefault();
 		try {
 			let provider = new firebase.auth.GoogleAuthProvider();
 			const complete = await auth.signInWithPopup(provider);
 			const idToken = await auth.currentUser.getIdToken(true);
-			const success = await firebaseSignin({ variables: { idToken } });
+			const success = await firebaseAuth({ variables: { idToken } });
 			if (success.data) Router.push('/home');
 		} catch (err) {
 			console.log(err);
 		}
 	};
-	const fbookPopup = async (e, firebaseSignin) => {
+	const fbookPopup = async (e, firebaseAuth) => {
 		e.preventDefault();
 		try {
 			let provider = new firebase.auth.FacebookAuthProvider();
 			const complete = await auth.signInWithPopup(provider);
 			const idToken = await auth.currentUser.getIdToken(true);
-			const success = await firebaseSignin({ variables: { idToken } });
+			const success = await firebaseAuth({ variables: { idToken } });
 			if (success.data) Router.push('/home');
 		} catch (err) {
 			console.log(err);
@@ -137,7 +137,7 @@ const Login = ({ classes }) => {
 												mutation={FIREBASE_LOGIN}
 												refetchQueries={[{ query: CURRENT_USER_QUERY }]}
 											>
-												{(firebaseSignin, { loading, error }) => {
+												{(firebaseAuth, { loading, error }) => {
 													if (error) setServerError(error);
 													return (
 														<>
@@ -145,7 +145,7 @@ const Login = ({ classes }) => {
 																justIcon
 																link
 																className={classes.socialLineButton}
-																onClick={e => googlePopup(e, firebaseSignin)}
+																onClick={e => googlePopup(e, firebaseAuth)}
 															>
 																<i className="fab fa-google" />
 															</Button>
@@ -153,7 +153,7 @@ const Login = ({ classes }) => {
 																justIcon
 																link
 																className={classes.socialLineButton}
-																onClick={e => fbookPopup(e, firebaseSignin)}
+																onClick={e => fbookPopup(e, firebaseAuth)}
 															>
 																<i className="fab fa-facebook-square" />
 															</Button>

@@ -57,7 +57,7 @@ const REGISTER_USER = gql`
 
 const FIREBASE_SIGNUP = gql`
 	mutation FIREBASE_LOGIN($idToken: String!) {
-		firebaseSignup(idToken: $idToken) {
+		firebaseAuth(idToken: $idToken) {
 			token
 			user {
 				id
@@ -88,19 +88,19 @@ const Register = ({ classes }) => {
 		setUser({ ...user, [name]: value });
 	};
 
-	const firebaseAuth = async (e, firebaseSignup, company) => {
+	const firebaseSignup = async (e, firebaseAuth, company) => {
 		// e.preventDefault();
 		if (company === 'google') {
 			let provider = new firebase.auth.GoogleAuthProvider();
 			const complete = await auth.signInWithPopup(provider);
 			const idToken = await auth.currentUser.getIdToken(true);
-			const success = await firebaseSignup({ variables: { idToken } });
+			const success = await firebaseAuth({ variables: { idToken } });
 			if (success.data) Router.push('/home');
 		} else if (company === 'facebook') {
 			let provider = new firebase.auth.FacebookAuthProvider();
 			const complete = await auth.signInWithPopup(provider);
 			const idToken = await auth.currentUser.getIdToken(true);
-			const success = await firebaseSignup({ variables: { idToken } });
+			const success = await firebaseAuth({ variables: { idToken } });
 			if (success.data) Router.push('/home');
 		} else {
 			// INSTAGRAM WILL GO HERE BUT WILL NEED DIFFERENT FUNCTION
@@ -218,7 +218,7 @@ const Register = ({ classes }) => {
 													mutation={FIREBASE_SIGNUP}
 													refetchQueries={[{ query: CURRENT_USER_QUERY }]}
 												>
-													{(signup, { loading, error }) => {
+													{(firebaseAuth, { loading, error }) => {
 														if (error) setServerError(error);
 														return (
 															<>
@@ -226,7 +226,7 @@ const Register = ({ classes }) => {
 																	justIcon
 																	round
 																	color="google"
-																	onClick={e => firebaseAuth(e, signup, 'google')}
+																	onClick={e => firebaseSignup(e, firebaseAuth, 'google')}
 																>
 																	<i className="fab fa-google" />
 																</Button>
@@ -235,7 +235,7 @@ const Register = ({ classes }) => {
 																	justIcon
 																	round
 																	color="facebook"
-																	onClick={e => firebaseAuth(e, signup, 'facebook')}
+																	onClick={e => firebaseSignup(e, firebaseAuth, 'facebook')}
 																>
 																	<i className="fab fa-facebook-f" />
 																</Button>
@@ -243,7 +243,7 @@ const Register = ({ classes }) => {
 																	justIcon
 																	round
 																	color="instagram"
-																	onClick={e => firebaseAuth(e, signup)}
+																	onClick={e => firebaseSignup(e, firebaseAuth)}
 																>
 																	<i className="fab fa-instagram" />
 																</Button>

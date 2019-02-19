@@ -15,6 +15,9 @@ const Mutation = {
 	async signup(parent, args, { db, response }, info) {
 		// just in case some bozo puts their email in with capitalization for some reason
 		args.email = args.email.toLowerCase();
+		if (!/^(?=.*\d).{8,}$/.test(args.password)) {
+			throw new Error('Password must be 8 characters with at least 1 number!');
+		}
 		const password = await bcrypt.hash(args.password, 10);
 		const user = await db.mutation.createUser(
 			{
@@ -35,16 +38,16 @@ const Mutation = {
 
 		return user;
 	},
-	async firebaseAuth(parent, args, { db, response }, info) {
+	async firebaseAuth(parent, args, ctx, info) {
 		const { uid, email } = await verifyIdToken(args.idToken);
 		const firebaseUser = await getUserRecord(uid);
 		const { displayName } = firebaseUser;
 		// check to see if user already exists in our db
-		let user = await db.query.user({
+		let user = await ctx.db.query.user({
 			where: { email }
 		});
 		if (!user) {
-			user = await db.mutation.createUser(
+			user = await ctx.db.mutation.createUser(
 				{
 					data: {
 						firstName: displayName,
@@ -58,7 +61,7 @@ const Mutation = {
 			await setUserClaims(uid, { id: user.id, admin: false });
 		}
 		const token = await createUserToken(args, ctx);
-		response.cookie('userId', user.id, {
+		ctx.response.cookie('userId', user.id, {
 			httpOnly: true,
 			maxAge: 1000 * 60 * 60 * 24 * 365 // 1 year long cookie bc why not. FIGHT ME
 		});
@@ -228,19 +231,23 @@ const Mutation = {
 		if (!user.stripeSubscriptionId) {
 			subscription = await stripe.subscriptions.create({
 				customer: user.stripeCustomerId || customer.id,
-				items: [{
-					plan: user.permissions[0] === 'MONTHLY' ? 'plan_EYPPZzmOjy3P3I' : 'plan_EYPg6RkTFwJFRA'
-				}]
-			})
+				items: [
+					{
+						plan: user.permissions[0] === 'MONTHLY' ? 'plan_EYPPZzmOjy3P3I' : 'plan_EYPg6RkTFwJFRA'
+					}
+				]
+			});
 		} else {
 			subscription = await stripe.subscriptions.retrieve(user.stripeSubscriptionId);
 			await stripe.subscriptions.update(user.stripeSubscriptionId, {
 				cancel_at_period_end: false,
-				items: [{
-					id: subscription.items.data[0].id,
-					plan: args.subscription === 'MONTHLY' ? 'plan_EYPPZzmOjy3P3I' : 'plan_EYPg6RkTFwJFRA'
-				}]
-			})
+				items: [
+					{
+						id: subscription.items.data[0].id,
+						plan: args.subscription === 'MONTHLY' ? 'plan_EYPPZzmOjy3P3I' : 'plan_EYPg6RkTFwJFRA'
+					}
+				]
+			});
 		}
 
 		// Charge the credit card
@@ -276,8 +283,8 @@ const Mutation = {
 				permissions: {
 					set: [args.subscription]
 				},
-				stripeSubscriptionId: subscription? subscription.id : user.stripeSubscriptionId,
-				stripeCustomerId: customer? customer.id : user.stripeCustomerId,
+				stripeSubscriptionId: subscription ? subscription.id : user.stripeSubscriptionId,
+				stripeCustomerId: customer ? customer.id : user.stripeCustomerId
 			},
 			where: {
 				id: user.id
@@ -329,16 +336,18 @@ const Mutation = {
 			throw new Error('You have reached the free tier limit');
 		}
 		const { data } = await axios.get(
-			`http://api.eventful.com/json/events/get?&id=${args.eventId}&app_key=${process.env.API_KEY}`
+			`https://app.ticketmaster.com/discovery/v2/events/${args.eventId}.json?apikey=${
+				process.env.TKTMSTR_KEY
+			}`
 		);
 		const event = await db.mutation.createEvent({
 			data: {
 				eventfulID: data.id,
-				title: data.title,
-				url: data.url || null,
-				location: data.venue_name,
-				description: data.description || null,
-				times: { set: [data.start_time] }
+				title: data.name,
+				url: data.url,
+				location: data._embedded.venues[0].name,
+				description: data.info,
+				times: { set: [data.dates.start.dateTime] }
 			}
 		});
 		const addedEvent = await db.mutation.updateUser({
@@ -353,9 +362,14 @@ const Mutation = {
 				id: user.id
 			}
 		});
-		if (user.permissions[0] === 'FREE') {
-			return { message: `You have used ${user.events.length + 1} of your 5 free events` };
-		} else return { message: 'Event successfully added!' };
+
+		return user.permissions[0] === 'FREE'
+			? { message: `You have used ${user.events.length + 1} of your 5 free events` }
+			: { message: 'Event successfully added!' };
+
+		// if (user.permissions[0] === 'FREE') {
+		// 	return { message: `You have used ${user.events.length + 1} of your 5 free events` };
+		// } else return { message: 'Event successfully added!' };
 	}
 };
 
