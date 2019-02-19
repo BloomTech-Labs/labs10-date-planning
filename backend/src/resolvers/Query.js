@@ -1,12 +1,8 @@
-const { forwardTo } = require('prisma-binding');
 const axios = require('axios');
-// const moment = require('moment');
 const { transformEvents, fetchEvents } = require('../utils');
 const { checkDates } = require('../utils');
 
 const Query = {
-	// users: forwardTo('db'),
-	// events: forwardTo('db'),
 	currentUser(parent, args, { db, request }, info) {
 		// check if there is a current user ID
 		if (!request.userId) {
