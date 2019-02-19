@@ -1,5 +1,5 @@
-# source: http://localhost:4466
-# timestamp: Tue Feb 19 2019 14:59:43 GMT-0600 (Central Standard Time)
+# source: https://labs-dateplan-3b7949a916.herokuapp.com/dateplan-backend/dev
+# timestamp: Tue Feb 19 2019 15:05:26 GMT-0600 (Central Standard Time)
 
 type AggregateEvent {
   count: Int!
@@ -540,7 +540,6 @@ input EventUpdateManyMutationInput {
 input EventUpdateManyWithoutAttendingInput {
   create: [EventCreateWithoutAttendingInput!]
   connect: [EventWhereUniqueInput!]
-  set: [EventWhereUniqueInput!]
   disconnect: [EventWhereUniqueInput!]
   delete: [EventWhereUniqueInput!]
   update: [EventUpdateWithWhereUniqueWithoutAttendingInput!]
@@ -906,9 +905,6 @@ enum Gender {
   FEMALE
 }
 
-"""Raw JSON value"""
-scalar Json
-
 """
 The `Long` scalar type represents non-fractional signed whole numeric values.
 Long can represent values between -(2^63) and 2^63 - 1.
@@ -934,7 +930,6 @@ type Mutation {
   deleteManyEvents(where: EventWhereInput): BatchPayload!
   deleteManyOrders(where: OrderWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
-  executeRaw(database: PrismaDatabase, query: String!): Json!
 }
 
 enum MutationType {
@@ -1253,10 +1248,6 @@ enum Permission {
   MONTHLY
   YEARLY
   ADMIN
-}
-
-enum PrismaDatabase {
-  default
 }
 
 type Query {
@@ -2204,7 +2195,6 @@ input UserUpdateManyMutationInput {
 input UserUpdateManyWithoutEventsInput {
   create: [UserCreateWithoutEventsInput!]
   connect: [UserWhereUniqueInput!]
-  set: [UserWhereUniqueInput!]
   disconnect: [UserWhereUniqueInput!]
   delete: [UserWhereUniqueInput!]
   update: [UserUpdateWithWhereUniqueWithoutEventsInput!]
