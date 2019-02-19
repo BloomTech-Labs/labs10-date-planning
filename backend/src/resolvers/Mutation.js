@@ -38,16 +38,16 @@ const Mutation = {
 
 		return user;
 	},
-	async firebaseAuth(parent, args, { db, response }, info) {
+	async firebaseAuth(parent, args, ctx, info) {
 		const { uid, email } = await verifyIdToken(args.idToken);
 		const firebaseUser = await getUserRecord(uid);
 		const { displayName } = firebaseUser;
 		// check to see if user already exists in our db
-		let user = await db.query.user({
+		let user = await ctx.db.query.user({
 			where: { email }
 		});
 		if (!user) {
-			user = await db.mutation.createUser(
+			user = await ctx.db.mutation.createUser(
 				{
 					data: {
 						firstName: displayName,
@@ -61,7 +61,7 @@ const Mutation = {
 			await setUserClaims(uid, { id: user.id, admin: false });
 		}
 		const token = await createUserToken(args, ctx);
-		response.cookie('userId', user.id, {
+		ctx.response.cookie('userId', user.id, {
 			httpOnly: true,
 			maxAge: 1000 * 60 * 60 * 24 * 365 // 1 year long cookie bc why not. FIGHT ME
 		});
