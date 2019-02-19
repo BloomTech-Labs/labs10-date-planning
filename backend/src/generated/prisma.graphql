@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-# source: http://localhost:4466
-# timestamp: Mon Feb 18 2019 12:05:38 GMT-0800 (Pacific Standard Time)
-=======
 # source: https://labs-dateplan-3b7949a916.herokuapp.com/dateplan-backend/dev
 # timestamp: Mon Feb 18 2019 21:39:41 GMT-0600 (Central Standard Time)
->>>>>>> 3d3b031c6fe0cb463649225fe66eda08f41c704a
 
 type AggregateEvent {
   count: Int!
