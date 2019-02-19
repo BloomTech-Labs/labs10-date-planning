@@ -11,7 +11,7 @@ import GridContainer from '../../styledComponents/Grid/GridContainer.jsx';
 import GridItem from '../../styledComponents/Grid/GridItem.jsx';
 import Card from '../../styledComponents/Card/Card.jsx';
 import CardBody from '../../styledComponents/Card/CardBody.jsx';
-import Bqutton from '../../styledComponents/CustomButtons/Button.jsx';
+import Button from '../../styledComponents/CustomButtons/Button.jsx';
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
 import Weekend from '@material-ui/icons/Weekend';
