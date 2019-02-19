@@ -25,7 +25,7 @@ import Icon from '@material-ui/core/Icon';
 import Email from '@material-ui/icons/Email';
 import Check from '@material-ui/icons/Check';
 import Close from '@material-ui/icons/Close';
-import ErrorModal from './ErrorModal'
+import ErrorModal from './ErrorModal';
 import Button from '../../styledComponents/CustomButtons/Button';
 import Card from '../../styledComponents/Card/Card';
 import GridContainer from '../../styledComponents/Grid/GridContainer';
@@ -69,7 +69,7 @@ const FIREBASE_SIGNUP = gql`
 `;
 
 const Register = ({ classes }) => {
-	const [passwordShowing, setPasswordShowing] = useState(true)
+	const [passwordShowing, setPasswordShowing] = useState(true);
 	const [modalShowing, setModalShowing] = useState(false);
 	const [termsShowing, setTermsShowing] = useState(false);
 	const [terms, setTerms] = useState(false);
@@ -83,7 +83,7 @@ const Register = ({ classes }) => {
 		email: undefined,
 		password: undefined
 	});
-	const [serverError, setServerError] = useState(undefined)
+	const [serverError, setServerError] = useState(undefined);
 	const handleChange = ({ target: { name, value } }) => {
 		setUser({ ...user, [name]: value });
 	};
@@ -95,13 +95,13 @@ const Register = ({ classes }) => {
 			const complete = await auth.signInWithPopup(provider);
 			const idToken = await auth.currentUser.getIdToken(true);
 			const success = await firebaseSignup({ variables: { idToken } });
-			if (success.data) Router.push('/home')
+			if (success.data) Router.push('/home');
 		} else if (company === 'facebook') {
 			let provider = new firebase.auth.FacebookAuthProvider();
 			const complete = await auth.signInWithPopup(provider);
 			const idToken = await auth.currentUser.getIdToken(true);
 			const success = await firebaseSignup({ variables: { idToken } });
-			if (success.data) Router.push('/home')
+			if (success.data) Router.push('/home');
 		} else {
 			// INSTAGRAM WILL GO HERE BUT WILL NEED DIFFERENT FUNCTION
 		}
@@ -120,7 +120,11 @@ const Register = ({ classes }) => {
 					firstName: nameArray[0],
 					lastName: nameArray[1]
 				}
-			}).catch(error => {if (error.message.includes('unique')) { setError({...err, email: 'A user with this email already exists.'})}});
+			}).catch(error => {
+				if (error.message.includes('unique')) {
+					setError({ ...err, email: 'A user with this email already exists.' });
+				}
+			});
 			if (newUser) Router.push('/home');
 		}
 	};
@@ -136,7 +140,7 @@ const Register = ({ classes }) => {
 					paper: classes.modal + ' ' + classes.modalSignup
 				}}
 				open={modalShowing}
-				scroll='body'
+				scroll="body"
 				// TransitionComponent={Transition}
 				keepMounted
 				onClose={() => {
@@ -215,36 +219,37 @@ const Register = ({ classes }) => {
 													refetchQueries={[{ query: CURRENT_USER_QUERY }]}
 												>
 													{(signup, { loading, error }) => {
-														if (error) setServerError(error)
+														if (error) setServerError(error);
 														return (
-														<>
-															<Button
-																justIcon
-																round
-																color="google"
-																onClick={e => firebaseAuth(e, signup, 'google')}
-															>
-																<i className="fab fa-google" />
-															</Button>
+															<>
+																<Button
+																	justIcon
+																	round
+																	color="google"
+																	onClick={e => firebaseAuth(e, signup, 'google')}
+																>
+																	<i className="fab fa-google" />
+																</Button>
 
-															<Button
-																justIcon
-																round
-																color="facebook"
-																onClick={e => firebaseAuth(e, signup, 'facebook')}
-															>
-																<i className="fab fa-facebook-f" />
-															</Button>
-															<Button
-																justIcon
-																round
-																color="instagram"
-																onClick={e => firebaseAuth(e, signup)}
-															>
-																<i className="fab fa-instagram" />
-															</Button>
-														</>
-													)}}
+																<Button
+																	justIcon
+																	round
+																	color="facebook"
+																	onClick={e => firebaseAuth(e, signup, 'facebook')}
+																>
+																	<i className="fab fa-facebook-f" />
+																</Button>
+																<Button
+																	justIcon
+																	round
+																	color="instagram"
+																	onClick={e => firebaseAuth(e, signup)}
+																>
+																	<i className="fab fa-instagram" />
+																</Button>
+															</>
+														);
+													}}
 												</Mutation>
 
 												<h4 className={classes.socialTitle}>or be classical</h4>
@@ -257,160 +262,159 @@ const Register = ({ classes }) => {
 											>
 												{(signup, { error, loading, called }) => {
 													if (called) NProgress.start();
-													
+
 													return (
-												
-													<form
-														className={classes.form}
-														onSubmit={(e) => handleSubmit(e, signup) }
-														onKeyPress={event => {
-															if (event.key === 'Enter') {
-																handleSubmit(event, signup);
-															}
-														}}
-													>
-														<fieldset
-															style={{ border: 'none' }}
-															disabled={loading}
-															aria-busy={loading}
+														<form
+															className={classes.form}
+															onSubmit={e => handleSubmit(e, signup)}
+															onKeyPress={event => {
+																if (event.key === 'Enter') {
+																	handleSubmit(event, signup);
+																}
+															}}
 														>
-															<CustomInput
-																error={err.name}
-																id="name"
-																formControlProps={{
-																	fullWidth: true,
-																	className: classes.customFormControlClasses
-																}}
-																inputProps={{
-																	startAdornment: (
-																		<InputAdornment
-																			position="start"
-																			className={classes.inputAdornment}
-																		>
-																			<Face className={classes.inputAdornmentIcon} />
-																		</InputAdornment>
-																	),
-																	placeholder: 'Full Name...',
-																	autoComplete: 'name',
-																	autoFocus: true,
-																	required: true,
-																	name: 'name',
-																	value: user.name,
-																	onChange: handleChange
-																}}
-																labelText={err.name}
-																labelProps={{
-																	error: true
-																}}
-															/>
-															<CustomInput
-																error={err.email}
-																id="email"
-																formControlProps={{
-																	fullWidth: true,
-																	className: classes.customFormControlClasses
-																}}
-																inputProps={{
-																	startAdornment: (
-																		<InputAdornment
-																			position="start"
-																			className={classes.inputAdornment}
-																		>
-																			<Email className={classes.inputAdornmentIcon} />
-																		</InputAdornment>
-																	),
-																	placeholder: 'Email...',
-																	required: true,
-																	name: 'email',
-																	value: user.email,
-																	onChange: handleChange
-																}}
-																labelText={err.email}
-																labelProps={{
-																	error: true
-																}}
-															/>
-															<CustomInput
-																error={err.password}
-																id="password"
-																formControlProps={{
-																	fullWidth: true,
-																	className: classes.customFormControlClasses
-																}}
-																
-																inputProps={{
-																	endAdornment: (
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="Toggle password visibility"
-                  onClick={() => setPasswordShowing(!passwordShowing)}
-                >
-                  {passwordShowing ? <Visibility /> : <VisibilityOff />}
-                </IconButton>
-              </InputAdornment>
-													),
-																	startAdornment: (
-																		<InputAdornment
-																			position="start"
-																			className={classes.inputAdornment}
-																		>
-																			<Icon className={classes.inputAdornmentIcon}>
-																				lock_outline
-																			</Icon>
-																		</InputAdornment>
-																	),
-																	placeholder: 'Password...',
-																	autoComplete: 'new-password',
-																	required: true,
-																	name: 'password',
-																	type: passwordShowing ? 'text' : 'password',
-																	value: user.password,
-																	onChange: handleChange,
-																	error: err.password
-																}}
-																label={err.password}
-																labelProps={{
-																	error: true
-																}}
-															/>
-															<FormControlLabel
-																classes={{
-																	label: classes.label
-																}}
-																control={
-																	<Checkbox
-																		tabIndex={-1}
-																		checked={terms}
-																		required={true}
-																		onClick={() => setTerms(!terms)}
-																		checkedIcon={<Check className={classes.checkedIcon} />}
-																		icon={<Check className={classes.uncheckedIcon} />}
-																		classes={{
-																			checked: classes.checked,
-																			root: classes.checkRoot
-																		}}
-																	/>
-																}
-																label={
-																	<span>
-																		I agree to the{' '}
-																		<a onClick={() => setTermsShowing(true)} href="#">
-																			terms and conditions
-																		</a>
-																		.
-																	</span>
-																}
-															/>
-															<div className={classes.textCenter}>
-																<ButtonBase type="submit">
-																	<Button round color="primary" component="div">
-																		Get Started
-																	</Button>
-																</ButtonBase>{' '}
-															</div>
-														</fieldset>
-													</form>
-												)}}
+															<fieldset
+																style={{ border: 'none' }}
+																disabled={loading}
+																aria-busy={loading}
+															>
+																<CustomInput
+																	error={err.name}
+																	id="name"
+																	formControlProps={{
+																		fullWidth: true,
+																		className: classes.customFormControlClasses
+																	}}
+																	inputProps={{
+																		startAdornment: (
+																			<InputAdornment
+																				position="start"
+																				className={classes.inputAdornment}
+																			>
+																				<Face className={classes.inputAdornmentIcon} />
+																			</InputAdornment>
+																		),
+																		placeholder: 'Full Name...',
+																		autoComplete: 'name',
+																		autoFocus: true,
+																		required: true,
+																		name: 'name',
+																		value: user.name,
+																		onChange: handleChange
+																	}}
+																	labelText={err.name}
+																	labelProps={{
+																		error: true
+																	}}
+																/>
+																<CustomInput
+																	error={err.email}
+																	id="email"
+																	formControlProps={{
+																		fullWidth: true,
+																		className: classes.customFormControlClasses
+																	}}
+																	inputProps={{
+																		startAdornment: (
+																			<InputAdornment
+																				position="start"
+																				className={classes.inputAdornment}
+																			>
+																				<Email className={classes.inputAdornmentIcon} />
+																			</InputAdornment>
+																		),
+																		placeholder: 'Email...',
+																		required: true,
+																		name: 'email',
+																		value: user.email,
+																		onChange: handleChange
+																	}}
+																	labelText={err.email}
+																	labelProps={{
+																		error: true
+																	}}
+																/>
+																<CustomInput
+																	error={err.password}
+																	id="password"
+																	formControlProps={{
+																		fullWidth: true,
+																		className: classes.customFormControlClasses
+																	}}
+																	inputProps={{
+																		endAdornment: (
+																			<InputAdornment position="end">
+																				<IconButton
+																					aria-label="Toggle password visibility"
+																					onClick={() => setPasswordShowing(!passwordShowing)}
+																				>
+																					{passwordShowing ? <Visibility /> : <VisibilityOff />}
+																				</IconButton>
+																			</InputAdornment>
+																		),
+																		startAdornment: (
+																			<InputAdornment
+																				position="start"
+																				className={classes.inputAdornment}
+																			>
+																				<Icon className={classes.inputAdornmentIcon}>
+																					lock_outline
+																				</Icon>
+																			</InputAdornment>
+																		),
+																		placeholder: 'Password...',
+																		autoComplete: 'new-password',
+																		required: true,
+																		name: 'password',
+																		type: passwordShowing ? 'text' : 'password',
+																		value: user.password,
+																		onChange: handleChange,
+																		error: err.password
+																	}}
+																	label={err.password}
+																	labelProps={{
+																		error: true
+																	}}
+																/>
+																<FormControlLabel
+																	classes={{
+																		label: classes.label
+																	}}
+																	control={
+																		<Checkbox
+																			tabIndex={-1}
+																			checked={terms}
+																			required={true}
+																			onClick={() => setTerms(!terms)}
+																			checkedIcon={<Check className={classes.checkedIcon} />}
+																			icon={<Check className={classes.uncheckedIcon} />}
+																			classes={{
+																				checked: classes.checked,
+																				root: classes.checkRoot
+																			}}
+																		/>
+																	}
+																	label={
+																		<span>
+																			I agree to the{' '}
+																			<a onClick={() => setTermsShowing(true)} href="#">
+																				terms and conditions
+																			</a>
+																			.
+																		</span>
+																	}
+																/>
+																<div className={classes.textCenter}>
+																	<ButtonBase type="submit">
+																		<Button round color="primary" component="div">
+																			Get Started
+																		</Button>
+																	</ButtonBase>{' '}
+																</div>
+															</fieldset>
+														</form>
+													);
+												}}
 											</Mutation>
 										</GridItem>
 									</GridContainer>
@@ -419,7 +423,7 @@ const Register = ({ classes }) => {
 						)}
 					</Card>
 				}
-				<ErrorModal error={serverError}/>
+				<ErrorModal error={serverError} />
 			</Dialog>
 		</Fragment>
 	);

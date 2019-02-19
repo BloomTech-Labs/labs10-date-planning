@@ -36,13 +36,13 @@ const Query = {
 		if (!response.data) {
 			throw new Error('There is no event info for your current location');
 		}
-		
-		let filteredEvents = [];
-		if (args.dates.includes('All') || args.dates.length === 0) {
-			filteredEvents = [...events];
-		} else {
-			filteredEvents = args.dates.reduce((e, date) => [...e, ...checkDates(date, events)], []) ;
-		}
+
+		// let filteredEvents = [];
+		// if (args.dates.includes('All') || args.dates.length === 0) {
+		// 	filteredEvents = [...events];
+		// } else {
+		// 	filteredEvents = args.dates.reduce((e, date) => [...e, ...checkDates(date, events)], []) ;
+		// }
 
 		return {
 			events: events,
@@ -55,14 +55,13 @@ const Query = {
 	},
 
 	async getEvent(parent, args, ctx, info) {
-		const {
-			data: { _embedded }
-		} = await axios.get(
-			`https://app.ticketmaster.com/discovery/v2/events.json?id=${args.id}&apikey=${
+		const { data } = await axios.get(
+			`https://app.ticketmaster.com/discovery/v2/events/${args.id}.json?apikey=${
 				process.env.TKTMSTR_KEY
 			}`
 		);
-		let data = _embedded.events[0];
+		console.log(data);
+		// let data = _embedded;
 		const img = data.images.filter(img => img.ratio === '4_3');
 		return {
 			title: data.name,
