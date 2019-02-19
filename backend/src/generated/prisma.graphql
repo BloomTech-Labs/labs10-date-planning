@@ -1297,6 +1297,8 @@ type User implements Node {
   permissions: [Permission!]!
   createdAt: DateTime!
   updatedAt: DateTime!
+  stripeCustomerId: String
+  stripeSubscriptionId: String
 }
 
 """A connection to a list of items."""
@@ -1323,6 +1325,8 @@ input UserCreateInput {
   imageLarge: String
   resetToken: String
   resetTokenExpiry: Float
+  stripeCustomerId: String
+  stripeSubscriptionId: String
   interests: UserCreateinterestsInput
   permissions: UserCreatepermissionsInput
   events: EventCreateManyWithoutAttendingInput
@@ -1360,6 +1364,8 @@ input UserCreateWithoutEventsInput {
   imageLarge: String
   resetToken: String
   resetTokenExpiry: Float
+  stripeCustomerId: String
+  stripeSubscriptionId: String
   interests: UserCreateinterestsInput
   permissions: UserCreatepermissionsInput
 }
@@ -1406,6 +1412,10 @@ enum UserOrderByInput {
   createdAt_DESC
   updatedAt_ASC
   updatedAt_DESC
+  stripeCustomerId_ASC
+  stripeCustomerId_DESC
+  stripeSubscriptionId_ASC
+  stripeSubscriptionId_DESC
 }
 
 type UserPreviousValues {
@@ -1427,6 +1437,8 @@ type UserPreviousValues {
   permissions: [Permission!]!
   createdAt: DateTime!
   updatedAt: DateTime!
+  stripeCustomerId: String
+  stripeSubscriptionId: String
 }
 
 input UserScalarWhereInput {
@@ -1976,6 +1988,86 @@ input UserScalarWhereInput {
 
   """All values greater than or equal the given value."""
   updatedAt_gte: DateTime
+  stripeCustomerId: String
+
+  """All values that are not equal to given value."""
+  stripeCustomerId_not: String
+
+  """All values that are contained in given list."""
+  stripeCustomerId_in: [String!]
+
+  """All values that are not contained in given list."""
+  stripeCustomerId_not_in: [String!]
+
+  """All values less than the given value."""
+  stripeCustomerId_lt: String
+
+  """All values less than or equal the given value."""
+  stripeCustomerId_lte: String
+
+  """All values greater than the given value."""
+  stripeCustomerId_gt: String
+
+  """All values greater than or equal the given value."""
+  stripeCustomerId_gte: String
+
+  """All values containing the given string."""
+  stripeCustomerId_contains: String
+
+  """All values not containing the given string."""
+  stripeCustomerId_not_contains: String
+
+  """All values starting with the given string."""
+  stripeCustomerId_starts_with: String
+
+  """All values not starting with the given string."""
+  stripeCustomerId_not_starts_with: String
+
+  """All values ending with the given string."""
+  stripeCustomerId_ends_with: String
+
+  """All values not ending with the given string."""
+  stripeCustomerId_not_ends_with: String
+  stripeSubscriptionId: String
+
+  """All values that are not equal to given value."""
+  stripeSubscriptionId_not: String
+
+  """All values that are contained in given list."""
+  stripeSubscriptionId_in: [String!]
+
+  """All values that are not contained in given list."""
+  stripeSubscriptionId_not_in: [String!]
+
+  """All values less than the given value."""
+  stripeSubscriptionId_lt: String
+
+  """All values less than or equal the given value."""
+  stripeSubscriptionId_lte: String
+
+  """All values greater than the given value."""
+  stripeSubscriptionId_gt: String
+
+  """All values greater than or equal the given value."""
+  stripeSubscriptionId_gte: String
+
+  """All values containing the given string."""
+  stripeSubscriptionId_contains: String
+
+  """All values not containing the given string."""
+  stripeSubscriptionId_not_contains: String
+
+  """All values starting with the given string."""
+  stripeSubscriptionId_starts_with: String
+
+  """All values not starting with the given string."""
+  stripeSubscriptionId_not_starts_with: String
+
+  """All values ending with the given string."""
+  stripeSubscriptionId_ends_with: String
+
+  """All values not ending with the given string."""
+  stripeSubscriptionId_not_ends_with: String
 }
 
 type UserSubscriptionPayload {
@@ -2031,6 +2123,8 @@ input UserUpdateDataInput {
   imageLarge: String
   resetToken: String
   resetTokenExpiry: Float
+  stripeCustomerId: String
+  stripeSubscriptionId: String
   interests: UserUpdateinterestsInput
   permissions: UserUpdatepermissionsInput
   events: EventUpdateManyWithoutAttendingInput
@@ -2050,6 +2144,8 @@ input UserUpdateInput {
   imageLarge: String
   resetToken: String
   resetTokenExpiry: Float
+  stripeCustomerId: String
+  stripeSubscriptionId: String
   interests: UserUpdateinterestsInput
   permissions: UserUpdatepermissionsInput
   events: EventUpdateManyWithoutAttendingInput
@@ -2073,6 +2169,8 @@ input UserUpdateManyDataInput {
   imageLarge: String
   resetToken: String
   resetTokenExpiry: Float
+  stripeCustomerId: String
+  stripeSubscriptionId: String
   interests: UserUpdateinterestsInput
   permissions: UserUpdatepermissionsInput
 }
@@ -2091,6 +2189,8 @@ input UserUpdateManyMutationInput {
   imageLarge: String
   resetToken: String
   resetTokenExpiry: Float
+  stripeCustomerId: String
+  stripeSubscriptionId: String
   interests: UserUpdateinterestsInput
   permissions: UserUpdatepermissionsInput
 }
@@ -2136,6 +2236,8 @@ input UserUpdateWithoutEventsDataInput {
   imageLarge: String
   resetToken: String
   resetTokenExpiry: Float
+  stripeCustomerId: String
+  stripeSubscriptionId: String
   interests: UserUpdateinterestsInput
   permissions: UserUpdatepermissionsInput
 }
@@ -2703,6 +2805,86 @@ input UserWhereInput {
 
   """All values greater than or equal the given value."""
   updatedAt_gte: DateTime
+  stripeCustomerId: String
+
+  """All values that are not equal to given value."""
+  stripeCustomerId_not: String
+
+  """All values that are contained in given list."""
+  stripeCustomerId_in: [String!]
+
+  """All values that are not contained in given list."""
+  stripeCustomerId_not_in: [String!]
+
+  """All values less than the given value."""
+  stripeCustomerId_lt: String
+
+  """All values less than or equal the given value."""
+  stripeCustomerId_lte: String
+
+  """All values greater than the given value."""
+  stripeCustomerId_gt: String
+
+  """All values greater than or equal the given value."""
+  stripeCustomerId_gte: String
+
+  """All values containing the given string."""
+  stripeCustomerId_contains: String
+
+  """All values not containing the given string."""
+  stripeCustomerId_not_contains: String
+
+  """All values starting with the given string."""
+  stripeCustomerId_starts_with: String
+
+  """All values not starting with the given string."""
+  stripeCustomerId_not_starts_with: String
+
+  """All values ending with the given string."""
+  stripeCustomerId_ends_with: String
+
+  """All values not ending with the given string."""
+  stripeCustomerId_not_ends_with: String
+  stripeSubscriptionId: String
+
+  """All values that are not equal to given value."""
+  stripeSubscriptionId_not: String
+
+  """All values that are contained in given list."""
+  stripeSubscriptionId_in: [String!]
+
+  """All values that are not contained in given list."""
+  stripeSubscriptionId_not_in: [String!]
+
+  """All values less than the given value."""
+  stripeSubscriptionId_lt: String
+
+  """All values less than or equal the given value."""
+  stripeSubscriptionId_lte: String
+
+  """All values greater than the given value."""
+  stripeSubscriptionId_gt: String
+
+  """All values greater than or equal the given value."""
+  stripeSubscriptionId_gte: String
+
+  """All values containing the given string."""
+  stripeSubscriptionId_contains: String
+
+  """All values not containing the given string."""
+  stripeSubscriptionId_not_contains: String
+
+  """All values starting with the given string."""
+  stripeSubscriptionId_starts_with: String
+
+  """All values not starting with the given string."""
+  stripeSubscriptionId_not_starts_with: String
+
+  """All values ending with the given string."""
+  stripeSubscriptionId_ends_with: String
+
+  """All values not ending with the given string."""
+  stripeSubscriptionId_not_ends_with: String
   events_every: EventWhereInput
   events_some: EventWhereInput
   events_none: EventWhereInput

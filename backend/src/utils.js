@@ -95,6 +95,13 @@ module.exports = {
 			}`
 		);
 	},
+	getEventImages: function(id) {
+		return axios.get(
+			`https://app.ticketmaster.com/discovery/v2/events/${id}/images.json?apikey=${
+				process.env.TKTMSTR_KEY
+			}`
+		);
+	},
 	async getUser(ctx) {
 		const Authorization = (ctx.req || ctx.request).get('Authorization');
 		if (Authorization) {
