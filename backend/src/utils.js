@@ -2,7 +2,7 @@ const moment = require('moment');
 const axios = require('axios');
 
 module.exports = {
-	transformEvents: function(eventsArr) {
+	transformEvents: async function(eventsArr) {
 		// maybe include seatmap?
 		return eventsArr._embedded.events.reduce((events, ev) => {
 			let existingEvent = events.findIndex(e => e.title === ev.name);
@@ -40,6 +40,7 @@ module.exports = {
 					},
 				});
 			}
+
 			return events;
 		}, []);
 	},
@@ -82,16 +83,25 @@ module.exports = {
 				);
 		}
 	},
-	fetchEvents: function(city, genre, dates, page) {
+	fetchEvents: function(geoHash, cats, dates, page, size) {
 		// hardcoded for testing but can easily be changed, duh
 		let place = 'Chicago';
-		let category = 'music';
+
+		let category = '';
+		let pageSize = size || 35;
 		// API likes simple genres like music, sports, etc. & city is the easiest but we can do latLong and add a radius to our query
 		// if that's the route that we wanna go (super easy to change)
 		return axios.get(
-			`https://app.ticketmaster.com/discovery/v2/events.json?size=35&classificationName='music'&geoPoint=c23nb62qp&apikey=${process
-				.env.TKTMSTR_KEY}`,
+			`https://app.ticketmaster.com/discovery/v2/events.json?size=${pageSize}&classificationId=${cats}&geoPoint=${geoHash.slice(
+				0,
+				8,
+			)}&apikey=${process.env.TKTMSTR_KEY}`,
 		);
+
+		// return axios.get(
+		// 	`https://app.ticketmaster.com/discovery/v2/events.json?size=35&classificationId=KZFzniwnSyZfZ7v7nE&geoPoint=${geoHash}&apikey=${process
+		// 		.env.TKTMSTR_KEY}`,
+		// );
 	},
 	getEventImages: function(id) {
 		return axios.get(

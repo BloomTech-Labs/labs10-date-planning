@@ -64,7 +64,7 @@ const Events = ({ classes, client }) => {
 			query: GEOHASH_QUERY,
 			variables: { city },
 		});
-		console.log(data, error);
+
 		return data.geoHash;
 	};
 	const getEvents = async variables => {

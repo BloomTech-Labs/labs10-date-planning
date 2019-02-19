@@ -25,18 +25,42 @@ const Query = {
 		);
 	},
 	async getEvents(parent, { location, alt, page, ...args }, ctx, info) {
-		console.log(location);
-		const categories = args.categories
-			? args.categories.toString()
-			: 'music,comedy,performing_arts,sports';
+		// const categories = args.categories
+		// 	? args.categories
+
+		let cats = args.categories.length
+			? args.categories
+			: [
+					'KZFzniwnSyZfZ7v7nJ',
+					'KZFzniwnSyZfZ7v7na',
+					'KZFzniwnSyZfZ7v7nE',
+					'KZFzniwnSyZfZ7v7n1',
+				];
+
 		const dates = args.dates ? args.dates.toString() : 'all';
 
-		const response = await fetchEvents(location, categories, dates, page);
-		const events = transformEvents(response.data);
+		let response = await fetchEvents(location, cats, dates, page);
 
-		if (!response.data) {
-			throw new Error('There is no event info for your current location');
+		let events = transformEvents(response.data);
+
+		if (response.data.page.totalElements > 35) {
+			while (events.length < 35) {
+				let size = 35 - events.length;
+
+				let res = await fetchEvents(location, cats, dates, page, size);
+
+				if (!res.data) break;
+				else {
+					let newEvents = transformEvents(res.data);
+					events = [ ...events, ...newEvents ];
+				}
+			}
 		}
+
+		// return events;
+		// if (!response.data) {
+		// 	throw new Error('There is no event info for your current location');
+		// }
 
 		// let filteredEvents = [];
 		// if (args.dates.includes('All') || args.dates.length === 0) {
