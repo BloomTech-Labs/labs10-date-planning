@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-
-import { Query } from 'react-apollo';
+// import React, { useState, useEffect } from 'react';
+// import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
 export const EVENT_QUERY = gql`
@@ -10,7 +9,7 @@ export const EVENT_QUERY = gql`
 			title
 			url
 			description
-      times
+			times
 			location {
 				venue
 				city
