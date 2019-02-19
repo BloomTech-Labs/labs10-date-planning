@@ -336,16 +336,18 @@ const Mutation = {
 			throw new Error('You have reached the free tier limit');
 		}
 		const { data } = await axios.get(
-			`http://api.eventful.com/json/events/get?&id=${args.eventId}&app_key=${process.env.API_KEY}`
+			`https://app.ticketmaster.com/discovery/v2/events/${args.eventId}.json?apikey=${
+				process.env.TKTMSTR_KEY
+			}`
 		);
 		const event = await db.mutation.createEvent({
 			data: {
 				eventfulID: data.id,
-				title: data.title,
-				url: data.url || null,
-				location: data.venue_name,
-				description: data.description || null,
-				times: { set: [data.start_time] }
+				title: data.name,
+				url: data.url,
+				location: data._embedded.venues[0].name,
+				description: data.info,
+				times: { set: [data.dates.start.dateTime] }
 			}
 		});
 		const addedEvent = await db.mutation.updateUser({
@@ -360,9 +362,14 @@ const Mutation = {
 				id: user.id
 			}
 		});
-		if (user.permissions[0] === 'FREE') {
-			return { message: `You have used ${user.events.length + 1} of your 5 free events` };
-		} else return { message: 'Event successfully added!' };
+
+		return user.permissions[0] === 'FREE'
+			? { message: `You have used ${user.events.length + 1} of your 5 free events` }
+			: { message: 'Event successfully added!' };
+
+		// if (user.permissions[0] === 'FREE') {
+		// 	return { message: `You have used ${user.events.length + 1} of your 5 free events` };
+		// } else return { message: 'Event successfully added!' };
 	}
 };
 
