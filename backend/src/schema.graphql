@@ -1,26 +1,22 @@
 # import * from './generated/prisma.graphql'
 
 type Mutation {
+	firebaseAuth(idToken: String!): FirebasePayload
 	signup(email: String!, password: String!, firstName: String!, lastName: String!): User!
 	signin(email: String!, password: String!): User!
+	requestReset(email: String!): Message
+	resetPassword(resetToken: String!, password: String!, confirmPassword: String!): User!
+	internalPasswordReset(oldPassword: String!, newPassword1: String!, newPassword2: String!): User!
 	signout: Message
 	updateImage(thumbnail: String!, image: String!): User!
 	updateLocation(city: String!): User!
-	createEvent(title: String!, description: String!): Event!
-	deleteEvent(where: EventWhereUniqueInput!): Event
 	addEvent(eventId: String!): Message
-	requestReset(email: String!): Message
-	resetPassword(resetToken: String!, password: String!, confirmPassword: String!): User!
-	updatePermissions(permissions: [Permission], userId: ID!): User
 	createOrder(token: String!, subscription: Permission!): Order!
-	internalPasswordReset(oldPassword: String!, newPassword1: String!, newPassword2: String!): User!
-	firebaseSignin(idToken: String!): FirebasePayload
-	firebaseSignup(idToken: String!): FirebasePayload
 }
 
 type Query {
-	users: [User]!
-	events: [Event]!
+	# users: [User]!
+	# events: [Event]!
 	getEvents(
 		location: String
 		alt: String
@@ -44,9 +40,11 @@ type AllEvents {
 	page_number: Int
 	location: String
 }
+
 type Locations {
 	city: String
 }
+
 type User {
 	id: ID!
 	firstName: String!
@@ -74,6 +72,9 @@ type Event {
 	times: [String]
 	location: Location
 	image_url: String
+	price: PriceRange
+	notes: String
+	genre: String
 }
 
 type UserEvent {
@@ -89,8 +90,19 @@ type UserEvent {
 type Location {
 	city: String
 	venue: String
+	latLong: Coordinates
 	address: String
-	zipCode: String
+}
+
+type Coordinates {
+	lat: String!
+	long: String!
+}
+
+type PriceRange {
+	min: String
+	max: String
+	currency: String
 }
 
 type UserLocation {

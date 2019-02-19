@@ -2,30 +2,42 @@ const moment = require('moment');
 const axios = require('axios');
 
 module.exports = {
-	transformEvents: function({ event }) {
-		// shape events return fields into a nice object for us to use and love and care for forever and ever
-		return event.reduce((events, ev) => {
-			let existingEvent = events.findIndex(
-				e => e.title === ev.title && e.location.venue === ev.venue_name,
-			);
-
+	transformEvents: function(eventsArr) {
+		// maybe include seatmap?
+		return eventsArr._embedded.events.reduce((events, ev) => {
+			let existingEvent = events.findIndex(e => e.title === ev.name);
 			if (existingEvent !== -1) {
-				events[existingEvent].times.push(ev.start_time);
+				events[existingEvent].times.push(ev.dates.start.dateTime);
 			} else {
+				const eventImage = ev.images.filter(obj => {
+					if (obj.ratio === '4_3') {
+						return obj.url;
+					}
+				});
 				events.push({
 					id: ev.id,
-					title: ev.title,
-					url: ev.url || null,
-					description: ev.description || `no description bc we're annoying af`,
-					times: [ ev.start_time ],
-					location: {
-						city: ev.city_name,
-						venue: ev.venue_name,
-						address: ev.venue_address,
-						zipCode: ev.postal_code,
+					title: ev.name,
+					// I think we'll wanna add in each events url so we can make the date/time a clickable link since each event url is unique
+					url: ev.url,
+					image_url: eventImage[0].url,
+					times: [ev.dates.start.dateTime],
+					genres: ev.classifications[0].genre.name,
+					info: ev.info || 'no info provided',
+					description: ev.pleaseNote || 'no notes included',
+					price: {
+						min: ev.priceRanges ? ev.priceRanges[0].min : 'min',
+						max: ev.priceRanges ? ev.priceRanges[0].max : 'max',
+						curr: ev.priceRanges ? ev.priceRanges[0].currency : 'USD'
 					},
-					venue_id: ev.venue_id,
-					image_url: ev.image && ev.image.medium && ev.image.medium.url,
+					location: {
+						venue: ev._embedded.venues[0].name,
+						address: ev._embedded.venues[0].address.line1,
+						city: ev._embedded.venues[0].city.name,
+						latLong: {
+							lat: ev._embedded.venues[0].location.latitude,
+							long: ev._embedded.venues[0].location.longitude
+						}
+					}
 				});
 			}
 			return events;
@@ -40,30 +52,47 @@ module.exports = {
 				date = moment().format('YYYY-MM-DD');
 				return events.filter(ev => ev.times.some(t => moment(t).format('YYYY-MM-DD') === date));
 			case 'this weekend':
-				start = moment().endOf('isoWeek').subtract(2, 'days').format('YYYY-MM-DD');
-				end = moment().endOf('isoWeek').format('YYYY-MM-DD');
-				return events.filter(ev => ev.times.some(
-						t => moment(t).format('YYYY-MM-DD') >= start &&
-							moment(t).format('YYYY-MM-DD') <= end,
-					),
+				start = moment()
+					.endOf('isoWeek')
+					.subtract(2, 'days')
+					.format('YYYY-MM-DD');
+				end = moment()
+					.endOf('isoWeek')
+					.format('YYYY-MM-DD');
+				return events.filter(ev =>
+					ev.times.some(
+						t => moment(t).format('YYYY-MM-DD') >= start && moment(t).format('YYYY-MM-DD') <= end
+					)
 				);
 			case 'next week':
-				start = moment().add(1, 'weeks').startOf('isoWeek').format('YYYY-MM-DD');
-				end = moment().add(1, 'weeks').endOf('isoWeek').format('YYYY-MM-DD');
-				return events.filter(ev => ev.times.some(
-						t => moment(t).format('YYYY-MM-DD') >= start &&
-							moment(t).format('YYYY-MM-DD') <= end,
-					),
+				start = moment()
+					.add(1, 'weeks')
+					.startOf('isoWeek')
+					.format('YYYY-MM-DD');
+				end = moment()
+					.add(1, 'weeks')
+					.endOf('isoWeek')
+					.format('YYYY-MM-DD');
+				return events.filter(ev =>
+					ev.times.some(
+						t => moment(t).format('YYYY-MM-DD') >= start && moment(t).format('YYYY-MM-DD') <= end
+					)
 				);
 			default:
 				date = moment(`${moment().format('YYYY')} ${dates}`, 'YYYY MMM DD').format('YYYY-MM-DD');
 				return events.filter(ev => ev.times.some(t => moment(t).format('YYYY-MM-DD') === date));
 		}
 	},
-	fetchEvents: function(location, cat, dates, page) {
+	fetchEvents: function(city, genre, dates, page) {
+		// hardcoded for testing but can easily be changed, duh
+		let place = 'Chicago';
+		let category = 'music';
+		// API likes simple genres like music, sports, etc. & city is the easiest but we can do latLong and add a radius to our query
+		// if that's the route that we wanna go (super easy to change)
 		return axios.get(
-			`https://api.eventful.com/json/events/search?location=${location}&category=${cat}&date=${dates}&page_number=${page}&page_size=40&app_key=${process
-				.env.API_KEY}`,
+			`https://app.ticketmaster.com/discovery/v2/events.json?size=20&classificationName=${category}&city=${place}&apikey=${
+				process.env.TKTMSTR_KEY
+			}`
 		);
 	},
 	async getUser(ctx) {
@@ -74,5 +103,5 @@ module.exports = {
 			return { id, admin };
 		}
 		return null;
-	},
+	}
 };
