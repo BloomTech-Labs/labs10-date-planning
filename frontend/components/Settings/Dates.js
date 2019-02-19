@@ -15,9 +15,9 @@ const Dates = ({ classes }) => {
 				console.log(currentUser.events, currentUser.permissions);
 				return (
 					<div className={classes.container}>
-						<div>
+						{/* <div>
 							<h2 style={{ textAlign: 'center' }}>Your Dates</h2>
-						</div>
+						</div> */}
 
 						<GridContainer>
 							{currentUser.events.length ? (
@@ -49,7 +49,7 @@ const Dates = ({ classes }) => {
 									</div>
 								}
 								close
-								color='primary'
+								color='info'
 								icon='info_outline'
 							/>
 						)}

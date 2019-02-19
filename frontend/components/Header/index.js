@@ -61,6 +61,7 @@ const Nav = ({ classes }) => {
 			{({ data: { currentUser } }) => (
 				<Header
 					style={{backgroundImage: 'linear-gradient(to right top, #4cb5ae, #58bdbc, #65c6ca, #72ced7, #81d6e3)'}}
+					color='primary'
 					brand={Logo}
 					// color='primary'
 					links={
