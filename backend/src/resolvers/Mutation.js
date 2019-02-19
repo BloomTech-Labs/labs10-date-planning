@@ -198,6 +198,7 @@ const Mutation = {
 		// Check user's login status
 		const { userId } = ctx.request;
 		if (!userId) throw new Error('You must be signed in to complete this order.');
+
 		// Get user's info
 		const user = await ctx.db.query.user(
 			{ where: { id: userId } },
@@ -205,14 +206,13 @@ const Mutation = {
 				{id firstName lastName email permissions stripeCustomerId stripeSubscriptionId}
 			`
 		);
+
 		// Check user's subscription status
 		// if (user.permissions[0] === args.subscription) {
 		// 	throw new Error(`User already has ${args.subscription} subscription`);
 		// } else if (user.permissions[0] === 'YEARLY') {
 		// 	throw new Error(`User already has the highest level of ${args.subscription} subscription`);
 		// }
-
-		console.log(user.stripeCustomerId, !user.stripeCustomerId);
 
 		// Create new stripe customer if user is not one already
 		let customer;
@@ -242,6 +242,7 @@ const Mutation = {
 				}]
 			})
 		}
+
 		// Charge the credit card
 		const amount = args.subscription === 'MONTHLY' ? 999 : 2999;
 		// const charge = await stripe.charges.create({
