@@ -83,6 +83,18 @@ const Login = ({ classes }) => {
 			console.log(err);
 		}
 	};
+	const twitterPopup = async (e, firebaseSignin) => {
+		e.preventDefault();
+		try {
+			let provider = new firebase.auth.TwitterAuthProvider();
+			const complete = await auth.signInWithPopup(provider);
+			const idToken = await auth.currentUser.getIdToken(true);
+			const success = await firebaseSignin({ variables: { idToken } });
+			if (success.data) Router.push('/home');
+		} catch (err) {
+			console.log(err);
+		}
+	}
 
 	return (
 		<Mutation
@@ -158,8 +170,9 @@ const Login = ({ classes }) => {
 																<i className="fab fa-facebook-square" />
 															</Button>
 
-															<Button justIcon link className={classes.socialLineButton}>
-																<i className="fab fa-instagram" />
+															<Button justIcon link className={classes.socialLineButton}
+																onClick={e => twitterPopup(e, firebaseSignin)}>
+																<i className="fab fa-twitter" />
 															</Button>
 														</>
 													);
