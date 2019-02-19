@@ -52,20 +52,31 @@ module.exports = {
 				date = moment().format('YYYY-MM-DD');
 				return events.filter(ev => ev.times.some(t => moment(t).format('YYYY-MM-DD') === date));
 			case 'this weekend':
-				start = moment().endOf('isoWeek').subtract(2, 'days').format('YYYY-MM-DD');
-				end = moment().endOf('isoWeek').format('YYYY-MM-DD');
-				return events.filter(ev => ev.times.some(
-						t => moment(t).format('YYYY-MM-DD') >= start &&
-							moment(t).format('YYYY-MM-DD') <= end,
-					),
+				start = moment()
+					.endOf('isoWeek')
+					.subtract(2, 'days')
+					.format('YYYY-MM-DD');
+				end = moment()
+					.endOf('isoWeek')
+					.format('YYYY-MM-DD');
+				return events.filter(ev =>
+					ev.times.some(
+						t => moment(t).format('YYYY-MM-DD') >= start && moment(t).format('YYYY-MM-DD') <= end
+					)
 				);
 			case 'next week':
-				start = moment().add(1, 'weeks').startOf('isoWeek').format('YYYY-MM-DD');
-				end = moment().add(1, 'weeks').endOf('isoWeek').format('YYYY-MM-DD');
-				return events.filter(ev => ev.times.some(
-						t => moment(t).format('YYYY-MM-DD') >= start &&
-							moment(t).format('YYYY-MM-DD') <= end,
-					),
+				start = moment()
+					.add(1, 'weeks')
+					.startOf('isoWeek')
+					.format('YYYY-MM-DD');
+				end = moment()
+					.add(1, 'weeks')
+					.endOf('isoWeek')
+					.format('YYYY-MM-DD');
+				return events.filter(ev =>
+					ev.times.some(
+						t => moment(t).format('YYYY-MM-DD') >= start && moment(t).format('YYYY-MM-DD') <= end
+					)
 				);
 			default:
 				date = moment(`${moment().format('YYYY')} ${dates}`, 'YYYY MMM DD').format('YYYY-MM-DD');
@@ -79,7 +90,7 @@ module.exports = {
 		// API likes simple genres like music, sports, etc. & city is the easiest but we can do latLong and add a radius to our query
 		// if that's the route that we wanna go (super easy to change)
 		return axios.get(
-			`https://app.ticketmaster.com/discovery/v2/events.json?size=20&classificationName=${category}&city=${place}&apikey=${
+			`https://app.ticketmaster.com/discovery/v2/events.json?size=35&classificationName=${category}&city=${place}&apikey=${
 				process.env.TKTMSTR_KEY
 			}`
 		);
