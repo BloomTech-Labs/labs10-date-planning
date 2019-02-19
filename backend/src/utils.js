@@ -20,14 +20,14 @@ module.exports = {
 					// I think we'll wanna add in each events url so we can make the date/time a clickable link since each event url is unique
 					url: ev.url,
 					image_url: eventImage[0].url,
-					times: [ev.dates.start.dateTime],
+					times: [ ev.dates.start.dateTime ],
 					genres: ev.classifications[0].genre.name,
 					info: ev.info || 'no info provided',
 					description: ev.pleaseNote || 'no notes included',
 					price: {
 						min: ev.priceRanges ? ev.priceRanges[0].min : 'min',
 						max: ev.priceRanges ? ev.priceRanges[0].max : 'max',
-						curr: ev.priceRanges ? ev.priceRanges[0].currency : 'USD'
+						curr: ev.priceRanges ? ev.priceRanges[0].currency : 'USD',
 					},
 					location: {
 						venue: ev._embedded.venues[0].name,
@@ -35,9 +35,9 @@ module.exports = {
 						city: ev._embedded.venues[0].city.name,
 						latLong: {
 							lat: ev._embedded.venues[0].location.latitude,
-							long: ev._embedded.venues[0].location.longitude
-						}
-					}
+							long: ev._embedded.venues[0].location.longitude,
+						},
+					},
 				});
 			}
 			return events;
@@ -50,37 +50,36 @@ module.exports = {
 				return events;
 			case 'today':
 				date = moment().format('YYYY-MM-DD');
-				return events.filter(ev => ev.times.some(t => moment(t).format('YYYY-MM-DD') === date));
+				return events.filter(ev =>
+					ev.times.some(t => moment(t).format('YYYY-MM-DD') === date),
+				);
 			case 'this weekend':
-				start = moment()
-					.endOf('isoWeek')
-					.subtract(2, 'days')
-					.format('YYYY-MM-DD');
-				end = moment()
-					.endOf('isoWeek')
-					.format('YYYY-MM-DD');
+				start = moment().endOf('isoWeek').subtract(2, 'days').format('YYYY-MM-DD');
+				end = moment().endOf('isoWeek').format('YYYY-MM-DD');
 				return events.filter(ev =>
 					ev.times.some(
-						t => moment(t).format('YYYY-MM-DD') >= start && moment(t).format('YYYY-MM-DD') <= end
-					)
+						t =>
+							moment(t).format('YYYY-MM-DD') >= start &&
+							moment(t).format('YYYY-MM-DD') <= end,
+					),
 				);
 			case 'next week':
-				start = moment()
-					.add(1, 'weeks')
-					.startOf('isoWeek')
-					.format('YYYY-MM-DD');
-				end = moment()
-					.add(1, 'weeks')
-					.endOf('isoWeek')
-					.format('YYYY-MM-DD');
+				start = moment().add(1, 'weeks').startOf('isoWeek').format('YYYY-MM-DD');
+				end = moment().add(1, 'weeks').endOf('isoWeek').format('YYYY-MM-DD');
 				return events.filter(ev =>
 					ev.times.some(
-						t => moment(t).format('YYYY-MM-DD') >= start && moment(t).format('YYYY-MM-DD') <= end
-					)
+						t =>
+							moment(t).format('YYYY-MM-DD') >= start &&
+							moment(t).format('YYYY-MM-DD') <= end,
+					),
 				);
 			default:
-				date = moment(`${moment().format('YYYY')} ${dates}`, 'YYYY MMM DD').format('YYYY-MM-DD');
-				return events.filter(ev => ev.times.some(t => moment(t).format('YYYY-MM-DD') === date));
+				date = moment(`${moment().format('YYYY')} ${dates}`, 'YYYY MMM DD').format(
+					'YYYY-MM-DD',
+				);
+				return events.filter(ev =>
+					ev.times.some(t => moment(t).format('YYYY-MM-DD') === date),
+				);
 		}
 	},
 	fetchEvents: function(city, genre, dates, page) {
@@ -90,16 +89,14 @@ module.exports = {
 		// API likes simple genres like music, sports, etc. & city is the easiest but we can do latLong and add a radius to our query
 		// if that's the route that we wanna go (super easy to change)
 		return axios.get(
-			`https://app.ticketmaster.com/discovery/v2/events.json?size=35&classificationName=${category}&city=${place}&apikey=${
-				process.env.TKTMSTR_KEY
-			}`
+			`https://app.ticketmaster.com/discovery/v2/events.json?size=35&classificationName='music'&geoPoint=c23nb62qp&apikey=${process
+				.env.TKTMSTR_KEY}`,
 		);
 	},
 	getEventImages: function(id) {
 		return axios.get(
-			`https://app.ticketmaster.com/discovery/v2/events/${id}/images.json?apikey=${
-				process.env.TKTMSTR_KEY
-			}`
+			`https://app.ticketmaster.com/discovery/v2/events/${id}/images.json?apikey=${process.env
+				.TKTMSTR_KEY}`,
 		);
 	},
 	async getUser(ctx) {
@@ -110,5 +107,5 @@ module.exports = {
 			return { id, admin };
 		}
 		return null;
-	}
+	},
 };
