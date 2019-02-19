@@ -62,6 +62,8 @@ type User {
 	events: [UserEvent]
 	createdAt: DateTime!
 	updatedAt: DateTime!
+	stripeCustomerId: String
+	stripeSubscriptionId: String
 }
 
 type Event {
