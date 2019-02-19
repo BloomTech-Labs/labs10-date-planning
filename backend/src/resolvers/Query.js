@@ -55,14 +55,13 @@ const Query = {
 	},
 
 	async getEvent(parent, args, ctx, info) {
-		const {
-			data: { _embedded }
-		} = await axios.get(
-			`https://app.ticketmaster.com/discovery/v2/events.json?id=${args.id}&apikey=${
+		const { data } = await axios.get(
+			`https://app.ticketmaster.com/discovery/v2/events/${args.id}.json?apikey=${
 				process.env.TKTMSTR_KEY
 			}`
 		);
-		let data = _embedded.events[0];
+		console.log(data);
+		// let data = _embedded;
 		const img = data.images.filter(img => img.ratio === '4_3');
 		return {
 			title: data.name,
