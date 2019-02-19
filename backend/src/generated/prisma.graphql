@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Tue Feb 19 2019 12:55:26 GMT-0800 (Pacific Standard Time)
+# timestamp: Tue Feb 19 2019 14:59:43 GMT-0600 (Central Standard Time)
 
 type AggregateEvent {
   count: Int!
@@ -906,8 +906,8 @@ enum Gender {
   FEMALE
 }
 
-
-
+"""Raw JSON value"""
+scalar Json
 
 """
 The `Long` scalar type represents non-fractional signed whole numeric values.
@@ -934,7 +934,7 @@ type Mutation {
   deleteManyEvents(where: EventWhereInput): BatchPayload!
   deleteManyOrders(where: OrderWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
-  
+  executeRaw(database: PrismaDatabase, query: String!): Json!
 }
 
 enum MutationType {
@@ -1255,7 +1255,9 @@ enum Permission {
   ADMIN
 }
 
-
+enum PrismaDatabase {
+  default
+}
 
 type Query {
   events(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event]!
