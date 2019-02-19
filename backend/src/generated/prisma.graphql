@@ -1,5 +1,5 @@
-# source: https://labs-dateplan-3b7949a916.herokuapp.com/dateplan-backend/dev
-# timestamp: Mon Feb 18 2019 21:39:41 GMT-0600 (Central Standard Time)
+# source: http://localhost:4466
+# timestamp: Tue Feb 19 2019 12:55:26 GMT-0800 (Pacific Standard Time)
 
 type AggregateEvent {
   count: Int!
@@ -540,6 +540,7 @@ input EventUpdateManyMutationInput {
 input EventUpdateManyWithoutAttendingInput {
   create: [EventCreateWithoutAttendingInput!]
   connect: [EventWhereUniqueInput!]
+  set: [EventWhereUniqueInput!]
   disconnect: [EventWhereUniqueInput!]
   delete: [EventWhereUniqueInput!]
   update: [EventUpdateWithWhereUniqueWithoutAttendingInput!]
@@ -905,6 +906,9 @@ enum Gender {
   FEMALE
 }
 
+
+
+
 """
 The `Long` scalar type represents non-fractional signed whole numeric values.
 Long can represent values between -(2^63) and 2^63 - 1.
@@ -930,6 +934,7 @@ type Mutation {
   deleteManyEvents(where: EventWhereInput): BatchPayload!
   deleteManyOrders(where: OrderWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
+  
 }
 
 enum MutationType {
@@ -1249,6 +1254,8 @@ enum Permission {
   YEARLY
   ADMIN
 }
+
+
 
 type Query {
   events(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event]!
@@ -2195,6 +2202,7 @@ input UserUpdateManyMutationInput {
 input UserUpdateManyWithoutEventsInput {
   create: [UserCreateWithoutEventsInput!]
   connect: [UserWhereUniqueInput!]
+  set: [UserWhereUniqueInput!]
   disconnect: [UserWhereUniqueInput!]
   delete: [UserWhereUniqueInput!]
   update: [UserUpdateWithWhereUniqueWithoutEventsInput!]
