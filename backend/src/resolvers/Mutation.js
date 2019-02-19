@@ -1,35 +1,23 @@
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const axios = require('axios');
 const { randomBytes } = require('crypto');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const axios = require('axios');
 const { transport, formatEmail } = require('../mail');
 const stripe = require('../stripe');
 const {
-	admin,
 	createUserToken,
-	verifyUserToken,
 	verifyIdToken,
 	getUserRecord,
-	getUID,
 	setUserClaims
 } = require('../firebase/firebase');
 
 const Mutation = {
-	async createEvent(parent, args, { db }, info) {
-		// if (!ctx.response.userId) {
-		// 	throw new Error('you must be logged in to create events');
-		// }
-		const event = await db.mutation.createEvent(
-			{
-				data: { ...args }
-			},
-			info
-		);
-		return event;
-	},
 	async signup(parent, args, { db, response }, info) {
 		// just in case some bozo puts their email in with capitalization for some reason
 		args.email = args.email.toLowerCase();
+		if (!/^(?=.*\d).{8,}$/.test(password)) {
+			throw new Error('Password must be 8 characters with at least 1 number!');
+		}
 		const password = await bcrypt.hash(args.password, 10);
 		const user = await db.mutation.createUser(
 			{
@@ -50,35 +38,30 @@ const Mutation = {
 
 		return user;
 	},
-	async firebaseSignup(parent, args, ctx, info) {
-		const { uid } = await verifyIdToken(args.idToken);
-
+	async firebaseAuth(parent, args, { db, response }, info) {
+		const { uid, email } = await verifyIdToken(args.idToken);
 		const firebaseUser = await getUserRecord(uid);
-		// console.log(firebaseUser);
-		const { email, displayName } = firebaseUser;
-
-		const notUnique = await ctx.db.query.user({
+		const { displayName } = firebaseUser;
+		// check to see if user already exists in our db
+		let user = await db.query.user({
 			where: { email }
 		});
-
-		if (notUnique) {
-			throw new Error('A user with that email already exists');
+		if (!user) {
+			user = await db.mutation.createUser(
+				{
+					data: {
+						firstName: displayName,
+						email,
+						password: 'firebaseAuth',
+						lastName: ''
+					}
+				},
+				`id firstName email`
+			);
+			await setUserClaims(uid, { id: user.id, admin: false });
 		}
-
-		const user = await ctx.db.mutation.createUser({
-			data: {
-				// id: uid,
-				firstName: displayName,
-				email,
-				password: 'firebaseAuth',
-				lastName: ''
-			}
-		});
-
-		await setUserClaims(uid, { id: user.id, admin: false });
-		const { token } = await createuserToken(args, ctx);
-
-		ctx.response.cookie('userId', user.id, {
+		const token = await createUserToken(args, ctx);
+		response.cookie('userId', user.id, {
 			httpOnly: true,
 			maxAge: 1000 * 60 * 60 * 24 * 365 // 1 year long cookie bc why not. FIGHT ME
 		});
@@ -103,25 +86,10 @@ const Mutation = {
 
 		return user;
 	},
-	async firebaseSignin(parent, args, ctx, info) {
-		const verify = await verifyIdToken(args.idToken);
-		if (!verify.user_id) throw new Error('User is not registered');
-
-		const user = await ctx.db.query.user({ where: { email: verify.email } });
-		if (!user) {
-			throw new Error('User account does not exist');
-		}
-
-		const token = await createUserToken(args, ctx);
-		ctx.response.cookie('userId', user.id, {
-			httpOnly: true,
-			maxAge: 1000 * 60 * 60 * 24 * 365 // 1 year long cookie bc why not. FIGHT ME
-		});
-
-		return { token, user };
-	},
 	signout(parent, args, { response }, info) {
 		response.clearCookie('token');
+		response.clearCookie('session');
+		response.clearCookie('userId');
 		return { message: 'Goodbye!' };
 	},
 	async requestReset(parent, args, { db }, info) {
@@ -147,9 +115,7 @@ const Mutation = {
 		  \n\n
 		  <a href="${process.env.FRONTEND_URL}/reset?resetToken=${resetToken}">Click Here to Reset</a>`)
 		});
-
 		// this is the SMTP Holden has setup that we can use to send emails once we go into production (have a hard cap of 100 emails/month though)
-
 		// const mailRes = await client.sendEmail({
 		// 	From: 'support@up4.life',
 		// 	To: `${user.email}`,
@@ -158,7 +124,7 @@ const Mutation = {
 		//   \n\n
 		//   <a href="${process.env.FRONTEND_URL}/reset?resetToken=${resetToken}">Click Here to Reset</a>`)
 		// });
-		return { body: 'Thanks!' };
+		return { message: 'Thanks!' };
 	},
 	async updateImage(parent, { thumbnail, image }, { db, response, request }, info) {
 		const user = await db.query.user({
@@ -231,45 +197,6 @@ const Mutation = {
 		});
 		return updatedUser;
 	},
-	deleteEvent(parent, args, { db }, info) {
-		// just a test mutation for removing the malformed events I was adding
-		return db.mutation.deleteEvent(
-			{
-				...args
-			},
-			info
-		);
-	},
-	async updatePermissions(parent, args, { request, db }, info) {
-		// will be used to upgrade user from FREE tier to monthly/yearly subscription plan
-
-		if (!request.userId) {
-			throw new Error('you must be logged in to create events');
-		}
-		const user = await db.query.user(
-			{
-				where: { id: request.userId }
-			},
-			info
-		);
-		// if somehow user makes it to backend when they shouldn't, we can have a secondary check to make sure they dont already have a plan
-		if (user.permissions.includes(args.permission)) {
-			throw new Error(`User already has ${args.permissions} level access`);
-		}
-		return db.mutation.updateUser(
-			{
-				data: {
-					permissions: {
-						set: args.permissions
-					}
-				},
-				where: {
-					id: user.id
-				}
-			},
-			info
-		);
-	},
 	async createOrder(parent, args, ctx, info) {
 		// Check user's login status
 		const { userId } = ctx.request;
@@ -279,34 +206,67 @@ const Mutation = {
 		const user = await ctx.db.query.user(
 			{ where: { id: userId } },
 			`
-				{id firstName lastName email permissions}
+				{id firstName lastName email permissions stripeCustomerId stripeSubscriptionId}
 			`
 		);
 
 		// Check user's subscription status
-		if (user.permissions[0] === args.subscription) {
-			throw new Error(`User already has ${args.subscription} subscription`);
-		} else if (user.permissions[0] === 'YEARLY') {
-			throw new Error(`User already has the highest level of ${args.subscription} subscription`);
+		// if (user.permissions[0] === args.subscription) {
+		// 	throw new Error(`User already has ${args.subscription} subscription`);
+		// } else if (user.permissions[0] === 'YEARLY') {
+		// 	throw new Error(`User already has the highest level of ${args.subscription} subscription`);
+		// }
+
+		// Create new stripe customer if user is not one already
+		let customer;
+		if (!user.stripeCustomerId) {
+			customer = await stripe.customers.create({
+				email: user.email,
+				source: args.token
+			});
+		}
+
+		// Create a subscription if user does not have one already
+		let subscription;
+		if (!user.stripeSubscriptionId) {
+			subscription = await stripe.subscriptions.create({
+				customer: user.stripeCustomerId || customer.id,
+				items: [
+					{
+						plan: user.permissions[0] === 'MONTHLY' ? 'plan_EYPPZzmOjy3P3I' : 'plan_EYPg6RkTFwJFRA'
+					}
+				]
+			});
+		} else {
+			subscription = await stripe.subscriptions.retrieve(user.stripeSubscriptionId);
+			await stripe.subscriptions.update(user.stripeSubscriptionId, {
+				cancel_at_period_end: false,
+				items: [
+					{
+						id: subscription.items.data[0].id,
+						plan: args.subscription === 'MONTHLY' ? 'plan_EYPPZzmOjy3P3I' : 'plan_EYPg6RkTFwJFRA'
+					}
+				]
+			});
 		}
 
 		// Charge the credit card
 		const amount = args.subscription === 'MONTHLY' ? 999 : 2999;
-		const charge = await stripe.charges.create({
-			amount,
-			currency: 'USD',
+		// const charge = await stripe.charges.create({
+		// 	amount,
+		// 	currency: 'USD',
 
-			description: `UP4 ${args.subscription} subscription`,
-			source: args.token,
-			receipt_email: user.email
-		});
+		// 	description: `UP4 ${args.subscription} subscription`,
+		// 	source: args.token,
+		// 	receipt_email: user.email,
+		// });
 
 		// Record the order
 		const order = await ctx.db.mutation.createOrder(
 			{
 				data: {
 					total: amount,
-					charge: charge.receipt_url,
+					charge: '',
 					subscription: args.subscription,
 					user: {
 						connect: {
@@ -317,13 +277,14 @@ const Mutation = {
 			},
 			info
 		);
-
 		// Update user's permission type
 		ctx.db.mutation.updateUser({
 			data: {
 				permissions: {
 					set: [args.subscription]
-				}
+				},
+				stripeSubscriptionId: subscription ? subscription.id : user.stripeSubscriptionId,
+				stripeCustomerId: customer ? customer.id : user.stripeCustomerId
 			},
 			where: {
 				id: user.id
@@ -405,5 +366,4 @@ const Mutation = {
 	}
 };
 
-//hmm
 module.exports = Mutation;
