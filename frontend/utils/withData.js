@@ -16,22 +16,28 @@ function createClient({ headers }) {
 	});
 }
 
-// function create(initialState, { getToken, cookies, csrfToken }) {
+// function create(initialState, { getToken }) {
 // 	const httpLink = createHttpLink({
-// 	  uri: "http://localhost:3000/graphql",
+// 	  uri: gql_url + "/graphql",
 // 	  credentials: "include"
 // 	});
   
-// 	  const authLink = setContext((_, { headers }) => {
-// 	  const token = getToken();
+//   const authLink = setContext((_, { headers }) => {
+// 	  const token = getToken()["XSRF-TOKEN"];
 // 	  return {
 // 		headers: {
 // 		  ...headers,
-// 		  authorization: token ? 'Bearer ${token}' : "",
-// 		  Cookie: cookies ? cookies : "",
-// 		  "x-xsrf-token": csrfToken ? csrfToken : ""
+// 		  "X-XSRF-TOKEN": token
 // 		}
 // 	  };
 // 	});
+  
+//   return new ApolloClient({
+// 	  connectToDevTools: process.browser,
+// 	  ssrMode: !process.browser, // Disables forceFetch on the server (so queries are only run once)
+// 	  link: authLink.concat(httpLink),
+// 	  cache: new InMemoryCache().restore(initialState || {})
+// 	});
+//   }
 
 export default withApollo(createClient);
