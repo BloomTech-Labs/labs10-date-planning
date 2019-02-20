@@ -371,7 +371,7 @@ const Mutation = {
 		const user = await db.query.user(
 			{ where: { id: userId } },
 			`
-				{id firstName lastName email permissions events { id }}
+				{id firstName lastName email permissions events { eventfulID }}
 			`
 		);
 		if (user.permissions[0] === 'FREE' && user.events.length === 5) {
@@ -382,17 +382,53 @@ const Mutation = {
 				process.env.TKTMSTR_KEY
 			}`
 		);
-		const event = await db.mutation.createEvent({
-			data: {
-				eventfulID: data.id,
-				title: data.name,
-				url: data.url,
-				location: data._embedded.venues[0].name,
-				description: data.info,
-				times: { set: [data.dates.start.dateTime] }
-			}
+		const [alreadySaved] = user.events.filter(event => event.eventfulID === data.id);
+		if (alreadySaved) {
+			throw new Error("You've already saved that event!");
+		}
+
+		let [event] = await db.query.events({
+			where: { eventfulID: data.id }
 		});
-		const addedEvent = await db.mutation.updateUser({
+		if (!event) {
+			// create the event if it doesnt exist
+			const [img] = data.images.filter(img => img.ratio === '4_3');
+			event = await db.mutation.createEvent({
+				data: {
+					eventfulID: data.id,
+					title: data.name,
+					url: data.url,
+					location: data._embedded.venues[0].name,
+					description: data.info,
+					times: { set: [data.dates.start.dateTime] },
+					image_url: img.url,
+					attending: {
+						connect: {
+							id: user.id
+						}
+					}
+				}
+			});
+		} else {
+			await db.mutation.updateEvent(
+				{
+					data: {
+						attending: {
+							connect: {
+								id: user.id
+							}
+						}
+					},
+					where: {
+						id: event.id
+					}
+				},
+				`{ attending { id }}`
+			);
+		}
+		// finally, in either case we want to update the relationship to the event on the user obj
+		// then connect the user to the event
+		await db.mutation.updateUser({
 			data: {
 				events: {
 					connect: {
@@ -404,14 +440,9 @@ const Mutation = {
 				id: user.id
 			}
 		});
-
 		return user.permissions[0] === 'FREE'
 			? { message: `You have used ${user.events.length + 1} of your 5 free events` }
 			: { message: 'Event successfully added!' };
-
-		// if (user.permissions[0] === 'FREE') {
-		// 	return { message: `You have used ${user.events.length + 1} of your 5 free events` };
-		// } else return { message: 'Event successfully added!' };
 	}
 };
 

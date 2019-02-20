@@ -90,9 +90,7 @@ const Query = {
 			`https://app.ticketmaster.com/discovery/v2/events/${args.id}.json?apikey=${process.env
 				.TKTMSTR_KEY}`,
 		);
-		console.log(data);
-		// let data = _embedded;
-		const img = data.images.filter(img => img.ratio === '4_3');
+		const [img] = data.images.filter(img => img.ratio === '4_3');
 		return {
 			title: data.name,
 			id: data.id,
@@ -105,7 +103,7 @@ const Query = {
 			},
 			// img in 3_2 or 16_9 ratio is nicer quality, just need to figure out how to get it to be responsive
 			// or we could keep it at 4_3 i'm cool either way
-			image_url: img[0].url,
+			image_url: img.url,
 			description: data.info,
 			times: [ data.dates.start.dateTime ],
 			// data.dates.status.code (might be good for things like rescheduled events)
