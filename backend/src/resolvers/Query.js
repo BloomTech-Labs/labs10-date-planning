@@ -41,19 +41,25 @@ const Query = {
 
 		let response = await fetchEvents(location, cats, dates, page);
 
-		let events = transformEvents(response.data);
-		console.log(response.data.page.totalElements, events);
-		if (response.data.page.totalElements > 35) {
-			while (events.length < 35) {
-				let size = 35 - events.length;
+		let events = response.data._embedded.events;
+		let uniques = events.reduce((a, t) => {
+			if (!a.includes(t.name)) a.push(t.name);
+			return a;
+		}, []);
 
-				let res = await fetchEvents(location, cats, dates, page, size);
-				console.log(res.data);
-				if (!res.data) break;
-				else {
-					let newEvents = transformEvents(res.data);
-					events = [ ...events, ...newEvents ];
-				}
+		if (response.data.page.totalElements > 35) {
+			while (uniques.length < 35) {
+					page = page + 1;
+					let res = await fetchEvents(location, cats, dates, page);
+
+					if (!res.data) break;
+					else {
+						events = [...events, ...res.data._embedded.events];
+						uniques = res.data._embedded.events.reduce((a, t) => {
+							if (!a.includes(t.name)) a.push(t.name);
+							return a;
+						}, uniques);
+					}
 			}
 		}
 
@@ -70,7 +76,7 @@ const Query = {
 		// }
 
 		return {
-			events: events,
+			events: transformEvents(events),
 			page_count: response.data.page.size,
 			total_items: response.data.page.totalElements,
 			page_total: response.data.page.totalPages,
@@ -186,6 +192,35 @@ const Query = {
 
 		return { count: datesCount - user.events.length };
 	},
+	async invoicesList(parent, args, ctx, info) {
+		// Check user's login status
+		const { userId } = ctx.request;
+		if (!userId) throw new Error('You must be signed in to access this app.');
+
+		const user = await ctx.db.query.user(
+			{ where: { id: userId } },
+			`
+				{id permissions events {id}}
+			`
+		);
+
+		const invoices = await stripe.invoices.list(
+			{
+				customer: user.stripeCustomerId
+			}
+		);
+		console.log(invoices.map(invoice => ({
+			receipt_number: invoice.receipt_number,
+			amount_due: invoice.amount_due,
+			amount_paid: invoice.amount_paid,
+			date: invoice.date,
+			hosted_url: invoice.hosted_invoice_url,
+			pdf_url: invoice.invoice_pdf
+		})));
+		return {
+			message: 'invoices'
+		}
+	}
 };
 
 module.exports = Query;
