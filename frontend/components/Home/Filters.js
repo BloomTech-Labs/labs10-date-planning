@@ -105,13 +105,15 @@ const Filters = ({ classes, getEvents, location, page }) => {
 													tabIndex={-1}
 													onClick={handleCategoryFilters}
 													checked={
-														categoryFilters.indexOf('music') !== -1 ? (
+														categoryFilters.indexOf(
+															'KZFzniwnSyZfZ7v7nJ',
+														) !== -1 ? (
 															true
 														) : (
 															false
 														)
 													}
-													id='music'
+													id='KZFzniwnSyZfZ7v7nJ'
 													checkedIcon={
 														<Check className={classes.checkedIcon} />
 													}
@@ -133,13 +135,15 @@ const Filters = ({ classes, getEvents, location, page }) => {
 													tabIndex={-1}
 													onClick={handleCategoryFilters}
 													checked={
-														categoryFilters.indexOf('comedy') !== -1 ? (
+														categoryFilters.indexOf(
+															'KZFzniwnSyZfZ7v7na',
+														) !== -1 ? (
 															true
 														) : (
 															false
 														)
 													}
-													id='comedy'
+													id='KZFzniwnSyZfZ7v7na'
 													checkedIcon={
 														<Check className={classes.checkedIcon} />
 													}
@@ -153,7 +157,7 @@ const Filters = ({ classes, getEvents, location, page }) => {
 												/>
 											}
 											classes={{ label: classes.label }}
-											label='Comedy'
+											label='Arts & Theatre'
 										/>
 										<FormControlLabel
 											control={
@@ -162,14 +166,14 @@ const Filters = ({ classes, getEvents, location, page }) => {
 													onClick={handleCategoryFilters}
 													checked={
 														categoryFilters.indexOf(
-															'performing_arts',
+															'KZFzniwnSyZfZ7v7nE',
 														) !== -1 ? (
 															true
 														) : (
 															false
 														)
 													}
-													id='performing_arts'
+													id='KZFzniwnSyZfZ7v7nE'
 													checkedIcon={
 														<Check className={classes.checkedIcon} />
 													}
@@ -191,13 +195,15 @@ const Filters = ({ classes, getEvents, location, page }) => {
 													tabIndex={-1}
 													onClick={handleCategoryFilters}
 													checked={
-														categoryFilters.indexOf('sports') !== -1 ? (
+														categoryFilters.indexOf(
+															'KZFzniwnSyZfZ7v7n1',
+														) !== -1 ? (
 															true
 														) : (
 															false
 														)
 													}
-													id='sports'
+													id='KZFzniwnSyZfZ7v7n1'
 													checkedIcon={
 														<Check className={classes.checkedIcon} />
 													}
@@ -211,7 +217,7 @@ const Filters = ({ classes, getEvents, location, page }) => {
 												/>
 											}
 											classes={{ label: classes.label }}
-											label='Sports'
+											label='Miscellaneous'
 										/>
 									</div>
 								</div>

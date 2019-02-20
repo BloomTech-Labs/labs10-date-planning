@@ -24,6 +24,7 @@ type Query {
 		dates: [String]
 	): AllEvents
 	getEvent(id: String!): Event
+	geoHash(city: String!): GeoHash
 	currentUser: User
 	user(where: UserWhereUniqueInput!): User
 	getLocation(latitude: Float!, longitude: Float!): UserLocation!
@@ -42,6 +43,10 @@ type AllEvents {
 
 type Locations {
 	city: String
+}
+
+type GeoHash {
+	geoHash: String
 }
 
 type User {

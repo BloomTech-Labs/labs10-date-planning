@@ -1,6 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { withApollo, Mutation } from 'react-apollo';
 import EventsQuery, { ALL_EVENTS_QUERY } from '../Queries/AllEvents';
+import { GEOHASH_QUERY } from '../Queries/GeoHash';
 import User, { CURRENT_USER_QUERY } from '../Queries/User';
 import _ from 'lodash';
 import NProgress from 'nprogress';
@@ -57,12 +58,24 @@ const Events = ({ classes, client }) => {
 			});
 		}
 	};
+
+	const getGeoHash = async city => {
+		let { data, loading, error } = await client.query({
+			query: GEOHASH_QUERY,
+			variables: { city },
+		});
+
+		return data.geoHash;
+	};
 	const getEvents = async variables => {
+		let geoData = await getGeoHash(variables.location);
+		variables.location = geoData.geoHash;
 		let { data, loading } = await client.query({
 			query: ALL_EVENTS_QUERY,
 			variables: variables,
 		});
 		if (data.getEvents) NProgress.done();
+		console.log(data.getEvents.events);
 		let events = _.chunk(data.getEvents.events, 12);
 		let newEvents = { ...data.getEvents, events: events };
 
@@ -106,7 +119,6 @@ const Events = ({ classes, client }) => {
 										onCompleted={handleCompleted}
 									>
 										{(updateLocation, { error, loading, called }) => {
-
 											console.log(user.location, location);
 
 											if (called) NProgress.start();
