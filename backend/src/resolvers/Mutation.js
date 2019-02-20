@@ -36,35 +36,39 @@ const Mutation = {
 			maxAge: 1000 * 60 * 60 * 24 * 365 // 1 year cookie
 		});
 
-		return user;
-	},
-	async firebaseAuth(parent, args, ctx, info) {
-		const { uid, email, user_id } = await verifyIdToken(args.idToken);
-		const firebaseUser = await getUserRecord(uid);
-		const { displayName } = firebaseUser;
-		// check to see if user already exists in our db
-		let user = await ctx.db.query.user({
-			where: { email: email ? email : user_id } // set the email to the firebase user_id bc twitter doesnt supply email
-		});
-		if (!user) {
-			user = await ctx.db.mutation.createUser(
-				{
-					data: {
-						firstName: displayName,
-						email: email || user_id,
-						password: 'firebaseAuth',
-						lastName: ''
-					}
-				},
-				`{id firstName email}`
-			);
-			await setUserClaims(uid, { id: user.id, admin: false });
-		}
-		const token = await createUserToken(args, ctx);
-		ctx.response.cookie('userId', user.id, {
-			httpOnly: true,
-			maxAge: 1000 * 60 * 60 * 24 * 365 // 1 year long cookie bc why not. FIGHT ME
-		});
+    return user;
+  },
+  async firebaseAuth(parent, args, ctx, info) {
+    const { uid, email, user_id } = await verifyIdToken(args.idToken);
+    console.log(email)
+    const firebaseUser = await getUserRecord(uid);
+    const { displayName } = firebaseUser;
+    // check to see if user already exists in our db
+    let user = await ctx.db.query.user({
+      where: { email: email ? email : user_id }
+    });
+    if (!user) {
+      user = await ctx.db.mutation.createUser(
+        {
+          data: {
+            firstName: displayName,
+            email: email || user_id,
+            password: "firebaseAuth",
+            lastName: "",
+            permissions: {
+              set: ['FREE']
+            }
+          },
+        },
+        `{id firstName email}`
+      );
+      await setUserClaims(uid, { id: user.id, admin: false });
+    }
+    const token = await createUserToken(args, ctx);
+    ctx.response.cookie("userId", user.id, {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24 * 365 // 1 year long cookie bc why not. FIGHT ME
+    });
 
 		return { token, user };
 	},
