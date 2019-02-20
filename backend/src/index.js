@@ -9,7 +9,6 @@ const db = require('./db');
 const server = createServer();
 server.express.use(cookieParser());
 
-// commented out bc it messes up testing queries and mutations in the graphql playground
 server.express.use(async (req, res, next) => {
 	const { token, session } = req.cookies;
 	if (token) {
@@ -20,6 +19,16 @@ server.express.use(async (req, res, next) => {
 		const firebaseUser = await verifyUserToken(session);
 		req.userId = req.cookies.userId;
 	}
+	next();
+});
+
+server.express.use(async (req, res, next) => {
+	if (!req.userId) return next();
+	const user = await db.query.user(
+		{ where: { id: req.userId } },
+		'{ id, email, firstName, lastName, location, stripeCustomerId, stripeSubscriptionId, events { id } }'
+	);
+	req.user = user;
 	next();
 });
 

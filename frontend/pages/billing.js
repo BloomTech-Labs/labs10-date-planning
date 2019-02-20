@@ -9,7 +9,7 @@ const Home = () => (
 		{({ data: { currentUser } }) => {
 			return (
 				<>
-				<Header />
+				{/* //<Header color='transparent'/> */}
 					{/* <DatesLeft currentUser={currentUser} /> */}
 					<Billing currentUser={currentUser} />
 					<TransactionList currentUser={currentUser} />

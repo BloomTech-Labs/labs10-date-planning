@@ -1,11 +1,11 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import gql from 'graphql-tag';
-import Router from 'next/router'
+import Router from 'next/router';
 import firebase from 'firebase/app';
 import { Mutation } from 'react-apollo';
 import { CURRENT_USER_QUERY } from '../Queries/User';
 import withStyles from '@material-ui/core/styles/withStyles';
-import ButtonBase from '@material-ui/core/ButtonBase'
+import ButtonBase from '@material-ui/core/ButtonBase';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -22,7 +22,7 @@ import Card from '../../styledComponents/Card/Card';
 import CardHeader from '../../styledComponents/Card/CardHeader';
 import CardBody from '../../styledComponents/Card/CardBody';
 import CustomInput from '../../styledComponents/CustomInput/CustomInput';
-
+import ErrorModal from './ErrorModal';
 import Styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles';
 
 import { auth } from '../../utils/firebase';
@@ -42,7 +42,7 @@ const LOGIN_USER = gql`
 
 const FIREBASE_LOGIN = gql`
 	mutation FIREBASE_LOGIN($idToken: String!) {
-		firebaseSignin(idToken: $idToken) {
+		firebaseAuth(idToken: $idToken) {
 			token
 			user {
 				id
@@ -54,28 +54,43 @@ const FIREBASE_LOGIN = gql`
 `;
 
 const Login = ({ classes }) => {
-	const [passwordShowing, setPasswordShowing] = useState(true)
+	const [passwordShowing, setPasswordShowing] = useState(false);
 	const [user, setUser] = useState({ email: '', password: '' });
 	const [modalShowing, setModalShowing] = useState(false);
+	const [serverError, setServerError] = useState(undefined);
 
-	const googlePopup = async (e, firebaseSignin) => {
+	const googlePopup = async (e, firebaseAuth) => {
 		e.preventDefault();
 		try {
 			let provider = new firebase.auth.GoogleAuthProvider();
 			const complete = await auth.signInWithPopup(provider);
 			const idToken = await auth.currentUser.getIdToken(true);
-			const success = await firebaseSignin({ variables: { idToken } });
+			const success = await firebaseAuth({ variables: { idToken } });
+			if (success.data) Router.push('/home');
 		} catch (err) {
 			console.log(err);
 		}
 	};
-	const fbookPopup = async (e, firebaseSignin) => {
+	const fbookPopup = async (e, firebaseAuth) => {
 		e.preventDefault();
 		try {
 			let provider = new firebase.auth.FacebookAuthProvider();
 			const complete = await auth.signInWithPopup(provider);
 			const idToken = await auth.currentUser.getIdToken(true);
-			const success = await firebaseSignin({ variables: { idToken } });
+			const success = await firebaseAuth({ variables: { idToken } });
+			if (success.data) Router.push('/home');
+		} catch (err) {
+			console.log(err);
+		}
+	};
+	const twitterPopup = async (e, firebaseAuth) => {
+		e.preventDefault();
+		try {
+			let provider = new firebase.auth.TwitterAuthProvider();
+			const complete = await auth.signInWithPopup(provider);
+			const idToken = await auth.currentUser.getIdToken(true);
+			const success = await firebaseAuth({ variables: { idToken } });
+			if (success.data) Router.push('/home');
 		} catch (err) {
 			console.log(err);
 		}
@@ -89,7 +104,7 @@ const Login = ({ classes }) => {
 			awaitRefetchQueries
 		>
 			{(signin, { error, loading, called }) => {
-				console.log(error, loading, called)
+				console.log(error, loading, called);
 				return (
 					<Fragment>
 						<Button round onClick={() => setModalShowing(true)}>
@@ -133,44 +148,57 @@ const Login = ({ classes }) => {
 											<Mutation
 												mutation={FIREBASE_LOGIN}
 												refetchQueries={[{ query: CURRENT_USER_QUERY }]}
-												
 											>
-												{(firebaseSignin, { loading, error }) => (
-													<>
-														<Button
-															justIcon
-															link
-															className={classes.socialLineButton}
-															onClick={e => googlePopup(e, firebaseSignin)}
-														>
-															<i className="fab fa-google" />
-														</Button>
-														<Button
-															justIcon
-															link
-															className={classes.socialLineButton}
-															onClick={e => fbookPopup(e, firebaseSignin)}
-														>
-															<i className="fab fa-facebook-square" />
-														</Button>
+												{(firebaseAuth, { loading, error }) => {
+													if (error) setServerError(error);
+													return (
+														<>
+															<Button
+																justIcon
+																link
+																className={classes.socialLineButton}
+																onClick={e => googlePopup(e, firebaseAuth)}
+															>
+																<i className="fab fa-google" />
+															</Button>
+															<Button
+																justIcon
+																link
+																className={classes.socialLineButton}
+																onClick={e => fbookPopup(e, firebaseAuth)}
+															>
+																<i className="fab fa-facebook-square" />
+															</Button>
 
-														<Button justIcon link className={classes.socialLineButton}>
-															<i className="fab fa-instagram" />
-														</Button>
-													</>
-												)}
+															<Button
+																justIcon
+																link
+																className={classes.socialLineButton}
+																onClick={e => twitterPopup(e, firebaseAuth)}
+															>
+																<i className="fab fa-twitter" />
+															</Button>
+														</>
+													);
+												}}
 											</Mutation>
 										</div>
 									</CardHeader>
 								</DialogTitle>
-								<form onSubmit={async (e) => {e.preventDefault(); await signin(); Router.push('/home')}} onKeyPress={async event => {
-															if (event.key === 'Enter') {
-																await signin();
-																Router.push('/home')
-															}
-														}}>
-								<DialogContent id="login-modal-slide-description" className={classes.modalBody}>
-								
+								<form
+									onSubmit={async e => {
+										e.preventDefault();
+										await signin();
+										Router.push('/home');
+									}}
+									onKeyPress={async event => {
+										if (event.key === 'Enter') {
+											await signin();
+											Router.push('/home');
+										}
+									}}
+								>
+									<DialogContent id="login-modal-slide-description" className={classes.modalBody}>
 										<p className={`${classes.description} ${classes.textCenter}`}>
 											Or Be Classical
 										</p>
@@ -198,14 +226,14 @@ const Login = ({ classes }) => {
 												}}
 												inputProps={{
 													endAdornment: (
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="Toggle password visibility"
-                  onClick={() => setPasswordShowing(!passwordShowing)}
-                >
-                  {passwordShowing ? <Visibility /> : <VisibilityOff />}
-                </IconButton>
-              </InputAdornment>
+														<InputAdornment position="end">
+															<IconButton
+																aria-label="Toggle password visibility"
+																onClick={() => setPasswordShowing(!passwordShowing)}
+															>
+																{passwordShowing ? <Visibility /> : <VisibilityOff />}
+															</IconButton>
+														</InputAdornment>
 													),
 													startAdornment: (
 														<InputAdornment position="start">
@@ -223,23 +251,19 @@ const Login = ({ classes }) => {
 												}}
 											/>
 										</CardBody>
-									
-								</DialogContent>
-								<DialogActions className={`${classes.modalFooter} ${classes.justifyContentCenter}`}>
-								<ButtonBase type="submit">
-									<Button
-										color="primary"
-										simple
-										size="lg"
-										component='div'
-										
+									</DialogContent>
+									<DialogActions
+										className={`${classes.modalFooter} ${classes.justifyContentCenter}`}
 									>
-										Get started
-									</Button>
-									</ButtonBase>
-								</DialogActions>
+										<ButtonBase type="submit">
+											<Button color="primary" simple size="lg" component="div">
+												Get started
+											</Button>
+										</ButtonBase>
+									</DialogActions>
 								</form>
 							</Card>
+							<ErrorModal error={serverError} />
 						</Dialog>
 					</Fragment>
 				);

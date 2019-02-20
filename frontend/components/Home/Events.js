@@ -1,8 +1,10 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { withApollo, Mutation } from 'react-apollo';
 import EventsQuery, { ALL_EVENTS_QUERY } from '../Queries/AllEvents';
+import { GEOHASH_QUERY } from '../Queries/GeoHash';
 import User, { CURRENT_USER_QUERY } from '../Queries/User';
 import _ from 'lodash';
+import { adopt } from 'react-adopt';
 import NProgress from 'nprogress';
 import { UPDATE_LOCATION_MUTATION } from '../Mutations/updateLocation';
 import Filters from './Filters';
@@ -19,9 +21,9 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import styles from '../../static/jss/material-kit-pro-react/views/ecommerceSections/productsStyle.jsx';
 
 const Events = ({ classes, client }) => {
-	const [ page, setPage ] = useState(1);
+	const [ page, setPage ] = useState(0);
 	const [ events, setEvents ] = useState(undefined);
-	const [ location, setLocation ] = useState('New York, NY');
+	const [ location, setLocation ] = useState(undefined);
 	const [ user, setUser ] = useState(undefined);
 	useEffect(() => {
 		getUser();
@@ -29,13 +31,15 @@ const Events = ({ classes, client }) => {
 
 	useEffect(
 		() => {
-			getEvents({
-				location: location,
-				alt: 'all',
-				page: 1,
-				categories: [],
-				dates: [],
-			});
+			if (location) {
+				getEvents({
+					location: location,
+					alt: 'all',
+					page: 0,
+					categories: [],
+					dates: [],
+				});
+			}
 		},
 		[ location ],
 	);
@@ -45,24 +49,22 @@ const Events = ({ classes, client }) => {
 		});
 		if (loading) NProgress.start();
 		if (data.currentUser) {
-			NProgress.set(0.5);
+			NProgress.set(0.3);
 			setUser(data.currentUser);
-			if (data.currentUser.location) await setLocation(data.currentUser.location);
-			getEvents({
-				location: location,
-				alt: 'all',
-				page: 1,
-				categories: [],
-				dates: [],
-			});
+			if (data.currentUser.location) setLocation(data.currentUser.location);
+			else setLocation('New York, NY');
 		}
 	};
+
 	const getEvents = async variables => {
-		let { data, loading } = await client.query({
+		NProgress.start();
+		let { data, loading, error } = await client.query({
 			query: ALL_EVENTS_QUERY,
 			variables: variables,
 		});
+
 		if (data.getEvents) NProgress.done();
+
 		let events = _.chunk(data.getEvents.events, 12);
 		let newEvents = { ...data.getEvents, events: events };
 
@@ -89,6 +91,14 @@ const Events = ({ classes, client }) => {
 		}
 	};
 
+	const Composed = adopt({
+		user: ({ render }) => <User>{render}</User>,
+		allEvents: ({ render }) => <Query query={ALL_EVENTS_QUERY}>{render}</Query>,
+		updateLocation: ({ render }) => (
+			<Mutation mutation={UPDATE_LOCATION_MUTATION}>{render}</Mutation>
+		),
+	});
+
 	if (!events) return <div>loading</div>;
 	else
 		return (
@@ -107,7 +117,9 @@ const Events = ({ classes, client }) => {
 									>
 										{(updateLocation, { error, loading, called }) => {
 											console.log(user.location, location);
+
 											if (called) NProgress.start();
+											if (loading) NProgress.set(0.3);
 											return (
 												<div
 													style={{
