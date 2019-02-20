@@ -103,11 +103,11 @@ const Register = ({ classes }) => {
 			const success = await firebaseAuth({ variables: { idToken } });
 			if (success.data) Router.push('/home');
 		} else if (company === 'twitter') {
-			let provider = new firebase.auth.TwitterAuthProvider();
-			const complete = await auth.signInWithPopup(provider);
-			const idToken = await auth.currentUser.getIdToken(true);
-			const success = await firebaseSignup({ variables: { idToken } });
-			if (success.data) Router.push('/home');
+				let provider = new firebase.auth.TwitterAuthProvider();
+				const complete = await auth.signInWithPopup(provider);
+				const idToken = await auth.currentUser.getIdToken(true);
+				const success = await firebaseAuth({ variables: { idToken } });
+				if (success.data) Router.push('/home')
 		}
 	};
 
@@ -247,9 +247,9 @@ const Register = ({ classes }) => {
 																	justIcon
 																	round
 																	color="instagram"
-																	onClick={e => firebaseSignup(e, firebaseAuth)}
+																	onClick={e => firebaseSignup(e, firebaseAuth, 'twitter')}
 																>
-																	<i className="fab fa-instagram" />
+																	<i className="fab fa-twitter" />
 																</Button>
 															</>
 														);

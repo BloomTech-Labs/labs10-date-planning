@@ -15,6 +15,8 @@ const Mutation = {
   async signup(parent, args, { db, response }, info) {
     // just in case some bozo puts their email in with capitalization for some reason
     args.email = args.email.toLowerCase();
+    console.log(args.user_id)
+    console.log(args)
     if (!/^(?=.*\d).{8,}$/.test(args.password)) {
       throw new Error("Password must be 8 characters with at least 1 number!");
     }
@@ -39,24 +41,25 @@ const Mutation = {
     return user;
   },
   async firebaseAuth(parent, args, ctx, info) {
-    const { uid, email } = await verifyIdToken(args.idToken);
+    const { uid, email, user_id } = await verifyIdToken(args.idToken);
+    console.log(email)
     const firebaseUser = await getUserRecord(uid);
     const { displayName } = firebaseUser;
     // check to see if user already exists in our db
     let user = await ctx.db.query.user({
-      where: { email }
+      where: { email: email ? email : user_id }
     });
     if (!user) {
       user = await ctx.db.mutation.createUser(
         {
           data: {
             firstName: displayName,
-            email,
+            email: email || user_id,
             password: "firebaseAuth",
             lastName: ""
           }
         },
-        `id firstName email`
+        `{id firstName email}`
       );
       await setUserClaims(uid, { id: user.id, admin: false });
     }
