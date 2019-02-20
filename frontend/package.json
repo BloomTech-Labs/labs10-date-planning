@@ -44,6 +44,7 @@
 		"react-image-gallery": "^0.8.12",
 		"react-infinite-scroller": "^1.2.4",
 		"react-jss": "^8.6.1",
+		"react-pose": "^4.0.7",
 		"react-stripe-checkout": "^2.6.3"
 	},
 	"babel": {
