@@ -16,4 +16,22 @@ function createClient({ headers }) {
 	});
 }
 
+// function create(initialState, { getToken, cookies, csrfToken }) {
+// 	const httpLink = createHttpLink({
+// 	  uri: "http://localhost:3000/graphql",
+// 	  credentials: "include"
+// 	});
+  
+// 	  const authLink = setContext((_, { headers }) => {
+// 	  const token = getToken();
+// 	  return {
+// 		headers: {
+// 		  ...headers,
+// 		  authorization: token ? 'Bearer ${token}' : "",
+// 		  Cookie: cookies ? cookies : "",
+// 		  "x-xsrf-token": csrfToken ? csrfToken : ""
+// 		}
+// 	  };
+// 	});
+
 export default withApollo(createClient);

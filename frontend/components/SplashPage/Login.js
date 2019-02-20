@@ -86,6 +86,7 @@ const Login = ({ classes }) => {
 	const twitterPopup = async (e, firebaseSignin) => {
 		e.preventDefault();
 		try {
+			console.log('clicked')
 			let provider = new firebase.auth.TwitterAuthProvider();
 			const complete = await auth.signInWithPopup(provider);
 			const idToken = await auth.currentUser.getIdToken(true);
