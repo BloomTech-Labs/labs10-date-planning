@@ -56,8 +56,11 @@ const Mutation = {
             firstName: displayName,
             email: email || user_id,
             password: "firebaseAuth",
-            lastName: ""
-          }
+            lastName: "",
+            permissions: {
+              set: ['FREE']
+            }
+          },
         },
         `{id firstName email}`
       );
