@@ -456,28 +456,24 @@ const Mutation = {
 		const { userId } = request;
 		if (!userId) throw new Error('You must be signed in to add delete an event.');
 
-		// remove user from event's attendee
-		await db.mutation.updateEvent(
-			{
-				data: {
-					attending: {
-						disconnect: {
-							id: userId
-						}
-					}
-				},
-				where: {
-					id: args.eventId
-				}
-			},
-			`{ attending { id }}`
-		);
+    const user = await db.mutation.updateUser(
+      {
+        where: { id: userId },
+        data: {
+          events: {
+            disconnect: {
+              id: args.eventId // remove event from user's events and remove user from event's attending
+            }
+          }
+        }
+      },
+      `{ permissions events { id } }`
+    )
 
-		const user = await db.query.user({ where: { id: userId } }, `{ permissions events{ id } }`);
-		return user.permissions[0] === 'FREE'
-			? { message: `You have used ${user.events.length} of your 5 free events` }
-			: { message: 'Event successfully removed!' };
-	}
+    return user.permissions[0] === 'FREE'
+      ? { message: `You have used ${user.events.length} of your 5 free events` }
+      : { message: 'Event successfully removed!' };
+  }
 };
 
 module.exports = Mutation;
