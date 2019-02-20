@@ -27,7 +27,7 @@ const Query = {
 	async getEvents(parent, { location, alt, page, ...args }, ctx, info) {
 		//let { geoHash } = await getGeoHash(location);
 		location = location.split(',')[0].toLowerCase();
-		console.log(args);
+
 		let cats = args.categories.length
 			? args.categories
 			: [
@@ -38,27 +38,17 @@ const Query = {
 				];
 
 		const dates = args.dates.length ? setDates(args.dates.toString()) : undefined;
-		console.log(dates);
+
 		let events;
 		let response = await fetchEvents(location, cats, dates, page, 200);
-		// if (!response.data._embedded) {
-		// 	let newEvents = await fetchEvents(
-		// 		location,
-		// 		cats,
-		// 		dates,
-		// 		page,
-		// 		response.data.page.totalElements,
-		// 	);
-		// 	console.log(newEvents.data);
-		// 	events = newEvents.data._embedded.events;
-		// } else {
+
 		events = response.data._embedded.events;
 
 		let uniques = events.reduce((a, t) => {
 			if (!a.includes(t.name)) a.push(t.name);
 			return a;
 		}, []);
-		console.log(uniques.length);
+
 		if (response.data.page.totalElements > 20) {
 			while (uniques.length < 20) {
 				page = page + 1;
