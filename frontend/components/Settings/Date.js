@@ -16,7 +16,7 @@ import CardStyles from "../../static/jss/material-kit-pro-react/views/components
 
 const DateView = ({ date, classes }) => {
   return (
-    <GridItem sm={6} md={4} lg={3}>
+    <GridItem sm={12} md={6} lg={6}>
       <Card blog>
         {date.url && (
           <CardHeader image>

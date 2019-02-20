@@ -16,7 +16,7 @@ import styles from "../../static/jss/material-kit-pro-react/views/componentsSect
 
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 
-import '../../styles/testing.scss';
+import '../../styles/EventModal.scss';
 
 const EventModal = ({ modal, showModal, classes, id, client }) => {
   const [event, setEvent] = useState(undefined);
@@ -107,19 +107,10 @@ const EventModal = ({ modal, showModal, classes, id, client }) => {
                 </DialogTitle>
                 <DialogContent
                   id="notice-modal-slide-description"
-                  classes={{root: 'test'}}
-                  // className={classes.modalBody}
+                  classes={{root: 'dialogContent'}}
+                  className={classes.modalBody}
                 >
-                  {/* <div style={gradientBox}> */}
-                  {/* <span> */}
-                  <span 
-                  // className="test"
-                    // style={{
-                    //   border: "2px solid #4cb5ae",
-                    //   padding: "6px",
-                    //   borderRadius: "6px"
-                    // }}
-                  >
+                  <span className='date'>
                     {moment(event.times[0]).format("dddd, MMMM Do, h:mm a")}
                   </span>
                   {/* </div> */}

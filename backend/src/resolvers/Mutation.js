@@ -350,7 +350,6 @@ const Mutation = {
             {id firstName lastName email permissions events { eventfulID }}
         `
     );
-    // console.log(user.events);
     if (user.permissions[0] === "FREE" && user.events.length === 5) {
       throw new Error("You have reached the free tier limit");
     }
@@ -359,17 +358,20 @@ const Mutation = {
         args.eventId
       }.json?apikey=${process.env.TKTMSTR_KEY}`
     );
-
-    const alreadySaved = user.events.filter(
+    // console.log(user.events, 'user events');
+    // console.log(data.id, 'ticketmaster event id');
+    const [alreadySaved] = user.events.filter(
       event => event.eventfulID === data.id
     );
+    // console.log(alreadySaved);
     if (alreadySaved) {
       throw new Error("You've already saved that event!");
     }
 
-    let event = await db.query.event({
+    let [event] = await db.query.events({
       where: { eventfulID: data.id }
     });
+    // console.log(event, 'event exists');
     if (!event) {
       // create the event if it doesnt exist
       event = await db.mutation.createEvent({
@@ -388,6 +390,8 @@ const Mutation = {
         }
       });
     } else {
+      // console.log('update route');
+      // console.log(user.id, event.id, 'checking ids');
       await db.mutation.updateEvent(
         {
           data: {

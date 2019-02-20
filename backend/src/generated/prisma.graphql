@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Tue Feb 19 2019 15:04:40 GMT-0800 (Pacific Standard Time)
+# timestamp: Tue Feb 19 2019 17:25:03 GMT-0800 (Pacific Standard Time)
 
 type AggregateEvent {
   count: Int!
@@ -55,7 +55,6 @@ scalar DateTime
 type Event implements Node {
   id: ID!
   eventfulID: String!
-  votes: Int
   title: String
   description: String
   attending(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
@@ -77,7 +76,6 @@ type EventConnection {
 
 input EventCreateInput {
   eventfulID: String!
-  votes: Int
   title: String
   description: String
   location: String
@@ -98,7 +96,6 @@ input EventCreatetimesInput {
 
 input EventCreateWithoutAttendingInput {
   eventfulID: String!
-  votes: Int
   title: String
   description: String
   location: String
@@ -121,8 +118,6 @@ enum EventOrderByInput {
   id_DESC
   eventfulID_ASC
   eventfulID_DESC
-  votes_ASC
-  votes_DESC
   title_ASC
   title_DESC
   description_ASC
@@ -142,7 +137,6 @@ enum EventOrderByInput {
 type EventPreviousValues {
   id: ID!
   eventfulID: String!
-  votes: Int
   title: String
   description: String
   times: [String!]!
@@ -240,28 +234,6 @@ input EventScalarWhereInput {
 
   """All values not ending with the given string."""
   eventfulID_not_ends_with: String
-  votes: Int
-
-  """All values that are not equal to given value."""
-  votes_not: Int
-
-  """All values that are contained in given list."""
-  votes_in: [Int!]
-
-  """All values that are not contained in given list."""
-  votes_not_in: [Int!]
-
-  """All values less than the given value."""
-  votes_lt: Int
-
-  """All values less than or equal the given value."""
-  votes_lte: Int
-
-  """All values greater than the given value."""
-  votes_gt: Int
-
-  """All values greater than or equal the given value."""
-  votes_gte: Int
   title: String
 
   """All values that are not equal to given value."""
@@ -505,7 +477,6 @@ input EventSubscriptionWhereInput {
 
 input EventUpdateInput {
   eventfulID: String
-  votes: Int
   title: String
   description: String
   location: String
@@ -517,7 +488,6 @@ input EventUpdateInput {
 
 input EventUpdateManyDataInput {
   eventfulID: String
-  votes: Int
   title: String
   description: String
   location: String
@@ -528,7 +498,6 @@ input EventUpdateManyDataInput {
 
 input EventUpdateManyMutationInput {
   eventfulID: String
-  votes: Int
   title: String
   description: String
   location: String
@@ -560,7 +529,6 @@ input EventUpdatetimesInput {
 
 input EventUpdateWithoutAttendingDataInput {
   eventfulID: String
-  votes: Int
   title: String
   description: String
   location: String
@@ -669,28 +637,6 @@ input EventWhereInput {
 
   """All values not ending with the given string."""
   eventfulID_not_ends_with: String
-  votes: Int
-
-  """All values that are not equal to given value."""
-  votes_not: Int
-
-  """All values that are contained in given list."""
-  votes_in: [Int!]
-
-  """All values that are not contained in given list."""
-  votes_not_in: [Int!]
-
-  """All values less than the given value."""
-  votes_lt: Int
-
-  """All values less than or equal the given value."""
-  votes_lte: Int
-
-  """All values greater than the given value."""
-  votes_gt: Int
-
-  """All values greater than or equal the given value."""
-  votes_gte: Int
   title: String
 
   """All values that are not equal to given value."""
