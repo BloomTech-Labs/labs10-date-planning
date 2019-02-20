@@ -94,7 +94,7 @@ const Login = ({ classes }) => {
 		} catch (err) {
 			console.log(err);
 		}
-	}
+	};
 
 	return (
 		<Mutation
@@ -170,8 +170,12 @@ const Login = ({ classes }) => {
 																<i className="fab fa-facebook-square" />
 															</Button>
 
-															<Button justIcon link className={classes.socialLineButton}
-																onClick={e => twitterPopup(e, firebaseAuth)}>
+															<Button
+																justIcon
+																link
+																className={classes.socialLineButton}
+																onClick={e => twitterPopup(e, firebaseAuth)}
+															>
 																<i className="fab fa-twitter" />
 															</Button>
 														</>
