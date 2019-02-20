@@ -152,12 +152,9 @@ const Mutation = {
     );
   },
   async updateLocation(parent, { city }, { db, request }, info) {
-    const user = await db.query.user({
-      where: { id: request.userId }
-    });
-    if (!user) {
-      throw new Error("You must be logged in!");
-    }
+    const { userId, user } = request;
+    if (!userId) throw new Error("You must be logged in!");
+
     return db.mutation.updateUser(
       {
         where: {
