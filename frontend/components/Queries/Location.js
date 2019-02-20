@@ -7,13 +7,12 @@ const CURRENT_LOCATION_QUERY = gql`
 	query($latitude: Float!, $longitude: Float!) {
 		getLocation(latitude: $latitude, longitude: $longitude) {
 			city
-			county
 		}
 	}
 `;
 
 const Location = ({ children }) => {
-	const [ location, setLocation ] = useState({});
+	const [location, setLocation] = useState({});
 
 	useEffect(() => {
 		// setLocation({ longitude: -122.3321, latitude: 47.6062 });
@@ -33,7 +32,7 @@ const Location = ({ children }) => {
 	} else return children({ data: {} });
 };
 Location.propTypes = {
-	children: PropTypes.func.isRequired,
+	children: PropTypes.func.isRequired
 };
 
 export default Location;
