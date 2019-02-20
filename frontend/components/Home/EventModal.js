@@ -1,8 +1,11 @@
 import React, { useState, useEffect, Fragment } from "react";
 import { withApollo, Mutation } from "react-apollo";
 import moment from "moment";
+
 import { EVENT_QUERY } from "../Queries/Event";
 import { ADD_EVENT_MUTATION } from "../Mutations/addEvent";
+import { CURRENT_USER_QUERY } from "../Queries/User";
+
 import withStyles from "@material-ui/core/styles/withStyles";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Dialog from "@material-ui/core/Dialog";
@@ -12,6 +15,8 @@ import Close from "@material-ui/icons/Close";
 import styles from "../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles.jsx";
 
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+
+import '../../styles/testing.scss';
 
 const EventModal = ({ modal, showModal, classes, id, client }) => {
   const [event, setEvent] = useState(undefined);
@@ -48,7 +53,11 @@ const EventModal = ({ modal, showModal, classes, id, client }) => {
   };
 
   return (
-    <Mutation mutation={ADD_EVENT_MUTATION} variables={{ eventId: id }}>
+    <Mutation
+      mutation={ADD_EVENT_MUTATION}
+      variables={{ eventId: id }}
+      // refetchQueries={[{ query: CURRENT_USER_QUERY }]}
+    >
       {(addEvent, { error, loading, called }) => {
         return (
           <Dialog
@@ -98,13 +107,30 @@ const EventModal = ({ modal, showModal, classes, id, client }) => {
                 </DialogTitle>
                 <DialogContent
                   id="notice-modal-slide-description"
-                  className={classes.modalBody}
+                  classes={{root: 'test'}}
+                  // className={classes.modalBody}
                 >
-					<span>
-                  {/* <span style={{border: '2px solid #4cb5ae', padding: '6px', borderRadius: '6px'}}> */}
+                  {/* <div style={gradientBox}> */}
+                  {/* <span> */}
+                  <span 
+                  // className="test"
+                    // style={{
+                    //   border: "2px solid #4cb5ae",
+                    //   padding: "6px",
+                    //   borderRadius: "6px"
+                    // }}
+                  >
                     {moment(event.times[0]).format("dddd, MMMM Do, h:mm a")}
                   </span>
-                  <img style={{margin: '20px 0', borderRadius: '6px', overflow: 'hidden'}}src={event.image_url} />
+                  {/* </div> */}
+                  <img
+                    style={{
+                      margin: "20px 0",
+                      borderRadius: "6px",
+                      overflow: "hidden"
+                    }}
+                    src={event.image_url}
+                  />
                   <div
                     dangerouslySetInnerHTML={{ __html: event.description }}
                   />

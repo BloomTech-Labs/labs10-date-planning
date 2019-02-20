@@ -63,16 +63,18 @@ type User {
 }
 
 type Event {
-	id: ID!
-	title: String!
-	url: String
-	description: String
-	times: [String]
-	location: Location
-	image_url: String
-	price: PriceRange
-	notes: String
-	genre: String
+    id: ID!
+    eventfulID: String!
+    title: String!
+    url: String
+    description: String
+    attending: [User!]!
+    times: [String]
+    location: Location
+    image_url: String
+    price: PriceRange
+    notes: String
+    genre: String
 }
 
 type UserEvent {

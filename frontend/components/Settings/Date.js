@@ -18,15 +18,15 @@ const DateView = ({ date, classes }) => {
   return (
     <GridItem sm={6} md={4} lg={3}>
       <Card blog>
-        {date.image_url && (
+        {date.url && (
           <CardHeader image>
             <a href="#pablo" onClick={e => e.preventDefault()}>
-              <img src={date.image_url} alt="..." />
+              <img src={date.url} alt="..." />
             </a>
             <div
               className={classes.coloredShadow}
               style={{
-                backgroundImage: `url(${date.image_url})`,
+                backgroundImage: `url(${date.url})`,
                 opacity: "1"
               }}
             />
@@ -47,7 +47,7 @@ const DateView = ({ date, classes }) => {
           </h6>
 
           <h4 className={classes.cardTitle}>
-            <a href="#pablo" onClick={e => e.preventDefault()}>
+            <a classes={{root: 'test'}} href="#pablo" onClick={e => e.preventDefault()}>
               {date.title}
             </a>
           </h4>
