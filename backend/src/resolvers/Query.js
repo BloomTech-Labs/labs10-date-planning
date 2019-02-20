@@ -41,19 +41,25 @@ const Query = {
 
 		let response = await fetchEvents(location, cats, dates, page);
 
-		let events = transformEvents(response.data);
-		console.log(response.data.page.totalElements, events);
-		if (response.data.page.totalElements > 35) {
-			while (events.length < 35) {
-				let size = 35 - events.length;
+		let events = response.data._embedded.events;
+		let uniques = events.reduce((a, t) => {
+			if (!a.includes(t.name)) a.push(t.name);
+			return a;
+		}, []);
 
-				let res = await fetchEvents(location, cats, dates, page, size);
-				console.log(res.data);
-				if (!res.data) break;
-				else {
-					let newEvents = transformEvents(res.data);
-					events = [ ...events, ...newEvents ];
-				}
+		if (response.data.page.totalElements > 35) {
+			while (uniques.length < 35) {
+					page = page + 1;
+					let res = await fetchEvents(location, cats, dates, page);
+
+					if (!res.data) break;
+					else {
+						events = [...events, ...res.data._embedded.events];
+						uniques = res.data._embedded.events.reduce((a, t) => {
+							if (!a.includes(t.name)) a.push(t.name);
+							return a;
+						}, uniques);
+					}
 			}
 		}
 
@@ -70,7 +76,7 @@ const Query = {
 		// }
 
 		return {
-			events: events,
+			events: transformEvents(events),
 			page_count: response.data.page.size,
 			total_items: response.data.page.totalElements,
 			page_total: response.data.page.totalPages,
