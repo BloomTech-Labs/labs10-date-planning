@@ -12,6 +12,7 @@ type Mutation {
 	updateLocation(city: String!): User!
 	addEvent(eventId: String!): Message
 	createOrder(token: String!, subscription: Permission!): Order!
+	cancelSubscription: Message
 }
 
 type Query {
@@ -30,6 +31,7 @@ type Query {
 	locationSearch(city: String!): [Locations]
 	getUserOrder(userId: String!): [Order!]!
 	getRemainingDates: DatesCount!
+	invoicesList(userStripeCustomerId: String!):Message
 }
 
 type AllEvents {
@@ -60,7 +62,7 @@ type User {
 	imageLarge: String
 	permissions: [Permission!]!
 	interests: [Category]
-	events: [UserEvent]
+	events: [UserEvent!]!
 	createdAt: DateTime!
 	updatedAt: DateTime!
 	stripeCustomerId: String
@@ -69,6 +71,7 @@ type User {
 
 type Event {
 	id: ID!
+	eventfulID: String!
 	title: String!
 	url: String
 	description: String
@@ -82,9 +85,11 @@ type Event {
 
 type UserEvent {
 	id: ID!
+	eventfulID: String!
 	title: String!
 	url: String
 	description: String
+	attending: [User!]!
 	times: [String]
 	location: String
 	image_url: String

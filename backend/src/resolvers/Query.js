@@ -39,19 +39,27 @@ const Query = {
 
 		const dates = args.dates ? args.dates.toString() : 'all';
 
-		let response = await fetchEvents(location, cats, dates, page);
+		let response = await fetchEvents(location, cats, dates, page, 200);
 
-		let events = transformEvents(response.data);
+		let events = response.data._embedded.events;
+		let uniques = events.reduce((a, t) => {
+			if (!a.includes(t.name)) a.push(t.name);
+			return a;
+		}, []);
 
-		if (response.data.page.totalElements > 35) {
-			while (events.length < 35) {
+		if (response.data.page.totalElements > 20) {
+			while (uniques.length < 20) {
 				page = page + 1;
-				let res = await fetchEvents(location, cats, dates, page);
+				//size = 20 - uniques.length;
+				let res = await fetchEvents(location, cats, dates, page, 200);
 
 				if (!res.data) break;
 				else {
-					let newEvents = transformEvents(res.data);
-					events = [ ...events, ...newEvents ];
+					events = [ ...events, ...res.data._embedded.events ];
+					uniques = res.data._embedded.events.reduce((a, t) => {
+						if (!a.includes(t.name)) a.push(t.name);
+						return a;
+					}, uniques);
 				}
 			}
 		}
@@ -69,7 +77,7 @@ const Query = {
 		// }
 
 		return {
-			events: events,
+			events: transformEvents(events),
 			page_count: response.data.page.size,
 			total_items: response.data.page.totalElements,
 			page_total: response.data.page.totalPages,
@@ -83,9 +91,7 @@ const Query = {
 			`https://app.ticketmaster.com/discovery/v2/events/${args.id}.json?apikey=${process.env
 				.TKTMSTR_KEY}`,
 		);
-		console.log(data);
-		// let data = _embedded;
-		const img = data.images.filter(img => img.ratio === '4_3');
+		const [ img ] = data.images.filter(img => img.ratio === '4_3');
 		return {
 			title: data.name,
 			id: data.id,
@@ -98,7 +104,7 @@ const Query = {
 			},
 			// img in 3_2 or 16_9 ratio is nicer quality, just need to figure out how to get it to be responsive
 			// or we could keep it at 4_3 i'm cool either way
-			image_url: img[0].url,
+			image_url: img.url,
 			description: data.info,
 			times: [ data.dates.start.dateTime ],
 			// data.dates.status.code (might be good for things like rescheduled events)
@@ -184,6 +190,35 @@ const Query = {
 		if (user.permissions[0] === 'YEARLY') datesCount += 5;
 
 		return { count: datesCount - user.events.length };
+	},
+	async invoicesList(parent, args, ctx, info) {
+		// Check user's login status
+		const { userId } = ctx.request;
+		if (!userId) throw new Error('You must be signed in to access this app.');
+
+		const user = await ctx.db.query.user(
+			{ where: { id: userId } },
+			`
+				{id permissions events {id}}
+			`,
+		);
+
+		const invoices = await stripe.invoices.list({
+			customer: user.stripeCustomerId,
+		});
+		console.log(
+			invoices.map(invoice => ({
+				receipt_number: invoice.receipt_number,
+				amount_due: invoice.amount_due,
+				amount_paid: invoice.amount_paid,
+				date: invoice.date,
+				hosted_url: invoice.hosted_invoice_url,
+				pdf_url: invoice.invoice_pdf,
+			})),
+		);
+		return {
+			message: 'invoices',
+		};
 	},
 };
 

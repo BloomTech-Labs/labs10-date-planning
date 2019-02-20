@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import StripeCheckout from 'react-stripe-checkout';
 import { Mutation } from 'react-apollo';
-import Router from 'next/router';
+// import Router from 'next/router';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 
 import { CURRENT_USER_QUERY } from '../Queries/User';
 import { GET_REMAINING_DATES } from './DatesLeft';
-import { GET_USER_ORDER } from './TransactionList'
+import { GET_USER_ORDER } from './TransactionList';
 
 const CREATE_ORDER_MUTATION = gql`
   mutation createOrder($token: String!, $subscription: Permission!) {
@@ -28,10 +28,10 @@ const Billing = props => {
     }).catch(err => {
       alert(err.message);
     });
-    Router.push({
-      pathname: '/'
-    });
-    return null
+  //   Router.push({
+  //     pathname: '/'
+  //   });
+  //   return null
   }
 
   return (
