@@ -39,7 +39,7 @@ const Query = {
 
 		const dates = args.dates ? args.dates.toString() : 'all';
 
-		let response = await fetchEvents(location, cats, dates, page);
+		let response = await fetchEvents(location, cats, dates, page, 200);
 
 		let events = response.data._embedded.events;
 		let uniques = events.reduce((a, t) => {
@@ -47,19 +47,20 @@ const Query = {
 			return a;
 		}, []);
 
-		if (response.data.page.totalElements > 35) {
-			while (uniques.length < 35) {
-					page = page + 1;
-					let res = await fetchEvents(location, cats, dates, page);
+		if (response.data.page.totalElements > 20) {
+			while (uniques.length < 20) {
+				page = page + 1;
+				//size = 20 - uniques.length;
+				let res = await fetchEvents(location, cats, dates, page, 200);
 
-					if (!res.data) break;
-					else {
-						events = [...events, ...res.data._embedded.events];
-						uniques = res.data._embedded.events.reduce((a, t) => {
-							if (!a.includes(t.name)) a.push(t.name);
-							return a;
-						}, uniques);
-					}
+				if (!res.data) break;
+				else {
+					events = [ ...events, ...res.data._embedded.events ];
+					uniques = res.data._embedded.events.reduce((a, t) => {
+						if (!a.includes(t.name)) a.push(t.name);
+						return a;
+					}, uniques);
+				}
 			}
 		}
 
@@ -90,7 +91,7 @@ const Query = {
 			`https://app.ticketmaster.com/discovery/v2/events/${args.id}.json?apikey=${process.env
 				.TKTMSTR_KEY}`,
 		);
-		const [img] = data.images.filter(img => img.ratio === '4_3');
+		const [ img ] = data.images.filter(img => img.ratio === '4_3');
 		return {
 			title: data.name,
 			id: data.id,
@@ -199,26 +200,26 @@ const Query = {
 			{ where: { id: userId } },
 			`
 				{id permissions events {id}}
-			`
+			`,
 		);
 
-		const invoices = await stripe.invoices.list(
-			{
-				customer: user.stripeCustomerId
-			}
+		const invoices = await stripe.invoices.list({
+			customer: user.stripeCustomerId,
+		});
+		console.log(
+			invoices.map(invoice => ({
+				receipt_number: invoice.receipt_number,
+				amount_due: invoice.amount_due,
+				amount_paid: invoice.amount_paid,
+				date: invoice.date,
+				hosted_url: invoice.hosted_invoice_url,
+				pdf_url: invoice.invoice_pdf,
+			})),
 		);
-		console.log(invoices.map(invoice => ({
-			receipt_number: invoice.receipt_number,
-			amount_due: invoice.amount_due,
-			amount_paid: invoice.amount_paid,
-			date: invoice.date,
-			hosted_url: invoice.hosted_invoice_url,
-			pdf_url: invoice.invoice_pdf
-		})));
 		return {
-			message: 'invoices'
-		}
-	}
+			message: 'invoices',
+		};
+	},
 };
 
 module.exports = Query;

@@ -4,6 +4,7 @@ import EventsQuery, { ALL_EVENTS_QUERY } from '../Queries/AllEvents';
 import { GEOHASH_QUERY } from '../Queries/GeoHash';
 import User, { CURRENT_USER_QUERY } from '../Queries/User';
 import _ from 'lodash';
+import { adopt } from 'react-adopt';
 import NProgress from 'nprogress';
 import { UPDATE_LOCATION_MUTATION } from '../Mutations/updateLocation';
 import Filters from './Filters';
@@ -101,6 +102,14 @@ const Events = ({ classes, client }) => {
 			setUser(data.currentUser);
 		}
 	};
+
+	const Composed = adopt({
+		user: ({ render }) => <User>{render}</User>,
+		allEvents: ({ render }) => <Query query={ALL_EVENTS_QUERY}>{render}</Query>,
+		updateLocation: ({ render }) => (
+			<Mutation mutation={UPDATE_LOCATION_MUTATION}>{render}</Mutation>
+		),
+	});
 
 	if (!events) return <div>loading</div>;
 	else

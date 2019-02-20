@@ -86,7 +86,7 @@ const Filters = ({ classes, getEvents, location, page }) => {
 				</h4>
 				<Accordion
 					active={[ 0, 1 ]}
-					activeColor='trevor'
+					activeColor='primary'
 					collapses={[
 						{
 							title: 'Category',
@@ -187,7 +187,7 @@ const Filters = ({ classes, getEvents, location, page }) => {
 												/>
 											}
 											classes={{ label: classes.label }}
-											label='Performing Arts'
+											label='Sports'
 										/>
 										<FormControlLabel
 											control={
