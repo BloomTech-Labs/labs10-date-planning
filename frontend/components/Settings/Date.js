@@ -14,7 +14,29 @@ import GridItem from "../../styledComponents/Grid/GridItem";
 
 import CardStyles from "../../static/jss/material-kit-pro-react/views/componentsSections/sectionCards";
 
-const DateView = ({ date, classes }) => {
+import Button from '../../styledComponents/CustomButtons/Button.jsx';
+
+import { withApollo } from 'react-apollo';
+import gql from 'graphql-tag';
+
+const DELETE_EVENT = gql`
+  mutation deleteEvent($eventId: String!) {
+    deleteEvent(eventId: $eventId) {
+      message
+    }
+  }
+`;
+
+const DateView = ({ date, classes, client }) => {
+  const deleteEvent = async(eventId) => {
+		let { data, loading } = await client.mutate({
+      mutation: DELETE_EVENT,
+      variables: {
+        eventId
+      }
+    });
+  }
+
   return (
     <GridItem sm={12} md={6} lg={6}>
       <Card blog>
@@ -62,10 +84,15 @@ const DateView = ({ date, classes }) => {
               <div key={ev}>{moment(ev).format("dddd, MMMM Do, h:mm a")}</div>
             ))}
           </div>
+          <Button onClick={() => {
+            deleteEvent(date.id);
+          }}>
+            Delete
+          </Button>
         </CardFooter>
       </Card>
     </GridItem>
   );
 };
 
-export default withStyles(CardStyles)(DateView);
+export default withApollo(withStyles(CardStyles)(DateView));

@@ -160,7 +160,6 @@ const Billing = ({ classes, currentUser, client }) => {
 								{currentSubs === 'MONTHLY' ? (
 									<Button
 										onClick={() => {
-											console.log('cliked');
 											cancelSubscription();
 										}}
 									>
