@@ -247,9 +247,9 @@ const Register = ({ classes }) => {
 																	justIcon
 																	round
 																	color="instagram"
-																	onClick={e => firebaseSignup(e, firebaseAuth)}
+																	onClick={e => firebaseSignup(e, firebaseAuth, 'twitter')}
 																>
-																	<i className="fab fa-instagram" />
+																	<i className="fab fa-twitter" />
 																</Button>
 															</>
 														);

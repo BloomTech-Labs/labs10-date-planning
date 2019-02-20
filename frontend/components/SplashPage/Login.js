@@ -83,14 +83,14 @@ const Login = ({ classes }) => {
 			console.log(err);
 		}
 	};
-	const twitterPopup = async (e, firebaseSignin) => {
+	const twitterPopup = async (e, firebaseAuth) => {
 		e.preventDefault();
 		try {
 			console.log('clicked');
 			let provider = new firebase.auth.TwitterAuthProvider();
 			const complete = await auth.signInWithPopup(provider);
 			const idToken = await auth.currentUser.getIdToken(true);
-			const success = await firebaseSignin({ variables: { idToken } });
+			const success = await firebaseAuth({ variables: { idToken } });
 			if (success.data) Router.push('/home');
 		} catch (err) {
 			console.log(err);
