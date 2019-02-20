@@ -31,13 +31,15 @@ const Events = ({ classes, client }) => {
 
 	useEffect(
 		() => {
-			getEvents({
-				location: location,
-				alt: 'all',
-				page: 0,
-				categories: [],
-				dates: [],
-			});
+			if (location) {
+				getEvents({
+					location: location,
+					alt: 'all',
+					page: 0,
+					categories: [],
+					dates: [],
+				});
+			}
 		},
 		[ location ],
 	);
@@ -49,30 +51,13 @@ const Events = ({ classes, client }) => {
 		if (data.currentUser) {
 			NProgress.set(0.3);
 			setUser(data.currentUser);
-			if (data.currentUser.location) await setLocation(data.currentUser.location);
-			else await setLocation('New York, NY');
-			getEvents({
-				location: location,
-				alt: 'all',
-				page: 0,
-				categories: [],
-				dates: [],
-			});
+			if (data.currentUser.location) setLocation(data.currentUser.location);
+			else setLocation('New York, NY');
 		}
 	};
 
-	// const getGeoHash = async city => {
-	// 	let { data, loading, error } = await client.query({
-	// 		query: GEOHASH_QUERY,
-	// 		variables: { city },
-	// 	});
-	// 	NProgress.set(0.5);
-	// 	return data.geoHash;
-	// };
 	const getEvents = async variables => {
 		NProgress.start();
-		// let geoData = await getGeoHash(variables.location);
-		// variables.location = geoData.geoHash;
 		let { data, loading, error } = await client.query({
 			query: ALL_EVENTS_QUERY,
 			variables: variables,

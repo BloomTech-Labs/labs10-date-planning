@@ -54,7 +54,7 @@ const FIREBASE_LOGIN = gql`
 `;
 
 const Login = ({ classes }) => {
-	const [passwordShowing, setPasswordShowing] = useState(true);
+	const [passwordShowing, setPasswordShowing] = useState(false);
 	const [user, setUser] = useState({ email: '', password: '' });
 	const [modalShowing, setModalShowing] = useState(false);
 	const [serverError, setServerError] = useState(undefined);
