@@ -211,104 +211,53 @@ const Mutation = {
     return updatedUser;
   },
   async createOrder(parent, args, ctx, info) {
-    // Check user's login status
+		// Check user's login status
     const { userId } = ctx.request;
-    if (!userId)
-      throw new Error("You must be signed in to complete this order.");
 
-    // Get user's info
-    const user = await ctx.db.query.user(
-      { where: { id: userId } },
-      `
+    // console.log(user);
+		if (!userId) throw new Error('You must be signed in to complete this order.');
+
+		// Get user's info
+		const user = await ctx.db.query.user(
+			{ where: { id: userId } },
+			`
 				{id firstName lastName email permissions stripeCustomerId stripeSubscriptionId}
 			`
-    );
+		);
 
-    // Check user's subscription status
-    // if (user.permissions[0] === args.subscription) {
-    // 	throw new Error(`User already has ${args.subscription} subscription`);
-    // } else if (user.permissions[0] === 'YEARLY') {
-    // 	throw new Error(`User already has the highest level of ${args.subscription} subscription`);
-    // }
+		// Check user's subscription status
+    if (user.permissions[0] === args.subscription) {
+      throw new Error(`User already has ${args.subscription} subscription`);
+    }
+
+		// Create new stripe customer if user is not one already
+		let customer;
+		if (!user.stripeCustomerId) {
+			customer = await stripe.customers.create({
+				email: user.email,
+				source: args.token
+			});
+		}
 
 		// Create a subscription if user does not have one already
 		let subscription;
-		if (!user.tripeSubscriptionId) {
+		if (!user.stripeSubscriptionId) {
 			subscription = await stripe.subscriptions.create({
 				customer: user.stripeCustomerId || customer.id,
-				items: [
-					{
-						plan: user.permissions[0] === 'MONTHLY' ? 'plan_EYPPZzmOjy3P3I' : 'plan_EYPg6RkTFwJFRA'
-					}
-				]
-			});
+				items: [{
+					plan: user.permissions[0] === 'MONTHLY' ? 'plan_EYPPZzmOjy3P3I' : 'plan_EYPg6RkTFwJFRA'
+				}]
+			})
 		} else {
 			subscription = await stripe.subscriptions.retrieve(user.stripeSubscriptionId);
 			await stripe.subscriptions.update(user.stripeSubscriptionId, {
 				cancel_at_period_end: false,
-				items: [
-					{
-						id: subscription.items.data[0].id,
-						plan: args.subscription === 'MONTHLY' ? 'plan_EYPPZzmOjy3P3I' : 'plan_EYPg6RkTFwJFRA'
-					}
-				]
-			});
+				items: [{
+					id: subscription.items.data[0].id,
+					plan: args.subscription === 'MONTHLY' ? 'plan_EYPPZzmOjy3P3I' : 'plan_EYPg6RkTFwJFRA'
+				}]
+			})
 		}
-
-    // Create a subscription if user does not have one already
-    let subscription;
-    if (!user.stripeSubscriptionId) {
-      subscription = await stripe.subscriptions.create({
-        customer: user.stripeCustomerId || customer.id,
-        items: [
-          {
-            plan:
-              user.permissions[0] === "MONTHLY"
-                ? "plan_EYPPZzmOjy3P3I"
-                : "plan_EYPg6RkTFwJFRA"
-          }
-        ]
-      });
-    } else {
-      subscription = await stripe.subscriptions.retrieve(
-        user.stripeSubscriptionId
-      );
-      await stripe.subscriptions.update(user.stripeSubscriptionId, {
-        cancel_at_period_end: false,
-        items: [
-          {
-            id: subscription.items.data[0].id,
-            plan:
-              args.subscription === "MONTHLY"
-                ? "plan_EYPPZzmOjy3P3I"
-                : "plan_EYPg6RkTFwJFRA"
-          }
-        ]
-      });
-    }
-
-    // Charge the credit card
-    const amount = args.subscription === "MONTHLY" ? 999 : 2999;
-    // const charge = await stripe.charges.create({
-    // 	amount,
-    // 	currency: 'USD',
-
-		// Record the order
-		const order = await ctx.db.mutation.createOrder(
-			{
-				data: {
-					total: amount,
-					charge: '',
-					subscription: args.subscription,
-					user: {
-						connect: {
-							id: user.id
-						}
-					}
-				}
-			},
-			info
-		);
 
 		// Update user's permission type
 		ctx.db.mutation.updateUser({
@@ -316,15 +265,17 @@ const Mutation = {
 				permissions: {
 					set: [args.subscription]
 				},
-				stripeSubscriptionId: subscription ? subscription.id : user.stripeSubscriptionId,
-				stripeCustomerId: customer ? customer.id : user.stripeCustomerId
+				stripeSubscriptionId: subscription? subscription.id : user.stripeSubscriptionId,
+				stripeCustomerId: customer? customer.id : user.stripeCustomerId,
 			},
 			where: {
 				id: user.id
 			}
 		});
 
-		return order;
+    return {
+      message: 'Thank You'
+    };
 	},
 	async cancelSubscription(parent, args, ctx, info) {
 		// Check user's login status
