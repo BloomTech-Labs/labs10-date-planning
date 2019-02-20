@@ -56,7 +56,6 @@ const Filters = ({ classes, getEvents, location, page }) => {
 
 	useEffect(
 		() => {
-			console.log(categoryFilters);
 			getEvents({
 				location,
 				page,
