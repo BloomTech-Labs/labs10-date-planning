@@ -47,7 +47,7 @@ const Events = ({ classes, client }) => {
 		});
 		if (loading) NProgress.start();
 		if (data.currentUser) {
-			NProgress.set(0.5);
+			NProgress.set(0.3);
 			setUser(data.currentUser);
 			if (data.currentUser.location) await setLocation(data.currentUser.location);
 			getEvents({
@@ -65,18 +65,20 @@ const Events = ({ classes, client }) => {
 			query: GEOHASH_QUERY,
 			variables: { city },
 		});
-
+		NProgress.set(0.5);
 		return data.geoHash;
 	};
 	const getEvents = async variables => {
+		NProgress.start();
 		let geoData = await getGeoHash(variables.location);
 		variables.location = geoData.geoHash;
-		let { data, loading } = await client.query({
+		let { data, loading, error } = await client.query({
 			query: ALL_EVENTS_QUERY,
 			variables: variables,
 		});
+
 		if (data.getEvents) NProgress.done();
-		console.log(data.getEvents.events);
+
 		let events = _.chunk(data.getEvents.events, 12);
 		let newEvents = { ...data.getEvents, events: events };
 
@@ -131,6 +133,7 @@ const Events = ({ classes, client }) => {
 											console.log(user.location, location);
 
 											if (called) NProgress.start();
+											if (loading) NProgress.set(0.3);
 											return (
 												<div
 													style={{

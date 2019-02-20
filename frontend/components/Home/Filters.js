@@ -43,9 +43,6 @@ const Filters = ({ classes, getEvents, location, page }) => {
 		console.log(date);
 		setSelectedDate(date);
 	};
-	useEffect(() => {
-		console.log(moment().format('YYYY-MM-DD'));
-	}, []);
 
 	useEffect(
 		() => {
