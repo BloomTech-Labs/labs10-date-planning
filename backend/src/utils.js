@@ -31,7 +31,8 @@ module.exports = {
 					},
 					location: {
 						venue: ev._embedded.venues[0].name,
-						address: ev._embedded.venues[0].address.line1,
+						address:
+							ev._embedded.venues[0].address && ev._embedded.venues[0].address.line1,
 						city: ev._embedded.venues[0].city.name,
 						latLong: {
 							lat: ev._embedded.venues[0].location.latitude,
