@@ -1,5 +1,5 @@
 const axios = require('axios');
-const { transformEvents, fetchEvents } = require('../utils');
+const { transformEvents, fetchEvents, setDates, getGeoHash } = require('../utils');
 const { checkDates } = require('../utils');
 
 const Query = {
@@ -25,9 +25,9 @@ const Query = {
 		);
 	},
 	async getEvents(parent, { location, alt, page, ...args }, ctx, info) {
-		// const categories = args.categories
-		// 	? args.categories
-
+		//let { geoHash } = await getGeoHash(location);
+		location = location.split(',')[0].toLowerCase();
+		console.log(args);
 		let cats = args.categories.length
 			? args.categories
 			: [
@@ -37,23 +37,35 @@ const Query = {
 					'KZFzniwnSyZfZ7v7n1',
 				];
 
-		const dates = args.dates ? args.dates.toString() : 'all';
-
+		const dates = args.dates.length ? setDates(args.dates.toString()) : undefined;
+		console.log(dates);
+		let events;
 		let response = await fetchEvents(location, cats, dates, page, 200);
+		// if (!response.data._embedded) {
+		// 	let newEvents = await fetchEvents(
+		// 		location,
+		// 		cats,
+		// 		dates,
+		// 		page,
+		// 		response.data.page.totalElements,
+		// 	);
+		// 	console.log(newEvents.data);
+		// 	events = newEvents.data._embedded.events;
+		// } else {
+		events = response.data._embedded.events;
 
-		let events = response.data._embedded.events;
 		let uniques = events.reduce((a, t) => {
 			if (!a.includes(t.name)) a.push(t.name);
 			return a;
 		}, []);
-
+		console.log(uniques.length);
 		if (response.data.page.totalElements > 20) {
 			while (uniques.length < 20) {
 				page = page + 1;
-				//size = 20 - uniques.length;
+
 				let res = await fetchEvents(location, cats, dates, page, 200);
 
-				if (!res.data) break;
+				if (!res.data._embedded) break;
 				else {
 					events = [ ...events, ...res.data._embedded.events ];
 					uniques = res.data._embedded.events.reduce((a, t) => {
@@ -154,7 +166,7 @@ const Query = {
 		let { lat, lng } = response.data.results[0].geometry.location;
 
 		const geoResponse = await axios(`http://geohash.org?q=${lat},${lng}&format=url`);
-		let geoHash = geoResponse.data.replace('http://geohash.org/', '');
+		let geoHash = geoResponse.data.replace('http://geohash.org/', '').slice(0, 8);
 		return { geoHash };
 	},
 	async getUserOrder(parent, args, ctx, info) {
