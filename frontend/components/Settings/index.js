@@ -9,11 +9,11 @@ import blogsStyle from '../../static/jss/material-kit-pro-react/views/sectionsSe
 const Settings = ({ classes }) => {
 	return (
 		<div style={{ height: '100%' }}>
-			<GridContainer style={{ margin: 0, height: '100%' }}>
-				<GridItem md={3} lg={2}>
+			<GridContainer >
+				<GridItem container justify='center' md={4} lg={4}>
 					<Sidebar />
 				</GridItem>
-				<GridItem md={9} lg={10}>
+				<GridItem md={8} lg={8}>
 					<Dates />
 				</GridItem>
 			</GridContainer>
