@@ -40,12 +40,19 @@ const Filters = ({ classes, getEvents, location, page }) => {
 			: setDateFilters([ ...dateFilters, id ]);
 	};
 	const handleDateChange = date => {
-		console.log(date);
 		setSelectedDate(date);
 	};
-	useEffect(() => {
-		console.log(moment().format('YYYY-MM-DD'));
-	}, []);
+
+	useEffect(
+		() => {
+			if (selectedDate) {
+				setDateFilters([ selectedDate ]);
+			} else {
+				setDateFilters([]);
+			}
+		},
+		[ selectedDate ],
+	);
 
 	useEffect(
 		() => {
@@ -86,7 +93,7 @@ const Filters = ({ classes, getEvents, location, page }) => {
 				</h4>
 				<Accordion
 					active={[ 0, 1 ]}
-					activeColor='trevor'
+					activeColor='primary'
 					collapses={[
 						{
 							title: 'Category',
@@ -187,7 +194,7 @@ const Filters = ({ classes, getEvents, location, page }) => {
 												/>
 											}
 											classes={{ label: classes.label }}
-											label='Performing Arts'
+											label='Sports'
 										/>
 										<FormControlLabel
 											control={
@@ -248,19 +255,20 @@ const Filters = ({ classes, getEvents, location, page }) => {
 										</MuiPickersUtilsProvider>
 
 										<p style={{ marginTop: '5px' }}>or</p>
+
 										<FormControlLabel
 											control={
 												<Checkbox
 													tabIndex={-1}
 													onClick={handleDateFilters}
 													checked={
-														dateFilters.indexOf('All') !== -1 ? (
+														dateFilters.indexOf('this week') !== -1 ? (
 															true
 														) : (
 															false
 														)
 													}
-													id='All'
+													id='this week'
 													checkedIcon={
 														<Check className={classes.checkedIcon} />
 													}
@@ -274,7 +282,7 @@ const Filters = ({ classes, getEvents, location, page }) => {
 												/>
 											}
 											classes={{ label: classes.label }}
-											label='All'
+											label='This week'
 										/>
 										<FormControlLabel
 											control={
@@ -282,42 +290,14 @@ const Filters = ({ classes, getEvents, location, page }) => {
 													tabIndex={-1}
 													onClick={handleDateFilters}
 													checked={
-														dateFilters.indexOf('Today') !== -1 ? (
-															true
-														) : (
-															false
-														)
-													}
-													id='Today'
-													checkedIcon={
-														<Check className={classes.checkedIcon} />
-													}
-													icon={
-														<Check className={classes.uncheckedIcon} />
-													}
-													classes={{
-														checked: classes.checked,
-														root: classes.checkRoot,
-													}}
-												/>
-											}
-											classes={{ label: classes.label }}
-											label='Today'
-										/>
-										<FormControlLabel
-											control={
-												<Checkbox
-													tabIndex={-1}
-													onClick={handleDateFilters}
-													checked={
-														dateFilters.indexOf('This Weekend') !==
+														dateFilters.indexOf('this weekend') !==
 														-1 ? (
 															true
 														) : (
 															false
 														)
 													}
-													id='This Weekend'
+													id='this weekend'
 													checkedIcon={
 														<Check className={classes.checkedIcon} />
 													}

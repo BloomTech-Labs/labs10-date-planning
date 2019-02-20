@@ -4,6 +4,7 @@ import EventsQuery, { ALL_EVENTS_QUERY } from '../Queries/AllEvents';
 import { GEOHASH_QUERY } from '../Queries/GeoHash';
 import User, { CURRENT_USER_QUERY } from '../Queries/User';
 import _ from 'lodash';
+import { adopt } from 'react-adopt';
 import NProgress from 'nprogress';
 import { UPDATE_LOCATION_MUTATION } from '../Mutations/updateLocation';
 import Filters from './Filters';
@@ -20,9 +21,9 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import styles from '../../static/jss/material-kit-pro-react/views/ecommerceSections/productsStyle.jsx';
 
 const Events = ({ classes, client }) => {
-	const [ page, setPage ] = useState(1);
+	const [ page, setPage ] = useState(0);
 	const [ events, setEvents ] = useState(undefined);
-	const [ location, setLocation ] = useState('New York, NY');
+	const [ location, setLocation ] = useState(undefined);
 	const [ user, setUser ] = useState(undefined);
 	useEffect(() => {
 		getUser();
@@ -33,7 +34,7 @@ const Events = ({ classes, client }) => {
 			getEvents({
 				location: location,
 				alt: 'all',
-				page: 1,
+				page: 0,
 				categories: [],
 				dates: [],
 			});
@@ -46,36 +47,39 @@ const Events = ({ classes, client }) => {
 		});
 		if (loading) NProgress.start();
 		if (data.currentUser) {
-			NProgress.set(0.5);
+			NProgress.set(0.3);
 			setUser(data.currentUser);
 			if (data.currentUser.location) await setLocation(data.currentUser.location);
+			else await setLocation('New York, NY');
 			getEvents({
 				location: location,
 				alt: 'all',
-				page: 1,
+				page: 0,
 				categories: [],
 				dates: [],
 			});
 		}
 	};
 
-	const getGeoHash = async city => {
-		let { data, loading, error } = await client.query({
-			query: GEOHASH_QUERY,
-			variables: { city },
-		});
-
-		return data.geoHash;
-	};
+	// const getGeoHash = async city => {
+	// 	let { data, loading, error } = await client.query({
+	// 		query: GEOHASH_QUERY,
+	// 		variables: { city },
+	// 	});
+	// 	NProgress.set(0.5);
+	// 	return data.geoHash;
+	// };
 	const getEvents = async variables => {
-		let geoData = await getGeoHash(variables.location);
-		variables.location = geoData.geoHash;
-		let { data, loading } = await client.query({
+		NProgress.start();
+		// let geoData = await getGeoHash(variables.location);
+		// variables.location = geoData.geoHash;
+		let { data, loading, error } = await client.query({
 			query: ALL_EVENTS_QUERY,
 			variables: variables,
 		});
+
 		if (data.getEvents) NProgress.done();
-		console.log(data.getEvents.events);
+
 		let events = _.chunk(data.getEvents.events, 12);
 		let newEvents = { ...data.getEvents, events: events };
 
@@ -102,6 +106,14 @@ const Events = ({ classes, client }) => {
 		}
 	};
 
+	const Composed = adopt({
+		user: ({ render }) => <User>{render}</User>,
+		allEvents: ({ render }) => <Query query={ALL_EVENTS_QUERY}>{render}</Query>,
+		updateLocation: ({ render }) => (
+			<Mutation mutation={UPDATE_LOCATION_MUTATION}>{render}</Mutation>
+		),
+	});
+
 	if (!events) return <div>loading</div>;
 	else
 		return (
@@ -122,6 +134,7 @@ const Events = ({ classes, client }) => {
 											console.log(user.location, location);
 
 											if (called) NProgress.start();
+											if (loading) NProgress.set(0.3);
 											return (
 												<div
 													style={{

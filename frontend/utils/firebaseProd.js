@@ -2,7 +2,7 @@ import * as firebase from 'firebase/app';
 import 'firebase/auth';
 
 const config = {
-	apiKey: THIS_IS_SUPPOSED_TO_BE_SECRET,
+	apiKey: DONT_PUSH_TO_REPO,
 	authDomain: 'up4-life.firebaseapp.com',
 	databaseURL: 'https://up4-life.firebaseio.com',
 	projectId: 'up4-life',

@@ -1,5 +1,5 @@
 const axios = require('axios');
-const { transformEvents, fetchEvents } = require('../utils');
+const { transformEvents, fetchEvents, setDates, getGeoHash } = require('../utils');
 const { checkDates } = require('../utils');
 
 const Query = {
@@ -25,8 +25,8 @@ const Query = {
 		);
 	},
 	async getEvents(parent, { location, alt, page, ...args }, ctx, info) {
-		// const categories = args.categories
-		// 	? args.categories
+		//let { geoHash } = await getGeoHash(location);
+		location = location.split(',')[0].toLowerCase();
 
 		let cats = args.categories.length
 			? args.categories
@@ -37,29 +37,32 @@ const Query = {
 					'KZFzniwnSyZfZ7v7n1',
 				];
 
-		const dates = args.dates ? args.dates.toString() : 'all';
+		const dates = args.dates.length ? setDates(args.dates.toString()) : undefined;
 
-		let response = await fetchEvents(location, cats, dates, page);
+		let events;
+		let response = await fetchEvents(location, cats, dates, page, 200);
 
-		let events = response.data._embedded.events;
+		events = response.data._embedded.events;
+
 		let uniques = events.reduce((a, t) => {
 			if (!a.includes(t.name)) a.push(t.name);
 			return a;
 		}, []);
 
-		if (response.data.page.totalElements > 35) {
-			while (uniques.length < 35) {
-					page = page + 1;
-					let res = await fetchEvents(location, cats, dates, page);
+		if (response.data.page.totalElements > 20) {
+			while (uniques.length < 20) {
+				page = page + 1;
 
-					if (!res.data) break;
-					else {
-						events = [...events, ...res.data._embedded.events];
-						uniques = res.data._embedded.events.reduce((a, t) => {
-							if (!a.includes(t.name)) a.push(t.name);
-							return a;
-						}, uniques);
-					}
+				let res = await fetchEvents(location, cats, dates, page, 200);
+
+				if (!res.data._embedded) break;
+				else {
+					events = [ ...events, ...res.data._embedded.events ];
+					uniques = res.data._embedded.events.reduce((a, t) => {
+						if (!a.includes(t.name)) a.push(t.name);
+						return a;
+					}, uniques);
+				}
 			}
 		}
 
@@ -90,7 +93,7 @@ const Query = {
 			`https://app.ticketmaster.com/discovery/v2/events/${args.id}.json?apikey=${process.env
 				.TKTMSTR_KEY}`,
 		);
-		const [img] = data.images.filter(img => img.ratio === '4_3');
+		const [ img ] = data.images.filter(img => img.ratio === '4_3');
 		return {
 			title: data.name,
 			id: data.id,
@@ -153,7 +156,7 @@ const Query = {
 		let { lat, lng } = response.data.results[0].geometry.location;
 
 		const geoResponse = await axios(`http://geohash.org?q=${lat},${lng}&format=url`);
-		let geoHash = geoResponse.data.replace('http://geohash.org/', '');
+		let geoHash = geoResponse.data.replace('http://geohash.org/', '').slice(0, 8);
 		return { geoHash };
 	},
 	async getUserOrder(parent, args, ctx, info) {
@@ -199,26 +202,26 @@ const Query = {
 			{ where: { id: userId } },
 			`
 				{id permissions events {id}}
-			`
+			`,
 		);
 
-		const invoices = await stripe.invoices.list(
-			{
-				customer: user.stripeCustomerId
-			}
+		const invoices = await stripe.invoices.list({
+			customer: user.stripeCustomerId,
+		});
+		console.log(
+			invoices.map(invoice => ({
+				receipt_number: invoice.receipt_number,
+				amount_due: invoice.amount_due,
+				amount_paid: invoice.amount_paid,
+				date: invoice.date,
+				hosted_url: invoice.hosted_invoice_url,
+				pdf_url: invoice.invoice_pdf,
+			})),
 		);
-		console.log(invoices.map(invoice => ({
-			receipt_number: invoice.receipt_number,
-			amount_due: invoice.amount_due,
-			amount_paid: invoice.amount_paid,
-			date: invoice.date,
-			hosted_url: invoice.hosted_invoice_url,
-			pdf_url: invoice.invoice_pdf
-		})));
 		return {
-			message: 'invoices'
-		}
-	}
+			message: 'invoices',
+		};
+	},
 };
 
 module.exports = Query;
