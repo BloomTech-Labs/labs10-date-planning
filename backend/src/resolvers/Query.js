@@ -42,13 +42,12 @@ const Query = {
 		let response = await fetchEvents(location, cats, dates, page);
 
 		let events = transformEvents(response.data);
-		console.log(response.data.page.totalElements, events);
+
 		if (response.data.page.totalElements > 35) {
 			while (events.length < 35) {
-				let size = 35 - events.length;
+				page = page + 1;
+				let res = await fetchEvents(location, cats, dates, page);
 
-				let res = await fetchEvents(location, cats, dates, page, size);
-				console.log(res.data);
 				if (!res.data) break;
 				else {
 					let newEvents = transformEvents(res.data);

@@ -92,7 +92,7 @@ module.exports = {
 		// API likes simple genres like music, sports, etc. & city is the easiest but we can do latLong and add a radius to our query
 		// if that's the route that we wanna go (super easy to change)
 		return axios.get(
-			`https://app.ticketmaster.com/discovery/v2/events.json?size=${pageSize}&classificationId=${cats}&geoPoint=${geoHash.slice(
+			`https://app.ticketmaster.com/discovery/v2/events.json?size=${pageSize}&page=${page}&classificationId=${cats}&geoPoint=${geoHash.slice(
 				0,
 				8,
 			)}&apikey=${process.env.TKTMSTR_KEY}`,
