@@ -21,7 +21,7 @@ module.exports = {
 					url: ev.url,
 					image_url: eventImage[0].url,
 					times: [ ev.dates.start.dateTime ],
-					genres: ev.classifications[0].genre.name,
+					genres: ev.classifications[0].genre && ev.classifications[0].genre.name,
 					info: ev.info || 'no info provided',
 					description: ev.pleaseNote || 'no notes included',
 					price: {
@@ -35,8 +35,12 @@ module.exports = {
 							ev._embedded.venues[0].address && ev._embedded.venues[0].address.line1,
 						city: ev._embedded.venues[0].city.name,
 						latLong: {
-							lat: ev._embedded.venues[0].location.latitude,
-							long: ev._embedded.venues[0].location.longitude,
+							lat:
+								ev._embedded.venues[0].location &&
+								ev._embedded.venues[0].location.latitude,
+							long:
+								ev._embedded.venues[0].location &&
+								ev._embedded.venues[0].location.longitude,
 						},
 					},
 				});
@@ -44,6 +48,38 @@ module.exports = {
 
 			return events;
 		}, []);
+	},
+	setDates: function(dates) {
+		let start, end;
+		switch (dates) {
+			case 'this week':
+			case 'this week,this weekend':
+				start = moment().startOf('isoWeek').format();
+				end = moment().endOf('isoWeek').format();
+				break;
+			case 'this week,this weekend,next week':
+			case 'this week,next week':
+				start = moment().startOf('isoWeek').format();
+				end = moment().add(1, 'weeks').endOf('isoWeek').format();
+				break;
+			case 'this weekend,next week':
+				start = moment().endOf('isoWeek').subtract(3, 'days').format();
+				end = moment().add(1, 'weeks').endOf('isoWeek').format();
+				break;
+			case 'this weekend':
+				start = moment().endOf('isoWeek').subtract(3, 'days').format();
+				end = moment().endOf('isoWeek').format();
+				break;
+			case 'next week':
+				start = moment().add(1, 'weeks').startOf('isoWeek').format();
+				end = moment().add(1, 'weeks').endOf('isoWeek').format();
+				break;
+			default:
+				start = moment().add(1, 'day').startOf('day').format();
+				end = moment().add(1, 'day').endOf('day').format();
+				break;
+		}
+		return { start, end };
 	},
 	checkDates: function(dates, events) {
 		let date, start, end, filteredEvents;
@@ -85,22 +121,16 @@ module.exports = {
 		}
 	},
 	fetchEvents: function(geoHash, cats, dates, page, size) {
-		console.log(geoHash, cats, dates, size, page);
-		// hardcoded for testing but can easily be changed, duh
-
-		// API likes simple genres like music, sports, etc. & city is the easiest but we can do latLong and add a radius to our query
-		// if that's the route that we wanna go (super easy to change)
+		if (dates) {
+			return axios.get(
+				`https://app.ticketmaster.com/discovery/v2/events.json?size=${size}&page=${page}&startDateTime=${dates.start}&endDateTime=${dates.end}&classificationId=${cats}&city=${geoHash}&apikey=${process
+					.env.TKTMSTR_KEY}`,
+			);
+		}
 		return axios.get(
-			`https://app.ticketmaster.com/discovery/v2/events.json?size=${size}&page=${page}&classificationId=${cats}&geoPoint=${geoHash.slice(
-				0,
-				8,
-			)}&apikey=${process.env.TKTMSTR_KEY}`,
+			`https://app.ticketmaster.com/discovery/v2/events.json?size=${size}&page=${page}&classificationId=${cats}&city=${geoHash}&apikey=${process
+				.env.TKTMSTR_KEY}`,
 		);
-
-		// return axios.get(
-		// 	`https://app.ticketmaster.com/discovery/v2/events.json?size=35&classificationId=KZFzniwnSyZfZ7v7nE&geoPoint=${geoHash}&apikey=${process
-		// 		.env.TKTMSTR_KEY}`,
-		// );
 	},
 	getEventImages: function(id) {
 		return axios.get(
@@ -116,5 +146,16 @@ module.exports = {
 			return { id, admin };
 		}
 		return null;
+	},
+	async getGeoHash(city) {
+		const response = await axios(
+			`https://maps.googleapis.com/maps/api/geocode/json?address=${city}&key=${process.env
+				.GOOGLE_API_KEY}`,
+		);
+		let { lat, lng } = response.data.results[0].geometry.location;
+
+		const geoResponse = await axios(`http://geohash.org?q=${lat},${lng}&format=url`);
+		let geoHash = geoResponse.data.replace('http://geohash.org/', '').slice(0, 8);
+		return { geoHash };
 	},
 };
