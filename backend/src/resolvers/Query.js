@@ -192,6 +192,35 @@ const Query = {
 
 		return { count: datesCount - user.events.length };
 	},
+	async invoicesList(parent, args, ctx, info) {
+		// Check user's login status
+		const { userId } = ctx.request;
+		if (!userId) throw new Error('You must be signed in to access this app.');
+
+		const user = await ctx.db.query.user(
+			{ where: { id: userId } },
+			`
+				{id permissions events {id}}
+			`
+		);
+
+		const invoices = await stripe.invoices.list(
+			{
+				customer: user.stripeCustomerId
+			}
+		);
+		console.log(invoices.map(invoice => ({
+			receipt_number: invoice.receipt_number,
+			amount_due: invoice.amount_due,
+			amount_paid: invoice.amount_paid,
+			date: invoice.date,
+			hosted_url: invoice.hosted_invoice_url,
+			pdf_url: invoice.invoice_pdf
+		})));
+		return {
+			message: 'invoices'
+		}
+	}
 };
 
 module.exports = Query;

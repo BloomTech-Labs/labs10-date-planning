@@ -277,6 +277,7 @@ const Mutation = {
 			},
 			info
 		);
+
 		// Update user's permission type
 		ctx.db.mutation.updateUser({
 			data: {
