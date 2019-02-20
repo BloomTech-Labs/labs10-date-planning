@@ -267,16 +267,8 @@ const Mutation = {
 	},
 	async cancelSubscription(parent, args, ctx, info) {
 		// Check user's login status
-		const { userId } = ctx.request;
+		const { userId, user } = ctx.request;
 		if (!userId) throw new Error('You must be signed in to complete this order.');
-
-		// Get user's info
-		const user = await ctx.db.query.user(
-			{ where: { id: userId } },
-			`
-				{id email permissions stripeCustomerId stripeSubscriptionId}
-			`
-		);
 
 		if (!user.stripeCustomerId || !user.stripeSubscriptionId) {
 			throw new Error('User has no stripe customer Id or subscription Id');
