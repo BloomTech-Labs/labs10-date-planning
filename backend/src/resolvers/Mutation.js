@@ -138,72 +138,74 @@ const Mutation = {
 			throw new Error('You must be logged in!');
 		}
 
-		return db.mutation.updateUser(
-			{
-				where: {
-					id: user.id
-				},
-				data: {
-					imageThumbnail: thumbnail,
-					imageLarge: image
-				}
-			},
-			info
-		);
-	},
-	async updateLocation(parent, { city }, { db, request }, info) {
-		const user = await db.query.user({
-			where: { id: request.userId }
-		});
-		if (!user) {
-			throw new Error('You must be logged in!');
-		}
-		return db.mutation.updateUser(
-			{
-				where: {
-					id: user.id
-				},
-				data: {
-					location: city
-				}
-			},
-			info
-		);
-	},
-	async resetPassword(parent, args, { db, response }, info) {
-		if (args.password !== args.confirmPassword) {
-			throw new Error('Passwords must match!');
-		}
-		const [user] = await db.query.users({
-			where: {
-				resetToken: args.resetToken,
-				resetTokenExpiry_gte: Date.now() - 3600000 // make sure reset Token is still within 1hr time limit
-			}
-		});
-		if (!user) {
-			throw new Error('This token is either invalid or expired');
-		}
-		const password = await bcrypt.hash(args.password, 10);
-		// removed token and expiry fields from user once updated
-		const updatedUser = await db.mutation.updateUser({
-			where: { email: user.email },
-			data: {
-				password,
-				resetToken: null,
-				resetTokenExpiry: null
-			}
-		});
-		const token = jwt.sign({ userId: updatedUser.id }, process.env.APP_SECRET);
-		// put new token onto cookie bc i said so
-		response.cookie('token', token, {
-			httpOnly: true,
-			maxAge: 1000 * 60 * 60 * 24 * 365
-		});
-		return updatedUser;
-	},
-	async createOrder(parent, args, ctx, info) {
+    return db.mutation.updateUser(
+      {
+        where: {
+          id: user.id
+        },
+        data: {
+          imageThumbnail: thumbnail,
+          imageLarge: image
+        }
+      },
+      info
+    );
+  },
+  async updateLocation(parent, { city }, { db, request }, info) {
+    const user = await db.query.user({
+      where: { id: request.userId }
+    });
+    if (!user) {
+      throw new Error("You must be logged in!");
+    }
+    return db.mutation.updateUser(
+      {
+        where: {
+          id: user.id
+        },
+        data: {
+          location: city
+        }
+      },
+      info
+    );
+  },
+  async resetPassword(parent, args, { db, response }, info) {
+    if (args.password !== args.confirmPassword) {
+      throw new Error("Passwords must match!");
+    }
+    const [user] = await db.query.users({
+      where: {
+        resetToken: args.resetToken,
+        resetTokenExpiry_gte: Date.now() - 3600000 // make sure reset Token is still within 1hr time limit
+      }
+    });
+    if (!user) {
+      throw new Error("This token is either invalid or expired");
+    }
+    const password = await bcrypt.hash(args.password, 10);
+    // removed token and expiry fields from user once updated
+    const updatedUser = await db.mutation.updateUser({
+      where: { email: user.email },
+      data: {
+        password,
+        resetToken: null,
+        resetTokenExpiry: null
+      }
+    });
+    const token = jwt.sign({ userId: updatedUser.id }, process.env.APP_SECRET);
+    // put new token onto cookie bc i said so
+    response.cookie("token", token, {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24 * 365
+    });
+    return updatedUser;
+  },
+  async createOrder(parent, args, ctx, info) {
 		// Check user's login status
-		const { userId } = ctx.request;
+    const { userId } = ctx.request;
+
+    // console.log(user);
 		if (!userId) throw new Error('You must be signed in to complete this order.');
 
 		// Get user's info
@@ -215,33 +217,16 @@ const Mutation = {
 		);
 
 		// Check user's subscription status
-		// if (user.permissions[0] === args.subscription) {
-		// 	throw new Error(`User already has ${args.subscription} subscription`);
-		// } else if (user.permissions[0] === 'YEARLY') {
-		// 	throw new Error(`User already has the highest level of ${args.subscription} subscription`);
-		// }
+    if (user.permissions[0] === args.subscription) {
+      throw new Error(`User already has ${args.subscription} subscription`);
+    }
 
-		// Create a subscription if user does not have one already
-		let subscription;
-		if (!user.tripeSubscriptionId) {
-			subscription = await stripe.subscriptions.create({
-				customer: user.stripeCustomerId || customer.id,
-				items: [
-					{
-						plan: user.permissions[0] === 'MONTHLY' ? 'plan_EYPPZzmOjy3P3I' : 'plan_EYPg6RkTFwJFRA'
-					}
-				]
-			});
-		} else {
-			subscription = await stripe.subscriptions.retrieve(user.stripeSubscriptionId);
-			await stripe.subscriptions.update(user.stripeSubscriptionId, {
-				cancel_at_period_end: false,
-				items: [
-					{
-						id: subscription.items.data[0].id,
-						plan: args.subscription === 'MONTHLY' ? 'plan_EYPPZzmOjy3P3I' : 'plan_EYPg6RkTFwJFRA'
-					}
-				]
+		// Create new stripe customer if user is not one already
+		let customer;
+		if (!user.stripeCustomerId) {
+			customer = await stripe.customers.create({
+				email: user.email,
+				source: args.token
 			});
 		}
 
@@ -250,47 +235,20 @@ const Mutation = {
 		if (!user.stripeSubscriptionId) {
 			subscription = await stripe.subscriptions.create({
 				customer: user.stripeCustomerId || customer.id,
-				items: [
-					{
-						plan: user.permissions[0] === 'MONTHLY' ? 'plan_EYPPZzmOjy3P3I' : 'plan_EYPg6RkTFwJFRA'
-					}
-				]
-			});
+				items: [{
+					plan: user.permissions[0] === 'MONTHLY' ? 'plan_EYPPZzmOjy3P3I' : 'plan_EYPg6RkTFwJFRA'
+				}]
+			})
 		} else {
 			subscription = await stripe.subscriptions.retrieve(user.stripeSubscriptionId);
 			await stripe.subscriptions.update(user.stripeSubscriptionId, {
 				cancel_at_period_end: false,
-				items: [
-					{
-						id: subscription.items.data[0].id,
-						plan: args.subscription === 'MONTHLY' ? 'plan_EYPPZzmOjy3P3I' : 'plan_EYPg6RkTFwJFRA'
-					}
-				]
-			});
+				items: [{
+					id: subscription.items.data[0].id,
+					plan: args.subscription === 'MONTHLY' ? 'plan_EYPPZzmOjy3P3I' : 'plan_EYPg6RkTFwJFRA'
+				}]
+			})
 		}
-
-		// Charge the credit card
-		const amount = args.subscription === 'MONTHLY' ? 999 : 2999;
-		// const charge = await stripe.charges.create({
-		// 	amount,
-		// 	currency: 'USD',
-
-		// Record the order
-		const order = await ctx.db.mutation.createOrder(
-			{
-				data: {
-					total: amount,
-					charge: '',
-					subscription: args.subscription,
-					user: {
-						connect: {
-							id: user.id
-						}
-					}
-				}
-			},
-			info
-		);
 
 		// Update user's permission type
 		ctx.db.mutation.updateUser({
@@ -298,15 +256,17 @@ const Mutation = {
 				permissions: {
 					set: [args.subscription]
 				},
-				stripeSubscriptionId: subscription ? subscription.id : user.stripeSubscriptionId,
-				stripeCustomerId: customer ? customer.id : user.stripeCustomerId
+				stripeSubscriptionId: subscription? subscription.id : user.stripeSubscriptionId,
+				stripeCustomerId: customer? customer.id : user.stripeCustomerId,
 			},
 			where: {
 				id: user.id
 			}
 		});
 
-		return order;
+    return {
+      message: 'Thank You'
+    };
 	},
 	async cancelSubscription(parent, args, ctx, info) {
 		// Check user's login status
