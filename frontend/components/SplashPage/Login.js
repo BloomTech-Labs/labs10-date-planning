@@ -25,9 +25,9 @@ import CustomInput from '../../styledComponents/CustomInput/CustomInput';
 import ErrorModal from './ErrorModal';
 import Styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles';
 
-// import { auth } from '../../utils/firebase';
+import { auth } from '../../utils/firebase';
 
-import { auth } from '../../utils/firebaseProd';
+// import { auth } from '../../utils/firebaseProd';
 
 const LOGIN_USER = gql`
 	mutation LOGIN_USER($email: String!, $password: String!) {
@@ -86,7 +86,7 @@ const Login = ({ classes }) => {
 	const twitterPopup = async (e, firebaseSignin) => {
 		e.preventDefault();
 		try {
-			console.log('clicked')
+			console.log('clicked');
 			let provider = new firebase.auth.TwitterAuthProvider();
 			const complete = await auth.signInWithPopup(provider);
 			const idToken = await auth.currentUser.getIdToken(true);
@@ -95,7 +95,7 @@ const Login = ({ classes }) => {
 		} catch (err) {
 			console.log(err);
 		}
-	}
+	};
 
 	return (
 		<Mutation
@@ -171,8 +171,12 @@ const Login = ({ classes }) => {
 																<i className="fab fa-facebook-square" />
 															</Button>
 
-															<Button justIcon link className={classes.socialLineButton}
-																onClick={e => twitterPopup(e, firebaseAuth)}>
+															<Button
+																justIcon
+																link
+																className={classes.socialLineButton}
+																onClick={e => twitterPopup(e, firebaseAuth)}
+															>
 																<i className="fab fa-twitter" />
 															</Button>
 														</>

@@ -36,8 +36,8 @@ import InfoArea from '../../styledComponents/InfoArea/InfoArea';
 import Styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles';
 
 import Terms from '../../components/SplashPage/Terms';
-// import { auth } from '../../utils/firebase';
-import { auth } from '../../utils/firebaseProd';
+import { auth } from '../../utils/firebase';
+// import { auth } from '../../utils/firebaseProd';
 
 const REGISTER_USER = gql`
 	mutation REGISTER_USER(
@@ -103,11 +103,11 @@ const Register = ({ classes }) => {
 			const success = await firebaseAuth({ variables: { idToken } });
 			if (success.data) Router.push('/home');
 		} else if (company === 'twitter') {
-				let provider = new firebase.auth.TwitterAuthProvider();
-				const complete = await auth.signInWithPopup(provider);
-				const idToken = await auth.currentUser.getIdToken(true);
-				const success = await firebaseSignup({ variables: { idToken } });
-				if (success.data) Router.push('/home')
+			let provider = new firebase.auth.TwitterAuthProvider();
+			const complete = await auth.signInWithPopup(provider);
+			const idToken = await auth.currentUser.getIdToken(true);
+			const success = await firebaseSignup({ variables: { idToken } });
+			if (success.data) Router.push('/home');
 		}
 	};
 
