@@ -56,7 +56,7 @@ const Mutation = {
             lastName: ""
           }
         },
-        `id firstName email`
+        `{id firstName email}`
       );
       await setUserClaims(uid, { id: user.id, admin: false });
     }
