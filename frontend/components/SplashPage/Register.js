@@ -106,7 +106,7 @@ const Register = ({ classes }) => {
 				let provider = new firebase.auth.TwitterAuthProvider();
 				const complete = await auth.signInWithPopup(provider);
 				const idToken = await auth.currentUser.getIdToken(true);
-				const success = await firebaseSignup({ variables: { idToken } });
+				const success = await firebaseAuth({ variables: { idToken } });
 				if (success.data) Router.push('/home')
 		}
 	};
