@@ -69,7 +69,7 @@ const FIREBASE_SIGNUP = gql`
 `;
 
 const Register = ({ classes }) => {
-	const [passwordShowing, setPasswordShowing] = useState(true);
+	const [passwordShowing, setPasswordShowing] = useState(false);
 	const [modalShowing, setModalShowing] = useState(false);
 	const [termsShowing, setTermsShowing] = useState(false);
 	const [terms, setTerms] = useState(false);
