@@ -225,14 +225,29 @@ const Mutation = {
     // 	throw new Error(`User already has the highest level of ${args.subscription} subscription`);
     // }
 
-    // Create new stripe customer if user is not one already
-    let customer;
-    if (!user.stripeCustomerId) {
-      customer = await stripe.customers.create({
-        email: user.email,
-        source: args.token
-      });
-    }
+		// Create a subscription if user does not have one already
+		let subscription;
+		if (!user.tripeSubscriptionId) {
+			subscription = await stripe.subscriptions.create({
+				customer: user.stripeCustomerId || customer.id,
+				items: [
+					{
+						plan: user.permissions[0] === 'MONTHLY' ? 'plan_EYPPZzmOjy3P3I' : 'plan_EYPg6RkTFwJFRA'
+					}
+				]
+			});
+		} else {
+			subscription = await stripe.subscriptions.retrieve(user.stripeSubscriptionId);
+			await stripe.subscriptions.update(user.stripeSubscriptionId, {
+				cancel_at_period_end: false,
+				items: [
+					{
+						id: subscription.items.data[0].id,
+						plan: args.subscription === 'MONTHLY' ? 'plan_EYPPZzmOjy3P3I' : 'plan_EYPg6RkTFwJFRA'
+					}
+				]
+			});
+		}
 
     // Create a subscription if user does not have one already
     let subscription;
@@ -272,163 +287,189 @@ const Mutation = {
     // 	amount,
     // 	currency: 'USD',
 
-    // 	description: `UP4 ${args.subscription} subscription`,
-    // 	source: args.token,
-    // 	receipt_email: user.email,
-    // });
+		// Record the order
+		const order = await ctx.db.mutation.createOrder(
+			{
+				data: {
+					total: amount,
+					charge: '',
+					subscription: args.subscription,
+					user: {
+						connect: {
+							id: user.id
+						}
+					}
+				}
+			},
+			info
+		);
 
-    // Record the order
-    const order = await ctx.db.mutation.createOrder(
-      {
-        data: {
-          total: amount,
-          charge: "",
-          subscription: args.subscription,
-          user: {
-            connect: {
-              id: user.id
-            }
-          }
-        }
-      },
-      info
-    );
-    // Update user's permission type
-    ctx.db.mutation.updateUser({
-      data: {
-        permissions: {
-          set: [args.subscription]
-        },
-        stripeSubscriptionId: subscription
-          ? subscription.id
-          : user.stripeSubscriptionId,
-        stripeCustomerId: customer ? customer.id : user.stripeCustomerId
-      },
-      where: {
-        id: user.id
-      }
-    });
+		// Update user's permission type
+		ctx.db.mutation.updateUser({
+			data: {
+				permissions: {
+					set: [args.subscription]
+				},
+				stripeSubscriptionId: subscription ? subscription.id : user.stripeSubscriptionId,
+				stripeCustomerId: customer ? customer.id : user.stripeCustomerId
+			},
+			where: {
+				id: user.id
+			}
+		});
 
-    return order;
-  },
-  async internalPasswordReset(parent, args, { db, request, response }, info) {
-    if (args.newPassword1 !== args.newPassword2) {
-      throw new Error("New passwords must match!");
-    }
-    // check to make sure user is logged in
-    const user = await db.query.user({
-      where: { id: request.userId }
-    });
-    if (!user) {
-      throw new Error("You must be logged in!");
-    }
-    // compare oldpassword to password from user object
-    const samePass = await bcrypt.compare(args.oldPassword, user.password);
-    if (!samePass) throw new Error("Incorrect password, please try again.");
-    const newPassword = await bcrypt.hash(args.newPassword1, 10);
-    // update password
-    const updatedUser = await db.mutation.updateUser({
-      where: { id: user.id },
-      data: {
-        password: newPassword
-      }
-    });
-    const token = jwt.sign({ userId: updatedUser.id }, process.env.APP_SECRET);
-    // put new token onto cookie so that any other session opened with previous pass is no invalidated
-    response.cookie("token", token, {
-      httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24 * 365
-    });
-    return updatedUser;
-  },
-  async addEvent(parent, args, { db, request }, info) {
-    const { userId } = request;
-    if (!userId) throw new Error("You must be signed in to add an event.");
-    const user = await db.query.user(
-      { where: { id: userId } },
-      `
-            {id firstName lastName email permissions events { eventfulID }}
-        `
-    );
-    if (user.permissions[0] === "FREE" && user.events.length === 5) {
-      throw new Error("You have reached the free tier limit");
-    }
-    const { data } = await axios.get(
-      `https://app.ticketmaster.com/discovery/v2/events/${
-        args.eventId
-      }.json?apikey=${process.env.TKTMSTR_KEY}`
-    );
-    // console.log(user.events, 'user events');
-    // console.log(data.id, 'ticketmaster event id');
-    const [alreadySaved] = user.events.filter(
-      event => event.eventfulID === data.id
-    );
-    // console.log(alreadySaved);
-    if (alreadySaved) {
-      throw new Error("You've already saved that event!");
-    }
+		return order;
+	},
+	async cancelSubscription(parent, args, ctx, info) {
+		// Check user's login status
+		const { userId } = ctx.request;
+		if (!userId) throw new Error('You must be signed in to complete this order.');
 
-    let [event] = await db.query.events({
-      where: { eventfulID: data.id }
-    });
-    // console.log(event, 'event exists');
-    if (!event) {
-      // create the event if it doesnt exist
-      event = await db.mutation.createEvent({
-        data: {
-          eventfulID: data.id,
-          title: data.name,
-          url: data.url,
-          location: data._embedded.venues[0].name,
-          description: data.info,
-          times: { set: [data.dates.start.dateTime] },
-          attending: {
-            connect: {
-              id: user.id
-            }
-          }
-        }
-      });
-    } else {
-      // console.log('update route');
-      // console.log(user.id, event.id, 'checking ids');
-      await db.mutation.updateEvent(
-        {
-          data: {
-            attending: {
-              connect: {
-                id: user.id
-              }
-            }
-          },
-          where: {
-            id: event.id
-          }
-        },
-        `{ attending { id }}`
-      );
-    }
-    // finally, in either case we want to update the relationship to the event on the user obj
-    // then connect the user to the event
-    await db.mutation.updateUser({
-      data: {
-        events: {
-          connect: {
-            id: event.id
-          }
-        }
-      },
-      where: {
-        id: user.id
-      }
-    });
-    return user.permissions[0] === "FREE"
-      ? {
-          message: `You have used ${user.events.length +
-            1} of your 5 free events`
-        }
-      : { message: "Event successfully added!" };
-  }
+		// Get user's info
+		const user = await ctx.db.query.user(
+			{ where: { id: userId } },
+			`
+				{id email permissions stripeCustomerId stripeSubscriptionId}
+			`
+		);
+
+		if (!user.stripeCustomerId || !user.stripeSubscriptionId) {
+			throw new Error('User has no stripe customer Id or subscription Id');
+		}
+
+		const canceled = await stripe.subscriptions.del(
+			user.stripeSubscriptionId, {
+				invoice_now: true,
+				prorate: true
+			}
+		);
+
+		// Update user's permission type
+		ctx.db.mutation.updateUser({
+			data: {
+				permissions: {
+					set: ['FREE']
+				},
+				stripeSubscriptionId: null,
+			},
+			where: {
+				id: user.id
+			}
+		});
+
+		return {
+			message: `Your subscription has been ${canceled.status} at the end of the billing period`
+		}
+	},
+	async internalPasswordReset(parent, args, { db, request, response }, info) {
+		if (args.newPassword1 !== args.newPassword2) {
+			throw new Error('New passwords must match!');
+		}
+		// check to make sure user is logged in
+		const user = await db.query.user({
+			where: { id: request.userId }
+		});
+		if (!user) {
+			throw new Error('You must be logged in!');
+		}
+		// compare oldpassword to password from user object
+		const samePass = await bcrypt.compare(args.oldPassword, user.password);
+		if (!samePass) throw new Error('Incorrect password, please try again.');
+		const newPassword = await bcrypt.hash(args.newPassword1, 10);
+		// update password
+		const updatedUser = await db.mutation.updateUser({
+			where: { id: user.id },
+			data: {
+				password: newPassword
+			}
+		});
+		const token = jwt.sign({ userId: updatedUser.id }, process.env.APP_SECRET);
+		// put new token onto cookie so that any other session opened with previous pass is no invalidated
+		response.cookie('token', token, {
+			httpOnly: true,
+			maxAge: 1000 * 60 * 60 * 24 * 365
+		});
+		return updatedUser;
+	},
+	async addEvent(parent, args, { db, request }, info) {
+		const { userId } = request;
+		if (!userId) throw new Error('You must be signed in to add an event.');
+		const user = await db.query.user(
+			{ where: { id: userId } },
+			`
+				{id firstName lastName email permissions events { eventfulID }}
+			`
+		);
+		if (user.permissions[0] === 'FREE' && user.events.length === 5) {
+			throw new Error('You have reached the free tier limit');
+		}
+		const { data } = await axios.get(
+			`https://app.ticketmaster.com/discovery/v2/events/${args.eventId}.json?apikey=${
+				process.env.TKTMSTR_KEY
+			}`
+		);
+		const [alreadySaved] = user.events.filter(event => event.eventfulID === data.id);
+		if (alreadySaved) {
+			throw new Error("You've already saved that event!");
+		}
+
+		let [event] = await db.query.events({
+			where: { eventfulID: data.id }
+		});
+		if (!event) {
+			// create the event if it doesnt exist
+			const [img] = data.images.filter(img => img.ratio === '4_3');
+			event = await db.mutation.createEvent({
+				data: {
+					eventfulID: data.id,
+					title: data.name,
+					url: data.url,
+					location: data._embedded.venues[0].name,
+					description: data.info,
+					times: { set: [data.dates.start.dateTime] },
+					image_url: img.url,
+					attending: {
+						connect: {
+							id: user.id
+						}
+					}
+				}
+			});
+		} else {
+			await db.mutation.updateEvent(
+				{
+					data: {
+						attending: {
+							connect: {
+								id: user.id
+							}
+						}
+					},
+					where: {
+						id: event.id
+					}
+				},
+				`{ attending { id }}`
+			);
+		}
+		// finally, in either case we want to update the relationship to the event on the user obj
+		// then connect the user to the event
+		await db.mutation.updateUser({
+			data: {
+				events: {
+					connect: {
+						id: event.id
+					}
+				}
+			},
+			where: {
+				id: user.id
+			}
+		});
+		return user.permissions[0] === 'FREE'
+			? { message: `You have used ${user.events.length + 1} of your 5 free events` }
+			: { message: 'Event successfully added!' };
+	}
 };
 
 module.exports = Mutation;

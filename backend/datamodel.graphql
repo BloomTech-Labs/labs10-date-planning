@@ -62,19 +62,19 @@ type User {
 }
 
 type Event {
-    id: ID! @unique
-    eventfulID: String! @unique
-    # votes: Int
-    title: String
-    description: String
-    attending: [User!]!
-    times: [String]
-    location: String
-    image_url: String
-    url: String
-    # location: String!
-    # startTime: DateTime
-    # category: [Category]
+	id: ID! @unique
+	eventfulID: String! @unique
+	# votes: Int
+	title: String
+	description: String
+	attending: [User!]!
+	times: [String]
+	location: String
+	image_url: String
+	url: String
+	# location: String!
+	# startTime: DateTime
+	# category: [Category]
 }
 
 enum Gender {
