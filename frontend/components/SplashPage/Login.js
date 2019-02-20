@@ -172,7 +172,7 @@ const Login = ({ classes }) => {
 															</Button>
 
 															<Button justIcon link className={classes.socialLineButton}
-																onClick={e => twitterPopup(e, firebaseSignin)}>
+																onClick={e => twitterPopup(e, firebaseAuth)}>
 																<i className="fab fa-twitter" />
 															</Button>
 														</>
