@@ -15,6 +15,8 @@ const Mutation = {
   async signup(parent, args, { db, response }, info) {
     // just in case some bozo puts their email in with capitalization for some reason
     args.email = args.email.toLowerCase();
+    console.log(args.user_id)
+    console.log(args)
     if (!/^(?=.*\d).{8,}$/.test(args.password)) {
       throw new Error("Password must be 8 characters with at least 1 number!");
     }
