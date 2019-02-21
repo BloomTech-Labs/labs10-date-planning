@@ -25,9 +25,12 @@ const UpFor = () => {
     color: #FF101F
     position: absolute;
     transform-origin: 67%;
-    transform: rotateY(0deg);
     `
 
+    const MirroredFour = posed.div`
+    idle: {transform: rotateY(0deg)}
+    hovered: {transform: rotateY(180deg)}
+    `
     
 
     return (
