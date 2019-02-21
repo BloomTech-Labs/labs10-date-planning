@@ -14,7 +14,7 @@ const Dates = ({ classes }) => {
       {({ data: { currentUser } }) => {
         console.log(currentUser.events, currentUser.permissions);
         return (
-          <div className={classes.container}>
+          <div style={{marginLeft: '34px'}}className={classes.container}>
             {/* <div>
 							<h2 style={{ textAlign: 'center' }}>Your Dates</h2>
 						</div> */}

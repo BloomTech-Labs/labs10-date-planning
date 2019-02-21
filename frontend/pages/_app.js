@@ -12,7 +12,7 @@ class MyApp extends App {
 		super();
 		this.pageContext = getPageContext();
 	}
-	pageContext = null;
+	// pageContext = null;
 	componentDidMount() {
 		const jssStyles = document.querySelector('#jss-server-side');
 		if (jssStyles && jssStyles.parentNode) {

@@ -16,7 +16,9 @@ import styles from '../../static/jss/material-kit-pro-react/views/componentsSect
 
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 
-import '../../styles/EventModal.scss';
+import '../../styles/Home/EventModal.scss';
+
+
 
 const EventModal = ({ modal, showModal, classes, id, client }) => {
 	const [event, setEvent] = useState(undefined);
