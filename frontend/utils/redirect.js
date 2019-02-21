@@ -1,7 +1,7 @@
 import Router from 'next/router';
 
 export default (context, target) => {
-	if (context.req) {
+	if (context.res) {
 		// server
 		// 303: "See other"
 

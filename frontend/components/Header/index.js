@@ -53,7 +53,7 @@ const Nav = ({ classes, color }) => {
 		if (e === 'Sign out') {
 			signout();
 		} else {
-			Router.push(`/${e.toLowerCase()}`);
+			Router.push(`/billing`);
 		}
 	};
 	return (

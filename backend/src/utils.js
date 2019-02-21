@@ -14,7 +14,7 @@ module.exports = {
 					}
 				});
 				const [ img ] = ev.images.filter(img => img.width > 500);
-				console.log(img.url);
+
 				events.push({
 					id: ev.id,
 					title: ev.name,

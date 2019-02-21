@@ -25,7 +25,6 @@ const Events = ({ classes, client }) => {
 	const [ location, setLocation ] = useState(undefined);
 	const [ user, setUser ] = useState(undefined);
 	useEffect(() => {
-		console.log(events);
 		getUser();
 	}, []);
 
@@ -55,12 +54,7 @@ const Events = ({ classes, client }) => {
 			else setLocation('Los Angeles, CA');
 		}
 	};
-	useEffect(
-		() => {
-			console.log(events);
-		},
-		[ events.events ],
-	);
+
 	const getEvents = async variables => {
 		console.log(variables);
 		NProgress.start();

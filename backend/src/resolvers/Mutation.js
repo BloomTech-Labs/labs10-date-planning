@@ -335,7 +335,6 @@ const Mutation = {
 			`https://app.ticketmaster.com/discovery/v2/events/${args.eventId}.json?apikey=${process
 				.env.TKTMSTR_KEY}`,
 		);
-		console.log(data);
 
 		const [ alreadySaved ] = user.events.filter(event => event.eventfulID === data.id);
 		if (alreadySaved) {

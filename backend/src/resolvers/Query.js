@@ -28,7 +28,7 @@ const Query = {
 		location = location.split(',')[0].toLowerCase();
 
 		let cats =
-			!args.categories || args.categories.length
+			!args.categories || !args.categories.length
 				? [
 						'KZFzniwnSyZfZ7v7nJ',
 						'KZFzniwnSyZfZ7v7na',
@@ -66,7 +66,7 @@ const Query = {
 				}
 			}
 		}
-		console.log(transformEvents(events));
+
 		return {
 			events: transformEvents(events),
 			page_count: response.data.page.size,
@@ -82,7 +82,6 @@ const Query = {
 			`https://app.ticketmaster.com/discovery/v2/events/${args.id}.json?apikey=${process.env
 				.TKTMSTR_KEY}`,
 		);
-		console.log(Object.keys(data));
 
 		const [ img ] = data.images.filter(img => img.width > 500);
 		return {
