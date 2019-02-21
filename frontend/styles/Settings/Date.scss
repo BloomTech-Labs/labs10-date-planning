@@ -13,7 +13,7 @@
   background: #fff;
   background-clip: padding-box; /* !importanté */
   border: solid $border transparent; /* !importanté */
-  border-radius: 1em;
+  border-radius: 6px;
 
   &:before {
     content: "";
@@ -38,4 +38,5 @@
 
 .button {
   margin-left: 20px !important;
+  background-image: linear-gradient(to top, #b893b3, #bd9db8, #c1a6be, #c6b0c3, #cabac8);
 }

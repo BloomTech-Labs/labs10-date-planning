@@ -5,22 +5,15 @@ import { withApollo } from "react-apollo";
 import gql from "graphql-tag";
 import withStyles from "@material-ui/core/styles/withStyles";
 
-
-import AddIcon from "@material-ui/icons/Add";
 import Card from "../../styledComponents/Card/Card";
 import CardHeader from "../../styledComponents/Card/CardHeader";
 import CardFooter from "../../styledComponents/Card/CardFooter";
 import CardBody from "../../styledComponents/Card/CardBody";
-import Warning from "../../styledComponents/Typography/Warning";
 import GridItem from "../../styledComponents/Grid/GridItem";
 import CardStyles from "../../static/jss/material-kit-pro-react/views/componentsSections/sectionCards";
 import Button from "../../styledComponents/CustomButtons/Button.jsx";
 
-import '../../styles/Settings/Date.scss';
-
-
-
-
+import "../../styles/Settings/Date.scss";
 
 const DELETE_EVENT = gql`
   mutation deleteEvent($eventId: String!) {
@@ -58,23 +51,11 @@ const DateView = ({ date, classes, client }) => {
             />
           </CardHeader>
         )}{" "}
-        <CardBody style={{zIndex: '1'}} className={classes.cardBodyRotate}>
+        <CardBody style={{ zIndex: "1" }} className={classes.cardBodyRotate}>
           {date.description && (
-           <div className='gradient-box'>
-
-            <span
-              // style={{
-              //   backgroundImage:
-              //     "linear-gradient(to right top, #4cb5ae, #58bdbc, #65c6ca, #72ced7, #81d6e3)",
-              //   color: "#000",
-              //   borderRadius: "6px",
-              //   padding: "10px"
-              // }}
-              // className={classes.cardCategory}
-            >
-              {date.description}
-            </span>
-           </div>
+            <div className="gradient-box">
+              <span>{date.description}</span>
+            </div>
           )}
 
           <h4 className={classes.cardTitle}>
@@ -97,7 +78,8 @@ const DateView = ({ date, classes, client }) => {
               <div key={ev}>{moment(ev).format("dddd, MMMM Do, h:mm a")}</div>
             ))}
           </div>
-          <Button className='button'
+          <Button
+            className="button"
             onClick={() => {
               deleteEvent(date.id);
             }}
