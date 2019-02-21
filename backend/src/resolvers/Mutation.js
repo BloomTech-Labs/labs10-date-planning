@@ -360,7 +360,8 @@ const Mutation = {
 				url: data.url,
 				location: {
 					venue: data._embedded.venues[0].name,
-					address: ev._embedded.venues[0].address && ev._embedded.venues[0].address.line1,
+					address:
+						data._embedded.venues[0].address && data._embedded.venues[0].address.line1,
 				},
 				description: data.info,
 				times: { set: [ data.dates.start.dateTime ] },
