@@ -1,32 +1,14 @@
 import React, { useState } from 'react';
-import Sidebar from './Sidebar';
-import GridContainer from '../../styledComponents/Grid/GridContainer';
-import GridItem from '../../styledComponents/Grid/GridItem';
-import Dates from './Dates';
-import withStyles from '@material-ui/core/styles/withStyles';
-import blogsStyle from '../../static/jss/material-kit-pro-react/views/sectionsSections/blogsStyle.jsx';
-
-import Drawer from '@material-ui/core/Drawer';
 import classNames from 'classnames';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
-
-import Button from '../../styledComponents/CustomButtons/Button.jsx';
-
+//MUI
+import withStyles from '@material-ui/core/styles/withStyles';
+import { Drawer, Divider, IconButton } from '@material-ui/core';
+import { Menu, ChevronLeft, ChevronRight } from '@material-ui/icons';
+//components
+import Sidebar from './Sidebar';
+import Dates from './Dates';
+//styles
 import '../../styles/Settings/index.scss';
-import { isAbsolute } from 'path';
 
 const drawerWidth = 240;
 
@@ -102,7 +84,7 @@ const Settings = ({ classes, theme }) => {
 				onClick={() => setDrawerOpen(!drawerOpen)}
 				className={classNames(classes.menuButton, drawerOpen && classes.hide)}
 			>
-				<MenuIcon />
+				<Menu />
 			</IconButton>
 
 			<Drawer
@@ -116,7 +98,7 @@ const Settings = ({ classes, theme }) => {
 			>
 				<div className={classes.drawerHeader} style={{ marginTop: '70px' }}>
 					<IconButton onClick={() => setDrawerOpen()}>
-						{theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+						{theme.direction === 'ltr' ? <ChevronLeft /> : <ChevronRight />}
 					</IconButton>
 				</div>
 				<Divider />

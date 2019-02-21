@@ -2,20 +2,21 @@ import React, { useState, useEffect, Fragment } from 'react';
 import { withApollo, Mutation } from 'react-apollo';
 import moment from 'moment';
 import NProgress from 'nprogress';
-import InfoModal from './InfoModal';
+//MUI
+import withStyles from '@material-ui/core/styles/withStyles';
+import { DialogTitle, Dialog, DialogContent } from '@material-ui/core';
+import { BookmarkBorder, Close } from '@material-ui/icons';
+//Q&M
 import User from '../Queries/User';
 import { EVENT_QUERY } from '../Queries/Event';
-import { ADD_EVENT_MUTATION } from '../Mutations/addEvent';
 import { CURRENT_USER_QUERY } from '../Queries/User';
-import BookMark from '@material-ui/icons/BookmarkBorder';
-import withStyles from '@material-ui/core/styles/withStyles';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
+import { ADD_EVENT_MUTATION } from '../Mutations/addEvent';
+//Components
+import InfoModal from './InfoModal';
+//StyledComponents
 import Button from '../../styledComponents/CustomButtons/Button';
-import Close from '@material-ui/icons/Close';
+//styles
 import styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles.jsx';
-
 import '../../styles/Home/EventModal.scss';
 
 const EventModal = ({ modal, showModal, classes, event, client }) => {
@@ -102,7 +103,7 @@ const EventModal = ({ modal, showModal, classes, event, client }) => {
 													style={{ fontWeight: 700 }}
 													className={classes.modalTitle}
 												>
-													{event.title} <BookMark />
+													{event.title} <BookmarkBorder />
 												</h4>
 											</DialogTitle>
 											<DialogContent

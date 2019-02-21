@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
-import AddIcon from '@material-ui/icons/Add';
-import withStyles from '@material-ui/core/styles/withStyles';
 import NProgress from 'nprogress';
+//MUI
+import { BookmarkBorder, Add } from '@material-ui/icons';
+import withStyles from '@material-ui/core/styles/withStyles';
+//Components
 import EventModal from './EventModal';
+//Styled components
 import Card from '../../styledComponents/Card/Card';
 import CardHeader from '../../styledComponents/Card/CardHeader';
 import CardFooter from '../../styledComponents/Card/CardFooter';
 import CardBody from '../../styledComponents/Card/CardBody';
-import BookMark from '@material-ui/icons/BookmarkBorder';
-import Warning from '../../styledComponents/Typography/Warning';
-
+//styles
 import CardStyles from '../../static/jss/material-kit-pro-react/views/componentsSections/sectionCards';
 
 const Event = ({ event, classes, user }) => {
@@ -61,7 +62,7 @@ const Event = ({ event, classes, user }) => {
 				</h4>
 			</CardBody>
 			<CardFooter>
-				{isSaved && <BookMark style={{ position: 'absolute', left: 0, bottom: 0 }} />}
+				{isSaved && <BookmarkBorder style={{ position: 'absolute', left: 0, bottom: 0 }} />}
 				<div className={`${classes.stats} ${classes.mlAuto}`} style={{ display: 'block' }}>
 					{event.times.length > 2 ? (
 						<div>

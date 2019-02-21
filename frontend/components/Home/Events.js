@@ -1,22 +1,26 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { withApollo, Mutation } from 'react-apollo';
-import EventsQuery, { ALL_EVENTS_QUERY } from '../Queries/AllEvents';
-import User, { CURRENT_USER_QUERY } from '../Queries/User';
 import _ from 'lodash';
-import { adopt } from 'react-adopt';
 import NProgress from 'nprogress';
+import InfiniteScroll from 'react-infinite-scroller';
+//MUI
+import withStyles from '@material-ui/core/styles/withStyles';
+//Q&M
+import { ALL_EVENTS_QUERY } from '../Queries/AllEvents';
+import { CURRENT_USER_QUERY } from '../Queries/User';
 import { UPDATE_LOCATION_MUTATION } from '../Mutations/updateLocation';
+import Location from '../Queries/Location';
+//components
 import Filters from './Filters';
 import Event from './Event';
-import Primary from '../../styledComponents/Typography/Primary';
-import InfiniteScroll from 'react-infinite-scroller';
-import Button from '../../styledComponents/CustomButtons/Button';
 import LocationSearch from './LocationSearch';
-import Location from '../Queries/Location';
+import Primary from '../../styledComponents/Typography/Primary';
+//styled components
+import Button from '../../styledComponents/CustomButtons/Button';
 import GridContainer from '../../styledComponents/Grid/GridContainer';
 import GridItem from '../../styledComponents/Grid/GridItem';
 import Paginations from '../../styledComponents/Pagination/Pagination';
-import withStyles from '@material-ui/core/styles/withStyles';
+//styles
 import styles from '../../static/jss/material-kit-pro-react/views/ecommerceSections/productsStyle.jsx';
 
 const Events = ({ classes, client }) => {
@@ -56,15 +60,13 @@ const Events = ({ classes, client }) => {
 	};
 
 	const getEvents = async variables => {
-		console.log(variables);
-
 		let newEvents = await fetchEvents(variables);
 
 		let events = {
 			...newEvents,
 			events: _.chunk(newEvents.events, newEvents.events.length / 3),
 		};
-		console.log(events);
+
 		setEvents(events);
 	};
 
@@ -103,14 +105,6 @@ const Events = ({ classes, client }) => {
 			setUser(data.currentUser);
 		}
 	};
-
-	// const Composed = adopt({
-	// 	user: ({ render }) => <User>{render}</User>,
-	// 	allEvents: ({ render }) => <Query query={ALL_EVENTS_QUERY}>{render}</Query>,
-	// 	updateLocation: ({ render }) => (
-	// 		<Mutation mutation={UPDATE_LOCATION_MUTATION}>{render}</Mutation>
-	// 	),
-	// });
 
 	if (!events.events.length) return <div />;
 	else

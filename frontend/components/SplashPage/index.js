@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
+//MUI
+import withStyles from '@material-ui/core/styles/withStyles';
+//components
+import Register from './Register';
+import Login from './Login';
+//styled components
 import Parallax from '../../styledComponents/Parallax/Parallax';
 import GridContainer from '../../styledComponents/Grid/GridContainer';
 import GridItem from '../../styledComponents/Grid/GridItem';
-import Register from './Register';
-import Login from './Login';
-import withStyles from '@material-ui/core/styles/withStyles';
+//styles
 import Styles from '../../static/jss/material-kit-pro-react/views/landingPageStyle';
 
 const Splash = ({ classes }) => {
@@ -20,12 +24,12 @@ const Splash = ({ classes }) => {
 							Music. Food. Special Events. Your city is alive. What are you up for?
 						</h1>
 						<h4>
-							Exciting events are all around you but they can be hard to find. Up4 helps ensure
-							you'll never miss another adventure.
+							Exciting events are all around you but they can be hard to find. Up4
+							helps ensure you'll never miss another adventure.
 						</h4>
 						<div>
 							<Register />
-							<Login className='login'/>
+							<Login className='login' />
 						</div>
 					</GridItem>
 				</GridContainer>
