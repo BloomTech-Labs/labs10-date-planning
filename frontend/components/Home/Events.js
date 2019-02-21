@@ -1,7 +1,6 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { withApollo, Mutation } from 'react-apollo';
 import EventsQuery, { ALL_EVENTS_QUERY } from '../Queries/AllEvents';
-import { GEOHASH_QUERY } from '../Queries/GeoHash';
 import User, { CURRENT_USER_QUERY } from '../Queries/User';
 import _ from 'lodash';
 import { adopt } from 'react-adopt';
@@ -78,7 +77,6 @@ const Events = ({ classes, client }) => {
 	};
 
 	const handleCompleted = async stff => {
-		console.log(stff);
 		NProgress.done();
 		let { data, loading } = await client.query({
 			query: CURRENT_USER_QUERY

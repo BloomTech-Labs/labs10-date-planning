@@ -18,6 +18,9 @@ const Parallax = ({ classes, filter, className, children, style, small }) => {
 			setWindowScroll(0);
 		}
 		window.addEventListener('scroll', resetTransform);
+		return () => {
+			window.removeEventListener('scroll', resetTransform);
+		};
 	}, []);
 
 	const resetTransform = () => {

@@ -249,6 +249,7 @@ const Register = ({ classes }) => {
 													refetchQueries={[
 														{ query: CURRENT_USER_QUERY },
 													]}
+													awaitRefetchQueries
 													onError={error => {
 														NProgress.done();
 														setServerError(error);
