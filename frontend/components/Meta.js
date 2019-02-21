@@ -36,6 +36,6 @@ const Meta = () => (
 		{/* <link rel='stylesheet' type='text/css' href='/static/nprogress.css' /> */}
 		<title>Up 4</title>
 	</Head>
-);
+)
 
 export default Meta;
