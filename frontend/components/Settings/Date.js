@@ -32,7 +32,6 @@ const DateView = ({ date, classes, client }) => {
       }
     });
   };
-
   return (
     <GridItem sm={12} md={6} lg={6}>
       {console.log(date)}
