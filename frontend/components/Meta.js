@@ -12,6 +12,7 @@ const Meta = () => (
 		<script src='https://unpkg.com/nprogress@0.2.0/nprogress.js' />
 		<link rel='stylesheet' href='/static/nprogress.css' />
 		<link href='https://use.fontawesome.com/releases/v5.0.10/css/all.css' rel='stylesheet' />
+		<link href="https://fonts.googleapis.com/css?family=Baumans" rel="stylesheet" />
 		<link rel='apple-touch-icon' sizes='180x180' href='/static/icons/apple-touch-icon.png' />>
 		<link rel='icon' type='image/png' sizes='32x32' href='/static/icons/favicon-32x32.png' />
 		<link rel='icon' type='image/png' sizes='16x16' href='/static/icons/favicon-16x16.png' />
