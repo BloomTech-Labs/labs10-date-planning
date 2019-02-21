@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import posed from 'react-pose';
 import { render } from 'react-dom';
 
 const UpFor = () => {
+
+    const [hovering, setHovering] = useState(false);
+
     const Container = styled.div`
     font-family: 'Baumans';
     font-size: 220px;
@@ -25,20 +28,18 @@ const UpFor = () => {
     hovered: {transform: rotateY(180deg)}
     `
     
-    const SecondFour = styled.div`
+    const SecondFour = styled(MirroredFour)`
     color: #FF101F
     position: absolute;
     transform-origin: 67%;
     `
 
     
-    
-
     return (
-        <Container>        >
-            <Up>Up</Up><Fours><Four>4</Four><SecondFour pose={this.state.hovering ? "hovered" : "idle"}
-          onMouseEnter={() => this.setState({ hovering: true })}
-          onMouseLeave={() => this.setState({ hovering: false })}>4</SecondFour></Fours>
+        <Container>
+            <Up>Up</Up><Fours><Four>4</Four><SecondFour posed={hovering ? "hovered" : "idle"}
+          onMouseEnter={() => setHovering({ hovering: true })}
+          onMouseLeave={() => setHovering({ hovering: false })}>4</SecondFour></Fours>
         </Container>)
 }
 
