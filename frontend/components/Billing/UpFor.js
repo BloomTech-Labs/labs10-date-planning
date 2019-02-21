@@ -24,7 +24,6 @@ const UpFor = () => {
     display: flex;
     `
     const MirroredFour = posed.div({
-    hoverable: true,
     idle: {transform: 'rotateY(0deg)'},
     hovered: {transform: 'rotateY(180deg)'}
     })
@@ -38,7 +37,7 @@ const UpFor = () => {
     
     return (
         <Container>
-            <Up>Up</Up><Fours><Four>4</Four><SecondFour posed={hovering ? "hovered" : "idle"}
+            <Up>Up</Up><Fours><Four>4</Four><SecondFour pose={hovering ? "hovered" : "idle"}
           onMouseEnter={() => setHovering({ hovering: true })}
           onMouseLeave={() => setHovering({ hovering: false })}>4</SecondFour></Fours>
         </Container>)
