@@ -114,7 +114,7 @@ const Settings = ({ classes, theme }) => {
 					paper: classes.drawerPaper,
 				}}
 			>
-				<div className={classes.drawerHeader}>
+				<div className={classes.drawerHeader} style={{ marginTop: '70px' }}>
 					<IconButton onClick={() => setDrawerOpen()}>
 						{theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
 					</IconButton>
