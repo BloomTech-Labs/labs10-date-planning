@@ -1,6 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { withApollo, Mutation } from 'react-apollo';
 import moment from 'moment';
+import NProgress from 'nprogress';
 
 import { EVENT_QUERY } from '../Queries/Event';
 import { ADD_EVENT_MUTATION } from '../Mutations/addEvent';
@@ -14,31 +15,57 @@ import Button from '../../styledComponents/CustomButtons/Button';
 import Close from '@material-ui/icons/Close';
 import styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles.jsx';
 
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-
 import '../../styles/Home/EventModal.scss';
 
-const EventModal = ({ modal, showModal, classes, id, client }) => {
-	const [ event, setEvent ] = useState(undefined);
-	useEffect(
+const EventModal = ({ modal, showModal, classes, event, client }) => {
+	useState(
 		() => {
-			if (modal === true) {
-				getEvent();
-			} else {
-				setEvent(undefined);
-			}
+			console.log(event);
 		},
 		[ modal ],
 	);
+	//const [ event, setEvent ] = useState(undefined);
+	//const [ isShowing, setIsShowing ] = useState(false);
+	// useEffect(
+	// 	() => {
+	// 		if (modal === true) {
+	// 			NProgress.start();
+	// 			getEvent();
+	// 		} else {
+	// 			setEvent(undefined);
+	// 		}
+	// 	},
+	// 	[ modal ],
+	// );
 
-	const getEvent = async () => {
-		let { data } = await client.query({
-			query: EVENT_QUERY,
-			variables: { id },
-		});
-		console.log(data.getEvent);
-		setEvent(data.getEvent);
-	};
+	// useEffect(
+	// 	() => {
+	// 		if (event) {
+	// 			setIsShowing(true);
+	// 		}
+	// 	},
+	// 	[ event ],
+	// );
+
+	// useEffect(
+	// 	() => {
+	// 		if (!isShowing) {
+	// 			showModal(false);
+	// 		} else {
+	// 			NProgress.done();
+	// 		}
+	// 	},
+	// 	[ isShowing ],
+	// );
+
+	// const getEvent = async () => {
+	// 	let { data } = await client.query({
+	// 		query: EVENT_QUERY,
+	// 		variables: { id },
+	// 	});
+	// 	console.log(data.getEvent);
+	// 	setEvent(data.getEvent);
+	// };
 
 	const handleClick = async (e, addEvent) => {
 		e.stopPropagation();
@@ -57,8 +84,8 @@ const EventModal = ({ modal, showModal, classes, id, client }) => {
 	return (
 		<Mutation
 			mutation={ADD_EVENT_MUTATION}
-			variables={{ eventId: id }}
-			// refetchQueries={[{ query: CURRENT_USER_QUERY }]}
+			variables={{ eventId: event.id }}
+			refetchQueries={[ { query: CURRENT_USER_QUERY } ]}
 		>
 			{(addEvent, { error, loading, called }) => {
 				return (
@@ -110,9 +137,29 @@ const EventModal = ({ modal, showModal, classes, id, client }) => {
 									classes={{ root: 'dialogContent' }}
 									className={classes.modalBody}
 								>
-									<span className='date'>
-										{moment(event.times[0]).format('dddd, MMMM Do, h:mm a')}
-									</span>
+									<div className='date'>
+										{event.times.length > 2 ? (
+											<Fragment>
+												{moment(event.times[0]).format(
+													'ddd, MMMM Do, h:mm a',
+												)}{' '}
+												-{' '}
+												{moment(event.times[event.times.length - 1]).format(
+													'ddd, MMMM Do, h:mm a',
+												)}
+											</Fragment>
+										) : (
+											event.times.map((time, i) => (
+												<Fragment key={i}>
+													<div>
+														{moment(time).format(
+															'ddd, MMMM Do, h:mm a',
+														)}
+													</div>
+												</Fragment>
+											))
+										)}
+									</div>
 									{/* </div> */}
 									<img
 										style={{
@@ -121,7 +168,7 @@ const EventModal = ({ modal, showModal, classes, id, client }) => {
 											overflow: 'hidden',
 											width: '100%',
 										}}
-										src={event.image_url}
+										src={event.large_url}
 									/>
 									<div dangerouslySetInnerHTML={{ __html: event.description }} />
 
