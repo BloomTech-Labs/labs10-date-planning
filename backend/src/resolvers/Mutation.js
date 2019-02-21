@@ -372,7 +372,7 @@ const Mutation = {
 		const { userId } = request;
 		if (!userId) throw new Error('You must be signed in to add delete an event.');
 
-		const user = await db.mutation.updateUser(
+		return await db.mutation.updateUser(
 			{
 				where: { id: userId },
 				data: {
@@ -383,12 +383,8 @@ const Mutation = {
 					}
 				}
 			},
-			`{ permissions events { id } }`
+			info
 		);
-
-		return user.permissions[0] === 'FREE'
-			? { message: `You have used ${user.events.length} of your 5 free events` }
-			: { message: 'Event successfully removed!' };
 	}
 };
 

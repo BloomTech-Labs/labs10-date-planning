@@ -70,14 +70,12 @@ const Event = ({ event, classes, user }) => {
 				<div className={`${classes.stats} ${classes.mlAuto}`} style={{ display: 'block' }}>
 					{event.times.length > 2 ? (
 						<div>
-							{moment(event.times[0]).format('ddd, MMMM Do, h:mm a')} -{' '}
-							{moment(event.times[event.times.length - 1]).format(
-								'ddd, MMMM Do, h:mm a',
-							)}
+							{moment(event.times[0]).calendar()} -{' '}
+							{moment(event.times[event.times.length - 1]).calendar()}
 						</div>
 					) : (
 						event.times.map((time, i) => (
-							<div key={i}>{moment(time).format('ddd, MMMM Do, h:mm a')}</div>
+							<div key={i}>{moment(time).calendar()}</div>
 						))
 					)}
 				</div>
