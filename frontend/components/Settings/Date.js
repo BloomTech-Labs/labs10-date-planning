@@ -1,29 +1,30 @@
-import React, { useState } from 'react';
-import moment from 'moment';
-import { withApollo } from 'react-apollo';
-import gql from 'graphql-tag';
+import React, { useState } from "react";
+import moment from "moment";
+import { withApollo } from "react-apollo";
+import gql from "graphql-tag";
 //MUI
-import withStyles from '@material-ui/core/styles/withStyles';
+import withStyles from "@material-ui/core/styles/withStyles";
 //styled components
-import Card from '../../styledComponents/Card/Card';
-import CardHeader from '../../styledComponents/Card/CardHeader';
-import CardFooter from '../../styledComponents/Card/CardFooter';
-import CardBody from '../../styledComponents/Card/CardBody';
-import GridItem from '../../styledComponents/Grid/GridItem';
-import Button from '../../styledComponents/CustomButtons/Button.jsx';
+import Card from "../../styledComponents/Card/Card";
+import CardHeader from "../../styledComponents/Card/CardHeader";
+import CardFooter from "../../styledComponents/Card/CardFooter";
+import CardBody from "../../styledComponents/Card/CardBody";
+import GridItem from "../../styledComponents/Grid/GridItem";
+import Button from "../../styledComponents/CustomButtons/Button.jsx";
 //styles
-import CardStyles from '../../static/jss/material-kit-pro-react/views/componentsSections/sectionCards';
-import '../../styles/Settings/Date.scss';
+import CardStyles from "../../static/jss/material-kit-pro-react/views/componentsSections/sectionCards";
+import "../../styles/Settings/Date.scss";
 
 const DELETE_EVENT = gql`
-	mutation deleteEvent($eventId: String!) {
-		deleteEvent(eventId: $eventId) {
-			message
-		}
-	}
+  mutation deleteEvent($eventId: String!) {
+    deleteEvent(eventId: $eventId) {
+      message
+    }
+  }
 `;
 
 const DateView = ({ date, classes, client }) => {
+
 	const deleteEvent = async eventId => {
 		let { data, loading } = await client.mutate({
 			mutation: DELETE_EVENT,
@@ -91,6 +92,7 @@ const DateView = ({ date, classes, client }) => {
 			</Card>
 		</GridItem>
 	);
+
 };
 
 export default withApollo(withStyles(CardStyles)(DateView));
