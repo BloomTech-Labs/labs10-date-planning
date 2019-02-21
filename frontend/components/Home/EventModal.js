@@ -106,7 +106,9 @@ const EventModal = ({ modal, showModal, classes, event, client }) => {
 													/>
 												</Button>
 												<h4
-													style={{ fontWeight: 700 }}
+													style={{
+														fontWeight: 700,
+													}}
 													className={classes.modalTitle}
 												>
 													{event.title} {isSaved && <BookmarkBorder />}
