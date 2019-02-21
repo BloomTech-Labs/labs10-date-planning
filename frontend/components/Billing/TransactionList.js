@@ -1,37 +1,36 @@
 import React from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
+import moment from 'moment';
 
-const GET_USER_ORDER = gql`
-  query getUserOrder($userId: String!) {
-    getUserOrder(userId: $userId) {
-      id
-      total
-      charge
-      createdAt
-      subscription
+const INVOICES_LIST = gql`
+  query invoicesList($userStripeCustomerId: String!) {
+    invoicesList(userStripeCustomerId: $userStripeCustomerId) {
+      receipt_number,
+      amount_due,
+      amount_paid,
+      date,
+      hosted_invoice_url,
+      invoice_pdf
     }
   }
 `;
 
 const TransactionList = ({ currentUser }) => {
+  if (!currentUser.stripeCustomerId) return <div>EMPTY</div>
   return (
     <div>
       Transaction List: {currentUser.firstName}
-      <Query query={GET_USER_ORDER} variables={{
-        userId: currentUser.id
+      <Query query={INVOICES_LIST} variables={{
+        userStripeCustomerId: currentUser.stripeCustomerId
       }}>
-        {({ data: { getUserOrder } }) => {
+        {({ data: { invoicesList } }) => {
           return <div>
-            {getUserOrder.map(order => (
-              <div key={order.id}>
-                {
-                  order.charge.startsWith('https:') &&
-                  <a href={order.charge} target='_blank'>receipt</a>
-                }
-                {
-                  ` - ${order.createdAt} ${order.subscription} - Subscription`
-                }
+            {invoicesList && invoicesList.map((invoice,id) => (
+              <div key={id}>
+                {moment(Date(invoice.date)).format('MM-DD-YY') + ' '}
+                <a href={invoice.hosted_invoice_url} target='_blank'>receipt</a>
+                <a href={invoice.invoice_pdf}>pdf</a>
               </div>
             ))}
           </div>
@@ -42,4 +41,4 @@ const TransactionList = ({ currentUser }) => {
 };
 
 export default TransactionList;
-export { GET_USER_ORDER };
+export { INVOICES_LIST };
