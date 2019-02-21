@@ -44,7 +44,6 @@ const Billing = ({ classes, currentUser, client }) => {
 		let currentUser = await client.query({
 			query: CURRENT_USER_QUERY,
 		});
-		console.log(data);
 	};
 
 	return (
@@ -225,7 +224,6 @@ const Billing = ({ classes, currentUser, client }) => {
 								{currentSubs === 'YEARLY' ? (
 									<Button
 										onClick={() => {
-											console.log('cliked');
 											cancelSubscription();
 										}}
 									>

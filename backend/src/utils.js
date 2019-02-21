@@ -3,13 +3,12 @@ const axios = require('axios');
 
 module.exports = {
 	transformEvents: function(eventsArr) {
-		// maybe include seatmap?
 		return eventsArr.reduce((events, ev) => {
 			let existingEvent = events.findIndex(e => e.title === ev.name);
 			if (existingEvent !== -1) {
 				events[existingEvent].times.push(ev.dates.start.dateTime);
 			} else {
-				const eventImage = ev.images.filter(obj => {
+				const [eventImage] = ev.images.filter(obj => {
 					if (obj.ratio === '4_3') {
 						return obj.url;
 					}
@@ -19,30 +18,25 @@ module.exports = {
 					title: ev.name,
 					// I think we'll wanna add in each events url so we can make the date/time a clickable link since each event url is unique
 					url: ev.url,
-					image_url: eventImage[0].url,
-					times: [ ev.dates.start.dateTime ],
+					image_url: eventImage.url,
+					times: [ev.dates.start.dateTime],
 					genres: ev.classifications[0].genre && ev.classifications[0].genre.name,
 					info: ev.info || 'no info provided',
 					description: ev.pleaseNote || 'no notes included',
 					price: {
 						min: ev.priceRanges ? ev.priceRanges[0].min : 'min',
 						max: ev.priceRanges ? ev.priceRanges[0].max : 'max',
-						curr: ev.priceRanges ? ev.priceRanges[0].currency : 'USD',
+						curr: ev.priceRanges ? ev.priceRanges[0].currency : 'USD'
 					},
 					location: {
 						venue: ev._embedded.venues[0].name,
-						address:
-							ev._embedded.venues[0].address && ev._embedded.venues[0].address.line1,
+						address: ev._embedded.venues[0].address && ev._embedded.venues[0].address.line1,
 						city: ev._embedded.venues[0].city.name,
 						latLong: {
-							lat:
-								ev._embedded.venues[0].location &&
-								ev._embedded.venues[0].location.latitude,
-							long:
-								ev._embedded.venues[0].location &&
-								ev._embedded.venues[0].location.longitude,
-						},
-					},
+							lat: ev._embedded.venues[0].location && ev._embedded.venues[0].location.latitude,
+							long: ev._embedded.venues[0].location && ev._embedded.venues[0].location.longitude
+						}
+					}
 				});
 			}
 
@@ -54,29 +48,61 @@ module.exports = {
 		switch (dates) {
 			case 'this week':
 			case 'this week,this weekend':
-				start = moment().startOf('isoWeek').format();
-				end = moment().endOf('isoWeek').format();
+				start = moment()
+					.startOf('isoWeek')
+					.format();
+				end = moment()
+					.endOf('isoWeek')
+					.format();
 				break;
 			case 'this week,this weekend,next week':
 			case 'this week,next week':
-				start = moment().startOf('isoWeek').format();
-				end = moment().add(1, 'weeks').endOf('isoWeek').format();
+				start = moment()
+					.startOf('isoWeek')
+					.format();
+				end = moment()
+					.add(1, 'weeks')
+					.endOf('isoWeek')
+					.format();
 				break;
 			case 'this weekend,next week':
-				start = moment().endOf('isoWeek').subtract(3, 'days').format();
-				end = moment().add(1, 'weeks').endOf('isoWeek').format();
+				start = moment()
+					.endOf('isoWeek')
+					.subtract(3, 'days')
+					.format();
+				end = moment()
+					.add(1, 'weeks')
+					.endOf('isoWeek')
+					.format();
 				break;
 			case 'this weekend':
-				start = moment().endOf('isoWeek').subtract(3, 'days').format();
-				end = moment().endOf('isoWeek').format();
+				start = moment()
+					.endOf('isoWeek')
+					.subtract(3, 'days')
+					.format();
+				end = moment()
+					.endOf('isoWeek')
+					.format();
 				break;
 			case 'next week':
-				start = moment().add(1, 'weeks').startOf('isoWeek').format();
-				end = moment().add(1, 'weeks').endOf('isoWeek').format();
+				start = moment()
+					.add(1, 'weeks')
+					.startOf('isoWeek')
+					.format();
+				end = moment()
+					.add(1, 'weeks')
+					.endOf('isoWeek')
+					.format();
 				break;
 			default:
-				start = moment().add(1, 'day').startOf('day').format();
-				end = moment().add(1, 'day').endOf('day').format();
+				start = moment()
+					.add(1, 'day')
+					.startOf('day')
+					.format();
+				end = moment()
+					.add(1, 'day')
+					.endOf('day')
+					.format();
 				break;
 		}
 		return { start, end };
@@ -88,54 +114,60 @@ module.exports = {
 				return events;
 			case 'today':
 				date = moment().format('YYYY-MM-DD');
-				return events.filter(ev =>
-					ev.times.some(t => moment(t).format('YYYY-MM-DD') === date),
-				);
+				return events.filter(ev => ev.times.some(t => moment(t).format('YYYY-MM-DD') === date));
 			case 'this weekend':
-				start = moment().endOf('isoWeek').subtract(2, 'days').format('YYYY-MM-DD');
-				end = moment().endOf('isoWeek').format('YYYY-MM-DD');
+				start = moment()
+					.endOf('isoWeek')
+					.subtract(2, 'days')
+					.format('YYYY-MM-DD');
+				end = moment()
+					.endOf('isoWeek')
+					.format('YYYY-MM-DD');
 				return events.filter(ev =>
 					ev.times.some(
-						t =>
-							moment(t).format('YYYY-MM-DD') >= start &&
-							moment(t).format('YYYY-MM-DD') <= end,
-					),
+						t => moment(t).format('YYYY-MM-DD') >= start && moment(t).format('YYYY-MM-DD') <= end
+					)
 				);
 			case 'next week':
-				start = moment().add(1, 'weeks').startOf('isoWeek').format('YYYY-MM-DD');
-				end = moment().add(1, 'weeks').endOf('isoWeek').format('YYYY-MM-DD');
+				start = moment()
+					.add(1, 'weeks')
+					.startOf('isoWeek')
+					.format('YYYY-MM-DD');
+				end = moment()
+					.add(1, 'weeks')
+					.endOf('isoWeek')
+					.format('YYYY-MM-DD');
 				return events.filter(ev =>
 					ev.times.some(
-						t =>
-							moment(t).format('YYYY-MM-DD') >= start &&
-							moment(t).format('YYYY-MM-DD') <= end,
-					),
+						t => moment(t).format('YYYY-MM-DD') >= start && moment(t).format('YYYY-MM-DD') <= end
+					)
 				);
 			default:
-				date = moment(`${moment().format('YYYY')} ${dates}`, 'YYYY MMM DD').format(
-					'YYYY-MM-DD',
-				);
-				return events.filter(ev =>
-					ev.times.some(t => moment(t).format('YYYY-MM-DD') === date),
-				);
+				date = moment(`${moment().format('YYYY')} ${dates}`, 'YYYY MMM DD').format('YYYY-MM-DD');
+				return events.filter(ev => ev.times.some(t => moment(t).format('YYYY-MM-DD') === date));
 		}
 	},
 	fetchEvents: function(geoHash, cats, dates, page, size) {
 		if (dates) {
 			return axios.get(
-				`https://app.ticketmaster.com/discovery/v2/events.json?size=${size}&page=${page}&startDateTime=${dates.start}&endDateTime=${dates.end}&classificationId=${cats}&city=${geoHash}&apikey=${process
-					.env.TKTMSTR_KEY}`,
+				`https://app.ticketmaster.com/discovery/v2/events.json?size=${size}&page=${page}&startDateTime=${
+					dates.start
+				}&endDateTime=${dates.end}&classificationId=${cats}&city=${geoHash}&apikey=${
+					process.env.TKTMSTR_KEY
+				}`
 			);
 		}
 		return axios.get(
-			`https://app.ticketmaster.com/discovery/v2/events.json?size=${size}&page=${page}&classificationId=${cats}&city=${geoHash}&apikey=${process
-				.env.TKTMSTR_KEY}`,
+			`https://app.ticketmaster.com/discovery/v2/events.json?size=${size}&page=${page}&classificationId=${cats}&city=${geoHash}&apikey=${
+				process.env.TKTMSTR_KEY
+			}`
 		);
 	},
 	getEventImages: function(id) {
 		return axios.get(
-			`https://app.ticketmaster.com/discovery/v2/events/${id}/images.json?apikey=${process.env
-				.TKTMSTR_KEY}`,
+			`https://app.ticketmaster.com/discovery/v2/events/${id}/images.json?apikey=${
+				process.env.TKTMSTR_KEY
+			}`
 		);
 	},
 	async getUser(ctx) {
@@ -146,16 +178,16 @@ module.exports = {
 			return { id, admin };
 		}
 		return null;
-	},
-	async getGeoHash(city) {
-		const response = await axios(
-			`https://maps.googleapis.com/maps/api/geocode/json?address=${city}&key=${process.env
-				.GOOGLE_API_KEY}`,
-		);
-		let { lat, lng } = response.data.results[0].geometry.location;
+	}
+	// async getGeoHash(city) {
+	// 	const response = await axios(
+	// 		`https://maps.googleapis.com/maps/api/geocode/json?address=${city}&key=${process.env
+	// 			.GOOGLE_API_KEY}`,
+	// 	);
+	// 	let { lat, lng } = response.data.results[0].geometry.location;
 
-		const geoResponse = await axios(`http://geohash.org?q=${lat},${lng}&format=url`);
-		let geoHash = geoResponse.data.replace('http://geohash.org/', '').slice(0, 8);
-		return { geoHash };
-	},
+	// 	const geoResponse = await axios(`http://geohash.org?q=${lat},${lng}&format=url`);
+	// 	let geoHash = geoResponse.data.replace('http://geohash.org/', '').slice(0, 8);
+	// 	return { geoHash };
+	// },
 };
