@@ -117,26 +117,29 @@ const Mutation = {
 			subject: 'Your Password Reset Token',
 			html: formatEmail(`Your Password Reset Token is here!
 		  \n\n
-		  <a href="${process.env.FRONTEND_URL}/reset?resetToken=${resetToken}">Click Here to Reset</a>`)
-		});
-		// this is the SMTP Holden has setup that we can use to send emails once we go into production (have a hard cap of 100 emails/month though)
-		// const mailRes = await client.sendEmail({
-		// 	From: 'support@up4.life',
-		// 	To: `${user.email}`,
-		// 	Subject: 'Your Password Reset Token!',
-		// 	HtmlBody: makeANiceEmail(`Your Password Reset Token is here!
-		//   \n\n
-		//   <a href="${process.env.FRONTEND_URL}/reset?resetToken=${resetToken}">Click Here to Reset</a>`)
-		// });
-		return { message: 'Thanks!' };
-	},
-	async updateImage(parent, { thumbnail, image }, { db, response, request }, info) {
-		const user = await db.query.user({
-			where: { id: request.userId }
-		});
-		if (!user) {
-			throw new Error('You must be logged in!');
-		}
+		  <a href="${
+        process.env.FRONTEND_URL
+      }/reset?resetToken=${resetToken}">Click Here to Reset</a>`)
+    });
+    // this is the SMTP Holden has setup that we can use to send emails once we go into production (have a hard cap of 100 emails/month though)
+    // const mailRes = await client.sendEmail({
+    // 	From: 'support@up4.life',
+    // 	To: `${user.email}`,
+    // 	Subject: 'Your Password Reset Token!',
+    // 	HtmlBody: makeANiceEmail(`Your Password Reset Token is here!
+    //   \n\n
+    //   <a href="${process.env.FRONTEND_URL}/reset?resetToken=${resetToken}">Click Here to Reset</a>`)
+    // });
+    return { message: "Thanks!" };
+  },
+  async updateImage(
+    parent,
+    { thumbnail, image },
+    { db, response, request },
+    info
+  ) {
+    const { userId, user } = request;
+    if (!userId) throw new Error('You must be logged in!');
 
     return db.mutation.updateUser(
       {
