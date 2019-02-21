@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment } from 'react';
+import React, { useState, Fragment } from 'react';
 import gql from 'graphql-tag';
 import Router from 'next/router';
 import firebase from 'firebase/app';
@@ -24,10 +24,7 @@ import CardBody from '../../styledComponents/Card/CardBody';
 import CustomInput from '../../styledComponents/CustomInput/CustomInput';
 import ErrorModal from './ErrorModal';
 import Styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles';
-
 import { auth } from '../../utils/firebase';
-
-// import { auth } from '../../utils/firebaseProd';
 
 const LOGIN_USER = gql`
 	mutation LOGIN_USER($email: String!, $password: String!) {
@@ -39,7 +36,6 @@ const LOGIN_USER = gql`
 		}
 	}
 `;
-
 const FIREBASE_LOGIN = gql`
 	mutation FIREBASE_LOGIN($idToken: String!) {
 		firebaseAuth(idToken: $idToken) {
@@ -59,37 +55,16 @@ const Login = ({ classes }) => {
 	const [modalShowing, setModalShowing] = useState(false);
 	const [serverError, setServerError] = useState(undefined);
 
-	const googlePopup = async (e, firebaseAuth) => {
+	const firebaseLogin = async (e, company, loginMutation) => {
 		e.preventDefault();
+		let provider;
+		if (company === 'google') provider = new firebase.auth.GoogleAuthProvider();
+		if (company === 'facebook') provider = new firebase.auth.GoogleAuthProvider();
+		if (company === 'twitter') provider = new firebase.auth.GoogleAuthProvider();
 		try {
-			let provider = new firebase.auth.GoogleAuthProvider();
 			const complete = await auth.signInWithPopup(provider);
 			const idToken = await auth.currentUser.getIdToken(true);
-			const success = await firebaseAuth({ variables: { idToken } });
-			if (success.data) Router.push('/home');
-		} catch (err) {
-			console.log(err);
-		}
-	};
-	const fbookPopup = async (e, firebaseAuth) => {
-		e.preventDefault();
-		try {
-			let provider = new firebase.auth.FacebookAuthProvider();
-			const complete = await auth.signInWithPopup(provider);
-			const idToken = await auth.currentUser.getIdToken(true);
-			const success = await firebaseAuth({ variables: { idToken } });
-			if (success.data) Router.push('/home');
-		} catch (err) {
-			console.log(err);
-		}
-	};
-	const twitterPopup = async (e, firebaseAuth) => {
-		e.preventDefault();
-		try {
-			let provider = new firebase.auth.TwitterAuthProvider();
-			const complete = await auth.signInWithPopup(provider);
-			const idToken = await auth.currentUser.getIdToken(true);
-			const success = await firebaseAuth({ variables: { idToken } });
+			const success = await loginMutation({ variables: { idToken } });
 			if (success.data) Router.push('/home');
 		} catch (err) {
 			console.log(err);
@@ -104,7 +79,6 @@ const Login = ({ classes }) => {
 			awaitRefetchQueries
 		>
 			{(signin, { error, loading, called }) => {
-				console.log(error, loading, called);
 				return (
 					<Fragment>
 						<Button round onClick={() => setModalShowing(true)}>
@@ -116,7 +90,6 @@ const Login = ({ classes }) => {
 								paper: classes.modal + ' ' + classes.modalLogin
 							}}
 							open={modalShowing}
-							// TransitionComponent={Transition}
 							keepMounted
 							onClose={() => setModalShowing(false)}
 							aria-labelledby="signup-modal-slide-title"
@@ -133,7 +106,6 @@ const Login = ({ classes }) => {
 										color="primary"
 										className={`${classes.textCenter} ${classes.cardLoginHeader}`}
 									>
-										{' '}
 										<Button
 											simple
 											className={classes.modalCloseButton}
@@ -157,7 +129,7 @@ const Login = ({ classes }) => {
 																justIcon
 																link
 																className={classes.socialLineButton}
-																onClick={e => googlePopup(e, firebaseAuth)}
+																onClick={e => firebaseLogin(e, 'google', firebaseAuth)}
 															>
 																<i className="fab fa-google" />
 															</Button>
@@ -165,16 +137,15 @@ const Login = ({ classes }) => {
 																justIcon
 																link
 																className={classes.socialLineButton}
-																onClick={e => fbookPopup(e, firebaseAuth)}
+																onClick={e => firebaseLogin(e, 'facebook', firebaseAuth)}
 															>
 																<i className="fab fa-facebook-square" />
 															</Button>
-
 															<Button
 																justIcon
 																link
 																className={classes.socialLineButton}
-																onClick={e => twitterPopup(e, firebaseAuth)}
+																onClick={e => firebaseLogin(e, 'twitter', firebaseAuth)}
 															>
 																<i className="fab fa-twitter" />
 															</Button>
