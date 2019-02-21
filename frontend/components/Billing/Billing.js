@@ -24,9 +24,10 @@ import pricingStyle from '../../static/jss/material-kit-pro-react/views/sections
 import '../../styles/Billing/Billing.scss';
 
 const CANCEL_SUBSCRIPTION = gql`
-	mutation cancelSubscription {
-		cancelSubscription {
-			message
+	mutation cancelSubscription ($id: String!) {
+		cancelSubscription (id: $id) {
+			id,
+			permissions
 		}
 	}
 `;
@@ -37,9 +38,7 @@ const Billing = ({ classes, currentUser, client }) => {
 	const cancelSubscription = async () => {
 		let { data, loading } = await client.mutate({
 			mutation: CANCEL_SUBSCRIPTION,
-		});
-		let currentUser = await client.query({
-			query: CURRENT_USER_QUERY,
+			variables: {id: currentUser.id}
 		});
 	};
 
