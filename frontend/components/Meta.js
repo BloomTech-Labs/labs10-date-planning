@@ -21,6 +21,7 @@ const Meta = () => (
 		<meta name='msapplication-TileColor' content='#00aba9' />
 		<meta name='msapplication-config' content='/static/icons/browserconfig.xml' />
 		<meta name='theme-color' content='#ffffff' />>
+		<link href="https://fonts.googleapis.com/css?family=Baumans" rel="stylesheet" />
 		{/* <link rel='shortcut icon' href='/static/favicon.png' /> */}
 		{/* <link rel='stylesheet' type='text/css' href='/static/nprogress.css' /> */}
 		<title>Up 4</title>
