@@ -21,10 +21,11 @@ import styles from '../../static/jss/material-kit-pro-react/views/ecommerceSecti
 
 const Events = ({ classes, client }) => {
 	const [ page, setPage ] = useState(0);
-	const [ events, setEvents ] = useState(undefined);
+	const [ events, setEvents ] = useState({ events: [] });
 	const [ location, setLocation ] = useState(undefined);
 	const [ user, setUser ] = useState(undefined);
 	useEffect(() => {
+		console.log(events);
 		getUser();
 	}, []);
 
@@ -54,8 +55,14 @@ const Events = ({ classes, client }) => {
 			else setLocation('Los Angeles, CA');
 		}
 	};
-
+	useEffect(
+		() => {
+			console.log(events);
+		},
+		[ events.events ],
+	);
 	const getEvents = async variables => {
+		console.log(variables);
 		NProgress.start();
 		let { data, loading, error } = await client.query({
 			query: ALL_EVENTS_QUERY,
@@ -64,9 +71,12 @@ const Events = ({ classes, client }) => {
 
 		if (data.getEvents) NProgress.done();
 
-		let events = _.chunk(data.getEvents.events, 12);
-		console.log(events);
-		let newEvents = { ...data.getEvents, events: events };
+		let moarEvents = [ ..._.flatten(events.events), ...data.getEvents.events ];
+
+		let newEvents = {
+			...data.getEvents,
+			events: _.chunk(moarEvents, moarEvents.length / 3),
+		};
 
 		setEvents(newEvents);
 	};
@@ -90,15 +100,15 @@ const Events = ({ classes, client }) => {
 		}
 	};
 
-	const Composed = adopt({
-		user: ({ render }) => <User>{render}</User>,
-		allEvents: ({ render }) => <Query query={ALL_EVENTS_QUERY}>{render}</Query>,
-		updateLocation: ({ render }) => (
-			<Mutation mutation={UPDATE_LOCATION_MUTATION}>{render}</Mutation>
-		),
-	});
+	// const Composed = adopt({
+	// 	user: ({ render }) => <User>{render}</User>,
+	// 	allEvents: ({ render }) => <Query query={ALL_EVENTS_QUERY}>{render}</Query>,
+	// 	updateLocation: ({ render }) => (
+	// 		<Mutation mutation={UPDATE_LOCATION_MUTATION}>{render}</Mutation>
+	// 	),
+	// });
 
-	if (!events) return <div>loading</div>;
+	if (!events.events.length) return <div>loading</div>;
 	else
 		return (
 			<div className={classes.section} style={{ paddingTop: '40px' }}>
@@ -152,11 +162,7 @@ const Events = ({ classes, client }) => {
 											loadMore={loadMore}
 											hasMore={page < events.page_count}
 											threshold={400}
-											loader={
-												<div className='loader' key={0}>
-													Loading ...
-												</div>
-											}
+											loader={<div>loading..</div>}
 										>
 											{events.events[0].map(event => (
 												<Event event={event} key={event.id} />
