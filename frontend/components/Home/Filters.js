@@ -3,8 +3,16 @@ import Cached from '@material-ui/icons/Cached';
 import { MuiPickersUtilsProvider, DatePicker } from 'material-ui-pickers';
 import MomentUtils from '@date-io/moment';
 //MUI
-import { TextField, Checkbox, Tooltip, FormControlLabel } from '@material-ui/core';
-import { Check } from '@material-ui/icons';
+import {
+	TextField,
+	Checkbox,
+	Tooltip,
+	FormControlLabel,
+	ExpansionPanel,
+	ExpansionPanelSummary,
+	ExpansionPanelDetails,
+} from '@material-ui/core';
+import { Check, ExpandMore } from '@material-ui/icons';
 import withStyles from '@material-ui/core/styles/withStyles';
 //styled components
 import Accordion from '../../styledComponents/Accordion/Accordion.jsx';
@@ -14,6 +22,7 @@ import Button from '../../styledComponents/CustomButtons/Button';
 import CardBody from '../../styledComponents/Card/CardBody';
 import GridItem from '../../styledComponents/Grid/GridItem';
 //styles
+import accordionStyle from '../../static/jss/material-kit-pro-react/components/accordionStyle.jsx';
 import styles from '../../static/jss/material-kit-pro-react/views/ecommerceSections/productsStyle.jsx';
 
 const Filters = ({ classes, getEvents, location, page }) => {
@@ -99,36 +108,102 @@ const Filters = ({ classes, getEvents, location, page }) => {
 											classes.checkboxAndRadioHorizontal
 										}
 									>
-										<FormControlLabel
-											control={
-												<Checkbox
-													tabIndex={-1}
-													onClick={handleCategoryFilters}
-													checked={
-														categoryFilters.indexOf(
-															'KZFzniwnSyZfZ7v7nJ',
-														) !== -1 ? (
-															true
-														) : (
-															false
-														)
+										<ExpansionPanel
+											style={{ boxShadow: '0px 1px 3px 0px rgba(0,0,0,0.1)' }}
+										>
+											<ExpansionPanelSummary
+												expandIcon={<ExpandMore />}
+												style={{ padding: 0, margin: 0 }}
+												classes={{
+													root: `${classes.expansionPanelSummary} ${classes[
+														'primary' + 'ExpansionPanelSummary'
+													]}`,
+													expanded: `${classes.expansionPanelSummaryExpaned} ${classes[
+														'primary' + 'ExpansionPanelSummaryExpaned'
+													]}`,
+													content: classes.expansionPanelSummaryContent,
+													expandIcon:
+														classes.expansionPanelSummaryExpandIcon,
+												}}
+											>
+												<FormControlLabel
+													control={
+														<Checkbox
+															tabIndex={-1}
+															onClick={handleCategoryFilters}
+															checked={
+																categoryFilters.indexOf(
+																	'KZFzniwnSyZfZ7v7nJ',
+																) !== -1 ? (
+																	true
+																) : (
+																	false
+																)
+															}
+															id='KZFzniwnSyZfZ7v7nJ'
+															checkedIcon={
+																<Check
+																	className={classes.checkedIcon}
+																/>
+															}
+															icon={
+																<Check
+																	className={
+																		classes.uncheckedIcon
+																	}
+																/>
+															}
+															classes={{
+																checked: classes.checked,
+																root: classes.checkRoot,
+															}}
+														/>
 													}
-													id='KZFzniwnSyZfZ7v7nJ'
-													checkedIcon={
-														<Check className={classes.checkedIcon} />
-													}
-													icon={
-														<Check className={classes.uncheckedIcon} />
-													}
-													classes={{
-														checked: classes.checked,
-														root: classes.checkRoot,
-													}}
+													classes={{ label: classes.label }}
+													label='Music'
 												/>
-											}
-											classes={{ label: classes.label }}
-											label='Music'
-										/>
+											</ExpansionPanelSummary>
+											<ExpansionPanelDetails
+												style={{ paddingBottom: 0, paddingTop: 0 }}
+											>
+												<FormControlLabel
+													control={
+														<Checkbox
+															tabIndex={-1}
+															onClick={handleCategoryFilters}
+															checked={
+																categoryFilters.indexOf(
+																	'KZFzniwnSyZfZ7v7na',
+																) !== -1 ? (
+																	true
+																) : (
+																	false
+																)
+															}
+															id='KZFzniwnSyZfZ7v7na'
+															checkedIcon={
+																<Check
+																	className={classes.checkedIcon}
+																/>
+															}
+															icon={
+																<Check
+																	className={
+																		classes.uncheckedIcon
+																	}
+																/>
+															}
+															classes={{
+																checked: classes.checked,
+																root: classes.checkRoot,
+															}}
+														/>
+													}
+													classes={{ label: classes.label }}
+													label='Arts & Theatre'
+												/>
+											</ExpansionPanelDetails>
+										</ExpansionPanel>
 										<FormControlLabel
 											control={
 												<Checkbox
@@ -345,4 +420,4 @@ const Filters = ({ classes, getEvents, location, page }) => {
 	);
 };
 
-export default withStyles(styles)(Filters);
+export default withStyles({ ...styles, ...accordionStyle })(Filters);

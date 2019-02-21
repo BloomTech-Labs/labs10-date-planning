@@ -51,6 +51,7 @@ const EventModal = ({ modal, showModal, classes, event, client }) => {
 		<User>
 			{({ data }) => {
 				let isSaved = data.currentUser.events.find(e => e.eventfulID === event.id);
+				console.log(isSaved);
 				return (
 					<Mutation
 						mutation={ADD_EVENT_MUTATION}
@@ -103,7 +104,7 @@ const EventModal = ({ modal, showModal, classes, event, client }) => {
 													style={{ fontWeight: 700 }}
 													className={classes.modalTitle}
 												>
-													{event.title} <BookmarkBorder />
+													{event.title} {isSaved && <BookmarkBorder />}
 												</h4>
 											</DialogTitle>
 											<DialogContent
@@ -159,6 +160,7 @@ const EventModal = ({ modal, showModal, classes, event, client }) => {
 													) : (
 														'Add Event'
 													)}
+													{!isSaved && <BookmarkBorder />}
 												</Button>
 											</DialogContent>
 										</Fragment>

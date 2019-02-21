@@ -11,7 +11,6 @@ import User, { CURRENT_USER_QUERY } from '../Queries/User';
 //components
 import Header from '../Header';
 import Stripe from './Stripe';
-
 // styled components
 import GridContainer from '../../styledComponents/Grid/GridContainer.jsx';
 import GridItem from '../../styledComponents/Grid/GridItem.jsx';
@@ -22,11 +21,7 @@ import Button from '../../styledComponents/CustomButtons/Button.jsx';
 import img from '../../static/img/billingImage.jpg';
 //styles
 import pricingStyle from '../../static/jss/material-kit-pro-react/views/sectionsSections/pricingStyle.jsx';
-
-import { withApollo } from 'react-apollo';
-import gql from 'graphql-tag';
-
-import '../../styles/Billing/Billing.scss'
+import '../../styles/Billing/Billing.scss';
 
 const CANCEL_SUBSCRIPTION = gql`
 	mutation cancelSubscription {
