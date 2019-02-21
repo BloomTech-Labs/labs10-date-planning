@@ -81,7 +81,7 @@ const DateView = ({ date, classes, client }) => {
             ))}
           </div>
           <Button
-            className="button"
+            className="button2"
             onClick={() => {
               deleteEvent(date.id);
             }}

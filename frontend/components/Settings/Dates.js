@@ -8,6 +8,8 @@ import styles from "../../static/jss/material-kit-pro-react/views/ecommerceSecti
 import GridContainer from "../../styledComponents/Grid/GridContainer";
 import SnackbarContent from "../../styledComponents/Snackbar/SnackbarContent.jsx";
 
+import '../../styles/Settings/Snackbar.scss'
+
 const Dates = ({ classes }) => {
   return (
     <User>
@@ -15,10 +17,6 @@ const Dates = ({ classes }) => {
         console.log(currentUser.events, currentUser.permissions);
         return (
           <div style={{ marginLeft: "34px" }} className={classes.container}>
-            {/* <div>
-							<h2 style={{ textAlign: 'center' }}>Your Dates</h2>
-						</div> */}
-
             <GridContainer>
               {currentUser.events.length ? (
                 currentUser.events.map(date => (
@@ -46,7 +44,7 @@ const Dates = ({ classes }) => {
                       </b>
                     </div>
                     <Link href="/billing">
-                      <Button className="button">Go Premium?</Button>
+                      <Button className="Snackbar__button">Go Premium?</Button>
                     </Link>
                   </div>
                 }
