@@ -13,7 +13,7 @@ import Warning from '../../styledComponents/Typography/Warning';
 import CardStyles from '../../static/jss/material-kit-pro-react/views/componentsSections/sectionCards';
 
 const Event = ({ event, classes }) => {
-	const [ modal, showModal ] = useState(false);
+	const [modal, showModal] = useState(false);
 	event.times = event.times.sort((a, b) => {
 		let dateA = new Date(a);
 		let dateB = new Date(b);
@@ -23,14 +23,14 @@ const Event = ({ event, classes }) => {
 		<Card blog onClick={() => showModal(true)}>
 			{event.image_url && (
 				<CardHeader image>
-					<a href='#pablo' onClick={e => e.preventDefault()}>
-						<img src={event.image_url} alt='...' />
+					<a href="#pablo" onClick={e => e.preventDefault()}>
+						<img src={event.image_url} alt="..." />
 					</a>
 					<div
 						className={classes.coloredShadow}
 						style={{
 							backgroundImage: `url(${event.image_url})`,
-							opacity: '1',
+							opacity: '1'
 						}}
 					/>
 				</CardHeader>
@@ -40,18 +40,17 @@ const Event = ({ event, classes }) => {
 				<h6
 					style={{
 						// backgroundColor: '#b2ddf7',
-						backgroundImage:
-							'linear-gradient(to top, #8ad2ff, #94d5fd, #9fd8fb, #a8daf9, #b2ddf7)',
+						backgroundImage: 'linear-gradient(to top, #8ad2ff, #94d5fd, #9fd8fb, #a8daf9, #b2ddf7)',
 						color: '#fafafa',
 						borderRadius: '6px',
-						padding: '10px',
+						padding: '10px'
 					}}
 					className={classes.cardCategory}
 				>
 					{event.location.venue}
 				</h6>
 				<h4 className={classes.cardTitle}>
-					<a href='#pablo' onClick={e => e.preventDefault()}>
+					<a href="#pablo" onClick={e => e.preventDefault()}>
 						{event.title}
 					</a>
 				</h4>
@@ -61,9 +60,7 @@ const Event = ({ event, classes }) => {
 					{event.times.length > 2 ? (
 						<div>
 							{moment(event.times[0]).format('ddd, MMMM Do, h:mm a')} -{' '}
-							{moment(event.times[event.times.length - 1]).format(
-								'ddd, MMMM Do, h:mm a',
-							)}
+							{moment(event.times[event.times.length - 1]).format('ddd, MMMM Do, h:mm a')}
 						</div>
 					) : (
 						event.times.map((time, i) => (

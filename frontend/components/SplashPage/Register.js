@@ -37,7 +37,6 @@ import Styles from '../../static/jss/material-kit-pro-react/views/componentsSect
 
 import Terms from '../../components/SplashPage/Terms';
 import { auth } from '../../utils/firebase';
-// import { auth } from '../../utils/firebaseProd';
 
 const REGISTER_USER = gql`
 	mutation REGISTER_USER(
@@ -54,7 +53,6 @@ const REGISTER_USER = gql`
 		}
 	}
 `;
-
 const FIREBASE_SIGNUP = gql`
 	mutation FIREBASE_LOGIN($idToken: String!) {
 		firebaseAuth(idToken: $idToken) {
@@ -99,6 +97,7 @@ const Register = ({ classes }) => {
 
 	const firebaseSignup = async (e, firebaseAuth, company) => {
 		e.preventDefault();
+
 		try {
 			let provider;
 			switch (company) {
@@ -120,6 +119,7 @@ const Register = ({ classes }) => {
 		} catch (err) {
 			console.log(err);
 		}
+
 	};
 	const handleSubmit = async (e, signup) => {
 		e.preventDefault();

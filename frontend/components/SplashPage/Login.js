@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment } from 'react';
+import React, { useState, Fragment } from 'react';
 import gql from 'graphql-tag';
 import Router from 'next/router';
 import firebase from 'firebase/app';
@@ -25,10 +25,7 @@ import CardBody from '../../styledComponents/Card/CardBody';
 import CustomInput from '../../styledComponents/CustomInput/CustomInput';
 import ErrorModal from './ErrorModal';
 import Styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles';
-
 import { auth } from '../../utils/firebase';
-
-// import { auth } from '../../utils/firebaseProd';
 
 const LOGIN_USER = gql`
 	mutation LOGIN_USER($email: String!, $password: String!) {
@@ -40,7 +37,6 @@ const LOGIN_USER = gql`
 		}
 	}
 `;
-
 const FIREBASE_LOGIN = gql`
 	mutation FIREBASE_LOGIN($idToken: String!) {
 		firebaseAuth(idToken: $idToken) {
@@ -73,8 +69,8 @@ const Login = ({ classes }) => {
 		[ user.password ],
 	);
 	const firebaseLogin = async (e, firebaseAuth, company) => {
-		e.preventDefault();
-		try {
+    e.preventDefault();
+    try {
 			let provider;
 			switch (company) {
 				case 'google':
@@ -103,9 +99,12 @@ const Login = ({ classes }) => {
 			setError({ password: error.message.replace('GraphQL error: ', '') });
 		} else {
 			setServerError(error);
+
+		
 		}
 	};
 	return (
+
 		<Fragment>
 			<Button round onClick={() => setModalShowing(true)}>
 				Log In
@@ -132,6 +131,7 @@ const Login = ({ classes }) => {
 							plain
 							color='primary'
 							className={`${classes.textCenter} ${classes.cardLoginHeader}`}
+
 						>
 							<Button
 								simple
@@ -151,6 +151,7 @@ const Login = ({ classes }) => {
 									onError={handleError}
 									onCompleted={() => Router.push('/home')}
 								>
+
 									{(firebaseAuth, { called }) => {
 										if (called) NProgress.start();
 										return (
@@ -201,6 +202,7 @@ const Login = ({ classes }) => {
 						{(signin, { called }) => {
 							if (called) NProgress.start();
 							return (
+
 								<form
 									onSubmit={async e => {
 										e.preventDefault();
