@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import gql from 'graphql-tag';
 import Router from 'next/router';
 import firebase from 'firebase/app';
@@ -69,8 +69,8 @@ const Login = ({ classes }) => {
 		[ user.password ],
 	);
 	const firebaseLogin = async (e, firebaseAuth, company) => {
-    e.preventDefault();
-    try {
+		e.preventDefault();
+		try {
 			let provider;
 			switch (company) {
 				case 'google':
@@ -99,12 +99,9 @@ const Login = ({ classes }) => {
 			setError({ password: error.message.replace('GraphQL error: ', '') });
 		} else {
 			setServerError(error);
-
-		
 		}
 	};
 	return (
-
 		<Fragment>
 			<Button round onClick={() => setModalShowing(true)}>
 				Log In
@@ -131,7 +128,6 @@ const Login = ({ classes }) => {
 							plain
 							color='primary'
 							className={`${classes.textCenter} ${classes.cardLoginHeader}`}
-
 						>
 							<Button
 								simple
@@ -151,7 +147,6 @@ const Login = ({ classes }) => {
 									onError={handleError}
 									onCompleted={() => Router.push('/home')}
 								>
-
 									{(firebaseAuth, { called }) => {
 										if (called) NProgress.start();
 										return (
@@ -202,7 +197,6 @@ const Login = ({ classes }) => {
 						{(signin, { called }) => {
 							if (called) NProgress.start();
 							return (
-
 								<form
 									onSubmit={async e => {
 										e.preventDefault();
