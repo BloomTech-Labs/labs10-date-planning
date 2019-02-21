@@ -27,6 +27,7 @@ const Events = ({ classes, client }) => {
 	const [ page, setPage ] = useState(0);
 	const [ events, setEvents ] = useState({ events: [] });
 	const [ location, setLocation ] = useState(undefined);
+
 	const [ user, setUser ] = useState(undefined);
 	useEffect(() => {
 		getUser();
@@ -47,6 +48,7 @@ const Events = ({ classes, client }) => {
 		},
 		[ location ],
 	);
+
 	const getUser = async () => {
 		let { data, loading } = await client.query({
 			query: CURRENT_USER_QUERY,
@@ -59,6 +61,16 @@ const Events = ({ classes, client }) => {
 		}
 	};
 
+	const fetchEvents = async variables => {
+		NProgress.start();
+		let { data, error } = await client.query({
+			query: ALL_EVENTS_QUERY,
+			variables: variables,
+		});
+		if (data || error) NProgress.done();
+		return data.getEvents;
+	};
+
 	const getEvents = async variables => {
 		let newEvents = await fetchEvents(variables);
 
@@ -68,16 +80,6 @@ const Events = ({ classes, client }) => {
 		};
 
 		setEvents(events);
-	};
-
-	const fetchEvents = async variables => {
-		NProgress.start();
-		let { data, loading, error } = await client.query({
-			query: ALL_EVENTS_QUERY,
-			variables: variables,
-		});
-		if (data.getEvents) NProgress.done();
-		return data.getEvents;
 	};
 
 	const loadMore = async page => {
@@ -96,11 +98,12 @@ const Events = ({ classes, client }) => {
 		}
 	};
 
-	const handleCompleted = async stff => {
-		NProgress.done();
-		let { data, loading } = await client.query({
+	const handleCompleted = async () => {
+		let { data, error } = await client.query({
 			query: CURRENT_USER_QUERY,
 		});
+		if (data || error) NProgress.done();
+
 		if (data.currentUser) {
 			setUser(data.currentUser);
 		}
