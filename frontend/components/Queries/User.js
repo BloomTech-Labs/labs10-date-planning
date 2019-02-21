@@ -17,10 +17,12 @@ const CURRENT_USER_QUERY = gql`
 			permissions
 			events {
 				id
+				eventfulID
 				title
 				description
 				url
 				image_url
+				large_url
 				times
 			}
 			stripeCustomerId

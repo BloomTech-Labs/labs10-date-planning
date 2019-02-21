@@ -8,7 +8,7 @@ const {
 	createUserToken,
 	verifyIdToken,
 	getUserRecord,
-	setUserClaims
+	setUserClaims,
 } = require('../firebase/firebase');
 
 const Mutation = {
@@ -24,51 +24,51 @@ const Mutation = {
 				data: {
 					...args,
 					password,
-					permissions: { set: ['FREE'] } // default permission for user is FREE tier
-				}
+					permissions: { set: [ 'FREE' ] }, // default permission for user is FREE tier
+				},
 			},
-			info
+			info,
 		);
 		const token = await jwt.sign({ userId: user.id }, process.env.APP_SECRET);
 		// adding that token to the cookie bc its neighborly
 		response.cookie('token', token, {
 			httpOnly: true,
-			maxAge: 1000 * 60 * 60 * 24 * 365 // 1 year cookie
+			maxAge: 1000 * 60 * 60 * 24 * 365, // 1 year cookie
 		});
 
-    return user;
-  },
-  async firebaseAuth(parent, args, ctx, info) {
-    const { uid, email, user_id } = await verifyIdToken(args.idToken);
-    console.log(email)
-    const firebaseUser = await getUserRecord(uid);
-    const { displayName } = firebaseUser;
-    // check to see if user already exists in our db
-    let user = await ctx.db.query.user({
-      where: { email: email ? email : user_id }
-    });
-    if (!user) {
-      user = await ctx.db.mutation.createUser(
-        {
-          data: {
-            firstName: displayName,
-            email: email || user_id,
-            password: "firebaseAuth",
-            lastName: "",
-            permissions: {
-              set: ['FREE']
-            }
-          },
-        },
-        `{id firstName email}`
-      );
-      await setUserClaims(uid, { id: user.id, admin: false });
-    }
-    const token = await createUserToken(args, ctx);
-    ctx.response.cookie("userId", user.id, {
-      httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24 * 365 // 1 year long cookie bc why not. FIGHT ME
-    });
+		return user;
+	},
+	async firebaseAuth(parent, args, ctx, info) {
+		const { uid, email, user_id } = await verifyIdToken(args.idToken);
+		console.log(email);
+		const firebaseUser = await getUserRecord(uid);
+		const { displayName } = firebaseUser;
+		// check to see if user already exists in our db
+		let user = await ctx.db.query.user({
+			where: { email: email ? email : user_id },
+		});
+		if (!user) {
+			user = await ctx.db.mutation.createUser(
+				{
+					data: {
+						firstName: displayName,
+						email: email || user_id,
+						password: 'firebaseAuth',
+						lastName: '',
+						permissions: {
+							set: [ 'FREE' ],
+						},
+					},
+				},
+				`{id firstName email}`,
+			);
+			await setUserClaims(uid, { id: user.id, admin: false });
+		}
+		const token = await createUserToken(args, ctx);
+		ctx.response.cookie('userId', user.id, {
+			httpOnly: true,
+			maxAge: 1000 * 60 * 60 * 24 * 365, // 1 year long cookie bc why not. FIGHT ME
+		});
 
 		return { token, user };
 	},
@@ -85,7 +85,7 @@ const Mutation = {
 		// attach token to cookie even if that seems kinda obvious
 		response.cookie('token', token, {
 			httpOnly: true,
-			maxAge: 1000 * 60 * 60 * 24 * 365 // 1 year long cookie bc why not. FIGHT ME
+			maxAge: 1000 * 60 * 60 * 24 * 365, // 1 year long cookie bc why not. FIGHT ME
 		});
 
 		return user;
@@ -108,7 +108,7 @@ const Mutation = {
 		const resetTokenExpiry = Date.now() + 3600000; // 1 hr from now
 		const res = await db.mutation.updateUser({
 			where: { email: args.email },
-			data: { resetToken, resetTokenExpiry }
+			data: { resetToken, resetTokenExpiry },
 		});
 		console.log(res); // just to check and make sure the resetToken and expiry are getting set
 		const mailRes = await transport.sendMail({
@@ -117,107 +117,100 @@ const Mutation = {
 			subject: 'Your Password Reset Token',
 			html: formatEmail(`Your Password Reset Token is here!
 		  \n\n
-		  <a href="${
-        process.env.FRONTEND_URL
-      }/reset?resetToken=${resetToken}">Click Here to Reset</a>`)
-    });
-    // this is the SMTP Holden has setup that we can use to send emails once we go into production (have a hard cap of 100 emails/month though)
-    // const mailRes = await client.sendEmail({
-    // 	From: 'support@up4.life',
-    // 	To: `${user.email}`,
-    // 	Subject: 'Your Password Reset Token!',
-    // 	HtmlBody: makeANiceEmail(`Your Password Reset Token is here!
-    //   \n\n
-    //   <a href="${process.env.FRONTEND_URL}/reset?resetToken=${resetToken}">Click Here to Reset</a>`)
-    // });
-    return { message: "Thanks!" };
-  },
-  async updateImage(
-    parent,
-    { thumbnail, image },
-    { db, response, request },
-    info
-  ) {
-    const { userId, user } = request;
-    if (!userId) throw new Error('You must be logged in!');
+		  <a href="${process.env.FRONTEND_URL}/reset?resetToken=${resetToken}">Click Here to Reset</a>`),
+		});
+		// this is the SMTP Holden has setup that we can use to send emails once we go into production (have a hard cap of 100 emails/month though)
+		// const mailRes = await client.sendEmail({
+		// 	From: 'support@up4.life',
+		// 	To: `${user.email}`,
+		// 	Subject: 'Your Password Reset Token!',
+		// 	HtmlBody: makeANiceEmail(`Your Password Reset Token is here!
+		//   \n\n
+		//   <a href="${process.env.FRONTEND_URL}/reset?resetToken=${resetToken}">Click Here to Reset</a>`)
+		// });
+		return { message: 'Thanks!' };
+	},
+	async updateImage(parent, { thumbnail, image }, { db, response, request }, info) {
+		const { userId, user } = request;
+		if (!userId) throw new Error('You must be logged in!');
 
-    return db.mutation.updateUser(
-      {
-        where: {
-          id: user.id
-        },
-        data: {
-          imageThumbnail: thumbnail,
-          imageLarge: image
-        }
-      },
-      info
-    );
-  },
+		return db.mutation.updateUser(
+			{
+				where: {
+					id: user.id,
+				},
+				data: {
+					imageThumbnail: thumbnail,
+					imageLarge: image,
+				},
+			},
+			info,
+		);
+	},
 
-  async updateLocation(parent, { city }, { db, request }, info) {
-    const { userId, user } = request;
-    if (!userId) throw new Error("You must be logged in!");
+	async updateLocation(parent, { city }, { db, request }, info) {
+		const { userId, user } = request;
+		if (!userId) throw new Error('You must be logged in!');
 
-    return db.mutation.updateUser(
-      {
-        where: {
-          id: user.id
-        },
-        data: {
-          location: city
-        }
-      },
-      info
-    );
-  },
-  async resetPassword(parent, args, { db, response }, info) {
-    if (args.password !== args.confirmPassword) {
-      throw new Error("Passwords must match!");
-    }
-    const [user] = await db.query.users({
-      where: {
-        resetToken: args.resetToken,
-        resetTokenExpiry_gte: Date.now() - 3600000 // make sure reset Token is still within 1hr time limit
-      }
-    });
-    if (!user) {
-      throw new Error("This token is either invalid or expired");
-    }
-    const password = await bcrypt.hash(args.password, 10);
-    // removed token and expiry fields from user once updated
-    const updatedUser = await db.mutation.updateUser({
-      where: { email: user.email },
-      data: {
-        password,
-        resetToken: null,
-        resetTokenExpiry: null
-      }
-    });
-    const token = jwt.sign({ userId: updatedUser.id }, process.env.APP_SECRET);
-    // put new token onto cookie bc i said so
-    response.cookie("token", token, {
-      httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24 * 365
-    });
-    return updatedUser;
-  },
-  async createOrder(parent, args, ctx, info) {
+		return db.mutation.updateUser(
+			{
+				where: {
+					id: user.id,
+				},
+				data: {
+					location: city,
+				},
+			},
+			info,
+		);
+	},
+	async resetPassword(parent, args, { db, response }, info) {
+		if (args.password !== args.confirmPassword) {
+			throw new Error('Passwords must match!');
+		}
+		const [ user ] = await db.query.users({
+			where: {
+				resetToken: args.resetToken,
+				resetTokenExpiry_gte: Date.now() - 3600000, // make sure reset Token is still within 1hr time limit
+			},
+		});
+		if (!user) {
+			throw new Error('This token is either invalid or expired');
+		}
+		const password = await bcrypt.hash(args.password, 10);
+		// removed token and expiry fields from user once updated
+		const updatedUser = await db.mutation.updateUser({
+			where: { email: user.email },
+			data: {
+				password,
+				resetToken: null,
+				resetTokenExpiry: null,
+			},
+		});
+		const token = jwt.sign({ userId: updatedUser.id }, process.env.APP_SECRET);
+		// put new token onto cookie bc i said so
+		response.cookie('token', token, {
+			httpOnly: true,
+			maxAge: 1000 * 60 * 60 * 24 * 365,
+		});
+		return updatedUser;
+	},
+	async createOrder(parent, args, ctx, info) {
 		// Check user's login status
-    const { userId, user } = ctx.request;
+		const { userId, user } = ctx.request;
 		if (!userId) throw new Error('You must be signed in to complete this order.');
 
 		// Check user's subscription status
-    if (user.permissions[0] === args.subscription) {
-      throw new Error(`User already has ${args.subscription} subscription`);
-    }
+		if (user.permissions[0] === args.subscription) {
+			throw new Error(`User already has ${args.subscription} subscription`);
+		}
 
 		// Create new stripe customer if user is not one already
 		let customer;
 		if (!user.stripeCustomerId) {
 			customer = await stripe.customers.create({
 				email: user.email,
-				source: args.token
+				source: args.token,
 			});
 		}
 
@@ -226,38 +219,48 @@ const Mutation = {
 		if (!user.stripeSubscriptionId) {
 			subscription = await stripe.subscriptions.create({
 				customer: user.stripeCustomerId || customer.id,
-				items: [{
-					plan: user.subscription === 'MONTHLY' ? 'plan_EYPPZzmOjy3P3I' : 'plan_EYPg6RkTFwJFRA'
-				}]
-			})
+				items: [
+					{
+						plan:
+							user.subscription === 'MONTHLY'
+								? 'plan_EYPPZzmOjy3P3I'
+								: 'plan_EYPg6RkTFwJFRA',
+					},
+				],
+			});
 		} else {
 			subscription = await stripe.subscriptions.retrieve(user.stripeSubscriptionId);
 			await stripe.subscriptions.update(user.stripeSubscriptionId, {
 				cancel_at_period_end: false,
-				items: [{
-					id: subscription.items.data[0].id,
-					plan: args.subscription === 'MONTHLY' ? 'plan_EYPPZzmOjy3P3I' : 'plan_EYPg6RkTFwJFRA'
-				}]
-			})
+				items: [
+					{
+						id: subscription.items.data[0].id,
+						plan:
+							args.subscription === 'MONTHLY'
+								? 'plan_EYPPZzmOjy3P3I'
+								: 'plan_EYPg6RkTFwJFRA',
+					},
+				],
+			});
 		}
 
 		// Update user's permission type
 		ctx.db.mutation.updateUser({
 			data: {
 				permissions: {
-					set: [args.subscription]
+					set: [ args.subscription ],
 				},
-				stripeSubscriptionId: subscription? subscription.id : user.stripeSubscriptionId,
-				stripeCustomerId: customer? customer.id : user.stripeCustomerId,
+				stripeSubscriptionId: subscription ? subscription.id : user.stripeSubscriptionId,
+				stripeCustomerId: customer ? customer.id : user.stripeCustomerId,
 			},
 			where: {
-				id: user.id
-			}
+				id: user.id,
+			},
 		});
 
-    return {
-      message: 'Thank You'
-    };
+		return {
+			message: 'Thank You',
+		};
 	},
 	async cancelSubscription(parent, args, ctx, info) {
 		// Check user's login status
@@ -270,24 +273,24 @@ const Mutation = {
 
 		const canceled = await stripe.subscriptions.del(user.stripeSubscriptionId, {
 			invoice_now: true,
-			prorate: true
+			prorate: true,
 		});
 
 		// Update user's permission type
 		ctx.db.mutation.updateUser({
 			data: {
 				permissions: {
-					set: ['FREE']
+					set: [ 'FREE' ],
 				},
-				stripeSubscriptionId: null
+				stripeSubscriptionId: null,
 			},
 			where: {
-				id: user.id
-			}
+				id: user.id,
+			},
 		});
 
 		return {
-			message: `Your subscription has been ${canceled.status} at the end of the billing period`
+			message: `Your subscription has been ${canceled.status} at the end of the billing period`,
 		};
 	},
 	async internalPasswordReset(parent, args, { db, request, response }, info) {
@@ -296,7 +299,7 @@ const Mutation = {
 		}
 		// check to make sure user is logged in
 		const user = await db.query.user({
-			where: { id: request.userId }
+			where: { id: request.userId },
 		});
 		if (!user) {
 			throw new Error('You must be logged in!');
@@ -309,90 +312,92 @@ const Mutation = {
 		const updatedUser = await db.mutation.updateUser({
 			where: { id: user.id },
 			data: {
-				password: newPassword
-			}
+				password: newPassword,
+			},
 		});
 		const token = jwt.sign({ userId: updatedUser.id }, process.env.APP_SECRET);
 		// put new token onto cookie so that any other session opened with previous pass is no invalidated
 		response.cookie('token', token, {
 			httpOnly: true,
-			maxAge: 1000 * 60 * 60 * 24 * 365
+			maxAge: 1000 * 60 * 60 * 24 * 365,
 		});
 		return updatedUser;
 	},
-  async addEvent(parent, args, { db, request }, info) {
-    const { userId, user } = request;
-    if (!userId) throw new Error('You must be signed in to add an event.');
+	async addEvent(parent, args, { db, request }, info) {
+		const { userId, user } = request;
+		if (!userId) throw new Error('You must be signed in to add an event.');
 
-    if (user.permissions[0] === 'FREE' && user.events.length === 5) {
-      throw new Error('You have reached the free tier limit');
-    }
+		if (user.permissions[0] === 'FREE' && user.events.length === 5) {
+			throw new Error('You have reached the free tier limit');
+		}
 
-    const { data } = await axios.get(
-      `https://app.ticketmaster.com/discovery/v2/events/${args.eventId}.json?apikey=${
-        process.env.TKTMSTR_KEY
-      }`
-    );
+		const { data } = await axios.get(
+			`https://app.ticketmaster.com/discovery/v2/events/${args.eventId}.json?apikey=${process
+				.env.TKTMSTR_KEY}`,
+		);
+		console.log(data);
 
-    const [alreadySaved] = user.events.filter(event => event.eventfulID === data.id);
-    if (alreadySaved) {
-      throw new Error("You've already saved that event!");
-    }
+		const [ alreadySaved ] = user.events.filter(event => event.eventfulID === data.id);
+		if (alreadySaved) {
+			throw new Error("You've already saved that event!");
+		}
 
-    const [img] = data.images.filter(img => img.ratio === '4_3');
-    await db.mutation.upsertEvent({
-      where: {
-        eventfulID: data.id
-      },
-      update: {
-        attending: {
-          connect: {
-            id: user.id
-          }
-        }
-      },
-      create: {
-        eventfulID: data.id,
-        title: data.name,
-        url: data.url,
-        location: data._embedded.venues[0].name,
-        description: data.info,
-        times: { set: [data.dates.start.dateTime] },
-        image_url: img.url,
-        attending: {
-          connect: {
-            id: user.id
-          }
-        }
-      }
-    });
+		const [ img ] = data.images.filter(img => img.width > 600);
 
-    return user.permissions[0] === 'FREE'
-      ? { message: `You have used ${user.events.length + 1} of your 5 free events` }
-      : { message: 'Event successfully added!' };
-  },
-  async deleteEvent(parent, args, { db, request }, info) {
-    const { userId } = request;
-    if (!userId) throw new Error('You must be signed in to add delete an event.');
+		await db.mutation.upsertEvent({
+			where: {
+				eventfulID: data.id,
+			},
+			update: {
+				attending: {
+					connect: {
+						id: user.id,
+					},
+				},
+			},
+			create: {
+				eventfulID: data.id,
+				title: data.name,
+				url: data.url,
+				location: data._embedded.venues[0].name,
+				description: data.info,
+				times: { set: [ data.dates.start.dateTime ] },
+				image_url: img.url,
 
-    const user = await db.mutation.updateUser(
-      {
-        where: { id: userId },
-        data: {
-          events: {
-            disconnect: {
-              id: args.eventId // remove event from user's events and remove user from event's attending
-            }
-          }
-        }
-      },
-      `{ permissions events { id } }`
-    )
+				attending: {
+					connect: {
+						id: user.id,
+					},
+				},
+			},
+		});
 
-    return user.permissions[0] === 'FREE'
-      ? { message: `You have used ${user.events.length} of your 5 free events` }
-      : { message: 'Event successfully removed!' };
-  }
+		return user.permissions[0] === 'FREE'
+			? { message: `You have used ${user.events.length + 1} of your 5 free events` }
+			: { message: 'Event successfully added!' };
+	},
+	async deleteEvent(parent, args, { db, request }, info) {
+		const { userId } = request;
+		if (!userId) throw new Error('You must be signed in to add delete an event.');
+
+		const user = await db.mutation.updateUser(
+			{
+				where: { id: userId },
+				data: {
+					events: {
+						disconnect: {
+							id: args.eventId, // remove event from user's events and remove user from event's attending
+						},
+					},
+				},
+			},
+			`{ permissions events { id } }`,
+		);
+
+		return user.permissions[0] === 'FREE'
+			? { message: `You have used ${user.events.length} of your 5 free events` }
+			: { message: 'Event successfully removed!' };
+	},
 };
 
 module.exports = Mutation;

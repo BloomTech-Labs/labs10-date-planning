@@ -65,6 +65,7 @@ type Event {
 	attending: [User!]!
 	location: LocationInfo
 	image_url: String
+	large_url: String
 	price: PriceRange
 	notes: String
 	genre: String

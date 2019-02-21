@@ -4,7 +4,7 @@ import moment from 'moment';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import withStyles from '@material-ui/core/styles/withStyles';
-
+import { CURRENT_USER_QUERY } from '../Queries/User';
 import AddIcon from '@material-ui/icons/Add';
 import Card from '../../styledComponents/Card/Card';
 import CardHeader from '../../styledComponents/Card/CardHeader';
@@ -26,9 +26,11 @@ const DELETE_EVENT = gql`
 `;
 
 const DateView = ({ date, classes, client }) => {
+	console.log(date);
 	const deleteEvent = async eventId => {
 		let { data, loading } = await client.mutate({
 			mutation: DELETE_EVENT,
+			refetchQueries: [ { query: CURRENT_USER_QUERY } ],
 			variables: {
 				eventId,
 			},
@@ -42,7 +44,7 @@ const DateView = ({ date, classes, client }) => {
 				{date.url && (
 					<CardHeader image>
 						<a href='#pablo' onClick={e => e.preventDefault()}>
-							<img src={date.url} alt='...' />
+							<img src={date.image_url} alt='...' />
 						</a>
 						<div
 							className={classes.coloredShadow}
