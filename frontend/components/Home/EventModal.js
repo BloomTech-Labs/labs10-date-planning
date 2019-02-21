@@ -7,7 +7,7 @@ import User from '../Queries/User';
 import { EVENT_QUERY } from '../Queries/Event';
 import { ADD_EVENT_MUTATION } from '../Mutations/addEvent';
 import { CURRENT_USER_QUERY } from '../Queries/User';
-
+import BookMark from '@material-ui/icons/BookmarkBorder';
 import withStyles from '@material-ui/core/styles/withStyles';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
@@ -108,7 +108,7 @@ const EventModal = ({ modal, showModal, classes, event, client }) => {
 													style={{ fontWeight: 700 }}
 													className={classes.modalTitle}
 												>
-													{event.title}
+													{event.title} <BookMark />
 												</h4>
 											</DialogTitle>
 											<DialogContent

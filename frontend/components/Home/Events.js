@@ -108,7 +108,7 @@ const Events = ({ classes, client }) => {
 	// 	),
 	// });
 
-	if (!events.events.length) return <div>loading</div>;
+	if (!events.events.length) return <div />;
 	else
 		return (
 			<div className={classes.section} style={{ paddingTop: '40px' }}>
