@@ -1,0 +1,21 @@
+.fileinput {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+
+  img {
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  button {
+    background-image: linear-gradient(
+      to top,
+      #b893b3,
+      #bd9db8,
+      #c1a6be,
+      #c6b0c3,
+      #cabac8
+    ) !important;
+  }
+}
