@@ -29,7 +29,7 @@ const UpFor = () => {
     })
     
     const SecondFour = styled(MirroredFour)`
-    color: #FF101F
+    color: #FF101F;
     position: absolute;
     transform-origin: 67%;
     `
