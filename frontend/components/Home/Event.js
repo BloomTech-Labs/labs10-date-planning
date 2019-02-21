@@ -8,10 +8,12 @@ import Card from '../../styledComponents/Card/Card';
 import CardHeader from '../../styledComponents/Card/CardHeader';
 import CardFooter from '../../styledComponents/Card/CardFooter';
 import CardBody from '../../styledComponents/Card/CardBody';
-import BookMark from '@material-ui/icons/BookmarkBorder';
+import BookMark from '@material-ui/icons/Bookmark';
 import Warning from '../../styledComponents/Typography/Warning';
 
 import CardStyles from '../../static/jss/material-kit-pro-react/views/componentsSections/sectionCards';
+
+import '../../styles/Home/Event.scss';
 
 const Event = ({ event, classes, user }) => {
 	const [ modal, showModal ] = useState(false);
@@ -61,7 +63,7 @@ const Event = ({ event, classes, user }) => {
 				</h4>
 			</CardBody>
 			<CardFooter>
-				{isSaved && <BookMark style={{ position: 'absolute', left: 0, bottom: 0 }} />}
+				{isSaved && <BookMark className='Event__bookmark'  />}
 				<div className={`${classes.stats} ${classes.mlAuto}`} style={{ display: 'block' }}>
 					{event.times.length > 2 ? (
 						<div>
