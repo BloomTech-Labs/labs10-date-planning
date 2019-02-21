@@ -15,6 +15,7 @@ import {
 	FormControlLabel,
 	ButtonBase,
 	IconButton,
+	Icon,
 } from '@material-ui/core';
 import {
 	Visibility,
@@ -22,7 +23,6 @@ import {
 	MusicNote,
 	Restaurant,
 	Face,
-	Icon,
 	Email,
 	Check,
 	Close,

@@ -14,8 +14,9 @@ import {
 	DialogTitle,
 	DialogContent,
 	IconButton,
+	Icon,
 } from '@material-ui/core';
-import { Visibility, VisibilityOff, Mail, Icon, Close } from '@material-ui/icons';
+import { Visibility, VisibilityOff, Mail, Close } from '@material-ui/icons';
 //components
 import ErrorModal from './ErrorModal';
 //styled components

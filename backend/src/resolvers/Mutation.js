@@ -358,11 +358,7 @@ const Mutation = {
 				eventfulID: data.id,
 				title: data.name,
 				url: data.url,
-				location: {
-					venue: data._embedded.venues[0].name,
-					address:
-						data._embedded.venues[0].address && data._embedded.venues[0].address.line1,
-				},
+				location: data._embedded.venues[0].name,
 				description: data.info,
 				times: { set: [ data.dates.start.dateTime ] },
 				image_url: img.url,
