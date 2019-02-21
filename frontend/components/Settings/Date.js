@@ -55,7 +55,7 @@ const DateView = ({ date, classes, client }) => {
           </CardHeader>
         )}{" "}
         <CardBody className={classes.cardBodyRotate}>
-          <h6
+          <span
             style={{
               backgroundImage:
                 "linear-gradient(to right top, #4cb5ae, #58bdbc, #65c6ca, #72ced7, #81d6e3)",
@@ -66,7 +66,7 @@ const DateView = ({ date, classes, client }) => {
             className={classes.cardCategory}
           >
             {date.location}
-          </h6>
+          </span>
 
           <h4 className={classes.cardTitle}>
             <a classes={{root: 'test'}} href="#pablo" onClick={e => e.preventDefault()}>
