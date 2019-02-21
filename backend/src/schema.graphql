@@ -26,7 +26,7 @@ type Query {
 	locationSearch(city: String!): [Location]
 	getUserOrder(userId: String!): [Order!]!
 	getRemainingDates: DatesCount!
-	invoicesList(userStripeCustomerId: String!): Message
+	invoicesList(userStripeCustomerId: String!): [Invoice]
 }
 
 type User {
@@ -111,4 +111,13 @@ type DatesCount {
 type FirebasePayload {
 	token: String!
 	user: User!
+}
+
+type Invoice {
+	receipt_number: String,
+	amount_due: Int,
+	amount_paid: Int,
+	date: Int,
+	hosted_invoice_url: String,
+	invoice_pdf: String
 }

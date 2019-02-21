@@ -206,7 +206,6 @@ const Mutation = {
 		// Check user's login status
     const { userId } = ctx.request;
 
-    // console.log(user);
 		if (!userId) throw new Error('You must be signed in to complete this order.');
 
 		// Get user's info
@@ -237,7 +236,7 @@ const Mutation = {
 			subscription = await stripe.subscriptions.create({
 				customer: user.stripeCustomerId || customer.id,
 				items: [{
-					plan: user.permissions[0] === 'MONTHLY' ? 'plan_EYPPZzmOjy3P3I' : 'plan_EYPg6RkTFwJFRA'
+					plan: user.subscription === 'MONTHLY' ? 'plan_EYPPZzmOjy3P3I' : 'plan_EYPg6RkTFwJFRA'
 				}]
 			})
 		} else {
