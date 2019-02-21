@@ -8,7 +8,7 @@ const {
 	createUserToken,
 	verifyIdToken,
 	getUserRecord,
-	setUserClaims
+	setUserClaims,
 } = require('../firebase/firebase');
 
 const Mutation = {
@@ -24,16 +24,16 @@ const Mutation = {
 				data: {
 					...args,
 					password,
-					permissions: { set: ['FREE'] } // default permission for user is FREE tier
-				}
+					permissions: { set: [ 'FREE' ] }, // default permission for user is FREE tier
+				},
 			},
-			info
+			info,
 		);
 		const token = await jwt.sign({ userId: user.id }, process.env.APP_SECRET);
 		// adding that token to the cookie bc its neighborly
 		response.cookie('token', token, {
 			httpOnly: true,
-			maxAge: 1000 * 60 * 60 * 24 * 365 // 1 year cookie
+			maxAge: 1000 * 60 * 60 * 24 * 365, // 1 year cookie
 		});
 
 		return user;
@@ -44,7 +44,7 @@ const Mutation = {
 		const { displayName } = firebaseUser;
 		// check to see if user already exists in our db
 		let user = await ctx.db.query.user({
-			where: { email: email ? email : user_id }
+			where: { email: email ? email : user_id },
 		});
 		if (!user) {
 			user = await ctx.db.mutation.createUser(
@@ -55,18 +55,18 @@ const Mutation = {
 						password: 'firebaseAuth',
 						lastName: '',
 						permissions: {
-							set: ['FREE']
-						}
-					}
+							set: [ 'FREE' ],
+						},
+					},
 				},
-				`{id firstName email}`
+				`{id firstName email}`,
 			);
 			await setUserClaims(uid, { id: user.id, admin: false });
 		}
 		const token = await createUserToken(args, ctx);
 		ctx.response.cookie('userId', user.id, {
 			httpOnly: true,
-			maxAge: 1000 * 60 * 60 * 24 * 365 // 1 year long cookie bc why not. FIGHT ME
+			maxAge: 1000 * 60 * 60 * 24 * 365, // 1 year long cookie bc why not. FIGHT ME
 		});
 
 		return { token, user };
@@ -74,6 +74,7 @@ const Mutation = {
 	async signin(parent, { email, password }, { db, response }, info) {
 		const user = await db.query.user({ where: { email } }, info);
 		if (!user) {
+			normal;
 			throw new Error(`No such user found for email ${email}`);
 		}
 		const valid = await bcrypt.compare(password, user.password);
@@ -84,7 +85,7 @@ const Mutation = {
 		// attach token to cookie even if that seems kinda obvious
 		response.cookie('token', token, {
 			httpOnly: true,
-			maxAge: 1000 * 60 * 60 * 24 * 365 // 1 year long cookie bc why not. FIGHT ME
+			maxAge: 1000 * 60 * 60 * 24 * 365, // 1 year long cookie bc why not. FIGHT ME
 		});
 
 		return user;
@@ -107,7 +108,7 @@ const Mutation = {
 		const resetTokenExpiry = Date.now() + 3600000; // 1 hr from now
 		const res = await db.mutation.updateUser({
 			where: { email: args.email },
-			data: { resetToken, resetTokenExpiry }
+			data: { resetToken, resetTokenExpiry },
 		});
 		console.log(res); // just to check and make sure the resetToken and expiry are getting set
 		const mailRes = await transport.sendMail({
@@ -116,7 +117,7 @@ const Mutation = {
 			subject: 'Your Password Reset Token',
 			html: formatEmail(`Your Password Reset Token is here!
 		  \n\n
-		  <a href="${process.env.FRONTEND_URL}/reset?resetToken=${resetToken}">Click Here to Reset</a>`)
+		  <a href="${process.env.FRONTEND_URL}/reset?resetToken=${resetToken}">Click Here to Reset</a>`),
 		});
 		// this is the SMTP Holden has setup that we can use to send emails once we go into production (have a hard cap of 100 emails/month though)
 		// const mailRes = await client.sendEmail({
@@ -136,14 +137,14 @@ const Mutation = {
 		return db.mutation.updateUser(
 			{
 				where: {
-					id: user.id
+					id: user.id,
 				},
 				data: {
 					imageThumbnail: thumbnail,
-					imageLarge: image
-				}
+					imageLarge: image,
+				},
 			},
-			info
+			info,
 		);
 	},
 
@@ -154,24 +155,24 @@ const Mutation = {
 		return db.mutation.updateUser(
 			{
 				where: {
-					id: user.id
+					id: user.id,
 				},
 				data: {
-					location: city
-				}
+					location: city,
+				},
 			},
-			info
+			info,
 		);
 	},
 	async resetPassword(parent, args, { db, response }, info) {
 		if (args.password !== args.confirmPassword) {
 			throw new Error('Passwords must match!');
 		}
-		const [user] = await db.query.users({
+		const [ user ] = await db.query.users({
 			where: {
 				resetToken: args.resetToken,
-				resetTokenExpiry_gte: Date.now() - 3600000 // make sure reset Token is still within 1hr time limit
-			}
+				resetTokenExpiry_gte: Date.now() - 3600000, // make sure reset Token is still within 1hr time limit
+			},
 		});
 		if (!user) {
 			throw new Error('This token is either invalid or expired');
@@ -183,14 +184,14 @@ const Mutation = {
 			data: {
 				password,
 				resetToken: null,
-				resetTokenExpiry: null
-			}
+				resetTokenExpiry: null,
+			},
 		});
 		const token = jwt.sign({ userId: updatedUser.id }, process.env.APP_SECRET);
 		// put new token onto cookie bc i said so
 		response.cookie('token', token, {
 			httpOnly: true,
-			maxAge: 1000 * 60 * 60 * 24 * 365
+			maxAge: 1000 * 60 * 60 * 24 * 365,
 		});
 		return updatedUser;
 	},
@@ -209,7 +210,7 @@ const Mutation = {
 		if (!user.stripeCustomerId) {
 			customer = await stripe.customers.create({
 				email: user.email,
-				source: args.token
+				source: args.token,
 			});
 		}
 
@@ -220,9 +221,12 @@ const Mutation = {
 				customer: user.stripeCustomerId || customer.id,
 				items: [
 					{
-						plan: user.subscription === 'MONTHLY' ? 'plan_EYPPZzmOjy3P3I' : 'plan_EYPg6RkTFwJFRA'
-					}
-				]
+						plan:
+							user.subscription === 'MONTHLY'
+								? 'plan_EYPPZzmOjy3P3I'
+								: 'plan_EYPg6RkTFwJFRA',
+					},
+				],
 			});
 		} else {
 			subscription = await stripe.subscriptions.retrieve(user.stripeSubscriptionId);
@@ -231,9 +235,12 @@ const Mutation = {
 				items: [
 					{
 						id: subscription.items.data[0].id,
-						plan: args.subscription === 'MONTHLY' ? 'plan_EYPPZzmOjy3P3I' : 'plan_EYPg6RkTFwJFRA'
-					}
-				]
+						plan:
+							args.subscription === 'MONTHLY'
+								? 'plan_EYPPZzmOjy3P3I'
+								: 'plan_EYPg6RkTFwJFRA',
+					},
+				],
 			});
 		}
 
@@ -241,18 +248,18 @@ const Mutation = {
 		ctx.db.mutation.updateUser({
 			data: {
 				permissions: {
-					set: [args.subscription]
+					set: [ args.subscription ],
 				},
 				stripeSubscriptionId: subscription ? subscription.id : user.stripeSubscriptionId,
-				stripeCustomerId: customer ? customer.id : user.stripeCustomerId
+				stripeCustomerId: customer ? customer.id : user.stripeCustomerId,
 			},
 			where: {
-				id: user.id
-			}
+				id: user.id,
+			},
 		});
 
 		return {
-			message: 'Thank You'
+			message: 'Thank You',
 		};
 	},
 	async cancelSubscription(parent, args, ctx, info) {
@@ -266,24 +273,24 @@ const Mutation = {
 
 		const canceled = await stripe.subscriptions.del(user.stripeSubscriptionId, {
 			invoice_now: true,
-			prorate: true
+			prorate: true,
 		});
 
 		// Update user's permission type
 		ctx.db.mutation.updateUser({
 			data: {
 				permissions: {
-					set: ['FREE']
+					set: [ 'FREE' ],
 				},
-				stripeSubscriptionId: null
+				stripeSubscriptionId: null,
 			},
 			where: {
-				id: user.id
-			}
+				id: user.id,
+			},
 		});
 
 		return {
-			message: `Your subscription has been ${canceled.status} at the end of the billing period`
+			message: `Your subscription has been ${canceled.status} at the end of the billing period`,
 		};
 	},
 	async internalPasswordReset(parent, args, { db, request, response }, info) {
@@ -292,7 +299,7 @@ const Mutation = {
 		}
 		// check to make sure user is logged in
 		const user = await db.query.user({
-			where: { id: request.userId }
+			where: { id: request.userId },
 		});
 		if (!user) {
 			throw new Error('You must be logged in!');
@@ -305,14 +312,14 @@ const Mutation = {
 		const updatedUser = await db.mutation.updateUser({
 			where: { id: user.id },
 			data: {
-				password: newPassword
-			}
+				password: newPassword,
+			},
 		});
 		const token = jwt.sign({ userId: updatedUser.id }, process.env.APP_SECRET);
 		// put new token onto cookie so that any other session opened with previous pass is no invalidated
 		response.cookie('token', token, {
 			httpOnly: true,
-			maxAge: 1000 * 60 * 60 * 24 * 365
+			maxAge: 1000 * 60 * 60 * 24 * 365,
 		});
 		return updatedUser;
 	},
@@ -325,28 +332,27 @@ const Mutation = {
 		}
 
 		const { data } = await axios.get(
-			`https://app.ticketmaster.com/discovery/v2/events/${args.eventId}.json?apikey=${
-				process.env.TKTMSTR_KEY
-			}`
+			`https://app.ticketmaster.com/discovery/v2/events/${args.eventId}.json?apikey=${process
+				.env.TKTMSTR_KEY}`,
 		);
 
-		const [alreadySaved] = user.events.filter(event => event.eventfulID === data.id);
+		const [ alreadySaved ] = user.events.filter(event => event.eventfulID === data.id);
 		if (alreadySaved) {
 			throw new Error("You've already saved that event!");
 		}
 
-		const [img] = data.images.filter(img => img.width > 600);
+		const [ img ] = data.images.filter(img => img.width > 600);
 		// console.log(img);
 		await db.mutation.upsertEvent({
 			where: {
-				eventfulID: data.id
+				eventfulID: data.id,
 			},
 			update: {
 				attending: {
 					connect: {
-						id: user.id
-					}
-				}
+						id: user.id,
+					},
+				},
 			},
 			create: {
 				eventfulID: data.id,
@@ -354,15 +360,15 @@ const Mutation = {
 				url: data.url,
 				location: data._embedded.venues[0].name,
 				description: data.info,
-				times: { set: [data.dates.start.dateTime] },
+				times: { set: [ data.dates.start.dateTime ] },
 				image_url: img.url,
 
 				attending: {
 					connect: {
-						id: user.id
-					}
-				}
-			}
+						id: user.id,
+					},
+				},
+			},
 		});
 
 		return user.permissions[0] === 'FREE'
@@ -379,18 +385,18 @@ const Mutation = {
 				data: {
 					events: {
 						disconnect: {
-							id: args.eventId // remove event from user's events and remove user from event's attending
-						}
-					}
-				}
+							id: args.eventId, // remove event from user's events and remove user from event's attending
+						},
+					},
+				},
 			},
-			`{ permissions events { id } }`
+			`{ permissions events { id } }`,
 		);
 
 		return user.permissions[0] === 'FREE'
 			? { message: `You have used ${user.events.length} of your 5 free events` }
 			: { message: 'Event successfully removed!' };
-	}
+	},
 };
 
 module.exports = Mutation;
