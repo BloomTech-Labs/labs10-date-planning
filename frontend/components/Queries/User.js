@@ -22,7 +22,6 @@ const CURRENT_USER_QUERY = gql`
 				url
 				image_url
 				times
-				location
 			}
 		}
 	}

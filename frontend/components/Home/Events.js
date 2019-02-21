@@ -21,61 +21,43 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import styles from '../../static/jss/material-kit-pro-react/views/ecommerceSections/productsStyle.jsx';
 
 const Events = ({ classes, client }) => {
-	const [ page, setPage ] = useState(0);
-	const [ events, setEvents ] = useState(undefined);
-	const [ location, setLocation ] = useState(undefined);
-	const [ user, setUser ] = useState(undefined);
+	const [page, setPage] = useState(0);
+	const [events, setEvents] = useState(undefined);
+	const [location, setLocation] = useState(undefined);
+	const [user, setUser] = useState(undefined);
 	useEffect(() => {
 		getUser();
 	}, []);
 
-	useEffect(
-		() => {
+	useEffect(() => {
+		if (location) {
 			getEvents({
 				location: location,
 				alt: 'all',
 				page: 0,
 				categories: [],
-				dates: [],
+				dates: []
 			});
-		},
-		[ location ],
-	);
+		}
+	}, [location]);
 	const getUser = async () => {
 		let { data, loading } = await client.query({
-			query: CURRENT_USER_QUERY,
+			query: CURRENT_USER_QUERY
 		});
 		if (loading) NProgress.start();
 		if (data.currentUser) {
 			NProgress.set(0.3);
 			setUser(data.currentUser);
-			if (data.currentUser.location) await setLocation(data.currentUser.location);
-			else await setLocation('New York, NY');
-			getEvents({
-				location: location,
-				alt: 'all',
-				page: 0,
-				categories: [],
-				dates: [],
-			});
+			if (data.currentUser.location) setLocation(data.currentUser.location);
+			else setLocation('New York, NY');
 		}
 	};
 
-	// const getGeoHash = async city => {
-	// 	let { data, loading, error } = await client.query({
-	// 		query: GEOHASH_QUERY,
-	// 		variables: { city },
-	// 	});
-	// 	NProgress.set(0.5);
-	// 	return data.geoHash;
-	// };
 	const getEvents = async variables => {
 		NProgress.start();
-		// let geoData = await getGeoHash(variables.location);
-		// variables.location = geoData.geoHash;
 		let { data, loading, error } = await client.query({
 			query: ALL_EVENTS_QUERY,
-			variables: variables,
+			variables: variables
 		});
 
 		if (data.getEvents) NProgress.done();
@@ -90,7 +72,7 @@ const Events = ({ classes, client }) => {
 		if (page < events.page_count - 1) {
 			getEvents({
 				location: location,
-				page: page + 1,
+				page: page + 1
 			});
 		}
 	};
@@ -99,7 +81,7 @@ const Events = ({ classes, client }) => {
 		console.log(stff);
 		NProgress.done();
 		let { data, loading } = await client.query({
-			query: CURRENT_USER_QUERY,
+			query: CURRENT_USER_QUERY
 		});
 		if (data.currentUser) {
 			setUser(data.currentUser);
@@ -111,7 +93,7 @@ const Events = ({ classes, client }) => {
 		allEvents: ({ render }) => <Query query={ALL_EVENTS_QUERY}>{render}</Query>,
 		updateLocation: ({ render }) => (
 			<Mutation mutation={UPDATE_LOCATION_MUTATION}>{render}</Mutation>
-		),
+		)
 	});
 
 	if (!events) return <div>loading</div>;
@@ -131,23 +113,18 @@ const Events = ({ classes, client }) => {
 										onCompleted={handleCompleted}
 									>
 										{(updateLocation, { error, loading, called }) => {
-											console.log(user.location, location);
-
 											if (called) NProgress.start();
 											if (loading) NProgress.set(0.3);
 											return (
 												<div
 													style={{
 														display: 'flex',
-														alignItems: 'center',
+														alignItems: 'center'
 													}}
 												>
 													{user && user.location !== location ? (
 														<Primary>
-															<b
-																onClick={updateLocation}
-																style={{ cursor: 'pointer' }}
-															>
+															<b onClick={updateLocation} style={{ cursor: 'pointer' }}>
 																make default location?
 															</b>
 														</Primary>
@@ -171,7 +148,7 @@ const Events = ({ classes, client }) => {
 											hasMore={page < events.page_count}
 											threshold={400}
 											loader={
-												<div className='loader' key={0}>
+												<div className="loader" key={0}>
 													Loading ...
 												</div>
 											}
@@ -184,15 +161,11 @@ const Events = ({ classes, client }) => {
 
 									<GridItem sm={6} md={4} lg={4}>
 										{events.events[1] &&
-											events.events[1].map(event => (
-												<Event event={event} key={event.id} />
-											))}
+											events.events[1].map(event => <Event event={event} key={event.id} />)}
 									</GridItem>
 									<GridItem sm={6} md={4} lg={4}>
 										{events.events[2] &&
-											events.events[2].map(event => (
-												<Event event={event} key={event.id} />
-											))}
+											events.events[2].map(event => <Event event={event} key={event.id} />)}
 									</GridItem>
 								</GridContainer>
 							</GridItem>

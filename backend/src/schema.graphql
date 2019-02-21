@@ -12,43 +12,21 @@ type Mutation {
 	updateLocation(city: String!): User!
 	addEvent(eventId: String!): Message
 	deleteEvent(eventId: String!): Message
-	createOrder(token: String!, subscription: Permission!): Order!
+	createOrder(token: String!, subscription: Permission!): Message
 	cancelSubscription: Message
 }
 
 type Query {
-	getEvents(
-		location: String
-		alt: String
-		page: Int
-		categories: [String]
-		dates: [String]
-	): AllEvents
+	getEvents(location: String, page: Int, categories: [String], dates: [String]): AllEvents
 	getEvent(id: String!): Event
 	geoHash(city: String!): GeoHash
 	currentUser: User
 	user(where: UserWhereUniqueInput!): User
-	getLocation(latitude: Float!, longitude: Float!): UserLocation!
-	locationSearch(city: String!): [Locations]
+	getLocation(latitude: Float!, longitude: Float!): Location!
+	locationSearch(city: String!): [Location]
 	getUserOrder(userId: String!): [Order!]!
 	getRemainingDates: DatesCount!
-	invoicesList(userStripeCustomerId: String!):Message
-}
-
-type AllEvents {
-	events: [Event]
-	total_items: Int
-	page_count: Int
-	page_number: Int
-	location: String
-}
-
-type Locations {
-	city: String
-}
-
-type GeoHash {
-	geoHash: String
+	invoicesList(userStripeCustomerId: String!): Message
 }
 
 type User {
@@ -63,12 +41,19 @@ type User {
 	imageLarge: String
 	permissions: [Permission!]!
 	interests: [Category]
-	events: [UserEvent!]!
+	events: [Event!]!
 	createdAt: DateTime!
 	updatedAt: DateTime!
 	stripeCustomerId: String
 	stripeSubscriptionId: String
+	# stripe: StripeInfo
 }
+
+# type StripeInfo {
+# 	customerId: String
+# 	subscriptionId: String
+#
+# }
 
 type Event {
 	id: ID!
@@ -77,35 +62,20 @@ type Event {
 	url: String
 	description: String
 	times: [String]
-	location: Location
+	attending: [User!]!
+	location: LocationInfo
 	image_url: String
 	price: PriceRange
 	notes: String
 	genre: String
 }
 
-type UserEvent {
-	id: ID!
-	eventfulID: String!
-	title: String!
-	url: String
-	description: String
-	attending: [User!]!
-	times: [String]
-	location: String
-	image_url: String
-}
-
-type Location {
+type LocationInfo {
 	city: String
 	venue: String
-	latLong: Coordinates
 	address: String
-}
-
-type Coordinates {
-	lat: String!
-	long: String!
+	lat: String
+	long: String
 }
 
 type PriceRange {
@@ -114,24 +84,20 @@ type PriceRange {
 	currency: String
 }
 
-type UserLocation {
-	city: String!
-	county: String!
+type AllEvents {
+	events: [Event]
+	total_items: Int
+	page_count: Int
+	page_number: Int
+	location: String
 }
 
-type Details {
-	url: String
-	performer: String
-	description: String
-	start_time: String
-	bio: String
-	tags: [Tag] ## can only query tags on single events
+type Location {
+	city: String
 }
 
-type Tag {
-	id: String
-	title: String
-	owner: String
+type GeoHash {
+	geoHash: String
 }
 
 type Message {

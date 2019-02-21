@@ -1,5 +1,5 @@
 import React from 'react';
-
+import Header from '../Header';
 import User from '../Queries/User';
 import Stripe from './Stripe';
 import { CURRENT_USER_QUERY } from '../Queries/User';
@@ -27,31 +27,32 @@ import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 
 const CANCEL_SUBSCRIPTION = gql`
-  mutation cancelSubscription {
-    cancelSubscription {
-      message
-    }
-  }
+	mutation cancelSubscription {
+		cancelSubscription {
+			message
+		}
+	}
 `;
 
 const Billing = ({ classes, currentUser, client }) => {
 	const currentSubs = currentUser.permissions[0];
 
-	const cancelSubscription = async() => {
+	const cancelSubscription = async () => {
 		let { data, loading } = await client.mutate({
-			mutation: CANCEL_SUBSCRIPTION
+			mutation: CANCEL_SUBSCRIPTION,
 		});
 		let currentUser = await client.query({
-			query: CURRENT_USER_QUERY
-		})
+			query: CURRENT_USER_QUERY,
+		});
 		console.log(data);
-	}
+	};
 
 	return (
 		<div
 			className={`${classes.pricing} ${classes.pricing1} ${classes.section}`}
-			style={{ backgroundImage: `url(${img})` }}
+			style={{ backgroundImage: `url(${img})`, paddingTop: '0 !important' }}
 		>
+			<Header color='transparent' />
 			<div className={classes.container}>
 				<GridContainer>
 					<GridItem
@@ -156,23 +157,29 @@ const Billing = ({ classes, currentUser, client }) => {
 								>
 									This plan allows you save unlimited dates to your account!
 								</p>
-								{
-									currentSubs === 'MONTHLY' ?
-									<Button onClick={() => {
-										cancelSubscription();
-									}}>
+								{currentSubs === 'MONTHLY' ? (
+									<Button
+										onClick={() => {
+											cancelSubscription();
+										}}
+									>
 										Cancel
-									</Button> :
+									</Button>
+								) : (
 									<Stripe subsType='MONTHLY' user={currentUser}>
 										<Button
 											round
 											color={currentSubs === 'MONTHLY' ? 'rose' : 'white'}
 											disabled={currentSubs === 'MONTHLY'}
 										>
-											{currentSubs === 'MONTHLY' ? 'Current Plan' : 'Choose Plan'}
+											{currentSubs === 'MONTHLY' ? (
+												'Current Plan'
+											) : (
+												'Choose Plan'
+											)}
 										</Button>
 									</Stripe>
-								}
+								)}
 							</CardBody>
 						</Card>
 					</GridItem>
@@ -215,24 +222,30 @@ const Billing = ({ classes, currentUser, client }) => {
 								>
 									Discounted price when purchasing annual subscription.
 								</p>
-								{
-									currentSubs === 'YEARLY' ?
-									<Button onClick={() => {
-										console.log('cliked')
-										cancelSubscription();
-									}}>
+								{currentSubs === 'YEARLY' ? (
+									<Button
+										onClick={() => {
+											console.log('cliked');
+											cancelSubscription();
+										}}
+									>
 										Cancel
-									</Button> :
+									</Button>
+								) : (
 									<Stripe subsType='YEARLY' user={currentUser}>
 										<Button
 											round
 											color={currentSubs === 'YEARLY' ? 'rose' : 'white'}
 											disabled={currentSubs === 'YEARLY'}
 										>
-											{currentSubs === 'YEARLY' ? 'Current Plan' : 'Choose Plan'}
+											{currentSubs === 'YEARLY' ? (
+												'Current Plan'
+											) : (
+												'Choose Plan'
+											)}
 										</Button>
 									</Stripe>
-								}
+								)}
 							</CardBody>
 						</Card>
 					</GridItem>
