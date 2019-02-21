@@ -58,7 +58,7 @@ const DateView = ({ date, classes, client }) => {
 						<div className='gradient-box'>
 							<span>{date.description}</span>
 						</div>
-					)}s
+					)}
 
 					<h4 className={classes.cardTitle}>
 						<a
