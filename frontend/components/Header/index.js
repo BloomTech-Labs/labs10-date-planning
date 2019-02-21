@@ -95,6 +95,7 @@ const Nav = ({ classes, color }) => {
 							<Mutation
 								mutation={SIGNOUT_MUTATION}
 								refetchQueries={[ { query: CURRENT_USER_QUERY } ]}
+								awaitRefetchQueries
 							>
 								{(signout, { called }) => {
 									if (called) Router.push('/joinus');

@@ -18,22 +18,23 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 
 import '../../styles/Home/EventModal.scss';
 
-
-
 const EventModal = ({ modal, showModal, classes, id, client }) => {
-	const [event, setEvent] = useState(undefined);
-	useEffect(() => {
-		if (modal === true) {
-			getEvent();
-		} else {
-			setEvent(undefined);
-		}
-	}, [modal]);
+	const [ event, setEvent ] = useState(undefined);
+	useEffect(
+		() => {
+			if (modal === true) {
+				getEvent();
+			} else {
+				setEvent(undefined);
+			}
+		},
+		[ modal ],
+	);
 
 	const getEvent = async () => {
 		let { data } = await client.query({
 			query: EVENT_QUERY,
-			variables: { id }
+			variables: { id },
 		});
 		console.log(data.getEvent);
 		setEvent(data.getEvent);
@@ -50,7 +51,7 @@ const EventModal = ({ modal, showModal, classes, id, client }) => {
 		borderTopLeftRadius: '6px',
 		borderTopRightRadius: '6px',
 		paddingBottom: '15px',
-		color: '#fafafa'
+		color: '#fafafa',
 	};
 
 	return (
@@ -64,20 +65,21 @@ const EventModal = ({ modal, showModal, classes, id, client }) => {
 					<Dialog
 						classes={{
 							root: classes.modalRoot,
-							paper: classes.modal
+							paper: classes.modal,
 						}}
 						open={modal}
 						// TransitionComponent={Transition}
 						//keepMounted
+						scroll='body'
 						onClose={() => showModal(false)}
-						aria-labelledby="notice-modal-slide-title"
-						aria-describedby="notice-modal-slide-description"
-						style={{ height: '700px' }}
+						aria-labelledby='notice-modal-slide-title'
+						aria-describedby='notice-modal-slide-description'
+						//style={{ height: '700px' }}
 					>
 						{event ? (
 							<Fragment>
 								<DialogTitle
-									id="notice-modal-slide-title"
+									id='notice-modal-slide-title'
 									disableTypography
 									className={classes.modalHeader}
 									style={modalHeader}
@@ -86,26 +88,29 @@ const EventModal = ({ modal, showModal, classes, id, client }) => {
 									<Button
 										simple
 										className={classes.modalCloseButton}
-										key="close"
-										aria-label="Close"
+										key='close'
+										aria-label='Close'
 										onClick={e => {
 											e.stopPropagation();
 											showModal(false);
 										}}
 									>
 										{' '}
-										<Close style={{ color: '#fafafa' }} className={classes.modalClose} />
+										<Close
+											style={{ color: '#fafafa' }}
+											className={classes.modalClose}
+										/>
 									</Button>
 									<h4 style={{ fontWeight: 700 }} className={classes.modalTitle}>
 										{event.title}
 									</h4>
 								</DialogTitle>
 								<DialogContent
-									id="notice-modal-slide-description"
+									id='notice-modal-slide-description'
 									classes={{ root: 'dialogContent' }}
 									className={classes.modalBody}
 								>
-									<span className="date">
+									<span className='date'>
 										{moment(event.times[0]).format('dddd, MMMM Do, h:mm a')}
 									</span>
 									{/* </div> */}
@@ -113,13 +118,16 @@ const EventModal = ({ modal, showModal, classes, id, client }) => {
 										style={{
 											margin: '20px 0',
 											borderRadius: '6px',
-											overflow: 'hidden'
+											overflow: 'hidden',
+											width: '100%',
 										}}
 										src={event.image_url}
 									/>
 									<div dangerouslySetInnerHTML={{ __html: event.description }} />
 
-									<Button onClick={e => handleClick(e, addEvent)}>Add Event</Button>
+									<Button fullWidth onClick={e => handleClick(e, addEvent)}>
+										Add Event
+									</Button>
 								</DialogContent>
 							</Fragment>
 						) : (
