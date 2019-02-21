@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, useEffect } from 'react';
 import gql from 'graphql-tag';
 import Router from 'next/router';
 import firebase from 'firebase/app';
