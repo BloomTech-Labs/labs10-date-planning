@@ -51,9 +51,8 @@ const Events = ({ classes, client }) => {
 		let { data, loading } = await client.query({
 			query: CURRENT_USER_QUERY,
 		});
-		if (loading) NProgress.start();
+
 		if (data.currentUser) {
-			NProgress.set(0.3);
 			setUser(data.currentUser);
 			if (data.currentUser.location) setLocation(data.currentUser.location);
 			else setLocation('Los Angeles, CA');
@@ -77,7 +76,7 @@ const Events = ({ classes, client }) => {
 			query: ALL_EVENTS_QUERY,
 			variables: variables,
 		});
-		if (data) NProgress.done();
+		if (data.getEvents) NProgress.done();
 		return data.getEvents;
 	};
 
@@ -125,7 +124,7 @@ const Events = ({ classes, client }) => {
 									>
 										{(updateLocation, { error, loading, called }) => {
 											if (called) NProgress.start();
-											if (loading) NProgress.set(0.3);
+
 											return (
 												<div
 													style={{
