@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import pose from 'react-pose';
+import posed from 'react-pose';
 import { render } from 'react-dom';
 
 const UpFor = () => {
@@ -20,26 +20,25 @@ const UpFor = () => {
     const Fours = styled.div`
     display: flex;
     `
-
+    const MirroredFour = posed.div`
+    idle: {transform: rotateY(0deg)}
+    hovered: {transform: rotateY(180deg)}
+    `
+    
     const SecondFour = styled.div`
     color: #FF101F
     position: absolute;
     transform-origin: 67%;
     `
 
-    const MirroredFour = posed.div`
-    idle: {transform: rotateY(0deg)}
-    hovered: {transform: rotateY(180deg)}
-    `
+    
     
 
     return (
-        <Container>
-            <Up>Up</Up><Fours>
-                <Four>4</Four>
-                    <SecondFour pose={this.state.hovering ? }
-                    >4</SecondFour>
-            </Fours>
+        <Container>        >
+            <Up>Up</Up><Fours><Four>4</Four><SecondFour pose={this.state.hovering ? "hovered" : "idle"}
+          onMouseEnter={() => this.setState({ hovering: true })}
+          onMouseLeave={() => this.setState({ hovering: false })}>4</SecondFour></Fours>
         </Container>)
 }
 
