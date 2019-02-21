@@ -1,33 +1,32 @@
-import React, { useState, useEffect } from "react";
-import moment from "moment";
-import NProgress from "nprogress";
+import React, { useState, useEffect } from 'react';
+import moment from 'moment';
+import NProgress from 'nprogress';
 //MUI
 
 import { Bookmark, Add } from '@material-ui/icons';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 //Components
-import EventModal from "./EventModal";
+import EventModal from './EventModal';
 //Styled components
-import Card from "../../styledComponents/Card/Card";
-import CardHeader from "../../styledComponents/Card/CardHeader";
-import CardFooter from "../../styledComponents/Card/CardFooter";
-import CardBody from "../../styledComponents/Card/CardBody";
+import Card from '../../styledComponents/Card/Card';
+import CardHeader from '../../styledComponents/Card/CardHeader';
+import CardFooter from '../../styledComponents/Card/CardFooter';
+import CardBody from '../../styledComponents/Card/CardBody';
 //styles
-import CardStyles from "../../static/jss/material-kit-pro-react/views/componentsSections/sectionCards";
+import CardStyles from '../../static/jss/material-kit-pro-react/views/componentsSections/sectionCards';
 
-import "../../styles/Home/Event.scss";
+import '../../styles/Home/Event.scss';
 
 const Event = ({ event, classes, user }) => {
-  const [modal, showModal] = useState(false);
-  let isSaved = user.events.find(e => e.eventfulID === event.id);
-  console.log(isSaved);
-  event.times = event.times.sort((a, b) => {
-    let dateA = new Date(a);
-    let dateB = new Date(b);
-    return dateA - dateB;
-  });
+	const [ modal, showModal ] = useState(false);
+	let isSaved = user.events.find(e => e.eventfulID === event.id);
 
+	event.times = event.times.sort((a, b) => {
+		let dateA = new Date(a);
+		let dateB = new Date(b);
+		return dateA - dateB;
+	});
 
 	return (
 		<Card blog onClick={() => showModal(true)}>
@@ -86,7 +85,6 @@ const Event = ({ event, classes, user }) => {
 			<EventModal modal={modal} showModal={showModal} event={event} />
 		</Card>
 	);
-
 };
 
 export default withStyles(CardStyles)(Event);

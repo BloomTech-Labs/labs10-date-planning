@@ -122,10 +122,22 @@ module.exports = {
 				);
 		}
 	},
-	fetchEvents: function(geoHash, cats, dates, page, size) {
+	fetchEvents: function(geoHash, cats, dates, page, size, genres) {
 		if (dates) {
+			if (genres && genres.length) {
+				return axios.get(
+					`https://app.ticketmaster.com/discovery/v2/events.json?size=${size}&page=${page}&startDateTime=${dates.start}&endDateTime=${dates.end}&classificationId=${cats}&genreId=${genres}&city=${geoHash}&apikey=${process
+						.env.TKTMSTR_KEY}`,
+				);
+			}
 			return axios.get(
 				`https://app.ticketmaster.com/discovery/v2/events.json?size=${size}&page=${page}&startDateTime=${dates.start}&endDateTime=${dates.end}&classificationId=${cats}&city=${geoHash}&apikey=${process
+					.env.TKTMSTR_KEY}`,
+			);
+		}
+		if (genres && genres.length) {
+			return axios.get(
+				`https://app.ticketmaster.com/discovery/v2/events.json?size=${size}&page=${page}&classificationId=${cats}&genreId=${genres}&city=${geoHash}&apikey=${process
 					.env.TKTMSTR_KEY}`,
 			);
 		}
