@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 import AddIcon from '@material-ui/icons/Add';
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -8,12 +8,15 @@ import Card from '../../styledComponents/Card/Card';
 import CardHeader from '../../styledComponents/Card/CardHeader';
 import CardFooter from '../../styledComponents/Card/CardFooter';
 import CardBody from '../../styledComponents/Card/CardBody';
+import BookMark from '@material-ui/icons/BookmarkBorder';
 import Warning from '../../styledComponents/Typography/Warning';
 
 import CardStyles from '../../static/jss/material-kit-pro-react/views/componentsSections/sectionCards';
 
-const Event = ({ event, classes }) => {
+const Event = ({ event, classes, user }) => {
 	const [ modal, showModal ] = useState(false);
+	let isSaved = user.events.find(e => e.eventfulID === event.id);
+	console.log(isSaved);
 	event.times = event.times.sort((a, b) => {
 		let dateA = new Date(a);
 		let dateB = new Date(b);
@@ -58,6 +61,7 @@ const Event = ({ event, classes }) => {
 				</h4>
 			</CardBody>
 			<CardFooter>
+				{isSaved && <BookMark style={{ position: 'absolute', left: 0, bottom: 0 }} />}
 				<div className={`${classes.stats} ${classes.mlAuto}`} style={{ display: 'block' }}>
 					{event.times.length > 2 ? (
 						<div>
