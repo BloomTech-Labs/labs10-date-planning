@@ -37,7 +37,6 @@ import Styles from '../../static/jss/material-kit-pro-react/views/componentsSect
 
 import Terms from '../../components/SplashPage/Terms';
 import { auth } from '../../utils/firebase';
-// import { auth } from '../../utils/firebaseProd';
 
 const REGISTER_USER = gql`
 	mutation REGISTER_USER(
@@ -54,7 +53,6 @@ const REGISTER_USER = gql`
 		}
 	}
 `;
-
 const FIREBASE_SIGNUP = gql`
 	mutation FIREBASE_LOGIN($idToken: String!) {
 		firebaseAuth(idToken: $idToken) {
@@ -89,26 +87,16 @@ const Register = ({ classes }) => {
 	};
 
 	const firebaseSignup = async (e, firebaseAuth, company) => {
-		// e.preventDefault();
-		if (company === 'google') {
-			let provider = new firebase.auth.GoogleAuthProvider();
-			const complete = await auth.signInWithPopup(provider);
-			const idToken = await auth.currentUser.getIdToken(true);
-			const success = await firebaseAuth({ variables: { idToken } });
-			if (success.data) Router.push('/home');
-		} else if (company === 'facebook') {
-			let provider = new firebase.auth.FacebookAuthProvider();
-			const complete = await auth.signInWithPopup(provider);
-			const idToken = await auth.currentUser.getIdToken(true);
-			const success = await firebaseAuth({ variables: { idToken } });
-			if (success.data) Router.push('/home');
-		} else if (company === 'twitter') {
-				let provider = new firebase.auth.TwitterAuthProvider();
-				const complete = await auth.signInWithPopup(provider);
-				const idToken = await auth.currentUser.getIdToken(true);
-				const success = await firebaseAuth({ variables: { idToken } });
-				if (success.data) Router.push('/home')
-		}
+		e.preventDefault();
+		let provider;
+		if (company === 'google') provider = new firebase.auth.GoogleAuthProvider();
+		if (company === 'facebook') provider = new firebase.auth.FacebookAuthProvider();
+		if (company === 'twitter') provider = new firebase.auth.TwitterAuthProvider();
+
+		const complete = await auth.signInWithPopup(provider);
+		const idToken = await auth.currentUser.getIdToken(true);
+		const success = await firebaseAuth({ variables: { idToken } });
+		if (success.data) Router.push('/home');
 	};
 
 	const handleSubmit = async (e, signup) => {
