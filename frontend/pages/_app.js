@@ -33,7 +33,7 @@ class MyApp extends App {
 		//console.log(await isLoggedIn());
 		let user = await isLoggedIn(ctx.apolloClient);
 		console.log(user);
-		if (!user.currentUser && router.pathname !== '/joinus') redirect(ctx, '/joinus');
+		if (!user.currentUser && router.asPath !== '/joinus') redirect(ctx, '/joinus');
 		return { pageProps };
 	}
 	render() {

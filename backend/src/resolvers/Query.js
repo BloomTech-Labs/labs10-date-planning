@@ -27,16 +27,18 @@ const Query = {
 	async getEvents(parent, { location, alt, page, ...args }, ctx, info) {
 		location = location.split(',')[0].toLowerCase();
 
-		let cats = args.categories.length
-			? args.categories
-			: [
-					'KZFzniwnSyZfZ7v7nJ',
-					'KZFzniwnSyZfZ7v7na',
-					'KZFzniwnSyZfZ7v7nE',
-					'KZFzniwnSyZfZ7v7n1',
-				];
+		let cats =
+			!args.categories || args.categories.length
+				? [
+						'KZFzniwnSyZfZ7v7nJ',
+						'KZFzniwnSyZfZ7v7na',
+						'KZFzniwnSyZfZ7v7nE',
+						'KZFzniwnSyZfZ7v7n1',
+					]
+				: args.categories;
 		console.log(location, cats, args.dates, page);
-		const dates = args.dates.length ? setDates(args.dates.toString()) : undefined;
+		const dates =
+			!args.dates || !args.dates.length ? undefined : setDates(args.dates.toString());
 
 		let events;
 		let response = await fetchEvents(location, cats, dates, page, 200);
