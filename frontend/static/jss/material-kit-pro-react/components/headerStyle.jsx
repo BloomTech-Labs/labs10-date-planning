@@ -68,7 +68,8 @@ const headerStyle = theme => ({
 		marginTop: '0px',
 	},
 	primary: {
-		backgroundColor: primaryColor,
+		//backgroundColor: primaryColor,
+		backgroundImage: 'linear-gradient(to top, #4cb5ae, #59beb7, #65c7c0, #71d0ca, #7dd9d3)',
 		color: '#FFFFFF',
 		boxShadow: '0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(76,181,174, 0.46)',
 	},
@@ -83,9 +84,10 @@ const headerStyle = theme => ({
 		boxShadow: '0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(76, 175, 80, 0.46)',
 	},
 	warning: {
-		backgroundColor: warningColor,
+		// backgroundColor: '#b2ddf7',
+		backgroundImage: 'linear-gradient(to top, #90d1f9, #99d4f8, #a1d7f8, #aadaf7, #b2ddf7)',
 		color: '#FFFFFF',
-		boxShadow: '0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(255, 152, 0, 0.46)',
+		boxShadow: '0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(178, 221, 247, 0.46)',
 	},
 	danger: {
 		backgroundColor: dangerColor,

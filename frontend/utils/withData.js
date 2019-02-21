@@ -13,6 +13,11 @@ function createClient({ headers }) {
 				headers,
 			});
 		},
+		// clientState: {
+		// 	defaults,
+		// 	resolvers,
+		// 	typeDefs
+		// },
 	});
 }
 
@@ -21,7 +26,7 @@ function createClient({ headers }) {
 // 	  uri: gql_url + "/graphql",
 // 	  credentials: "include"
 // 	});
-  
+
 //   const authLink = setContext((_, { headers }) => {
 // 	  const token = getToken()["XSRF-TOKEN"];
 // 	  return {
@@ -31,7 +36,7 @@ function createClient({ headers }) {
 // 		}
 // 	  };
 // 	});
-  
+
 //   return new ApolloClient({
 // 	  connectToDevTools: process.browser,
 // 	  ssrMode: !process.browser, // Disables forceFetch on the server (so queries are only run once)
