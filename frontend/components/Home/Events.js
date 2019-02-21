@@ -1,29 +1,33 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { withApollo, Mutation } from 'react-apollo';
-import EventsQuery, { ALL_EVENTS_QUERY } from '../Queries/AllEvents';
-import { GEOHASH_QUERY } from '../Queries/GeoHash';
-import User, { CURRENT_USER_QUERY } from '../Queries/User';
 import _ from 'lodash';
-import { adopt } from 'react-adopt';
 import NProgress from 'nprogress';
+import InfiniteScroll from 'react-infinite-scroller';
+//MUI
+import withStyles from '@material-ui/core/styles/withStyles';
+//Q&M
+import { ALL_EVENTS_QUERY } from '../Queries/AllEvents';
+import { CURRENT_USER_QUERY } from '../Queries/User';
 import { UPDATE_LOCATION_MUTATION } from '../Mutations/updateLocation';
+import Location from '../Queries/Location';
+//components
 import Filters from './Filters';
 import Event from './Event';
-import Primary from '../../styledComponents/Typography/Primary';
-import InfiniteScroll from 'react-infinite-scroller';
-import Button from '../../styledComponents/CustomButtons/Button';
 import LocationSearch from './LocationSearch';
-import Location from '../Queries/Location';
+import Primary from '../../styledComponents/Typography/Primary';
+//styled components
+import Button from '../../styledComponents/CustomButtons/Button';
 import GridContainer from '../../styledComponents/Grid/GridContainer';
 import GridItem from '../../styledComponents/Grid/GridItem';
 import Paginations from '../../styledComponents/Pagination/Pagination';
-import withStyles from '@material-ui/core/styles/withStyles';
+//styles
 import styles from '../../static/jss/material-kit-pro-react/views/ecommerceSections/productsStyle.jsx';
 
 const Events = ({ classes, client }) => {
 	const [ page, setPage ] = useState(0);
-	const [ events, setEvents ] = useState(undefined);
+	const [ events, setEvents ] = useState({ events: [] });
 	const [ location, setLocation ] = useState(undefined);
+
 	const [ user, setUser ] = useState(undefined);
 	useEffect(() => {
 		getUser();
@@ -31,90 +35,81 @@ const Events = ({ classes, client }) => {
 
 	useEffect(
 		() => {
-			getEvents({
-				location: location,
-				alt: 'all',
-				page: 0,
-				categories: [],
-				dates: [],
-			});
+			if (location) {
+				getEvents({
+					location: location,
+					alt: 'all',
+					page: 0,
+					categories: [],
+					dates: [],
+					genres: [],
+				});
+			}
 		},
 		[ location ],
 	);
+
 	const getUser = async () => {
 		let { data, loading } = await client.query({
 			query: CURRENT_USER_QUERY,
 		});
-		if (loading) NProgress.start();
+
 		if (data.currentUser) {
-			NProgress.set(0.3);
 			setUser(data.currentUser);
-			if (data.currentUser.location) await setLocation(data.currentUser.location);
-			else await setLocation('New York, NY');
-			getEvents({
-				location: location,
-				alt: 'all',
-				page: 0,
-				categories: [],
-				dates: [],
-			});
+			if (data.currentUser.location) setLocation(data.currentUser.location);
+			else setLocation('Los Angeles, CA');
 		}
 	};
 
-	// const getGeoHash = async city => {
-	// 	let { data, loading, error } = await client.query({
-	// 		query: GEOHASH_QUERY,
-	// 		variables: { city },
-	// 	});
-	// 	NProgress.set(0.5);
-	// 	return data.geoHash;
-	// };
-	const getEvents = async variables => {
+	const fetchEvents = async variables => {
 		NProgress.start();
-		// let geoData = await getGeoHash(variables.location);
-		// variables.location = geoData.geoHash;
-		let { data, loading, error } = await client.query({
+		let { data, error } = await client.query({
 			query: ALL_EVENTS_QUERY,
 			variables: variables,
 		});
-
-		if (data.getEvents) NProgress.done();
-
-		let events = _.chunk(data.getEvents.events, 12);
-		let newEvents = { ...data.getEvents, events: events };
-
-		setEvents(newEvents);
+		if (data || error) NProgress.done();
+		return data.getEvents;
 	};
 
-	const loadMore = page => {
+	const getEvents = async variables => {
+		let newEvents = await fetchEvents(variables);
+
+		let events = {
+			...newEvents,
+			events: _.chunk(newEvents.events, newEvents.events.length / 3),
+		};
+
+		setEvents(events);
+	};
+
+	const loadMore = async page => {
 		if (page < events.page_count - 1) {
-			getEvents({
+			let data = await fetchEvents({
 				location: location,
 				page: page + 1,
 			});
+			let moarEvents = [ ..._.flatten(events.events), ...data.events ];
+
+			let newEvents = {
+				...data,
+				events: _.chunk(moarEvents, moarEvents.length / 3),
+			};
+			setEvents(newEvents);
 		}
 	};
 
-	const handleCompleted = async stff => {
-		console.log(stff);
-		NProgress.done();
-		let { data, loading } = await client.query({
+	const handleCompleted = async () => {
+		let { data, error } = await client.query({
 			query: CURRENT_USER_QUERY,
 		});
+		if (data || error) NProgress.done();
+
 		if (data.currentUser) {
 			setUser(data.currentUser);
 		}
 	};
 
-	const Composed = adopt({
-		user: ({ render }) => <User>{render}</User>,
-		allEvents: ({ render }) => <Query query={ALL_EVENTS_QUERY}>{render}</Query>,
-		updateLocation: ({ render }) => (
-			<Mutation mutation={UPDATE_LOCATION_MUTATION}>{render}</Mutation>
-		),
-	});
-
-	if (!events) return <div>loading</div>;
+	if (!events.events.length) return <div />;
 	else
 		return (
 			<div className={classes.section} style={{ paddingTop: '40px' }}>
@@ -131,10 +126,8 @@ const Events = ({ classes, client }) => {
 										onCompleted={handleCompleted}
 									>
 										{(updateLocation, { error, loading, called }) => {
-											console.log(user.location, location);
-
 											if (called) NProgress.start();
-											if (loading) NProgress.set(0.3);
+
 											return (
 												<div
 													style={{
@@ -170,14 +163,10 @@ const Events = ({ classes, client }) => {
 											loadMore={loadMore}
 											hasMore={page < events.page_count}
 											threshold={400}
-											loader={
-												<div className='loader' key={0}>
-													Loading ...
-												</div>
-											}
+											loader={<div key={0} />}
 										>
 											{events.events[0].map(event => (
-												<Event event={event} key={event.id} />
+												<Event event={event} key={event.id} user={user} />
 											))}
 										</InfiniteScroll>
 									</GridItem>
@@ -185,13 +174,13 @@ const Events = ({ classes, client }) => {
 									<GridItem sm={6} md={4} lg={4}>
 										{events.events[1] &&
 											events.events[1].map(event => (
-												<Event event={event} key={event.id} />
+												<Event event={event} key={event.id} user={user} />
 											))}
 									</GridItem>
 									<GridItem sm={6} md={4} lg={4}>
 										{events.events[2] &&
 											events.events[2].map(event => (
-												<Event event={event} key={event.id} />
+												<Event event={event} key={event.id} user={user} />
 											))}
 									</GridItem>
 								</GridContainer>

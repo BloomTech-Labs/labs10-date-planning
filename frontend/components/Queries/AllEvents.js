@@ -6,12 +6,18 @@ import gql from 'graphql-tag';
 export const ALL_EVENTS_QUERY = gql`
 	query ALL_EVENTS_QUERY(
 		$location: String!
-		$alt: String
 		$page: Int
 		$categories: [String]
 		$dates: [String]
+		$genres: [String]
 	) {
-		getEvents(location: $location, alt: $alt, page: $page, categories: $categories, dates: $dates) {
+		getEvents(
+			location: $location
+			page: $page
+			categories: $categories
+			dates: $dates
+			genres: $genres
+		) {
 			page_count
 			total_items
 			page_number
@@ -21,6 +27,7 @@ export const ALL_EVENTS_QUERY = gql`
 				title
 				url
 				image_url
+				large_url
 				description
 				times
 				genre
@@ -34,10 +41,8 @@ export const ALL_EVENTS_QUERY = gql`
 					venue
 					city
 					address
-					latLong {
-						lat
-						long
-					}
+					lat
+					long
 				}
 			}
 		}

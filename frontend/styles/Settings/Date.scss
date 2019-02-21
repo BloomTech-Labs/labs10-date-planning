@@ -1,0 +1,42 @@
+.gradient-box {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 20px auto;
+
+  position: relative;
+  padding: 10px;
+  box-sizing: border-box;
+
+  $border: 3px;
+  color: #000;
+  background: #fff;
+  background-clip: padding-box; /* !importanté */
+  border: solid $border transparent; /* !importanté */
+  border-radius: 6px;
+
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    margin: -$border; /* !importanté */
+    border-radius: inherit; /* !importanté */
+    background-image: linear-gradient(
+      to top,
+      #7dcac5,
+      #7dcdcd,
+      #7ed0d4,
+      #7fd3dc,
+      #81d6e3
+    );
+  }
+}
+
+.button2 {
+  margin-left: 20px !important;
+  background-image: linear-gradient(to top, #b893b3, #bd9db8, #c1a6be, #c6b0c3, #cabac8);
+}
