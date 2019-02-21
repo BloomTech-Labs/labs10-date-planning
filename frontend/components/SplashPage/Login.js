@@ -13,6 +13,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import NProgress from 'nprogress';
 import Mail from '@material-ui/icons/Mail';
 import Icon from '@material-ui/core/Icon';
 import Close from '@material-ui/icons/Close';
@@ -66,7 +67,7 @@ const Login = ({ classes }) => {
 			const complete = await auth.signInWithPopup(provider);
 			const idToken = await auth.currentUser.getIdToken(true);
 			const success = await firebaseAuth({ variables: { idToken } });
-			if (success.data) Router.push('/home');
+			
 		} catch (err) {
 			console.log(err);
 		}
@@ -78,7 +79,7 @@ const Login = ({ classes }) => {
 			const complete = await auth.signInWithPopup(provider);
 			const idToken = await auth.currentUser.getIdToken(true);
 			const success = await firebaseAuth({ variables: { idToken } });
-			if (success.data) Router.push('/home');
+			
 		} catch (err) {
 			console.log(err);
 		}
@@ -90,7 +91,7 @@ const Login = ({ classes }) => {
 			const complete = await auth.signInWithPopup(provider);
 			const idToken = await auth.currentUser.getIdToken(true);
 			const success = await firebaseAuth({ variables: { idToken } });
-			if (success.data) Router.push('/home');
+			
 		} catch (err) {
 			console.log(err);
 		}
@@ -148,9 +149,16 @@ const Login = ({ classes }) => {
 											<Mutation
 												mutation={FIREBASE_LOGIN}
 												refetchQueries={[{ query: CURRENT_USER_QUERY }]}
+												awaitRefetchQueries
+												onCompleted={() => Router.push('/home')}
 											>
-												{(firebaseAuth, { loading, error }) => {
-													if (error) setServerError(error);
+												{(firebaseAuth, { loading, error, called }) => {
+													
+													if (called) NProgress.start();
+													if (error) {
+														NProgress.done();
+														setServerError(error);
+													}
 													return (
 														<>
 															<Button
