@@ -8,7 +8,7 @@ import styles from "../../static/jss/material-kit-pro-react/views/ecommerceSecti
 import GridContainer from "../../styledComponents/Grid/GridContainer";
 import SnackbarContent from "../../styledComponents/Snackbar/SnackbarContent.jsx";
 
-import '../../styles/Settings/Snackbar.scss'
+import "../../styles/Settings/Snackbar.scss";
 
 const Dates = ({ classes }) => {
   return (
@@ -29,29 +29,37 @@ const Dates = ({ classes }) => {
               )}
             </GridContainer>
             {currentUser.permissions[0] === "FREE" && (
-              <SnackbarContent
-                message={
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center"
-                    }}
-                  >
-                    <div>
-                      {" "}
-                      <b>You have <span>{5 - currentUser.events.length} </span>{currentUser.events.length === 1 ? "date left." : "dates left."}
-                      </b>
+              <div className='Snackbar'>
+                <SnackbarContent
+                  message={
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center"
+                      }}
+                    >
+                      <div>
+                        {" "}
+                        <b>
+                          You have <span>{5 - currentUser.events.length} </span>
+                          {currentUser.events.length === 1
+                            ? "date left."
+                            : "dates left."}
+                        </b>
+                      </div>
+                      <Link href="/billing">
+                        <Button className="Snackbar__button">
+                          Go Premium?
+                        </Button>
+                      </Link>
                     </div>
-                    <Link href="/billing">
-                      <Button className="Snackbar__button">Go Premium?</Button>
-                    </Link>
-                  </div>
-                }
-                close
-                color="info"
-                icon="info_outline"
-              />
+                  }
+                  close
+                  color="info"
+                  icon="info_outline"
+                />
+              </div>
             )}
           </div>
         );
