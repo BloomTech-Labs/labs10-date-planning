@@ -23,6 +23,11 @@ import img from '../../static/img/billingImage.jpg';
 //styles
 import pricingStyle from '../../static/jss/material-kit-pro-react/views/sectionsSections/pricingStyle.jsx';
 
+import { withApollo } from 'react-apollo';
+import gql from 'graphql-tag';
+
+import '../../styles/Billing/Billing.scss'
+
 const CANCEL_SUBSCRIPTION = gql`
 	mutation cancelSubscription {
 		cancelSubscription {
@@ -45,8 +50,8 @@ const Billing = ({ classes, currentUser, client }) => {
 
 	return (
 		<div
-			className={`${classes.pricing} ${classes.pricing1} ${classes.section}`}
-			style={{ backgroundImage: `url(${img})`, paddingTop: '0 !important' }}
+			className={`${classes.pricing} ${classes.pricing1} ${classes.section} Billing`}
+			style={{ backgroundImage: `url(${img})`, height: '100vh' }}
 		>
 			<Header color='transparent' />
 			<div className={classes.container}>

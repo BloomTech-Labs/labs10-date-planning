@@ -40,12 +40,16 @@ const DateView = ({ date, classes, client }) => {
 				{date.url && (
 					<CardHeader image>
 						<a href='#pablo' onClick={e => e.preventDefault()}>
-							<img src={date.url} alt='...' />
+
+							<img src={date.image_url} alt='...' />
+
 						</a>
 						<div
 							className={classes.coloredShadow}
 							style={{
-								backgroundImage: `url(${date.url})`,
+
+								backgroundImage: `url(${date.image_url})`,
+
 								opacity: '1',
 							}}
 						/>

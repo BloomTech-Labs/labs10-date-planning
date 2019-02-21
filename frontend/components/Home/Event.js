@@ -14,6 +14,8 @@ import CardBody from '../../styledComponents/Card/CardBody';
 //styles
 import CardStyles from '../../static/jss/material-kit-pro-react/views/componentsSections/sectionCards';
 
+import '../../styles/Home/Event.scss';
+
 const Event = ({ event, classes, user }) => {
 	const [ modal, showModal ] = useState(false);
 	let isSaved = user.events.find(e => e.eventfulID === event.id);
@@ -62,7 +64,7 @@ const Event = ({ event, classes, user }) => {
 				</h4>
 			</CardBody>
 			<CardFooter>
-				{isSaved && <BookmarkBorder style={{ position: 'absolute', left: 0, bottom: 0 }} />}
+				{isSaved && <BookmarkBorder className='Event__bookmark'  />}
 				<div className={`${classes.stats} ${classes.mlAuto}`} style={{ display: 'block' }}>
 					{event.times.length > 2 ? (
 						<div>
