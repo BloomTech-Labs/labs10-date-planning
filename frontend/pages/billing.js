@@ -6,9 +6,6 @@ import User from '../components/Queries/User';
 import { isLoggedIn } from '../components/Queries/User';
 import redirect from '../utils/redirect';
 import UpFor from '../components/Billing/UpFor';
-import { isLoggedIn } from '../components/Queries/User';
-import redirect from '../utils/redirect';
-
 
 const Home = () => (
 	<User>
