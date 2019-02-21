@@ -119,7 +119,6 @@ const Register = ({ classes }) => {
 		} catch (err) {
 			console.log(err);
 		}
-
 	};
 	const handleSubmit = async (e, signup) => {
 		e.preventDefault();
@@ -135,7 +134,6 @@ const Register = ({ classes }) => {
 					lastName: nameArray[1],
 				},
 			});
-			//if (newUser) Router.push('/home');
 		}
 	};
 
@@ -249,6 +247,7 @@ const Register = ({ classes }) => {
 													refetchQueries={[
 														{ query: CURRENT_USER_QUERY },
 													]}
+													awaitRefetchQueries
 													onError={error => {
 														NProgress.done();
 														setServerError(error);

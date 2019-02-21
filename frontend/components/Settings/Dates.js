@@ -14,7 +14,7 @@ const Dates = ({ classes }) => {
       {({ data: { currentUser } }) => {
         console.log(currentUser.events, currentUser.permissions);
         return (
-          <div style={{marginLeft: '34px'}}className={classes.container}>
+          <div style={{ marginLeft: "34px" }} className={classes.container}>
             {/* <div>
 							<h2 style={{ textAlign: 'center' }}>Your Dates</h2>
 						</div> */}
@@ -42,11 +42,11 @@ const Dates = ({ classes }) => {
                   >
                     <div>
                       {" "}
-                      <b>{`You have ${5 -
-                        currentUser.events.length} dates left.`}</b>
+                      <b>You have <span>{5 - currentUser.events.length} </span>{currentUser.events.length === 1 ? "date left." : "dates left."}
+                      </b>
                     </div>
                     <Link href="/billing">
-                      <Button>Go Premium?</Button>
+                      <Button className="button">Go Premium?</Button>
                     </Link>
                   </div>
                 }

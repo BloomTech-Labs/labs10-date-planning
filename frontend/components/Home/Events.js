@@ -1,7 +1,6 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { withApollo, Mutation } from 'react-apollo';
 import EventsQuery, { ALL_EVENTS_QUERY } from '../Queries/AllEvents';
-import { GEOHASH_QUERY } from '../Queries/GeoHash';
 import User, { CURRENT_USER_QUERY } from '../Queries/User';
 import _ from 'lodash';
 import { adopt } from 'react-adopt';
@@ -21,28 +20,31 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import styles from '../../static/jss/material-kit-pro-react/views/ecommerceSections/productsStyle.jsx';
 
 const Events = ({ classes, client }) => {
-	const [page, setPage] = useState(0);
-	const [events, setEvents] = useState(undefined);
-	const [location, setLocation] = useState(undefined);
-	const [user, setUser] = useState(undefined);
+	const [ page, setPage ] = useState(0);
+	const [ events, setEvents ] = useState(undefined);
+	const [ location, setLocation ] = useState(undefined);
+	const [ user, setUser ] = useState(undefined);
 	useEffect(() => {
 		getUser();
 	}, []);
 
-	useEffect(() => {
-		if (location) {
-			getEvents({
-				location: location,
-				alt: 'all',
-				page: 0,
-				categories: [],
-				dates: []
-			});
-		}
-	}, [location]);
+	useEffect(
+		() => {
+			if (location) {
+				getEvents({
+					location: location,
+					alt: 'all',
+					page: 0,
+					categories: [],
+					dates: [],
+				});
+			}
+		},
+		[ location ],
+	);
 	const getUser = async () => {
 		let { data, loading } = await client.query({
-			query: CURRENT_USER_QUERY
+			query: CURRENT_USER_QUERY,
 		});
 		if (loading) NProgress.start();
 		if (data.currentUser) {
@@ -57,12 +59,13 @@ const Events = ({ classes, client }) => {
 		NProgress.start();
 		let { data, loading, error } = await client.query({
 			query: ALL_EVENTS_QUERY,
-			variables: variables
+			variables: variables,
 		});
 
 		if (data.getEvents) NProgress.done();
 
 		let events = _.chunk(data.getEvents.events, 12);
+		console.log(events);
 		let newEvents = { ...data.getEvents, events: events };
 
 		setEvents(newEvents);
@@ -72,16 +75,15 @@ const Events = ({ classes, client }) => {
 		if (page < events.page_count - 1) {
 			getEvents({
 				location: location,
-				page: page + 1
+				page: page + 1,
 			});
 		}
 	};
 
 	const handleCompleted = async stff => {
-		console.log(stff);
 		NProgress.done();
 		let { data, loading } = await client.query({
-			query: CURRENT_USER_QUERY
+			query: CURRENT_USER_QUERY,
 		});
 		if (data.currentUser) {
 			setUser(data.currentUser);
@@ -93,7 +95,7 @@ const Events = ({ classes, client }) => {
 		allEvents: ({ render }) => <Query query={ALL_EVENTS_QUERY}>{render}</Query>,
 		updateLocation: ({ render }) => (
 			<Mutation mutation={UPDATE_LOCATION_MUTATION}>{render}</Mutation>
-		)
+		),
 	});
 
 	if (!events) return <div>loading</div>;
@@ -119,12 +121,15 @@ const Events = ({ classes, client }) => {
 												<div
 													style={{
 														display: 'flex',
-														alignItems: 'center'
+														alignItems: 'center',
 													}}
 												>
 													{user && user.location !== location ? (
 														<Primary>
-															<b onClick={updateLocation} style={{ cursor: 'pointer' }}>
+															<b
+																onClick={updateLocation}
+																style={{ cursor: 'pointer' }}
+															>
 																make default location?
 															</b>
 														</Primary>
@@ -148,7 +153,7 @@ const Events = ({ classes, client }) => {
 											hasMore={page < events.page_count}
 											threshold={400}
 											loader={
-												<div className="loader" key={0}>
+												<div className='loader' key={0}>
 													Loading ...
 												</div>
 											}
@@ -161,11 +166,15 @@ const Events = ({ classes, client }) => {
 
 									<GridItem sm={6} md={4} lg={4}>
 										{events.events[1] &&
-											events.events[1].map(event => <Event event={event} key={event.id} />)}
+											events.events[1].map(event => (
+												<Event event={event} key={event.id} />
+											))}
 									</GridItem>
 									<GridItem sm={6} md={4} lg={4}>
 										{events.events[2] &&
-											events.events[2].map(event => <Event event={event} key={event.id} />)}
+											events.events[2].map(event => (
+												<Event event={event} key={event.id} />
+											))}
 									</GridItem>
 								</GridContainer>
 							</GridItem>
