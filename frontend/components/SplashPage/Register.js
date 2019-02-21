@@ -119,7 +119,6 @@ const Register = ({ classes }) => {
 		} catch (err) {
 			console.log(err);
 		}
-
 	};
 	const handleSubmit = async (e, signup) => {
 		e.preventDefault();
@@ -135,7 +134,6 @@ const Register = ({ classes }) => {
 					lastName: nameArray[1],
 				},
 			});
-			//if (newUser) Router.push('/home');
 		}
 	};
 

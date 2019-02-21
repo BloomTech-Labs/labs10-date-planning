@@ -33,9 +33,9 @@ import { CURRENT_USER_QUERY } from '../Queries/User';
 // Router.onRouteChangeStart = () => {
 // 	NProgress.start();
 // };
-// Router.onRouteChangeComplete = () => {
-// 	NProgress.done();
-// };
+Router.onRouteChangeComplete = () => {
+	NProgress.done(true);
+};
 
 // Router.onRouteChangeError = () => {
 // 	NProgress.done();
