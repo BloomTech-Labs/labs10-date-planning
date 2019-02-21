@@ -62,7 +62,6 @@ const Dates = ({ classes }) => {
 									}
 									close
 									color='info'
-									icon='info_outline'
 								/>
 							</div>
 						)}

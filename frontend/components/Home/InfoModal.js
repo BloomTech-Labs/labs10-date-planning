@@ -45,6 +45,7 @@ const ErrorModal = ({ modal, showModal, classes }) => {
 			</DialogTitle>
 			<DialogContent
 				id='small-modal-slide-description'
+				style={{ marginTop: 0, paddingTop: 0 }}
 				className={classes.modalBody + ' ' + classes.modalSmallBody}
 			>
 				{!modal.error && <h2>Event Added!</h2>}
@@ -67,7 +68,7 @@ const ErrorModal = ({ modal, showModal, classes }) => {
 				{!modal.message && (
 					<Button
 						onClick={() => Router.push('/billing')}
-						color='warning'
+						color='rose'
 						className={
 							classes.modalSmallFooterFirstButton +
 							' ' +

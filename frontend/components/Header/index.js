@@ -74,7 +74,7 @@ const Nav = ({ classes, color }) => {
 									}}
 									color='transparent'
 								>
-									<AccountCircle /> Profile
+									<AccountCircle /> Me
 								</Button>
 							</ListItem>
 							<Mutation

@@ -342,7 +342,7 @@ const Mutation = {
 		}
 
 		const [ img ] = data.images.filter(img => img.width > 600);
-
+		console.log(img);
 		await db.mutation.upsertEvent({
 			where: {
 				eventfulID: data.id,
@@ -358,7 +358,10 @@ const Mutation = {
 				eventfulID: data.id,
 				title: data.name,
 				url: data.url,
-				location: data._embedded.venues[0].name,
+				location: {
+					venue: data._embedded.venues[0].name,
+					address: ev._embedded.venues[0].address && ev._embedded.venues[0].address.line1,
+				},
 				description: data.info,
 				times: { set: [ data.dates.start.dateTime ] },
 				image_url: img.url,
