@@ -289,6 +289,7 @@ const Login = ({ classes }) => {
 											<Button
 												color='primary'
 												simple
+												disabled={!user.email || !user.password}
 												size='lg'
 												component='div'
 											>
