@@ -151,6 +151,7 @@ const Mutation = {
       info
     );
   },
+
   async updateLocation(parent, { city }, { db, request }, info) {
     const { userId, user } = request;
     if (!userId) throw new Error("You must be logged in!");
