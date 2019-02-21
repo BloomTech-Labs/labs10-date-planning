@@ -204,17 +204,8 @@ const Mutation = {
   },
   async createOrder(parent, args, ctx, info) {
 		// Check user's login status
-    const { userId } = ctx.request;
-
+    const { userId, user } = ctx.request;
 		if (!userId) throw new Error('You must be signed in to complete this order.');
-
-		// Get user's info
-		const user = await ctx.db.query.user(
-			{ where: { id: userId } },
-			`
-				{id firstName lastName email permissions stripeCustomerId stripeSubscriptionId}
-			`
-		);
 
 		// Check user's subscription status
     if (user.permissions[0] === args.subscription) {
@@ -330,15 +321,8 @@ const Mutation = {
 		return updatedUser;
 	},
   async addEvent(parent, args, { db, request }, info) {
-    const { userId } = request;
+    const { userId, user } = request;
     if (!userId) throw new Error('You must be signed in to add an event.');
-
-    const user = await db.query.user(
-      { where: { id: userId } },
-      `
-        {id firstName lastName email permissions events { eventfulID }}
-      `
-    );
 
     if (user.permissions[0] === 'FREE' && user.events.length === 5) {
       throw new Error('You have reached the free tier limit');
