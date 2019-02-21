@@ -32,7 +32,7 @@ class MyApp extends App {
 		pageProps.query = ctx.query;
 		//console.log(await isLoggedIn());
 		let user = await isLoggedIn(ctx.apolloClient);
-		console.log(user);
+		console.log(!user.currentUser && router.pathname !== '/joinus');
 		if (!user.currentUser && router.pathname !== '/joinus') redirect(ctx, '/joinus');
 		return { pageProps };
 	}

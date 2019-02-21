@@ -20,12 +20,6 @@ import '../../styles/Home/EventModal.scss';
 
 const EventModal = ({ modal, showModal, classes, event, client }) => {
 	const [ messageModal, showMessageModal ] = useState({});
-	useState(
-		() => {
-			console.log(event);
-		},
-		[ modal ],
-	);
 
 	const handleClick = async (e, addEvent, user) => {
 		e.stopPropagation();
