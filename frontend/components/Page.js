@@ -1,18 +1,15 @@
 import React, { Fragment } from 'react';
+import Router from 'next/router';
 import Meta from './Meta';
 import User from './Queries/User';
 
 const Page = ({ children }) => {
 	return (
-		<User>
-			{({ data: { currentUser } }) => (
-				<Fragment>
-					<Meta />
+		<Fragment>
+			<Meta />
 
-					<div style={{ height: '100vh' }}>{children}</div>
-				</Fragment>
-			)}
-		</User>
+			<div style={{ height: '100vh' }}>{children}</div>
+		</Fragment>
 	);
 };
 

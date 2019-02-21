@@ -97,7 +97,7 @@ const Nav = ({ classes, color }) => {
 								refetchQueries={[ { query: CURRENT_USER_QUERY } ]}
 							>
 								{(signout, { called }) => {
-									if (called) Router.replace('/joinus');
+									if (called) Router.push('/joinus');
 									return (
 										<ListItem className={classes.listItem}>
 											<CustomDropdown
