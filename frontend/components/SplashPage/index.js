@@ -25,7 +25,7 @@ const Splash = ({ classes }) => {
 						</h4>
 						<div>
 							<Register />
-							<Login />
+							<Login className='login'/>
 						</div>
 					</GridItem>
 				</GridContainer>
