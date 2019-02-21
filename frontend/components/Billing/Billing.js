@@ -24,9 +24,10 @@ import pricingStyle from '../../static/jss/material-kit-pro-react/views/sections
 import '../../styles/Billing/Billing.scss';
 
 const CANCEL_SUBSCRIPTION = gql`
-	mutation cancelSubscription {
-		cancelSubscription {
-			message
+	mutation cancelSubscription($id: String!) {
+		cancelSubscription(id: $id) {
+			id
+			permissions
 		}
 	}
 `;
@@ -37,9 +38,7 @@ const Billing = ({ classes, currentUser, client }) => {
 	const cancelSubscription = async () => {
 		let { data, loading } = await client.mutate({
 			mutation: CANCEL_SUBSCRIPTION,
-		});
-		let currentUser = await client.query({
-			query: CURRENT_USER_QUERY,
+			variables: { id: currentUser.id },
 		});
 	};
 
@@ -65,7 +64,7 @@ const Billing = ({ classes, currentUser, client }) => {
 					</GridItem>
 				</GridContainer>
 				<GridContainer>
-					<GridItem xs={12} sm={6} md={6} lg={4}>
+					<GridItem xs={12} sm={6} md={4} lg={4}>
 						<Card
 							pricing
 							raised={currentSubs === 'FREE'}
@@ -114,7 +113,7 @@ const Billing = ({ classes, currentUser, client }) => {
 							</CardBody>
 						</Card>
 					</GridItem>
-					<GridItem xs={12} sm={6} md={6} lg={4}>
+					<GridItem xs={12} sm={6} md={4} lg={4}>
 						<Card
 							pricing
 							raised={currentSubs === 'MONTHLY'}
@@ -179,7 +178,7 @@ const Billing = ({ classes, currentUser, client }) => {
 							</CardBody>
 						</Card>
 					</GridItem>
-					<GridItem xs={12} sm={6} md={6} lg={4}>
+					<GridItem xs={12} sm={6} md={4} lg={4}>
 						<Card
 							pricing
 							raised={currentSubs === 'YEARLY'}

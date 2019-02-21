@@ -18,7 +18,7 @@ const UpFor = () => {
     color: #81D6E3;`
 
     const Four = styled.div`
-    color: #FF101F
+    color: #FF101F;
     `
     const Fours = styled.div`
     display: flex;
@@ -29,7 +29,7 @@ const UpFor = () => {
     })
     
     const SecondFour = styled(MirroredFour)`
-    color: #FF101F
+    color: #FF101F;
     position: absolute;
     transform-origin: 67%;
     `
@@ -40,7 +40,8 @@ const UpFor = () => {
             <Up>Up</Up><Fours><Four>4</Four><SecondFour pose={hovering ? "hovered" : "idle"}
           onMouseEnter={() => setHovering({ hovering: true })}
           onMouseLeave={() => setHovering({ hovering: false })}>4</SecondFour></Fours>
-        </Container>)
+        </Container>
+    )
 }
 
 export default UpFor
