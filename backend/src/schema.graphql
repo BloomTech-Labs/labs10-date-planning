@@ -12,7 +12,7 @@ type Mutation {
 	updateLocation(city: String!): User!
 	addEvent(eventId: String!): Message
 	deleteEvent(eventId: String!): Message
-	createOrder(token: String!, subscription: Permission!): Order!
+	createOrder(token: String!, subscription: Permission!): Message
 	cancelSubscription: Message
 }
 

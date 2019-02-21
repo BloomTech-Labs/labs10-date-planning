@@ -36,35 +36,39 @@ const Mutation = {
 			maxAge: 1000 * 60 * 60 * 24 * 365 // 1 year cookie
 		});
 
-		return user;
-	},
-	async firebaseAuth(parent, args, ctx, info) {
-		const { uid, email, user_id } = await verifyIdToken(args.idToken);
-		const firebaseUser = await getUserRecord(uid);
-		const { displayName } = firebaseUser;
-		// check to see if user already exists in our db
-		let user = await ctx.db.query.user({
-			where: { email: email ? email : user_id } // set the email to the firebase user_id bc twitter doesnt supply email
-		});
-		if (!user) {
-			user = await ctx.db.mutation.createUser(
-				{
-					data: {
-						firstName: displayName,
-						email: email || user_id,
-						password: 'firebaseAuth',
-						lastName: ''
-					}
-				},
-				`{id firstName email}`
-			);
-			await setUserClaims(uid, { id: user.id, admin: false });
-		}
-		const token = await createUserToken(args, ctx);
-		ctx.response.cookie('userId', user.id, {
-			httpOnly: true,
-			maxAge: 1000 * 60 * 60 * 24 * 365 // 1 year long cookie bc why not. FIGHT ME
-		});
+    return user;
+  },
+  async firebaseAuth(parent, args, ctx, info) {
+    const { uid, email, user_id } = await verifyIdToken(args.idToken);
+    console.log(email)
+    const firebaseUser = await getUserRecord(uid);
+    const { displayName } = firebaseUser;
+    // check to see if user already exists in our db
+    let user = await ctx.db.query.user({
+      where: { email: email ? email : user_id }
+    });
+    if (!user) {
+      user = await ctx.db.mutation.createUser(
+        {
+          data: {
+            firstName: displayName,
+            email: email || user_id,
+            password: "firebaseAuth",
+            lastName: "",
+            permissions: {
+              set: ['FREE']
+            }
+          },
+        },
+        `{id firstName email}`
+      );
+      await setUserClaims(uid, { id: user.id, admin: false });
+    }
+    const token = await createUserToken(args, ctx);
+    ctx.response.cookie("userId", user.id, {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24 * 365 // 1 year long cookie bc why not. FIGHT ME
+    });
 
 		return { token, user };
 	},
@@ -113,93 +117,96 @@ const Mutation = {
 			subject: 'Your Password Reset Token',
 			html: formatEmail(`Your Password Reset Token is here!
 		  \n\n
-		  <a href="${process.env.FRONTEND_URL}/reset?resetToken=${resetToken}">Click Here to Reset</a>`)
-		});
-		// this is the SMTP Holden has setup that we can use to send emails once we go into production (have a hard cap of 100 emails/month though)
-		// const mailRes = await client.sendEmail({
-		// 	From: 'support@up4.life',
-		// 	To: `${user.email}`,
-		// 	Subject: 'Your Password Reset Token!',
-		// 	HtmlBody: makeANiceEmail(`Your Password Reset Token is here!
-		//   \n\n
-		//   <a href="${process.env.FRONTEND_URL}/reset?resetToken=${resetToken}">Click Here to Reset</a>`)
-		// });
-		return { message: 'Thanks!' };
-	},
-	async updateImage(parent, { thumbnail, image }, { db, response, request }, info) {
-		const user = await db.query.user({
-			where: { id: request.userId }
-		});
-		if (!user) {
-			throw new Error('You must be logged in!');
-		}
+		  <a href="${
+        process.env.FRONTEND_URL
+      }/reset?resetToken=${resetToken}">Click Here to Reset</a>`)
+    });
+    // this is the SMTP Holden has setup that we can use to send emails once we go into production (have a hard cap of 100 emails/month though)
+    // const mailRes = await client.sendEmail({
+    // 	From: 'support@up4.life',
+    // 	To: `${user.email}`,
+    // 	Subject: 'Your Password Reset Token!',
+    // 	HtmlBody: makeANiceEmail(`Your Password Reset Token is here!
+    //   \n\n
+    //   <a href="${process.env.FRONTEND_URL}/reset?resetToken=${resetToken}">Click Here to Reset</a>`)
+    // });
+    return { message: "Thanks!" };
+  },
+  async updateImage(
+    parent,
+    { thumbnail, image },
+    { db, response, request },
+    info
+  ) {
+    const { userId, user } = request;
+    if (!userId) throw new Error('You must be logged in!');
 
-		return db.mutation.updateUser(
-			{
-				where: {
-					id: user.id
-				},
-				data: {
-					imageThumbnail: thumbnail,
-					imageLarge: image
-				}
-			},
-			info
-		);
-	},
-	async updateLocation(parent, { city }, { db, request }, info) {
-		const user = await db.query.user({
-			where: { id: request.userId }
-		});
-		if (!user) {
-			throw new Error('You must be logged in!');
-		}
-		return db.mutation.updateUser(
-			{
-				where: {
-					id: user.id
-				},
-				data: {
-					location: city
-				}
-			},
-			info
-		);
-	},
-	async resetPassword(parent, args, { db, response }, info) {
-		if (args.password !== args.confirmPassword) {
-			throw new Error('Passwords must match!');
-		}
-		const [user] = await db.query.users({
-			where: {
-				resetToken: args.resetToken,
-				resetTokenExpiry_gte: Date.now() - 3600000 // make sure reset Token is still within 1hr time limit
-			}
-		});
-		if (!user) {
-			throw new Error('This token is either invalid or expired');
-		}
-		const password = await bcrypt.hash(args.password, 10);
-		// removed token and expiry fields from user once updated
-		const updatedUser = await db.mutation.updateUser({
-			where: { email: user.email },
-			data: {
-				password,
-				resetToken: null,
-				resetTokenExpiry: null
-			}
-		});
-		const token = jwt.sign({ userId: updatedUser.id }, process.env.APP_SECRET);
-		// put new token onto cookie bc i said so
-		response.cookie('token', token, {
-			httpOnly: true,
-			maxAge: 1000 * 60 * 60 * 24 * 365
-		});
-		return updatedUser;
-	},
-	async createOrder(parent, args, ctx, info) {
+    return db.mutation.updateUser(
+      {
+        where: {
+          id: user.id
+        },
+        data: {
+          imageThumbnail: thumbnail,
+          imageLarge: image
+        }
+      },
+      info
+    );
+  },
+
+  async updateLocation(parent, { city }, { db, request }, info) {
+    const { userId, user } = request;
+    if (!userId) throw new Error("You must be logged in!");
+
+    return db.mutation.updateUser(
+      {
+        where: {
+          id: user.id
+        },
+        data: {
+          location: city
+        }
+      },
+      info
+    );
+  },
+  async resetPassword(parent, args, { db, response }, info) {
+    if (args.password !== args.confirmPassword) {
+      throw new Error("Passwords must match!");
+    }
+    const [user] = await db.query.users({
+      where: {
+        resetToken: args.resetToken,
+        resetTokenExpiry_gte: Date.now() - 3600000 // make sure reset Token is still within 1hr time limit
+      }
+    });
+    if (!user) {
+      throw new Error("This token is either invalid or expired");
+    }
+    const password = await bcrypt.hash(args.password, 10);
+    // removed token and expiry fields from user once updated
+    const updatedUser = await db.mutation.updateUser({
+      where: { email: user.email },
+      data: {
+        password,
+        resetToken: null,
+        resetTokenExpiry: null
+      }
+    });
+    const token = jwt.sign({ userId: updatedUser.id }, process.env.APP_SECRET);
+    // put new token onto cookie bc i said so
+    response.cookie("token", token, {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24 * 365
+    });
+    return updatedUser;
+  },
+  async createOrder(parent, args, ctx, info) {
 		// Check user's login status
-		const { userId } = ctx.request;
+    const { userId } = ctx.request;
+
+    // console.log(user);
 		if (!userId) throw new Error('You must be signed in to complete this order.');
 
 		// Get user's info
@@ -211,33 +218,16 @@ const Mutation = {
 		);
 
 		// Check user's subscription status
-		// if (user.permissions[0] === args.subscription) {
-		// 	throw new Error(`User already has ${args.subscription} subscription`);
-		// } else if (user.permissions[0] === 'YEARLY') {
-		// 	throw new Error(`User already has the highest level of ${args.subscription} subscription`);
-		// }
+    if (user.permissions[0] === args.subscription) {
+      throw new Error(`User already has ${args.subscription} subscription`);
+    }
 
-		// Create a subscription if user does not have one already
-		let subscription;
-		if (!user.tripeSubscriptionId) {
-			subscription = await stripe.subscriptions.create({
-				customer: user.stripeCustomerId || customer.id,
-				items: [
-					{
-						plan: user.permissions[0] === 'MONTHLY' ? 'plan_EYPPZzmOjy3P3I' : 'plan_EYPg6RkTFwJFRA'
-					}
-				]
-			});
-		} else {
-			subscription = await stripe.subscriptions.retrieve(user.stripeSubscriptionId);
-			await stripe.subscriptions.update(user.stripeSubscriptionId, {
-				cancel_at_period_end: false,
-				items: [
-					{
-						id: subscription.items.data[0].id,
-						plan: args.subscription === 'MONTHLY' ? 'plan_EYPPZzmOjy3P3I' : 'plan_EYPg6RkTFwJFRA'
-					}
-				]
+		// Create new stripe customer if user is not one already
+		let customer;
+		if (!user.stripeCustomerId) {
+			customer = await stripe.customers.create({
+				email: user.email,
+				source: args.token
 			});
 		}
 
@@ -246,47 +236,20 @@ const Mutation = {
 		if (!user.stripeSubscriptionId) {
 			subscription = await stripe.subscriptions.create({
 				customer: user.stripeCustomerId || customer.id,
-				items: [
-					{
-						plan: user.permissions[0] === 'MONTHLY' ? 'plan_EYPPZzmOjy3P3I' : 'plan_EYPg6RkTFwJFRA'
-					}
-				]
-			});
+				items: [{
+					plan: user.permissions[0] === 'MONTHLY' ? 'plan_EYPPZzmOjy3P3I' : 'plan_EYPg6RkTFwJFRA'
+				}]
+			})
 		} else {
 			subscription = await stripe.subscriptions.retrieve(user.stripeSubscriptionId);
 			await stripe.subscriptions.update(user.stripeSubscriptionId, {
 				cancel_at_period_end: false,
-				items: [
-					{
-						id: subscription.items.data[0].id,
-						plan: args.subscription === 'MONTHLY' ? 'plan_EYPPZzmOjy3P3I' : 'plan_EYPg6RkTFwJFRA'
-					}
-				]
-			});
+				items: [{
+					id: subscription.items.data[0].id,
+					plan: args.subscription === 'MONTHLY' ? 'plan_EYPPZzmOjy3P3I' : 'plan_EYPg6RkTFwJFRA'
+				}]
+			})
 		}
-
-		// Charge the credit card
-		const amount = args.subscription === 'MONTHLY' ? 999 : 2999;
-		// const charge = await stripe.charges.create({
-		// 	amount,
-		// 	currency: 'USD',
-
-		// Record the order
-		const order = await ctx.db.mutation.createOrder(
-			{
-				data: {
-					total: amount,
-					charge: '',
-					subscription: args.subscription,
-					user: {
-						connect: {
-							id: user.id
-						}
-					}
-				}
-			},
-			info
-		);
 
 		// Update user's permission type
 		ctx.db.mutation.updateUser({
@@ -294,28 +257,22 @@ const Mutation = {
 				permissions: {
 					set: [args.subscription]
 				},
-				stripeSubscriptionId: subscription ? subscription.id : user.stripeSubscriptionId,
-				stripeCustomerId: customer ? customer.id : user.stripeCustomerId
+				stripeSubscriptionId: subscription? subscription.id : user.stripeSubscriptionId,
+				stripeCustomerId: customer? customer.id : user.stripeCustomerId,
 			},
 			where: {
 				id: user.id
 			}
 		});
 
-		return order;
+    return {
+      message: 'Thank You'
+    };
 	},
 	async cancelSubscription(parent, args, ctx, info) {
 		// Check user's login status
-		const { userId } = ctx.request;
+		const { userId, user } = ctx.request;
 		if (!userId) throw new Error('You must be signed in to complete this order.');
-
-		// Get user's info
-		const user = await ctx.db.query.user(
-			{ where: { id: userId } },
-			`
-				{id email permissions stripeCustomerId stripeSubscriptionId}
-			`
-		);
 
 		if (!user.stripeCustomerId || !user.stripeSubscriptionId) {
 			throw new Error('User has no stripe customer Id or subscription Id');
@@ -373,111 +330,86 @@ const Mutation = {
 		});
 		return updatedUser;
 	},
-	async addEvent(parent, args, { db, request }, info) {
-		const { userId } = request;
-		if (!userId) throw new Error('You must be signed in to add an event.');
-		const user = await db.query.user(
-			{ where: { id: userId } },
-			`
-				{id firstName lastName email permissions events { eventfulID }}
-			`
-		);
-		if (user.permissions[0] === 'FREE' && user.events.length === 5) {
-			throw new Error('You have reached the free tier limit');
-		}
-		const { data } = await axios.get(
-			`https://app.ticketmaster.com/discovery/v2/events/${args.eventId}.json?apikey=${
-				process.env.TKTMSTR_KEY
-			}`
-		);
-		const [alreadySaved] = user.events.filter(event => event.eventfulID === data.id);
-		if (alreadySaved) {
-			throw new Error("You've already saved that event!");
-		}
+  async addEvent(parent, args, { db, request }, info) {
+    const { userId } = request;
+    if (!userId) throw new Error('You must be signed in to add an event.');
 
-		let [event] = await db.query.events({
-			where: { eventfulID: data.id }
-		});
-		if (!event) {
-			// create the event if it doesnt exist
-			const [img] = data.images.filter(img => img.ratio === '4_3');
-			event = await db.mutation.createEvent({
-				data: {
-					eventfulID: data.id,
-					title: data.name,
-					url: data.url,
-					location: data._embedded.venues[0].name,
-					description: data.info,
-					times: { set: [data.dates.start.dateTime] },
-					image_url: img.url,
-					attending: {
-						connect: {
-							id: user.id
-						}
-					}
-				}
-			});
-		} else {
-			await db.mutation.updateEvent(
-				{
-					data: {
-						attending: {
-							connect: {
-								id: user.id
-							}
-						}
-					},
-					where: {
-						id: event.id
-					}
-				},
-				`{ attending { id }}`
-			);
-		}
-		// finally, in either case we want to update the relationship to the event on the user obj
-		// then connect the user to the event
-		await db.mutation.updateUser({
-			data: {
-				events: {
-					connect: {
-						id: event.id
-					}
-				}
-			},
-			where: {
-				id: user.id
-			}
-		});
-		return user.permissions[0] === 'FREE'
-			? { message: `You have used ${user.events.length + 1} of your 5 free events` }
-			: { message: 'Event successfully added!' };
-	},
-	async deleteEvent(parent, args, { db, request }, info) {
-		const { userId } = request;
-		if (!userId) throw new Error('You must be signed in to add delete an event.');
+    const user = await db.query.user(
+      { where: { id: userId } },
+      `
+        {id firstName lastName email permissions events { eventfulID }}
+      `
+    );
 
-		// remove user from event's attendee
-		await db.mutation.updateEvent(
-			{
-				data: {
-					attending: {
-						disconnect: {
-							id: userId
-						}
-					}
-				},
-				where: {
-					id: args.eventId
-				}
-			},
-			`{ attending { id }}`
-		);
+    if (user.permissions[0] === 'FREE' && user.events.length === 5) {
+      throw new Error('You have reached the free tier limit');
+    }
 
-		const user = await db.query.user({ where: { id: userId } }, `{ permissions events{ id } }`);
-		return user.permissions[0] === 'FREE'
-			? { message: `You have used ${user.events.length} of your 5 free events` }
-			: { message: 'Event successfully removed!' };
-	}
+    const { data } = await axios.get(
+      `https://app.ticketmaster.com/discovery/v2/events/${args.eventId}.json?apikey=${
+        process.env.TKTMSTR_KEY
+      }`
+    );
+
+    const [alreadySaved] = user.events.filter(event => event.eventfulID === data.id);
+    if (alreadySaved) {
+      throw new Error("You've already saved that event!");
+    }
+
+    const [img] = data.images.filter(img => img.ratio === '4_3');
+    await db.mutation.upsertEvent({
+      where: {
+        eventfulID: data.id
+      },
+      update: {
+        attending: {
+          connect: {
+            id: user.id
+          }
+        }
+      },
+      create: {
+        eventfulID: data.id,
+        title: data.name,
+        url: data.url,
+        location: data._embedded.venues[0].name,
+        description: data.info,
+        times: { set: [data.dates.start.dateTime] },
+        image_url: img.url,
+        attending: {
+          connect: {
+            id: user.id
+          }
+        }
+      }
+    });
+
+    return user.permissions[0] === 'FREE'
+      ? { message: `You have used ${user.events.length + 1} of your 5 free events` }
+      : { message: 'Event successfully added!' };
+  },
+  async deleteEvent(parent, args, { db, request }, info) {
+    const { userId } = request;
+    if (!userId) throw new Error('You must be signed in to add delete an event.');
+
+    const user = await db.mutation.updateUser(
+      {
+        where: { id: userId },
+        data: {
+          events: {
+            disconnect: {
+              id: args.eventId // remove event from user's events and remove user from event's attending
+            }
+          }
+        }
+      },
+      `{ permissions events { id } }`
+    )
+
+    return user.permissions[0] === 'FREE'
+      ? { message: `You have used ${user.events.length} of your 5 free events` }
+      : { message: 'Event successfully removed!' };
+  }
 };
 
 module.exports = Mutation;

@@ -12,8 +12,7 @@ import { GET_USER_ORDER } from './TransactionList';
 const CREATE_ORDER_MUTATION = gql`
   mutation createOrder($token: String!, $subscription: Permission!) {
     createOrder(token: $token, subscription: $subscription) {
-      id
-      total
+      message
     }
   }
 `;
