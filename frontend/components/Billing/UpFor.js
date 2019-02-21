@@ -23,10 +23,11 @@ const UpFor = () => {
     const Fours = styled.div`
     display: flex;
     `
-    const MirroredFour = posed.div`
-    idle: {transform: rotateY(0deg)}
-    hovered: {transform: rotateY(180deg)}
-    `
+    const MirroredFour = posed.div({
+    hoverable: true,
+    idle: {transform: 'rotateY(0deg)'},
+    hovered: {transform: 'rotateY(180deg)'}
+    })
     
     const SecondFour = styled(MirroredFour)`
     color: #FF101F
