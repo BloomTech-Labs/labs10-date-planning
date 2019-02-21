@@ -16,7 +16,7 @@ const Home = () => (
 					{/* <DatesLeft currentUser={currentUser} /> */}
 					<Billing currentUser={currentUser} />
 					<TransactionList currentUser={currentUser} />
-					<UpFor />
+					{/* <UpFor /> */}
 				</>
 			);
 		}}
