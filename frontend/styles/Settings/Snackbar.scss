@@ -1,0 +1,17 @@
+.Snackbar__button {
+  background-image: linear-gradient(
+    to top,
+    #b893b3,
+    #bd9db8,
+    #c1a6be,
+    #c6b0c3,
+    #cabac8
+  ) !important;
+}
+
+.Snackbar {
+  position: fixed;
+  bottom: 0;
+  z-index: 1000;
+  width: 66%;
+}

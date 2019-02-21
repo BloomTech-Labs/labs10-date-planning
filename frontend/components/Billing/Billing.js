@@ -1,30 +1,27 @@
 import React from 'react';
-import Header from '../Header';
-import User from '../Queries/User';
-import Stripe from './Stripe';
-import { CURRENT_USER_QUERY } from '../Queries/User';
-import CardHeader from '../../styledComponents/Card/CardHeader';
-
 import classNames from 'classnames';
-// core components
+import { withApollo } from 'react-apollo';
+import gql from 'graphql-tag';
+//MUI
+import withStyles from '@material-ui/core/styles/withStyles';
+import { Done, DoneAll, DoneOutline } from '@material-ui/icons';
+
+//QM
+import User, { CURRENT_USER_QUERY } from '../Queries/User';
+//components
+import Header from '../Header';
+import Stripe from './Stripe';
+// styled components
 import GridContainer from '../../styledComponents/Grid/GridContainer.jsx';
 import GridItem from '../../styledComponents/Grid/GridItem.jsx';
 import Card from '../../styledComponents/Card/Card.jsx';
 import CardBody from '../../styledComponents/Card/CardBody.jsx';
 import Button from '../../styledComponents/CustomButtons/Button.jsx';
-// @material-ui/core components
-import withStyles from '@material-ui/core/styles/withStyles';
-import Weekend from '@material-ui/icons/Weekend';
-import Done from '@material-ui/icons/Done';
-import DoneAll from '@material-ui/icons/DoneAll';
-import DoneOutline from '@material-ui/icons/DoneOutline';
-import Code from '@material-ui/icons/Code';
+// images
 import img from '../../static/img/billingImage.jpg';
-
+//styles
 import pricingStyle from '../../static/jss/material-kit-pro-react/views/sectionsSections/pricingStyle.jsx';
-
-import { withApollo } from 'react-apollo';
-import gql from 'graphql-tag';
+import '../../styles/Billing/Billing.scss';
 
 const CANCEL_SUBSCRIPTION = gql`
 	mutation cancelSubscription {
@@ -44,13 +41,12 @@ const Billing = ({ classes, currentUser, client }) => {
 		let currentUser = await client.query({
 			query: CURRENT_USER_QUERY,
 		});
-		console.log(data);
 	};
 
 	return (
 		<div
-			className={`${classes.pricing} ${classes.pricing1} ${classes.section}`}
-			style={{ backgroundImage: `url(${img})`, paddingTop: '0 !important' }}
+			className={`${classes.pricing} ${classes.pricing1} ${classes.section} Billing`}
+			style={{ backgroundImage: `url(${img})`, height: '100vh' }}
 		>
 			<Header color='transparent' />
 			<div className={classes.container}>
@@ -225,7 +221,6 @@ const Billing = ({ classes, currentUser, client }) => {
 								{currentSubs === 'YEARLY' ? (
 									<Button
 										onClick={() => {
-											console.log('cliked');
 											cancelSubscription();
 										}}
 									>

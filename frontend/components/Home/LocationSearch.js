@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import Downshift from 'downshift';
 import { ApolloConsumer } from 'react-apollo';
-import { LOCATION_SUGGESTION_QUERY } from '../Queries/LocationSuggestion';
-import Input from '../../styledComponents/CustomInput/CustomInput';
+//MUI
+import { Paper, MenuItem } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
-import Paper from '@material-ui/core/Paper';
+//Q&M
+import { LOCATION_SUGGESTION_QUERY } from '../Queries/LocationSuggestion';
+//styled components
+import Input from '../../styledComponents/CustomInput/CustomInput';
 import Button from '../../styledComponents/CustomButtons/Button';
-import MenuItem from '@material-ui/core/MenuItem';
 
 const Search = ({ setLocation }) => {
 	const [ input, setInput ] = useState('');
@@ -47,7 +49,7 @@ const Search = ({ setLocation }) => {
 									placeholder: 'Search for a city name...',
 									...getInputProps(),
 								}}
-								formControlProps={{ style: { paddingTop: '12px' } }}
+								formControlProps={{ style: { paddingTop: '12px', width: '80%' } }}
 							/>
 							<Button
 								justIcon

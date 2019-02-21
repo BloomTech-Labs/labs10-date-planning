@@ -1,24 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import moment from 'moment';
-import AddIcon from '@material-ui/icons/Add';
+import NProgress from 'nprogress';
+//MUI
+
+import { Bookmark, Add } from '@material-ui/icons';
 import withStyles from '@material-ui/core/styles/withStyles';
 
+//Components
 import EventModal from './EventModal';
+//Styled components
 import Card from '../../styledComponents/Card/Card';
 import CardHeader from '../../styledComponents/Card/CardHeader';
 import CardFooter from '../../styledComponents/Card/CardFooter';
 import CardBody from '../../styledComponents/Card/CardBody';
-import Warning from '../../styledComponents/Typography/Warning';
-
+//styles
 import CardStyles from '../../static/jss/material-kit-pro-react/views/componentsSections/sectionCards';
 
-const Event = ({ event, classes }) => {
+import '../../styles/Home/Event.scss';
+
+const Event = ({ event, classes, user }) => {
 	const [ modal, showModal ] = useState(false);
+	let isSaved = user.events.find(e => e.eventfulID === event.id);
+
 	event.times = event.times.sort((a, b) => {
 		let dateA = new Date(a);
 		let dateB = new Date(b);
 		return dateA - dateB;
 	});
+
 	return (
 		<Card blog onClick={() => showModal(true)}>
 			{event.image_url && (
@@ -57,6 +66,7 @@ const Event = ({ event, classes }) => {
 				</h4>
 			</CardBody>
 			<CardFooter>
+				{isSaved && <Bookmark className='Event__bookmark' />}
 				<div className={`${classes.stats} ${classes.mlAuto}`} style={{ display: 'block' }}>
 					{event.times.length > 2 ? (
 						<div>
@@ -72,7 +82,7 @@ const Event = ({ event, classes }) => {
 					)}
 				</div>
 			</CardFooter>
-			<EventModal modal={modal} showModal={showModal} id={event.id} />
+			<EventModal modal={modal} showModal={showModal} event={event} />
 		</Card>
 	);
 };

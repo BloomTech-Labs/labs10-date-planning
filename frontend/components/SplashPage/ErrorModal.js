@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
+//MUI
 import withStyles from '@material-ui/core/styles/withStyles';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogActions from '@material-ui/core/DialogActions';
+import { Dialog, DialogContent, DialogActions } from '@material-ui/core';
+//styledcomponents
 import Button from '../../styledComponents/CustomButtons/Button';
+//styles
 import Styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles.jsx';
 
 const ErrorModal = ({ error, classes }) => {

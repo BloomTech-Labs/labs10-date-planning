@@ -1,31 +1,34 @@
 import React, { useState, useEffect } from 'react';
-import moment from 'moment';
 import Cached from '@material-ui/icons/Cached';
-import classNames from 'classnames';
-import Accordion from '../../styledComponents/Accordion/Accordion.jsx';
-import TextField from '@material-ui/core/TextField';
 import { MuiPickersUtilsProvider, DatePicker } from 'material-ui-pickers';
 import MomentUtils from '@date-io/moment';
-// @material-ui/core components
+//MUI
+import {
+	TextField,
+	Checkbox,
+	Tooltip,
+	FormControlLabel,
+	ExpansionPanel,
+	ExpansionPanelSummary,
+	ExpansionPanelDetails,
+} from '@material-ui/core';
+import { Check, ExpandMore } from '@material-ui/icons';
 import withStyles from '@material-ui/core/styles/withStyles';
-import Checkbox from '@material-ui/core/Checkbox';
-import Tooltip from '@material-ui/core/Tooltip';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-// @material-ui icons
-
-import Check from '@material-ui/icons/Check';
-
+//styled components
+import Accordion from '../../styledComponents/Accordion/Accordion.jsx';
 import Clearfix from '../../styledComponents/Clearfix/Clearfix.jsx';
 import Card from '../../styledComponents/Card/Card';
 import Button from '../../styledComponents/CustomButtons/Button';
 import CardBody from '../../styledComponents/Card/CardBody';
 import GridItem from '../../styledComponents/Grid/GridItem';
-
+//styles
+import accordionStyle from '../../static/jss/material-kit-pro-react/components/accordionStyle.jsx';
 import styles from '../../static/jss/material-kit-pro-react/views/ecommerceSections/productsStyle.jsx';
-
+import { mis, music, sports, performing } from '../../utils/genres';
 const Filters = ({ classes, getEvents, location, page }) => {
 	const [ categoryFilters, setCategeoryFilters ] = useState([]);
 	const [ dateFilters, setDateFilters ] = useState([]);
+	const [ genreFilters, setGenreFilters ] = useState([]);
 	const [ selectedDate, setSelectedDate ] = useState(null);
 
 	const handleCategoryFilters = ({ target: { id } }) => {
@@ -38,6 +41,12 @@ const Filters = ({ classes, getEvents, location, page }) => {
 		dateFilters.indexOf(id) !== -1
 			? setDateFilters(dateFilters.filter(i => i !== id))
 			: setDateFilters([ ...dateFilters, id ]);
+	};
+
+	const handleGenreFilters = ({ target: { id } }) => {
+		genreFilters.indexOf(id) !== -1
+			? setGenreFilters(genreFilters.filter(i => i !== id))
+			: setGenreFilters([ ...genreFilters, id ]);
 	};
 	const handleDateChange = date => {
 		setSelectedDate(date);
@@ -56,14 +65,16 @@ const Filters = ({ classes, getEvents, location, page }) => {
 
 	useEffect(
 		() => {
+			console.log(genreFilters);
 			getEvents({
 				location,
 				page,
 				categories: categoryFilters,
 				dates: dateFilters,
+				genres: genreFilters,
 			});
 		},
-		[ categoryFilters, dateFilters ],
+		[ categoryFilters, dateFilters, genreFilters ],
 	);
 	return (
 		<Card plain style={{ marginTop: 0 }}>
@@ -106,126 +117,431 @@ const Filters = ({ classes, getEvents, location, page }) => {
 											classes.checkboxAndRadioHorizontal
 										}
 									>
-										<FormControlLabel
-											control={
-												<Checkbox
-													tabIndex={-1}
-													onClick={handleCategoryFilters}
-													checked={
-														categoryFilters.indexOf(
-															'KZFzniwnSyZfZ7v7nJ',
-														) !== -1 ? (
-															true
-														) : (
-															false
-														)
+										<ExpansionPanel
+											root={{
+												boxShadow: '0px 1px 3px 0px rgba(0,0,0,0.1)',
+												backgroundColor: 'transparent',
+											}}
+										>
+											<ExpansionPanelSummary
+												expandIcon={<ExpandMore />}
+												style={{ padding: 0, margin: 0 }}
+												classes={{
+													root: `${classes.expansionPanelSummary} ${classes[
+														'primary' +
+															'ExpansionPanelSummary' +
+															'border: none'
+													]}`,
+													expanded: `${classes.expansionPanelSummaryExpaned} ${classes[
+														'primary' + 'ExpansionPanelSummaryExpaned'
+													]}`,
+													content: classes.expansionPanelSummaryContent,
+													expandIcon:
+														classes.expansionPanelSummaryExpandIcon,
+												}}
+											>
+												<FormControlLabel
+													control={
+														<Checkbox
+															tabIndex={-1}
+															onClick={handleCategoryFilters}
+															checked={
+																categoryFilters.indexOf(
+																	'KZFzniwnSyZfZ7v7nJ',
+																) !== -1 ? (
+																	true
+																) : (
+																	false
+																)
+															}
+															id='KZFzniwnSyZfZ7v7nJ'
+															checkedIcon={
+																<Check
+																	className={classes.checkedIcon}
+																/>
+															}
+															icon={
+																<Check
+																	className={
+																		classes.uncheckedIcon
+																	}
+																/>
+															}
+															classes={{
+																checked: classes.checked,
+																root: classes.checkRoot,
+															}}
+														/>
 													}
-													id='KZFzniwnSyZfZ7v7nJ'
-													checkedIcon={
-														<Check className={classes.checkedIcon} />
-													}
-													icon={
-														<Check className={classes.uncheckedIcon} />
-													}
-													classes={{
-														checked: classes.checked,
-														root: classes.checkRoot,
-													}}
+													classes={{ label: classes.label }}
+													label='Music'
 												/>
-											}
-											classes={{ label: classes.label }}
-											label='Music'
-										/>
-										<FormControlLabel
-											control={
-												<Checkbox
-													tabIndex={-1}
-													onClick={handleCategoryFilters}
-													checked={
-														categoryFilters.indexOf(
-															'KZFzniwnSyZfZ7v7na',
-														) !== -1 ? (
-															true
-														) : (
-															false
-														)
+											</ExpansionPanelSummary>
+											<ExpansionPanelDetails
+												style={{
+													paddingBottom: 0,
+													paddingTop: 0,
+													display: 'flex',
+													flexDirection: 'column',
+												}}
+											>
+												{music.map(i => (
+													<FormControlLabel
+														key={i.id}
+														control={
+															<Checkbox
+																tabIndex={-1}
+																onClick={handleGenreFilters}
+																checked={
+																	genreFilters.indexOf(i.id) !==
+																	-1 ? (
+																		true
+																	) : (
+																		false
+																	)
+																}
+																id={i.id}
+																checkedIcon={
+																	<Check
+																		className={
+																			classes.checkedIcon
+																		}
+																	/>
+																}
+																icon={
+																	<Check
+																		className={
+																			classes.uncheckedIcon
+																		}
+																	/>
+																}
+																classes={{
+																	checked: classes.checked,
+																	root: classes.checkRoot,
+																}}
+															/>
+														}
+														classes={{ label: classes.label }}
+														label={i.name}
+													/>
+												))}
+											</ExpansionPanelDetails>
+										</ExpansionPanel>
+										<ExpansionPanel
+											style={{ boxShadow: '0px 1px 3px 0px rgba(0,0,0,0.1)' }}
+										>
+											<ExpansionPanelSummary
+												expandIcon={<ExpandMore />}
+												style={{ padding: 0, margin: 0 }}
+												classes={{
+													root: `${classes.expansionPanelSummary} ${classes[
+														'primary' + 'ExpansionPanelSummary'
+													]}`,
+													expanded: `${classes.expansionPanelSummaryExpaned} ${classes[
+														'primary' + 'ExpansionPanelSummaryExpaned'
+													]}`,
+													content: classes.expansionPanelSummaryContent,
+													expandIcon:
+														classes.expansionPanelSummaryExpandIcon,
+												}}
+											>
+												<FormControlLabel
+													control={
+														<Checkbox
+															tabIndex={-1}
+															onClick={handleCategoryFilters}
+															checked={
+																categoryFilters.indexOf(
+																	'KZFzniwnSyZfZ7v7na',
+																) !== -1 ? (
+																	true
+																) : (
+																	false
+																)
+															}
+															id='KZFzniwnSyZfZ7v7na'
+															checkedIcon={
+																<Check
+																	className={classes.checkedIcon}
+																/>
+															}
+															icon={
+																<Check
+																	className={
+																		classes.uncheckedIcon
+																	}
+																/>
+															}
+															classes={{
+																checked: classes.checked,
+																root: classes.checkRoot,
+															}}
+														/>
 													}
-													id='KZFzniwnSyZfZ7v7na'
-													checkedIcon={
-														<Check className={classes.checkedIcon} />
-													}
-													icon={
-														<Check className={classes.uncheckedIcon} />
-													}
-													classes={{
-														checked: classes.checked,
-														root: classes.checkRoot,
-													}}
+													classes={{ label: classes.label }}
+													label='Arts & Theatre'
 												/>
-											}
-											classes={{ label: classes.label }}
-											label='Arts & Theatre'
-										/>
-										<FormControlLabel
-											control={
-												<Checkbox
-													tabIndex={-1}
-													onClick={handleCategoryFilters}
-													checked={
-														categoryFilters.indexOf(
-															'KZFzniwnSyZfZ7v7nE',
-														) !== -1 ? (
-															true
-														) : (
-															false
-														)
+											</ExpansionPanelSummary>
+											<ExpansionPanelDetails
+												style={{
+													paddingBottom: 0,
+													paddingTop: 0,
+													display: 'flex',
+													flexDirection: 'column',
+												}}
+											>
+												{performing.map(i => (
+													<FormControlLabel
+														key={i.id}
+														control={
+															<Checkbox
+																tabIndex={-1}
+																onClick={handleGenreFilters}
+																checked={
+																	genreFilters.indexOf(i.id) !==
+																	-1 ? (
+																		true
+																	) : (
+																		false
+																	)
+																}
+																id={i.id}
+																checkedIcon={
+																	<Check
+																		className={
+																			classes.checkedIcon
+																		}
+																	/>
+																}
+																icon={
+																	<Check
+																		className={
+																			classes.uncheckedIcon
+																		}
+																	/>
+																}
+																classes={{
+																	checked: classes.checked,
+																	root: classes.checkRoot,
+																}}
+															/>
+														}
+														classes={{ label: classes.label }}
+														label={i.name}
+													/>
+												))}
+											</ExpansionPanelDetails>
+										</ExpansionPanel>
+										<ExpansionPanel
+											style={{ boxShadow: '0px 1px 3px 0px rgba(0,0,0,0.1)' }}
+										>
+											<ExpansionPanelSummary
+												expandIcon={<ExpandMore />}
+												style={{ padding: 0, margin: 0 }}
+												classes={{
+													root: `${classes.expansionPanelSummary} ${classes[
+														'primary' + 'ExpansionPanelSummary'
+													]}`,
+													expanded: `${classes.expansionPanelSummaryExpaned} ${classes[
+														'primary' + 'ExpansionPanelSummaryExpaned'
+													]}`,
+													content: classes.expansionPanelSummaryContent,
+													expandIcon:
+														classes.expansionPanelSummaryExpandIcon,
+												}}
+											>
+												<FormControlLabel
+													control={
+														<Checkbox
+															tabIndex={-1}
+															onClick={handleCategoryFilters}
+															checked={
+																categoryFilters.indexOf(
+																	'KZFzniwnSyZfZ7v7nE',
+																) !== -1 ? (
+																	true
+																) : (
+																	false
+																)
+															}
+															id='KZFzniwnSyZfZ7v7nE'
+															checkedIcon={
+																<Check
+																	className={classes.checkedIcon}
+																/>
+															}
+															icon={
+																<Check
+																	className={
+																		classes.uncheckedIcon
+																	}
+																/>
+															}
+															classes={{
+																checked: classes.checked,
+																root: classes.checkRoot,
+															}}
+														/>
 													}
-													id='KZFzniwnSyZfZ7v7nE'
-													checkedIcon={
-														<Check className={classes.checkedIcon} />
-													}
-													icon={
-														<Check className={classes.uncheckedIcon} />
-													}
-													classes={{
-														checked: classes.checked,
-														root: classes.checkRoot,
-													}}
+													classes={{ label: classes.label }}
+													label='Sports'
 												/>
-											}
-											classes={{ label: classes.label }}
-											label='Sports'
-										/>
-										<FormControlLabel
-											control={
-												<Checkbox
-													tabIndex={-1}
-													onClick={handleCategoryFilters}
-													checked={
-														categoryFilters.indexOf(
-															'KZFzniwnSyZfZ7v7n1',
-														) !== -1 ? (
-															true
-														) : (
-															false
-														)
+											</ExpansionPanelSummary>
+											<ExpansionPanelDetails
+												style={{
+													paddingBottom: 0,
+													paddingTop: 0,
+													display: 'flex',
+													flexDirection: 'column',
+												}}
+											>
+												{sports.map(i => (
+													<FormControlLabel
+														key={i.id}
+														control={
+															<Checkbox
+																tabIndex={-1}
+																onClick={handleGenreFilters}
+																checked={
+																	genreFilters.indexOf(i.id) !==
+																	-1 ? (
+																		true
+																	) : (
+																		false
+																	)
+																}
+																id={i.id}
+																checkedIcon={
+																	<Check
+																		className={
+																			classes.checkedIcon
+																		}
+																	/>
+																}
+																icon={
+																	<Check
+																		className={
+																			classes.uncheckedIcon
+																		}
+																	/>
+																}
+																classes={{
+																	checked: classes.checked,
+																	root: classes.checkRoot,
+																}}
+															/>
+														}
+														classes={{ label: classes.label }}
+														label={i.name}
+													/>
+												))}
+											</ExpansionPanelDetails>
+										</ExpansionPanel>
+										<ExpansionPanel
+											style={{ boxShadow: '0px 1px 3px 0px rgba(0,0,0,0.1)' }}
+										>
+											<ExpansionPanelSummary
+												expandIcon={<ExpandMore />}
+												style={{ padding: 0, margin: 0 }}
+												classes={{
+													root: `${classes.expansionPanelSummary} ${classes[
+														'primary' + 'ExpansionPanelSummary'
+													]}`,
+													expanded: `${classes.expansionPanelSummaryExpaned} ${classes[
+														'primary' + 'ExpansionPanelSummaryExpaned'
+													]}`,
+													content: classes.expansionPanelSummaryContent,
+													expandIcon:
+														classes.expansionPanelSummaryExpandIcon,
+												}}
+											>
+												<FormControlLabel
+													control={
+														<Checkbox
+															tabIndex={-1}
+															onClick={handleCategoryFilters}
+															checked={
+																categoryFilters.indexOf(
+																	'KZFzniwnSyZfZ7v7n1',
+																) !== -1 ? (
+																	true
+																) : (
+																	false
+																)
+															}
+															id='KZFzniwnSyZfZ7v7n1'
+															checkedIcon={
+																<Check
+																	className={classes.checkedIcon}
+																/>
+															}
+															icon={
+																<Check
+																	className={
+																		classes.uncheckedIcon
+																	}
+																/>
+															}
+															classes={{
+																checked: classes.checked,
+																root: classes.checkRoot,
+															}}
+														/>
 													}
-													id='KZFzniwnSyZfZ7v7n1'
-													checkedIcon={
-														<Check className={classes.checkedIcon} />
-													}
-													icon={
-														<Check className={classes.uncheckedIcon} />
-													}
-													classes={{
-														checked: classes.checked,
-														root: classes.checkRoot,
-													}}
+													classes={{ label: classes.label }}
+													label='Miscellaneous'
 												/>
-											}
-											classes={{ label: classes.label }}
-											label='Miscellaneous'
-										/>
+											</ExpansionPanelSummary>
+											<ExpansionPanelDetails
+												style={{
+													paddingBottom: 0,
+													paddingTop: 0,
+													display: 'flex',
+													flexDirection: 'column',
+												}}
+											>
+												{mis.map(i => (
+													<FormControlLabel
+														key={i.id}
+														control={
+															<Checkbox
+																tabIndex={-1}
+																onClick={handleGenreFilters}
+																checked={
+																	genreFilters.indexOf(i.id) !==
+																	-1 ? (
+																		true
+																	) : (
+																		false
+																	)
+																}
+																id={i.id}
+																checkedIcon={
+																	<Check
+																		className={
+																			classes.checkedIcon
+																		}
+																	/>
+																}
+																icon={
+																	<Check
+																		className={
+																			classes.uncheckedIcon
+																		}
+																	/>
+																}
+																classes={{
+																	checked: classes.checked,
+																	root: classes.checkRoot,
+																}}
+															/>
+														}
+														classes={{ label: classes.label }}
+														label={i.name}
+													/>
+												))}
+											</ExpansionPanelDetails>
+										</ExpansionPanel>
 									</div>
 								</div>
 							),
@@ -352,4 +668,4 @@ const Filters = ({ classes, getEvents, location, page }) => {
 	);
 };
 
-export default withStyles(styles)(Filters);
+export default withStyles({ ...styles, ...accordionStyle })(Filters);

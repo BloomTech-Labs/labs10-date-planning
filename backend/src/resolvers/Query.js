@@ -1,6 +1,6 @@
 const axios = require('axios');
-const { transformEvents, fetchEvents, setDates, getGeoHash } = require('../utils');
-const { checkDates } = require('../utils');
+const { transformEvents, fetchEvents, setDates } = require('../utils');
+const stripe = require('../stripe');
 
 const Query = {
 	currentUser(parent, args, { db, request }, info) {
@@ -25,22 +25,23 @@ const Query = {
 		);
 	},
 	async getEvents(parent, { location, alt, page, ...args }, ctx, info) {
-		//let { geoHash } = await getGeoHash(location);
 		location = location.split(',')[0].toLowerCase();
 
-		let cats = args.categories.length
-			? args.categories
-			: [
-					'KZFzniwnSyZfZ7v7nJ',
-					'KZFzniwnSyZfZ7v7na',
-					'KZFzniwnSyZfZ7v7nE',
-					'KZFzniwnSyZfZ7v7n1',
-				];
+		let cats =
+			!args.categories || !args.categories.length
+				? [
+						'KZFzniwnSyZfZ7v7nJ',
+						'KZFzniwnSyZfZ7v7na',
+						'KZFzniwnSyZfZ7v7nE',
+						'KZFzniwnSyZfZ7v7n1',
+					]
+				: args.categories;
 
-		const dates = args.dates.length ? setDates(args.dates.toString()) : undefined;
+		const dates =
+			!args.dates || !args.dates.length ? undefined : setDates(args.dates.toString());
 
 		let events;
-		let response = await fetchEvents(location, cats, dates, page, 200);
+		let response = await fetchEvents(location, cats, dates, page, 200, args.genres);
 
 		events = response.data._embedded.events;
 
@@ -53,7 +54,7 @@ const Query = {
 			while (uniques.length < 20) {
 				page = page + 1;
 
-				let res = await fetchEvents(location, cats, dates, page, 200);
+				let res = await fetchEvents(location, cats, dates, page, 200, args.genres);
 
 				if (!res.data._embedded) break;
 				else {
@@ -65,18 +66,6 @@ const Query = {
 				}
 			}
 		}
-
-		// return events;
-		// if (!response.data) {
-		// 	throw new Error('There is no event info for your current location');
-		// }
-
-		// let filteredEvents = [];
-		// if (args.dates.includes('All') || args.dates.length === 0) {
-		// 	filteredEvents = [...events];
-		// } else {
-		// 	filteredEvents = args.dates.reduce((e, date) => [...e, ...checkDates(date, events)], []) ;
-		// }
 
 		return {
 			events: transformEvents(events),
@@ -93,7 +82,8 @@ const Query = {
 			`https://app.ticketmaster.com/discovery/v2/events/${args.id}.json?apikey=${process.env
 				.TKTMSTR_KEY}`,
 		);
-		const [ img ] = data.images.filter(img => img.ratio === '4_3');
+
+		const [ img ] = data.images.filter(img => img.width > 500);
 		return {
 			title: data.name,
 			id: data.id,
@@ -129,7 +119,6 @@ const Query = {
 		let city = location.data.results[0].address_components[3].long_name;
 		let state = location.data.results[0].address_components[5].short_name;
 		let county = location.data.results[0].address_components[4].long_name;
-		// console.log(city, county, state);
 
 		return {
 			city: `${city}, ${state}`,
@@ -142,7 +131,6 @@ const Query = {
 				.env.GOOGLE_API_KEY}`,
 		);
 		const results = response.data.predictions;
-		console.log(results);
 		const city = results.map(result => {
 			return { city: result.description };
 		});
@@ -194,33 +182,14 @@ const Query = {
 		return { count: datesCount - user.events.length };
 	},
 	async invoicesList(parent, args, ctx, info) {
-		// Check user's login status
-		const { userId } = ctx.request;
+		const { userId, user } = ctx.request;
 		if (!userId) throw new Error('You must be signed in to access this app.');
-
-		const user = await ctx.db.query.user(
-			{ where: { id: userId } },
-			`
-				{id permissions events {id}}
-			`,
-		);
 
 		const invoices = await stripe.invoices.list({
 			customer: user.stripeCustomerId,
 		});
-		console.log(
-			invoices.map(invoice => ({
-				receipt_number: invoice.receipt_number,
-				amount_due: invoice.amount_due,
-				amount_paid: invoice.amount_paid,
-				date: invoice.date,
-				hosted_url: invoice.hosted_invoice_url,
-				pdf_url: invoice.invoice_pdf,
-			})),
-		);
-		return {
-			message: 'invoices',
-		};
+
+		return invoices.data;
 	},
 };
 

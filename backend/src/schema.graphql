@@ -12,12 +12,12 @@ type Mutation {
 	updateLocation(city: String!): User!
 	addEvent(eventId: String!): Message
 	deleteEvent(eventId: String!): Message
-	createOrder(token: String!, subscription: Permission!): Order!
+	createOrder(token: String!, subscription: Permission!): Message
 	cancelSubscription: Message
 }
 
 type Query {
-	getEvents(location: String, page: Int, categories: [String], dates: [String]): AllEvents
+	getEvents(location: String, page: Int, categories: [String], dates: [String], genres: [String]): AllEvents
 	getEvent(id: String!): Event
 	geoHash(city: String!): GeoHash
 	currentUser: User
@@ -26,7 +26,7 @@ type Query {
 	locationSearch(city: String!): [Location]
 	getUserOrder(userId: String!): [Order!]!
 	getRemainingDates: DatesCount!
-	invoicesList(userStripeCustomerId: String!): Message
+	invoicesList(userStripeCustomerId: String!): [Invoice]
 }
 
 type User {
@@ -65,6 +65,7 @@ type Event {
 	attending: [User!]!
 	location: LocationInfo
 	image_url: String
+	large_url: String
 	price: PriceRange
 	notes: String
 	genre: String
@@ -111,4 +112,13 @@ type DatesCount {
 type FirebasePayload {
 	token: String!
 	user: User!
+}
+
+type Invoice {
+	receipt_number: String,
+	amount_due: Int,
+	amount_paid: Int,
+	date: Int,
+	hosted_invoice_url: String,
+	invoice_pdf: String
 }
