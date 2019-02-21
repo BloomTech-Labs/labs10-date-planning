@@ -57,30 +57,40 @@ const Events = ({ classes, client }) => {
 
 	const getEvents = async variables => {
 		console.log(variables);
+
+		let newEvents = await fetchEvents(variables);
+
+		let events = {
+			...newEvents,
+			events: _.chunk(newEvents.events, newEvents.events.length / 3),
+		};
+		console.log(events);
+		setEvents(events);
+	};
+
+	const fetchEvents = async variables => {
 		NProgress.start();
 		let { data, loading, error } = await client.query({
 			query: ALL_EVENTS_QUERY,
 			variables: variables,
 		});
-
-		if (data.getEvents) NProgress.done();
-
-		let moarEvents = [ ..._.flatten(events.events), ...data.getEvents.events ];
-
-		let newEvents = {
-			...data.getEvents,
-			events: _.chunk(moarEvents, moarEvents.length / 3),
-		};
-
-		setEvents(newEvents);
+		if (data) NProgress.done();
+		return data.getEvents;
 	};
 
-	const loadMore = page => {
+	const loadMore = async page => {
 		if (page < events.page_count - 1) {
-			getEvents({
+			let data = await fetchEvents({
 				location: location,
 				page: page + 1,
 			});
+			let moarEvents = [ ..._.flatten(events.events), ...data.events ];
+
+			let newEvents = {
+				...data,
+				events: _.chunk(moarEvents, moarEvents.length / 3),
+			};
+			setEvents(newEvents);
 		}
 	};
 
