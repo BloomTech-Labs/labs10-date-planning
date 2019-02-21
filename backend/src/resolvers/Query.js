@@ -36,12 +36,12 @@ const Query = {
 						'KZFzniwnSyZfZ7v7n1',
 					]
 				: args.categories;
-		console.log(location, cats, args.dates, page);
+		console.log(args);
 		const dates =
 			!args.dates || !args.dates.length ? undefined : setDates(args.dates.toString());
 
 		let events;
-		let response = await fetchEvents(location, cats, dates, page, 200);
+		let response = await fetchEvents(location, cats, dates, page, 200, args.genres);
 
 		events = response.data._embedded.events;
 
@@ -54,7 +54,7 @@ const Query = {
 			while (uniques.length < 20) {
 				page = page + 1;
 
-				let res = await fetchEvents(location, cats, dates, page, 200);
+				let res = await fetchEvents(location, cats, dates, page, 200, args.genres);
 
 				if (!res.data._embedded) break;
 				else {

@@ -24,10 +24,11 @@ import GridItem from '../../styledComponents/Grid/GridItem';
 //styles
 import accordionStyle from '../../static/jss/material-kit-pro-react/components/accordionStyle.jsx';
 import styles from '../../static/jss/material-kit-pro-react/views/ecommerceSections/productsStyle.jsx';
-
+import { mis, music, sports, performing } from '../../utils/genres';
 const Filters = ({ classes, getEvents, location, page }) => {
 	const [ categoryFilters, setCategeoryFilters ] = useState([]);
 	const [ dateFilters, setDateFilters ] = useState([]);
+	const [ genreFilters, setGenreFilters ] = useState([]);
 	const [ selectedDate, setSelectedDate ] = useState(null);
 
 	const handleCategoryFilters = ({ target: { id } }) => {
@@ -40,6 +41,12 @@ const Filters = ({ classes, getEvents, location, page }) => {
 		dateFilters.indexOf(id) !== -1
 			? setDateFilters(dateFilters.filter(i => i !== id))
 			: setDateFilters([ ...dateFilters, id ]);
+	};
+
+	const handleGenreFilters = ({ target: { id } }) => {
+		genreFilters.indexOf(id) !== -1
+			? setGenreFilters(genreFilters.filter(i => i !== id))
+			: setGenreFilters([ ...genreFilters, id ]);
 	};
 	const handleDateChange = date => {
 		setSelectedDate(date);
@@ -58,14 +65,16 @@ const Filters = ({ classes, getEvents, location, page }) => {
 
 	useEffect(
 		() => {
+			console.log(genreFilters);
 			getEvents({
 				location,
 				page,
 				categories: categoryFilters,
 				dates: dateFilters,
+				genres: genreFilters,
 			});
 		},
-		[ categoryFilters, dateFilters ],
+		[ categoryFilters, dateFilters, genreFilters ],
 	);
 	return (
 		<Card plain style={{ marginTop: 0 }}>
@@ -164,7 +173,72 @@ const Filters = ({ classes, getEvents, location, page }) => {
 												/>
 											</ExpansionPanelSummary>
 											<ExpansionPanelDetails
-												style={{ paddingBottom: 0, paddingTop: 0 }}
+												style={{
+													paddingBottom: 0,
+													paddingTop: 0,
+													display: 'flex',
+													flexDirection: 'column',
+												}}
+											>
+												{music.map(i => (
+													<FormControlLabel
+														key={i.id}
+														control={
+															<Checkbox
+																tabIndex={-1}
+																onClick={handleGenreFilters}
+																checked={
+																	genreFilters.indexOf(i.id) !==
+																	-1 ? (
+																		true
+																	) : (
+																		false
+																	)
+																}
+																id={i.id}
+																checkedIcon={
+																	<Check
+																		className={
+																			classes.checkedIcon
+																		}
+																	/>
+																}
+																icon={
+																	<Check
+																		className={
+																			classes.uncheckedIcon
+																		}
+																	/>
+																}
+																classes={{
+																	checked: classes.checked,
+																	root: classes.checkRoot,
+																}}
+															/>
+														}
+														classes={{ label: classes.label }}
+														label={i.name}
+													/>
+												))}
+											</ExpansionPanelDetails>
+										</ExpansionPanel>
+										<ExpansionPanel
+											style={{ boxShadow: '0px 1px 3px 0px rgba(0,0,0,0.1)' }}
+										>
+											<ExpansionPanelSummary
+												expandIcon={<ExpandMore />}
+												style={{ padding: 0, margin: 0 }}
+												classes={{
+													root: `${classes.expansionPanelSummary} ${classes[
+														'primary' + 'ExpansionPanelSummary'
+													]}`,
+													expanded: `${classes.expansionPanelSummaryExpaned} ${classes[
+														'primary' + 'ExpansionPanelSummaryExpaned'
+													]}`,
+													content: classes.expansionPanelSummaryContent,
+													expandIcon:
+														classes.expansionPanelSummaryExpandIcon,
+												}}
 											>
 												<FormControlLabel
 													control={
@@ -202,98 +276,267 @@ const Filters = ({ classes, getEvents, location, page }) => {
 													classes={{ label: classes.label }}
 													label='Arts & Theatre'
 												/>
+											</ExpansionPanelSummary>
+											<ExpansionPanelDetails
+												style={{
+													paddingBottom: 0,
+													paddingTop: 0,
+													display: 'flex',
+													flexDirection: 'column',
+												}}
+											>
+												{performing.map(i => (
+													<FormControlLabel
+														key={i.id}
+														control={
+															<Checkbox
+																tabIndex={-1}
+																onClick={handleGenreFilters}
+																checked={
+																	genreFilters.indexOf(i.id) !==
+																	-1 ? (
+																		true
+																	) : (
+																		false
+																	)
+																}
+																id={i.id}
+																checkedIcon={
+																	<Check
+																		className={
+																			classes.checkedIcon
+																		}
+																	/>
+																}
+																icon={
+																	<Check
+																		className={
+																			classes.uncheckedIcon
+																		}
+																	/>
+																}
+																classes={{
+																	checked: classes.checked,
+																	root: classes.checkRoot,
+																}}
+															/>
+														}
+														classes={{ label: classes.label }}
+														label={i.name}
+													/>
+												))}
 											</ExpansionPanelDetails>
 										</ExpansionPanel>
-										<FormControlLabel
-											control={
-												<Checkbox
-													tabIndex={-1}
-													onClick={handleCategoryFilters}
-													checked={
-														categoryFilters.indexOf(
-															'KZFzniwnSyZfZ7v7na',
-														) !== -1 ? (
-															true
-														) : (
-															false
-														)
+										<ExpansionPanel
+											style={{ boxShadow: '0px 1px 3px 0px rgba(0,0,0,0.1)' }}
+										>
+											<ExpansionPanelSummary
+												expandIcon={<ExpandMore />}
+												style={{ padding: 0, margin: 0 }}
+												classes={{
+													root: `${classes.expansionPanelSummary} ${classes[
+														'primary' + 'ExpansionPanelSummary'
+													]}`,
+													expanded: `${classes.expansionPanelSummaryExpaned} ${classes[
+														'primary' + 'ExpansionPanelSummaryExpaned'
+													]}`,
+													content: classes.expansionPanelSummaryContent,
+													expandIcon:
+														classes.expansionPanelSummaryExpandIcon,
+												}}
+											>
+												<FormControlLabel
+													control={
+														<Checkbox
+															tabIndex={-1}
+															onClick={handleCategoryFilters}
+															checked={
+																categoryFilters.indexOf(
+																	'KZFzniwnSyZfZ7v7nE',
+																) !== -1 ? (
+																	true
+																) : (
+																	false
+																)
+															}
+															id='KZFzniwnSyZfZ7v7nE'
+															checkedIcon={
+																<Check
+																	className={classes.checkedIcon}
+																/>
+															}
+															icon={
+																<Check
+																	className={
+																		classes.uncheckedIcon
+																	}
+																/>
+															}
+															classes={{
+																checked: classes.checked,
+																root: classes.checkRoot,
+															}}
+														/>
 													}
-													id='KZFzniwnSyZfZ7v7na'
-													checkedIcon={
-														<Check className={classes.checkedIcon} />
-													}
-													icon={
-														<Check className={classes.uncheckedIcon} />
-													}
-													classes={{
-														checked: classes.checked,
-														root: classes.checkRoot,
-													}}
+													classes={{ label: classes.label }}
+													label='Sports'
 												/>
-											}
-											classes={{ label: classes.label }}
-											label='Arts & Theatre'
-										/>
-										<FormControlLabel
-											control={
-												<Checkbox
-													tabIndex={-1}
-													onClick={handleCategoryFilters}
-													checked={
-														categoryFilters.indexOf(
-															'KZFzniwnSyZfZ7v7nE',
-														) !== -1 ? (
-															true
-														) : (
-															false
-														)
+											</ExpansionPanelSummary>
+											<ExpansionPanelDetails
+												style={{
+													paddingBottom: 0,
+													paddingTop: 0,
+													display: 'flex',
+													flexDirection: 'column',
+												}}
+											>
+												{sports.map(i => (
+													<FormControlLabel
+														key={i.id}
+														control={
+															<Checkbox
+																tabIndex={-1}
+																onClick={handleGenreFilters}
+																checked={
+																	genreFilters.indexOf(i.id) !==
+																	-1 ? (
+																		true
+																	) : (
+																		false
+																	)
+																}
+																id={i.id}
+																checkedIcon={
+																	<Check
+																		className={
+																			classes.checkedIcon
+																		}
+																	/>
+																}
+																icon={
+																	<Check
+																		className={
+																			classes.uncheckedIcon
+																		}
+																	/>
+																}
+																classes={{
+																	checked: classes.checked,
+																	root: classes.checkRoot,
+																}}
+															/>
+														}
+														classes={{ label: classes.label }}
+														label={i.name}
+													/>
+												))}
+											</ExpansionPanelDetails>
+										</ExpansionPanel>
+										<ExpansionPanel
+											style={{ boxShadow: '0px 1px 3px 0px rgba(0,0,0,0.1)' }}
+										>
+											<ExpansionPanelSummary
+												expandIcon={<ExpandMore />}
+												style={{ padding: 0, margin: 0 }}
+												classes={{
+													root: `${classes.expansionPanelSummary} ${classes[
+														'primary' + 'ExpansionPanelSummary'
+													]}`,
+													expanded: `${classes.expansionPanelSummaryExpaned} ${classes[
+														'primary' + 'ExpansionPanelSummaryExpaned'
+													]}`,
+													content: classes.expansionPanelSummaryContent,
+													expandIcon:
+														classes.expansionPanelSummaryExpandIcon,
+												}}
+											>
+												<FormControlLabel
+													control={
+														<Checkbox
+															tabIndex={-1}
+															onClick={handleCategoryFilters}
+															checked={
+																categoryFilters.indexOf(
+																	'KZFzniwnSyZfZ7v7n1',
+																) !== -1 ? (
+																	true
+																) : (
+																	false
+																)
+															}
+															id='KZFzniwnSyZfZ7v7n1'
+															checkedIcon={
+																<Check
+																	className={classes.checkedIcon}
+																/>
+															}
+															icon={
+																<Check
+																	className={
+																		classes.uncheckedIcon
+																	}
+																/>
+															}
+															classes={{
+																checked: classes.checked,
+																root: classes.checkRoot,
+															}}
+														/>
 													}
-													id='KZFzniwnSyZfZ7v7nE'
-													checkedIcon={
-														<Check className={classes.checkedIcon} />
-													}
-													icon={
-														<Check className={classes.uncheckedIcon} />
-													}
-													classes={{
-														checked: classes.checked,
-														root: classes.checkRoot,
-													}}
+													classes={{ label: classes.label }}
+													label='Miscellaneous'
 												/>
-											}
-											classes={{ label: classes.label }}
-											label='Sports'
-										/>
-										<FormControlLabel
-											control={
-												<Checkbox
-													tabIndex={-1}
-													onClick={handleCategoryFilters}
-													checked={
-														categoryFilters.indexOf(
-															'KZFzniwnSyZfZ7v7n1',
-														) !== -1 ? (
-															true
-														) : (
-															false
-														)
-													}
-													id='KZFzniwnSyZfZ7v7n1'
-													checkedIcon={
-														<Check className={classes.checkedIcon} />
-													}
-													icon={
-														<Check className={classes.uncheckedIcon} />
-													}
-													classes={{
-														checked: classes.checked,
-														root: classes.checkRoot,
-													}}
-												/>
-											}
-											classes={{ label: classes.label }}
-											label='Miscellaneous'
-										/>
+											</ExpansionPanelSummary>
+											<ExpansionPanelDetails
+												style={{
+													paddingBottom: 0,
+													paddingTop: 0,
+													display: 'flex',
+													flexDirection: 'column',
+												}}
+											>
+												{mis.map(i => (
+													<FormControlLabel
+														key={i.id}
+														control={
+															<Checkbox
+																tabIndex={-1}
+																onClick={handleGenreFilters}
+																checked={
+																	genreFilters.indexOf(i.id) !==
+																	-1 ? (
+																		true
+																	) : (
+																		false
+																	)
+																}
+																id={i.id}
+																checkedIcon={
+																	<Check
+																		className={
+																			classes.checkedIcon
+																		}
+																	/>
+																}
+																icon={
+																	<Check
+																		className={
+																			classes.uncheckedIcon
+																		}
+																	/>
+																}
+																classes={{
+																	checked: classes.checked,
+																	root: classes.checkRoot,
+																}}
+															/>
+														}
+														classes={{ label: classes.label }}
+														label={i.name}
+													/>
+												))}
+											</ExpansionPanelDetails>
+										</ExpansionPanel>
 									</div>
 								</div>
 							),

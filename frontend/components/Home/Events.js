@@ -41,6 +41,7 @@ const Events = ({ classes, client }) => {
 					page: 0,
 					categories: [],
 					dates: [],
+					genres: [],
 				});
 			}
 		},
@@ -160,7 +161,7 @@ const Events = ({ classes, client }) => {
 											loadMore={loadMore}
 											hasMore={page < events.page_count}
 											threshold={400}
-											loader={<div>loading..</div>}
+											loader={<div key={0} />}
 										>
 											{events.events[0].map(event => (
 												<Event event={event} key={event.id} user={user} />

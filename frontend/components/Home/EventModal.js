@@ -51,7 +51,7 @@ const EventModal = ({ modal, showModal, classes, event, client }) => {
 		<User>
 			{({ data }) => {
 				let isSaved = data.currentUser.events.find(e => e.eventfulID === event.id);
-				console.log(isSaved);
+
 				return (
 					<Mutation
 						mutation={ADD_EVENT_MUTATION}
