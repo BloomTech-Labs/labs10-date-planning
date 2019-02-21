@@ -1,7 +1,10 @@
 import App, { Container } from 'next/app';
+import Router from 'next/router';
 import Page from '../components/Page';
 import { ApolloProvider } from 'react-apollo';
 import withData from '../utils/withData';
+import { isLoggedIn } from '../components/Queries/User';
+import redirect from '../utils/redirect';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import JssProvider from 'react-jss/lib/JssProvider';
@@ -19,14 +22,18 @@ class MyApp extends App {
 			jssStyles.parentNode.removeChild(jssStyles);
 		}
 	}
-	static async getInitialProps({ Component, ctx }) {
+	static async getInitialProps({ Component, ctx, router }) {
+		//console.log(Object.keys(ctx));
 		let pageProps = {};
 		if (Component.getInitialProps) {
 			pageProps = await Component.getInitialProps(ctx);
 		}
 
 		pageProps.query = ctx.query;
-
+		//console.log(await isLoggedIn());
+		let user = await isLoggedIn(ctx.apolloClient);
+		console.log(user);
+		if (!user.currentUser && router.pathname !== '/joinus') redirect(ctx, '/joinus');
 		return { pageProps };
 	}
 	render() {

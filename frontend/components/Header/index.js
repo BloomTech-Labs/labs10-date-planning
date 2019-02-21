@@ -30,16 +30,16 @@ import Logo from '../../static/img/up4LogoWhite.png';
 import User from '../Queries/User';
 import { CURRENT_USER_QUERY } from '../Queries/User';
 
-Router.onRouteChangeStart = () => {
-	NProgress.start();
-};
-Router.onRouteChangeComplete = () => {
-	NProgress.done();
-};
+// Router.onRouteChangeStart = () => {
+// 	NProgress.start();
+// };
+// Router.onRouteChangeComplete = () => {
+// 	NProgress.done();
+// };
 
-Router.onRouteChangeError = () => {
-	NProgress.done();
-};
+// Router.onRouteChangeError = () => {
+// 	NProgress.done();
+// };
 
 const SIGNOUT_MUTATION = gql`
 	mutation SIGNOUT_MUTATION {
@@ -97,7 +97,7 @@ const Nav = ({ classes, color }) => {
 								refetchQueries={[ { query: CURRENT_USER_QUERY } ]}
 							>
 								{(signout, { called }) => {
-									if (called) Router.replace('/joinus');
+									if (called) Router.push('/joinus');
 									return (
 										<ListItem className={classes.listItem}>
 											<CustomDropdown

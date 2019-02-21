@@ -49,7 +49,7 @@ const Events = ({ classes, client }) => {
 			NProgress.set(0.3);
 			setUser(data.currentUser);
 			if (data.currentUser.location) setLocation(data.currentUser.location);
-			else setLocation('New York, NY');
+			else setLocation('Los Angeles, CA');
 		}
 	};
 
