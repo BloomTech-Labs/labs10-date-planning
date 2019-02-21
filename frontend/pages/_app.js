@@ -3,7 +3,6 @@ import Router from 'next/router';
 import Page from '../components/Page';
 import { ApolloProvider } from 'react-apollo';
 import withData from '../utils/withData';
-import { isLoggedIn } from '../components/Queries/User';
 import redirect from '../utils/redirect';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -30,10 +29,7 @@ class MyApp extends App {
 		}
 
 		pageProps.query = ctx.query;
-		//console.log(await isLoggedIn());
-		let user = await isLoggedIn(ctx.apolloClient);
-		console.log(!user.currentUser && router.pathname !== '/joinus');
-		if (!user.currentUser && router.pathname !== '/joinus') redirect(ctx, '/joinus');
+
 		return { pageProps };
 	}
 	render() {

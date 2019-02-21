@@ -21,7 +21,8 @@ import Button from '../../styledComponents/CustomButtons/Button.jsx';
 import image from '../../static/img/bg.jpg';
 import profileImage from '../../static/img/placeholder.jpg';
 import Logo from '../../static/img/up4LogoWhite.png';
-
+//utils
+import redirect from '../../utils/redirect';
 Router.onRouteChangeComplete = () => {
 	NProgress.done(true);
 };
@@ -34,16 +35,20 @@ const SIGNOUT_MUTATION = gql`
 	}
 `;
 const Nav = ({ classes, color }) => {
-	const handleClick = (e, signout) => {
+	const handleClick = (e, signout, client) => {
 		if (e === 'Sign out') {
 			signout();
+			client.cache.reset().then(() => {
+				// Redirect to a more useful page when signed out
+				redirect({}, '/joinus');
+			});
 		} else {
 			Router.push(`/billing`);
 		}
 	};
 	return (
 		<User>
-			{({ data: { currentUser } }) => (
+			{({ data: { currentUser }, client }) => (
 				<Header
 					//style={{backgroundImage: 'linear-gradient(to right top, #4cb5ae, #58bdbc, #65c6ca, #72ced7, #81d6e3)'}}
 					color={color}
@@ -83,7 +88,9 @@ const Nav = ({ classes, color }) => {
 								awaitRefetchQueries
 							>
 								{(signout, { called }) => {
-									if (called) Router.push('/joinus');
+									{
+										/* if (called) Router.push('/joinus'); */
+									}
 									return (
 										<ListItem className={classes.listItem}>
 											<CustomDropdown
@@ -115,7 +122,7 @@ const Nav = ({ classes, color }) => {
 													color: 'transparent',
 												}}
 												dropdownList={[ 'Billing', 'Sign out' ]}
-												onClick={e => handleClick(e, signout)}
+												onClick={e => handleClick(e, signout, client)}
 											/>
 										</ListItem>
 									);
