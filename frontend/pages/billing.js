@@ -5,6 +5,7 @@ import Header from '../components/Header'
 import User from '../components/Queries/User';
 import { isLoggedIn } from '../components/Queries/User';
 import redirect from '../utils/redirect';
+import UpFor from '../components/Billing/UpFor';
 
 const Home = () => (
 	<User>
@@ -15,6 +16,7 @@ const Home = () => (
 					{/* <DatesLeft currentUser={currentUser} /> */}
 					<Billing currentUser={currentUser} />
 					<TransactionList currentUser={currentUser} />
+					<UpFor />
 				</>
 			);
 		}}
