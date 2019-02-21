@@ -7,7 +7,7 @@ import gql from 'graphql-tag';
 
 import { CURRENT_USER_QUERY } from '../Queries/User';
 import { GET_REMAINING_DATES } from './DatesLeft';
-import { GET_USER_ORDER } from './TransactionList';
+import { INVOICES_LIST } from './TransactionList';
 
 const CREATE_ORDER_MUTATION = gql`
   mutation createOrder($token: String!, $subscription: Permission!) {
@@ -39,7 +39,7 @@ const Billing = props => {
       refetchQueries={[
         { query: CURRENT_USER_QUERY },
         { query: GET_REMAINING_DATES },
-        { query: GET_USER_ORDER, variables: {userId: props.user.id} }
+        { query: INVOICES_LIST, variables: {userStripeCustomerId: props.user.stripeCustomerId} }
       ]}
     >
       {
