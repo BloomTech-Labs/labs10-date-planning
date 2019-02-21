@@ -270,7 +270,7 @@ const Mutation = {
 		});
 
 		// Update user's permission type
-		ctx.db.mutation.updateUser({
+		return ctx.db.mutation.updateUser({
 			data: {
 				permissions: {
 					set: ['FREE']
@@ -280,11 +280,7 @@ const Mutation = {
 			where: {
 				id: user.id
 			}
-		});
-
-		return {
-			message: `Your subscription has been ${canceled.status} at the end of the billing period`
-		};
+		}, info);
 	},
 	async internalPasswordReset(parent, args, { db, request, response }, info) {
 		if (args.newPassword1 !== args.newPassword2) {

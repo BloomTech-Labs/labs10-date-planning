@@ -13,7 +13,7 @@ type Mutation {
 	addEvent(eventId: String!): Message
 	deleteEvent(eventId: String!): Message
 	createOrder(token: String!, subscription: Permission!): Message
-	cancelSubscription: Message
+	cancelSubscription(id: String!): User!
 }
 
 type Query {
