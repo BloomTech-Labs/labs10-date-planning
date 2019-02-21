@@ -42,12 +42,12 @@ const DateView = ({ date, classes, client }) => {
 				{date.url && (
 					<CardHeader image>
 						<a href='#pablo' onClick={e => e.preventDefault()}>
-							<img src={date.image_url} alt='...' />
+							<img src={date.url} alt='...' />
 						</a>
 						<div
 							className={classes.coloredShadow}
 							style={{
-								backgroundImage: `url(${date.image_url})`,
+								backgroundImage: `url(${date.url})`,
 								opacity: '1',
 							}}
 						/>
@@ -58,7 +58,7 @@ const DateView = ({ date, classes, client }) => {
 						<div className='gradient-box'>
 							<span>{date.description}</span>
 						</div>
-					)}
+					)}s
 
 					<h4 className={classes.cardTitle}>
 						<a
