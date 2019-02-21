@@ -27,16 +27,18 @@ const Query = {
 	async getEvents(parent, { location, alt, page, ...args }, ctx, info) {
 		location = location.split(',')[0].toLowerCase();
 
-		let cats = args.categories.length
-			? args.categories
-			: [
-					'KZFzniwnSyZfZ7v7nJ',
-					'KZFzniwnSyZfZ7v7na',
-					'KZFzniwnSyZfZ7v7nE',
-					'KZFzniwnSyZfZ7v7n1',
-				];
+		let cats =
+			!args.categories || args.categories.length
+				? [
+						'KZFzniwnSyZfZ7v7nJ',
+						'KZFzniwnSyZfZ7v7na',
+						'KZFzniwnSyZfZ7v7nE',
+						'KZFzniwnSyZfZ7v7n1',
+					]
+				: args.categories;
 		console.log(location, cats, args.dates, page);
-		const dates = args.dates.length ? setDates(args.dates.toString()) : undefined;
+		const dates =
+			!args.dates || !args.dates.length ? undefined : setDates(args.dates.toString());
 
 		let events;
 		let response = await fetchEvents(location, cats, dates, page, 200);
@@ -47,7 +49,7 @@ const Query = {
 			if (!a.includes(t.name)) a.push(t.name);
 			return a;
 		}, []);
-		console.log(response.data.page.totalElements);
+
 		if (response.data.page.totalElements > 20) {
 			while (uniques.length < 20) {
 				page = page + 1;
@@ -64,7 +66,7 @@ const Query = {
 				}
 			}
 		}
-		console.log(events.length);
+
 		return {
 			events: transformEvents(events),
 			page_count: response.data.page.size,
@@ -80,7 +82,9 @@ const Query = {
 			`https://app.ticketmaster.com/discovery/v2/events/${args.id}.json?apikey=${process.env
 				.TKTMSTR_KEY}`,
 		);
-		const [ img ] = data.images.filter(img => img.ratio === '4_3');
+		console.log(data);
+
+		const [ img ] = data.images.filter(img => img.width > 500);
 		return {
 			title: data.name,
 			id: data.id,
