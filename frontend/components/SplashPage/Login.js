@@ -3,28 +3,32 @@ import gql from 'graphql-tag';
 import Router from 'next/router';
 import firebase from 'firebase/app';
 import { Mutation } from 'react-apollo';
-import { CURRENT_USER_QUERY } from '../Queries/User';
-import withStyles from '@material-ui/core/styles/withStyles';
-import ButtonBase from '@material-ui/core/ButtonBase';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import NProgress from 'nprogress';
-import Mail from '@material-ui/icons/Mail';
-import Icon from '@material-ui/core/Icon';
-import Close from '@material-ui/icons/Close';
-import IconButton from '@material-ui/core/IconButton';
+//MUI
+import withStyles from '@material-ui/core/styles/withStyles';
+import {
+	ButtonBase,
+	Dialog,
+	DialogActions,
+	InputAdornment,
+	DialogTitle,
+	DialogContent,
+	IconButton,
+} from '@material-ui/core';
+import { Visibility, VisibilityOff, Mail, Icon, Close } from '@material-ui/icons';
+//components
+import ErrorModal from './ErrorModal';
+//styled components
 import Button from '../../styledComponents/CustomButtons/Button';
 import Card from '../../styledComponents/Card/Card';
 import CardHeader from '../../styledComponents/Card/CardHeader';
 import CardBody from '../../styledComponents/Card/CardBody';
 import CustomInput from '../../styledComponents/CustomInput/CustomInput';
-import ErrorModal from './ErrorModal';
+//q&m
+import { CURRENT_USER_QUERY } from '../Queries/User';
+//styles
 import Styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles';
+//utils
 import { auth } from '../../utils/firebase';
 
 const LOGIN_USER = gql`

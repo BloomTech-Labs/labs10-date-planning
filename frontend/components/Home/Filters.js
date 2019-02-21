@@ -1,26 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import moment from 'moment';
 import Cached from '@material-ui/icons/Cached';
-import classNames from 'classnames';
-import Accordion from '../../styledComponents/Accordion/Accordion.jsx';
-import TextField from '@material-ui/core/TextField';
 import { MuiPickersUtilsProvider, DatePicker } from 'material-ui-pickers';
 import MomentUtils from '@date-io/moment';
-// @material-ui/core components
+//MUI
+import { TextField, Checkbox, Tooltip, FormControlLabel } from '@material-ui/core';
+import { Check } from '@material-ui/icons';
 import withStyles from '@material-ui/core/styles/withStyles';
-import Checkbox from '@material-ui/core/Checkbox';
-import Tooltip from '@material-ui/core/Tooltip';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-// @material-ui icons
-
-import Check from '@material-ui/icons/Check';
-
+//styled components
+import Accordion from '../../styledComponents/Accordion/Accordion.jsx';
 import Clearfix from '../../styledComponents/Clearfix/Clearfix.jsx';
 import Card from '../../styledComponents/Card/Card';
 import Button from '../../styledComponents/CustomButtons/Button';
 import CardBody from '../../styledComponents/Card/CardBody';
 import GridItem from '../../styledComponents/Grid/GridItem';
-
+//styles
 import styles from '../../static/jss/material-kit-pro-react/views/ecommerceSections/productsStyle.jsx';
 
 const Filters = ({ classes, getEvents, location, page }) => {

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import UploadImage from '../../styledComponents/CustomUpload/ImageUpload';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
-import User from '../Queries/User';
-import { CURRENT_USER_QUERY } from '../Queries/User';
+//QM
+import User, { CURRENT_USER_QUERY } from '../Queries/User';
+//styled components
+import UploadImage from '../../styledComponents/CustomUpload/ImageUpload';
 
 const UPLOAD_IMAGE_MUTATION = gql`
 	mutation UPLOAD_IMAGE_MUTATION($thumbnail: String!, $image: String!) {
@@ -42,9 +43,9 @@ const ImageUpload = () => {
 							<UploadImage
 								// avatar
 								image={currentUser.imageThumbnail}
-								addButtonProps={{ round: true }}
-								changeButtonProps={{ round: true }}
-								removeButtonProps={{ round: true, color: 'danger' }}
+								addButtonProps={{ round: false }}
+								changeButtonProps={{ round: false }}
+								removeButtonProps={{ round: false, color: 'danger' }}
 								handleUpload={file => handleUpload(file, uploadImage)}
 							/>
 						)}

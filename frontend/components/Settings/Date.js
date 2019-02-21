@@ -1,20 +1,18 @@
 import React, { useState } from 'react';
-import { Query } from 'react-apollo';
 import moment from 'moment';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
+//MUI
 import withStyles from '@material-ui/core/styles/withStyles';
-import { CURRENT_USER_QUERY } from '../Queries/User';
-import AddIcon from '@material-ui/icons/Add';
+//styled components
 import Card from '../../styledComponents/Card/Card';
 import CardHeader from '../../styledComponents/Card/CardHeader';
 import CardFooter from '../../styledComponents/Card/CardFooter';
 import CardBody from '../../styledComponents/Card/CardBody';
-import Warning from '../../styledComponents/Typography/Warning';
 import GridItem from '../../styledComponents/Grid/GridItem';
-import CardStyles from '../../static/jss/material-kit-pro-react/views/componentsSections/sectionCards';
 import Button from '../../styledComponents/CustomButtons/Button.jsx';
-
+//styles
+import CardStyles from '../../static/jss/material-kit-pro-react/views/componentsSections/sectionCards';
 import '../../styles/Settings/Date.scss';
 
 const DELETE_EVENT = gql`
@@ -42,12 +40,12 @@ const DateView = ({ date, classes, client }) => {
 				{date.url && (
 					<CardHeader image>
 						<a href='#pablo' onClick={e => e.preventDefault()}>
-							<img src={date.url} alt='...' />
+							<img src={date.img_url || date.url} alt='...' />
 						</a>
 						<div
 							className={classes.coloredShadow}
 							style={{
-								backgroundImage: `url(${date.url})`,
+								backgroundImage: `url(${date.img_url || date.url})`,
 								opacity: '1',
 							}}
 						/>
@@ -58,7 +56,7 @@ const DateView = ({ date, classes, client }) => {
 						<div className='gradient-box'>
 							<span>{date.description}</span>
 						</div>
-					)}s
+					)}
 
 					<h4 className={classes.cardTitle}>
 						<a

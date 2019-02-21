@@ -1,45 +1,30 @@
 import React, { useEffect } from 'react';
-import withStyles from '@material-ui/core/styles/withStyles';
-import navbarsStyle from '../../static/jss/material-kit-pro-react/views/componentsSections/navbarsStyle.jsx';
 import Router, { withRouter } from 'next/router';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
 import NProgress from 'nprogress';
-
-// @material-ui/icons
-import Search from '@material-ui/icons/Search';
-import Email from '@material-ui/icons/Email';
-import Face from '@material-ui/icons/Face';
-import Settings from '@material-ui/icons/Settings';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import Explore from '@material-ui/icons/Explore';
-import LocalActivity from '@material-ui/icons/LocalActivity';
-// core components
+//MUI
+import withStyles from '@material-ui/core/styles/withStyles';
+import { List, ListItem } from '@material-ui/core';
+import { AccountCircle, Explore } from '@material-ui/icons';
+import navbarsStyle from '../../static/jss/material-kit-pro-react/views/componentsSections/navbarsStyle.jsx';
+//Q&M
+import User, { CURRENT_USER_QUERY } from '../Queries/User';
+// styled components
 import GridContainer from '../../styledComponents/Grid/GridContainer.jsx';
 import GridItem from '../../styledComponents/Grid/GridItem.jsx';
 import Header from '../../styledComponents/Header/Header.jsx';
 import CustomInput from '../../styledComponents/CustomInput/CustomInput.jsx';
 import CustomDropdown from '../../styledComponents/CustomDropdown/CustomDropdown.jsx';
 import Button from '../../styledComponents/CustomButtons/Button.jsx';
+//assets
 import image from '../../static/img/bg.jpg';
 import profileImage from '../../static/img/placeholder.jpg';
 import Logo from '../../static/img/up4LogoWhite.png';
 
-import User from '../Queries/User';
-import { CURRENT_USER_QUERY } from '../Queries/User';
-
-// Router.onRouteChangeStart = () => {
-// 	NProgress.start();
-// };
 Router.onRouteChangeComplete = () => {
 	NProgress.done(true);
 };
-
-// Router.onRouteChangeError = () => {
-// 	NProgress.done();
-// };
 
 const SIGNOUT_MUTATION = gql`
 	mutation SIGNOUT_MUTATION {
