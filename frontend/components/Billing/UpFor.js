@@ -34,6 +34,10 @@ const UpFor = () => {
     transform-origin: 67%;
     `
 
+    const MirroredFour = posed.div`
+    idle: {transform: rotateY(0deg)}
+    hovered: {transform: rotateY(180deg)}
+    `
     
     return (
         <Container>
