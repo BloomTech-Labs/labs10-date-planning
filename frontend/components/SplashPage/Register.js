@@ -3,39 +3,47 @@ import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 import firebase from 'firebase/app';
 import Router from 'next/router';
-import withStyles from '@material-ui/core/styles/withStyles';
 import NProgress from 'nprogress';
+//MUI
+import withStyles from '@material-ui/core/styles/withStyles';
+import {
+	DialogTitle,
+	Dialog,
+	DialogContent,
+	InputAdornment,
+	Checkbox,
+	FormControlLabel,
+	ButtonBase,
+	IconButton,
+} from '@material-ui/core';
+import {
+	Visibility,
+	VisibilityOff,
+	MusicNote,
+	Restaurant,
+	Face,
+	Icon,
+	Email,
+	Check,
+	Close,
+} from '@material-ui/icons';
+//Q&M
 import { CURRENT_USER_QUERY } from '../Queries/User';
-
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import ButtonBase from '@material-ui/core/ButtonBase';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import IconButton from '@material-ui/core/IconButton';
-import MusicNote from '@material-ui/icons/MusicNote';
-import TheaterMasks from '../../static/icons/TheatreMask';
-import Restaurant from '@material-ui/icons/Restaurant';
-import Face from '@material-ui/icons/Face';
-import Icon from '@material-ui/core/Icon';
-import Email from '@material-ui/icons/Email';
-import Check from '@material-ui/icons/Check';
-import Close from '@material-ui/icons/Close';
+//Components
 import ErrorModal from './ErrorModal';
+import Terms from '../../components/SplashPage/Terms';
+//styled components
 import Button from '../../styledComponents/CustomButtons/Button';
 import Card from '../../styledComponents/Card/Card';
 import GridContainer from '../../styledComponents/Grid/GridContainer';
 import GridItem from '../../styledComponents/Grid/GridItem';
 import CustomInput from '../../styledComponents/CustomInput/CustomInput';
 import InfoArea from '../../styledComponents/InfoArea/InfoArea';
-
+//assets
+import TheaterMasks from '../../static/icons/TheatreMask';
+//styles
 import Styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles';
-
-import Terms from '../../components/SplashPage/Terms';
+//utils
 import { auth } from '../../utils/firebase';
 
 const REGISTER_USER = gql`

@@ -1,22 +1,20 @@
 import React, { useState } from 'react';
-import Danger from '../../styledComponents/Typography/Danger';
-import NearMe from '@material-ui/icons/NearMe';
-import Button from '../../styledComponents/CustomButtons/Button';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Dialog from '@material-ui/core/Dialog';
-import styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles.jsx';
-import withStyles from '@material-ui/core/styles/withStyles';
-import Close from '@material-ui/icons/Close';
-import DialogContent from '@material-ui/core/DialogContent';
 import Downshift from 'downshift';
+import { ApolloConsumer, Mutation } from 'react-apollo';
+//MUI
+import withStyles from '@material-ui/core/styles/withStyles';
+import { Dialog, DialogTitle, DialogContent, Paper, MenuItem } from '@material-ui/core';
+import { NearMe, Close, PersonPin } from '@material-ui/icons';
+import Danger from '../../styledComponents/Typography/Danger';
+//QM
 import { CURRENT_USER_QUERY } from '../Queries/User';
 import { LOCATION_SUGGESTION_QUERY } from '../Queries/LocationSuggestion';
-import { ApolloConsumer, Mutation } from 'react-apollo';
 import { UPDATE_LOCATION_MUTATION } from '../Mutations/updateLocation';
+//styled components
+import Button from '../../styledComponents/CustomButtons/Button';
 import Input from '../../styledComponents/CustomInput/CustomInput';
-import PersonPin from '@material-ui/icons/PersonPin';
-import Paper from '@material-ui/core/Paper';
-import MenuItem from '@material-ui/core/MenuItem';
+//styles
+import styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles.jsx';
 
 const Location = ({ user, classes }) => {
 	const [ modal, showModal ] = useState(false);
