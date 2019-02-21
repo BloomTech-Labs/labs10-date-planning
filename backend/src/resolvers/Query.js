@@ -36,7 +36,7 @@ const Query = {
 						'KZFzniwnSyZfZ7v7n1',
 					]
 				: args.categories;
-		console.log(args);
+
 		const dates =
 			!args.dates || !args.dates.length ? undefined : setDates(args.dates.toString());
 
