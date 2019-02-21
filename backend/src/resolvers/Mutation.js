@@ -72,7 +72,7 @@ const Mutation = {
 		return { token, user };
 	},
 	async signin(parent, { email, password }, { db, response }, info) {
-		const user = await db.query.user({ where: { email } }, info);
+		const user = await db.query.user({ where: { email } });
 		if (!user) {
 			throw new Error(`No such user found for email ${email}`);
 		}
@@ -270,17 +270,20 @@ const Mutation = {
 		});
 
 		// Update user's permission type
-		return ctx.db.mutation.updateUser({
-			data: {
-				permissions: {
-					set: ['FREE']
+		return ctx.db.mutation.updateUser(
+			{
+				data: {
+					permissions: {
+						set: ['FREE']
+					},
+					stripeSubscriptionId: null
 				},
-				stripeSubscriptionId: null
+				where: {
+					id: user.id
+				}
 			},
-			where: {
-				id: user.id
-			}
-		}, info);
+			info
+		);
 	},
 	async internalPasswordReset(parent, args, { db, request, response }, info) {
 		if (args.newPassword1 !== args.newPassword2) {
