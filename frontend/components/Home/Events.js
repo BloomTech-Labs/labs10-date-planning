@@ -108,7 +108,7 @@ const Events = ({ classes, client }) => {
 	// 	),
 	// });
 
-	if (!events.events.length) return <div>loading</div>;
+	if (!events.events.length) return <div />;
 	else
 		return (
 			<div className={classes.section} style={{ paddingTop: '40px' }}>
@@ -165,7 +165,7 @@ const Events = ({ classes, client }) => {
 											loader={<div>loading..</div>}
 										>
 											{events.events[0].map(event => (
-												<Event event={event} key={event.id} />
+												<Event event={event} key={event.id} user={user} />
 											))}
 										</InfiniteScroll>
 									</GridItem>
@@ -173,13 +173,13 @@ const Events = ({ classes, client }) => {
 									<GridItem sm={6} md={4} lg={4}>
 										{events.events[1] &&
 											events.events[1].map(event => (
-												<Event event={event} key={event.id} />
+												<Event event={event} key={event.id} user={user} />
 											))}
 									</GridItem>
 									<GridItem sm={6} md={4} lg={4}>
 										{events.events[2] &&
 											events.events[2].map(event => (
-												<Event event={event} key={event.id} />
+												<Event event={event} key={event.id} user={user} />
 											))}
 									</GridItem>
 								</GridContainer>

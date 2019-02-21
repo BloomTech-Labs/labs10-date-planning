@@ -4,7 +4,7 @@ import moment from 'moment';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import withStyles from '@material-ui/core/styles/withStyles';
-
+import { CURRENT_USER_QUERY } from '../Queries/User';
 import AddIcon from '@material-ui/icons/Add';
 import Card from '../../styledComponents/Card/Card';
 import CardHeader from '../../styledComponents/Card/CardHeader';

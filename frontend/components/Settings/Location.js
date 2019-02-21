@@ -14,7 +14,7 @@ import { LOCATION_SUGGESTION_QUERY } from '../Queries/LocationSuggestion';
 import { ApolloConsumer, Mutation } from 'react-apollo';
 import { UPDATE_LOCATION_MUTATION } from '../Mutations/updateLocation';
 import Input from '../../styledComponents/CustomInput/CustomInput';
-import WhereToVote from '@material-ui/icons/WhereToVote';
+import PersonPin from '@material-ui/icons/PersonPin';
 import Paper from '@material-ui/core/Paper';
 import MenuItem from '@material-ui/core/MenuItem';
 
@@ -123,7 +123,7 @@ const Location = ({ user, classes }) => {
 															updateLocation();
 														}}
 													>
-														<WhereToVote />
+														<PersonPin />
 													</Button>
 
 													{isOpen ? (
