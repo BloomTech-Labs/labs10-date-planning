@@ -122,6 +122,7 @@ const Settings = ({ classes, theme }) => {
             )}
           </IconButton>
         </div>
+        <Divider />
         <Sidebar />
       </Drawer>
       <Dates />
