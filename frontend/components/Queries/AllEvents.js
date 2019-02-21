@@ -9,8 +9,15 @@ export const ALL_EVENTS_QUERY = gql`
 		$page: Int
 		$categories: [String]
 		$dates: [String]
+		$genres: [String]
 	) {
-		getEvents(location: $location, page: $page, categories: $categories, dates: $dates) {
+		getEvents(
+			location: $location
+			page: $page
+			categories: $categories
+			dates: $dates
+			genres: $genres
+		) {
 			page_count
 			total_items
 			page_number

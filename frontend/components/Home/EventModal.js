@@ -50,6 +50,7 @@ const EventModal = ({ modal, showModal, classes, event, client }) => {
     color: "#fafafa"
   };
 
+
   return (
     <User>
       {({ data }) => {
@@ -157,6 +158,7 @@ const EventModal = ({ modal, showModal, classes, event, client }) => {
                             __html: event.description
                           }}
                         />
+
 
                         <Button
                           fullWidth

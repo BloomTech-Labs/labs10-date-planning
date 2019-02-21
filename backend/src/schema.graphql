@@ -17,7 +17,7 @@ type Mutation {
 }
 
 type Query {
-	getEvents(location: String, page: Int, categories: [String], dates: [String]): AllEvents
+	getEvents(location: String, page: Int, categories: [String], dates: [String], genres: [String]): AllEvents
 	getEvent(id: String!): Event
 	geoHash(city: String!): GeoHash
 	currentUser: User
