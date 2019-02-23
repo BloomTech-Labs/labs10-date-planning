@@ -22,37 +22,41 @@ import GridItem from '../../styledComponents/Grid/GridItem';
 import Paginations from '../../styledComponents/Pagination/Pagination';
 //styles
 import styles from '../../static/jss/material-kit-pro-react/views/ecommerceSections/productsStyle.jsx';
+import { auth } from '../../utils/firebase';
 
 const Events = ({ classes, client }) => {
-	const [ page, setPage ] = useState(0);
-	const [ events, setEvents ] = useState({ events: [] });
-	const [ location, setLocation ] = useState(undefined);
+	const [page, setPage] = useState(0);
+	const [events, setEvents] = useState({ events: [] });
+	const [location, setLocation] = useState(undefined);
 
-	const [ user, setUser ] = useState(undefined);
+	const [user, setUser] = useState(undefined);
 	useEffect(() => {
 		getUser();
 	}, []);
 
-	useEffect(
-		() => {
-			if (location) {
-				getEvents({
-					location: location,
-					alt: 'all',
-					page: 0,
-					categories: [],
-					dates: [],
-					genres: [],
-				});
-			}
-		},
-		[ location ],
-	);
+	useEffect(() => {
+		if (location) {
+			getEvents({
+				location: location,
+				alt: 'all',
+				page: 0,
+				categories: [],
+				dates: [],
+				genres: []
+			});
+		}
+	}, [location]);
 
 	const getUser = async () => {
 		let { data, loading } = await client.query({
-			query: CURRENT_USER_QUERY,
+			query: CURRENT_USER_QUERY
 		});
+		let holden;
+		if (auth) {
+			holden = auth.currentUser;
+			console.log(holden);
+		}
+		console.log(auth);
 
 		if (data.currentUser) {
 			setUser(data.currentUser);
@@ -65,7 +69,7 @@ const Events = ({ classes, client }) => {
 		NProgress.start();
 		let { data, error } = await client.query({
 			query: ALL_EVENTS_QUERY,
-			variables: variables,
+			variables: variables
 		});
 		if (data || error) NProgress.done();
 		return data.getEvents;
@@ -76,7 +80,7 @@ const Events = ({ classes, client }) => {
 
 		let events = {
 			...newEvents,
-			events: _.chunk(newEvents.events, newEvents.events.length / 3),
+			events: _.chunk(newEvents.events, newEvents.events.length / 3)
 		};
 
 		setEvents(events);
@@ -86,13 +90,13 @@ const Events = ({ classes, client }) => {
 		if (page < events.page_count - 1) {
 			let data = await fetchEvents({
 				location: location,
-				page: page + 1,
+				page: page + 1
 			});
-			let moarEvents = [ ..._.flatten(events.events), ...data.events ];
+			let moarEvents = [..._.flatten(events.events), ...data.events];
 
 			let newEvents = {
 				...data,
-				events: _.chunk(moarEvents, moarEvents.length / 3),
+				events: _.chunk(moarEvents, moarEvents.length / 3)
 			};
 			setEvents(newEvents);
 		}
@@ -100,7 +104,7 @@ const Events = ({ classes, client }) => {
 
 	const handleCompleted = async () => {
 		let { data, error } = await client.query({
-			query: CURRENT_USER_QUERY,
+			query: CURRENT_USER_QUERY
 		});
 		if (data || error) NProgress.done();
 
@@ -132,15 +136,12 @@ const Events = ({ classes, client }) => {
 												<div
 													style={{
 														display: 'flex',
-														alignItems: 'center',
+														alignItems: 'center'
 													}}
 												>
 													{user && user.location !== location ? (
 														<Primary>
-															<b
-																onClick={updateLocation}
-																style={{ cursor: 'pointer' }}
-															>
+															<b onClick={updateLocation} style={{ cursor: 'pointer' }}>
 																make default location?
 															</b>
 														</Primary>

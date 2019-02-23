@@ -39,21 +39,23 @@ const Mutation = {
 		return user;
 	},
 	async firebaseAuth(parent, args, ctx, info) {
-		const { uid, email, user_id } = await verifyIdToken(args.idToken);
-		const firebaseUser = await getUserRecord(uid);
-		const { displayName } = firebaseUser;
+		const { uid } = await verifyIdToken(args.idToken);
+		const { providerData } = await getUserRecord(uid);
+		const { email, displayName, photoURL } = providerData[0];
 		// check to see if user already exists in our db
 		let user = await ctx.db.query.user({
-			where: { email: email ? email : user_id }
+			where: { email }
 		});
 		if (!user) {
 			user = await ctx.db.mutation.createUser(
 				{
 					data: {
 						firstName: displayName,
-						email: email || user_id,
+						email: email,
 						password: 'firebaseAuth',
 						lastName: '',
+						imageThumbnail: photoURL || '',
+						imageLarge: photoURL || '',
 						permissions: {
 							set: ['FREE']
 						}
