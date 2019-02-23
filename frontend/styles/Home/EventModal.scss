@@ -11,8 +11,8 @@
     $border: 3px;
     color: #000;
     background: #fff;
-    background-clip: padding-box; /* !importanté */
-    border: solid $border transparent; /* !importanté */
+    background-clip: padding-box; 
+    border: solid $border transparent; 
     border-radius: 6px;
   
     &:before {
@@ -23,8 +23,8 @@
       bottom: 0;
       left: 0;
       z-index: -1;
-      margin: -$border; /* !importanté */
-      border-radius: inherit; /* !importanté */
+      margin: -$border; 
+      border-radius: inherit; 
       background-image: linear-gradient(
         to top,
         #7dcac5,
