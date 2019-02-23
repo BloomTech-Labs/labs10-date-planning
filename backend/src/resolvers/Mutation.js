@@ -39,21 +39,27 @@ const Mutation = {
 		return user;
 	},
 	async firebaseAuth(parent, args, ctx, info) {
-		const { uid, email, user_id } = await verifyIdToken(args.idToken);
-		const firebaseUser = await getUserRecord(uid);
-		const { displayName } = firebaseUser;
+		const { uid } = await verifyIdToken(args.idToken);
+		const { providerData } = await getUserRecord(uid);
+		const { email, displayName, photoURL } = providerData[0];
 		// check to see if user already exists in our db
 		let user = await ctx.db.query.user({
+<<<<<<< HEAD
 			where: { email: email ? email : user_id },
+=======
+			where: { email }
+>>>>>>> 3d008f9c5543a4593244c45fcc37d7cdba57ed11
 		});
 		if (!user) {
 			user = await ctx.db.mutation.createUser(
 				{
 					data: {
 						firstName: displayName,
-						email: email || user_id,
+						email: email,
 						password: 'firebaseAuth',
 						lastName: '',
+						imageThumbnail: photoURL || '',
+						imageLarge: photoURL || '',
 						permissions: {
 							set: [ 'FREE' ],
 						},
@@ -378,7 +384,7 @@ const Mutation = {
 		const { userId } = request;
 		if (!userId) throw new Error('You must be signed in to add delete an event.');
 
-		const user = await db.mutation.updateUser(
+		return await db.mutation.updateUser(
 			{
 				where: { id: userId },
 				data: {
@@ -389,6 +395,7 @@ const Mutation = {
 					},
 				},
 			},
+<<<<<<< HEAD
 			`{ permissions events { id } }`,
 		);
 
@@ -396,6 +403,11 @@ const Mutation = {
 			? { message: `You have used ${user.events.length} of your 5 free events` }
 			: { message: 'Event successfully removed!' };
 	},
+=======
+			info
+		);
+	}
+>>>>>>> 3d008f9c5543a4593244c45fcc37d7cdba57ed11
 };
 
 module.exports = Mutation;
