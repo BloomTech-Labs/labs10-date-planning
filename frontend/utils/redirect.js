@@ -4,14 +4,10 @@ export default (context, target) => {
 	if (context.res) {
 		// server
 		// 303: "See other"
-
-		//context.res.redirect(target);
-		context.res.writeHead(303, { Location: target });
+		context.res.writeHead(302, { Location: target });
 		context.res.end();
-		return;
 	} else {
-		//	In the browser, we just pretend like this never even happened ;)
-		Router.push(target);
-		return;
+		// In the browser, we just pretend like this never even happened ;)
+		Router.replace(target);
 	}
 };

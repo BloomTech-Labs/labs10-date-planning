@@ -22,42 +22,57 @@ import GridItem from '../../styledComponents/Grid/GridItem';
 import Paginations from '../../styledComponents/Pagination/Pagination';
 //styles
 import styles from '../../static/jss/material-kit-pro-react/views/ecommerceSections/productsStyle.jsx';
+import { auth } from '../../utils/firebase';
 
 const Events = ({ classes, client }) => {
-	const [ page, setPage ] = useState(0);
-	const [ events, setEvents ] = useState({ events: [] });
-	const [ location, setLocation ] = useState(undefined);
-	const [ user, setUser ] = useState(undefined);
+	const [page, setPage] = useState(0);
+	const [events, setEvents] = useState({ events: [] });
+	const [location, setLocation] = useState(undefined);
+
+	const [user, setUser] = useState(undefined);
 	useEffect(() => {
 		getUser();
 	}, []);
 
-	useEffect(
-		() => {
-			if (location) {
-				getEvents({
-					location: location,
-					alt: 'all',
-					page: 0,
-					categories: [],
-					dates: [],
-					genres: [],
-				});
-			}
-		},
-		[ location ],
-	);
+	useEffect(() => {
+		if (location) {
+			getEvents({
+				location: location,
+				alt: 'all',
+				page: 0,
+				categories: [],
+				dates: [],
+				genres: []
+			});
+		}
+	}, [location]);
+
 	const getUser = async () => {
 		let { data, loading } = await client.query({
-			query: CURRENT_USER_QUERY,
+			query: CURRENT_USER_QUERY
 		});
-		if (loading) NProgress.start();
+		let holden;
+		if (auth) {
+			holden = auth.currentUser;
+			console.log(holden);
+		}
+		console.log(auth);
+
 		if (data.currentUser) {
-			NProgress.set(0.3);
 			setUser(data.currentUser);
 			if (data.currentUser.location) setLocation(data.currentUser.location);
 			else setLocation('Los Angeles, CA');
 		}
+	};
+
+	const fetchEvents = async variables => {
+		NProgress.start();
+		let { data, error } = await client.query({
+			query: ALL_EVENTS_QUERY,
+			variables: variables
+		});
+		if (data || error) NProgress.done();
+		return data.getEvents;
 	};
 
 	const getEvents = async variables => {
@@ -65,43 +80,34 @@ const Events = ({ classes, client }) => {
 
 		let events = {
 			...newEvents,
-			events: _.chunk(newEvents.events, newEvents.events.length / 3),
+			events: _.chunk(newEvents.events, newEvents.events.length / 3)
 		};
 
 		setEvents(events);
-	};
-
-	const fetchEvents = async variables => {
-		NProgress.start();
-		let { data, loading, error } = await client.query({
-			query: ALL_EVENTS_QUERY,
-			variables: variables,
-		});
-		if (data) NProgress.done();
-		return data.getEvents;
 	};
 
 	const loadMore = async page => {
 		if (page < events.page_count - 1) {
 			let data = await fetchEvents({
 				location: location,
-				page: page + 1,
+				page: page + 1
 			});
-			let moarEvents = [ ..._.flatten(events.events), ...data.events ];
+			let moarEvents = [..._.flatten(events.events), ...data.events];
 
 			let newEvents = {
 				...data,
-				events: _.chunk(moarEvents, moarEvents.length / 3),
+				events: _.chunk(moarEvents, moarEvents.length / 3)
 			};
 			setEvents(newEvents);
 		}
 	};
 
-	const handleCompleted = async stff => {
-		NProgress.done();
-		let { data, loading } = await client.query({
-			query: CURRENT_USER_QUERY,
+	const handleCompleted = async () => {
+		let { data, error } = await client.query({
+			query: CURRENT_USER_QUERY
 		});
+		if (data || error) NProgress.done();
+
 		if (data.currentUser) {
 			setUser(data.currentUser);
 		}
@@ -125,20 +131,17 @@ const Events = ({ classes, client }) => {
 									>
 										{(updateLocation, { error, loading, called }) => {
 											if (called) NProgress.start();
-											if (loading) NProgress.set(0.3);
+
 											return (
 												<div
 													style={{
 														display: 'flex',
-														alignItems: 'center',
+														alignItems: 'center'
 													}}
 												>
 													{user && user.location !== location ? (
 														<Primary>
-															<b
-																onClick={updateLocation}
-																style={{ cursor: 'pointer' }}
-															>
+															<b onClick={updateLocation} style={{ cursor: 'pointer' }}>
 																make default location?
 															</b>
 														</Primary>

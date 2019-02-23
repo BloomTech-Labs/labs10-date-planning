@@ -118,14 +118,19 @@ const Filters = ({ classes, getEvents, location, page }) => {
 										}
 									>
 										<ExpansionPanel
-											style={{ boxShadow: '0px 1px 3px 0px rgba(0,0,0,0.1)' }}
+											root={{
+												boxShadow: '0px 1px 3px 0px rgba(0,0,0,0.1)',
+												backgroundColor: 'transparent',
+											}}
 										>
 											<ExpansionPanelSummary
 												expandIcon={<ExpandMore />}
 												style={{ padding: 0, margin: 0 }}
 												classes={{
 													root: `${classes.expansionPanelSummary} ${classes[
-														'primary' + 'ExpansionPanelSummary'
+														'primary' +
+															'ExpansionPanelSummary' +
+															'border: none'
 													]}`,
 													expanded: `${classes.expansionPanelSummaryExpaned} ${classes[
 														'primary' + 'ExpansionPanelSummaryExpaned'

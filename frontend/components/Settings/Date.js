@@ -16,18 +16,22 @@ import CardStyles from "../../static/jss/material-kit-pro-react/views/components
 import "../../styles/Settings/Date.scss";
 
 const DELETE_EVENT = gql`
-  mutation deleteEvent($eventId: String!) {
-    deleteEvent(eventId: $eventId) {
-      message
+  mutation deleteEvent($id:String!, $eventId: String!) {
+    deleteEvent(id: $id, eventId: $eventId) {
+      id
+      events {
+        id
+      }
     }
   }
 `;
 
-const DateView = ({ date, classes, client }) => {
+const DateView = ({ date, classes, client, currentUser }) => {
   const deleteEvent = async eventId => {
     let { data, loading } = await client.mutate({
       mutation: DELETE_EVENT,
       variables: {
+        id: currentUser.id,
         eventId
       }
     });

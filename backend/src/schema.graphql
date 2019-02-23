@@ -11,9 +11,9 @@ type Mutation {
 	updateImage(thumbnail: String!, image: String!): User!
 	updateLocation(city: String!): User!
 	addEvent(eventId: String!): Message
-	deleteEvent(eventId: String!): Message
+	deleteEvent(id: String!, eventId: String!): User!
 	createOrder(token: String!, subscription: Permission!): Message
-	cancelSubscription: Message
+	cancelSubscription(id: String!): User!
 }
 
 type Query {
