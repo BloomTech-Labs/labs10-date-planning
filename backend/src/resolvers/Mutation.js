@@ -39,21 +39,23 @@ const Mutation = {
 		return user;
 	},
 	async firebaseAuth(parent, args, ctx, info) {
-		const { uid, email, user_id } = await verifyIdToken(args.idToken);
-		const firebaseUser = await getUserRecord(uid);
-		const { displayName } = firebaseUser;
+		const { uid } = await verifyIdToken(args.idToken);
+		const { providerData } = await getUserRecord(uid);
+		const { email, displayName, photoURL } = providerData[0];
 		// check to see if user already exists in our db
 		let user = await ctx.db.query.user({
-			where: { email: email ? email : user_id }
+			where: { email }
 		});
 		if (!user) {
 			user = await ctx.db.mutation.createUser(
 				{
 					data: {
 						firstName: displayName,
-						email: email || user_id,
+						email: email,
 						password: 'firebaseAuth',
 						lastName: '',
+						imageThumbnail: photoURL || '',
+						imageLarge: photoURL || '',
 						permissions: {
 							set: ['FREE']
 						}
@@ -72,7 +74,7 @@ const Mutation = {
 		return { token, user };
 	},
 	async signin(parent, { email, password }, { db, response }, info) {
-		const user = await db.query.user({ where: { email } }, info);
+		const user = await db.query.user({ where: { email } });
 		if (!user) {
 			throw new Error(`No such user found for email ${email}`);
 		}
@@ -270,21 +272,20 @@ const Mutation = {
 		});
 
 		// Update user's permission type
-		ctx.db.mutation.updateUser({
-			data: {
-				permissions: {
-					set: ['FREE']
+		return ctx.db.mutation.updateUser(
+			{
+				data: {
+					permissions: {
+						set: ['FREE']
+					},
+					stripeSubscriptionId: null
 				},
-				stripeSubscriptionId: null
+				where: {
+					id: user.id
+				}
 			},
-			where: {
-				id: user.id
-			}
-		});
-
-		return {
-			message: `Your subscription has been ${canceled.status} at the end of the billing period`
-		};
+			info
+		);
 	},
 	async internalPasswordReset(parent, args, { db, request, response }, info) {
 		if (args.newPassword1 !== args.newPassword2) {
@@ -373,7 +374,7 @@ const Mutation = {
 		const { userId } = request;
 		if (!userId) throw new Error('You must be signed in to add delete an event.');
 
-		const user = await db.mutation.updateUser(
+		return await db.mutation.updateUser(
 			{
 				where: { id: userId },
 				data: {
@@ -384,12 +385,8 @@ const Mutation = {
 					}
 				}
 			},
-			`{ permissions events { id } }`
+			info
 		);
-
-		return user.permissions[0] === 'FREE'
-			? { message: `You have used ${user.events.length} of your 5 free events` }
-			: { message: 'Event successfully removed!' };
 	}
 };
 

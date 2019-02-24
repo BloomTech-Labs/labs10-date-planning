@@ -37,6 +37,11 @@ enum Permission {
 	ADMIN
 }
 
+enum Gender {
+	MALE
+	FEMALE
+}
+
 type User {
 	id: ID! @unique
 	firstName: String!
@@ -64,7 +69,6 @@ type User {
 type Event {
 	id: ID! @unique
 	eventfulID: String! @unique
-	# votes: Int
 	title: String
 	description: String
 	attending: [User!]!
@@ -72,14 +76,6 @@ type Event {
 	location: String
 	image_url: String
 	url: String
-	# location: String!
-	# startTime: DateTime
-	# category: [Category]
-}
-
-enum Gender {
-	MALE
-	FEMALE
 }
 
 type Order {
