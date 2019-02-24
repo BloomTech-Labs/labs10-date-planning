@@ -33,12 +33,12 @@ const Event = ({ event, classes, user }) => {
 			{event.image_url && (
 				<CardHeader image>
 					<a href='#pablo' onClick={e => e.preventDefault()}>
-						<img src={event.image_url} alt='...' />
+						<img src={event.large_url} alt='...' />
 					</a>
 					<div
 						className={classes.coloredShadow}
 						style={{
-							backgroundImage: `url(${event.image_url})`,
+							backgroundImage: `url(${event.large_url})`,
 							opacity: '1',
 						}}
 					/>
@@ -74,9 +74,7 @@ const Event = ({ event, classes, user }) => {
 							{moment(event.times[event.times.length - 1]).calendar()}
 						</div>
 					) : (
-						event.times.map((time, i) => (
-							<div key={i}>{moment(time).calendar()}</div>
-						))
+						event.times.map((time, i) => <div key={i}>{moment(time).calendar()}</div>)
 					)}
 				</div>
 			</CardFooter>
