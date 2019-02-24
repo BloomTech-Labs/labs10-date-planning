@@ -6,8 +6,8 @@ import NProgress from 'nprogress';
 
 //MUI
 import withStyles from '@material-ui/core/styles/withStyles';
-import { List, ListItem } from '@material-ui/core';
-import { AccountCircle, Explore } from '@material-ui/icons';
+import { List, ListItem, Badge, IconButton } from '@material-ui/core';
+import { AccountCircle, Explore, Mail } from '@material-ui/icons';
 import navbarsStyle from '../../static/jss/material-kit-pro-react/views/componentsSections/navbarsStyle.jsx';
 //Q&M
 import User, { CURRENT_USER_QUERY } from '../Queries/User';
@@ -81,6 +81,17 @@ const Nav = ({ classes, color }) => {
 									color='transparent'
 								>
 									<AccountCircle /> Me
+								</Button>
+							</ListItem>
+							<ListItem className={classes.listItem}>
+								<Button
+									aria-label='4 pending messages'
+									className={classes.navLink}
+									color='transparent'
+								>
+									<Badge badgeContent={4} color='primary'>
+										<Mail />
+									</Badge>
 								</Button>
 							</ListItem>
 							<Mutation

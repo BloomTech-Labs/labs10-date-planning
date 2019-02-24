@@ -9,7 +9,10 @@ const Profile = () => {
 			{({ data: { currentUser }, client }) => (
 				<div className='Profile-Header'>
 					<div className='inner'>
-						<img className='prof-img' src={currentUser.imageLarge} />
+						<div
+							className='prof-img'
+							style={{ backgroundImage: `url(${currentUser.imageLarge})` }}
+						/>
 						<div
 							style={{
 								display: 'flex',
