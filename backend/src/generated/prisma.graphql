@@ -1,5 +1,5 @@
-# source: http://localhost:4466
-# timestamp: Sat Feb 23 2019 17:33:27 GMT-0800 (Pacific Standard Time)
+# source: https://ykrueng-labs-73c509aab2.herokuapp.com/backend_magic/dev
+# timestamp: Sun Feb 24 2019 14:11:26 GMT-0600 (Central Standard Time)
 
 type AggregateEvent {
   count: Int!
@@ -736,7 +736,6 @@ input EventUpdateManyMutationInput {
 input EventUpdateManyWithoutAttendingInput {
   create: [EventCreateWithoutAttendingInput!]
   connect: [EventWhereUniqueInput!]
-  set: [EventWhereUniqueInput!]
   disconnect: [EventWhereUniqueInput!]
   delete: [EventWhereUniqueInput!]
   update: [EventUpdateWithWhereUniqueWithoutAttendingInput!]
@@ -1285,9 +1284,6 @@ enum Gender {
   OTHER
 }
 
-"""Raw JSON value"""
-scalar Json
-
 """
 The `Long` scalar type represents non-fractional signed whole numeric values.
 Long can represent values between -(2^63) and 2^63 - 1.
@@ -1533,7 +1529,6 @@ input MessageUpdateManyMutationInput {
 input MessageUpdateManyWithoutFromInput {
   create: [MessageCreateWithoutFromInput!]
   connect: [MessageWhereUniqueInput!]
-  set: [MessageWhereUniqueInput!]
   disconnect: [MessageWhereUniqueInput!]
   delete: [MessageWhereUniqueInput!]
   update: [MessageUpdateWithWhereUniqueWithoutFromInput!]
@@ -1545,7 +1540,6 @@ input MessageUpdateManyWithoutFromInput {
 input MessageUpdateManyWithoutToInput {
   create: [MessageCreateWithoutToInput!]
   connect: [MessageWhereUniqueInput!]
-  set: [MessageWhereUniqueInput!]
   disconnect: [MessageWhereUniqueInput!]
   delete: [MessageWhereUniqueInput!]
   update: [MessageUpdateWithWhereUniqueWithoutToInput!]
@@ -1741,7 +1735,6 @@ type Mutation {
   deleteManyEvents(where: EventWhereInput): BatchPayload!
   deleteManyOrders(where: OrderWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
-  executeRaw(database: PrismaDatabase, query: String!): Json!
 }
 
 enum MutationType {
@@ -2062,10 +2055,6 @@ enum Permission {
   ADMIN
 }
 
-enum PrismaDatabase {
-  default
-}
-
 type ProfilePic implements Node {
   id: ID!
   user: User!
@@ -2280,7 +2269,6 @@ input ProfilePicUpdateManyMutationInput {
 input ProfilePicUpdateManyWithoutUserInput {
   create: [ProfilePicCreateWithoutUserInput!]
   connect: [ProfilePicWhereUniqueInput!]
-  set: [ProfilePicWhereUniqueInput!]
   disconnect: [ProfilePicWhereUniqueInput!]
   delete: [ProfilePicWhereUniqueInput!]
   update: [ProfilePicUpdateWithWhereUniqueWithoutUserInput!]
@@ -3515,7 +3503,6 @@ input UserUpdateManyDataInput {
 input UserUpdateManyInput {
   create: [UserCreateInput!]
   connect: [UserWhereUniqueInput!]
-  set: [UserWhereUniqueInput!]
   disconnect: [UserWhereUniqueInput!]
   delete: [UserWhereUniqueInput!]
   update: [UserUpdateWithWhereUniqueNestedInput!]
@@ -3548,7 +3535,6 @@ input UserUpdateManyMutationInput {
 input UserUpdateManyWithoutEventsInput {
   create: [UserCreateWithoutEventsInput!]
   connect: [UserWhereUniqueInput!]
-  set: [UserWhereUniqueInput!]
   disconnect: [UserWhereUniqueInput!]
   delete: [UserWhereUniqueInput!]
   update: [UserUpdateWithWhereUniqueWithoutEventsInput!]
