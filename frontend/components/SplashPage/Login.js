@@ -70,7 +70,6 @@ const Login = ({ classes }) => {
 	useEffect(
 		() => {
 			if (err.password) {
-				console.log('err.password');
 				setError({ email: undefined, password: undefined });
 			}
 		},

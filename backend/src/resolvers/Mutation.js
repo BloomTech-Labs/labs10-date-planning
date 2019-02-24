@@ -44,11 +44,7 @@ const Mutation = {
 		const { email, displayName, photoURL } = providerData[0];
 		// check to see if user already exists in our db
 		let user = await ctx.db.query.user({
-<<<<<<< HEAD
-			where: { email: email ? email : user_id },
-=======
-			where: { email }
->>>>>>> 3d008f9c5543a4593244c45fcc37d7cdba57ed11
+			where: { email },
 		});
 		if (!user) {
 			user = await ctx.db.mutation.createUser(
@@ -395,19 +391,9 @@ const Mutation = {
 					},
 				},
 			},
-<<<<<<< HEAD
-			`{ permissions events { id } }`,
+			info,
 		);
-
-		return user.permissions[0] === 'FREE'
-			? { message: `You have used ${user.events.length} of your 5 free events` }
-			: { message: 'Event successfully removed!' };
 	},
-=======
-			info
-		);
-	}
->>>>>>> 3d008f9c5543a4593244c45fcc37d7cdba57ed11
 };
 
 module.exports = Mutation;
