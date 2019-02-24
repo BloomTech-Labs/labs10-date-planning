@@ -1,11 +1,19 @@
-# source: https://ykrueng-labs-73c509aab2.herokuapp.com/backend_magic/dev
-# timestamp: Tue Feb 19 2019 19:52:18 GMT-0600 (Central Standard Time)
+# source: http://localhost:4466
+# timestamp: Sat Feb 23 2019 17:33:27 GMT-0800 (Pacific Standard Time)
 
 type AggregateEvent {
   count: Int!
 }
 
+type AggregateMessage {
+  count: Int!
+}
+
 type AggregateOrder {
+  count: Int!
+}
+
+type AggregateProfilePic {
   count: Int!
 }
 
@@ -20,34 +28,8 @@ type BatchPayload {
 
 enum Category {
   MUSIC
-  CONFERENCE
-  COMEDY
-  LEARNING_EDUCATION
-  FAMILY_FUN_KIDS
-  FESTIVALS_PARADES
-  MOVIES_FILM
-  FOOD
-  FUNDRAISERS
-  ART
-  SUPPORT
-  HOLIDAY
-  BOOKS
-  ATTRACTIONS
-  COMMUNITY
-  BUSINESS
-  SINGLES_SOCIAL
-  SCHOOLS_ALUMNI
-  CLUBS_ASSOCIATIONS
-  OUTDOORS_RECREATION
-  PERFORMING_ARTS
-  ANIMALS
-  POLITICS_ACTIVISM
-  SALES
-  SCIENCE
-  RELIGION_SPIRITUALITY
+  ARTS_THEATRE
   SPORTS
-  TECHNOLOGY
-  OTHER
 }
 
 scalar DateTime
@@ -62,6 +44,11 @@ type Event implements Node {
   location: String
   image_url: String
   url: String
+  city: String
+  venue: String
+  address: String
+  lat: String
+  long: String
 }
 
 """A connection to a list of items."""
@@ -81,6 +68,11 @@ input EventCreateInput {
   location: String
   image_url: String
   url: String
+  city: String
+  venue: String
+  address: String
+  lat: String
+  long: String
   times: EventCreatetimesInput
   attending: UserCreateManyWithoutEventsInput
 }
@@ -101,6 +93,11 @@ input EventCreateWithoutAttendingInput {
   location: String
   image_url: String
   url: String
+  city: String
+  venue: String
+  address: String
+  lat: String
+  long: String
   times: EventCreatetimesInput
 }
 
@@ -128,6 +125,16 @@ enum EventOrderByInput {
   image_url_DESC
   url_ASC
   url_DESC
+  city_ASC
+  city_DESC
+  venue_ASC
+  venue_DESC
+  address_ASC
+  address_DESC
+  lat_ASC
+  lat_DESC
+  long_ASC
+  long_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
@@ -143,6 +150,11 @@ type EventPreviousValues {
   location: String
   image_url: String
   url: String
+  city: String
+  venue: String
+  address: String
+  lat: String
+  long: String
 }
 
 input EventScalarWhereInput {
@@ -434,6 +446,206 @@ input EventScalarWhereInput {
 
   """All values not ending with the given string."""
   url_not_ends_with: String
+  city: String
+
+  """All values that are not equal to given value."""
+  city_not: String
+
+  """All values that are contained in given list."""
+  city_in: [String!]
+
+  """All values that are not contained in given list."""
+  city_not_in: [String!]
+
+  """All values less than the given value."""
+  city_lt: String
+
+  """All values less than or equal the given value."""
+  city_lte: String
+
+  """All values greater than the given value."""
+  city_gt: String
+
+  """All values greater than or equal the given value."""
+  city_gte: String
+
+  """All values containing the given string."""
+  city_contains: String
+
+  """All values not containing the given string."""
+  city_not_contains: String
+
+  """All values starting with the given string."""
+  city_starts_with: String
+
+  """All values not starting with the given string."""
+  city_not_starts_with: String
+
+  """All values ending with the given string."""
+  city_ends_with: String
+
+  """All values not ending with the given string."""
+  city_not_ends_with: String
+  venue: String
+
+  """All values that are not equal to given value."""
+  venue_not: String
+
+  """All values that are contained in given list."""
+  venue_in: [String!]
+
+  """All values that are not contained in given list."""
+  venue_not_in: [String!]
+
+  """All values less than the given value."""
+  venue_lt: String
+
+  """All values less than or equal the given value."""
+  venue_lte: String
+
+  """All values greater than the given value."""
+  venue_gt: String
+
+  """All values greater than or equal the given value."""
+  venue_gte: String
+
+  """All values containing the given string."""
+  venue_contains: String
+
+  """All values not containing the given string."""
+  venue_not_contains: String
+
+  """All values starting with the given string."""
+  venue_starts_with: String
+
+  """All values not starting with the given string."""
+  venue_not_starts_with: String
+
+  """All values ending with the given string."""
+  venue_ends_with: String
+
+  """All values not ending with the given string."""
+  venue_not_ends_with: String
+  address: String
+
+  """All values that are not equal to given value."""
+  address_not: String
+
+  """All values that are contained in given list."""
+  address_in: [String!]
+
+  """All values that are not contained in given list."""
+  address_not_in: [String!]
+
+  """All values less than the given value."""
+  address_lt: String
+
+  """All values less than or equal the given value."""
+  address_lte: String
+
+  """All values greater than the given value."""
+  address_gt: String
+
+  """All values greater than or equal the given value."""
+  address_gte: String
+
+  """All values containing the given string."""
+  address_contains: String
+
+  """All values not containing the given string."""
+  address_not_contains: String
+
+  """All values starting with the given string."""
+  address_starts_with: String
+
+  """All values not starting with the given string."""
+  address_not_starts_with: String
+
+  """All values ending with the given string."""
+  address_ends_with: String
+
+  """All values not ending with the given string."""
+  address_not_ends_with: String
+  lat: String
+
+  """All values that are not equal to given value."""
+  lat_not: String
+
+  """All values that are contained in given list."""
+  lat_in: [String!]
+
+  """All values that are not contained in given list."""
+  lat_not_in: [String!]
+
+  """All values less than the given value."""
+  lat_lt: String
+
+  """All values less than or equal the given value."""
+  lat_lte: String
+
+  """All values greater than the given value."""
+  lat_gt: String
+
+  """All values greater than or equal the given value."""
+  lat_gte: String
+
+  """All values containing the given string."""
+  lat_contains: String
+
+  """All values not containing the given string."""
+  lat_not_contains: String
+
+  """All values starting with the given string."""
+  lat_starts_with: String
+
+  """All values not starting with the given string."""
+  lat_not_starts_with: String
+
+  """All values ending with the given string."""
+  lat_ends_with: String
+
+  """All values not ending with the given string."""
+  lat_not_ends_with: String
+  long: String
+
+  """All values that are not equal to given value."""
+  long_not: String
+
+  """All values that are contained in given list."""
+  long_in: [String!]
+
+  """All values that are not contained in given list."""
+  long_not_in: [String!]
+
+  """All values less than the given value."""
+  long_lt: String
+
+  """All values less than or equal the given value."""
+  long_lte: String
+
+  """All values greater than the given value."""
+  long_gt: String
+
+  """All values greater than or equal the given value."""
+  long_gte: String
+
+  """All values containing the given string."""
+  long_contains: String
+
+  """All values not containing the given string."""
+  long_not_contains: String
+
+  """All values starting with the given string."""
+  long_starts_with: String
+
+  """All values not starting with the given string."""
+  long_not_starts_with: String
+
+  """All values ending with the given string."""
+  long_ends_with: String
+
+  """All values not ending with the given string."""
+  long_not_ends_with: String
 }
 
 type EventSubscriptionPayload {
@@ -482,6 +694,11 @@ input EventUpdateInput {
   location: String
   image_url: String
   url: String
+  city: String
+  venue: String
+  address: String
+  lat: String
+  long: String
   times: EventUpdatetimesInput
   attending: UserUpdateManyWithoutEventsInput
 }
@@ -493,6 +710,11 @@ input EventUpdateManyDataInput {
   location: String
   image_url: String
   url: String
+  city: String
+  venue: String
+  address: String
+  lat: String
+  long: String
   times: EventUpdatetimesInput
 }
 
@@ -503,12 +725,18 @@ input EventUpdateManyMutationInput {
   location: String
   image_url: String
   url: String
+  city: String
+  venue: String
+  address: String
+  lat: String
+  long: String
   times: EventUpdatetimesInput
 }
 
 input EventUpdateManyWithoutAttendingInput {
   create: [EventCreateWithoutAttendingInput!]
   connect: [EventWhereUniqueInput!]
+  set: [EventWhereUniqueInput!]
   disconnect: [EventWhereUniqueInput!]
   delete: [EventWhereUniqueInput!]
   update: [EventUpdateWithWhereUniqueWithoutAttendingInput!]
@@ -533,6 +761,11 @@ input EventUpdateWithoutAttendingDataInput {
   location: String
   image_url: String
   url: String
+  city: String
+  venue: String
+  address: String
+  lat: String
+  long: String
   times: EventUpdatetimesInput
 }
 
@@ -836,6 +1069,206 @@ input EventWhereInput {
 
   """All values not ending with the given string."""
   url_not_ends_with: String
+  city: String
+
+  """All values that are not equal to given value."""
+  city_not: String
+
+  """All values that are contained in given list."""
+  city_in: [String!]
+
+  """All values that are not contained in given list."""
+  city_not_in: [String!]
+
+  """All values less than the given value."""
+  city_lt: String
+
+  """All values less than or equal the given value."""
+  city_lte: String
+
+  """All values greater than the given value."""
+  city_gt: String
+
+  """All values greater than or equal the given value."""
+  city_gte: String
+
+  """All values containing the given string."""
+  city_contains: String
+
+  """All values not containing the given string."""
+  city_not_contains: String
+
+  """All values starting with the given string."""
+  city_starts_with: String
+
+  """All values not starting with the given string."""
+  city_not_starts_with: String
+
+  """All values ending with the given string."""
+  city_ends_with: String
+
+  """All values not ending with the given string."""
+  city_not_ends_with: String
+  venue: String
+
+  """All values that are not equal to given value."""
+  venue_not: String
+
+  """All values that are contained in given list."""
+  venue_in: [String!]
+
+  """All values that are not contained in given list."""
+  venue_not_in: [String!]
+
+  """All values less than the given value."""
+  venue_lt: String
+
+  """All values less than or equal the given value."""
+  venue_lte: String
+
+  """All values greater than the given value."""
+  venue_gt: String
+
+  """All values greater than or equal the given value."""
+  venue_gte: String
+
+  """All values containing the given string."""
+  venue_contains: String
+
+  """All values not containing the given string."""
+  venue_not_contains: String
+
+  """All values starting with the given string."""
+  venue_starts_with: String
+
+  """All values not starting with the given string."""
+  venue_not_starts_with: String
+
+  """All values ending with the given string."""
+  venue_ends_with: String
+
+  """All values not ending with the given string."""
+  venue_not_ends_with: String
+  address: String
+
+  """All values that are not equal to given value."""
+  address_not: String
+
+  """All values that are contained in given list."""
+  address_in: [String!]
+
+  """All values that are not contained in given list."""
+  address_not_in: [String!]
+
+  """All values less than the given value."""
+  address_lt: String
+
+  """All values less than or equal the given value."""
+  address_lte: String
+
+  """All values greater than the given value."""
+  address_gt: String
+
+  """All values greater than or equal the given value."""
+  address_gte: String
+
+  """All values containing the given string."""
+  address_contains: String
+
+  """All values not containing the given string."""
+  address_not_contains: String
+
+  """All values starting with the given string."""
+  address_starts_with: String
+
+  """All values not starting with the given string."""
+  address_not_starts_with: String
+
+  """All values ending with the given string."""
+  address_ends_with: String
+
+  """All values not ending with the given string."""
+  address_not_ends_with: String
+  lat: String
+
+  """All values that are not equal to given value."""
+  lat_not: String
+
+  """All values that are contained in given list."""
+  lat_in: [String!]
+
+  """All values that are not contained in given list."""
+  lat_not_in: [String!]
+
+  """All values less than the given value."""
+  lat_lt: String
+
+  """All values less than or equal the given value."""
+  lat_lte: String
+
+  """All values greater than the given value."""
+  lat_gt: String
+
+  """All values greater than or equal the given value."""
+  lat_gte: String
+
+  """All values containing the given string."""
+  lat_contains: String
+
+  """All values not containing the given string."""
+  lat_not_contains: String
+
+  """All values starting with the given string."""
+  lat_starts_with: String
+
+  """All values not starting with the given string."""
+  lat_not_starts_with: String
+
+  """All values ending with the given string."""
+  lat_ends_with: String
+
+  """All values not ending with the given string."""
+  lat_not_ends_with: String
+  long: String
+
+  """All values that are not equal to given value."""
+  long_not: String
+
+  """All values that are contained in given list."""
+  long_in: [String!]
+
+  """All values that are not contained in given list."""
+  long_not_in: [String!]
+
+  """All values less than the given value."""
+  long_lt: String
+
+  """All values less than or equal the given value."""
+  long_lte: String
+
+  """All values greater than the given value."""
+  long_gt: String
+
+  """All values greater than or equal the given value."""
+  long_gte: String
+
+  """All values containing the given string."""
+  long_contains: String
+
+  """All values not containing the given string."""
+  long_not_contains: String
+
+  """All values starting with the given string."""
+  long_starts_with: String
+
+  """All values not starting with the given string."""
+  long_not_starts_with: String
+
+  """All values ending with the given string."""
+  long_ends_with: String
+
+  """All values not ending with the given string."""
+  long_not_ends_with: String
   attending_every: UserWhereInput
   attending_some: UserWhereInput
   attending_none: UserWhereInput
@@ -849,7 +1282,11 @@ input EventWhereUniqueInput {
 enum Gender {
   MALE
   FEMALE
+  OTHER
 }
+
+"""Raw JSON value"""
+scalar Json
 
 """
 The `Long` scalar type represents non-fractional signed whole numeric values.
@@ -857,25 +1294,454 @@ Long can represent values between -(2^63) and 2^63 - 1.
 """
 scalar Long
 
+type Message implements Node {
+  id: ID!
+  createdAt: DateTime!
+  message: String!
+  from: User!
+  to: User!
+}
+
+"""A connection to a list of items."""
+type MessageConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [MessageEdge]!
+  aggregate: AggregateMessage!
+}
+
+input MessageCreateInput {
+  message: String!
+  from: UserCreateOneWithoutSentMessagesInput!
+  to: UserCreateOneWithoutReceivedMessagesInput!
+}
+
+input MessageCreateManyWithoutFromInput {
+  create: [MessageCreateWithoutFromInput!]
+  connect: [MessageWhereUniqueInput!]
+}
+
+input MessageCreateManyWithoutToInput {
+  create: [MessageCreateWithoutToInput!]
+  connect: [MessageWhereUniqueInput!]
+}
+
+input MessageCreateWithoutFromInput {
+  message: String!
+  to: UserCreateOneWithoutReceivedMessagesInput!
+}
+
+input MessageCreateWithoutToInput {
+  message: String!
+  from: UserCreateOneWithoutSentMessagesInput!
+}
+
+"""An edge in a connection."""
+type MessageEdge {
+  """The item at the end of the edge."""
+  node: Message!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum MessageOrderByInput {
+  id_ASC
+  id_DESC
+  createdAt_ASC
+  createdAt_DESC
+  message_ASC
+  message_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type MessagePreviousValues {
+  id: ID!
+  createdAt: DateTime!
+  message: String!
+}
+
+input MessageScalarWhereInput {
+  """Logical AND on all given filters."""
+  AND: [MessageScalarWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [MessageScalarWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [MessageScalarWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  message: String
+
+  """All values that are not equal to given value."""
+  message_not: String
+
+  """All values that are contained in given list."""
+  message_in: [String!]
+
+  """All values that are not contained in given list."""
+  message_not_in: [String!]
+
+  """All values less than the given value."""
+  message_lt: String
+
+  """All values less than or equal the given value."""
+  message_lte: String
+
+  """All values greater than the given value."""
+  message_gt: String
+
+  """All values greater than or equal the given value."""
+  message_gte: String
+
+  """All values containing the given string."""
+  message_contains: String
+
+  """All values not containing the given string."""
+  message_not_contains: String
+
+  """All values starting with the given string."""
+  message_starts_with: String
+
+  """All values not starting with the given string."""
+  message_not_starts_with: String
+
+  """All values ending with the given string."""
+  message_ends_with: String
+
+  """All values not ending with the given string."""
+  message_not_ends_with: String
+}
+
+type MessageSubscriptionPayload {
+  mutation: MutationType!
+  node: Message
+  updatedFields: [String!]
+  previousValues: MessagePreviousValues
+}
+
+input MessageSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [MessageSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [MessageSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [MessageSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: MessageWhereInput
+}
+
+input MessageUpdateInput {
+  message: String
+  from: UserUpdateOneRequiredWithoutSentMessagesInput
+  to: UserUpdateOneRequiredWithoutReceivedMessagesInput
+}
+
+input MessageUpdateManyDataInput {
+  message: String
+}
+
+input MessageUpdateManyMutationInput {
+  message: String
+}
+
+input MessageUpdateManyWithoutFromInput {
+  create: [MessageCreateWithoutFromInput!]
+  connect: [MessageWhereUniqueInput!]
+  set: [MessageWhereUniqueInput!]
+  disconnect: [MessageWhereUniqueInput!]
+  delete: [MessageWhereUniqueInput!]
+  update: [MessageUpdateWithWhereUniqueWithoutFromInput!]
+  updateMany: [MessageUpdateManyWithWhereNestedInput!]
+  deleteMany: [MessageScalarWhereInput!]
+  upsert: [MessageUpsertWithWhereUniqueWithoutFromInput!]
+}
+
+input MessageUpdateManyWithoutToInput {
+  create: [MessageCreateWithoutToInput!]
+  connect: [MessageWhereUniqueInput!]
+  set: [MessageWhereUniqueInput!]
+  disconnect: [MessageWhereUniqueInput!]
+  delete: [MessageWhereUniqueInput!]
+  update: [MessageUpdateWithWhereUniqueWithoutToInput!]
+  updateMany: [MessageUpdateManyWithWhereNestedInput!]
+  deleteMany: [MessageScalarWhereInput!]
+  upsert: [MessageUpsertWithWhereUniqueWithoutToInput!]
+}
+
+input MessageUpdateManyWithWhereNestedInput {
+  where: MessageScalarWhereInput!
+  data: MessageUpdateManyDataInput!
+}
+
+input MessageUpdateWithoutFromDataInput {
+  message: String
+  to: UserUpdateOneRequiredWithoutReceivedMessagesInput
+}
+
+input MessageUpdateWithoutToDataInput {
+  message: String
+  from: UserUpdateOneRequiredWithoutSentMessagesInput
+}
+
+input MessageUpdateWithWhereUniqueWithoutFromInput {
+  where: MessageWhereUniqueInput!
+  data: MessageUpdateWithoutFromDataInput!
+}
+
+input MessageUpdateWithWhereUniqueWithoutToInput {
+  where: MessageWhereUniqueInput!
+  data: MessageUpdateWithoutToDataInput!
+}
+
+input MessageUpsertWithWhereUniqueWithoutFromInput {
+  where: MessageWhereUniqueInput!
+  update: MessageUpdateWithoutFromDataInput!
+  create: MessageCreateWithoutFromInput!
+}
+
+input MessageUpsertWithWhereUniqueWithoutToInput {
+  where: MessageWhereUniqueInput!
+  update: MessageUpdateWithoutToDataInput!
+  create: MessageCreateWithoutToInput!
+}
+
+input MessageWhereInput {
+  """Logical AND on all given filters."""
+  AND: [MessageWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [MessageWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [MessageWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  message: String
+
+  """All values that are not equal to given value."""
+  message_not: String
+
+  """All values that are contained in given list."""
+  message_in: [String!]
+
+  """All values that are not contained in given list."""
+  message_not_in: [String!]
+
+  """All values less than the given value."""
+  message_lt: String
+
+  """All values less than or equal the given value."""
+  message_lte: String
+
+  """All values greater than the given value."""
+  message_gt: String
+
+  """All values greater than or equal the given value."""
+  message_gte: String
+
+  """All values containing the given string."""
+  message_contains: String
+
+  """All values not containing the given string."""
+  message_not_contains: String
+
+  """All values starting with the given string."""
+  message_starts_with: String
+
+  """All values not starting with the given string."""
+  message_not_starts_with: String
+
+  """All values ending with the given string."""
+  message_ends_with: String
+
+  """All values not ending with the given string."""
+  message_not_ends_with: String
+  from: UserWhereInput
+  to: UserWhereInput
+}
+
+input MessageWhereUniqueInput {
+  id: ID
+}
+
 type Mutation {
+  createProfilePic(data: ProfilePicCreateInput!): ProfilePic!
+  createMessage(data: MessageCreateInput!): Message!
   createEvent(data: EventCreateInput!): Event!
   createOrder(data: OrderCreateInput!): Order!
   createUser(data: UserCreateInput!): User!
+  updateProfilePic(data: ProfilePicUpdateInput!, where: ProfilePicWhereUniqueInput!): ProfilePic
+  updateMessage(data: MessageUpdateInput!, where: MessageWhereUniqueInput!): Message
   updateEvent(data: EventUpdateInput!, where: EventWhereUniqueInput!): Event
   updateOrder(data: OrderUpdateInput!, where: OrderWhereUniqueInput!): Order
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  deleteProfilePic(where: ProfilePicWhereUniqueInput!): ProfilePic
+  deleteMessage(where: MessageWhereUniqueInput!): Message
   deleteEvent(where: EventWhereUniqueInput!): Event
   deleteOrder(where: OrderWhereUniqueInput!): Order
   deleteUser(where: UserWhereUniqueInput!): User
+  upsertProfilePic(where: ProfilePicWhereUniqueInput!, create: ProfilePicCreateInput!, update: ProfilePicUpdateInput!): ProfilePic!
+  upsertMessage(where: MessageWhereUniqueInput!, create: MessageCreateInput!, update: MessageUpdateInput!): Message!
   upsertEvent(where: EventWhereUniqueInput!, create: EventCreateInput!, update: EventUpdateInput!): Event!
   upsertOrder(where: OrderWhereUniqueInput!, create: OrderCreateInput!, update: OrderUpdateInput!): Order!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
+  updateManyProfilePics(data: ProfilePicUpdateManyMutationInput!, where: ProfilePicWhereInput): BatchPayload!
+  updateManyMessages(data: MessageUpdateManyMutationInput!, where: MessageWhereInput): BatchPayload!
   updateManyEvents(data: EventUpdateManyMutationInput!, where: EventWhereInput): BatchPayload!
   updateManyOrders(data: OrderUpdateManyMutationInput!, where: OrderWhereInput): BatchPayload!
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
+  deleteManyProfilePics(where: ProfilePicWhereInput): BatchPayload!
+  deleteManyMessages(where: MessageWhereInput): BatchPayload!
   deleteManyEvents(where: EventWhereInput): BatchPayload!
   deleteManyOrders(where: OrderWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
+  executeRaw(database: PrismaDatabase, query: String!): Json!
 }
 
 enum MutationType {
@@ -1196,13 +2062,367 @@ enum Permission {
   ADMIN
 }
 
+enum PrismaDatabase {
+  default
+}
+
+type ProfilePic implements Node {
+  id: ID!
+  user: User!
+  img_url: String!
+  default: Boolean!
+}
+
+"""A connection to a list of items."""
+type ProfilePicConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [ProfilePicEdge]!
+  aggregate: AggregateProfilePic!
+}
+
+input ProfilePicCreateInput {
+  img_url: String!
+  default: Boolean
+  user: UserCreateOneWithoutImgInput!
+}
+
+input ProfilePicCreateManyWithoutUserInput {
+  create: [ProfilePicCreateWithoutUserInput!]
+  connect: [ProfilePicWhereUniqueInput!]
+}
+
+input ProfilePicCreateWithoutUserInput {
+  img_url: String!
+  default: Boolean
+}
+
+"""An edge in a connection."""
+type ProfilePicEdge {
+  """The item at the end of the edge."""
+  node: ProfilePic!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum ProfilePicOrderByInput {
+  id_ASC
+  id_DESC
+  img_url_ASC
+  img_url_DESC
+  default_ASC
+  default_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type ProfilePicPreviousValues {
+  id: ID!
+  img_url: String!
+  default: Boolean!
+}
+
+input ProfilePicScalarWhereInput {
+  """Logical AND on all given filters."""
+  AND: [ProfilePicScalarWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [ProfilePicScalarWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [ProfilePicScalarWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  img_url: String
+
+  """All values that are not equal to given value."""
+  img_url_not: String
+
+  """All values that are contained in given list."""
+  img_url_in: [String!]
+
+  """All values that are not contained in given list."""
+  img_url_not_in: [String!]
+
+  """All values less than the given value."""
+  img_url_lt: String
+
+  """All values less than or equal the given value."""
+  img_url_lte: String
+
+  """All values greater than the given value."""
+  img_url_gt: String
+
+  """All values greater than or equal the given value."""
+  img_url_gte: String
+
+  """All values containing the given string."""
+  img_url_contains: String
+
+  """All values not containing the given string."""
+  img_url_not_contains: String
+
+  """All values starting with the given string."""
+  img_url_starts_with: String
+
+  """All values not starting with the given string."""
+  img_url_not_starts_with: String
+
+  """All values ending with the given string."""
+  img_url_ends_with: String
+
+  """All values not ending with the given string."""
+  img_url_not_ends_with: String
+  default: Boolean
+
+  """All values that are not equal to given value."""
+  default_not: Boolean
+}
+
+type ProfilePicSubscriptionPayload {
+  mutation: MutationType!
+  node: ProfilePic
+  updatedFields: [String!]
+  previousValues: ProfilePicPreviousValues
+}
+
+input ProfilePicSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [ProfilePicSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [ProfilePicSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [ProfilePicSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: ProfilePicWhereInput
+}
+
+input ProfilePicUpdateInput {
+  img_url: String
+  default: Boolean
+  user: UserUpdateOneRequiredWithoutImgInput
+}
+
+input ProfilePicUpdateManyDataInput {
+  img_url: String
+  default: Boolean
+}
+
+input ProfilePicUpdateManyMutationInput {
+  img_url: String
+  default: Boolean
+}
+
+input ProfilePicUpdateManyWithoutUserInput {
+  create: [ProfilePicCreateWithoutUserInput!]
+  connect: [ProfilePicWhereUniqueInput!]
+  set: [ProfilePicWhereUniqueInput!]
+  disconnect: [ProfilePicWhereUniqueInput!]
+  delete: [ProfilePicWhereUniqueInput!]
+  update: [ProfilePicUpdateWithWhereUniqueWithoutUserInput!]
+  updateMany: [ProfilePicUpdateManyWithWhereNestedInput!]
+  deleteMany: [ProfilePicScalarWhereInput!]
+  upsert: [ProfilePicUpsertWithWhereUniqueWithoutUserInput!]
+}
+
+input ProfilePicUpdateManyWithWhereNestedInput {
+  where: ProfilePicScalarWhereInput!
+  data: ProfilePicUpdateManyDataInput!
+}
+
+input ProfilePicUpdateWithoutUserDataInput {
+  img_url: String
+  default: Boolean
+}
+
+input ProfilePicUpdateWithWhereUniqueWithoutUserInput {
+  where: ProfilePicWhereUniqueInput!
+  data: ProfilePicUpdateWithoutUserDataInput!
+}
+
+input ProfilePicUpsertWithWhereUniqueWithoutUserInput {
+  where: ProfilePicWhereUniqueInput!
+  update: ProfilePicUpdateWithoutUserDataInput!
+  create: ProfilePicCreateWithoutUserInput!
+}
+
+input ProfilePicWhereInput {
+  """Logical AND on all given filters."""
+  AND: [ProfilePicWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [ProfilePicWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [ProfilePicWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  img_url: String
+
+  """All values that are not equal to given value."""
+  img_url_not: String
+
+  """All values that are contained in given list."""
+  img_url_in: [String!]
+
+  """All values that are not contained in given list."""
+  img_url_not_in: [String!]
+
+  """All values less than the given value."""
+  img_url_lt: String
+
+  """All values less than or equal the given value."""
+  img_url_lte: String
+
+  """All values greater than the given value."""
+  img_url_gt: String
+
+  """All values greater than or equal the given value."""
+  img_url_gte: String
+
+  """All values containing the given string."""
+  img_url_contains: String
+
+  """All values not containing the given string."""
+  img_url_not_contains: String
+
+  """All values starting with the given string."""
+  img_url_starts_with: String
+
+  """All values not starting with the given string."""
+  img_url_not_starts_with: String
+
+  """All values ending with the given string."""
+  img_url_ends_with: String
+
+  """All values not ending with the given string."""
+  img_url_not_ends_with: String
+  default: Boolean
+
+  """All values that are not equal to given value."""
+  default_not: Boolean
+  user: UserWhereInput
+}
+
+input ProfilePicWhereUniqueInput {
+  id: ID
+}
+
 type Query {
+  profilePics(where: ProfilePicWhereInput, orderBy: ProfilePicOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ProfilePic]!
+  messages(where: MessageWhereInput, orderBy: MessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Message]!
   events(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event]!
   orders(where: OrderWhereInput, orderBy: OrderOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Order]!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
+  profilePic(where: ProfilePicWhereUniqueInput!): ProfilePic
+  message(where: MessageWhereUniqueInput!): Message
   event(where: EventWhereUniqueInput!): Event
   order(where: OrderWhereUniqueInput!): Order
   user(where: UserWhereUniqueInput!): User
+  profilePicsConnection(where: ProfilePicWhereInput, orderBy: ProfilePicOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProfilePicConnection!
+  messagesConnection(where: MessageWhereInput, orderBy: MessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): MessageConnection!
   eventsConnection(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): EventConnection!
   ordersConnection(where: OrderWhereInput, orderBy: OrderOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): OrderConnection!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
@@ -1215,6 +2435,8 @@ type Query {
 }
 
 type Subscription {
+  profilePic(where: ProfilePicSubscriptionWhereInput): ProfilePicSubscriptionPayload
+  message(where: MessageSubscriptionWhereInput): MessageSubscriptionPayload
   event(where: EventSubscriptionWhereInput): EventSubscriptionPayload
   order(where: OrderSubscriptionWhereInput): OrderSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
@@ -1227,12 +2449,14 @@ type User implements Node {
   password: String!
   gender: Gender
   age: Int
+  dob: String
   location: String
   email: String!
   phone: String
   biography: String
   imageThumbnail: String
   imageLarge: String
+  img(where: ProfilePicWhereInput, orderBy: ProfilePicOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ProfilePic!]
   resetToken: String
   resetTokenExpiry: Float
   interests: [Category!]!
@@ -1242,6 +2466,10 @@ type User implements Node {
   updatedAt: DateTime!
   stripeCustomerId: String
   stripeSubscriptionId: String
+  liked(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
+  blocked(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
+  sentMessages(where: MessageWhereInput, orderBy: MessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Message!]
+  receivedMessages(where: MessageWhereInput, orderBy: MessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Message!]
 }
 
 """A connection to a list of items."""
@@ -1260,6 +2488,7 @@ input UserCreateInput {
   password: String!
   gender: Gender
   age: Int
+  dob: String
   location: String
   email: String!
   phone: String
@@ -1272,11 +2501,21 @@ input UserCreateInput {
   stripeSubscriptionId: String
   interests: UserCreateinterestsInput
   permissions: UserCreatepermissionsInput
+  img: ProfilePicCreateManyWithoutUserInput
   events: EventCreateManyWithoutAttendingInput
+  liked: UserCreateManyInput
+  blocked: UserCreateManyInput
+  sentMessages: MessageCreateManyWithoutFromInput
+  receivedMessages: MessageCreateManyWithoutToInput
 }
 
 input UserCreateinterestsInput {
   set: [Category!]
+}
+
+input UserCreateManyInput {
+  create: [UserCreateInput!]
+  connect: [UserWhereUniqueInput!]
 }
 
 input UserCreateManyWithoutEventsInput {
@@ -1286,6 +2525,21 @@ input UserCreateManyWithoutEventsInput {
 
 input UserCreateOneInput {
   create: UserCreateInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateOneWithoutImgInput {
+  create: UserCreateWithoutImgInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateOneWithoutReceivedMessagesInput {
+  create: UserCreateWithoutReceivedMessagesInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateOneWithoutSentMessagesInput {
+  create: UserCreateWithoutSentMessagesInput
   connect: UserWhereUniqueInput
 }
 
@@ -1299,6 +2553,7 @@ input UserCreateWithoutEventsInput {
   password: String!
   gender: Gender
   age: Int
+  dob: String
   location: String
   email: String!
   phone: String
@@ -1311,6 +2566,89 @@ input UserCreateWithoutEventsInput {
   stripeSubscriptionId: String
   interests: UserCreateinterestsInput
   permissions: UserCreatepermissionsInput
+  img: ProfilePicCreateManyWithoutUserInput
+  liked: UserCreateManyInput
+  blocked: UserCreateManyInput
+  sentMessages: MessageCreateManyWithoutFromInput
+  receivedMessages: MessageCreateManyWithoutToInput
+}
+
+input UserCreateWithoutImgInput {
+  firstName: String!
+  lastName: String!
+  password: String!
+  gender: Gender
+  age: Int
+  dob: String
+  location: String
+  email: String!
+  phone: String
+  biography: String
+  imageThumbnail: String
+  imageLarge: String
+  resetToken: String
+  resetTokenExpiry: Float
+  stripeCustomerId: String
+  stripeSubscriptionId: String
+  interests: UserCreateinterestsInput
+  permissions: UserCreatepermissionsInput
+  events: EventCreateManyWithoutAttendingInput
+  liked: UserCreateManyInput
+  blocked: UserCreateManyInput
+  sentMessages: MessageCreateManyWithoutFromInput
+  receivedMessages: MessageCreateManyWithoutToInput
+}
+
+input UserCreateWithoutReceivedMessagesInput {
+  firstName: String!
+  lastName: String!
+  password: String!
+  gender: Gender
+  age: Int
+  dob: String
+  location: String
+  email: String!
+  phone: String
+  biography: String
+  imageThumbnail: String
+  imageLarge: String
+  resetToken: String
+  resetTokenExpiry: Float
+  stripeCustomerId: String
+  stripeSubscriptionId: String
+  interests: UserCreateinterestsInput
+  permissions: UserCreatepermissionsInput
+  img: ProfilePicCreateManyWithoutUserInput
+  events: EventCreateManyWithoutAttendingInput
+  liked: UserCreateManyInput
+  blocked: UserCreateManyInput
+  sentMessages: MessageCreateManyWithoutFromInput
+}
+
+input UserCreateWithoutSentMessagesInput {
+  firstName: String!
+  lastName: String!
+  password: String!
+  gender: Gender
+  age: Int
+  dob: String
+  location: String
+  email: String!
+  phone: String
+  biography: String
+  imageThumbnail: String
+  imageLarge: String
+  resetToken: String
+  resetTokenExpiry: Float
+  stripeCustomerId: String
+  stripeSubscriptionId: String
+  interests: UserCreateinterestsInput
+  permissions: UserCreatepermissionsInput
+  img: ProfilePicCreateManyWithoutUserInput
+  events: EventCreateManyWithoutAttendingInput
+  liked: UserCreateManyInput
+  blocked: UserCreateManyInput
+  receivedMessages: MessageCreateManyWithoutToInput
 }
 
 """An edge in a connection."""
@@ -1335,6 +2673,8 @@ enum UserOrderByInput {
   gender_DESC
   age_ASC
   age_DESC
+  dob_ASC
+  dob_DESC
   location_ASC
   location_DESC
   email_ASC
@@ -1368,6 +2708,7 @@ type UserPreviousValues {
   password: String!
   gender: Gender
   age: Int
+  dob: String
   location: String
   email: String!
   phone: String
@@ -1585,6 +2926,46 @@ input UserScalarWhereInput {
 
   """All values greater than or equal the given value."""
   age_gte: Int
+  dob: String
+
+  """All values that are not equal to given value."""
+  dob_not: String
+
+  """All values that are contained in given list."""
+  dob_in: [String!]
+
+  """All values that are not contained in given list."""
+  dob_not_in: [String!]
+
+  """All values less than the given value."""
+  dob_lt: String
+
+  """All values less than or equal the given value."""
+  dob_lte: String
+
+  """All values greater than the given value."""
+  dob_gt: String
+
+  """All values greater than or equal the given value."""
+  dob_gte: String
+
+  """All values containing the given string."""
+  dob_contains: String
+
+  """All values not containing the given string."""
+  dob_not_contains: String
+
+  """All values starting with the given string."""
+  dob_starts_with: String
+
+  """All values not starting with the given string."""
+  dob_not_starts_with: String
+
+  """All values ending with the given string."""
+  dob_ends_with: String
+
+  """All values not ending with the given string."""
+  dob_not_ends_with: String
   location: String
 
   """All values that are not equal to given value."""
@@ -2058,6 +3439,7 @@ input UserUpdateDataInput {
   password: String
   gender: Gender
   age: Int
+  dob: String
   location: String
   email: String
   phone: String
@@ -2070,7 +3452,12 @@ input UserUpdateDataInput {
   stripeSubscriptionId: String
   interests: UserUpdateinterestsInput
   permissions: UserUpdatepermissionsInput
+  img: ProfilePicUpdateManyWithoutUserInput
   events: EventUpdateManyWithoutAttendingInput
+  liked: UserUpdateManyInput
+  blocked: UserUpdateManyInput
+  sentMessages: MessageUpdateManyWithoutFromInput
+  receivedMessages: MessageUpdateManyWithoutToInput
 }
 
 input UserUpdateInput {
@@ -2079,6 +3466,7 @@ input UserUpdateInput {
   password: String
   gender: Gender
   age: Int
+  dob: String
   location: String
   email: String
   phone: String
@@ -2091,7 +3479,12 @@ input UserUpdateInput {
   stripeSubscriptionId: String
   interests: UserUpdateinterestsInput
   permissions: UserUpdatepermissionsInput
+  img: ProfilePicUpdateManyWithoutUserInput
   events: EventUpdateManyWithoutAttendingInput
+  liked: UserUpdateManyInput
+  blocked: UserUpdateManyInput
+  sentMessages: MessageUpdateManyWithoutFromInput
+  receivedMessages: MessageUpdateManyWithoutToInput
 }
 
 input UserUpdateinterestsInput {
@@ -2104,6 +3497,7 @@ input UserUpdateManyDataInput {
   password: String
   gender: Gender
   age: Int
+  dob: String
   location: String
   email: String
   phone: String
@@ -2118,12 +3512,25 @@ input UserUpdateManyDataInput {
   permissions: UserUpdatepermissionsInput
 }
 
+input UserUpdateManyInput {
+  create: [UserCreateInput!]
+  connect: [UserWhereUniqueInput!]
+  set: [UserWhereUniqueInput!]
+  disconnect: [UserWhereUniqueInput!]
+  delete: [UserWhereUniqueInput!]
+  update: [UserUpdateWithWhereUniqueNestedInput!]
+  updateMany: [UserUpdateManyWithWhereNestedInput!]
+  deleteMany: [UserScalarWhereInput!]
+  upsert: [UserUpsertWithWhereUniqueNestedInput!]
+}
+
 input UserUpdateManyMutationInput {
   firstName: String
   lastName: String
   password: String
   gender: Gender
   age: Int
+  dob: String
   location: String
   email: String
   phone: String
@@ -2141,6 +3548,7 @@ input UserUpdateManyMutationInput {
 input UserUpdateManyWithoutEventsInput {
   create: [UserCreateWithoutEventsInput!]
   connect: [UserWhereUniqueInput!]
+  set: [UserWhereUniqueInput!]
   disconnect: [UserWhereUniqueInput!]
   delete: [UserWhereUniqueInput!]
   update: [UserUpdateWithWhereUniqueWithoutEventsInput!]
@@ -2161,6 +3569,27 @@ input UserUpdateOneRequiredInput {
   upsert: UserUpsertNestedInput
 }
 
+input UserUpdateOneRequiredWithoutImgInput {
+  create: UserCreateWithoutImgInput
+  connect: UserWhereUniqueInput
+  update: UserUpdateWithoutImgDataInput
+  upsert: UserUpsertWithoutImgInput
+}
+
+input UserUpdateOneRequiredWithoutReceivedMessagesInput {
+  create: UserCreateWithoutReceivedMessagesInput
+  connect: UserWhereUniqueInput
+  update: UserUpdateWithoutReceivedMessagesDataInput
+  upsert: UserUpsertWithoutReceivedMessagesInput
+}
+
+input UserUpdateOneRequiredWithoutSentMessagesInput {
+  create: UserCreateWithoutSentMessagesInput
+  connect: UserWhereUniqueInput
+  update: UserUpdateWithoutSentMessagesDataInput
+  upsert: UserUpsertWithoutSentMessagesInput
+}
+
 input UserUpdatepermissionsInput {
   set: [Permission!]
 }
@@ -2171,6 +3600,7 @@ input UserUpdateWithoutEventsDataInput {
   password: String
   gender: Gender
   age: Int
+  dob: String
   location: String
   email: String
   phone: String
@@ -2183,6 +3613,94 @@ input UserUpdateWithoutEventsDataInput {
   stripeSubscriptionId: String
   interests: UserUpdateinterestsInput
   permissions: UserUpdatepermissionsInput
+  img: ProfilePicUpdateManyWithoutUserInput
+  liked: UserUpdateManyInput
+  blocked: UserUpdateManyInput
+  sentMessages: MessageUpdateManyWithoutFromInput
+  receivedMessages: MessageUpdateManyWithoutToInput
+}
+
+input UserUpdateWithoutImgDataInput {
+  firstName: String
+  lastName: String
+  password: String
+  gender: Gender
+  age: Int
+  dob: String
+  location: String
+  email: String
+  phone: String
+  biography: String
+  imageThumbnail: String
+  imageLarge: String
+  resetToken: String
+  resetTokenExpiry: Float
+  stripeCustomerId: String
+  stripeSubscriptionId: String
+  interests: UserUpdateinterestsInput
+  permissions: UserUpdatepermissionsInput
+  events: EventUpdateManyWithoutAttendingInput
+  liked: UserUpdateManyInput
+  blocked: UserUpdateManyInput
+  sentMessages: MessageUpdateManyWithoutFromInput
+  receivedMessages: MessageUpdateManyWithoutToInput
+}
+
+input UserUpdateWithoutReceivedMessagesDataInput {
+  firstName: String
+  lastName: String
+  password: String
+  gender: Gender
+  age: Int
+  dob: String
+  location: String
+  email: String
+  phone: String
+  biography: String
+  imageThumbnail: String
+  imageLarge: String
+  resetToken: String
+  resetTokenExpiry: Float
+  stripeCustomerId: String
+  stripeSubscriptionId: String
+  interests: UserUpdateinterestsInput
+  permissions: UserUpdatepermissionsInput
+  img: ProfilePicUpdateManyWithoutUserInput
+  events: EventUpdateManyWithoutAttendingInput
+  liked: UserUpdateManyInput
+  blocked: UserUpdateManyInput
+  sentMessages: MessageUpdateManyWithoutFromInput
+}
+
+input UserUpdateWithoutSentMessagesDataInput {
+  firstName: String
+  lastName: String
+  password: String
+  gender: Gender
+  age: Int
+  dob: String
+  location: String
+  email: String
+  phone: String
+  biography: String
+  imageThumbnail: String
+  imageLarge: String
+  resetToken: String
+  resetTokenExpiry: Float
+  stripeCustomerId: String
+  stripeSubscriptionId: String
+  interests: UserUpdateinterestsInput
+  permissions: UserUpdatepermissionsInput
+  img: ProfilePicUpdateManyWithoutUserInput
+  events: EventUpdateManyWithoutAttendingInput
+  liked: UserUpdateManyInput
+  blocked: UserUpdateManyInput
+  receivedMessages: MessageUpdateManyWithoutToInput
+}
+
+input UserUpdateWithWhereUniqueNestedInput {
+  where: UserWhereUniqueInput!
+  data: UserUpdateDataInput!
 }
 
 input UserUpdateWithWhereUniqueWithoutEventsInput {
@@ -2191,6 +3709,27 @@ input UserUpdateWithWhereUniqueWithoutEventsInput {
 }
 
 input UserUpsertNestedInput {
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
+}
+
+input UserUpsertWithoutImgInput {
+  update: UserUpdateWithoutImgDataInput!
+  create: UserCreateWithoutImgInput!
+}
+
+input UserUpsertWithoutReceivedMessagesInput {
+  update: UserUpdateWithoutReceivedMessagesDataInput!
+  create: UserCreateWithoutReceivedMessagesInput!
+}
+
+input UserUpsertWithoutSentMessagesInput {
+  update: UserUpdateWithoutSentMessagesDataInput!
+  create: UserCreateWithoutSentMessagesInput!
+}
+
+input UserUpsertWithWhereUniqueNestedInput {
+  where: UserWhereUniqueInput!
   update: UserUpdateDataInput!
   create: UserCreateInput!
 }
@@ -2402,6 +3941,46 @@ input UserWhereInput {
 
   """All values greater than or equal the given value."""
   age_gte: Int
+  dob: String
+
+  """All values that are not equal to given value."""
+  dob_not: String
+
+  """All values that are contained in given list."""
+  dob_in: [String!]
+
+  """All values that are not contained in given list."""
+  dob_not_in: [String!]
+
+  """All values less than the given value."""
+  dob_lt: String
+
+  """All values less than or equal the given value."""
+  dob_lte: String
+
+  """All values greater than the given value."""
+  dob_gt: String
+
+  """All values greater than or equal the given value."""
+  dob_gte: String
+
+  """All values containing the given string."""
+  dob_contains: String
+
+  """All values not containing the given string."""
+  dob_not_contains: String
+
+  """All values starting with the given string."""
+  dob_starts_with: String
+
+  """All values not starting with the given string."""
+  dob_not_starts_with: String
+
+  """All values ending with the given string."""
+  dob_ends_with: String
+
+  """All values not ending with the given string."""
+  dob_not_ends_with: String
   location: String
 
   """All values that are not equal to given value."""
@@ -2828,9 +4407,24 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   stripeSubscriptionId_not_ends_with: String
+  img_every: ProfilePicWhereInput
+  img_some: ProfilePicWhereInput
+  img_none: ProfilePicWhereInput
   events_every: EventWhereInput
   events_some: EventWhereInput
   events_none: EventWhereInput
+  liked_every: UserWhereInput
+  liked_some: UserWhereInput
+  liked_none: UserWhereInput
+  blocked_every: UserWhereInput
+  blocked_some: UserWhereInput
+  blocked_none: UserWhereInput
+  sentMessages_every: MessageWhereInput
+  sentMessages_some: MessageWhereInput
+  sentMessages_none: MessageWhereInput
+  receivedMessages_every: MessageWhereInput
+  receivedMessages_some: MessageWhereInput
+  receivedMessages_none: MessageWhereInput
 }
 
 input UserWhereUniqueInput {
