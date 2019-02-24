@@ -1,19 +1,13 @@
-import JoinUs from './joinus';
-import Events from '../components/Home/Events';
-import Header from '../components/Header'
 import { isLoggedIn } from '../components/Queries/User';
 import redirect from '../utils/redirect';
+import Profile from '../components/Profile';
+import Header from '../components/Header'
 
-const Home = ({user}) => {
-	if (!user) return <JoinUs />
-	return (
-	<>
-	<Header color='primary'/>
-		<Events />
-	</>
-);}
+const ProfilePage = ({ user }) => {
+	return <><Header color='warning'/><Profile /></>;
+};
 
-Home.getInitialProps = async ctx => {
+ProfilePage.getInitialProps = async ctx => {
 	let user = await isLoggedIn(ctx.apolloClient);
 
 	if (!user.currentUser) {
@@ -26,5 +20,4 @@ Home.getInitialProps = async ctx => {
 	return { user: user.currentUser };
 };
 
-
-export default Home;
+export default ProfilePage;

@@ -1,0 +1,35 @@
+.Profile-Header {
+  height: 200px;
+  width: 100%;
+  
+  
+  background-image: linear-gradient(
+      to top,
+      #7dcac5,
+      #7dcdcd,
+      #7ed0d4,
+      #7fd3dc,
+      #81d6e3
+    );
+  
+  
+}
+.inner {
+  margin: 0 auto;
+  
+  padding: 50px 60px 0;
+  max-width: 1000px;
+  display: flex;
+  h2 {
+    display: inline;
+  }
+}
+
+.prof-img {
+  
+    
+    height: 180px;
+    width: 180px;
+    border-radius: 50%;
+  
+}

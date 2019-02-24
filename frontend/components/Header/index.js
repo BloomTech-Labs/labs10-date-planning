@@ -73,11 +73,10 @@ const Nav = ({ classes, color }) => {
 							</ListItem>
 							<ListItem className={classes.listItem}>
 								<Button
-									href='#pablo'
 									className={classes.navLink}
 									onClick={e => {
 										e.preventDefault();
-										Router.push('/dates');
+										Router.push('/profile');
 									}}
 									color='transparent'
 								>
