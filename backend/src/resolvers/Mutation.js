@@ -42,15 +42,18 @@ const Mutation = {
 		const { uid } = await verifyIdToken(args.idToken);
 		const { providerData } = await getUserRecord(uid);
 		const { email, displayName, photoURL } = providerData[0];
+		console.log(email, displayName, photoURL);
 		// check to see if user already exists in our db
 		let user = await ctx.db.query.user({
 			where: { email },
 		});
 		if (!user) {
+			let nameArray = displayName.split(' ');
 			user = await ctx.db.mutation.createUser(
 				{
 					data: {
-						firstName: displayName,
+						firstName: nameArray[0],
+						lastName: nameArray[1] || '',
 						email: email,
 						password: 'firebaseAuth',
 						lastName: '',
