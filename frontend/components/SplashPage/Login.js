@@ -195,7 +195,7 @@ const Login = ({ classes }) => {
 					</DialogTitle>
 					<Mutation
 						mutation={LOGIN_USER}
-						//variables={{ email: user.email, password: user.password }}
+						variables={{ email: user.email, password: user.password }}
 						refetchQueries={[ { query: CURRENT_USER_QUERY } ]}
 						onError={handleError}
 						onCompleted={() => Router.push('/home')}
