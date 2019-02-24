@@ -3,6 +3,7 @@ import Router, { withRouter } from 'next/router';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 import NProgress from 'nprogress';
+
 //MUI
 import withStyles from '@material-ui/core/styles/withStyles';
 import { List, ListItem } from '@material-ui/core';
@@ -22,7 +23,7 @@ import image from '../../static/img/bg.jpg';
 import profileImage from '../../static/img/placeholder.jpg';
 import Logo from '../../static/img/up4LogoWhite.png';
 //utils
-import redirect from '../../utils/redirect';
+//import redirect from '../../utils/redirect';
 Router.onRouteChangeComplete = () => {
 	NProgress.done(true);
 };
@@ -40,7 +41,8 @@ const Nav = ({ classes, color }) => {
 			signout();
 			client.cache.reset().then(() => {
 				// Redirect to a more useful page when signed out
-				redirect({}, '/joinus');
+				//redirect({}, '/joinus');
+				Router.push('/joinus');
 			});
 		} else {
 			Router.push(`/billing`);

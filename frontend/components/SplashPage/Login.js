@@ -66,7 +66,6 @@ const Login = ({ classes }) => {
 	});
 	const [ modalShowing, setModalShowing ] = useState(false);
 	const [ serverError, setServerError ] = useState(undefined);
-	const [ reset, setReset ] = useState(false);
 
 	useEffect(
 		() => {
@@ -196,7 +195,7 @@ const Login = ({ classes }) => {
 					</DialogTitle>
 					<Mutation
 						mutation={LOGIN_USER}
-						variables={{ email: user.email, password: user.password }}
+						//variables={{ email: user.email, password: user.password }}
 						refetchQueries={[ { query: CURRENT_USER_QUERY } ]}
 						onError={handleError}
 						onCompleted={() => Router.push('/home')}
@@ -208,7 +207,13 @@ const Login = ({ classes }) => {
 								<form
 									onSubmit={async e => {
 										e.preventDefault();
-										await signin();
+										console.log(user);
+										await signin({
+											variables: {
+												user: user.email,
+												password: user.password,
+											},
+										});
 									}}
 								>
 									<DialogContent

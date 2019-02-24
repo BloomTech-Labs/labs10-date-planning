@@ -3,8 +3,11 @@ import { withApollo, Mutation } from 'react-apollo';
 import _ from 'lodash';
 import NProgress from 'nprogress';
 import InfiniteScroll from 'react-infinite-scroller';
+import classNames from 'classnames';
 //MUI
 import withStyles from '@material-ui/core/styles/withStyles';
+import { Drawer, Divider, IconButton } from '@material-ui/core';
+import { Menu, ChevronLeft, ChevronRight } from '@material-ui/icons';
 //Q&M
 import { ALL_EVENTS_QUERY } from '../Queries/AllEvents';
 import { CURRENT_USER_QUERY } from '../Queries/User';
@@ -24,32 +27,36 @@ import Paginations from '../../styledComponents/Pagination/Pagination';
 import styles from '../../static/jss/material-kit-pro-react/views/ecommerceSections/productsStyle.jsx';
 import { auth } from '../../utils/firebase';
 
-const Events = ({ classes, client }) => {
-	const [page, setPage] = useState(0);
-	const [events, setEvents] = useState({ events: [] });
-	const [location, setLocation] = useState(undefined);
+const Events = ({ classes, client, theme }) => {
+	const [ page, setPage ] = useState(0);
+	const [ drawerOpen, setDrawerOpen ] = useState(false);
+	const [ events, setEvents ] = useState({ events: [] });
+	const [ location, setLocation ] = useState(undefined);
 
-	const [user, setUser] = useState(undefined);
+	const [ user, setUser ] = useState(undefined);
 	useEffect(() => {
 		getUser();
 	}, []);
 
-	useEffect(() => {
-		if (location) {
-			getEvents({
-				location: location,
-				alt: 'all',
-				page: 0,
-				categories: [],
-				dates: [],
-				genres: []
-			});
-		}
-	}, [location]);
+	useEffect(
+		() => {
+			if (location) {
+				getEvents({
+					location: location,
+					alt: 'all',
+					page: 0,
+					categories: [],
+					dates: [],
+					genres: [],
+				});
+			}
+		},
+		[ location ],
+	);
 
 	const getUser = async () => {
 		let { data, loading } = await client.query({
-			query: CURRENT_USER_QUERY
+			query: CURRENT_USER_QUERY,
 		});
 		let holden;
 		if (auth) {
@@ -69,7 +76,7 @@ const Events = ({ classes, client }) => {
 		NProgress.start();
 		let { data, error } = await client.query({
 			query: ALL_EVENTS_QUERY,
-			variables: variables
+			variables: variables,
 		});
 		if (data || error) NProgress.done();
 		return data.getEvents;
@@ -80,7 +87,7 @@ const Events = ({ classes, client }) => {
 
 		let events = {
 			...newEvents,
-			events: _.chunk(newEvents.events, newEvents.events.length / 3)
+			events: _.chunk(newEvents.events, newEvents.events.length / 2),
 		};
 
 		setEvents(events);
@@ -90,13 +97,13 @@ const Events = ({ classes, client }) => {
 		if (page < events.page_count - 1) {
 			let data = await fetchEvents({
 				location: location,
-				page: page + 1
+				page: page + 1,
 			});
-			let moarEvents = [..._.flatten(events.events), ...data.events];
+			let moarEvents = [ ..._.flatten(events.events), ...data.events ];
 
 			let newEvents = {
 				...data,
-				events: _.chunk(moarEvents, moarEvents.length / 3)
+				events: _.chunk(moarEvents, moarEvents.length / 3),
 			};
 			setEvents(newEvents);
 		}
@@ -104,7 +111,7 @@ const Events = ({ classes, client }) => {
 
 	const handleCompleted = async () => {
 		let { data, error } = await client.query({
-			query: CURRENT_USER_QUERY
+			query: CURRENT_USER_QUERY,
 		});
 		if (data || error) NProgress.done();
 
@@ -119,46 +126,68 @@ const Events = ({ classes, client }) => {
 			<div className={classes.section} style={{ paddingTop: '40px' }}>
 				<div className={classes.container}>
 					<Fragment>
+						<IconButton
+							// color="inherit"
+							aria-label='Open drawer'
+							onClick={() => setDrawerOpen(!drawerOpen)}
+							className={classNames(classes.menuButton, drawerOpen && classes.hide)}
+						>
+							<Menu />
+						</IconButton>
+						<Drawer
+							//className={classes.drawer}
+							variant='persistent'
+							anchor='left'
+							open={drawerOpen}
+							// classes={{
+							// 	paper: classes.drawerPaper,
+							// }}
+						>
+							<div>
+								{' '}
+								<IconButton onClick={() => setDrawerOpen()}>
+									{theme.direction === 'ltr' ? <ChevronLeft /> : <ChevronRight />}
+								</IconButton>
+								<LocationSearch setLocation={setLocation} />
+								<p style={{ margin: 0 }}>Showing events near {location}.</p>
+								<Mutation
+									mutation={UPDATE_LOCATION_MUTATION}
+									variables={{ city: location }}
+									onCompleted={handleCompleted}
+								>
+									{(updateLocation, { error, loading, called }) => {
+										if (called) NProgress.start();
+
+										return (
+											<div
+												style={{
+													display: 'flex',
+													alignItems: 'center',
+												}}
+											>
+												{user && user.location !== location ? (
+													<Primary>
+														<b
+															onClick={updateLocation}
+															style={{ cursor: 'pointer' }}
+														>
+															make default location?
+														</b>
+													</Primary>
+												) : (
+													<div style={{ height: '21px' }} />
+												)}
+											</div>
+										);
+									}}
+								</Mutation>
+							</div>
+							<Filters location={location} page={page} getEvents={getEvents} />
+						</Drawer>
 						<GridContainer>
-							<GridItem md={3} sm={3}>
-								<div>
-									<LocationSearch setLocation={setLocation} />
-									<p style={{ margin: 0 }}>Showing events near {location}.</p>
-									<Mutation
-										mutation={UPDATE_LOCATION_MUTATION}
-										variables={{ city: location }}
-										onCompleted={handleCompleted}
-									>
-										{(updateLocation, { error, loading, called }) => {
-											if (called) NProgress.start();
-
-											return (
-												<div
-													style={{
-														display: 'flex',
-														alignItems: 'center'
-													}}
-												>
-													{user && user.location !== location ? (
-														<Primary>
-															<b onClick={updateLocation} style={{ cursor: 'pointer' }}>
-																make default location?
-															</b>
-														</Primary>
-													) : (
-														<div style={{ height: '21px' }} />
-													)}
-												</div>
-											);
-										}}
-									</Mutation>
-								</div>
-								<Filters location={location} page={page} getEvents={getEvents} />
-							</GridItem>
-
-							<GridItem md={9} sm={9}>
+							<GridItem md={12} sm={9}>
 								<GridContainer>
-									<GridItem sm={6} md={4} lg={4}>
+									<GridItem sm={6} md={6} lg={6}>
 										<InfiniteScroll
 											pageStart={0}
 											loadMore={loadMore}
@@ -172,18 +201,18 @@ const Events = ({ classes, client }) => {
 										</InfiniteScroll>
 									</GridItem>
 
-									<GridItem sm={6} md={4} lg={4}>
+									<GridItem sm={6} md={6} lg={6}>
 										{events.events[1] &&
 											events.events[1].map(event => (
 												<Event event={event} key={event.id} user={user} />
 											))}
 									</GridItem>
-									<GridItem sm={6} md={4} lg={4}>
+									{/* <GridItem sm={6} md={4} lg={4}>
 										{events.events[2] &&
 											events.events[2].map(event => (
 												<Event event={event} key={event.id} user={user} />
 											))}
-									</GridItem>
+									</GridItem> */}
 								</GridContainer>
 							</GridItem>
 						</GridContainer>
@@ -193,4 +222,4 @@ const Events = ({ classes, client }) => {
 		);
 };
 
-export default withApollo(withStyles(styles)(Events));
+export default withApollo(withStyles(styles, { withTheme: true })(Events));
