@@ -20,7 +20,7 @@ const Fours = styled.div`
   display: flex;
 `;
 const MirroredFour = posed.div({
-  unhovered: { transform: "rotateY(0deg)" },
+  unhovered: { transform: "rotateY(0deg)", delay: 5000 },
   hovered: {
     transform: "rotateY(180deg)",
     transition: {
