@@ -33,6 +33,7 @@ const Event = ({ event, classes, user }) => {
 	const [ height, setHeight ] = useState('191px');
 	const divEl = useRef(null);
 	let isSaved = user.events.find(e => e.id === event.id);
+
 	// useEffect(
 	// 	() => {
 	// 		if (divEl) {
@@ -121,7 +122,7 @@ const Event = ({ event, classes, user }) => {
 											<a href='#pablo' onClick={e => e.preventDefault()}>
 												{event.title}{' '}
 												<IconButton
-													disabled={isSaved}
+													disabled={isSaved !== undefined}
 													onClick={e => handleClick(e, addEvent)}
 												>
 													{isSaved ? <Bookmark /> : <BookmarkBorder />}
