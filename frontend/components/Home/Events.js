@@ -17,6 +17,7 @@ import Location from '../Queries/Location';
 import Filters from './Filters';
 import Event from './Event';
 import LocationSearch from './LocationSearch';
+import NewUser from './NewUser';
 import Primary from '../../styledComponents/Typography/Primary';
 //styled components
 import Button from '../../styledComponents/CustomButtons/Button';
@@ -27,7 +28,7 @@ import Paginations from '../../styledComponents/Pagination/Pagination';
 import styles from '../../static/jss/material-kit-pro-react/views/ecommerceSections/productsStyle.jsx';
 import { auth } from '../../utils/firebase';
 
-const Events = ({ classes, client, theme }) => {
+const Events = ({ classes, client, theme, newUser }) => {
 	const [ page, setPage ] = useState(0);
 	const [ drawerOpen, setDrawerOpen ] = useState(false);
 	const [ events, setEvents ] = useState({ events: [] });
@@ -124,6 +125,7 @@ const Events = ({ classes, client, theme }) => {
 	else
 		return (
 			<div className={classes.section} style={{ paddingTop: '40px' }}>
+				{newUser && <NewUser />}
 				<div className={classes.container}>
 					<Fragment>
 						<IconButton
