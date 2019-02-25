@@ -10,8 +10,10 @@ const {
 	getUserRecord,
 	setUserClaims,
 } = require('../firebase/firebase');
+const MessageMutation = require('./Messages/MessageMutation');
 
 const Mutation = {
+	...MessageMutation,
 	async signup(parent, args, { db, response }, info) {
 		// just in case some bozo puts their email in with capitalization for some reason
 		args.email = args.email.toLowerCase();
@@ -297,9 +299,10 @@ const Mutation = {
 			throw new Error('New passwords must match!');
 		}
 		// check to make sure user is logged in
-		const user = await db.query.user({
-			where: { id: request.userId },
-		});
+		const { user } = request;
+		// const user = await db.query.user({
+		// 	where: { id: request.userId },
+		// });
 		if (!user) {
 			throw new Error('You must be logged in!');
 		}
@@ -326,10 +329,6 @@ const Mutation = {
 		const { userId, user } = request;
 
 		if (!userId) throw new Error('You must be signed in to add an event.');
-
-		if (user.permissions === 'FREE' && user.events.length === 5) {
-			throw new Error('You have reached the free tier limit');
-		}
 
 		// const { data } = await axios.get(
 		// 	`https://app.ticketmaster.com/discovery/v2/events/${args.eventId}.json?apikey=${process
@@ -389,9 +388,7 @@ const Mutation = {
 			},
 		});
 
-		return user.permissions === 'FREE'
-			? { message: `You have used ${user.events.length + 1} of your 5 free events` }
-			: { message: 'Event successfully added!' };
+		return { message: 'Event successfully added!' };
 	},
 	async deleteEvent(parent, args, { db, request }, info) {
 		const { userId } = request;
@@ -410,6 +407,20 @@ const Mutation = {
 			},
 			info,
 		);
+	},
+	async updateUser(parent, args, { request, db }, info) {
+		const { user } = request;
+		if (!user) throw new Error('You must be logged in to update your profile!');
+
+		const updated = await db.mutation.updateUser(
+			{
+				where: { id: user.id },
+				data: { ...args.data },
+			},
+			info,
+		);
+
+		return updated;
 	},
 };
 

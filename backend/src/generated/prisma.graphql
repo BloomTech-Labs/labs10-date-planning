@@ -1,5 +1,5 @@
-# source: http://localhost:4466
-# timestamp: Mon Feb 25 2019 09:03:25 GMT-0800 (Pacific Standard Time)
+# source: https://up4v2-130f000aa8.herokuapp.com/up4version2/dev
+# timestamp: Mon Feb 25 2019 10:28:20 GMT-0600 (Central Standard Time)
 
 type AggregateChat {
   count: Int!
@@ -182,7 +182,6 @@ input ChatUpdateInput {
 input ChatUpdateManyWithoutUsersInput {
   create: [ChatCreateWithoutUsersInput!]
   connect: [ChatWhereUniqueInput!]
-  set: [ChatWhereUniqueInput!]
   disconnect: [ChatWhereUniqueInput!]
   delete: [ChatWhereUniqueInput!]
   update: [ChatUpdateWithWhereUniqueWithoutUsersInput!]
@@ -490,7 +489,6 @@ input DirectMessageUpdateManyDataInput {
 input DirectMessageUpdateManyInput {
   create: [DirectMessageCreateInput!]
   connect: [DirectMessageWhereUniqueInput!]
-  set: [DirectMessageWhereUniqueInput!]
   disconnect: [DirectMessageWhereUniqueInput!]
   delete: [DirectMessageWhereUniqueInput!]
   update: [DirectMessageUpdateWithWhereUniqueNestedInput!]
@@ -1339,7 +1337,6 @@ input EventUpdateManyMutationInput {
 input EventUpdateManyWithoutAttendingInput {
   create: [EventCreateWithoutAttendingInput!]
   connect: [EventWhereUniqueInput!]
-  set: [EventWhereUniqueInput!]
   disconnect: [EventWhereUniqueInput!]
   delete: [EventWhereUniqueInput!]
   update: [EventUpdateWithWhereUniqueWithoutAttendingInput!]
@@ -1888,9 +1885,6 @@ enum Gender {
   OTHER
 }
 
-"""Raw JSON value"""
-scalar Json
-
 """
 The `Long` scalar type represents non-fractional signed whole numeric values.
 Long can represent values between -(2^63) and 2^63 - 1.
@@ -1927,7 +1921,6 @@ type Mutation {
   deleteManyEvents(where: EventWhereInput): BatchPayload!
   deleteManyDirectMessages(where: DirectMessageWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
-  executeRaw(database: PrismaDatabase, query: String!): Json!
 }
 
 enum MutationType {
@@ -3420,7 +3413,6 @@ input UserUpdateManyMutationInput {
 input UserUpdateManyWithoutChatsInput {
   create: [UserCreateWithoutChatsInput!]
   connect: [UserWhereUniqueInput!]
-  set: [UserWhereUniqueInput!]
   disconnect: [UserWhereUniqueInput!]
   delete: [UserWhereUniqueInput!]
   update: [UserUpdateWithWhereUniqueWithoutChatsInput!]

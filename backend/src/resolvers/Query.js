@@ -2,8 +2,10 @@ const axios = require('axios');
 const { forwardTo } = require('prisma-binding');
 const { transformEvents, fetchEvents, setDates } = require('../utils');
 const stripe = require('../stripe');
+const MessageQuery = require('./Messages/MessageQuery');
 
 const Query = {
+	...MessageQuery,
 	currentUser(parent, args, { db, request }, info) {
 		// check if there is a current user ID
 		if (!request.userId) {
@@ -30,12 +32,7 @@ const Query = {
 
 		let cats =
 			!args.categories || !args.categories.length
-				? [
-						'KZFzniwnSyZfZ7v7nJ',
-						'KZFzniwnSyZfZ7v7na',
-						'KZFzniwnSyZfZ7v7nE',
-						'KZFzniwnSyZfZ7v7n1',
-					]
+				? [ 'KZFzniwnSyZfZ7v7nJ', 'KZFzniwnSyZfZ7v7na', 'KZFzniwnSyZfZ7v7n1' ]
 				: args.categories;
 
 		const dates =
