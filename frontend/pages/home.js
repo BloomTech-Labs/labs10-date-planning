@@ -4,7 +4,8 @@ import Header from '../components/Header'
 import { isLoggedIn } from '../components/Queries/User';
 import redirect from '../utils/redirect';
 
-const Home = ({user}) => {
+const Home = ({ user }) => {
+	console.log({ user })
 	if (!user) return <JoinUs />
 	return (
 	<>

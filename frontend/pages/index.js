@@ -6,7 +6,7 @@ import Home from './home';
 
 const Index = ({ user }) => {
 	if (!user) return <JoinUs />;
-	return <Home />;
+	return <Home user={user} />;
 };
 
 Index.getInitialProps = async ctx => {
