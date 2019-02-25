@@ -143,7 +143,7 @@ const Events = ({ classes, client, theme }) => {
 							// 	paper: classes.drawerPaper,
 							// }}
 						>
-							<div>
+							<div style={{ padding: '0 20px' }}>
 								{' '}
 								<IconButton onClick={() => setDrawerOpen()}>
 									{theme.direction === 'ltr' ? <ChevronLeft /> : <ChevronRight />}
