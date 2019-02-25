@@ -33,4 +33,5 @@ BillingPage.getInitialProps = async ctx => {
 	return { user: user.currentUser };
 };
 
+
 export default BillingPage;
