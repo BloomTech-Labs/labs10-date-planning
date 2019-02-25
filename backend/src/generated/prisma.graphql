@@ -1957,6 +1957,10 @@ enum Permission {
   ADMIN
 }
 
+enum PrismaDatabase {
+  default
+}
+
 type ProfilePic implements Node {
   id: ID!
   user: User!
@@ -2171,6 +2175,7 @@ input ProfilePicUpdateManyMutationInput {
 input ProfilePicUpdateManyWithoutUserInput {
   create: [ProfilePicCreateWithoutUserInput!]
   connect: [ProfilePicWhereUniqueInput!]
+  set: [ProfilePicWhereUniqueInput!]
   disconnect: [ProfilePicWhereUniqueInput!]
   delete: [ProfilePicWhereUniqueInput!]
   update: [ProfilePicUpdateWithWhereUniqueWithoutUserInput!]
@@ -3375,6 +3380,7 @@ input UserUpdateManyDataInput {
 input UserUpdateManyInput {
   create: [UserCreateInput!]
   connect: [UserWhereUniqueInput!]
+  set: [UserWhereUniqueInput!]
   disconnect: [UserWhereUniqueInput!]
   delete: [UserWhereUniqueInput!]
   update: [UserUpdateWithWhereUniqueNestedInput!]
@@ -3418,6 +3424,7 @@ input UserUpdateManyWithoutChatsInput {
 input UserUpdateManyWithoutEventsInput {
   create: [UserCreateWithoutEventsInput!]
   connect: [UserWhereUniqueInput!]
+  set: [UserWhereUniqueInput!]
   disconnect: [UserWhereUniqueInput!]
   delete: [UserWhereUniqueInput!]
   update: [UserUpdateWithWhereUniqueWithoutEventsInput!]

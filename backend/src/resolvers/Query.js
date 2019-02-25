@@ -32,12 +32,7 @@ const Query = {
 
 		let cats =
 			!args.categories || !args.categories.length
-				? [
-						'KZFzniwnSyZfZ7v7nJ',
-						'KZFzniwnSyZfZ7v7na',
-						'KZFzniwnSyZfZ7v7nE',
-						'KZFzniwnSyZfZ7v7n1',
-					]
+				? [ 'KZFzniwnSyZfZ7v7nJ', 'KZFzniwnSyZfZ7v7na', 'KZFzniwnSyZfZ7v7n1' ]
 				: args.categories;
 
 		const dates =
