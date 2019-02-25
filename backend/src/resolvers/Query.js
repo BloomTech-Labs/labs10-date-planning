@@ -1,4 +1,5 @@
 const axios = require('axios');
+const { forwardTo } = require('prisma-binding');
 const { transformEvents, fetchEvents, setDates } = require('../utils');
 const stripe = require('../stripe');
 
@@ -24,7 +25,7 @@ const Query = {
 			info,
 		);
 	},
-	async getEvents(parent, { location, alt, page, ...args }, ctx, info) {
+	async getEvents(parent, { location, alt, page, ...args }, { db }, info) {
 		location = location.split(',')[0].toLowerCase();
 
 		let cats =
@@ -68,7 +69,7 @@ const Query = {
 		}
 
 		return {
-			events: transformEvents(events),
+			events: transformEvents(events, db),
 			page_count: response.data.page.size,
 			total_items: response.data.page.totalElements,
 			page_total: response.data.page.totalPages,

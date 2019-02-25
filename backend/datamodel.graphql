@@ -49,10 +49,10 @@ type User {
 type Chat {
 	id: ID! @unique
 	users: [User!]!
-	messages: [Message!]!
+	messages: [DirectMessage!]!
 }
 
-type Message {
+type DirectMessage {
 	id: ID! @unique
 	text: String!
 	from: User!
@@ -68,10 +68,10 @@ type ProfilePic {
 
 type Event {
 	id: ID! @unique
-	eventfulID: String! @unique
+	eventfulID: String @unique
 	title: String
 	description: String
-	attending: [User!]!
+	attending: [User!]! 
 	times: [String]
 	location: String
 	image_url: String

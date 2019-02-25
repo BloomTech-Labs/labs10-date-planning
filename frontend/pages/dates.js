@@ -5,16 +5,16 @@ import { isLoggedIn } from '../components/Queries/User';
 import redirect from '../utils/redirect';
 
 const SettingsPage = ({user}) => {
-  if (!user) return <JoinUs />
-else return (<><Header color='warning'/><Settings /></>);
+  
+return (<><Header color='warning'/><Settings /></>);
 }
 
 SettingsPage.getInitialProps = async ctx => {
 	let user = await isLoggedIn(ctx.apolloClient);
 
-	// if (!user.currentUser) {
-	// 	redirect(ctx, '/joinus');
-	// }
+	if (!user.currentUser) {
+		redirect(ctx, '/joinus');
+	}
 	//console.log(!user.currentUser && router.pathname !== '/joinus');
 	// if (!(user.currentUser && router.aspath != '/joinus')) {
 	// 	redirect(ctx, '/joinus');

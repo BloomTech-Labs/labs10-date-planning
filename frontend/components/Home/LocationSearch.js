@@ -49,7 +49,7 @@ const Search = ({ setLocation }) => {
 									placeholder: 'Search for a city name...',
 									...getInputProps(),
 								}}
-								formControlProps={{ style: { paddingTop: '12px', width: '80%' } }}
+								formControlProps={{ style: { paddingTop: '12px', width: '78%' } }}
 							/>
 							<Button
 								justIcon

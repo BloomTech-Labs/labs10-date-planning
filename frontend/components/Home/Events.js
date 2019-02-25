@@ -58,12 +58,12 @@ const Events = ({ classes, client, theme }) => {
 		let { data, loading } = await client.query({
 			query: CURRENT_USER_QUERY,
 		});
-		let holden;
-		if (auth) {
-			holden = auth.currentUser;
-			console.log(holden);
-		}
-		console.log(auth);
+		// let holden;
+		// if (auth) {
+		// 	holden = auth.currentUser;
+		// 	//console.log(holden);
+		// }
+		// console.log(auth);
 
 		if (data.currentUser) {
 			setUser(data.currentUser);
@@ -143,7 +143,7 @@ const Events = ({ classes, client, theme }) => {
 							// 	paper: classes.drawerPaper,
 							// }}
 						>
-							<div>
+							<div style={{ padding: '0 20px' }}>
 								{' '}
 								<IconButton onClick={() => setDrawerOpen()}>
 									{theme.direction === 'ltr' ? <ChevronLeft /> : <ChevronRight />}

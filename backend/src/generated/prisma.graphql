@@ -1,15 +1,20 @@
-# source: https://ykrueng-labs2-b2f475839e.herokuapp.com/backend/dev
-# timestamp: Sun Feb 24 2019 17:33:10 GMT-0600 (Central Standard Time)
+
+# source: http://localhost:4466
+# timestamp: Sun Feb 24 2019 21:49:34 GMT-0800 (Pacific Standard Time)
+
+
 
 type AggregateChat {
   count: Int!
 }
 
-type AggregateEvent {
+
+type AggregateDirectMessage {
   count: Int!
 }
 
-type AggregateMessage {
+type AggregateEvent {
+
   count: Int!
 }
 
@@ -33,9 +38,11 @@ enum Category {
 }
 
 type Chat implements Node {
+
+
   id: ID!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
-  messages(where: MessageWhereInput, orderBy: MessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Message!]
+  messages(where: DirectMessageWhereInput, orderBy: DirectMessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [DirectMessage!]
 }
 
 """A connection to a list of items."""
@@ -50,7 +57,7 @@ type ChatConnection {
 
 input ChatCreateInput {
   users: UserCreateManyWithoutChatsInput
-  messages: MessageCreateManyInput
+  messages: DirectMessageCreateManyInput
 }
 
 input ChatCreateManyWithoutUsersInput {
@@ -59,7 +66,7 @@ input ChatCreateManyWithoutUsersInput {
 }
 
 input ChatCreateWithoutUsersInput {
-  messages: MessageCreateManyInput
+  messages: DirectMessageCreateManyInput
 }
 
 """An edge in a connection."""
@@ -176,12 +183,13 @@ input ChatSubscriptionWhereInput {
 
 input ChatUpdateInput {
   users: UserUpdateManyWithoutChatsInput
-  messages: MessageUpdateManyInput
+  messages: DirectMessageUpdateManyInput
 }
 
 input ChatUpdateManyWithoutUsersInput {
   create: [ChatCreateWithoutUsersInput!]
   connect: [ChatWhereUniqueInput!]
+  set: [ChatWhereUniqueInput!]
   disconnect: [ChatWhereUniqueInput!]
   delete: [ChatWhereUniqueInput!]
   update: [ChatUpdateWithWhereUniqueWithoutUsersInput!]
@@ -190,7 +198,7 @@ input ChatUpdateManyWithoutUsersInput {
 }
 
 input ChatUpdateWithoutUsersDataInput {
-  messages: MessageUpdateManyInput
+  messages: DirectMessageUpdateManyInput
 }
 
 input ChatUpdateWithWhereUniqueWithoutUsersInput {
@@ -256,9 +264,9 @@ input ChatWhereInput {
   users_every: UserWhereInput
   users_some: UserWhereInput
   users_none: UserWhereInput
-  messages_every: MessageWhereInput
-  messages_some: MessageWhereInput
-  messages_none: MessageWhereInput
+  messages_every: DirectMessageWhereInput
+  messages_some: DirectMessageWhereInput
+  messages_none: DirectMessageWhereInput
 }
 
 input ChatWhereUniqueInput {
@@ -267,9 +275,378 @@ input ChatWhereUniqueInput {
 
 scalar DateTime
 
+type DirectMessage implements Node {
+  id: ID!
+  text: String!
+  from: User!
+  createdAt: DateTime!
+}
+
+"""A connection to a list of items."""
+type DirectMessageConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [DirectMessageEdge]!
+  aggregate: AggregateDirectMessage!
+}
+
+input DirectMessageCreateInput {
+  text: String!
+  from: UserCreateOneInput!
+}
+
+input DirectMessageCreateManyInput {
+  create: [DirectMessageCreateInput!]
+  connect: [DirectMessageWhereUniqueInput!]
+}
+
+"""An edge in a connection."""
+type DirectMessageEdge {
+  """The item at the end of the edge."""
+  node: DirectMessage!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum DirectMessageOrderByInput {
+  id_ASC
+  id_DESC
+  text_ASC
+  text_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type DirectMessagePreviousValues {
+  id: ID!
+  text: String!
+  createdAt: DateTime!
+}
+
+input DirectMessageScalarWhereInput {
+  """Logical AND on all given filters."""
+  AND: [DirectMessageScalarWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [DirectMessageScalarWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [DirectMessageScalarWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  text: String
+
+  """All values that are not equal to given value."""
+  text_not: String
+
+  """All values that are contained in given list."""
+  text_in: [String!]
+
+  """All values that are not contained in given list."""
+  text_not_in: [String!]
+
+  """All values less than the given value."""
+  text_lt: String
+
+  """All values less than or equal the given value."""
+  text_lte: String
+
+  """All values greater than the given value."""
+  text_gt: String
+
+  """All values greater than or equal the given value."""
+  text_gte: String
+
+  """All values containing the given string."""
+  text_contains: String
+
+  """All values not containing the given string."""
+  text_not_contains: String
+
+  """All values starting with the given string."""
+  text_starts_with: String
+
+  """All values not starting with the given string."""
+  text_not_starts_with: String
+
+  """All values ending with the given string."""
+  text_ends_with: String
+
+  """All values not ending with the given string."""
+  text_not_ends_with: String
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+}
+
+type DirectMessageSubscriptionPayload {
+  mutation: MutationType!
+  node: DirectMessage
+  updatedFields: [String!]
+  previousValues: DirectMessagePreviousValues
+}
+
+input DirectMessageSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [DirectMessageSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [DirectMessageSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [DirectMessageSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: DirectMessageWhereInput
+}
+
+input DirectMessageUpdateDataInput {
+  text: String
+  from: UserUpdateOneRequiredInput
+}
+
+input DirectMessageUpdateInput {
+  text: String
+  from: UserUpdateOneRequiredInput
+}
+
+input DirectMessageUpdateManyDataInput {
+  text: String
+}
+
+input DirectMessageUpdateManyInput {
+  create: [DirectMessageCreateInput!]
+  connect: [DirectMessageWhereUniqueInput!]
+  set: [DirectMessageWhereUniqueInput!]
+  disconnect: [DirectMessageWhereUniqueInput!]
+  delete: [DirectMessageWhereUniqueInput!]
+  update: [DirectMessageUpdateWithWhereUniqueNestedInput!]
+  updateMany: [DirectMessageUpdateManyWithWhereNestedInput!]
+  deleteMany: [DirectMessageScalarWhereInput!]
+  upsert: [DirectMessageUpsertWithWhereUniqueNestedInput!]
+}
+
+input DirectMessageUpdateManyMutationInput {
+  text: String
+}
+
+input DirectMessageUpdateManyWithWhereNestedInput {
+  where: DirectMessageScalarWhereInput!
+  data: DirectMessageUpdateManyDataInput!
+}
+
+input DirectMessageUpdateWithWhereUniqueNestedInput {
+  where: DirectMessageWhereUniqueInput!
+  data: DirectMessageUpdateDataInput!
+}
+
+input DirectMessageUpsertWithWhereUniqueNestedInput {
+  where: DirectMessageWhereUniqueInput!
+  update: DirectMessageUpdateDataInput!
+  create: DirectMessageCreateInput!
+}
+
+input DirectMessageWhereInput {
+  """Logical AND on all given filters."""
+  AND: [DirectMessageWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [DirectMessageWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [DirectMessageWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  text: String
+
+  """All values that are not equal to given value."""
+  text_not: String
+
+  """All values that are contained in given list."""
+  text_in: [String!]
+
+  """All values that are not contained in given list."""
+  text_not_in: [String!]
+
+  """All values less than the given value."""
+  text_lt: String
+
+  """All values less than or equal the given value."""
+  text_lte: String
+
+  """All values greater than the given value."""
+  text_gt: String
+
+  """All values greater than or equal the given value."""
+  text_gte: String
+
+  """All values containing the given string."""
+  text_contains: String
+
+  """All values not containing the given string."""
+  text_not_contains: String
+
+  """All values starting with the given string."""
+  text_starts_with: String
+
+  """All values not starting with the given string."""
+  text_not_starts_with: String
+
+  """All values ending with the given string."""
+  text_ends_with: String
+
+  """All values not ending with the given string."""
+  text_not_ends_with: String
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  from: UserWhereInput
+}
+
+input DirectMessageWhereUniqueInput {
+  id: ID
+}
+
 type Event implements Node {
   id: ID!
-  eventfulID: String!
+  eventfulID: String
   title: String
   description: String
   attending(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
@@ -295,7 +672,7 @@ type EventConnection {
 }
 
 input EventCreateInput {
-  eventfulID: String!
+  eventfulID: String
   title: String
   description: String
   location: String
@@ -320,7 +697,7 @@ input EventCreatetimesInput {
 }
 
 input EventCreateWithoutAttendingInput {
-  eventfulID: String!
+  eventfulID: String
   title: String
   description: String
   location: String
@@ -334,10 +711,12 @@ input EventCreateWithoutAttendingInput {
   times: EventCreatetimesInput
 }
 
+
 """An edge in a connection."""
 type EventEdge {
   """The item at the end of the edge."""
   node: Event!
+
 
   """A cursor for use in pagination."""
   cursor: String!
@@ -376,7 +755,7 @@ enum EventOrderByInput {
 
 type EventPreviousValues {
   id: ID!
-  eventfulID: String!
+  eventfulID: String
   title: String
   description: String
   times: [String!]!
@@ -892,6 +1271,7 @@ input EventSubscriptionWhereInput {
   """Logical AND on all given filters."""
   AND: [EventSubscriptionWhereInput!]
 
+
   """Logical OR on all given filters."""
   OR: [EventSubscriptionWhereInput!]
 
@@ -902,6 +1282,7 @@ input EventSubscriptionWhereInput {
   The subscription event gets dispatched when it's listed in mutation_in
   """
   mutation_in: [MutationType!]
+
 
   """
   The subscription event gets only dispatched when one of the updated fields names is included in this list
@@ -919,6 +1300,7 @@ input EventSubscriptionWhereInput {
   updatedFields_contains_some: [String!]
   node: EventWhereInput
 }
+
 
 input EventUpdateInput {
   eventfulID: String
@@ -969,6 +1351,7 @@ input EventUpdateManyMutationInput {
 input EventUpdateManyWithoutAttendingInput {
   create: [EventCreateWithoutAttendingInput!]
   connect: [EventWhereUniqueInput!]
+  set: [EventWhereUniqueInput!]
   disconnect: [EventWhereUniqueInput!]
   delete: [EventWhereUniqueInput!]
   update: [EventUpdateWithWhereUniqueWithoutAttendingInput!]
@@ -986,6 +1369,7 @@ input EventUpdatetimesInput {
   set: [String!]
 }
 
+
 input EventUpdateWithoutAttendingDataInput {
   eventfulID: String
   title: String
@@ -1001,6 +1385,7 @@ input EventUpdateWithoutAttendingDataInput {
   times: EventUpdatetimesInput
 }
 
+
 input EventUpdateWithWhereUniqueWithoutAttendingInput {
   where: EventWhereUniqueInput!
   data: EventUpdateWithoutAttendingDataInput!
@@ -1010,6 +1395,7 @@ input EventUpsertWithWhereUniqueWithoutAttendingInput {
   where: EventWhereUniqueInput!
   update: EventUpdateWithoutAttendingDataInput!
   create: EventCreateWithoutAttendingInput!
+
 }
 
 input EventWhereInput {
@@ -1061,6 +1447,7 @@ input EventWhereInput {
 
   """All values not ending with the given string."""
   id_not_ends_with: ID
+
   eventfulID: String
 
   """All values that are not equal to given value."""
@@ -1183,10 +1570,12 @@ input EventWhereInput {
   description_not_ends_with: String
   location: String
 
+
   """All values that are not equal to given value."""
   location_not: String
 
   """All values that are contained in given list."""
+
   location_in: [String!]
 
   """All values that are not contained in given list."""
@@ -1312,6 +1701,7 @@ input EventWhereInput {
   """All values that are not contained in given list."""
   city_not_in: [String!]
 
+
   """All values less than the given value."""
   city_lt: String
 
@@ -1320,6 +1710,7 @@ input EventWhereInput {
 
   """All values greater than the given value."""
   city_gt: String
+
 
   """All values greater than or equal the given value."""
   city_gte: String
@@ -1380,6 +1771,7 @@ input EventWhereInput {
   venue_ends_with: String
 
   """All values not ending with the given string."""
+
   venue_not_ends_with: String
   address: String
 
@@ -1463,6 +1855,7 @@ input EventWhereInput {
   lat_not_ends_with: String
   long: String
 
+
   """All values that are not equal to given value."""
   long_not: String
 
@@ -1482,6 +1875,7 @@ input EventWhereInput {
   long_gt: String
 
   """All values greater than or equal the given value."""
+
   long_gte: String
 
   """All values containing the given string."""
@@ -1517,410 +1911,46 @@ enum Gender {
   OTHER
 }
 
+"""Raw JSON value"""
+scalar Json
+
 """
 The `Long` scalar type represents non-fractional signed whole numeric values.
 Long can represent values between -(2^63) and 2^63 - 1.
 """
 scalar Long
 
-type Message implements Node {
-  id: ID!
-  text: String!
-  from: User!
-  createdAt: DateTime!
-}
-
-"""A connection to a list of items."""
-type MessageConnection {
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """A list of edges."""
-  edges: [MessageEdge]!
-  aggregate: AggregateMessage!
-}
-
-input MessageCreateInput {
-  text: String!
-  from: UserCreateOneInput!
-}
-
-input MessageCreateManyInput {
-  create: [MessageCreateInput!]
-  connect: [MessageWhereUniqueInput!]
-}
-
-"""An edge in a connection."""
-type MessageEdge {
-  """The item at the end of the edge."""
-  node: Message!
-
-  """A cursor for use in pagination."""
-  cursor: String!
-}
-
-enum MessageOrderByInput {
-  id_ASC
-  id_DESC
-  text_ASC
-  text_DESC
-  createdAt_ASC
-  createdAt_DESC
-  updatedAt_ASC
-  updatedAt_DESC
-}
-
-type MessagePreviousValues {
-  id: ID!
-  text: String!
-  createdAt: DateTime!
-}
-
-input MessageScalarWhereInput {
-  """Logical AND on all given filters."""
-  AND: [MessageScalarWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [MessageScalarWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [MessageScalarWhereInput!]
-  id: ID
-
-  """All values that are not equal to given value."""
-  id_not: ID
-
-  """All values that are contained in given list."""
-  id_in: [ID!]
-
-  """All values that are not contained in given list."""
-  id_not_in: [ID!]
-
-  """All values less than the given value."""
-  id_lt: ID
-
-  """All values less than or equal the given value."""
-  id_lte: ID
-
-  """All values greater than the given value."""
-  id_gt: ID
-
-  """All values greater than or equal the given value."""
-  id_gte: ID
-
-  """All values containing the given string."""
-  id_contains: ID
-
-  """All values not containing the given string."""
-  id_not_contains: ID
-
-  """All values starting with the given string."""
-  id_starts_with: ID
-
-  """All values not starting with the given string."""
-  id_not_starts_with: ID
-
-  """All values ending with the given string."""
-  id_ends_with: ID
-
-  """All values not ending with the given string."""
-  id_not_ends_with: ID
-  text: String
-
-  """All values that are not equal to given value."""
-  text_not: String
-
-  """All values that are contained in given list."""
-  text_in: [String!]
-
-  """All values that are not contained in given list."""
-  text_not_in: [String!]
-
-  """All values less than the given value."""
-  text_lt: String
-
-  """All values less than or equal the given value."""
-  text_lte: String
-
-  """All values greater than the given value."""
-  text_gt: String
-
-  """All values greater than or equal the given value."""
-  text_gte: String
-
-  """All values containing the given string."""
-  text_contains: String
-
-  """All values not containing the given string."""
-  text_not_contains: String
-
-  """All values starting with the given string."""
-  text_starts_with: String
-
-  """All values not starting with the given string."""
-  text_not_starts_with: String
-
-  """All values ending with the given string."""
-  text_ends_with: String
-
-  """All values not ending with the given string."""
-  text_not_ends_with: String
-  createdAt: DateTime
-
-  """All values that are not equal to given value."""
-  createdAt_not: DateTime
-
-  """All values that are contained in given list."""
-  createdAt_in: [DateTime!]
-
-  """All values that are not contained in given list."""
-  createdAt_not_in: [DateTime!]
-
-  """All values less than the given value."""
-  createdAt_lt: DateTime
-
-  """All values less than or equal the given value."""
-  createdAt_lte: DateTime
-
-  """All values greater than the given value."""
-  createdAt_gt: DateTime
-
-  """All values greater than or equal the given value."""
-  createdAt_gte: DateTime
-}
-
-type MessageSubscriptionPayload {
-  mutation: MutationType!
-  node: Message
-  updatedFields: [String!]
-  previousValues: MessagePreviousValues
-}
-
-input MessageSubscriptionWhereInput {
-  """Logical AND on all given filters."""
-  AND: [MessageSubscriptionWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [MessageSubscriptionWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [MessageSubscriptionWhereInput!]
-
-  """
-  The subscription event gets dispatched when it's listed in mutation_in
-  """
-  mutation_in: [MutationType!]
-
-  """
-  The subscription event gets only dispatched when one of the updated fields names is included in this list
-  """
-  updatedFields_contains: String
-
-  """
-  The subscription event gets only dispatched when all of the field names included in this list have been updated
-  """
-  updatedFields_contains_every: [String!]
-
-  """
-  The subscription event gets only dispatched when some of the field names included in this list have been updated
-  """
-  updatedFields_contains_some: [String!]
-  node: MessageWhereInput
-}
-
-input MessageUpdateDataInput {
-  text: String
-  from: UserUpdateOneRequiredInput
-}
-
-input MessageUpdateInput {
-  text: String
-  from: UserUpdateOneRequiredInput
-}
-
-input MessageUpdateManyDataInput {
-  text: String
-}
-
-input MessageUpdateManyInput {
-  create: [MessageCreateInput!]
-  connect: [MessageWhereUniqueInput!]
-  disconnect: [MessageWhereUniqueInput!]
-  delete: [MessageWhereUniqueInput!]
-  update: [MessageUpdateWithWhereUniqueNestedInput!]
-  updateMany: [MessageUpdateManyWithWhereNestedInput!]
-  deleteMany: [MessageScalarWhereInput!]
-  upsert: [MessageUpsertWithWhereUniqueNestedInput!]
-}
-
-input MessageUpdateManyMutationInput {
-  text: String
-}
-
-input MessageUpdateManyWithWhereNestedInput {
-  where: MessageScalarWhereInput!
-  data: MessageUpdateManyDataInput!
-}
-
-input MessageUpdateWithWhereUniqueNestedInput {
-  where: MessageWhereUniqueInput!
-  data: MessageUpdateDataInput!
-}
-
-input MessageUpsertWithWhereUniqueNestedInput {
-  where: MessageWhereUniqueInput!
-  update: MessageUpdateDataInput!
-  create: MessageCreateInput!
-}
-
-input MessageWhereInput {
-  """Logical AND on all given filters."""
-  AND: [MessageWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [MessageWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [MessageWhereInput!]
-  id: ID
-
-  """All values that are not equal to given value."""
-  id_not: ID
-
-  """All values that are contained in given list."""
-  id_in: [ID!]
-
-  """All values that are not contained in given list."""
-  id_not_in: [ID!]
-
-  """All values less than the given value."""
-  id_lt: ID
-
-  """All values less than or equal the given value."""
-  id_lte: ID
-
-  """All values greater than the given value."""
-  id_gt: ID
-
-  """All values greater than or equal the given value."""
-  id_gte: ID
-
-  """All values containing the given string."""
-  id_contains: ID
-
-  """All values not containing the given string."""
-  id_not_contains: ID
-
-  """All values starting with the given string."""
-  id_starts_with: ID
-
-  """All values not starting with the given string."""
-  id_not_starts_with: ID
-
-  """All values ending with the given string."""
-  id_ends_with: ID
-
-  """All values not ending with the given string."""
-  id_not_ends_with: ID
-  text: String
-
-  """All values that are not equal to given value."""
-  text_not: String
-
-  """All values that are contained in given list."""
-  text_in: [String!]
-
-  """All values that are not contained in given list."""
-  text_not_in: [String!]
-
-  """All values less than the given value."""
-  text_lt: String
-
-  """All values less than or equal the given value."""
-  text_lte: String
-
-  """All values greater than the given value."""
-  text_gt: String
-
-  """All values greater than or equal the given value."""
-  text_gte: String
-
-  """All values containing the given string."""
-  text_contains: String
-
-  """All values not containing the given string."""
-  text_not_contains: String
-
-  """All values starting with the given string."""
-  text_starts_with: String
-
-  """All values not starting with the given string."""
-  text_not_starts_with: String
-
-  """All values ending with the given string."""
-  text_ends_with: String
-
-  """All values not ending with the given string."""
-  text_not_ends_with: String
-  createdAt: DateTime
-
-  """All values that are not equal to given value."""
-  createdAt_not: DateTime
-
-  """All values that are contained in given list."""
-  createdAt_in: [DateTime!]
-
-  """All values that are not contained in given list."""
-  createdAt_not_in: [DateTime!]
-
-  """All values less than the given value."""
-  createdAt_lt: DateTime
-
-  """All values less than or equal the given value."""
-  createdAt_lte: DateTime
-
-  """All values greater than the given value."""
-  createdAt_gt: DateTime
-
-  """All values greater than or equal the given value."""
-  createdAt_gte: DateTime
-  from: UserWhereInput
-}
-
-input MessageWhereUniqueInput {
-  id: ID
-}
-
 type Mutation {
   createChat(data: ChatCreateInput!): Chat!
   createProfilePic(data: ProfilePicCreateInput!): ProfilePic!
   createEvent(data: EventCreateInput!): Event!
-  createMessage(data: MessageCreateInput!): Message!
+  createDirectMessage(data: DirectMessageCreateInput!): DirectMessage!
   createUser(data: UserCreateInput!): User!
   updateChat(data: ChatUpdateInput!, where: ChatWhereUniqueInput!): Chat
   updateProfilePic(data: ProfilePicUpdateInput!, where: ProfilePicWhereUniqueInput!): ProfilePic
   updateEvent(data: EventUpdateInput!, where: EventWhereUniqueInput!): Event
-  updateMessage(data: MessageUpdateInput!, where: MessageWhereUniqueInput!): Message
+  updateDirectMessage(data: DirectMessageUpdateInput!, where: DirectMessageWhereUniqueInput!): DirectMessage
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   deleteChat(where: ChatWhereUniqueInput!): Chat
   deleteProfilePic(where: ProfilePicWhereUniqueInput!): ProfilePic
   deleteEvent(where: EventWhereUniqueInput!): Event
-  deleteMessage(where: MessageWhereUniqueInput!): Message
+  deleteDirectMessage(where: DirectMessageWhereUniqueInput!): DirectMessage
   deleteUser(where: UserWhereUniqueInput!): User
   upsertChat(where: ChatWhereUniqueInput!, create: ChatCreateInput!, update: ChatUpdateInput!): Chat!
   upsertProfilePic(where: ProfilePicWhereUniqueInput!, create: ProfilePicCreateInput!, update: ProfilePicUpdateInput!): ProfilePic!
   upsertEvent(where: EventWhereUniqueInput!, create: EventCreateInput!, update: EventUpdateInput!): Event!
-  upsertMessage(where: MessageWhereUniqueInput!, create: MessageCreateInput!, update: MessageUpdateInput!): Message!
+  upsertDirectMessage(where: DirectMessageWhereUniqueInput!, create: DirectMessageCreateInput!, update: DirectMessageUpdateInput!): DirectMessage!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   updateManyProfilePics(data: ProfilePicUpdateManyMutationInput!, where: ProfilePicWhereInput): BatchPayload!
   updateManyEvents(data: EventUpdateManyMutationInput!, where: EventWhereInput): BatchPayload!
-  updateManyMessages(data: MessageUpdateManyMutationInput!, where: MessageWhereInput): BatchPayload!
+  updateManyDirectMessages(data: DirectMessageUpdateManyMutationInput!, where: DirectMessageWhereInput): BatchPayload!
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
   deleteManyChats(where: ChatWhereInput): BatchPayload!
   deleteManyProfilePics(where: ProfilePicWhereInput): BatchPayload!
   deleteManyEvents(where: EventWhereInput): BatchPayload!
-  deleteManyMessages(where: MessageWhereInput): BatchPayload!
+  deleteManyDirectMessages(where: DirectMessageWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
+  executeRaw(database: PrismaDatabase, query: String!): Json!
 }
 
 enum MutationType {
@@ -1928,6 +1958,7 @@ enum MutationType {
   UPDATED
   DELETED
 }
+
 
 """An object with an ID"""
 interface Node {
@@ -2304,17 +2335,23 @@ type Query {
   chats(where: ChatWhereInput, orderBy: ChatOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Chat]!
   profilePics(where: ProfilePicWhereInput, orderBy: ProfilePicOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ProfilePic]!
   events(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event]!
-  messages(where: MessageWhereInput, orderBy: MessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Message]!
+
+  directMessages(where: DirectMessageWhereInput, orderBy: DirectMessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [DirectMessage]!
+
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   chat(where: ChatWhereUniqueInput!): Chat
   profilePic(where: ProfilePicWhereUniqueInput!): ProfilePic
   event(where: EventWhereUniqueInput!): Event
-  message(where: MessageWhereUniqueInput!): Message
+
+  directMessage(where: DirectMessageWhereUniqueInput!): DirectMessage
+
   user(where: UserWhereUniqueInput!): User
   chatsConnection(where: ChatWhereInput, orderBy: ChatOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ChatConnection!
   profilePicsConnection(where: ProfilePicWhereInput, orderBy: ProfilePicOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProfilePicConnection!
   eventsConnection(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): EventConnection!
-  messagesConnection(where: MessageWhereInput, orderBy: MessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): MessageConnection!
+
+  directMessagesConnection(where: DirectMessageWhereInput, orderBy: DirectMessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): DirectMessageConnection!
+
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
 
   """Fetches an object given its ID"""
@@ -2328,7 +2365,7 @@ type Subscription {
   chat(where: ChatSubscriptionWhereInput): ChatSubscriptionPayload
   profilePic(where: ProfilePicSubscriptionWhereInput): ProfilePicSubscriptionPayload
   event(where: EventSubscriptionWhereInput): EventSubscriptionPayload
-  message(where: MessageSubscriptionWhereInput): MessageSubscriptionPayload
+  directMessage(where: DirectMessageSubscriptionWhereInput): DirectMessageSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 
@@ -3407,6 +3444,7 @@ input UserUpdateManyMutationInput {
 input UserUpdateManyWithoutChatsInput {
   create: [UserCreateWithoutChatsInput!]
   connect: [UserWhereUniqueInput!]
+  set: [UserWhereUniqueInput!]
   disconnect: [UserWhereUniqueInput!]
   delete: [UserWhereUniqueInput!]
   update: [UserUpdateWithWhereUniqueWithoutChatsInput!]

@@ -23,6 +23,7 @@ const EventModal = ({ modal, showModal, classes, event, client }) => {
 	const [ messageModal, showMessageModal ] = useState({});
 
 	const handleClick = async (e, addEvent, user) => {
+		console.log(event);
 		e.stopPropagation();
 		if (user.permissions === 'FREE') {
 			if (user.events.length === 5) {
@@ -57,7 +58,17 @@ const EventModal = ({ modal, showModal, classes, event, client }) => {
 				return (
 					<Mutation
 						mutation={ADD_EVENT_MUTATION}
-						variables={{ eventId: event.id }}
+						variables={{
+							title: event.title,
+							venue: event.location.venue,
+							image_url: event.image_url,
+							times: event.times,
+							city: event.location.city,
+							address: event.location.address,
+							lat: event.location.lat,
+							long: event.location.long,
+							description: event.description,
+						}}
 						refetchQueries={[ { query: CURRENT_USER_QUERY } ]}
 						onError={() => NProgress.done()}
 						onCompleted={() => NProgress.done()}
@@ -127,7 +138,7 @@ const EventModal = ({ modal, showModal, classes, event, client }) => {
 														overflow: 'hidden',
 														width: '100%',
 													}}
-													src={event.large_url}
+													src={event.image_url}
 												/>
 												<div className='gradient-box'>
 													<div className='date'>
