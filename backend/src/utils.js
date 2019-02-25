@@ -31,7 +31,7 @@ module.exports = {
 				);
 
 				const [ img ] = ev.images.filter(img => img.width > 500);
-				console.log(eventInDb);
+
 				events.push({
 					id: eventInDb ? eventInDb.id : ev.id,
 					eventfulId: ev.id,

@@ -1,14 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { withApollo, Mutation } from 'react-apollo';
 import moment from 'moment';
 import NProgress from 'nprogress';
+
+//query& M
+import { CURRENT_USER_QUERY } from '../Queries/User';
+import { ADD_EVENT_MUTATION } from '../Mutations/addEvent';
 //MUI
 
-import { Bookmark, Add, ChevronLeft } from '@material-ui/icons';
+import { Bookmark, Add, ChevronLeft, BookmarkBorder } from '@material-ui/icons';
 import { IconButton, Table, TableBody, TableCell, TableRow, TableHead } from '@material-ui/core';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 //Components
 import EventModal from './EventModal';
+import InfoModal from './InfoModal';
 //Styled components
 import Card from '../../styledComponents/Card/Card';
 import Button from '../../styledComponents/CustomButtons/Button';
@@ -22,7 +28,7 @@ import CardStyles from '../../static/jss/material-kit-pro-react/views/components
 import '../../styles/Home/Event.scss';
 
 const Event = ({ event, classes, user }) => {
-	const [ modal, showModal ] = useState(false);
+	const [ modal, showModal ] = useState({});
 	const [ rotate, setRotate ] = useState('');
 	const [ height, setHeight ] = useState('0px');
 	const divEl = useRef(null);
@@ -35,6 +41,16 @@ const Event = ({ event, classes, user }) => {
 		},
 		[ divEl ],
 	);
+
+	const handleClick = async (e, addEvent) => {
+		console.log(event);
+		e.stopPropagation();
+
+		showModal({ message: true });
+
+		addEvent();
+	};
+
 	event.times = event.times.sort((a, b) => {
 		let dateA = new Date(a);
 		let dateB = new Date(b);
@@ -78,14 +94,43 @@ const Event = ({ event, classes, user }) => {
 							>
 								{event.location.venue}
 							</h6>
-							<h4 className={classes.cardTitle}>
-								<a href='#pablo' onClick={e => e.preventDefault()}>
-									{event.title}
-								</a>
-							</h4>
+							<Mutation
+								mutation={ADD_EVENT_MUTATION}
+								variables={{
+									title: event.title,
+									venue: event.location.venue,
+									image_url: event.image_url,
+									times: event.times,
+									city: event.location.city,
+									address: event.location.address,
+									lat: event.location.lat,
+									long: event.location.long,
+									description: event.description,
+								}}
+								refetchQueries={[ { query: CURRENT_USER_QUERY } ]}
+								onError={() => NProgress.done()}
+								onCompleted={() => NProgress.done()}
+							>
+								{(addEvent, { error, loading, called }) => {
+									if (called) NProgress.start();
+									return (
+										<h4 className={classes.cardTitle}>
+											<a href='#pablo' onClick={e => e.preventDefault()}>
+												{event.title}{' '}
+												<IconButton
+													disabled={isSaved}
+													onClick={e => handleClick(e, addEvent)}
+												>
+													{isSaved ? <Bookmark /> : <BookmarkBorder />}
+												</IconButton>
+											</a>
+										</h4>
+									);
+								}}
+							</Mutation>
 						</CardBody>
 						<CardFooter>
-							{isSaved && <Bookmark className='Event__bookmark' />}
+							{/* {isSaved && <Bookmark className='Event__bookmark' />} */}
 							<div
 								style={{ cursor: 'pointer' }}
 								onClick={() => setRotate(classes.activateRotate)}
@@ -167,6 +212,7 @@ const Event = ({ event, classes, user }) => {
 							</Table>
 						</CardBody>
 					</div>
+					<InfoModal showModal={showModal} modal={modal} />
 				</Card>
 			</div>
 		</div>
