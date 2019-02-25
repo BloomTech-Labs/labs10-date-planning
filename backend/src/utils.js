@@ -2,21 +2,39 @@ const moment = require('moment');
 const axios = require('axios');
 
 module.exports = {
-	transformEvents: function(eventsArr) {
-		return eventsArr.reduce((events, ev) => {
+	transformEvents: function(eventsArr, db) {
+		return eventsArr.reduce(async (previousPromise, ev) => {
+			let events = await previousPromise;
 			let existingEvent = events.findIndex(e => e.title === ev.name);
 			if (existingEvent !== -1) {
 				events[existingEvent].times.push(ev.dates.start.dateTime);
 			} else {
-				const [ eventImage ] = ev.images.filter(obj => {
-					if (obj.ratio === '4_3') {
-						return obj.url;
-					}
-				});
-				const [ img ] = ev.images.filter(img => img.width > 500);
+				// const [ eventImage ] = ev.images.filter(obj => {
+				// 	if (obj.ratio === '4_3') {
+				// 		return obj.url;
+				// 	}
+				// });
+				let [ eventInDb ] = await db.query.events(
+					{
+						where: {
+							AND: [
+								{
+									venue: ev._embedded.venues[0].name,
+								},
+								{
+									title: ev.name,
+								},
+							],
+						},
+					},
+					`{id times attending {id firstName}}`,
+				);
 
+				const [ img ] = ev.images.filter(img => img.width > 500);
+				console.log(eventInDb);
 				events.push({
-					id: ev.id,
+					id: eventInDb ? eventInDb.id : ev.id,
+					eventfulId: ev.id,
 					title: ev.name,
 					url: ev.url,
 					image_url: img.url,
@@ -30,6 +48,7 @@ module.exports = {
 						max: ev.priceRanges ? ev.priceRanges[0].max : 'max',
 						curr: ev.priceRanges ? ev.priceRanges[0].currency : 'USD',
 					},
+					attending: eventInDb ? eventInDb.attending : [],
 					location: {
 						venue: ev._embedded.venues[0].name,
 						address:
@@ -46,7 +65,7 @@ module.exports = {
 			}
 
 			return events;
-		}, []);
+		}, Promise.resolve([]));
 	},
 	setDates: function(dates) {
 		let start, end;

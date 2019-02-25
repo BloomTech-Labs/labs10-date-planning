@@ -31,6 +31,10 @@ export const ALL_EVENTS_QUERY = gql`
 				times
 				genre
 				notes
+				attending {
+					id
+					firstName
+				}
 				price {
 					min
 					max

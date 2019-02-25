@@ -20,7 +20,8 @@ import '../../styles/Home/Event.scss';
 
 const Event = ({ event, classes, user }) => {
 	const [ modal, showModal ] = useState(false);
-	let isSaved = user.events.find(e => e.eventfulID === event.id);
+	console.log(event, user.events);
+	let isSaved = user.events.find(e => e.id === event.id);
 
 	event.times = event.times.sort((a, b) => {
 		let dateA = new Date(a);

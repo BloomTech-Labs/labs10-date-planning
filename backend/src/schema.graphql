@@ -77,6 +77,9 @@ type Event {
 	times: [String]
 	attending: [User!]!
 	location: LocationInfo
+	city: String
+	venue: String
+	address: String
 	image_url: String
 	large_url: String
 	price: PriceRange
