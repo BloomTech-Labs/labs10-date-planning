@@ -10,7 +10,7 @@ type Mutation {
 	signout: Message
 	updateImage(thumbnail: String!, image: String!): User!
 	updateLocation(city: String!): User!
-	addEvent(eventId: String!): Message
+	addEvent(title: String!, venue: String!): Message
 	deleteEvent(id: String!, eventId: String!): User!
 	createOrder(token: String!, subscription: Permission!): Message
 	cancelSubscription(id: String!): User!
