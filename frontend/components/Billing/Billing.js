@@ -33,7 +33,7 @@ const CANCEL_SUBSCRIPTION = gql`
 `;
 
 const Billing = ({ classes, currentUser, client }) => {
-	const currentSubs = currentUser.permissions[0];
+	const currentSubs = currentUser.permissions;
 
 	const cancelSubscription = async () => {
 		let { data, loading } = await client.mutate({

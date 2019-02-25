@@ -24,7 +24,7 @@ const Mutation = {
 				data: {
 					...args,
 					password,
-					permissions: { set: [ 'FREE' ] }, // default permission for user is FREE tier
+					permissions: 'FREE', // default permission for user is FREE tier
 				},
 			},
 			info,
@@ -56,9 +56,7 @@ const Mutation = {
 						lastName: '',
 						imageThumbnail: photoURL || '',
 						imageLarge: photoURL || '',
-						permissions: {
-							set: [ 'FREE' ],
-						},
+						permissions: 'FREE',
 					},
 				},
 				`{id firstName email}`,
@@ -203,7 +201,7 @@ const Mutation = {
 		if (!userId) throw new Error('You must be signed in to complete this order.');
 
 		// Check user's subscription status
-		if (user.permissions[0] === args.subscription) {
+		if (user.permissions === args.subscription) {
 			throw new Error(`User already has ${args.subscription} subscription`);
 		}
 
@@ -249,9 +247,7 @@ const Mutation = {
 		// Update user's permission type
 		ctx.db.mutation.updateUser({
 			data: {
-				permissions: {
-					set: [ args.subscription ],
-				},
+				permissions: args.subscription,
 				stripeSubscriptionId: subscription ? subscription.id : user.stripeSubscriptionId,
 				stripeCustomerId: customer ? customer.id : user.stripeCustomerId,
 			},
@@ -282,9 +278,7 @@ const Mutation = {
 		return ctx.db.mutation.updateUser(
 			{
 				data: {
-					permissions: {
-						set: [ 'FREE' ],
-					},
+					permissions: 'FREE',
 					stripeSubscriptionId: null,
 				},
 				where: {
@@ -328,7 +322,7 @@ const Mutation = {
 		const { userId, user } = request;
 		if (!userId) throw new Error('You must be signed in to add an event.');
 
-		if (user.permissions[0] === 'FREE' && user.events.length === 5) {
+		if (user.permissions === 'FREE' && user.events.length === 5) {
 			throw new Error('You have reached the free tier limit');
 		}
 
@@ -372,7 +366,7 @@ const Mutation = {
 			},
 		});
 
-		return user.permissions[0] === 'FREE'
+		return user.permissions === 'FREE'
 			? { message: `You have used ${user.events.length + 1} of your 5 free events` }
 			: { message: 'Event successfully added!' };
 	},
