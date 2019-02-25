@@ -16,7 +16,7 @@ const ErrorModal = ({ modal, showModal, classes }) => {
 				root: classes.modalRoot,
 				paper: classes.modal + ' ' + classes.modalSmall,
 			}}
-			open={Object.keys(modal).length}
+			open={Object.keys(modal).length > 0}
 			// TransitionComponent={Transition}
 			//keepMounted
 			onClose={() => showModal({})}

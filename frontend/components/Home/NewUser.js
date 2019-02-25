@@ -17,6 +17,7 @@ import {
 import { BookmarkBorder, Close, CodeSharp } from '@material-ui/icons';
 //QM
 import User from '../Queries/User';
+import { LOCATION_SUGGESTION_QUERY } from '../Queries/LocationSuggestion';
 //components
 import ImageUpload from '../Settings/ImageUpload';
 //styled components
@@ -85,15 +86,13 @@ const NewUser = ({ classes }) => {
 										clearable
 										openTo='year'
 										format='MM/DD/YYYY'
-										// format={this.props.getFormatString({
-										//   moment: 'DD/MM/YYYY',
-										//   dateFns: 'dd/MM/yyyy',
-										// })}
 										views={[ 'year', 'month', 'day' ]}
 										onChange={handleDateChange}
 									/>
 								</MuiPickersUtilsProvider>
 							</div>
+							Where are you located?
+							<div />
 						</DialogContent>
 					</DialogTitle>
 				</Dialog>
