@@ -22,7 +22,6 @@ const CURRENT_USER_QUERY = gql`
 				description
 				url
 				image_url
-				large_url
 				times
 			}
 			stripeCustomerId

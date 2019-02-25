@@ -57,6 +57,7 @@ const Mutation = {
 						email: email,
 						password: 'firebaseAuth',
 						lastName: '',
+						img: { create: { img_url: photoURL, default: false } },
 						imageThumbnail: photoURL || '',
 						imageLarge: photoURL || '',
 						permissions: {
@@ -327,29 +328,46 @@ const Mutation = {
 		});
 		return updatedUser;
 	},
-	async addEvent(parent, args, { db, request }, info) {
+	async addEvent(parent, { event }, { db, request }, info) {
 		const { userId, user } = request;
+
 		if (!userId) throw new Error('You must be signed in to add an event.');
 
 		if (user.permissions[0] === 'FREE' && user.events.length === 5) {
 			throw new Error('You have reached the free tier limit');
 		}
 
-		const { data } = await axios.get(
-			`https://app.ticketmaster.com/discovery/v2/events/${args.eventId}.json?apikey=${process
-				.env.TKTMSTR_KEY}`,
-		);
+		// const { data } = await axios.get(
+		// 	`https://app.ticketmaster.com/discovery/v2/events/${args.eventId}.json?apikey=${process
+		// 		.env.TKTMSTR_KEY}`,
+		// );
+		//	console.log(event);
+		const [ existingEvents ] = await db.query.events({
+			where: {
+				AND: [
+					{
+						venue: event.venue,
+					},
+					{
+						title: event.title,
+					},
+				],
+			},
+		});
+		let eventId = -1;
+		if (existingEvents) {
+			eventId = existingEvents.id;
 
-		const [ alreadySaved ] = user.events.filter(event => event.eventfulID === data.id);
-		if (alreadySaved) {
-			throw new Error("You've already saved that event!");
+			const [ alreadySaved ] = user.events.filter(ev => ev.id === eventId);
+			if (alreadySaved) {
+				throw new Error("You've already saved that event!");
+			}
 		}
-
-		const [ img ] = data.images.filter(img => img.width > 600);
+		//const [ img ] = data.images.filter(img => img.width > 600);
 		// console.log(img);
 		await db.mutation.upsertEvent({
 			where: {
-				eventfulID: data.id,
+				id: eventId,
 			},
 			update: {
 				attending: {
@@ -359,14 +377,16 @@ const Mutation = {
 				},
 			},
 			create: {
-				eventfulID: data.id,
-				title: data.name,
-				url: data.url,
-				location: data._embedded.venues[0].name,
-				description: data.info,
-				times: { set: [ data.dates.start.dateTime ] },
-				image_url: img.url,
-
+				title: event.title,
+				url: event.url,
+				venue: event.venue,
+				description: event.description,
+				times: { set: event.times },
+				image_url: event.image_url,
+				address: event.address,
+				city: event.city,
+				lat: event.lat,
+				long: event.long,
 				attending: {
 					connect: {
 						id: user.id,

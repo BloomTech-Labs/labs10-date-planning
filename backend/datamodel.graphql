@@ -43,8 +43,8 @@ type User {
 	stripeSubscriptionId: String
 	liked: [User] @relation(name: "LikedUser")
 	blocked: [User] @relation(name: "BlockedUser")
-	sentMessages: [Message] @relation(name: "SentMessages")
-	receivedMessages: [Message] @relation(name: "ReceivedMessages")
+	sentMessages: [DirectMessage] @relation(name: "SentMessages")
+	receivedMessages: [DirectMessage] @relation(name: "ReceivedMessages")
 }
 
 type ProfilePic {
@@ -54,7 +54,7 @@ type ProfilePic {
 	default: Boolean! @default(value: "false")
 }
 
-type Message {
+type DirectMessage {
   id: ID! @unique
   createdAt: DateTime!
   message: String!
@@ -64,7 +64,7 @@ type Message {
 
 type Event {
 	id: ID! @unique
-	eventfulID: String! @unique
+	eventfulID: String @unique
 	title: String
 	description: String
 	attending: [User!]!

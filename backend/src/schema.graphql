@@ -10,7 +10,7 @@ type Mutation {
 	signout: Message
 	updateImage(thumbnail: String!, image: String!): User!
 	updateLocation(city: String!): User!
-	addEvent(title: String!, venue: String!): Message
+	addEvent(event: AddEventInput): Message
 	deleteEvent(id: String!, eventId: String!): User!
 	createOrder(token: String!, subscription: Permission!): Message
 	cancelSubscription(id: String!): User!
@@ -27,6 +27,19 @@ type Query {
 	getUserOrder(userId: String!): [Order!]!
 	getRemainingDates: DatesCount!
 	invoicesList(userStripeCustomerId: String!): [Invoice]
+}
+
+input AddEventInput {
+	title: String!
+		venue: String!
+		image_url: String
+		description: String
+		times: [String]
+		url: String
+		address: String
+		city: String
+		lat: String
+		long: String
 }
 
 type User {
@@ -57,7 +70,7 @@ type User {
 
 type Event {
 	id: ID!
-	eventfulID: String!
+	eventfulID: String
 	title: String!
 	url: String
 	description: String

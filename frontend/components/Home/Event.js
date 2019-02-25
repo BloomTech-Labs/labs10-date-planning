@@ -33,12 +33,12 @@ const Event = ({ event, classes, user }) => {
 			{event.image_url && (
 				<CardHeader image>
 					<a href='#pablo' onClick={e => e.preventDefault()}>
-						<img src={event.large_url} alt='...' />
+						<img src={event.image_url} alt='...' />
 					</a>
 					<div
 						className={classes.coloredShadow}
 						style={{
-							backgroundImage: `url(${event.large_url})`,
+							backgroundImage: `url(${event.image_url})`,
 							opacity: '1',
 						}}
 					/>
