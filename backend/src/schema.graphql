@@ -15,6 +15,8 @@ type Mutation {
 	createOrder(token: String!, subscription: Permission!): Message
 	cancelSubscription(id: String!): User!
 	updateUser(data: UserUpdateInput!): User
+	createChat(id: String!, message: String!): Chat!
+	deleteChat(id: String): Message
 }
 
 type Query {
@@ -33,6 +35,9 @@ type Query {
 	locationSearch(city: String!): [Location]
 	getRemainingDates: DatesCount!
 	invoicesList(userStripeCustomerId: String!): [Invoice]
+	getChat(id: String!): Chat
+	getUserChats: [Chat]!
+	getConversation(id: String): Chat
 }
 
 input AddEventInput {
