@@ -8,7 +8,7 @@ import { CURRENT_USER_QUERY } from '../Queries/User';
 import { ADD_EVENT_MUTATION } from '../Mutations/addEvent';
 //MUI
 
-import { Bookmark, Add, ChevronLeft, BookmarkBorder } from '@material-ui/icons';
+import { Bookmark, Add, ChevronLeft, BookmarkBorder, FlashOn } from '@material-ui/icons';
 import { IconButton, Table, TableBody, TableCell, TableRow, TableHead } from '@material-ui/core';
 import withStyles from '@material-ui/core/styles/withStyles';
 
@@ -30,17 +30,17 @@ import '../../styles/Home/Event.scss';
 const Event = ({ event, classes, user }) => {
 	const [ modal, showModal ] = useState({});
 	const [ rotate, setRotate ] = useState('');
-	const [ height, setHeight ] = useState('0px');
+	const [ height, setHeight ] = useState('191px');
 	const divEl = useRef(null);
 	let isSaved = user.events.find(e => e.id === event.id);
-	useEffect(
-		() => {
-			if (divEl) {
-				setHeight(`${divEl.current.clientHeight}px`);
-			}
-		},
-		[ divEl ],
-	);
+	// useEffect(
+	// 	() => {
+	// 		if (divEl) {
+	// 			setHeight(`${divEl.current.clientHeight}px`);
+	// 		}
+	// 	},
+	// 	[ divEl ],
+	// );
 
 	const handleClick = async (e, addEvent) => {
 		console.log(event);
@@ -60,7 +60,9 @@ const Event = ({ event, classes, user }) => {
 	return (
 		<div style={{ height: 'max-content' }}>
 			<div
-				style={{ height: height }}
+				// onMouseEnter={() => setHeight(`${divEl.current.clientHeight}px`)}
+				// onMouseLeave={() => setHeight('191px')}
+				style={{ height: divEl.current ? `${divEl.current.clientHeight}px` : 0 }}
 				className={`${classes.rotatingCardContainer} ${classes.manualRotate} ${rotate}`}
 			>
 				<Card blog className={classes.cardRotate}>
@@ -108,6 +110,7 @@ const Event = ({ event, classes, user }) => {
 									description: event.description,
 								}}
 								refetchQueries={[ { query: CURRENT_USER_QUERY } ]}
+								awaitRefetchQueries
 								onError={() => NProgress.done()}
 								onCompleted={() => NProgress.done()}
 							>
@@ -131,16 +134,19 @@ const Event = ({ event, classes, user }) => {
 						</CardBody>
 						<CardFooter>
 							{/* {isSaved && <Bookmark className='Event__bookmark' />} */}
-							<div
-								style={{ cursor: 'pointer' }}
-								onClick={() => setRotate(classes.activateRotate)}
-							>
-								{event.attending.length ? (
-									`${event.attending.length} users interested in this event.`
-								) : (
-									''
-								)}
-							</div>
+
+							{event.attending.length ? (
+								<div
+									style={{ cursor: 'pointer', display: 'flex' }}
+									onClick={() => setRotate(classes.activateRotate)}
+								>
+									<FlashOn />
+									<p>{event.attending.length} users interested in this event.</p>
+								</div>
+							) : (
+								''
+							)}
+
 							<div
 								className={`${classes.stats} ${classes.mlAuto}`}
 								style={{ display: 'block' }}
@@ -170,7 +176,7 @@ const Event = ({ event, classes, user }) => {
 								borderRadius: '6px',
 								width: '100%',
 								maxWidth: '100%',
-								height: height,
+								height: divEl.current ? `${divEl.current.clientHeight}px` : height,
 								display: 'block',
 							}}
 							className={`${classes.cardBodyRotate} `}
