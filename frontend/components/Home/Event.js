@@ -70,7 +70,7 @@ const Event = ({ event, classes, user }) => {
 					<div ref={divEl} className={`${classes.front} `}>
 						{event.image_url && (
 							<CardHeader image>
-								<a href='#pablo' onClick={e => e.preventDefault()}>
+								<a href='#' onClick={e => e.preventDefault()}>
 									<img src={event.image_url} alt='...' />
 								</a>
 								<div
@@ -119,7 +119,7 @@ const Event = ({ event, classes, user }) => {
 									if (called) NProgress.start();
 									return (
 										<h4 className={classes.cardTitle}>
-											<a href='#pablo' onClick={e => e.preventDefault()}>
+											<a href='#' onClick={e => e.preventDefault()}>
 												{event.title}{' '}
 												<IconButton
 													disabled={isSaved !== undefined}
@@ -187,7 +187,7 @@ const Event = ({ event, classes, user }) => {
 									<ChevronLeft />
 								</IconButton>
 								<h4 className={classes.cardTitle}>
-									<a href='#pablo' onClick={e => e.preventDefault()}>
+									<a href='#' onClick={e => e.preventDefault()}>
 										{event.title}
 									</a>
 								</h4>
