@@ -4,14 +4,10 @@ import User from '../components/Queries/User';
 import JoinUs from './joinus';
 
 const BillingPage = () => (
-	
-		
-		
 				<>
 					<Billing currentUser={currentUser} />
 					<TransactionList currentUser={currentUser} />
-				</>
-			
+				</>		
 }
 
 BillingPage.getInitialProps = async ctx => {
@@ -26,5 +22,6 @@ BillingPage.getInitialProps = async ctx => {
 	// }
 	return { user: user.currentUser };
 };
+
 
 export default BillingPage;
