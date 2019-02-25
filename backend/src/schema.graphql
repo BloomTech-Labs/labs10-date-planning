@@ -40,6 +40,21 @@ type Query {
 	getConversation(id: String): Chat
 }
 
+type Subscription {
+	myChat(id: String!): ChatSubscriptionPayload!
+}
+
+enum MutationType {
+  CREATED
+  UPDATED
+  DELETED
+}
+
+type ChatSubscriptionPayload {
+	mutation: MutationType!
+	node: Chat
+}
+
 input AddEventInput {
 	title: String!
 	venue: String!
