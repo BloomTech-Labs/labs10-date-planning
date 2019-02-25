@@ -147,22 +147,22 @@ const Query = {
 		let geoHash = geoResponse.data.replace('http://geohash.org/', '').slice(0, 8);
 		return { geoHash };
 	},
-	async getUserOrder(parent, args, ctx, info) {
-		// Check user's login status
-		const { userId } = ctx.request;
-		if (!userId) throw new Error('You must be signed in to access orders.');
+	// async getUserOrder(parent, args, ctx, info) {
+	// 	// Check user's login status
+	// 	const { userId } = ctx.request;
+	// 	if (!userId) throw new Error('You must be signed in to access orders.');
 
-		return ctx.db.query.orders(
-			{
-				where: {
-					user: {
-						id: args.userId,
-					},
-				},
-			},
-			info,
-		);
-	},
+	// 	return ctx.db.query.orders(
+	// 		{
+	// 			where: {
+	// 				user: {
+	// 					id: args.userId,
+	// 				},
+	// 			},
+	// 		},
+	// 		info,
+	// 	);
+	// },
 	async getRemainingDates(parent, args, ctx, info) {
 		// Check user's login status
 		const { userId } = ctx.request;
@@ -176,8 +176,8 @@ const Query = {
 		);
 		// TO DO: define subscription level and benefit!!!
 		let datesCount = 5;
-		if (user.permissions[0] === 'MONTHLY') datesCount += 3;
-		if (user.permissions[0] === 'YEARLY') datesCount += 5;
+		if (user.permissions === 'MONTHLY') datesCount += 3;
+		if (user.permissions === 'YEARLY') datesCount += 5;
 
 		return { count: datesCount - user.events.length };
 	},

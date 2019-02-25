@@ -1,15 +1,15 @@
-# source: http://localhost:4466
-# timestamp: Sat Feb 23 2019 17:33:27 GMT-0800 (Pacific Standard Time)
+# source: https://ykrueng-labs2-b2f475839e.herokuapp.com/backend/dev
+# timestamp: Sun Feb 24 2019 17:33:10 GMT-0600 (Central Standard Time)
+
+type AggregateChat {
+  count: Int!
+}
 
 type AggregateEvent {
   count: Int!
 }
 
 type AggregateMessage {
-  count: Int!
-}
-
-type AggregateOrder {
   count: Int!
 }
 
@@ -30,6 +30,239 @@ enum Category {
   MUSIC
   ARTS_THEATRE
   SPORTS
+}
+
+type Chat implements Node {
+  id: ID!
+  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
+  messages(where: MessageWhereInput, orderBy: MessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Message!]
+}
+
+"""A connection to a list of items."""
+type ChatConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [ChatEdge]!
+  aggregate: AggregateChat!
+}
+
+input ChatCreateInput {
+  users: UserCreateManyWithoutChatsInput
+  messages: MessageCreateManyInput
+}
+
+input ChatCreateManyWithoutUsersInput {
+  create: [ChatCreateWithoutUsersInput!]
+  connect: [ChatWhereUniqueInput!]
+}
+
+input ChatCreateWithoutUsersInput {
+  messages: MessageCreateManyInput
+}
+
+"""An edge in a connection."""
+type ChatEdge {
+  """The item at the end of the edge."""
+  node: Chat!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum ChatOrderByInput {
+  id_ASC
+  id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type ChatPreviousValues {
+  id: ID!
+}
+
+input ChatScalarWhereInput {
+  """Logical AND on all given filters."""
+  AND: [ChatScalarWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [ChatScalarWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [ChatScalarWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+}
+
+type ChatSubscriptionPayload {
+  mutation: MutationType!
+  node: Chat
+  updatedFields: [String!]
+  previousValues: ChatPreviousValues
+}
+
+input ChatSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [ChatSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [ChatSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [ChatSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: ChatWhereInput
+}
+
+input ChatUpdateInput {
+  users: UserUpdateManyWithoutChatsInput
+  messages: MessageUpdateManyInput
+}
+
+input ChatUpdateManyWithoutUsersInput {
+  create: [ChatCreateWithoutUsersInput!]
+  connect: [ChatWhereUniqueInput!]
+  disconnect: [ChatWhereUniqueInput!]
+  delete: [ChatWhereUniqueInput!]
+  update: [ChatUpdateWithWhereUniqueWithoutUsersInput!]
+  deleteMany: [ChatScalarWhereInput!]
+  upsert: [ChatUpsertWithWhereUniqueWithoutUsersInput!]
+}
+
+input ChatUpdateWithoutUsersDataInput {
+  messages: MessageUpdateManyInput
+}
+
+input ChatUpdateWithWhereUniqueWithoutUsersInput {
+  where: ChatWhereUniqueInput!
+  data: ChatUpdateWithoutUsersDataInput!
+}
+
+input ChatUpsertWithWhereUniqueWithoutUsersInput {
+  where: ChatWhereUniqueInput!
+  update: ChatUpdateWithoutUsersDataInput!
+  create: ChatCreateWithoutUsersInput!
+}
+
+input ChatWhereInput {
+  """Logical AND on all given filters."""
+  AND: [ChatWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [ChatWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [ChatWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  users_every: UserWhereInput
+  users_some: UserWhereInput
+  users_none: UserWhereInput
+  messages_every: MessageWhereInput
+  messages_some: MessageWhereInput
+  messages_none: MessageWhereInput
+}
+
+input ChatWhereUniqueInput {
+  id: ID
 }
 
 scalar DateTime
@@ -736,7 +969,6 @@ input EventUpdateManyMutationInput {
 input EventUpdateManyWithoutAttendingInput {
   create: [EventCreateWithoutAttendingInput!]
   connect: [EventWhereUniqueInput!]
-  set: [EventWhereUniqueInput!]
   disconnect: [EventWhereUniqueInput!]
   delete: [EventWhereUniqueInput!]
   update: [EventUpdateWithWhereUniqueWithoutAttendingInput!]
@@ -1285,9 +1517,6 @@ enum Gender {
   OTHER
 }
 
-"""Raw JSON value"""
-scalar Json
-
 """
 The `Long` scalar type represents non-fractional signed whole numeric values.
 Long can represent values between -(2^63) and 2^63 - 1.
@@ -1296,10 +1525,9 @@ scalar Long
 
 type Message implements Node {
   id: ID!
-  createdAt: DateTime!
-  message: String!
+  text: String!
   from: User!
-  to: User!
+  createdAt: DateTime!
 }
 
 """A connection to a list of items."""
@@ -1313,29 +1541,13 @@ type MessageConnection {
 }
 
 input MessageCreateInput {
-  message: String!
-  from: UserCreateOneWithoutSentMessagesInput!
-  to: UserCreateOneWithoutReceivedMessagesInput!
+  text: String!
+  from: UserCreateOneInput!
 }
 
-input MessageCreateManyWithoutFromInput {
-  create: [MessageCreateWithoutFromInput!]
+input MessageCreateManyInput {
+  create: [MessageCreateInput!]
   connect: [MessageWhereUniqueInput!]
-}
-
-input MessageCreateManyWithoutToInput {
-  create: [MessageCreateWithoutToInput!]
-  connect: [MessageWhereUniqueInput!]
-}
-
-input MessageCreateWithoutFromInput {
-  message: String!
-  to: UserCreateOneWithoutReceivedMessagesInput!
-}
-
-input MessageCreateWithoutToInput {
-  message: String!
-  from: UserCreateOneWithoutSentMessagesInput!
 }
 
 """An edge in a connection."""
@@ -1350,18 +1562,18 @@ type MessageEdge {
 enum MessageOrderByInput {
   id_ASC
   id_DESC
+  text_ASC
+  text_DESC
   createdAt_ASC
   createdAt_DESC
-  message_ASC
-  message_DESC
   updatedAt_ASC
   updatedAt_DESC
 }
 
 type MessagePreviousValues {
   id: ID!
+  text: String!
   createdAt: DateTime!
-  message: String!
 }
 
 input MessageScalarWhereInput {
@@ -1413,6 +1625,46 @@ input MessageScalarWhereInput {
 
   """All values not ending with the given string."""
   id_not_ends_with: ID
+  text: String
+
+  """All values that are not equal to given value."""
+  text_not: String
+
+  """All values that are contained in given list."""
+  text_in: [String!]
+
+  """All values that are not contained in given list."""
+  text_not_in: [String!]
+
+  """All values less than the given value."""
+  text_lt: String
+
+  """All values less than or equal the given value."""
+  text_lte: String
+
+  """All values greater than the given value."""
+  text_gt: String
+
+  """All values greater than or equal the given value."""
+  text_gte: String
+
+  """All values containing the given string."""
+  text_contains: String
+
+  """All values not containing the given string."""
+  text_not_contains: String
+
+  """All values starting with the given string."""
+  text_starts_with: String
+
+  """All values not starting with the given string."""
+  text_not_starts_with: String
+
+  """All values ending with the given string."""
+  text_ends_with: String
+
+  """All values not ending with the given string."""
+  text_not_ends_with: String
   createdAt: DateTime
 
   """All values that are not equal to given value."""
@@ -1435,46 +1687,6 @@ input MessageScalarWhereInput {
 
   """All values greater than or equal the given value."""
   createdAt_gte: DateTime
-  message: String
-
-  """All values that are not equal to given value."""
-  message_not: String
-
-  """All values that are contained in given list."""
-  message_in: [String!]
-
-  """All values that are not contained in given list."""
-  message_not_in: [String!]
-
-  """All values less than the given value."""
-  message_lt: String
-
-  """All values less than or equal the given value."""
-  message_lte: String
-
-  """All values greater than the given value."""
-  message_gt: String
-
-  """All values greater than or equal the given value."""
-  message_gte: String
-
-  """All values containing the given string."""
-  message_contains: String
-
-  """All values not containing the given string."""
-  message_not_contains: String
-
-  """All values starting with the given string."""
-  message_starts_with: String
-
-  """All values not starting with the given string."""
-  message_not_starts_with: String
-
-  """All values ending with the given string."""
-  message_ends_with: String
-
-  """All values not ending with the given string."""
-  message_not_ends_with: String
 }
 
 type MessageSubscriptionPayload {
@@ -1516,42 +1728,33 @@ input MessageSubscriptionWhereInput {
   node: MessageWhereInput
 }
 
+input MessageUpdateDataInput {
+  text: String
+  from: UserUpdateOneRequiredInput
+}
+
 input MessageUpdateInput {
-  message: String
-  from: UserUpdateOneRequiredWithoutSentMessagesInput
-  to: UserUpdateOneRequiredWithoutReceivedMessagesInput
+  text: String
+  from: UserUpdateOneRequiredInput
 }
 
 input MessageUpdateManyDataInput {
-  message: String
+  text: String
+}
+
+input MessageUpdateManyInput {
+  create: [MessageCreateInput!]
+  connect: [MessageWhereUniqueInput!]
+  disconnect: [MessageWhereUniqueInput!]
+  delete: [MessageWhereUniqueInput!]
+  update: [MessageUpdateWithWhereUniqueNestedInput!]
+  updateMany: [MessageUpdateManyWithWhereNestedInput!]
+  deleteMany: [MessageScalarWhereInput!]
+  upsert: [MessageUpsertWithWhereUniqueNestedInput!]
 }
 
 input MessageUpdateManyMutationInput {
-  message: String
-}
-
-input MessageUpdateManyWithoutFromInput {
-  create: [MessageCreateWithoutFromInput!]
-  connect: [MessageWhereUniqueInput!]
-  set: [MessageWhereUniqueInput!]
-  disconnect: [MessageWhereUniqueInput!]
-  delete: [MessageWhereUniqueInput!]
-  update: [MessageUpdateWithWhereUniqueWithoutFromInput!]
-  updateMany: [MessageUpdateManyWithWhereNestedInput!]
-  deleteMany: [MessageScalarWhereInput!]
-  upsert: [MessageUpsertWithWhereUniqueWithoutFromInput!]
-}
-
-input MessageUpdateManyWithoutToInput {
-  create: [MessageCreateWithoutToInput!]
-  connect: [MessageWhereUniqueInput!]
-  set: [MessageWhereUniqueInput!]
-  disconnect: [MessageWhereUniqueInput!]
-  delete: [MessageWhereUniqueInput!]
-  update: [MessageUpdateWithWhereUniqueWithoutToInput!]
-  updateMany: [MessageUpdateManyWithWhereNestedInput!]
-  deleteMany: [MessageScalarWhereInput!]
-  upsert: [MessageUpsertWithWhereUniqueWithoutToInput!]
+  text: String
 }
 
 input MessageUpdateManyWithWhereNestedInput {
@@ -1559,36 +1762,15 @@ input MessageUpdateManyWithWhereNestedInput {
   data: MessageUpdateManyDataInput!
 }
 
-input MessageUpdateWithoutFromDataInput {
-  message: String
-  to: UserUpdateOneRequiredWithoutReceivedMessagesInput
-}
-
-input MessageUpdateWithoutToDataInput {
-  message: String
-  from: UserUpdateOneRequiredWithoutSentMessagesInput
-}
-
-input MessageUpdateWithWhereUniqueWithoutFromInput {
+input MessageUpdateWithWhereUniqueNestedInput {
   where: MessageWhereUniqueInput!
-  data: MessageUpdateWithoutFromDataInput!
+  data: MessageUpdateDataInput!
 }
 
-input MessageUpdateWithWhereUniqueWithoutToInput {
+input MessageUpsertWithWhereUniqueNestedInput {
   where: MessageWhereUniqueInput!
-  data: MessageUpdateWithoutToDataInput!
-}
-
-input MessageUpsertWithWhereUniqueWithoutFromInput {
-  where: MessageWhereUniqueInput!
-  update: MessageUpdateWithoutFromDataInput!
-  create: MessageCreateWithoutFromInput!
-}
-
-input MessageUpsertWithWhereUniqueWithoutToInput {
-  where: MessageWhereUniqueInput!
-  update: MessageUpdateWithoutToDataInput!
-  create: MessageCreateWithoutToInput!
+  update: MessageUpdateDataInput!
+  create: MessageCreateInput!
 }
 
 input MessageWhereInput {
@@ -1640,6 +1822,46 @@ input MessageWhereInput {
 
   """All values not ending with the given string."""
   id_not_ends_with: ID
+  text: String
+
+  """All values that are not equal to given value."""
+  text_not: String
+
+  """All values that are contained in given list."""
+  text_in: [String!]
+
+  """All values that are not contained in given list."""
+  text_not_in: [String!]
+
+  """All values less than the given value."""
+  text_lt: String
+
+  """All values less than or equal the given value."""
+  text_lte: String
+
+  """All values greater than the given value."""
+  text_gt: String
+
+  """All values greater than or equal the given value."""
+  text_gte: String
+
+  """All values containing the given string."""
+  text_contains: String
+
+  """All values not containing the given string."""
+  text_not_contains: String
+
+  """All values starting with the given string."""
+  text_starts_with: String
+
+  """All values not starting with the given string."""
+  text_not_starts_with: String
+
+  """All values ending with the given string."""
+  text_ends_with: String
+
+  """All values not ending with the given string."""
+  text_not_ends_with: String
   createdAt: DateTime
 
   """All values that are not equal to given value."""
@@ -1662,48 +1884,7 @@ input MessageWhereInput {
 
   """All values greater than or equal the given value."""
   createdAt_gte: DateTime
-  message: String
-
-  """All values that are not equal to given value."""
-  message_not: String
-
-  """All values that are contained in given list."""
-  message_in: [String!]
-
-  """All values that are not contained in given list."""
-  message_not_in: [String!]
-
-  """All values less than the given value."""
-  message_lt: String
-
-  """All values less than or equal the given value."""
-  message_lte: String
-
-  """All values greater than the given value."""
-  message_gt: String
-
-  """All values greater than or equal the given value."""
-  message_gte: String
-
-  """All values containing the given string."""
-  message_contains: String
-
-  """All values not containing the given string."""
-  message_not_contains: String
-
-  """All values starting with the given string."""
-  message_starts_with: String
-
-  """All values not starting with the given string."""
-  message_not_starts_with: String
-
-  """All values ending with the given string."""
-  message_ends_with: String
-
-  """All values not ending with the given string."""
-  message_not_ends_with: String
   from: UserWhereInput
-  to: UserWhereInput
 }
 
 input MessageWhereUniqueInput {
@@ -1711,37 +1892,35 @@ input MessageWhereUniqueInput {
 }
 
 type Mutation {
+  createChat(data: ChatCreateInput!): Chat!
   createProfilePic(data: ProfilePicCreateInput!): ProfilePic!
-  createMessage(data: MessageCreateInput!): Message!
   createEvent(data: EventCreateInput!): Event!
-  createOrder(data: OrderCreateInput!): Order!
+  createMessage(data: MessageCreateInput!): Message!
   createUser(data: UserCreateInput!): User!
+  updateChat(data: ChatUpdateInput!, where: ChatWhereUniqueInput!): Chat
   updateProfilePic(data: ProfilePicUpdateInput!, where: ProfilePicWhereUniqueInput!): ProfilePic
-  updateMessage(data: MessageUpdateInput!, where: MessageWhereUniqueInput!): Message
   updateEvent(data: EventUpdateInput!, where: EventWhereUniqueInput!): Event
-  updateOrder(data: OrderUpdateInput!, where: OrderWhereUniqueInput!): Order
+  updateMessage(data: MessageUpdateInput!, where: MessageWhereUniqueInput!): Message
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  deleteChat(where: ChatWhereUniqueInput!): Chat
   deleteProfilePic(where: ProfilePicWhereUniqueInput!): ProfilePic
-  deleteMessage(where: MessageWhereUniqueInput!): Message
   deleteEvent(where: EventWhereUniqueInput!): Event
-  deleteOrder(where: OrderWhereUniqueInput!): Order
+  deleteMessage(where: MessageWhereUniqueInput!): Message
   deleteUser(where: UserWhereUniqueInput!): User
+  upsertChat(where: ChatWhereUniqueInput!, create: ChatCreateInput!, update: ChatUpdateInput!): Chat!
   upsertProfilePic(where: ProfilePicWhereUniqueInput!, create: ProfilePicCreateInput!, update: ProfilePicUpdateInput!): ProfilePic!
-  upsertMessage(where: MessageWhereUniqueInput!, create: MessageCreateInput!, update: MessageUpdateInput!): Message!
   upsertEvent(where: EventWhereUniqueInput!, create: EventCreateInput!, update: EventUpdateInput!): Event!
-  upsertOrder(where: OrderWhereUniqueInput!, create: OrderCreateInput!, update: OrderUpdateInput!): Order!
+  upsertMessage(where: MessageWhereUniqueInput!, create: MessageCreateInput!, update: MessageUpdateInput!): Message!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   updateManyProfilePics(data: ProfilePicUpdateManyMutationInput!, where: ProfilePicWhereInput): BatchPayload!
-  updateManyMessages(data: MessageUpdateManyMutationInput!, where: MessageWhereInput): BatchPayload!
   updateManyEvents(data: EventUpdateManyMutationInput!, where: EventWhereInput): BatchPayload!
-  updateManyOrders(data: OrderUpdateManyMutationInput!, where: OrderWhereInput): BatchPayload!
+  updateManyMessages(data: MessageUpdateManyMutationInput!, where: MessageWhereInput): BatchPayload!
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
+  deleteManyChats(where: ChatWhereInput): BatchPayload!
   deleteManyProfilePics(where: ProfilePicWhereInput): BatchPayload!
-  deleteManyMessages(where: MessageWhereInput): BatchPayload!
   deleteManyEvents(where: EventWhereInput): BatchPayload!
-  deleteManyOrders(where: OrderWhereInput): BatchPayload!
+  deleteManyMessages(where: MessageWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
-  executeRaw(database: PrismaDatabase, query: String!): Json!
 }
 
 enum MutationType {
@@ -1754,290 +1933,6 @@ enum MutationType {
 interface Node {
   """The id of the object."""
   id: ID!
-}
-
-type Order implements Node {
-  id: ID!
-  total: Int!
-  user: User!
-  charge: String!
-  subscription: Permission!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-}
-
-"""A connection to a list of items."""
-type OrderConnection {
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """A list of edges."""
-  edges: [OrderEdge]!
-  aggregate: AggregateOrder!
-}
-
-input OrderCreateInput {
-  total: Int!
-  charge: String!
-  subscription: Permission!
-  user: UserCreateOneInput!
-}
-
-"""An edge in a connection."""
-type OrderEdge {
-  """The item at the end of the edge."""
-  node: Order!
-
-  """A cursor for use in pagination."""
-  cursor: String!
-}
-
-enum OrderOrderByInput {
-  id_ASC
-  id_DESC
-  total_ASC
-  total_DESC
-  charge_ASC
-  charge_DESC
-  subscription_ASC
-  subscription_DESC
-  createdAt_ASC
-  createdAt_DESC
-  updatedAt_ASC
-  updatedAt_DESC
-}
-
-type OrderPreviousValues {
-  id: ID!
-  total: Int!
-  charge: String!
-  subscription: Permission!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-}
-
-type OrderSubscriptionPayload {
-  mutation: MutationType!
-  node: Order
-  updatedFields: [String!]
-  previousValues: OrderPreviousValues
-}
-
-input OrderSubscriptionWhereInput {
-  """Logical AND on all given filters."""
-  AND: [OrderSubscriptionWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [OrderSubscriptionWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [OrderSubscriptionWhereInput!]
-
-  """
-  The subscription event gets dispatched when it's listed in mutation_in
-  """
-  mutation_in: [MutationType!]
-
-  """
-  The subscription event gets only dispatched when one of the updated fields names is included in this list
-  """
-  updatedFields_contains: String
-
-  """
-  The subscription event gets only dispatched when all of the field names included in this list have been updated
-  """
-  updatedFields_contains_every: [String!]
-
-  """
-  The subscription event gets only dispatched when some of the field names included in this list have been updated
-  """
-  updatedFields_contains_some: [String!]
-  node: OrderWhereInput
-}
-
-input OrderUpdateInput {
-  total: Int
-  charge: String
-  subscription: Permission
-  user: UserUpdateOneRequiredInput
-}
-
-input OrderUpdateManyMutationInput {
-  total: Int
-  charge: String
-  subscription: Permission
-}
-
-input OrderWhereInput {
-  """Logical AND on all given filters."""
-  AND: [OrderWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [OrderWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [OrderWhereInput!]
-  id: ID
-
-  """All values that are not equal to given value."""
-  id_not: ID
-
-  """All values that are contained in given list."""
-  id_in: [ID!]
-
-  """All values that are not contained in given list."""
-  id_not_in: [ID!]
-
-  """All values less than the given value."""
-  id_lt: ID
-
-  """All values less than or equal the given value."""
-  id_lte: ID
-
-  """All values greater than the given value."""
-  id_gt: ID
-
-  """All values greater than or equal the given value."""
-  id_gte: ID
-
-  """All values containing the given string."""
-  id_contains: ID
-
-  """All values not containing the given string."""
-  id_not_contains: ID
-
-  """All values starting with the given string."""
-  id_starts_with: ID
-
-  """All values not starting with the given string."""
-  id_not_starts_with: ID
-
-  """All values ending with the given string."""
-  id_ends_with: ID
-
-  """All values not ending with the given string."""
-  id_not_ends_with: ID
-  total: Int
-
-  """All values that are not equal to given value."""
-  total_not: Int
-
-  """All values that are contained in given list."""
-  total_in: [Int!]
-
-  """All values that are not contained in given list."""
-  total_not_in: [Int!]
-
-  """All values less than the given value."""
-  total_lt: Int
-
-  """All values less than or equal the given value."""
-  total_lte: Int
-
-  """All values greater than the given value."""
-  total_gt: Int
-
-  """All values greater than or equal the given value."""
-  total_gte: Int
-  charge: String
-
-  """All values that are not equal to given value."""
-  charge_not: String
-
-  """All values that are contained in given list."""
-  charge_in: [String!]
-
-  """All values that are not contained in given list."""
-  charge_not_in: [String!]
-
-  """All values less than the given value."""
-  charge_lt: String
-
-  """All values less than or equal the given value."""
-  charge_lte: String
-
-  """All values greater than the given value."""
-  charge_gt: String
-
-  """All values greater than or equal the given value."""
-  charge_gte: String
-
-  """All values containing the given string."""
-  charge_contains: String
-
-  """All values not containing the given string."""
-  charge_not_contains: String
-
-  """All values starting with the given string."""
-  charge_starts_with: String
-
-  """All values not starting with the given string."""
-  charge_not_starts_with: String
-
-  """All values ending with the given string."""
-  charge_ends_with: String
-
-  """All values not ending with the given string."""
-  charge_not_ends_with: String
-  subscription: Permission
-
-  """All values that are not equal to given value."""
-  subscription_not: Permission
-
-  """All values that are contained in given list."""
-  subscription_in: [Permission!]
-
-  """All values that are not contained in given list."""
-  subscription_not_in: [Permission!]
-  createdAt: DateTime
-
-  """All values that are not equal to given value."""
-  createdAt_not: DateTime
-
-  """All values that are contained in given list."""
-  createdAt_in: [DateTime!]
-
-  """All values that are not contained in given list."""
-  createdAt_not_in: [DateTime!]
-
-  """All values less than the given value."""
-  createdAt_lt: DateTime
-
-  """All values less than or equal the given value."""
-  createdAt_lte: DateTime
-
-  """All values greater than the given value."""
-  createdAt_gt: DateTime
-
-  """All values greater than or equal the given value."""
-  createdAt_gte: DateTime
-  updatedAt: DateTime
-
-  """All values that are not equal to given value."""
-  updatedAt_not: DateTime
-
-  """All values that are contained in given list."""
-  updatedAt_in: [DateTime!]
-
-  """All values that are not contained in given list."""
-  updatedAt_not_in: [DateTime!]
-
-  """All values less than the given value."""
-  updatedAt_lt: DateTime
-
-  """All values less than or equal the given value."""
-  updatedAt_lte: DateTime
-
-  """All values greater than the given value."""
-  updatedAt_gt: DateTime
-
-  """All values greater than or equal the given value."""
-  updatedAt_gte: DateTime
-  user: UserWhereInput
-}
-
-input OrderWhereUniqueInput {
-  id: ID
 }
 
 """Information about pagination in a connection."""
@@ -2060,10 +1955,6 @@ enum Permission {
   MONTHLY
   YEARLY
   ADMIN
-}
-
-enum PrismaDatabase {
-  default
 }
 
 type ProfilePic implements Node {
@@ -2280,7 +2171,6 @@ input ProfilePicUpdateManyMutationInput {
 input ProfilePicUpdateManyWithoutUserInput {
   create: [ProfilePicCreateWithoutUserInput!]
   connect: [ProfilePicWhereUniqueInput!]
-  set: [ProfilePicWhereUniqueInput!]
   disconnect: [ProfilePicWhereUniqueInput!]
   delete: [ProfilePicWhereUniqueInput!]
   update: [ProfilePicUpdateWithWhereUniqueWithoutUserInput!]
@@ -2411,20 +2301,20 @@ input ProfilePicWhereUniqueInput {
 }
 
 type Query {
+  chats(where: ChatWhereInput, orderBy: ChatOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Chat]!
   profilePics(where: ProfilePicWhereInput, orderBy: ProfilePicOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ProfilePic]!
-  messages(where: MessageWhereInput, orderBy: MessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Message]!
   events(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event]!
-  orders(where: OrderWhereInput, orderBy: OrderOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Order]!
+  messages(where: MessageWhereInput, orderBy: MessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Message]!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
+  chat(where: ChatWhereUniqueInput!): Chat
   profilePic(where: ProfilePicWhereUniqueInput!): ProfilePic
-  message(where: MessageWhereUniqueInput!): Message
   event(where: EventWhereUniqueInput!): Event
-  order(where: OrderWhereUniqueInput!): Order
+  message(where: MessageWhereUniqueInput!): Message
   user(where: UserWhereUniqueInput!): User
+  chatsConnection(where: ChatWhereInput, orderBy: ChatOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ChatConnection!
   profilePicsConnection(where: ProfilePicWhereInput, orderBy: ProfilePicOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProfilePicConnection!
-  messagesConnection(where: MessageWhereInput, orderBy: MessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): MessageConnection!
   eventsConnection(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): EventConnection!
-  ordersConnection(where: OrderWhereInput, orderBy: OrderOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): OrderConnection!
+  messagesConnection(where: MessageWhereInput, orderBy: MessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): MessageConnection!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
 
   """Fetches an object given its ID"""
@@ -2435,10 +2325,10 @@ type Query {
 }
 
 type Subscription {
+  chat(where: ChatSubscriptionWhereInput): ChatSubscriptionPayload
   profilePic(where: ProfilePicSubscriptionWhereInput): ProfilePicSubscriptionPayload
-  message(where: MessageSubscriptionWhereInput): MessageSubscriptionPayload
   event(where: EventSubscriptionWhereInput): EventSubscriptionPayload
-  order(where: OrderSubscriptionWhereInput): OrderSubscriptionPayload
+  message(where: MessageSubscriptionWhereInput): MessageSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 
@@ -2461,15 +2351,14 @@ type User implements Node {
   resetTokenExpiry: Float
   interests: [Category!]!
   events(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event!]
-  permissions: [Permission!]!
+  permissions: Permission!
   createdAt: DateTime!
   updatedAt: DateTime!
   stripeCustomerId: String
   stripeSubscriptionId: String
   liked(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   blocked(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
-  sentMessages(where: MessageWhereInput, orderBy: MessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Message!]
-  receivedMessages(where: MessageWhereInput, orderBy: MessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Message!]
+  chats(where: ChatWhereInput, orderBy: ChatOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Chat!]
 }
 
 """A connection to a list of items."""
@@ -2497,16 +2386,15 @@ input UserCreateInput {
   imageLarge: String
   resetToken: String
   resetTokenExpiry: Float
+  permissions: Permission!
   stripeCustomerId: String
   stripeSubscriptionId: String
   interests: UserCreateinterestsInput
-  permissions: UserCreatepermissionsInput
   img: ProfilePicCreateManyWithoutUserInput
   events: EventCreateManyWithoutAttendingInput
   liked: UserCreateManyInput
   blocked: UserCreateManyInput
-  sentMessages: MessageCreateManyWithoutFromInput
-  receivedMessages: MessageCreateManyWithoutToInput
+  chats: ChatCreateManyWithoutUsersInput
 }
 
 input UserCreateinterestsInput {
@@ -2515,6 +2403,11 @@ input UserCreateinterestsInput {
 
 input UserCreateManyInput {
   create: [UserCreateInput!]
+  connect: [UserWhereUniqueInput!]
+}
+
+input UserCreateManyWithoutChatsInput {
+  create: [UserCreateWithoutChatsInput!]
   connect: [UserWhereUniqueInput!]
 }
 
@@ -2533,18 +2426,29 @@ input UserCreateOneWithoutImgInput {
   connect: UserWhereUniqueInput
 }
 
-input UserCreateOneWithoutReceivedMessagesInput {
-  create: UserCreateWithoutReceivedMessagesInput
-  connect: UserWhereUniqueInput
-}
-
-input UserCreateOneWithoutSentMessagesInput {
-  create: UserCreateWithoutSentMessagesInput
-  connect: UserWhereUniqueInput
-}
-
-input UserCreatepermissionsInput {
-  set: [Permission!]
+input UserCreateWithoutChatsInput {
+  firstName: String!
+  lastName: String!
+  password: String!
+  gender: Gender
+  age: Int
+  dob: String
+  location: String
+  email: String!
+  phone: String
+  biography: String
+  imageThumbnail: String
+  imageLarge: String
+  resetToken: String
+  resetTokenExpiry: Float
+  permissions: Permission!
+  stripeCustomerId: String
+  stripeSubscriptionId: String
+  interests: UserCreateinterestsInput
+  img: ProfilePicCreateManyWithoutUserInput
+  events: EventCreateManyWithoutAttendingInput
+  liked: UserCreateManyInput
+  blocked: UserCreateManyInput
 }
 
 input UserCreateWithoutEventsInput {
@@ -2562,15 +2466,14 @@ input UserCreateWithoutEventsInput {
   imageLarge: String
   resetToken: String
   resetTokenExpiry: Float
+  permissions: Permission!
   stripeCustomerId: String
   stripeSubscriptionId: String
   interests: UserCreateinterestsInput
-  permissions: UserCreatepermissionsInput
   img: ProfilePicCreateManyWithoutUserInput
   liked: UserCreateManyInput
   blocked: UserCreateManyInput
-  sentMessages: MessageCreateManyWithoutFromInput
-  receivedMessages: MessageCreateManyWithoutToInput
+  chats: ChatCreateManyWithoutUsersInput
 }
 
 input UserCreateWithoutImgInput {
@@ -2588,67 +2491,14 @@ input UserCreateWithoutImgInput {
   imageLarge: String
   resetToken: String
   resetTokenExpiry: Float
+  permissions: Permission!
   stripeCustomerId: String
   stripeSubscriptionId: String
   interests: UserCreateinterestsInput
-  permissions: UserCreatepermissionsInput
   events: EventCreateManyWithoutAttendingInput
   liked: UserCreateManyInput
   blocked: UserCreateManyInput
-  sentMessages: MessageCreateManyWithoutFromInput
-  receivedMessages: MessageCreateManyWithoutToInput
-}
-
-input UserCreateWithoutReceivedMessagesInput {
-  firstName: String!
-  lastName: String!
-  password: String!
-  gender: Gender
-  age: Int
-  dob: String
-  location: String
-  email: String!
-  phone: String
-  biography: String
-  imageThumbnail: String
-  imageLarge: String
-  resetToken: String
-  resetTokenExpiry: Float
-  stripeCustomerId: String
-  stripeSubscriptionId: String
-  interests: UserCreateinterestsInput
-  permissions: UserCreatepermissionsInput
-  img: ProfilePicCreateManyWithoutUserInput
-  events: EventCreateManyWithoutAttendingInput
-  liked: UserCreateManyInput
-  blocked: UserCreateManyInput
-  sentMessages: MessageCreateManyWithoutFromInput
-}
-
-input UserCreateWithoutSentMessagesInput {
-  firstName: String!
-  lastName: String!
-  password: String!
-  gender: Gender
-  age: Int
-  dob: String
-  location: String
-  email: String!
-  phone: String
-  biography: String
-  imageThumbnail: String
-  imageLarge: String
-  resetToken: String
-  resetTokenExpiry: Float
-  stripeCustomerId: String
-  stripeSubscriptionId: String
-  interests: UserCreateinterestsInput
-  permissions: UserCreatepermissionsInput
-  img: ProfilePicCreateManyWithoutUserInput
-  events: EventCreateManyWithoutAttendingInput
-  liked: UserCreateManyInput
-  blocked: UserCreateManyInput
-  receivedMessages: MessageCreateManyWithoutToInput
+  chats: ChatCreateManyWithoutUsersInput
 }
 
 """An edge in a connection."""
@@ -2691,6 +2541,8 @@ enum UserOrderByInput {
   resetToken_DESC
   resetTokenExpiry_ASC
   resetTokenExpiry_DESC
+  permissions_ASC
+  permissions_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -2718,7 +2570,7 @@ type UserPreviousValues {
   resetToken: String
   resetTokenExpiry: Float
   interests: [Category!]!
-  permissions: [Permission!]!
+  permissions: Permission!
   createdAt: DateTime!
   updatedAt: DateTime!
   stripeCustomerId: String
@@ -3268,6 +3120,16 @@ input UserScalarWhereInput {
 
   """All values greater than or equal the given value."""
   resetTokenExpiry_gte: Float
+  permissions: Permission
+
+  """All values that are not equal to given value."""
+  permissions_not: Permission
+
+  """All values that are contained in given list."""
+  permissions_in: [Permission!]
+
+  """All values that are not contained in given list."""
+  permissions_not_in: [Permission!]
   createdAt: DateTime
 
   """All values that are not equal to given value."""
@@ -3448,16 +3310,15 @@ input UserUpdateDataInput {
   imageLarge: String
   resetToken: String
   resetTokenExpiry: Float
+  permissions: Permission
   stripeCustomerId: String
   stripeSubscriptionId: String
   interests: UserUpdateinterestsInput
-  permissions: UserUpdatepermissionsInput
   img: ProfilePicUpdateManyWithoutUserInput
   events: EventUpdateManyWithoutAttendingInput
   liked: UserUpdateManyInput
   blocked: UserUpdateManyInput
-  sentMessages: MessageUpdateManyWithoutFromInput
-  receivedMessages: MessageUpdateManyWithoutToInput
+  chats: ChatUpdateManyWithoutUsersInput
 }
 
 input UserUpdateInput {
@@ -3475,16 +3336,15 @@ input UserUpdateInput {
   imageLarge: String
   resetToken: String
   resetTokenExpiry: Float
+  permissions: Permission
   stripeCustomerId: String
   stripeSubscriptionId: String
   interests: UserUpdateinterestsInput
-  permissions: UserUpdatepermissionsInput
   img: ProfilePicUpdateManyWithoutUserInput
   events: EventUpdateManyWithoutAttendingInput
   liked: UserUpdateManyInput
   blocked: UserUpdateManyInput
-  sentMessages: MessageUpdateManyWithoutFromInput
-  receivedMessages: MessageUpdateManyWithoutToInput
+  chats: ChatUpdateManyWithoutUsersInput
 }
 
 input UserUpdateinterestsInput {
@@ -3506,16 +3366,15 @@ input UserUpdateManyDataInput {
   imageLarge: String
   resetToken: String
   resetTokenExpiry: Float
+  permissions: Permission
   stripeCustomerId: String
   stripeSubscriptionId: String
   interests: UserUpdateinterestsInput
-  permissions: UserUpdatepermissionsInput
 }
 
 input UserUpdateManyInput {
   create: [UserCreateInput!]
   connect: [UserWhereUniqueInput!]
-  set: [UserWhereUniqueInput!]
   disconnect: [UserWhereUniqueInput!]
   delete: [UserWhereUniqueInput!]
   update: [UserUpdateWithWhereUniqueNestedInput!]
@@ -3539,16 +3398,26 @@ input UserUpdateManyMutationInput {
   imageLarge: String
   resetToken: String
   resetTokenExpiry: Float
+  permissions: Permission
   stripeCustomerId: String
   stripeSubscriptionId: String
   interests: UserUpdateinterestsInput
-  permissions: UserUpdatepermissionsInput
+}
+
+input UserUpdateManyWithoutChatsInput {
+  create: [UserCreateWithoutChatsInput!]
+  connect: [UserWhereUniqueInput!]
+  disconnect: [UserWhereUniqueInput!]
+  delete: [UserWhereUniqueInput!]
+  update: [UserUpdateWithWhereUniqueWithoutChatsInput!]
+  updateMany: [UserUpdateManyWithWhereNestedInput!]
+  deleteMany: [UserScalarWhereInput!]
+  upsert: [UserUpsertWithWhereUniqueWithoutChatsInput!]
 }
 
 input UserUpdateManyWithoutEventsInput {
   create: [UserCreateWithoutEventsInput!]
   connect: [UserWhereUniqueInput!]
-  set: [UserWhereUniqueInput!]
   disconnect: [UserWhereUniqueInput!]
   delete: [UserWhereUniqueInput!]
   update: [UserUpdateWithWhereUniqueWithoutEventsInput!]
@@ -3576,22 +3445,29 @@ input UserUpdateOneRequiredWithoutImgInput {
   upsert: UserUpsertWithoutImgInput
 }
 
-input UserUpdateOneRequiredWithoutReceivedMessagesInput {
-  create: UserCreateWithoutReceivedMessagesInput
-  connect: UserWhereUniqueInput
-  update: UserUpdateWithoutReceivedMessagesDataInput
-  upsert: UserUpsertWithoutReceivedMessagesInput
-}
-
-input UserUpdateOneRequiredWithoutSentMessagesInput {
-  create: UserCreateWithoutSentMessagesInput
-  connect: UserWhereUniqueInput
-  update: UserUpdateWithoutSentMessagesDataInput
-  upsert: UserUpsertWithoutSentMessagesInput
-}
-
-input UserUpdatepermissionsInput {
-  set: [Permission!]
+input UserUpdateWithoutChatsDataInput {
+  firstName: String
+  lastName: String
+  password: String
+  gender: Gender
+  age: Int
+  dob: String
+  location: String
+  email: String
+  phone: String
+  biography: String
+  imageThumbnail: String
+  imageLarge: String
+  resetToken: String
+  resetTokenExpiry: Float
+  permissions: Permission
+  stripeCustomerId: String
+  stripeSubscriptionId: String
+  interests: UserUpdateinterestsInput
+  img: ProfilePicUpdateManyWithoutUserInput
+  events: EventUpdateManyWithoutAttendingInput
+  liked: UserUpdateManyInput
+  blocked: UserUpdateManyInput
 }
 
 input UserUpdateWithoutEventsDataInput {
@@ -3609,15 +3485,14 @@ input UserUpdateWithoutEventsDataInput {
   imageLarge: String
   resetToken: String
   resetTokenExpiry: Float
+  permissions: Permission
   stripeCustomerId: String
   stripeSubscriptionId: String
   interests: UserUpdateinterestsInput
-  permissions: UserUpdatepermissionsInput
   img: ProfilePicUpdateManyWithoutUserInput
   liked: UserUpdateManyInput
   blocked: UserUpdateManyInput
-  sentMessages: MessageUpdateManyWithoutFromInput
-  receivedMessages: MessageUpdateManyWithoutToInput
+  chats: ChatUpdateManyWithoutUsersInput
 }
 
 input UserUpdateWithoutImgDataInput {
@@ -3635,72 +3510,24 @@ input UserUpdateWithoutImgDataInput {
   imageLarge: String
   resetToken: String
   resetTokenExpiry: Float
+  permissions: Permission
   stripeCustomerId: String
   stripeSubscriptionId: String
   interests: UserUpdateinterestsInput
-  permissions: UserUpdatepermissionsInput
   events: EventUpdateManyWithoutAttendingInput
   liked: UserUpdateManyInput
   blocked: UserUpdateManyInput
-  sentMessages: MessageUpdateManyWithoutFromInput
-  receivedMessages: MessageUpdateManyWithoutToInput
-}
-
-input UserUpdateWithoutReceivedMessagesDataInput {
-  firstName: String
-  lastName: String
-  password: String
-  gender: Gender
-  age: Int
-  dob: String
-  location: String
-  email: String
-  phone: String
-  biography: String
-  imageThumbnail: String
-  imageLarge: String
-  resetToken: String
-  resetTokenExpiry: Float
-  stripeCustomerId: String
-  stripeSubscriptionId: String
-  interests: UserUpdateinterestsInput
-  permissions: UserUpdatepermissionsInput
-  img: ProfilePicUpdateManyWithoutUserInput
-  events: EventUpdateManyWithoutAttendingInput
-  liked: UserUpdateManyInput
-  blocked: UserUpdateManyInput
-  sentMessages: MessageUpdateManyWithoutFromInput
-}
-
-input UserUpdateWithoutSentMessagesDataInput {
-  firstName: String
-  lastName: String
-  password: String
-  gender: Gender
-  age: Int
-  dob: String
-  location: String
-  email: String
-  phone: String
-  biography: String
-  imageThumbnail: String
-  imageLarge: String
-  resetToken: String
-  resetTokenExpiry: Float
-  stripeCustomerId: String
-  stripeSubscriptionId: String
-  interests: UserUpdateinterestsInput
-  permissions: UserUpdatepermissionsInput
-  img: ProfilePicUpdateManyWithoutUserInput
-  events: EventUpdateManyWithoutAttendingInput
-  liked: UserUpdateManyInput
-  blocked: UserUpdateManyInput
-  receivedMessages: MessageUpdateManyWithoutToInput
+  chats: ChatUpdateManyWithoutUsersInput
 }
 
 input UserUpdateWithWhereUniqueNestedInput {
   where: UserWhereUniqueInput!
   data: UserUpdateDataInput!
+}
+
+input UserUpdateWithWhereUniqueWithoutChatsInput {
+  where: UserWhereUniqueInput!
+  data: UserUpdateWithoutChatsDataInput!
 }
 
 input UserUpdateWithWhereUniqueWithoutEventsInput {
@@ -3718,20 +3545,16 @@ input UserUpsertWithoutImgInput {
   create: UserCreateWithoutImgInput!
 }
 
-input UserUpsertWithoutReceivedMessagesInput {
-  update: UserUpdateWithoutReceivedMessagesDataInput!
-  create: UserCreateWithoutReceivedMessagesInput!
-}
-
-input UserUpsertWithoutSentMessagesInput {
-  update: UserUpdateWithoutSentMessagesDataInput!
-  create: UserCreateWithoutSentMessagesInput!
-}
-
 input UserUpsertWithWhereUniqueNestedInput {
   where: UserWhereUniqueInput!
   update: UserUpdateDataInput!
   create: UserCreateInput!
+}
+
+input UserUpsertWithWhereUniqueWithoutChatsInput {
+  where: UserWhereUniqueInput!
+  update: UserUpdateWithoutChatsDataInput!
+  create: UserCreateWithoutChatsInput!
 }
 
 input UserUpsertWithWhereUniqueWithoutEventsInput {
@@ -4283,6 +4106,16 @@ input UserWhereInput {
 
   """All values greater than or equal the given value."""
   resetTokenExpiry_gte: Float
+  permissions: Permission
+
+  """All values that are not equal to given value."""
+  permissions_not: Permission
+
+  """All values that are contained in given list."""
+  permissions_in: [Permission!]
+
+  """All values that are not contained in given list."""
+  permissions_not_in: [Permission!]
   createdAt: DateTime
 
   """All values that are not equal to given value."""
@@ -4419,12 +4252,9 @@ input UserWhereInput {
   blocked_every: UserWhereInput
   blocked_some: UserWhereInput
   blocked_none: UserWhereInput
-  sentMessages_every: MessageWhereInput
-  sentMessages_some: MessageWhereInput
-  sentMessages_none: MessageWhereInput
-  receivedMessages_every: MessageWhereInput
-  receivedMessages_some: MessageWhereInput
-  receivedMessages_none: MessageWhereInput
+  chats_every: ChatWhereInput
+  chats_some: ChatWhereInput
+  chats_none: ChatWhereInput
 }
 
 input UserWhereUniqueInput {

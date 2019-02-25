@@ -16,7 +16,7 @@ const seedDatabase = async () => {
 					data: {
 						...user,
 						password,
-						permissions: { set: ['FREE'] }
+						permissions: 'FREE'
 					}
 				});
 				return response;
