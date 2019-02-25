@@ -65,7 +65,7 @@ const ErrorModal = ({ modal, showModal, classes }) => {
 						Go to your events
 					</Button>
 				)}
-				{!modal.message && (
+				{/* {!modal.message && (
 					<Button
 						onClick={() => Router.push('/billing')}
 						color='rose'
@@ -77,7 +77,7 @@ const ErrorModal = ({ modal, showModal, classes }) => {
 					>
 						Go Pro?
 					</Button>
-				)}
+				)} */}
 			</DialogActions>
 		</Dialog>
 	);

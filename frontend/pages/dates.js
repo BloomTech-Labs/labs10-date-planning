@@ -15,10 +15,7 @@ SettingsPage.getInitialProps = async ctx => {
 	if (!user.currentUser) {
 		redirect(ctx, '/joinus');
 	}
-	//console.log(!user.currentUser && router.pathname !== '/joinus');
-	// if (!(user.currentUser && router.aspath != '/joinus')) {
-	// 	redirect(ctx, '/joinus');
-	// }
+
 	return { user: user.currentUser };
 };
 
