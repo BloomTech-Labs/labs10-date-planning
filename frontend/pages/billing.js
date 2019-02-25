@@ -1,14 +1,15 @@
 import Billing from '../components/Billing/Billing';
 import TransactionList from '../components/Billing/TransactionList';
 import User from '../components/Queries/User';
+import { isLoggedIn } from '../components/Queries/User';
 import JoinUs from './joinus';
 
 const BillingPage = () => (
 	<User>
 		{({ loading, error, data: { currentUser } }) => {
-			if (loading) return <div>Loading...</div>
-			if (error || !currentUser) return <JoinUs />
-		
+			if (loading) return <div>Loading...</div>;
+			if (error || !currentUser) return <JoinUs />;
+
 			return (
 				<>
 					<Billing currentUser={currentUser} />
@@ -16,9 +17,8 @@ const BillingPage = () => (
 				</>
 			);
 		}}
-			</User>
-			
-)
+	</User>
+);
 
 BillingPage.getInitialProps = async ctx => {
 	let user = await isLoggedIn(ctx.apolloClient);
@@ -32,6 +32,5 @@ BillingPage.getInitialProps = async ctx => {
 	// }
 	return { user: user.currentUser };
 };
-
 
 export default BillingPage;
