@@ -3,7 +3,8 @@ import moment from 'moment';
 import NProgress from 'nprogress';
 //MUI
 
-import { Bookmark, Add } from '@material-ui/icons';
+import { Bookmark, Add, ChevronLeft } from '@material-ui/icons';
+import { IconButton, Table, TableBody, TableCell, TableRow, TableHead } from '@material-ui/core';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 //Components
@@ -14,6 +15,7 @@ import Button from '../../styledComponents/CustomButtons/Button';
 import CardHeader from '../../styledComponents/Card/CardHeader';
 import CardFooter from '../../styledComponents/Card/CardFooter';
 import CardBody from '../../styledComponents/Card/CardBody';
+
 //styles
 import CardStyles from '../../static/jss/material-kit-pro-react/views/componentsSections/sectionCards';
 
@@ -28,7 +30,6 @@ const Event = ({ event, classes, user }) => {
 	useEffect(
 		() => {
 			if (divEl) {
-				console.log(divEl.current.clientHeight);
 				setHeight(`${divEl.current.clientHeight}px`);
 			}
 		},
@@ -119,20 +120,51 @@ const Event = ({ event, classes, user }) => {
 					>
 						<CardBody
 							background
-							style={{ backgroundColor: 'white', borderRadius: '6px', width: '100%' }}
+							style={{
+								backgroundColor: 'white',
+								borderRadius: '6px',
+								width: '100%',
+								maxWidth: '100%',
+								height: height,
+								display: 'block',
+							}}
 							className={`${classes.cardBodyRotate} `}
 						>
-							<h5 className={classes.cardTitleWhite}>Manage Post</h5>
-							<p className={classes.cardDescriptionWhite}>
-								As an Admin, you have shortcuts to edit, view or delete the posts.
-							</p>
-							<div className={classes.textCenter}>
-								<br />
-								<br />
-								<Button round color='danger' onClick={() => setRotate('')}>
-									Back...
-								</Button>
+							<div style={{ display: 'flex' }}>
+								<IconButton onClick={() => setRotate('')}>
+									<ChevronLeft />
+								</IconButton>
+								<h4 className={classes.cardTitle}>
+									<a href='#pablo' onClick={e => e.preventDefault()}>
+										{event.title}
+									</a>
+								</h4>
 							</div>
+							<Table>
+								<TableHead>
+									<TableRow>
+										<TableCell>{''}</TableCell>
+										<TableCell>{''}</TableCell>
+									</TableRow>
+								</TableHead>
+								<TableBody>
+									{event.attending.map(usr => (
+										<TableRow key={usr.id}>
+											<TableCell>
+												<img
+													style={{
+														height: '40px',
+														width: '40px',
+														borderRadius: '50%',
+													}}
+													src={usr.imageThumbnail}
+												/>
+											</TableCell>
+											<TableCell>{user.firstName}</TableCell>
+										</TableRow>
+									))}
+								</TableBody>
+							</Table>
 						</CardBody>
 					</div>
 				</Card>

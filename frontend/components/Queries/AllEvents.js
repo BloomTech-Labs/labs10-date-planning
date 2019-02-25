@@ -34,6 +34,7 @@ export const ALL_EVENTS_QUERY = gql`
 				attending {
 					id
 					firstName
+					imageThumbnail
 				}
 				price {
 					min

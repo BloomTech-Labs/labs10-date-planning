@@ -27,7 +27,7 @@ module.exports = {
 							],
 						},
 					},
-					`{id times attending {id firstName}}`,
+					`{id times attending {id firstName imageThumbnail}}`,
 				);
 
 				const [ img ] = ev.images.filter(img => img.width > 500);
