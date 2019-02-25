@@ -27,11 +27,15 @@ export const ALL_EVENTS_QUERY = gql`
 				title
 				url
 				image_url
-				large_url
 				description
 				times
 				genre
 				notes
+				attending {
+					id
+					firstName
+					imageThumbnail
+				}
 				price {
 					min
 					max

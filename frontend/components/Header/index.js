@@ -3,10 +3,11 @@ import Router, { withRouter } from 'next/router';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 import NProgress from 'nprogress';
+
 //MUI
 import withStyles from '@material-ui/core/styles/withStyles';
-import { List, ListItem } from '@material-ui/core';
-import { AccountCircle, Explore } from '@material-ui/icons';
+import { List, ListItem, Badge, IconButton } from '@material-ui/core';
+import { AccountCircle, Explore, Mail } from '@material-ui/icons';
 import navbarsStyle from '../../static/jss/material-kit-pro-react/views/componentsSections/navbarsStyle.jsx';
 //Q&M
 import User, { CURRENT_USER_QUERY } from '../Queries/User';
@@ -22,7 +23,7 @@ import image from '../../static/img/bg.jpg';
 import profileImage from '../../static/img/placeholder.jpg';
 import Logo from '../../static/img/up4LogoWhite.png';
 //utils
-import redirect from '../../utils/redirect';
+//import redirect from '../../utils/redirect';
 Router.onRouteChangeComplete = () => {
 	NProgress.done(true);
 };
@@ -40,7 +41,8 @@ const Nav = ({ classes, color }) => {
 			signout();
 			client.cache.reset().then(() => {
 				// Redirect to a more useful page when signed out
-				redirect({}, '/joinus');
+				//redirect({}, '/joinus');
+				Router.push('/joinus');
 			});
 		} else {
 			Router.push(`/billing`);
@@ -71,15 +73,25 @@ const Nav = ({ classes, color }) => {
 							</ListItem>
 							<ListItem className={classes.listItem}>
 								<Button
-									href='#pablo'
 									className={classes.navLink}
 									onClick={e => {
 										e.preventDefault();
-										Router.push('/dates');
+										Router.push('/profile');
 									}}
 									color='transparent'
 								>
 									<AccountCircle /> Me
+								</Button>
+							</ListItem>
+							<ListItem className={classes.listItem}>
+								<Button
+									aria-label='4 pending messages'
+									className={classes.navLink}
+									color='transparent'
+								>
+									<Badge badgeContent={4} color='primary'>
+										<Mail />
+									</Badge>
 								</Button>
 							</ListItem>
 							<Mutation

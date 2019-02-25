@@ -4,8 +4,9 @@ import { isLoggedIn } from '../components/Queries/User';
 import redirect from '../utils/redirect';
 import Home from './home';
 
-const Index = props => {
-	return <Home />;
+const Index = ({ user }) => {
+	if (!user) return <JoinUs />;
+	return <Home user={user} />;
 };
 
 Index.getInitialProps = async ctx => {
@@ -13,6 +14,8 @@ Index.getInitialProps = async ctx => {
 
 	if (!user.currentUser) {
 		redirect(ctx, '/joinus');
+	} else {
+		redirect(ctx, '/home');
 	}
 	//console.log(!user.currentUser && router.pathname !== '/joinus');
 	// if (!(user.currentUser && router.aspath != '/joinus')) {

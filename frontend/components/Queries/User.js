@@ -17,13 +17,14 @@ const CURRENT_USER_QUERY = gql`
 			permissions
 			events {
 				id
-				eventfulID
 				title
 				description
 				url
 				image_url
-				large_url
 				times
+				venue
+				city
+				address
 			}
 			stripeCustomerId
 		}
@@ -37,7 +38,6 @@ const User = props => (
 );
 
 export const isLoggedIn = async client => {
-	console.log(client);
 	let { data } = await client.query({
 		query: CURRENT_USER_QUERY,
 	});

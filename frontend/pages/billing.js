@@ -1,30 +1,26 @@
 import Billing from '../components/Billing/Billing';
 import TransactionList from '../components/Billing/TransactionList';
-import DatesLeft from '../components/Billing/DatesLeft';
-import Header from '../components/Header'
 import User from '../components/Queries/User';
-import UpFor from '../components/Billing/UpFor';
 import { isLoggedIn } from '../components/Queries/User';
-import redirect from '../utils/redirect';
+import JoinUs from './joinus';
 
-
-const Home = () => (
+const BillingPage = () => (
 	<User>
-		{({ data: { currentUser } }) => {
+		{({ loading, error, data: { currentUser } }) => {
+			if (loading) return <div>Loading...</div>;
+			if (error || !currentUser) return <JoinUs />;
+
 			return (
 				<>
-				{/* //<Header color='transparent'/> */}
-					{/* <DatesLeft currentUser={currentUser} /> */}
 					<Billing currentUser={currentUser} />
 					<TransactionList currentUser={currentUser} />
-					{/* <UpFor /> */}
 				</>
 			);
 		}}
 	</User>
 );
 
-Home.getInitialProps = async ctx => {
+BillingPage.getInitialProps = async ctx => {
 	let user = await isLoggedIn(ctx.apolloClient);
 
 	if (!user.currentUser) {
@@ -37,4 +33,4 @@ Home.getInitialProps = async ctx => {
 	return { user: user.currentUser };
 };
 
-export default Home;
+export default BillingPage;
