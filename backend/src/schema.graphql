@@ -14,32 +14,38 @@ type Mutation {
 	deleteEvent(id: String!, eventId: String!): User!
 	createOrder(token: String!, subscription: Permission!): Message
 	cancelSubscription(id: String!): User!
+	updateUser(data: UserUpdateInput!): User
 }
 
 type Query {
-	getEvents(location: String, page: Int, categories: [String], dates: [String], genres: [String]): AllEvents
+	getEvents(
+		location: String
+		page: Int
+		categories: [String]
+		dates: [String]
+		genres: [String]
+	): AllEvents
 	getEvent(id: String!): Event
 	geoHash(city: String!): GeoHash
 	currentUser: User
 	user(where: UserWhereUniqueInput!): User
 	getLocation(latitude: Float!, longitude: Float!): Location!
 	locationSearch(city: String!): [Location]
-	# getUserOrder(userId: String!): [Order!]!
 	getRemainingDates: DatesCount!
 	invoicesList(userStripeCustomerId: String!): [Invoice]
 }
 
 input AddEventInput {
 	title: String!
-		venue: String!
-		image_url: String
-		description: String
-		times: [String]
-		url: String
-		address: String
-		city: String
-		lat: String
-		long: String
+	venue: String!
+	image_url: String
+	description: String
+	times: [String]
+	url: String
+	address: String
+	city: String
+	lat: String
+	long: String
 }
 
 type User {
@@ -49,9 +55,13 @@ type User {
 	email: String!
 	location: String
 	gender: Gender
+	biography: String
+	age: Int
+	dob: String
 	password: String
 	imageThumbnail: String
 	imageLarge: String
+	img: [ProfilePic]
 	permissions: Permission
 	interests: [Category]
 	events: [Event!]!
@@ -59,14 +69,7 @@ type User {
 	updatedAt: DateTime!
 	stripeCustomerId: String
 	stripeSubscriptionId: String
-	# stripe: StripeInfo
 }
-
-# type StripeInfo {
-# 	customerId: String
-# 	subscriptionId: String
-#
-# }
 
 type Event {
 	id: ID!
@@ -131,10 +134,10 @@ type FirebasePayload {
 }
 
 type Invoice {
-	receipt_number: String,
-	amount_due: Int,
-	amount_paid: Int,
-	date: Int,
-	hosted_invoice_url: String,
+	receipt_number: String
+	amount_due: Int
+	amount_paid: Int
+	date: Int
+	hosted_invoice_url: String
 	invoice_pdf: String
 }
