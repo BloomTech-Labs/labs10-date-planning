@@ -25,7 +25,7 @@ const EventModal = ({ modal, showModal, classes, event, client }) => {
 	const handleClick = async (e, addEvent, user) => {
 		console.log(event);
 		e.stopPropagation();
-		if (user.permissions[0] === 'FREE') {
+		if (user.permissions === 'FREE') {
 			if (user.events.length === 5) {
 				showMessageModal({
 					error: 'You have reached your maximum limit for your free account.',

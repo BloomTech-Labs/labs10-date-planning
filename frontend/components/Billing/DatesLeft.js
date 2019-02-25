@@ -17,7 +17,7 @@ const DatesLeft = ({ currentUser }) => {
         ({ data: {getRemainingDates} }) => {
           return (
             <div style={{ textAlign: "right" }}>
-              {`Dates Remaining: ${getRemainingDates.count} [${currentUser.permissions[0]} subscription]`}
+              {`Dates Remaining: ${getRemainingDates.count} [${currentUser.permissions} subscription]`}
             </div>
           )
         }

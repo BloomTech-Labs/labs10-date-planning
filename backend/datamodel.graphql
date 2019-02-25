@@ -31,20 +31,32 @@ type User {
 	biography: String
 	imageThumbnail: String
 	imageLarge: String
-	img: [ProfilePic]
+	img: [ProfilePic!]!
 	resetToken: String
 	resetTokenExpiry: Float
 	interests: [Category]
 	events: [Event!]!
-	permissions: [Permission!]!
+	permissions: Permission!
 	createdAt: DateTime!
 	updatedAt: DateTime!
 	stripeCustomerId: String
 	stripeSubscriptionId: String
-	liked: [User] @relation(name: "LikedUser")
-	blocked: [User] @relation(name: "BlockedUser")
-	sentMessages: [DirectMessage] @relation(name: "SentMessages")
-	receivedMessages: [DirectMessage] @relation(name: "ReceivedMessages")
+	liked: [User!]! @relation(name: "LikedUser")
+	blocked: [User!]! @relation(name: "BlockedUser")
+	chats: [Chat!]!
+}
+
+type Chat {
+	id: ID! @unique
+	users: [User!]!
+	messages: [Message!]!
+}
+
+type DirectMessage {
+	id: ID! @unique
+	text: String!
+	from: User!
+	createdAt: DateTime!
 }
 
 type ProfilePic {
@@ -52,14 +64,6 @@ type ProfilePic {
 	user: User!
 	img_url: String!
 	default: Boolean! @default(value: "false")
-}
-
-type DirectMessage {
-  id: ID! @unique
-  createdAt: DateTime!
-  message: String!
-  from: User! @relation(name: "SentMessages")
-	to: User! @relation(name: "ReceivedMessages")
 }
 
 type Event {
@@ -77,14 +81,4 @@ type Event {
 	address: String
 	lat: String
 	long: String
-}
-
-type Order {
-	id: ID! @unique
-	total: Int!
-	user: User!
-	charge: String!
-	subscription: Permission!
-	createdAt: DateTime!
-	updatedAt: DateTime!
 }

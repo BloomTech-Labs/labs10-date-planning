@@ -24,7 +24,7 @@ type Query {
 	user(where: UserWhereUniqueInput!): User
 	getLocation(latitude: Float!, longitude: Float!): Location!
 	locationSearch(city: String!): [Location]
-	getUserOrder(userId: String!): [Order!]!
+	# getUserOrder(userId: String!): [Order!]!
 	getRemainingDates: DatesCount!
 	invoicesList(userStripeCustomerId: String!): [Invoice]
 }
@@ -52,7 +52,7 @@ type User {
 	password: String
 	imageThumbnail: String
 	imageLarge: String
-	permissions: [Permission!]!
+	permissions: Permission
 	interests: [Category]
 	events: [Event!]!
 	createdAt: DateTime!
