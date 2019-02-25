@@ -10,8 +10,10 @@ const {
 	getUserRecord,
 	setUserClaims
 } = require('../firebase/firebase');
+const MessageMutation = require('./Messages/MessageMutation');
 
 const Mutation = {
+	...MessageMutation,
 	async signup(parent, args, { db, response }, info) {
 		// just in case some bozo puts their email in with capitalization for some reason
 		args.email = args.email.toLowerCase();

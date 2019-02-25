@@ -2,8 +2,10 @@ const axios = require('axios');
 const { forwardTo } = require('prisma-binding');
 const { transformEvents, fetchEvents, setDates } = require('../utils');
 const stripe = require('../stripe');
+const MessageQuery = require('./Messages/MessageQuery');
 
 const Query = {
+	...MessageQuery,
 	currentUser(parent, args, { db, request }, info) {
 		// check if there is a current user ID
 		if (!request.userId) {
