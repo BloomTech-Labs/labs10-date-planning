@@ -272,7 +272,7 @@ const Event = ({ event, classes, user, location }) => {
 											</TableCell>
 											<TableCell>{user.firstName}</TableCell>
 											<TableCell>{getAge(user.dob)}</TableCell>
-											<TableCell>{user.gender.toLowerCase()}</TableCell>
+											{/* <TableCell>{user.gender.toLowerCase()}</TableCell> */}
 										</TableRow>
 									))}
 								</TableBody>
