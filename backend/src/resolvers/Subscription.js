@@ -1,5 +1,3 @@
-const jwt = require('jsonwebtoken');
-
 const Subscription = {
   myChat: {
     subscribe(parent, args, ctx, info) {
@@ -30,7 +28,9 @@ const Subscription = {
         where: {
           node: {
             chat: {
-              id_in: chatIds
+              users_some: {
+                id: args.id
+              }
             }
           }
         }
