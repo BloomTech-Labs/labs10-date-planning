@@ -30,6 +30,9 @@ import Paginations from '../../styledComponents/Pagination/Pagination';
 import styles from '../../static/jss/material-kit-pro-react/views/ecommerceSections/productsStyle.jsx';
 import { auth } from '../../utils/firebase';
 
+// import Prism from '../../static/img/prism.png'
+import Triangles from '../../static/img/footer_lodyas.png'
+
 const Composed = adopt({
 	drawer: <Toggle initial={false} />,
 	page: <Value initial={0} />,
@@ -80,9 +83,10 @@ const Events = ({ classes, newUser }) => {
 				user: { data: { currentUser } },
 			}) => {
 				return (
-					<div className={classes.section} style={{ paddingTop: '40px' }}>
+					<div style={{ paddingTop: '40px', backgroundImage:`url(${Triangles})`}}>
+					{/* <div className={classes.section}> */}
 						{newUser && <NewUser />}
-						<div className={classes.container}>
+						<div  className={classes.container}>
 							<Fragment>
 								<IconButton
 									// color="inherit"

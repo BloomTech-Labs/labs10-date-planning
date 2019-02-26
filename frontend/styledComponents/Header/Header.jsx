@@ -64,7 +64,7 @@ class Header extends React.Component {
 			[classes.fixed]: fixed,
 		});
 		return (
-			<AppBar className={appBarClasses}>
+			<AppBar style={{height: '120px'}}className={appBarClasses}>
 				<Toolbar className={classes.container}>
 					<Link href='/'>
 						<Button className={classes.title}>

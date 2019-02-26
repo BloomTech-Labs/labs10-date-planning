@@ -22,6 +22,8 @@ import Button from '../../styledComponents/CustomButtons/Button.jsx';
 import image from '../../static/img/bg.jpg';
 import profileImage from '../../static/img/placeholder.jpg';
 import Logo from '../../static/img/up4LogoWhite.png';
+
+import '../../styles/Header/index.scss';
 //utils
 //import redirect from '../../utils/redirect';
 Router.onRouteChangeComplete = () => {

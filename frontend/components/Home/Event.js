@@ -28,6 +28,8 @@ import getAge from '../../utils/getAge';
 import CardStyles from '../../static/jss/material-kit-pro-react/views/componentsSections/sectionCards';
 import '../../styles/Home/Event.scss';
 
+import '../../styles/Home/EventModal.scss';
+
 function useForceUpdate() {
 	const [ value, set ] = useState(true); //boolean state
 	return () => set(!value); // toggle the state to force render
@@ -270,7 +272,7 @@ const Event = ({ event, classes, user, location }) => {
 											</TableCell>
 											<TableCell>{user.firstName}</TableCell>
 											<TableCell>{getAge(user.dob)}</TableCell>
-											<TableCell>{user.gender.toLowerCase()}</TableCell>
+											{/* <TableCell>{user.gender.toLowerCase()}</TableCell> */}
 										</TableRow>
 									))}
 								</TableBody>
