@@ -28,6 +28,8 @@ import CardStyles from '../../static/jss/material-kit-pro-react/views/components
 
 import '../../styles/Home/Event.scss';
 
+import '../../styles/Home/EventModal.scss';
+
 function useForceUpdate() {
 	const [ value, set ] = useState(true); //boolean state
 	return () => set(!value); // toggle the state to force render
