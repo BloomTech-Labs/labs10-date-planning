@@ -1,4 +1,5 @@
 import JoinUs from './joinus';
+import Router from 'next/router'
 import Events from '../components/Home/Events';
 import Header from '../components/Header';
 import User, { isLoggedIn } from '../components/Queries/User';
@@ -6,6 +7,7 @@ import redirect from '../utils/redirect';
 
 const Home = ({ user, query }) => {
 	console.log(user)
+	
 	if (!user) return <JoinUs />;
 	else
 		return (

@@ -25,7 +25,7 @@ import GridItem from '../../styledComponents/Grid/GridItem';
 import accordionStyle from '../../static/jss/material-kit-pro-react/components/accordionStyle.jsx';
 import styles from '../../static/jss/material-kit-pro-react/views/ecommerceSections/productsStyle.jsx';
 import { mis, music, sports, performing } from '../../utils/genres';
-const Filters = ({ classes, refetch, location, page }) => {
+const Filters = ({ classes, filters }) => {
 	const [ categoryFilters, setCategeoryFilters ] = useState([]);
 	const [ dateFilters, setDateFilters ] = useState([]);
 	const [ genreFilters, setGenreFilters ] = useState([]);
@@ -65,13 +65,8 @@ const Filters = ({ classes, refetch, location, page }) => {
 
 	useEffect(
 		() => {
-			refetch({
-				variables: {
-					categories: categoryFilters,
-					dates: dateFilters,
-					genres: genreFilters,
-				},
-			});
+			console.log(categoryFilters);
+			filters.setState({ cats: categoryFilters, dates: dateFilters, genres: genreFilters });
 		},
 		[ categoryFilters, dateFilters, genreFilters ],
 	);
@@ -93,6 +88,7 @@ const Filters = ({ classes, refetch, location, page }) => {
 							onClick={() => {
 								setCategeoryFilters([]);
 								setDateFilters([]);
+								setGenreFilters([]);
 							}}
 							className={`${classes.pullRight} ${classes.refineButton}`}
 						>

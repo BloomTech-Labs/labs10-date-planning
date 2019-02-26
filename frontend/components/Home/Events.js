@@ -5,7 +5,7 @@ import NProgress from 'nprogress';
 import InfiniteScroll from 'react-infinite-scroller';
 import classNames from 'classnames';
 import { adopt } from 'react-adopt';
-import { List, Map, Value, Toggle } from 'react-powerplug';
+import { State, Map, Value, Toggle } from 'react-powerplug';
 //MUI
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Drawer, Divider, IconButton } from '@material-ui/core';
@@ -33,17 +33,21 @@ import { auth } from '../../utils/firebase';
 const Composed = adopt({
 	drawer: <Toggle initial={false} />,
 	page: <Value initial={0} />,
+
 	user: ({ render }) => <Query query={CURRENT_USER_QUERY}>{render}</Query>,
 	location: ({ user, render }) => (
 		<Value initial={user.data.currentUser.location || 'Los Angeles, CA'}>{render}</Value>
 	),
-
-	getEvents: ({ page, location, render }) => (
+	filters: <State initial={{ cats: [], genres: [], dates: [] }} />,
+	getEvents: ({ page, location, filters, render }) => (
 		<Query
 			query={ALL_EVENTS_QUERY}
 			variables={{
 				location: location.value,
 				page: page.value,
+				categories: filters.state.cats,
+				genres: filters.state.genres,
+				dates: filters.state.dates,
 			}}
 			onCompleted={() => NProgress.done()}
 			onError={() => NProgress.done()}
@@ -67,11 +71,12 @@ const Events = ({ classes, newUser }) => {
 	return (
 		<Composed>
 			{({
-				getEvents: { data: { getEvents }, refetch, loading },
+				getEvents: { data: { getEvents }, refetch, loading, client },
 				updateUser,
 				drawer,
 				location,
 				page,
+				filters,
 				user: { data: { currentUser } },
 			}) => {
 				return (
@@ -138,9 +143,10 @@ const Events = ({ classes, newUser }) => {
 										</div>
 									</div>
 									<Filters
-										location={location.value}
-										page={page.value}
-										refetch={refetch}
+										// location={location.value}
+										// page={page.value}
+										// refetch={refetch}
+										filters={filters}
 									/>
 								</Drawer>
 								<GridContainer>

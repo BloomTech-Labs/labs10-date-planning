@@ -34,15 +34,15 @@ const Event = ({ event, classes, user, location }) => {
 	const [ height, setHeight ] = useState('191px');
 	const divEl = useRef(null);
 	let isSaved = user.events.find(e => e.id === event.id);
-
-	// useEffect(
-	// 	() => {
-	// 		if (divEl) {
-	// 			setHeight(`${divEl.current.clientHeight}px`);
-	// 		}
-	// 	},
-	// 	[ divEl ],
-	// );
+	console.log(event);
+	useEffect(
+		() => {
+			if (divEl) {
+				setHeight(`${divEl.current.clientHeight}px`);
+			}
+		},
+		[ divEl ],
+	);
 
 	const handleClick = async (e, addEvent) => {
 		console.log(event);
@@ -64,7 +64,7 @@ const Event = ({ event, classes, user, location }) => {
 			<div
 				// onMouseEnter={() => setHeight(`${divEl.current.clientHeight}px`)}
 				// onMouseLeave={() => setHeight('191px')}
-				style={{ height: divEl.current ? `${divEl.current.clientHeight}px` : 0 }}
+				style={{ height: height }}
 				className={`${classes.rotatingCardContainer} ${classes.manualRotate} ${rotate}`}
 			>
 				<Card blog className={classes.cardRotate}>

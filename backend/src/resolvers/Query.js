@@ -29,7 +29,7 @@ const Query = {
 	},
 	async getEvents(parent, { location, alt, page, ...args }, { db }, info) {
 		location = location.split(',')[0].toLowerCase();
-
+		console.log(args.categories);
 		let cats =
 			!args.categories || !args.categories.length
 				? [ 'KZFzniwnSyZfZ7v7nJ', 'KZFzniwnSyZfZ7v7na', 'KZFzniwnSyZfZ7v7n1' ]
