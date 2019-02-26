@@ -28,20 +28,38 @@ import CardStyles from '../../static/jss/material-kit-pro-react/views/components
 
 import '../../styles/Home/Event.scss';
 
+function useForceUpdate() {
+	const [ value, set ] = useState(true); //boolean state
+	return () => set(!value); // toggle the state to force render
+}
+
 const Event = ({ event, classes, user, location }) => {
 	const [ modal, showModal ] = useState({});
 	const [ rotate, setRotate ] = useState('');
 	const [ height, setHeight ] = useState('191px');
+	const [ val, set ] = useState(false);
 	const divEl = useRef(null);
+	const imgEl = useRef(null);
 	let isSaved = user.events.find(e => e.id === event.id);
-	console.log(event);
+
 	useEffect(
 		() => {
 			if (divEl) {
 				setHeight(`${divEl.current.clientHeight}px`);
 			}
 		},
-		[ divEl ],
+		[ divEl, val ],
+	);
+
+	useEffect(
+		() => {
+			if (imgEl) {
+				if (imgEl.current.clientHeight === 0) {
+					set(true);
+				}
+			}
+		},
+		[ imgEl ],
 	);
 
 	const handleClick = async (e, addEvent) => {
@@ -72,7 +90,7 @@ const Event = ({ event, classes, user, location }) => {
 						{event.image_url && (
 							<CardHeader image>
 								<a href='#' onClick={e => e.preventDefault()}>
-									<img src={event.image_url} alt='...' />
+									<img ref={imgEl} src={event.image_url} alt='...' />
 								</a>
 								<div
 									className={classes.coloredShadow}
