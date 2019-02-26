@@ -104,7 +104,7 @@ const Events = ({ classes, newUser }) => {
 									// 	paper: classes.drawerPaper,
 									// }}
 								>
-									<div style={{ padding: '0 20px' }}>
+									<div style={{ padding: '0 20px', width: '250px' }}>
 										{' '}
 										<IconButton onClick={drawer.toggle}>
 											<ChevronLeft />
