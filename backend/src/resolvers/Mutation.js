@@ -358,37 +358,40 @@ const Mutation = {
 		}
 		//const [ img ] = data.images.filter(img => img.width > 600);
 		// console.log(img);
-		await db.mutation.upsertEvent({
-			where: {
-				id: eventId,
-			},
-			update: {
-				attending: {
-					connect: {
-						id: user.id,
+		return db.mutation.upsertEvent(
+			{
+				where: {
+					id: eventId,
+				},
+				update: {
+					attending: {
+						connect: {
+							id: user.id,
+						},
+					},
+				},
+				create: {
+					title: event.title,
+					url: event.url,
+					venue: event.venue,
+					description: event.description,
+					times: { set: event.times },
+					image_url: event.image_url,
+					address: event.address,
+					city: event.city,
+					lat: event.lat,
+					long: event.long,
+					attending: {
+						connect: {
+							id: user.id,
+						},
 					},
 				},
 			},
-			create: {
-				title: event.title,
-				url: event.url,
-				venue: event.venue,
-				description: event.description,
-				times: { set: event.times },
-				image_url: event.image_url,
-				address: event.address,
-				city: event.city,
-				lat: event.lat,
-				long: event.long,
-				attending: {
-					connect: {
-						id: user.id,
-					},
-				},
-			},
-		});
+			info,
+		);
 
-		return { message: 'Event successfully added!' };
+		//return { message: 'Event successfully added!' };
 	},
 	async deleteEvent(parent, args, { db, request }, info) {
 		const { userId } = request;

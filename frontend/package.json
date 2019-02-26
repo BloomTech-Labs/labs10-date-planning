@@ -45,6 +45,7 @@
 		"react-infinite-scroller": "^1.2.4",
 		"react-jss": "^8.6.1",
 		"react-pose": "^4.0.7",
+		"react-powerplug": "^1.0.0",
 		"react-stripe-checkout": "^2.6.3",
 		"styled-components": "^4.1.3"
 	},
