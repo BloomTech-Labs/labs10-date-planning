@@ -74,7 +74,10 @@ const Search = ({ setLocation }) => {
 								>
 									{items.map((result, index) => {
 										return (
-											<MenuItem {...getItemProps({ item: result.city })}>
+											<MenuItem
+												key={index}
+												{...getItemProps({ item: result.city })}
+											>
 												{result.city}
 											</MenuItem>
 										);

@@ -22,10 +22,10 @@ import Button from '../../styledComponents/CustomButtons/Button';
 import CardHeader from '../../styledComponents/Card/CardHeader';
 import CardFooter from '../../styledComponents/Card/CardFooter';
 import CardBody from '../../styledComponents/Card/CardBody';
-
+//utils
+import getAge from '../../utils/getAge';
 //styles
 import CardStyles from '../../static/jss/material-kit-pro-react/views/componentsSections/sectionCards';
-
 import '../../styles/Home/Event.scss';
 
 import '../../styles/Home/EventModal.scss';
@@ -253,6 +253,8 @@ const Event = ({ event, classes, user, location }) => {
 									<TableRow>
 										<TableCell>{''}</TableCell>
 										<TableCell>{''}</TableCell>
+										<TableCell>{''}</TableCell>
+										<TableCell>{''}</TableCell>
 									</TableRow>
 								</TableHead>
 								<TableBody>
@@ -269,6 +271,8 @@ const Event = ({ event, classes, user, location }) => {
 												/>
 											</TableCell>
 											<TableCell>{user.firstName}</TableCell>
+											<TableCell>{getAge(user.dob)}</TableCell>
+											<TableCell>{user.gender.toLowerCase()}</TableCell>
 										</TableRow>
 									))}
 								</TableBody>
