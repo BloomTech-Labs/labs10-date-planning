@@ -17,6 +17,7 @@ type Mutation {
 	updateUser(data: UserUpdateInput!): User
 	createChat(id: String!, message: String!): Chat!
 	deleteChat(id: String): Message
+	sendMessage(id: String!, message: String!): DirectMessage!
 }
 
 type Query {
@@ -42,6 +43,7 @@ type Query {
 
 type Subscription {
 	myChat(id: String!): ChatSubscriptionPayload!
+	myMessages(id: String!): MessageSubscriptionPayload!
 }
 
 enum MutationType {
@@ -53,6 +55,19 @@ enum MutationType {
 type ChatSubscriptionPayload {
 	mutation: MutationType!
 	node: Chat
+}
+
+type MessageSubscriptionPayload {
+	mutation: MutationType!
+	node: DirectMessage
+}
+
+type DirectMessage {
+	id: ID!
+	text: String!
+	from: User!
+	createdAt: DateTime!
+	chat: Chat!
 }
 
 input AddEventInput {
