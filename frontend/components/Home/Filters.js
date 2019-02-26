@@ -71,7 +71,7 @@ const Filters = ({ classes, filters }) => {
 		[ categoryFilters, dateFilters, genreFilters ],
 	);
 	return (
-		<Card plain style={{ marginTop: 0 }}>
+		<Card plain style={{ marginTop: 0}}>
 			<CardBody className={classes.cardBodyRefine}>
 				<h4 className={`${classes.cardTitle} ${classes.textLeft}`}>
 					Refine

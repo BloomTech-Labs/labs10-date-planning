@@ -159,7 +159,7 @@ const Register = ({ classes }) => {
 
 	return (
 		<Fragment>
-			<Button round onClick={() => setModalShowing(true)}>
+			<Button color='danger' onClick={() => setModalShowing(true)}>
 				Sign Up
 			</Button>
 			<Dialog
