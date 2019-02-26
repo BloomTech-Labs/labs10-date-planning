@@ -9,7 +9,7 @@ import { ADD_EVENT_MUTATION } from '../Mutations/addEvent';
 //MUI
 
 import { Bookmark, Add, ChevronLeft, BookmarkBorder, FlashOn } from '@material-ui/icons';
-import { IconButton, Table, TableBody, TableCell, TableRow, TableHead } from '@material-ui/core';
+import { IconButton, Table, TableBody, TableCell, TableRow, TableHead, Typography } from '@material-ui/core';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 //Components
@@ -83,7 +83,6 @@ const Event = ({ event, classes, user }) => {
 							</CardHeader>
 						)}
 						<CardBody className={classes.cardBodyRotate}>
-							{/* <h6 style={{border: '2px solid #b2ddf7', borderRadius: '6px', padding: '10px'}}className={classes.cardCategory}>{event.location.venue}</h6> */}
 							<h6
 								style={{
 									// backgroundColor: '#b2ddf7',
@@ -118,7 +117,7 @@ const Event = ({ event, classes, user }) => {
 								{(addEvent, { error, loading, called }) => {
 									if (called) NProgress.start();
 									return (
-										<h4 className={classes.cardTitle}>
+										<Typography className={classes.cardTitle}>
 											<a href='#' onClick={e => e.preventDefault()}>
 												{event.title}{' '}
 												<IconButton
@@ -128,7 +127,7 @@ const Event = ({ event, classes, user }) => {
 													{isSaved ? <Bookmark /> : <BookmarkBorder />}
 												</IconButton>
 											</a>
-										</h4>
+										</Typography>
 									);
 								}}
 							</Mutation>

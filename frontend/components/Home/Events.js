@@ -129,7 +129,6 @@ const Events = ({ classes, client, theme, newUser }) => {
 				<div className={classes.container}>
 					<Fragment>
 						<IconButton
-							// color="inherit"
 							aria-label='Open drawer'
 							onClick={() => setDrawerOpen(!drawerOpen)}
 							className={classNames(classes.menuButton, drawerOpen && classes.hide)}
