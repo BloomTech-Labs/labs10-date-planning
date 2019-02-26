@@ -88,7 +88,7 @@ const Event = ({ event, classes, user, location }) => {
 				className={`${classes.rotatingCardContainer} ${classes.manualRotate} ${rotate}`}
 			>
 				<Card blog className={classes.cardRotate}>
-					<div ref={divEl} className={`${classes.front} `}>
+					<div ref={divEl} style={{backgroundColor: '#fafafa', border:'3px solid #4cb5ae'}} className={`${classes.front} `}>
 						{event.image_url && (
 							<CardHeader image>
 								<a href='#' onClick={e => e.preventDefault()}>
@@ -103,7 +103,7 @@ const Event = ({ event, classes, user, location }) => {
 								/>
 							</CardHeader>
 						)}
-						<CardBody className={classes.cardBodyRotate}>
+						<CardBody  className={classes.cardBodyRotate}>
 							<h6
 								style={{
 									// backgroundColor: '#b2ddf7',

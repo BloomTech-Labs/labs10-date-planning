@@ -36,6 +36,9 @@ type User {
 	resetTokenExpiry: Float
 	interests: [Category]
 	events: [Event!]!
+	genderPrefs: [Gender]
+	minAgePref: Int
+	maxAgePref: Int
 	permissions: Permission!
 	createdAt: DateTime!
 	updatedAt: DateTime!
