@@ -47,9 +47,9 @@ type Subscription {
 }
 
 enum MutationType {
-  CREATED
-  UPDATED
-  DELETED
+	CREATED
+	UPDATED
+	DELETED
 }
 
 type ChatSubscriptionPayload {
@@ -99,6 +99,9 @@ type User {
 	img: [ProfilePic]
 	permissions: Permission
 	interests: [Category]
+	genderPrefs: [Gender]
+	minAgePref: Int
+	maxAgePref: Int
 	events: [Event!]!
 	createdAt: DateTime!
 	updatedAt: DateTime!

@@ -13,30 +13,28 @@ const Query = {
 		}
 		return db.query.user(
 			{
-				where: { id: request.userId },
+				where: { id: request.userId }
 			},
-			info,
+			info
 		);
 	},
 	user(parent, args, { db }, info) {
 		// finds a user based on the args provided in the mutation
 		return db.query.user(
 			{
-				...args,
+				...args
 			},
-			info,
+			info
 		);
 	},
 	async getEvents(parent, { location, alt, page, ...args }, { db }, info) {
 		location = location.split(',')[0].toLowerCase();
-		console.log(args.categories);
 		let cats =
 			!args.categories || !args.categories.length
-				? [ 'KZFzniwnSyZfZ7v7nJ', 'KZFzniwnSyZfZ7v7na', 'KZFzniwnSyZfZ7v7n1' ]
+				? ['KZFzniwnSyZfZ7v7nJ', 'KZFzniwnSyZfZ7v7na', 'KZFzniwnSyZfZ7v7n1']
 				: args.categories;
 
-		const dates =
-			!args.dates || !args.dates.length ? undefined : setDates(args.dates.toString());
+		const dates = !args.dates || !args.dates.length ? undefined : setDates(args.dates.toString());
 
 		let events;
 		let response = await fetchEvents(location, cats, dates, page, 200, args.genres);
@@ -56,7 +54,7 @@ const Query = {
 
 				if (!res.data._embedded) break;
 				else {
-					events = [ ...events, ...res.data._embedded.events ];
+					events = [...events, ...res.data._embedded.events];
 					uniques = res.data._embedded.events.reduce((a, t) => {
 						if (!a.includes(t.name)) a.push(t.name);
 						return a;
@@ -71,17 +69,18 @@ const Query = {
 			total_items: response.data.page.totalElements,
 			page_total: response.data.page.totalPages,
 			page_number: response.data.page.number,
-			location: location,
+			location: location
 		};
 	},
 
 	async getEvent(parent, args, ctx, info) {
 		const { data } = await axios.get(
-			`https://app.ticketmaster.com/discovery/v2/events/${args.id}.json?apikey=${process.env
-				.TKTMSTR_KEY}`,
+			`https://app.ticketmaster.com/discovery/v2/events/${args.id}.json?apikey=${
+				process.env.TKTMSTR_KEY
+			}`
 		);
 
-		const [ img ] = data.images.filter(img => img.width > 500);
+		const [img] = data.images.filter(img => img.width > 500);
 		return {
 			title: data.name,
 			id: data.id,
@@ -90,29 +89,18 @@ const Query = {
 				city: data._embedded ? data._embedded.venues[0].city.name : 'poop',
 				venue: data._embedded ? data._embedded.venues[0].name : 'poopoo',
 				address: data._embedded ? data._embedded.venues[0].address.line1 : 'damnit 3',
-				zipCode: data._embedded ? data._embedded.venues[0].postalCode : 'shit 4',
+				zipCode: data._embedded ? data._embedded.venues[0].postalCode : 'shit 4'
 			},
-			// img in 3_2 or 16_9 ratio is nicer quality, just need to figure out how to get it to be responsive
-			// or we could keep it at 4_3 i'm cool either way
 			image_url: img.url,
 			description: data.info,
-			times: [ data.dates.start.dateTime ],
-			// data.dates.status.code (might be good for things like rescheduled events)
-			// data.pleaseNote (has additional info for things that are rescheduled or something like that it seems)
-			// optional data points to include
-			// data.priceRanges[0].currency
-			// data.priceRanges[0].min (min ticket price)
-			// data.priceRanges[0].max (higheest price)
-			// data.classifications.genre.name or .subGenre.name
-			// data.seatmap.staticUrl (link to seating map)
-			// data.products (includes things sold with it like parking, etc..
-			// data.sales.public.startDateTime && endDateTime (when tickets start and end being on sale to public)
+			times: [data.dates.start.dateTime]
 		};
 	},
 	async getLocation(parent, { latitude, longitude }, ctx, info) {
 		const location = await axios.get(
-			`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude}, ${longitude}&key=${process
-				.env.GOOGLE_API_KEY}`,
+			`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude}, ${longitude}&key=${
+				process.env.GOOGLE_API_KEY
+			}`
 		);
 		let city = location.data.results[0].address_components[3].long_name;
 		let state = location.data.results[0].address_components[5].short_name;
@@ -120,13 +108,14 @@ const Query = {
 
 		return {
 			city: `${city}, ${state}`,
-			county: `${county}, ${state}`,
+			county: `${county}, ${state}`
 		};
 	},
 	async locationSearch(parent, args, { db }, info) {
 		const response = await axios(
-			`https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${args.city}&types=(cities)&key=${process
-				.env.GOOGLE_API_KEY}`,
+			`https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${
+				args.city
+			}&types=(cities)&key=${process.env.GOOGLE_API_KEY}`
 		);
 		const results = response.data.predictions;
 		const city = results.map(result => {
@@ -136,8 +125,9 @@ const Query = {
 	},
 	async geoHash(parent, { city }, { db }, info) {
 		const response = await axios(
-			`https://maps.googleapis.com/maps/api/geocode/json?address=${city}&key=${process.env
-				.GOOGLE_API_KEY}`,
+			`https://maps.googleapis.com/maps/api/geocode/json?address=${city}&key=${
+				process.env.GOOGLE_API_KEY
+			}`
 		);
 		let { lat, lng } = response.data.results[0].geometry.location;
 
@@ -145,22 +135,6 @@ const Query = {
 		let geoHash = geoResponse.data.replace('http://geohash.org/', '').slice(0, 8);
 		return { geoHash };
 	},
-	// async getUserOrder(parent, args, ctx, info) {
-	// 	// Check user's login status
-	// 	const { userId } = ctx.request;
-	// 	if (!userId) throw new Error('You must be signed in to access orders.');
-
-	// 	return ctx.db.query.orders(
-	// 		{
-	// 			where: {
-	// 				user: {
-	// 					id: args.userId,
-	// 				},
-	// 			},
-	// 		},
-	// 		info,
-	// 	);
-	// },
 	async getRemainingDates(parent, args, ctx, info) {
 		// Check user's login status
 		const { userId } = ctx.request;
@@ -170,7 +144,7 @@ const Query = {
 			{ where: { id: userId } },
 			`
 				{id permissions events {id}}
-			`,
+			`
 		);
 		// TO DO: define subscription level and benefit!!!
 		let datesCount = 5;
@@ -184,11 +158,11 @@ const Query = {
 		if (!userId) throw new Error('You must be signed in to access this app.');
 
 		const invoices = await stripe.invoices.list({
-			customer: user.stripeCustomerId,
+			customer: user.stripeCustomerId
 		});
 
 		return invoices.data;
-	},
+	}
 };
 
 module.exports = Query;
