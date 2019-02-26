@@ -18,19 +18,20 @@ const Dates = ({ classes }) => {
 	return (
 		<User>
 			{({ data: { currentUser } }) => {
-				console.log(currentUser.events, currentUser.permissions);
 				return (
 					<div style={{ marginLeft: '34px' }} className={classes.container}>
 						<GridContainer>
 							{currentUser.events.length ? (
-								currentUser.events.map(date => <Date key={date.id} date={date} />)
+								currentUser.events.map(date => (
+									<Date key={date.id} date={date} currentUser={currentUser} />
+								))
 							) : (
 								<div>
 									<p>You don't have any dates yet!</p>
 								</div>
 							)}
 						</GridContainer>
-						{currentUser.permissions[0] === 'FREE' && (
+						{currentUser.permissions === 'FREE' && (
 							<div className='Snackbar'>
 								<SnackbarContent
 									message={

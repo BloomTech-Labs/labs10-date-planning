@@ -260,7 +260,11 @@ const Register = ({ classes }) => {
 														NProgress.done();
 														setServerError(error);
 													}}
-													onCompleted={() => Router.push('/home')}
+													onCompleted={() =>
+														Router.push({
+															pathname: '/home',
+															query: { welcome: true },
+														})}
 												>
 													{(firebaseAuth, { called }) => {
 														if (called) NProgress.start();
@@ -318,7 +322,11 @@ const Register = ({ classes }) => {
 											<Mutation
 												mutation={REGISTER_USER}
 												refetchQueries={[ { query: CURRENT_USER_QUERY } ]}
-												onCompleted={() => Router.push('/home')}
+												onCompleted={() =>
+													Router.push({
+														pathname: '/home',
+														query: { welcome: true },
+													})}
 												onError={handleError}
 												awaitRefetchQueries
 											>

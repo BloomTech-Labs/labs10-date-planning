@@ -19,6 +19,7 @@ import {
 import { Visibility, VisibilityOff, Mail, Close } from '@material-ui/icons';
 //components
 import ErrorModal from './ErrorModal';
+import ResetRequest from './PasswordRequest';
 //styled components
 import Button from '../../styledComponents/CustomButtons/Button';
 import Card from '../../styledComponents/Card/Card';
@@ -31,6 +32,7 @@ import { CURRENT_USER_QUERY } from '../Queries/User';
 import Styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles';
 //utils
 import { auth } from '../../utils/firebase';
+import Reset from './PasswordRequest';
 
 const LOGIN_USER = gql`
 	mutation LOGIN_USER($email: String!, $password: String!) {
@@ -205,7 +207,13 @@ const Login = ({ classes }) => {
 								<form
 									onSubmit={async e => {
 										e.preventDefault();
-										await signin();
+										console.log(user);
+										await signin({
+											variables: {
+												user: user.email,
+												password: user.password,
+											},
+										});
 									}}
 								>
 									<DialogContent
@@ -302,6 +310,7 @@ const Login = ({ classes }) => {
 							);
 						}}
 					</Mutation>
+					<Reset />
 				</Card>
 				<ErrorModal error={serverError} />
 			</Dialog>
