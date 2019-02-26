@@ -1,22 +1,29 @@
 import JoinUs from './joinus';
+import Router from 'next/router'
 import Events from '../components/Home/Events';
-import Header from '../components/Header'
-import { isLoggedIn } from '../components/Queries/User';
+import Header from '../components/Header';
+import User, { isLoggedIn } from '../components/Queries/User';
 import redirect from '../utils/redirect';
 
 const Home = ({ user, query }) => {
-	console.log(query)
-	if (!user) return <JoinUs />
-	return (
-	<>
-	<Header color='primary'/>
-		<Events newUser={query.welcome}/>
-	</>
-);}
+	console.log(user)
+	
+	if (!user) return <JoinUs />;
+	else
+		return (
+			<>
+					<Header color='primary' />
+				<Events  newUser={query.welcome} />
+					</>
+					
+				
+			
+		);
+};
 
 Home.getInitialProps = async ctx => {
 	let user = await isLoggedIn(ctx.apolloClient);
-	console.log(ctx.query)
+
 	if (!user.currentUser) {
 		redirect(ctx, '/joinus');
 	}
@@ -27,6 +34,5 @@ Home.getInitialProps = async ctx => {
 	// }
 	return { user: user.currentUser };
 };
-
 
 export default Home;

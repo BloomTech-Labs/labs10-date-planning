@@ -5,6 +5,7 @@ import NProgress from 'nprogress';
 
 //query& M
 import { CURRENT_USER_QUERY } from '../Queries/User';
+import { ALL_EVENTS_QUERY } from '../Queries/AllEvents';
 import { ADD_EVENT_MUTATION } from '../Mutations/addEvent';
 //MUI
 
@@ -27,21 +28,39 @@ import CardStyles from '../../static/jss/material-kit-pro-react/views/components
 
 import '../../styles/Home/Event.scss';
 
-const Event = ({ event, classes, user }) => {
+function useForceUpdate() {
+	const [ value, set ] = useState(true); //boolean state
+	return () => set(!value); // toggle the state to force render
+}
+
+const Event = ({ event, classes, user, location }) => {
 	const [ modal, showModal ] = useState({});
 	const [ rotate, setRotate ] = useState('');
 	const [ height, setHeight ] = useState('191px');
+	const [ val, set ] = useState(false);
 	const divEl = useRef(null);
+	const imgEl = useRef(null);
 	let isSaved = user.events.find(e => e.id === event.id);
 
-	// useEffect(
-	// 	() => {
-	// 		if (divEl) {
-	// 			setHeight(`${divEl.current.clientHeight}px`);
-	// 		}
-	// 	},
-	// 	[ divEl ],
-	// );
+	useEffect(
+		() => {
+			if (divEl) {
+				setHeight(`${divEl.current.clientHeight}px`);
+			}
+		},
+		[ divEl, val ],
+	);
+
+	useEffect(
+		() => {
+			if (imgEl) {
+				if (imgEl.current.clientHeight === 0) {
+					set(true);
+				}
+			}
+		},
+		[ imgEl ],
+	);
 
 	const handleClick = async (e, addEvent) => {
 		console.log(event);
@@ -63,7 +82,7 @@ const Event = ({ event, classes, user }) => {
 			<div
 				// onMouseEnter={() => setHeight(`${divEl.current.clientHeight}px`)}
 				// onMouseLeave={() => setHeight('191px')}
-				style={{ height: divEl.current ? `${divEl.current.clientHeight}px` : 0 }}
+				style={{ height: height }}
 				className={`${classes.rotatingCardContainer} ${classes.manualRotate} ${rotate}`}
 			>
 				<Card blog className={classes.cardRotate}>
@@ -71,7 +90,7 @@ const Event = ({ event, classes, user }) => {
 						{event.image_url && (
 							<CardHeader image>
 								<a href='#' onClick={e => e.preventDefault()}>
-									<img src={event.image_url} alt='...' />
+									<img ref={imgEl} src={event.image_url} alt='...' />
 								</a>
 								<div
 									className={classes.coloredShadow}
@@ -109,7 +128,43 @@ const Event = ({ event, classes, user }) => {
 									long: event.location.long,
 									description: event.description,
 								}}
-								refetchQueries={[ { query: CURRENT_USER_QUERY } ]}
+								update={(cache, { data: { addEvent } }) => {
+									const { currentUser } = cache.readQuery({
+										query: CURRENT_USER_QUERY,
+									});
+									// const { getEvents } = cache.readQuery({
+									// 	query: ALL_EVENTS_QUERY,
+									// 	variables: {
+									// 		location,
+									// 		page: 0,
+									// 		categories: [],
+									// 		dates: [],
+									// 		genres: [],
+									// 	},
+									// });
+
+									cache.writeQuery({
+										query: CURRENT_USER_QUERY,
+										data: {
+											currentUser: {
+												...currentUser,
+												events: [ ...currentUser.events, addEvent ],
+											},
+										},
+									});
+									// cache.writeQuery({
+									// 	query: ALL_EVENTS_QUERY,
+									// 	data: {
+									// 		getEvents: {
+									// 			...getEvents,
+									// 			events: newEvents,
+									// 		},
+									// 	},
+									// });
+								}}
+								refetchQueries={[
+									{ query: ALL_EVENTS_QUERY, variables: { location: location } },
+								]}
 								awaitRefetchQueries
 								onError={() => NProgress.done()}
 								onCompleted={() => NProgress.done()}

@@ -52,14 +52,14 @@ const NewUser = ({ classes }) => {
 	const handleLocationChange = selectedItem => {
 		setLocation(selectedItem.slice(0, -5));
 	};
-	useEffect(
-		() => {
-			if (location) {
-				console.log(location);
-			}
-		},
-		[ location ],
-	);
+	// useEffect(
+	// 	() => {
+	// 		if (location) {
+	// 			console.log(location);
+	// 		}
+	// 	},
+	// 	[ location ],
+	// );
 
 	return (
 		<User>
