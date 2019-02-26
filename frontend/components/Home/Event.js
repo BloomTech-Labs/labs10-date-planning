@@ -5,6 +5,7 @@ import NProgress from 'nprogress';
 
 //query& M
 import { CURRENT_USER_QUERY } from '../Queries/User';
+import { ALL_EVENTS_QUERY } from '../Queries/AllEvents';
 import { ADD_EVENT_MUTATION } from '../Mutations/addEvent';
 //MUI
 
@@ -27,7 +28,7 @@ import CardStyles from '../../static/jss/material-kit-pro-react/views/components
 
 import '../../styles/Home/Event.scss';
 
-const Event = ({ event, classes, user }) => {
+const Event = ({ event, classes, user, location }) => {
 	const [ modal, showModal ] = useState({});
 	const [ rotate, setRotate ] = useState('');
 	const [ height, setHeight ] = useState('191px');
@@ -110,7 +111,43 @@ const Event = ({ event, classes, user }) => {
 									long: event.location.long,
 									description: event.description,
 								}}
-								refetchQueries={[ { query: CURRENT_USER_QUERY } ]}
+								update={(cache, { data: { addEvent } }) => {
+									const { currentUser } = cache.readQuery({
+										query: CURRENT_USER_QUERY,
+									});
+									// const { getEvents } = cache.readQuery({
+									// 	query: ALL_EVENTS_QUERY,
+									// 	variables: {
+									// 		location,
+									// 		page: 0,
+									// 		categories: [],
+									// 		dates: [],
+									// 		genres: [],
+									// 	},
+									// });
+
+									cache.writeQuery({
+										query: CURRENT_USER_QUERY,
+										data: {
+											currentUser: {
+												...currentUser,
+												events: [ ...currentUser.events, addEvent ],
+											},
+										},
+									});
+									// cache.writeQuery({
+									// 	query: ALL_EVENTS_QUERY,
+									// 	data: {
+									// 		getEvents: {
+									// 			...getEvents,
+									// 			events: newEvents,
+									// 		},
+									// 	},
+									// });
+								}}
+								refetchQueries={[
+									{ query: ALL_EVENTS_QUERY, variables: { location: location } },
+								]}
 								awaitRefetchQueries
 								onError={() => NProgress.done()}
 								onCompleted={() => NProgress.done()}

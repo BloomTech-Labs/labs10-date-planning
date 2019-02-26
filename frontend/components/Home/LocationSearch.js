@@ -14,7 +14,6 @@ const Search = ({ setLocation }) => {
 	const [ input, setInput ] = useState('');
 	const [ items, setItems ] = useState([]);
 	const onChange = selectedItem => {
-		console.log(selectedItem);
 		setInput(selectedItem);
 	};
 
@@ -30,7 +29,7 @@ const Search = ({ setLocation }) => {
 							query: LOCATION_SUGGESTION_QUERY,
 							variables: { city: e },
 						});
-						console.log(data);
+
 						setItems(data.locationSearch);
 					}}
 				>
