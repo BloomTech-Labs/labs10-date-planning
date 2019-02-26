@@ -64,7 +64,7 @@ const card = {
 };
 
 const defaultFont = {
-	fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+	fontFamily: '"Fira Sans", "Helvetica", "Arial", sans-serif',
 	fontWeight: '300',
 	lineHeight: '1.5em',
 };
@@ -162,7 +162,7 @@ const title = {
 	marginTop: '30px',
 	marginBottom: '25px',
 	minHeight: '32px',
-	fontFamily: `"Roboto Slab", "Times New Roman", serif`,
+	fontFamily: `"Fira Sans", "Times New Roman", serif`,
 };
 
 const cardTitle = {

@@ -110,7 +110,7 @@ const Login = ({ classes }) => {
 	};
 	return (
 		<Fragment>
-			<Button round onClick={() => setModalShowing(true)}>
+			<Button color='danger' onClick={() => setModalShowing(true)}>
 				Log In
 			</Button>
 			<Dialog

@@ -4,11 +4,7 @@ const Meta = () => (
 	<Head>
 		<meta name='viewport' content='width=device-width, initial-scale=1' />
 		<meta charSet='utf-8' />
-		<link
-			rel='stylesheet'
-			type='text/css'
-			href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons'
-		/>
+		<link href="https://fonts.googleapis.com/css?family=Fira+Sans:400,500" rel="stylesheet" />
 		<script src='https://unpkg.com/nprogress@0.2.0/nprogress.js' />
 		<link rel='stylesheet' href='/static/nprogress.css' />
 		<link href='https://use.fontawesome.com/releases/v5.0.10/css/all.css' rel='stylesheet' />
