@@ -1,6 +1,7 @@
 const { GraphQLServer } = require('graphql-yoga');
 const Mutation = require('./resolvers/Mutation');
 const Query = require('./resolvers/Query');
+const Subscription = require('./resolvers/Subscription');
 const db = require('./db');
 
 function createServer() {
@@ -9,7 +10,8 @@ function createServer() {
 		resolvers: {
 			// also good to have these lil guys too
 			Mutation,
-			Query
+			Query,
+			Subscription
 		},
 		resolverValidationOptions: {
 			requireResolversForResolveType: false // this is an option i added because the internet. hope you dont mind

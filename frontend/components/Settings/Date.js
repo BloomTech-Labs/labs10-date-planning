@@ -43,7 +43,7 @@ const DateView = ({ date, classes, client, currentUser }) => {
 			<Card blog>
 				{date.image_url && (
 					<CardHeader image>
-						<a href='#pablo' onClick={e => e.preventDefault()}>
+						<a href='#' onClick={e => e.preventDefault()}>
 							<img src={date.image_url} alt='...' />
 						</a>
 						<div
@@ -58,11 +58,7 @@ const DateView = ({ date, classes, client, currentUser }) => {
 				)}{' '}
 				<CardBody style={{ zIndex: '1' }} className={classes.cardBodyRotate}>
 					<h4 className={classes.cardTitle}>
-						<a
-							classes={{ root: 'test' }}
-							href='#pablo'
-							onClick={e => e.preventDefault()}
-						>
+						<a classes={{ root: 'test' }} href='#' onClick={e => e.preventDefault()}>
 							{date.title}
 						</a>
 					</h4>

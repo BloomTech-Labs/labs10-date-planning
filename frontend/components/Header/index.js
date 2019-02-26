@@ -60,7 +60,6 @@ const Nav = ({ classes, color }) => {
 						<List className={classes.list + ' ' + classes.mlAuto}>
 							<ListItem className={classes.listItem}>
 								<Button
-									href='#pablo'
 									className={classes.navLink}
 									onClick={e => {
 										e.preventDefault();
