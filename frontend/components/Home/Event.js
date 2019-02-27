@@ -166,7 +166,7 @@ const Event = ({ event, classes, user, location }) => {
                   );
                 }}
               </Mutation>
-              <h4 className={`${classes.cardCategory}, Event__location`}>
+              <div className={` Event__location`}>
                 {event.location.venue}
               <div
                 className={`${classes.stats} ${classes.mlAuto}`}
@@ -183,7 +183,7 @@ const Event = ({ event, classes, user, location }) => {
                   ))
                 )}
               </div>
-              </h4>
+              </div>
             </CardBody>
             <CardFooter>
               {/* {isSaved && <Bookmark className='Event__bookmark' />} */}
@@ -212,7 +212,7 @@ const Event = ({ event, classes, user, location }) => {
             <CardBody
               background
               style={{
-                backgroundColor: "white",
+                // backgroundColor: "white",
                 borderRadius: "6px",
                 width: "100%",
                 maxWidth: "100%",
