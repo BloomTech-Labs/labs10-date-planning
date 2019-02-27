@@ -114,19 +114,11 @@ const Event = ({ event, classes, user, location }) => {
               </CardHeader>
             )}
             <CardBody className={classes.cardBodyRotate}>
-              <h6
-                style={{
-                  // backgroundColor: '#b2ddf7',
-                  backgroundImage:
-                    "linear-gradient(to top, #8ad2ff, #94d5fd, #9fd8fb, #a8daf9, #b2ddf7)",
-                  color: "#fafafa",
-                  borderRadius: "6px",
-                  padding: "10px"
-                }}
-                className={classes.cardCategory}
+              <span 
+                className={`${classes.cardCategory}, Event__location`}
               >
                 {event.location.venue}
-              </h6>
+              </span>
               <Mutation
                 mutation={ADD_EVENT_MUTATION}
                 variables={{
