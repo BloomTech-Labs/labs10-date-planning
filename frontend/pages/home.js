@@ -5,24 +5,28 @@ import Header from '../components/Header';
 import User, { isLoggedIn } from '../components/Queries/User';
 import redirect from '../utils/redirect';
 
-const Home = ({ query }) => {
-
+const Home = (props) => (
+<User>
+{({data}) => {
+	if (!data.currentUser) {Router.push('/joinus'); return null }
 		return (
 			<>
 					<Header color='primary' />
-				<Events  newUser={query.welcome} />
+				<Events   />
 					</>
 	
-		);
-};
+		)
+		}}
+		</User>
+)
 
 Home.getInitialProps = async ctx => {
-	let user = await isLoggedIn(ctx.apolloClient);
+	// let user = await isLoggedIn(ctx.apolloClient);
 
-	if (!user) {
-		redirect(ctx, '/joinus');
-	}
-	//if (ctx.query.welcome)
+	// if (!user) {
+	// 	redirect(ctx, '/joinus');
+	// }
+	// //if (ctx.query.welcome)
 	//console.log(!user.currentUser && router.pathname !== '/joinus');
 	// if (!(user.currentUser && router.aspath != '/joinus')) {
 	// 	redirect(ctx, '/joinus');

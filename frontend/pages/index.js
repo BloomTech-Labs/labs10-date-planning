@@ -1,22 +1,26 @@
 import JoinUs from './joinus';
+import { Query, withApollo } from 'react-apollo';
 import User from '../components/Queries/User';
 import { isLoggedIn } from '../components/Queries/User';
 import redirect from '../utils/redirect';
 import Home from './home';
 
-const Index = () => {
+const Index = props => {
+	console.log(props.client);
+	//console.log(Object.keys(props));
 	// if (!user) return <JoinUs />;
-	return <Home user={user} />;
+	return <Home />;
 };
 
-Index.getInitialProps = async ctx => {
-	let user = await isLoggedIn(ctx.apolloClient);
+Index.getInitialProps = async (ctx, client) => {
+	//console.log(client, Object.keys(ctx));
+	//let user = await isLoggedIn(ctx.apolloClient);
 
-	if (!user) {
-		redirect(ctx, '/joinus');
-	} else {
-		redirect(ctx, '/home');
-	}
+	// if (!user) {
+	// 	redirect(ctx, '/joinus');
+	// } else {
+	// 	redirect(ctx, '/home');
+	// }
 	//console.log(!user.currentUser && router.pathname !== '/joinus');
 	// if (!(user.currentUser && router.aspath != '/joinus')) {
 	// 	redirect(ctx, '/joinus');
@@ -24,4 +28,4 @@ Index.getInitialProps = async ctx => {
 	return {};
 };
 
-export default Index;
+export default withApollo(Index);

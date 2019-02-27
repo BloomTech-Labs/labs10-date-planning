@@ -46,8 +46,9 @@ export const isLoggedIn = async client => {
 	// let { data, error } = await client.readQuery({
 	// 	query: CURRENT_USER_QUERY,
 	// });
-	let data = client.cache.extract();
-	return Object.values(data).some(val => val.hasOwnProperty('currentUser'));
+	// console.log(client);
+	// let data = client.cache.extract();
+	// return Object.values(data).some(val => val.hasOwnProperty('currentUser'));
 };
 
 User.propTypes = {
