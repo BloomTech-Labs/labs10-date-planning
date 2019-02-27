@@ -83,8 +83,6 @@ const Event = ({ event, classes, user, location }) => {
 		console.log(event);
 		e.stopPropagation();
 
-		showModal({ message: true });
-
 		addEvent();
 	};
 
@@ -193,10 +191,11 @@ const Event = ({ event, classes, user, location }) => {
 								</div>
 							</div>
 						</CardBody>
-						<CardFooter>
-							{/* {isSaved && <Bookmark className='Event__bookmark' />} */}
 
-							{event.attending.length ? (
+						{/* {isSaved && <Bookmark className='Event__bookmark' />} */}
+
+						{event.attending.length ? (
+							<CardFooter style={{ display: 'block' }}>
 								<div
 									style={{ cursor: 'pointer', display: 'flex' }}
 									onClick={() => setRotate(classes.activateRotate)}
@@ -204,10 +203,24 @@ const Event = ({ event, classes, user, location }) => {
 									<FlashOn />
 									<p>{event.attending.length} users interested in this event.</p>
 								</div>
-							) : (
-								''
-							)}
-						</CardFooter>
+								<div style={{ display: 'flex' }}>
+									{event.attending.map(usr => (
+										<img
+											src={usr.imageThumbnail}
+											style={{
+												width: '30px',
+												height: '30px',
+												borderRadius: '6px',
+												border: '1px solid #cabac8',
+											}}
+										/>
+									))}
+								</div>
+							</CardFooter>
+						) : (
+							''
+						)}
+
 						{/* <EventModal modal={modal} showModal={showModal} event={event} /> */}
 					</div>
 					<GridContainer
