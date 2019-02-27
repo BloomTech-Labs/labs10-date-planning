@@ -56,6 +56,13 @@ const Nav = ({ classes, color }) => {
 				<Header
 					color={color}
 					brand={Logo}
+					fixed={color === 'transparent'}
+					changeColorOnScroll={
+						color === 'transparent' && {
+							height: 300,
+							color: 'warning',
+						}
+					}
 					links={
 						<List className={classes.list + ' ' + classes.mlAuto}>
 							<ListItem className={classes.listItem}>

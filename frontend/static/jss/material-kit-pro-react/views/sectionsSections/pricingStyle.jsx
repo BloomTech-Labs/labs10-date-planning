@@ -60,7 +60,7 @@ const pricingSection = {
 		},
 	},
 	pricing: {
-		padding: '80px 0',
+		padding: '0 0 80px',
 	},
 	textCenter: {
 		textAlign: 'center',

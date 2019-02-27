@@ -10,17 +10,19 @@ import { Done, DoneAll, DoneOutline } from '@material-ui/icons';
 import User, { CURRENT_USER_QUERY } from '../Queries/User';
 //components
 import Header from '../Header';
+import Pricing from './Pricing';
 import Stripe from './Stripe';
 // styled components
 import GridContainer from '../../styledComponents/Grid/GridContainer.jsx';
 import GridItem from '../../styledComponents/Grid/GridItem.jsx';
+import Parallax from '../../styledComponents/Parallax/Parallax.jsx';
 import Card from '../../styledComponents/Card/Card.jsx';
 import CardBody from '../../styledComponents/Card/CardBody.jsx';
 import Button from '../../styledComponents/CustomButtons/Button.jsx';
 // images
 import img from '../../static/img/billingImage.jpg';
 //styles
-import pricingStyle from '../../static/jss/material-kit-pro-react/views/sectionsSections/pricingStyle.jsx';
+import pricingStyle from '../../static/jss/material-kit-pro-react/views/pricingStyle.jsx';
 import '../../styles/Billing/Billing.scss';
 
 const CANCEL_SUBSCRIPTION = gql`
@@ -44,27 +46,31 @@ const Billing = ({ classes, currentUser, client }) => {
 
 	return (
 		<div
-			className={`${classes.pricing} ${classes.pricing1} ${classes.section} Billing`}
-			style={{ backgroundImage: `url(${img})`, height: '100vh' }}
+		// className={`${classes.pricing} ${classes.pricing1} ${classes.section} Billing`}
+		// style={{ backgroundImage: `url(${img})`, height: '100%' }}
 		>
 			<Header color='transparent' />
-			<div className={classes.container}>
-				<GridContainer>
-					<GridItem
-						xs={12}
-						sm={6}
-						md={6}
-						className={`${classes.mlAuto} ${classes.mrAuto} ${classes.textCenter}`}
-					>
-						<h2 className={classes.title}>Pick the best plan for you</h2>
-						{/* <h5 className={classes.description}>
-							You have Free Unlimited Updates and Premium Support on each package.
-						</h5> */}
-						<div className={classes.sectionSpace} />
-					</GridItem>
-				</GridContainer>
-				<GridContainer>
-					<GridItem xs={12} sm={6} md={4} lg={4}>
+			<Parallax image={img} filter='dark' small>
+				<div className={classes.container}>
+					<GridContainer>
+						<GridItem
+							sm={8}
+							md={8}
+							className={`${classes.mlAuto} ${classes.mrAuto} ${classes.textCenter}`}
+						>
+							<h1 className={classes.title}>Pick the best plan for you</h1>
+							<h4 className={classes.description}>
+								You have Free Unlimited Updates and Premium Support on each package.
+							</h4>
+						</GridItem>
+					</GridContainer>
+				</div>
+			</Parallax>
+			<div className={`${classes.main} ${classes.mainRaised}`}>
+				<div className={classes.container}>
+					<Pricing currentUser={currentUser} />
+					{/* <GridContainer>
+					<GridItem xs={12} sm={12} md={4} lg={4}>
 						<Card
 							pricing
 							raised={currentSubs === 'FREE'}
@@ -113,7 +119,7 @@ const Billing = ({ classes, currentUser, client }) => {
 							</CardBody>
 						</Card>
 					</GridItem>
-					<GridItem xs={12} sm={6} md={4} lg={4}>
+					<GridItem xs={12} sm={12} md={4} lg={4}>
 						<Card
 							pricing
 							raised={currentSubs === 'MONTHLY'}
@@ -178,7 +184,7 @@ const Billing = ({ classes, currentUser, client }) => {
 							</CardBody>
 						</Card>
 					</GridItem>
-					<GridItem xs={12} sm={6} md={4} lg={4}>
+					<GridItem xs={12} sm={12} md={4} lg={4}>
 						<Card
 							pricing
 							raised={currentSubs === 'YEARLY'}
@@ -243,7 +249,8 @@ const Billing = ({ classes, currentUser, client }) => {
 							</CardBody>
 						</Card>
 					</GridItem>
-				</GridContainer>
+				</GridContainer> */}
+				</div>
 			</div>
 		</div>
 	);
