@@ -26,12 +26,14 @@ import {
 	Email,
 	Check,
 	Close,
+	LockOutlined,
 } from '@material-ui/icons';
 //Q&M
 import { CURRENT_USER_QUERY } from '../Queries/User';
 //Components
 import ErrorModal from './ErrorModal';
 import Terms from '../../components/SplashPage/Terms';
+import Transition from '../Transistion';
 //styled components
 import Button from '../../styledComponents/CustomButtons/Button';
 import Card from '../../styledComponents/Card/Card';
@@ -158,26 +160,26 @@ const Register = ({ classes }) => {
 	};
 
 	return (
-		<Fragment>
+		<GridItem xs={6} sm={6} md={6} lg={6}>
 			<Button color='danger' onClick={() => setModalShowing(true)}>
 				Sign Up
 			</Button>
-			<Dialog
-				classes={{
-					root: classes.modalRoot,
-					paper: classes.modal + ' ' + classes.modalSignup,
-				}}
-				open={modalShowing}
-				scroll='body'
-				// TransitionComponent={Transition}
-				keepMounted
-				onClose={() => {
-					setModalShowing(false);
-				}}
-				aria-labelledby='signup-modal-slide-title'
-				aria-describedby='signup-modal-slide-description'
-			>
-				{
+			<div className={`${classes.section} cd-section`} id='javascriptComponents'>
+				<Dialog
+					classes={{
+						root: classes.modalRoot,
+						paper: classes.modal + ' ' + classes.modalSignup,
+						container: classes.modalContainer,
+					}}
+					open={modalShowing}
+					TransitionComponent={Transition}
+					keepMounted
+					onClose={() => {
+						setModalShowing(false);
+					}}
+					aria-labelledby='signup-modal-slide-title'
+					aria-describedby='signup-modal-slide-description'
+				>
 					<Card plain className={classes.modalSignupCard}>
 						{termsShowing ? (
 							<Terms setTermsShowing={setTermsShowing} />
@@ -449,13 +451,11 @@ const Register = ({ classes }) => {
 																					classes.inputAdornment
 																				}
 																			>
-																				<Icon
+																				<LockOutlined
 																					className={
 																						classes.inputAdornmentIcon
 																					}
-																				>
-																					lock_outline
-																				</Icon>
+																				/>
 																			</InputAdornment>
 																		),
 																		placeholder: 'Password...',
@@ -549,10 +549,11 @@ const Register = ({ classes }) => {
 							</div>
 						)}
 					</Card>
-				}
-				<ErrorModal error={serverError} />
-			</Dialog>
-		</Fragment>
+
+					<ErrorModal error={serverError} />
+				</Dialog>
+			</div>
+		</GridItem>
 	);
 };
 

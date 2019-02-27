@@ -20,7 +20,7 @@ const Splash = ({ classes }) => {
 	}, []);
 	return (
 		<Parallax image='https://images.unsplash.com/photo-1534085838602-9624ac7ab9e5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2250&q=80'>
-			<div className={classes.container}>
+			<div className={classes.container} style={{ paddingTop: '20px' }}>
 				<GridContainer>
 					<GridItem
 						container
@@ -31,7 +31,10 @@ const Splash = ({ classes }) => {
 						sm={12}
 						md={12}
 					>
-						<img style={{ height: '406px', width: '670px' }} src={Logo} />
+						<img
+							style={{ maxHeight: '406px', maxWidth: '670px', width: '100%' }}
+							src={Logo}
+						/>
 						<div
 							style={{
 								backgroundColor: 'rgba(0, 0, 0, 0.4)',
@@ -44,9 +47,12 @@ const Splash = ({ classes }) => {
 								Meet People. Go Places.
 							</Typography>
 						</div>
-						<div>
-							<Register />
-							<Login className='login' />
+						<div className={`${classes.section} cd-section`} id='javascriptComponents'>
+							<GridContainer>
+								<Register />
+
+								<Login className='login' />
+							</GridContainer>
 						</div>
 					</GridItem>
 				</GridContainer>
