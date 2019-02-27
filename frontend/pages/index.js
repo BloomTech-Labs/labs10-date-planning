@@ -6,7 +6,7 @@ import Home from './home';
 
 const Index = () => (
 	<User>
-		{({ data, loading }) => {
+		{({ data, loading, error }) => {
 			if (loading) return <div>loading</div>;
 			if (error || !data.currentUser) return <JoinUs />;
 			else return <Home />;

@@ -152,7 +152,7 @@ const Event = ({ event, classes, user, location }) => {
 								refetchQueries={[
 									{
 										query: ALL_EVENTS_QUERY,
-										variables: { location: location },
+										variables: { location: location.value },
 									},
 								]}
 								awaitRefetchQueries

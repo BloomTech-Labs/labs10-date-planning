@@ -9,10 +9,10 @@ const Home = ({ query }) => {
 	console.log(query)
 	return (
 	<User>
-		{({ data, loading, error }) => {
+		{({ data, loading }) => {
 			console.log(data)
 			if (loading) return <div>loading</div>;
-			if (error || !data.currentUser) return <JoinUs />;
+			if ( !data.currentUser) return <JoinUs />;
 			else return (
 				<>
 					<Header color='primary' />
