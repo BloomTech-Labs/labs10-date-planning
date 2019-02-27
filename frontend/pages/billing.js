@@ -13,7 +13,7 @@ const BillingPage = () => (
 			return (
 				<>
 					<Billing currentUser={currentUser} />
-					<TransactionList currentUser={currentUser} />
+					{/* <TransactionList currentUser={currentUser} /> */}
 				</>
 			);
 		}}
