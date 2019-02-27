@@ -37,6 +37,7 @@ export const ALL_EVENTS_QUERY = gql`
 					firstName
 					imageThumbnail
 					biography
+					imageLarge
 				}
 				price {
 					min

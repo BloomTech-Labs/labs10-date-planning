@@ -24,7 +24,7 @@ import {
 import withStyles from '@material-ui/core/styles/withStyles';
 
 //Components
-import EventModal from './EventModal';
+import UserModel from './EventModal';
 import InfoModal from './InfoModal';
 //Styled components
 import Card from '../../styledComponents/Card/Card';
@@ -50,7 +50,7 @@ let settings = {
 	slidesToScroll: 1,
 };
 const Event = ({ event, classes, user, location }) => {
-	const [ modal, showModal ] = useState({});
+	const [ modal, showModal ] = useState(false);
 	const [ rotate, setRotate ] = useState('');
 	const [ height, setHeight ] = useState('191px');
 	const [ val, set ] = useState(false);
@@ -205,7 +205,7 @@ const Event = ({ event, classes, user, location }) => {
 									style={{ cursor: 'pointer', display: 'flex' }}
 									onClick={() => setRotate(classes.activateRotate)}
 								>
-									<FlashOn />
+									<FlashOn style={{ color: '#ff101f' }} />
 									<p>
 										{potentialMatches.length} potential match{potentialMatches.length > 1 ? 'es ' : ' '}
 									</p>
@@ -280,15 +280,18 @@ const Event = ({ event, classes, user, location }) => {
 											) : (
 												' women '
 											)}{' '}
-											between the ages of {getAge(user.minAgePref)} and{' '}
-											{getAge(user.maxAgePref)}
+											between the ages of {user.minAgePref || '18'} and{' '}
+											{user.maxAgePref || '100'}
 										</h6>
 									</div>
 								</div>
 								<GridContainer>
 									{potentialMatches.map(usr => (
 										<GridItem sm={4} md={4} style={{ padding: '5px' }}>
-											<div className='user_card'>
+											<div
+												className='user_card'
+												onClick={() => showModal(true)}
+											>
 												<div
 													className='gradient_border'
 													style={{
@@ -322,6 +325,11 @@ const Event = ({ event, classes, user, location }) => {
 													</div>
 												</div>
 											</div>
+											<UserModel
+												modal={modal}
+												showModal={showModal}
+												potentialMatch={usr}
+											/>
 										</GridItem>
 									))}
 								</GridContainer>

@@ -22,7 +22,7 @@ module.exports = {
 							],
 						},
 					},
-					`{id times attending {id firstName imageThumbnail dob gender biography}}`,
+					`{id times attending {id firstName imageThumbnail imageLarge dob gender biography}}`,
 				);
 
 				const [ img ] = ev.images.filter(img => img.width > 500);
