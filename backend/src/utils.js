@@ -38,7 +38,7 @@ module.exports = {
 						: [ ev.dates.start.dateTime ],
 					genres: ev.classifications[0].genre && ev.classifications[0].genre.name,
 					info: ev.info || null,
-					description: ev.pleaseNote || null,
+					description: ev.info || null,
 					price: {
 						min: ev.priceRanges ? ev.priceRanges[0].min : 'min',
 						max: ev.priceRanges ? ev.priceRanges[0].max : 'max',
