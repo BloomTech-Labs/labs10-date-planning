@@ -37,7 +37,7 @@ import CardStyles from '../../static/jss/material-kit-pro-react/views/components
 import '../../styles/Home/Event.scss';
 
 import '../../styles/Home/EventModal.scss';
-import '../../styles/Settings/Date.scss';
+//import '../../styles/Settings/Date.scss';
 
 function useForceUpdate() {
 	const [ value, set ] = useState(true); //boolean state
@@ -117,19 +117,21 @@ const Event = ({ event, classes, user, location }) => {
 							</CardHeader>
 						)}
 						<CardBody className={classes.cardBodyRotate}>
-							<h6
-								style={{
-									// backgroundColor: '#b2ddf7',
-									backgroundImage:
-										'linear-gradient(to top, #8ad2ff, #94d5fd, #9fd8fb, #a8daf9, #b2ddf7)',
-									color: '#fafafa',
-									borderRadius: '6px',
-									padding: '10px',
-								}}
-								className={classes.cardCategory}
-							>
-								{event.location.venue}
-							</h6>
+							<div className='gradient-box'>
+								<span
+								// style={{
+								// 	// backgroundColor: '#b2ddf7',
+								// 	backgroundImage:
+								// 		'linear-gradient(to top, #8ad2ff, #94d5fd, #9fd8fb, #a8daf9, #b2ddf7)',
+								// 	color: '#fafafa',
+								// 	borderRadius: '6px',
+								// 	padding: '10px',
+								// }}
+								// className={classes.cardCategory}
+								>
+									{event.location.venue}
+								</span>
+							</div>
 
 							<Mutation
 								mutation={ADD_EVENT_MUTATION}
