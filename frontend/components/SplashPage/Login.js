@@ -16,13 +16,14 @@ import {
 	IconButton,
 	Icon,
 } from '@material-ui/core';
-import { Visibility, VisibilityOff, Mail, Close } from '@material-ui/icons';
+import { Visibility, VisibilityOff, Mail, Close, LockOutlined } from '@material-ui/icons';
 //components
 import ErrorModal from './ErrorModal';
 import ResetRequest from './PasswordRequest';
 //styled components
 import Button from '../../styledComponents/CustomButtons/Button';
 import Card from '../../styledComponents/Card/Card';
+import GridItem from '../../styledComponents/Grid/GridItem';
 import CardHeader from '../../styledComponents/Card/CardHeader';
 import CardBody from '../../styledComponents/Card/CardBody';
 import CustomInput from '../../styledComponents/CustomInput/CustomInput';
@@ -109,7 +110,7 @@ const Login = ({ classes }) => {
 		}
 	};
 	return (
-		<Fragment>
+		<GridItem xs={6} sm={6} md={6} lg={6}>
 			<Button color='danger' onClick={() => setModalShowing(true)}>
 				Log In
 			</Button>
@@ -270,9 +271,9 @@ const Login = ({ classes }) => {
 													),
 													startAdornment: (
 														<InputAdornment position='start'>
-															<Icon className={classes.icon}>
-																lock_outline
-															</Icon>
+															<LockOutlined
+																className={classes.icon}
+															/>
 														</InputAdornment>
 													),
 													placeholder: 'Password...',
@@ -314,7 +315,7 @@ const Login = ({ classes }) => {
 				</Card>
 				<ErrorModal error={serverError} />
 			</Dialog>
-		</Fragment>
+		</GridItem>
 	);
 };
 
