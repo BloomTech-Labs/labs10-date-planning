@@ -27,7 +27,7 @@ module.exports = {
       }
     }, info);
   },
-  async getMatchScore(parent, args, { request, db }, info) {
+  async getMatchUsers(parent, args, { request, db }, info) {
     const { user } = request;
     if (!user) throw new Error('You must be logged in to use this feature!');
 
@@ -37,6 +37,9 @@ module.exports = {
       where: {
         AND: [
           { id_not: user.id },
+          { age_lte: user.maxAgePref },
+          { age_gte: user.minAgePref },
+          { gender_in: user.genderPrefs },
           {
             events_some: {
                 id_in: userEventId

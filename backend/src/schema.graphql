@@ -40,7 +40,8 @@ type Query {
 	getUserChats: [Chat]!
 	getConversation(id: String): Chat
 	getSharedEvents(userToMatchId: String!): [Event!]!
-	getMatchScore: [MatchScore!]!
+	getMatchUsers: [MatchScore!]!
+	getScore: Int
 }
 
 type Subscription {
