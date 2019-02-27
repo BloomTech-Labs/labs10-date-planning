@@ -31,7 +31,8 @@ import styles from '../../static/jss/material-kit-pro-react/views/ecommerceSecti
 import { auth } from '../../utils/firebase';
 
 // import Prism from '../../static/img/prism.png'
-import Triangles from '../../static/img/footer_lodyas.png'
+import Triangles from '../../static/img/footer_lodyas.png';
+import Wood from '../../static/img/office.png';
 
 const Composed = adopt({
 	drawer: <Toggle initial={false} />,
@@ -83,10 +84,16 @@ const Events = ({ classes, newUser }) => {
 				user: { data: { currentUser } },
 			}) => {
 				return (
-					<div style={{ paddingTop: '40px', backgroundImage:`url(${Triangles})`}}>
-					{/* <div className={classes.section}> */}
+					<div
+						style={{
+							paddingTop: '40px',
+							backgroundImage: `url("https://www.transparenttextures.com/patterns/shattered-dark.png")`,
+							backgroundColor: '#000000',
+						}}
+					>
+						{/* <div className={classes.section}> */}
 						{newUser && <NewUser />}
-						<div  className={classes.container}>
+						<div className={classes.container}>
 							<Fragment>
 								<IconButton
 									// color="inherit"

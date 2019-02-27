@@ -26,7 +26,7 @@ const headerStyle = theme => ({
 		color: '#555',
 		width: '100%',
 		backgroundColor: '#fff',
-		boxShadow: '0 4px 18px 0px rgba(0, 0, 0, 0.12), 0 7px 10px -5px rgba(0, 0, 0, 0.15)',
+		boxShadow: '0 4px 18px 0px rgba(255, 255, 255, 0.22), 0 7px 10px -5px rgba(0, 0, 0, 0.15)',
 		transition: 'all 150ms ease 0s',
 		alignItems: 'center',
 		flexFlow: 'row nowrap',
@@ -71,9 +71,11 @@ const headerStyle = theme => ({
 		//backgroundColor: primaryColor,
 		// backgroundImage: 'linear-gradient(to top, #4cb5ae, #59beb7, #65c7c0, #71d0ca, #7dd9d3)',
 		// backgroundImage: 'linear-gradient(to right, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1)',
-		backgroundImage: 'linear-gradient(to right, #4cb5ae, #55bbb9, #5ec2c3, #68c8cd, #72ced7, #7dcee0, #8acee6, #98ceea, #acc7e7, #bcc1df, #c6bdd3, #cabac8)',
+		backgroundImage:
+			'linear-gradient(to right, #4cb5ae, #55bbb9, #5ec2c3, #68c8cd, #72ced7, #7dcee0, #8acee6, #98ceea, #acc7e7, #bcc1df, #c6bdd3, #cabac8)',
 		color: '#FFFFFF',
-		boxShadow: '0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(76,181,174, 0.46)',
+		boxShadow:
+			'0 4px 20px 0px rgba(255, 255, 255, 0.14), 0 7px 12px -5px rgba(85,187,185, 0.56)',
 	},
 	info: {
 		backgroundColor: infoColor,
@@ -164,8 +166,6 @@ const headerStyle = theme => ({
 		top: '9px',
 		zIndex: '1',
 	},
-
-	
 });
 
 export default headerStyle;
