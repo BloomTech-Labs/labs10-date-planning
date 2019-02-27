@@ -202,11 +202,11 @@ const Event = ({ event, classes, user, location }) => {
 									);
 								}}
 							</Mutation>
-							{event.description && (
+							{/* {event.description && (
 								<div className='gradient-box'>
 									<span>{event.description}</span>
 								</div>
-							)}
+							)} */}
 						</CardBody>
 						<CardFooter>
 							{/* {isSaved && <Bookmark className='Event__bookmark' />} */}

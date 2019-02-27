@@ -61,11 +61,11 @@ const DateView = ({ date, classes, client, currentUser }) => {
 							{date.title}
 						</a>
 					</h4>
-					{date.description && (
+					{/* {date.description && (
 						<div className='gradient-box'>
 							<span>{date.description}</span>
 						</div>
-					)}
+					)} */}
 				</CardBody>
 				<CardFooter>
 					<div
