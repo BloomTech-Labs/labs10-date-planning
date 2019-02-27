@@ -85,7 +85,6 @@ const Event = ({ event, classes, user, location }) => {
 	);
 
 	const handleClick = async (e, addEvent) => {
-		console.log(event);
 		e.stopPropagation();
 
 		addEvent();
@@ -213,6 +212,7 @@ const Event = ({ event, classes, user, location }) => {
 								<div style={{ display: 'flex' }}>
 									{potentialMatches.map(usr => (
 										<img
+											key={usr.id}
 											src={usr.imageThumbnail}
 											style={{
 												width: '30px',
@@ -287,7 +287,12 @@ const Event = ({ event, classes, user, location }) => {
 								</div>
 								<GridContainer>
 									{potentialMatches.map(usr => (
-										<GridItem sm={4} md={4} style={{ padding: '5px' }}>
+										<GridItem
+											key={usr.id}
+											sm={4}
+											md={4}
+											style={{ padding: '5px' }}
+										>
 											<div
 												className='user_card'
 												onClick={() => showModal(true)}

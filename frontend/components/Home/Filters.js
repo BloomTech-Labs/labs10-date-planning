@@ -65,13 +65,12 @@ const Filters = ({ classes, filters }) => {
 
 	useEffect(
 		() => {
-			console.log(categoryFilters);
 			filters.setState({ cats: categoryFilters, dates: dateFilters, genres: genreFilters });
 		},
 		[ categoryFilters, dateFilters, genreFilters ],
 	);
 	return (
-		<Card plain style={{ marginTop: 0}}>
+		<Card plain style={{ marginTop: 0 }}>
 			<CardBody className={classes.cardBodyRefine}>
 				<h4 className={`${classes.cardTitle} ${classes.textLeft}`}>
 					Refine

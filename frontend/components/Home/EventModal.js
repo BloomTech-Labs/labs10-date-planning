@@ -21,27 +21,6 @@ import '../../styles/Home/EventModal.scss';
 import getAge from '../../utils/getAge';
 
 const EventModal = ({ modal, showModal, classes, potentialMatch }) => {
-	//const [ messageModal, showMessageModal ] = useState({});
-
-	// const handleClick = async (e, addEvent, user) => {
-	// 	console.log(event);
-	// 	e.stopPropagation();
-	// 	if (user.permissions === 'FREE') {
-	// 		if (user.events.length === 5) {
-	// 			showMessageModal({
-	// 				error: 'You have reached your maximum limit for your free account.',
-	// 			});
-	// 		} else {
-	// 			showMessageModal({
-	// 				warning: `You have ${5 - user.events.length} remaining.`,
-	// 			});
-	// 		}
-	// 	} else {
-	// 		showMessageModal({ message: true });
-	// 	}
-	// 	addEvent();
-	// };
-
 	const modalHeader = {
 		// backgroundColor: '#81d6e3',
 		backgroundImage: 'linear-gradient(to top, #8ad2ff, #94d5fd, #9fd8fb, #a8daf9, #b2ddf7)',
@@ -171,4 +150,25 @@ export default withApollo(withStyles(styles)(EventModal));
 // 	});
 // 	console.log(data.getEvent);
 // 	setEvent(data.getEvent);
+// };
+
+//const [ messageModal, showMessageModal ] = useState({});
+
+// const handleClick = async (e, addEvent, user) => {
+// 	console.log(event);
+// 	e.stopPropagation();
+// 	if (user.permissions === 'FREE') {
+// 		if (user.events.length === 5) {
+// 			showMessageModal({
+// 				error: 'You have reached your maximum limit for your free account.',
+// 			});
+// 		} else {
+// 			showMessageModal({
+// 				warning: `You have ${5 - user.events.length} remaining.`,
+// 			});
+// 		}
+// 	} else {
+// 		showMessageModal({ message: true });
+// 	}
+// 	addEvent();
 // };
