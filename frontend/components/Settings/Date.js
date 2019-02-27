@@ -57,16 +57,19 @@ const DateView = ({ date, classes, client, currentUser }) => {
 					</CardHeader>
 				)}{' '}
 				<CardBody style={{ zIndex: '1' }} className={classes.cardBodyRotate}>
+					<div className='gradient-box'>
+						<span>{date.venue}</span>
+					</div>
 					<h4 className={classes.cardTitle}>
 						<a classes={{ root: 'test' }} href='#' onClick={e => e.preventDefault()}>
 							{date.title}
 						</a>
 					</h4>
-					{date.description && (
+					{/* {date.description && (
 						<div className='gradient-box'>
 							<span>{date.description}</span>
 						</div>
-					)}
+					)} */}
 				</CardBody>
 				<CardFooter>
 					<div

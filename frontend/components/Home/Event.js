@@ -9,23 +9,17 @@ import { ALL_EVENTS_QUERY } from "../Queries/AllEvents";
 import { ADD_EVENT_MUTATION } from "../Mutations/addEvent";
 //MUI
 
+import { Bookmark, Add, ChevronLeft, BookmarkBorder, FlashOn } from '@material-ui/icons';
 import {
-  Bookmark,
-  Add,
-  ChevronLeft,
-  BookmarkBorder,
-  FlashOn
-} from "@material-ui/icons";
-import {
-  IconButton,
-  Table,
-  TableBody,
-  TableCell,
-  TableRow,
-  TableHead,
-  Typography
-} from "@material-ui/core";
-import withStyles from "@material-ui/core/styles/withStyles";
+	IconButton,
+	Table,
+	TableBody,
+	TableCell,
+	TableRow,
+	TableHead,
+	Typography,
+} from '@material-ui/core';
+import withStyles from '@material-ui/core/styles/withStyles';
 
 //Components
 import EventModal from "./EventModal";
@@ -42,7 +36,8 @@ import getAge from "../../utils/getAge";
 import CardStyles from "../../static/jss/material-kit-pro-react/views/componentsSections/sectionCards";
 import "../../styles/Home/Event.scss";
 
-import "../../styles/Home/EventModal.scss";
+import '../../styles/Home/EventModal.scss';
+//import '../../styles/Settings/Date.scss';
 
 function useForceUpdate() {
   const [value, set] = useState(true); //boolean state
@@ -131,16 +126,7 @@ const Event = ({ event, classes, user, location }) => {
                   const { currentUser } = cache.readQuery({
                     query: CURRENT_USER_QUERY
                   });
-                  // const { getEvents } = cache.readQuery({
-                  // 	query: ALL_EVENTS_QUERY,
-                  // 	variables: {
-                  // 		location,
-                  // 		page: 0,
-                  // 		categories: [],
-                  // 		dates: [],
-                  // 		genres: [],
-                  // 	},
-                  // });
+                
 
                   cache.writeQuery({
                     query: CURRENT_USER_QUERY,
@@ -151,15 +137,7 @@ const Event = ({ event, classes, user, location }) => {
                       }
                     }
                   });
-                  // cache.writeQuery({
-                  // 	query: ALL_EVENTS_QUERY,
-                  // 	data: {
-                  // 		getEvents: {
-                  // 			...getEvents,
-                  // 			events: newEvents,
-                  // 		},
-                  // 	},
-                  // });
+              
                 }}
                 refetchQueries={[
                   {

@@ -10,9 +10,13 @@ const CURRENT_USER_QUERY = gql`
 			lastName
 			gender
 			email
+			biography
 			dob
 			location
 			imageThumbnail
+			genderPrefs
+			minAgePref
+			maxAgePref
 			imageLarge
 			createdAt
 			permissions
