@@ -3,9 +3,11 @@ const { forwardTo } = require('prisma-binding');
 const { transformEvents, fetchEvents, setDates } = require('../utils');
 const stripe = require('../stripe');
 const MessageQuery = require('./Messages/MessageQuery');
+const UserQuery = require('./User/UserQuery');
 
 const Query = {
 	...MessageQuery,
+	...UserQuery,
 	currentUser(parent, args, { db, request }, info) {
 		// check if there is a current user ID
 		if (!request.userId) {

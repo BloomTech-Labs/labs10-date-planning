@@ -39,6 +39,8 @@ type Query {
 	getChat(id: String!): Chat
 	getUserChats: [Chat]!
 	getConversation(id: String): Chat
+	getSharedEvents(userToMatchId: String!): [Event!]!
+	getMatchScore: [MatchScore!]!
 }
 
 type Subscription {
@@ -178,4 +180,9 @@ type Invoice {
 	date: Int
 	hosted_invoice_url: String
 	invoice_pdf: String
+}
+
+type MatchScore {
+	user: User!
+	score: Int
 }
