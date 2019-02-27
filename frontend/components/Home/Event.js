@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { withApollo, Mutation } from 'react-apollo';
 import moment from 'moment';
 import NProgress from 'nprogress';
+import Slider from 'react-slick';
 
 //query& M
 import { CURRENT_USER_QUERY } from '../Queries/User';
@@ -18,6 +19,7 @@ import {
 	TableRow,
 	TableHead,
 	Typography,
+	Avatar,
 } from '@material-ui/core';
 import withStyles from '@material-ui/core/styles/withStyles';
 
@@ -43,7 +45,13 @@ function useForceUpdate() {
 	const [ value, set ] = useState(true); //boolean state
 	return () => set(!value); // toggle the state to force render
 }
-
+let settings = {
+	dots: true,
+	infinite: true,
+	speed: 500,
+	slidesToShow: 1,
+	slidesToScroll: 1,
+};
 const Event = ({ event, classes, user, location }) => {
 	const [ modal, showModal ] = useState({});
 	const [ rotate, setRotate ] = useState('');
@@ -244,13 +252,17 @@ const Event = ({ event, classes, user, location }) => {
 						{/* <EventModal modal={modal} showModal={showModal} event={event} /> */}
 					</div>
 					<div
-						style={{ height: 'auto', backgroundColor: 'white' }}
+						style={{
+							height: 'auto',
+							backgroundImage:
+								'linear-gradient(to right, #81d6e3, #98ceea, #b1c5e5, #c4bed7, #cabac8)',
+						}}
 						className={`${classes.back}  ${classes.wrapperBackground} `}
 					>
 						<CardBody
 							background
 							style={{
-								backgroundColor: 'white',
+								//backgroundColor: 'white',
 								borderRadius: '6px',
 								width: '100%',
 								maxWidth: '100%',
@@ -269,34 +281,19 @@ const Event = ({ event, classes, user, location }) => {
 									</a>
 								</h4>
 							</div>
+							<Slider {...settings}>
+								{event.attending.map(usr => (
+									<div>
+										<Avatar
+											src={usr.imageThumbnail}
+											imgProps={{ height: 80, width: 80 }}
+										/>
+										<h2>{user.firstName}</h2>
+									</div>
+								))}
+							</Slider>
 							<Table>
-								<TableHead>
-									<TableRow>
-										<TableCell>{''}</TableCell>
-										<TableCell>{''}</TableCell>
-										<TableCell>{''}</TableCell>
-										<TableCell>{''}</TableCell>
-									</TableRow>
-								</TableHead>
-								<TableBody>
-									{event.attending.map(usr => (
-										<TableRow key={usr.id}>
-											<TableCell>
-												<img
-													style={{
-														height: '40px',
-														width: '40px',
-														borderRadius: '50%',
-													}}
-													src={usr.imageThumbnail}
-												/>
-											</TableCell>
-											<TableCell>{user.firstName}</TableCell>
-											<TableCell>{getAge(user.dob)}</TableCell>
-											{/* <TableCell>{user.gender.toLowerCase()}</TableCell> */}
-										</TableRow>
-									))}
-								</TableBody>
+								<TableBody />
 							</Table>
 						</CardBody>
 					</div>
