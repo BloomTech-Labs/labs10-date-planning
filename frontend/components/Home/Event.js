@@ -114,11 +114,6 @@ const Event = ({ event, classes, user, location }) => {
               </CardHeader>
             )}
             <CardBody className={classes.cardBodyRotate}>
-              <span 
-                className={`${classes.cardCategory}, Event__location`}
-              >
-                {event.location.venue}
-              </span>
               <Mutation
                 mutation={ADD_EVENT_MUTATION}
                 variables={{
@@ -179,7 +174,7 @@ const Event = ({ event, classes, user, location }) => {
                 {(addEvent, { error, loading, called }) => {
                   if (called) NProgress.start();
                   return (
-                    <Typography className={classes.cardTitle}>
+                    <Typography variant='h4' className={classes.cardTitle}>
                       <a href="#" onClick={e => e.preventDefault()}>
                         {event.title}{" "}
                         <IconButton
@@ -193,6 +188,24 @@ const Event = ({ event, classes, user, location }) => {
                   );
                 }}
               </Mutation>
+              <h4 className={`${classes.cardCategory}, Event__location`}>
+                {event.location.venue}
+              <div
+                className={`${classes.stats} ${classes.mlAuto}`}
+                style={{ display: "block" }}
+              >
+                {event.times.length > 2 ? (
+                  <div>
+                    {moment(event.times[0]).calendar()} -{" "}
+                    {moment(event.times[event.times.length - 1]).calendar()}
+                  </div>
+                ) : (
+                  event.times.map((time, i) => (
+                    <div key={i}>{moment(time).calendar()}</div>
+                  ))
+                )}
+              </div>
+              </h4>
             </CardBody>
             <CardFooter>
               {/* {isSaved && <Bookmark className='Event__bookmark' />} */}
@@ -211,21 +224,6 @@ const Event = ({ event, classes, user, location }) => {
                 ""
               )}
 
-              <div
-                className={`${classes.stats} ${classes.mlAuto}`}
-                style={{ display: "block" }}
-              >
-                {event.times.length > 2 ? (
-                  <div>
-                    {moment(event.times[0]).calendar()} -{" "}
-                    {moment(event.times[event.times.length - 1]).calendar()}
-                  </div>
-                ) : (
-                  event.times.map((time, i) => (
-                    <div key={i}>{moment(time).calendar()}</div>
-                  ))
-                )}
-              </div>
             </CardFooter>
             {/* <EventModal modal={modal} showModal={showModal} event={event} /> */}
           </div>

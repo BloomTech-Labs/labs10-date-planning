@@ -21,7 +21,7 @@ const theme = createMuiTheme({
 		fontFamily: [
 			'Fira Sans', 'sans-serif'
 		].join(','),
-		// useNextVariants: true,
+		useNextVariants: true,
 	},
 });
 
