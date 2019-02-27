@@ -37,7 +37,7 @@ const Query = {
 		const dates = !args.dates || !args.dates.length ? undefined : setDates(args.dates.toString());
 
 		let events;
-		let response = await fetchEvents(location, cats, dates, page, 200, args.genres);
+		let response = await fetchEvents(location, cats, dates, page, 50, args.genres);
 
 		events = response.data._embedded.events;
 
@@ -46,11 +46,11 @@ const Query = {
 			return a;
 		}, []);
 
-		if (response.data.page.totalElements > 20) {
-			while (uniques.length < 20) {
+		if (response.data.page.totalElements > 50) {
+			while (uniques.length < 50) {
 				page = page + 1;
 
-				let res = await fetchEvents(location, cats, dates, page, 200, args.genres);
+				let res = await fetchEvents(location, cats, dates, page, 50, args.genres);
 
 				if (!res.data._embedded) break;
 				else {
