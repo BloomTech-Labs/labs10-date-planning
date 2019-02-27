@@ -5,26 +5,21 @@ import Header from '../components/Header';
 import User, { isLoggedIn } from '../components/Queries/User';
 import redirect from '../utils/redirect';
 
-const Home = ({ user, query }) => {
-	console.log(user)
-	
-	if (!user) return <JoinUs />;
-	else
+const Home = ({ query }) => {
+
 		return (
 			<>
 					<Header color='primary' />
 				<Events  newUser={query.welcome} />
 					</>
-					
-				
-			
+	
 		);
 };
 
 Home.getInitialProps = async ctx => {
 	let user = await isLoggedIn(ctx.apolloClient);
 
-	if (!user.currentUser) {
+	if (!user) {
 		redirect(ctx, '/joinus');
 	}
 	//if (ctx.query.welcome)
@@ -32,7 +27,7 @@ Home.getInitialProps = async ctx => {
 	// if (!(user.currentUser && router.aspath != '/joinus')) {
 	// 	redirect(ctx, '/joinus');
 	// }
-	return { user: user.currentUser };
+	return { };
 };
 
 export default Home;

@@ -52,7 +52,6 @@ const Profile = ({ classes }) => {
 	return (
 		<Composed>
 			{({ user: { data: { currentUser } }, genderPref, agePref, biography, updateUser }) => {
-				console.log(currentUser);
 				return (
 					<div>
 						<div className='Profile-Header'>

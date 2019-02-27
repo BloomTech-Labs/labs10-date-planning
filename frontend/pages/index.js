@@ -4,15 +4,15 @@ import { isLoggedIn } from '../components/Queries/User';
 import redirect from '../utils/redirect';
 import Home from './home';
 
-const Index = ({ user }) => {
-	if (!user) return <JoinUs />;
+const Index = () => {
+	// if (!user) return <JoinUs />;
 	return <Home user={user} />;
 };
 
 Index.getInitialProps = async ctx => {
 	let user = await isLoggedIn(ctx.apolloClient);
 
-	if (!user.currentUser) {
+	if (!user) {
 		redirect(ctx, '/joinus');
 	} else {
 		redirect(ctx, '/home');
@@ -21,7 +21,7 @@ Index.getInitialProps = async ctx => {
 	// if (!(user.currentUser && router.aspath != '/joinus')) {
 	// 	redirect(ctx, '/joinus');
 	// }
-	return { user: user.currentUser };
+	return {};
 };
 
 export default Index;

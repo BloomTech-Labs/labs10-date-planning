@@ -27,7 +27,6 @@ const DELETE_EVENT = gql`
 `;
 
 const DateView = ({ date, classes, client, currentUser }) => {
-	console.log(date);
 	const deleteEvent = async eventId => {
 		let { data, loading } = await client.mutate({
 			mutation: DELETE_EVENT,

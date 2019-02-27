@@ -148,7 +148,6 @@ const Register = ({ classes }) => {
 	};
 
 	const handleError = error => {
-		console.log(error);
 		NProgress.done();
 		if (error.message.includes('unique')) {
 			setError({ ...err, email: 'A user with this email already exists.' });

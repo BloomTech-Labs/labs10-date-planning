@@ -13,7 +13,6 @@ import popoverStyles from '../../../material-kit-pro-react/popoverStyles';
 import customCheckboxRadioSwitch from '../../../material-kit-pro-react/customCheckboxRadioSwitchStyle';
 
 const javascriptStyles = theme => {
-	console.log(theme.breakpoints.up('sm'));
 	return {
 		container,
 		description,
