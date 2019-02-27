@@ -10,13 +10,14 @@ type Mutation {
 	signout: Message
 	updateImage(thumbnail: String!, image: String!): User!
 	updateLocation(city: String!): User!
-	addEvent(event: AddEventInput): Message
+	addEvent(event: AddEventInput): Event
 	deleteEvent(id: String!, eventId: String!): User!
 	createOrder(token: String!, subscription: Permission!): Message
 	cancelSubscription(id: String!): User!
 	updateUser(data: UserUpdateInput!): User
 	createChat(id: String!, message: String!): Chat!
 	deleteChat(id: String): Message
+	sendMessage(id: String!, message: String!): DirectMessage!
 }
 
 type Query {
@@ -38,6 +39,35 @@ type Query {
 	getChat(id: String!): Chat
 	getUserChats: [Chat]!
 	getConversation(id: String): Chat
+}
+
+type Subscription {
+	myChat(id: String!): ChatSubscriptionPayload!
+	myMessages(id: String!): MessageSubscriptionPayload!
+}
+
+enum MutationType {
+	CREATED
+	UPDATED
+	DELETED
+}
+
+type ChatSubscriptionPayload {
+	mutation: MutationType!
+	node: Chat
+}
+
+type MessageSubscriptionPayload {
+	mutation: MutationType!
+	node: DirectMessage
+}
+
+type DirectMessage {
+	id: ID!
+	text: String!
+	from: User!
+	createdAt: DateTime!
+	chat: Chat!
 }
 
 input AddEventInput {
@@ -69,6 +99,9 @@ type User {
 	img: [ProfilePic]
 	permissions: Permission
 	interests: [Category]
+	genderPrefs: [Gender]
+	minAgePref: Int
+	maxAgePref: Int
 	events: [Event!]!
 	createdAt: DateTime!
 	updatedAt: DateTime!

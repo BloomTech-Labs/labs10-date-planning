@@ -10,8 +10,13 @@ const CURRENT_USER_QUERY = gql`
 			lastName
 			gender
 			email
+			biography
+			dob
 			location
 			imageThumbnail
+			genderPrefs
+			minAgePref
+			maxAgePref
 			imageLarge
 			createdAt
 			permissions
@@ -38,10 +43,11 @@ const User = props => (
 );
 
 export const isLoggedIn = async client => {
-	let { data } = await client.query({
-		query: CURRENT_USER_QUERY,
-	});
-	return data;
+	// let { data, error } = await client.readQuery({
+	// 	query: CURRENT_USER_QUERY,
+	// });
+	let data = client.cache.extract();
+	return Object.values(data).some(val => val.hasOwnProperty('currentUser'));
 };
 
 User.propTypes = {

@@ -22,6 +22,8 @@ import Button from '../../styledComponents/CustomButtons/Button.jsx';
 import image from '../../static/img/bg.jpg';
 import profileImage from '../../static/img/placeholder.jpg';
 import Logo from '../../static/img/up4LogoWhite.png';
+
+import '../../styles/Header/index.scss';
 //utils
 //import redirect from '../../utils/redirect';
 Router.onRouteChangeComplete = () => {
@@ -52,10 +54,15 @@ const Nav = ({ classes, color }) => {
 		<User>
 			{({ data: { currentUser }, client }) => (
 				<Header
-					//style={{backgroundImage: 'linear-gradient(to right top, #4cb5ae, #58bdbc, #65c6ca, #72ced7, #81d6e3)'}}
 					color={color}
 					brand={Logo}
-					// color='primary'
+					fixed={color === 'transparent'}
+					changeColorOnScroll={
+						color === 'transparent' && {
+							height: 300,
+							color: 'warning',
+						}
+					}
 					links={
 						<List className={classes.list + ' ' + classes.mlAuto}>
 							<ListItem className={classes.listItem}>
@@ -88,7 +95,7 @@ const Nav = ({ classes, color }) => {
 									className={classes.navLink}
 									color='transparent'
 								>
-									<Badge badgeContent={4} color='primary'>
+									<Badge badgeContent={4} color='error'>
 										<Mail />
 									</Badge>
 								</Button>

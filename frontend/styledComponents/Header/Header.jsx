@@ -64,11 +64,11 @@ class Header extends React.Component {
 			[classes.fixed]: fixed,
 		});
 		return (
-			<AppBar className={appBarClasses}>
+			<AppBar style={{ height: '95px' }} className={appBarClasses}>
 				<Toolbar className={classes.container}>
 					<Link href='/'>
 						<Button className={classes.title}>
-							<img src={brand} style={{ maxHeight: '40px' }} />
+							<img src={brand} style={{ maxHeight: '50px' }} />
 						</Button>
 					</Link>
 					<Hidden smDown implementation='css' className={classes.hidden}>

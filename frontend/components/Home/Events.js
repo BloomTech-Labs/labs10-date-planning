@@ -1,17 +1,19 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import { withApollo, Mutation } from 'react-apollo';
+import { withApollo, Mutation, Query } from 'react-apollo';
 import _ from 'lodash';
 import NProgress from 'nprogress';
 import InfiniteScroll from 'react-infinite-scroller';
 import classNames from 'classnames';
+import { adopt } from 'react-adopt';
+import { State, Map, Value, Toggle } from 'react-powerplug';
 //MUI
 import withStyles from '@material-ui/core/styles/withStyles';
-import { Drawer, Divider, IconButton } from '@material-ui/core';
+import { Drawer, Divider, IconButton, Hidden } from '@material-ui/core';
 import { Menu, ChevronLeft, ChevronRight } from '@material-ui/icons';
 //Q&M
 import { ALL_EVENTS_QUERY } from '../Queries/AllEvents';
-import { CURRENT_USER_QUERY } from '../Queries/User';
-import { UPDATE_LOCATION_MUTATION } from '../Mutations/updateLocation';
+import User, { CURRENT_USER_QUERY } from '../Queries/User';
+import { UPDATE_USER_MUTATION } from '../Mutations/updateUser';
 import Location from '../Queries/Location';
 //components
 import Filters from './Filters';
@@ -28,200 +30,211 @@ import Paginations from '../../styledComponents/Pagination/Pagination';
 import styles from '../../static/jss/material-kit-pro-react/views/ecommerceSections/productsStyle.jsx';
 import { auth } from '../../utils/firebase';
 
-const Events = ({ classes, client, theme, newUser }) => {
-	const [ page, setPage ] = useState(0);
-	const [ drawerOpen, setDrawerOpen ] = useState(false);
-	const [ events, setEvents ] = useState({ events: [] });
-	const [ location, setLocation ] = useState(undefined);
+// import Prism from '../../static/img/prism.png'
+import Triangles from '../../static/img/footer_lodyas.png';
+import Wood from '../../static/img/office.png';
 
-	const [ user, setUser ] = useState(undefined);
-	useEffect(() => {
-		getUser();
-	}, []);
+const Composed = adopt({
+	drawer: <Toggle initial={false} />,
+	page: <Value initial={0} />,
 
-	useEffect(
-		() => {
-			if (location) {
-				getEvents({
-					location: location,
-					alt: 'all',
-					page: 0,
-					categories: [],
-					dates: [],
-					genres: [],
-				});
-			}
-		},
-		[ location ],
-	);
+	user: ({ render }) => <Query query={CURRENT_USER_QUERY}>{render}</Query>,
+	location: ({ user, render }) => (
+		<Value initial={user.data.currentUser.location || 'Los Angeles, CA'}>{render}</Value>
+	),
+	filters: <State initial={{ cats: [], genres: [], dates: [] }} />,
+	getEvents: ({ page, location, filters, render }) => (
+		<Query
+			query={ALL_EVENTS_QUERY}
+			variables={{
+				location: location.value,
+				page: page.value,
+				categories: filters.state.cats,
+				genres: filters.state.genres,
+				dates: filters.state.dates,
+			}}
+			onCompleted={() => NProgress.done()}
+			onError={() => NProgress.done()}
+		>
+			{render}
+		</Query>
+	),
 
-	const getUser = async () => {
-		let { data, loading } = await client.query({
-			query: CURRENT_USER_QUERY,
-		});
-		// let holden;
-		// if (auth) {
-		// 	holden = auth.currentUser;
-		// 	//console.log(holden);
-		// }
-		// console.log(auth);
+	updateUser: ({ render }) => (
+		<Mutation
+			mutation={UPDATE_USER_MUTATION}
+			onCompleted={() => NProgress.done()}
+			onError={() => NProgress.done()}
+		>
+			{render}
+		</Mutation>
+	),
+});
 
-		if (data.currentUser) {
-			setUser(data.currentUser);
-			if (data.currentUser.location) setLocation(data.currentUser.location);
-			else setLocation('Los Angeles, CA');
-		}
-	};
-
-	const fetchEvents = async variables => {
-		NProgress.start();
-		let { data, error } = await client.query({
-			query: ALL_EVENTS_QUERY,
-			variables: variables,
-		});
-		if (data || error) NProgress.done();
-		return data.getEvents;
-	};
-
-	const getEvents = async variables => {
-		let newEvents = await fetchEvents(variables);
-
-		let events = {
-			...newEvents,
-			events: _.chunk(newEvents.events, newEvents.events.length / 2),
-		};
-
-		setEvents(events);
-	};
-
-	const loadMore = async page => {
-		if (page < events.page_count - 1) {
-			let data = await fetchEvents({
-				location: location,
-				page: page + 1,
-			});
-			let moarEvents = [ ..._.flatten(events.events), ...data.events ];
-
-			let newEvents = {
-				...data,
-				events: _.chunk(moarEvents, moarEvents.length / 3),
-			};
-			setEvents(newEvents);
-		}
-	};
-
-	const handleCompleted = async () => {
-		let { data, error } = await client.query({
-			query: CURRENT_USER_QUERY,
-		});
-		if (data || error) NProgress.done();
-
-		if (data.currentUser) {
-			setUser(data.currentUser);
-		}
-	};
-
-	if (!events.events.length) return <div />;
-	else
-		return (
-			<div className={classes.section} style={{ paddingTop: '40px' }}>
-				{newUser && <NewUser />}
-				<div className={classes.container}>
-					<Fragment>
-						<IconButton
-							// color="inherit"
-							aria-label='Open drawer'
-							onClick={() => setDrawerOpen(!drawerOpen)}
-							className={classNames(classes.menuButton, drawerOpen && classes.hide)}
-						>
-							<Menu />
-						</IconButton>
-						<Drawer
-							//className={classes.drawer}
-							variant='persistent'
-							anchor='left'
-							open={drawerOpen}
-							// classes={{
-							// 	paper: classes.drawerPaper,
-							// }}
-						>
-							<div style={{ padding: '0 20px' }}>
-								{' '}
-								<IconButton onClick={() => setDrawerOpen()}>
-									{theme.direction === 'ltr' ? <ChevronLeft /> : <ChevronRight />}
-								</IconButton>
-								<LocationSearch setLocation={setLocation} />
-								<p style={{ margin: 0 }}>Showing events near {location}.</p>
-								<Mutation
-									mutation={UPDATE_LOCATION_MUTATION}
-									variables={{ city: location }}
-									onCompleted={handleCompleted}
+const Events = ({ classes, newUser }) => {
+	return (
+		<Composed>
+			{({
+				getEvents: { data: { getEvents }, refetch, loading, client },
+				updateUser,
+				drawer,
+				location,
+				page,
+				filters,
+				user: { data: { currentUser } },
+			}) => {
+				return (
+					<div
+						style={{
+							paddingTop: '40px',
+							height: '100%',
+							backgroundImage: `url("https://www.transparenttextures.com/patterns/shattered-dark.png")`,
+							backgroundColor: '#000000',
+						}}
+					>
+						{/* <div className={classes.section}> */}
+						{newUser && <NewUser />}
+						<div className={classes.container}>
+							<Fragment>
+								<IconButton
+									// color="inherit"
+									aria-label='Open drawer'
+									onClick={drawer.toggle}
+									className={classNames(
+										classes.menuButton,
+										drawer.on && classes.hide,
+									)}
 								>
-									{(updateLocation, { error, loading, called }) => {
-										if (called) NProgress.start();
-
-										return (
-											<div
-												style={{
-													display: 'flex',
-													alignItems: 'center',
-												}}
-											>
-												{user && user.location !== location ? (
-													<Primary>
-														<b
-															onClick={updateLocation}
-															style={{ cursor: 'pointer' }}
-														>
-															make default location?
-														</b>
-													</Primary>
-												) : (
-													<div style={{ height: '21px' }} />
-												)}
-											</div>
-										);
-									}}
-								</Mutation>
-							</div>
-							<Filters location={location} page={page} getEvents={getEvents} />
-						</Drawer>
-						<GridContainer>
-							<GridItem md={12} sm={9}>
-								<GridContainer>
-									<GridItem sm={6} md={6} lg={6}>
-										<InfiniteScroll
-											pageStart={0}
-											loadMore={loadMore}
-											hasMore={page < events.page_count}
-											threshold={400}
-											loader={<div key={0} />}
+									<Menu />
+								</IconButton>
+								<Drawer
+									//className={classes.drawer}
+									variant='persistent'
+									anchor='left'
+									open={drawer.on}
+									// classes={{
+									// 	paper: classes.drawerPaper,
+									// }}
+								>
+									<div style={{ padding: '0 20px', width: '250px' }}>
+										{' '}
+										<IconButton onClick={drawer.toggle}>
+											<ChevronLeft />
+										</IconButton>
+										<LocationSearch setLocation={val => location.set(val)} />
+										<p style={{ margin: 0 }}>
+											Showing events near {location.value}.
+										</p>
+										<div
+											style={{
+												display: 'flex',
+												alignItems: 'center',
+											}}
 										>
-											{events.events[0].map(event => (
-												<Event event={event} key={event.id} user={user} />
-											))}
-										</InfiniteScroll>
-									</GridItem>
+											{currentUser.location !== location.value ? (
+												<Primary>
+													<b
+														onClick={() => {
+															NProgress.start();
+															updateUser({
+																variables: {
+																	location: location.value,
+																},
+															});
+														}}
+														style={{
+															cursor: 'pointer',
+														}}
+													>
+														make default location?
+													</b>
+												</Primary>
+											) : (
+												<div style={{ height: '21px' }} />
+											)}
+										</div>
+									</div>
+									<Filters
+										// location={location.value}
+										// page={page.value}
+										// refetch={refetch}
+										filters={filters}
+									/>
+								</Drawer>
+								<GridContainer>
+									<GridItem sm={12} md={12} sm={12}>
+										{!loading ? (
+											<GridContainer>
+												<GridItem sm={8} md={6} lg={6}>
+													<InfiniteScroll
+														pageStart={0}
+														loadMore={async page => {
+															if (page > getEvents.page_count - 1) {
+																await refetch({
+																	variables: {
+																		page: page + 1,
+																	},
+																});
+															}
+														}}
+														hasMore={page.value < getEvents.page_count}
+														threshold={400}
+														loader={<div key={0} />}
+													>
+														{getEvents.events
+															.filter((e, i) => i % 2 === 0)
+															.map(event => (
+																<Event
+																	event={event}
+																	key={event.id}
+																	user={currentUser}
+																	location={location}
+																/>
+															))}
 
-									<GridItem sm={6} md={6} lg={6}>
-										{events.events[1] &&
-											events.events[1].map(event => (
-												<Event event={event} key={event.id} user={user} />
-											))}
-									</GridItem>
-									{/* <GridItem sm={6} md={4} lg={4}>
+														{getEvents.events.map(event => (
+															<Event
+																event={event}
+																key={event.id}
+																user={currentUser}
+																location={location}
+															/>
+														))}
+													</InfiniteScroll>
+												</GridItem>
+
+												<GridItem sm={8} md={6} lg={6}>
+													{getEvents.events
+														.filter((e, i) => i % 2 !== 0)
+														.map(event => (
+															<Event
+																event={event}
+																key={event.id}
+																user={currentUser}
+																location={location}
+															/>
+														))}
+												</GridItem>
+
+												{/* <GridItem sm={6} md={4} lg={4}>
 										{events.events[2] &&
 											events.events[2].map(event => (
 												<Event event={event} key={event.id} user={user} />
 											))}
 									</GridItem> */}
+											</GridContainer>
+										) : (
+											<div>Loading</div>
+										)}
+									</GridItem>
 								</GridContainer>
-							</GridItem>
-						</GridContainer>
-					</Fragment>
-				</div>
-			</div>
-		);
+							</Fragment>
+						</div>
+					</div>
+				);
+			}}
+		</Composed>
+	);
 };
 
-export default withApollo(withStyles(styles, { withTheme: true })(Events));
+export default withStyles(styles, { withTheme: true })(Events);

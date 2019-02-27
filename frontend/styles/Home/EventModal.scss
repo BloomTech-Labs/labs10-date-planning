@@ -11,8 +11,8 @@
     $border: 3px;
     color: #000;
     background: #fff;
-    background-clip: padding-box; /* !importanté */
-    border: solid $border transparent; /* !importanté */
+    background-clip: padding-box; 
+    border: solid $border transparent; 
     border-radius: 6px;
   
     &:before {
@@ -23,15 +23,8 @@
       bottom: 0;
       left: 0;
       z-index: -1;
-      margin: -$border; /* !importanté */
-      border-radius: inherit; /* !importanté */
-      background-image: linear-gradient(
-        to top,
-        #7dcac5,
-        #7dcdcd,
-        #7ed0d4,
-        #7fd3dc,
-        #81d6e3
-      );
+      margin: -$border; 
+      border-radius: inherit; 
+      background-image: linear-gradient(to right, #81d6e3, #98ceea, #b1c5e5, #c4bed7, #cabac8);
     }
   }

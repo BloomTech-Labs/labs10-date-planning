@@ -31,7 +31,7 @@ const Dates = ({ classes }) => {
 								</div>
 							)}
 						</GridContainer>
-						{currentUser.permissions === 'FREE' && (
+						{/* {currentUser.permissions === 'FREE' && (
 							<div className='Snackbar'>
 								<SnackbarContent
 									message={
@@ -65,7 +65,7 @@ const Dates = ({ classes }) => {
 									color='info'
 								/>
 							</div>
-						)}
+						)} */}
 					</div>
 				);
 			}}

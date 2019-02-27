@@ -13,7 +13,7 @@ const BillingPage = () => (
 			return (
 				<>
 					<Billing currentUser={currentUser} />
-					<TransactionList currentUser={currentUser} />
+					{/* <TransactionList currentUser={currentUser} /> */}
 				</>
 			);
 		}}
@@ -21,16 +21,17 @@ const BillingPage = () => (
 );
 
 BillingPage.getInitialProps = async ctx => {
+	
 	let user = await isLoggedIn(ctx.apolloClient);
 
-	if (!user.currentUser) {
+	if (!user) {
 		redirect(ctx, '/joinus');
 	}
 	//console.log(!user.currentUser && router.pathname !== '/joinus');
 	// if (!(user.currentUser && router.aspath != '/joinus')) {
 	// 	redirect(ctx, '/joinus');
 	// }
-	return { user: user.currentUser };
+	return { };
 };
 
 export default BillingPage;
