@@ -93,7 +93,7 @@ const Event = ({ event, classes, user, location }) => {
         } ${rotate}`}
       >
         <Card blog className={`${classes.cardRotate}`}>
-          <div ref={divEl} className={`${classes.front}, Event__border`}>
+          <div ref={divEl} className={`${classes.front} Event__border`}>
             {event.image_url && (
               <CardHeader image>
                 <a href="#" onClick={e => e.preventDefault()}>
@@ -212,7 +212,7 @@ const Event = ({ event, classes, user, location }) => {
             <CardBody
               background
               style={{
-                // backgroundColor: "white",
+                backgroundColor: "white",
                 borderRadius: "6px",
                 width: "100%",
                 maxWidth: "100%",
