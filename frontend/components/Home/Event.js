@@ -1,7 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
-import { withApollo, Mutation } from "react-apollo";
-import moment from "moment";
-import NProgress from "nprogress";
+
+import React, { useState, useEffect, useRef } from 'react';
+import { withApollo, Mutation } from 'react-apollo';
+import moment from 'moment';
+import NProgress from 'nprogress';
+import Slider from 'react-slick';
+
 
 //query& M
 import { CURRENT_USER_QUERY } from "../Queries/User";
@@ -18,6 +21,7 @@ import {
 	TableRow,
 	TableHead,
 	Typography,
+	Avatar,
 } from '@material-ui/core';
 import withStyles from '@material-ui/core/styles/withStyles';
 
@@ -43,7 +47,13 @@ function useForceUpdate() {
   const [value, set] = useState(true); //boolean state
   return () => set(!value); // toggle the state to force render
 }
-
+let settings = {
+	dots: true,
+	infinite: true,
+	speed: 500,
+	slidesToShow: 1,
+	slidesToScroll: 1,
+};
 const Event = ({ event, classes, user, location }) => {
   const [modal, showModal] = useState({});
   const [rotate, setRotate] = useState("");
@@ -202,73 +212,89 @@ const Event = ({ event, classes, user, location }) => {
                 ""
               )}
 
-            </CardFooter>
-            {/* <EventModal modal={modal} showModal={showModal} event={event} /> */}
-          </div>
-          <div
-            style={{ height: "auto", backgroundColor: "white" }}
-            className={`${classes.back}  ${classes.wrapperBackground} `}
-          >
-            <CardBody
-              background
-              style={{
-                backgroundColor: "white",
-                borderRadius: "6px",
-                width: "100%",
-                maxWidth: "100%",
-                height: divEl.current
-                  ? `${divEl.current.clientHeight}px`
-                  : height,
-                display: "block"
-              }}
-              className={`${classes.cardBodyRotate} `}
-            >
-              <div style={{ display: "flex" }}>
-                <IconButton onClick={() => setRotate("")}>
-                  <ChevronLeft />
-                </IconButton>
-                <h4 className={classes.cardTitle}>
-                  <a href="#" onClick={e => e.preventDefault()}>
-                    {event.title}
-                  </a>
-                </h4>
-              </div>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>{""}</TableCell>
-                    <TableCell>{""}</TableCell>
-                    <TableCell>{""}</TableCell>
-                    <TableCell>{""}</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {event.attending.map(usr => (
-                    <TableRow key={usr.id}>
-                      <TableCell>
-                        <img
-                          style={{
-                            height: "40px",
-                            width: "40px",
-                            borderRadius: "50%"
-                          }}
-                          src={usr.imageThumbnail}
-                        />
-                      </TableCell>
-                      <TableCell>{user.firstName}</TableCell>
-                      <TableCell>{getAge(user.dob)}</TableCell>
-                      {/* <TableCell>{user.gender.toLowerCase()}</TableCell> */}
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </CardBody>
-          </div>
-          <InfoModal showModal={showModal} modal={modal} />
-        </Card>
-      </div>
-    </div>
-  );
+
+							{event.attending.length ? (
+								<div
+									style={{ cursor: 'pointer', display: 'flex' }}
+									onClick={() => setRotate(classes.activateRotate)}
+								>
+									<FlashOn />
+									<p>{event.attending.length} users interested in this event.</p>
+								</div>
+							) : (
+								''
+							)}
+
+							<div
+								className={`${classes.stats} ${classes.mlAuto}`}
+								style={{ display: 'block' }}
+							>
+								{event.times.length > 2 ? (
+									<div>
+										{moment(event.times[0]).calendar()} -{' '}
+										{moment(event.times[event.times.length - 1]).calendar()}
+									</div>
+								) : (
+									event.times.map((time, i) => (
+										<div key={i}>{moment(time).calendar()}</div>
+									))
+								)}
+							</div>
+						</CardFooter>
+						{/* <EventModal modal={modal} showModal={showModal} event={event} /> */}
+					</div>
+					<div
+						style={{
+							height: 'auto',
+							backgroundImage:
+								'linear-gradient(to right, #81d6e3, #98ceea, #b1c5e5, #c4bed7, #cabac8)',
+						}}
+						className={`${classes.back}  ${classes.wrapperBackground} `}
+					>
+						<CardBody
+							background
+							style={{
+								//backgroundColor: 'white',
+								borderRadius: '6px',
+								width: '100%',
+								maxWidth: '100%',
+								height: divEl.current ? `${divEl.current.clientHeight}px` : height,
+								display: 'block',
+							}}
+							className={`${classes.cardBodyRotate} `}
+						>
+							<div style={{ display: 'flex' }}>
+								<IconButton onClick={() => setRotate('')}>
+									<ChevronLeft />
+								</IconButton>
+								<h4 className={classes.cardTitle}>
+									<a href='#' onClick={e => e.preventDefault()}>
+										{event.title}
+									</a>
+								</h4>
+							</div>
+							<Slider {...settings}>
+								{event.attending.map(usr => (
+									<div>
+										<Avatar
+											src={usr.imageThumbnail}
+											imgProps={{ height: 80, width: 80 }}
+										/>
+										<h2>{user.firstName}</h2>
+									</div>
+								))}
+							</Slider>
+							<Table>
+								<TableBody />
+							</Table>
+						</CardBody>
+					</div>
+					<InfoModal showModal={showModal} modal={modal} />
+				</Card>
+			</div>
+		</div>
+	);
+
 };
 
 export default withStyles(CardStyles)(Event);
