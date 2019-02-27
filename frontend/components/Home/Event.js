@@ -10,7 +10,15 @@ import { ADD_EVENT_MUTATION } from '../Mutations/addEvent';
 //MUI
 
 import { Bookmark, Add, ChevronLeft, BookmarkBorder, FlashOn } from '@material-ui/icons';
-import { IconButton, Table, TableBody, TableCell, TableRow, TableHead, Typography } from '@material-ui/core';
+import {
+	IconButton,
+	Table,
+	TableBody,
+	TableCell,
+	TableRow,
+	TableHead,
+	Typography,
+} from '@material-ui/core';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 //Components
@@ -29,6 +37,7 @@ import CardStyles from '../../static/jss/material-kit-pro-react/views/components
 import '../../styles/Home/Event.scss';
 
 import '../../styles/Home/EventModal.scss';
+import '../../styles/Settings/Date.scss';
 
 function useForceUpdate() {
 	const [ value, set ] = useState(true); //boolean state
@@ -88,7 +97,11 @@ const Event = ({ event, classes, user, location }) => {
 				className={`${classes.rotatingCardContainer} ${classes.manualRotate} ${rotate}`}
 			>
 				<Card blog className={classes.cardRotate}>
-					<div ref={divEl} style={{backgroundColor: '#fafafa', border:'3px solid #4cb5ae'}} className={`${classes.front} `}>
+					<div
+						ref={divEl}
+						style={{ backgroundColor: '#fafafa', border: '3px solid #4cb5ae' }}
+						className={`${classes.front} `}
+					>
 						{event.image_url && (
 							<CardHeader image>
 								<a href='#' onClick={e => e.preventDefault()}>
@@ -103,7 +116,7 @@ const Event = ({ event, classes, user, location }) => {
 								/>
 							</CardHeader>
 						)}
-						<CardBody  className={classes.cardBodyRotate}>
+						<CardBody className={classes.cardBodyRotate}>
 							<h6
 								style={{
 									// backgroundColor: '#b2ddf7',
@@ -117,6 +130,7 @@ const Event = ({ event, classes, user, location }) => {
 							>
 								{event.location.venue}
 							</h6>
+
 							<Mutation
 								mutation={ADD_EVENT_MUTATION}
 								variables={{
@@ -188,6 +202,11 @@ const Event = ({ event, classes, user, location }) => {
 									);
 								}}
 							</Mutation>
+							{/* {event.description && (
+								<div className='gradient-box'>
+									<span>{event.description}</span>
+								</div>
+							)} */}
 						</CardBody>
 						<CardFooter>
 							{/* {isSaved && <Bookmark className='Event__bookmark' />} */}

@@ -7,21 +7,18 @@ const theme = createMuiTheme({
 	palette: {
 		primary: {
 			main: '#4cb5ae',
-
 		},
 		secondary: {
 			main: '#b2ddf7',
 		},
 
 		error: {
-			main: '#ff101f'
-		}
+			main: '#ff101f',
+		},
 	},
 	typography: {
-		fontFamily: [
-			'Fira Sans', 'sans-serif'
-		].join(','),
-		// useNextVariants: true,
+		fontFamily: [ 'Fira Sans', 'sans-serif' ].join(','),
+		useNextVariants: true,
 	},
 });
 
