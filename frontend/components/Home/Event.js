@@ -50,7 +50,6 @@ let settings = {
 	slidesToScroll: 1,
 };
 const Event = ({ event, classes, user, location }) => {
-	console.log(event);
 	const [ modal, showModal ] = useState({});
 	const [ rotate, setRotate ] = useState('');
 	const [ height, setHeight ] = useState('191px');
@@ -58,6 +57,12 @@ const Event = ({ event, classes, user, location }) => {
 	const divEl = useRef(null);
 	const imgEl = useRef(null);
 	let isSaved = user.events.find(e => e.id === event.id);
+	let potentialMatches = event.attending.filter(
+		u =>
+			u.id !== user.id &&
+			(!user.minAgePref ||
+				(getAge(u.dob) >= user.minAgePref && getAge(u.dob) <= user.maxAgePref)),
+	);
 
 	useEffect(
 		() => {
@@ -194,17 +199,19 @@ const Event = ({ event, classes, user, location }) => {
 
 						{/* {isSaved && <Bookmark className='Event__bookmark' />} */}
 
-						{event.attending.length ? (
+						{potentialMatches.length ? (
 							<CardFooter style={{ display: 'block' }}>
 								<div
 									style={{ cursor: 'pointer', display: 'flex' }}
 									onClick={() => setRotate(classes.activateRotate)}
 								>
 									<FlashOn />
-									<p>{event.attending.length} users interested in this event.</p>
+									<p>
+										{potentialMatches.length} potential match{potentialMatches.length > 1 ? 'es ' : ' '}
+									</p>
 								</div>
 								<div style={{ display: 'flex' }}>
-									{event.attending.map(usr => (
+									{potentialMatches.map(usr => (
 										<img
 											src={usr.imageThumbnail}
 											style={{
@@ -247,17 +254,39 @@ const Event = ({ event, classes, user, location }) => {
 								className={`${classes.cardBodyRotate} `}
 							>
 								<div style={{ display: 'flex' }}>
-									<IconButton onClick={() => setRotate('')}>
+									<IconButton
+										style={{ height: '30px', width: '30px' }}
+										onClick={() => setRotate('')}
+									>
 										<ChevronLeft />
 									</IconButton>
-									<h4 className={classes.cardTitle}>
-										<a href='#' onClick={e => e.preventDefault()}>
-											{event.title}
-										</a>
-									</h4>
+									<div>
+										<h3 className={classes.cardTitle}>
+											<a href='#' onClick={e => e.preventDefault()}>
+												{event.title}
+											</a>
+										</h3>
+										<h6 style={{ color: '#ff101f' }}>
+											Showing{' '}
+											{!user.genderPrefs.length ||
+											user.genderPrefs.length === 3 ? (
+												' everyone '
+											) : user.genderPrefs.includes(
+												'MALE',
+											) ? user.genderPrefs.includes('FEMALE') ? (
+												' men and women '
+											) : (
+												' men '
+											) : (
+												' women '
+											)}{' '}
+											between the ages of {getAge(user.minAgePref)} and{' '}
+											{getAge(user.maxAgePref)}
+										</h6>
+									</div>
 								</div>
 								<GridContainer>
-									{event.attending.map(usr => (
+									{potentialMatches.map(usr => (
 										<GridItem sm={4} md={4} style={{ padding: '5px' }}>
 											<div className='user_card'>
 												<div
