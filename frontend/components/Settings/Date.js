@@ -27,6 +27,7 @@ const DELETE_EVENT = gql`
 `;
 
 const DateView = ({ date, classes, client, currentUser }) => {
+	console.log(date);
 	const deleteEvent = async eventId => {
 		let { data, loading } = await client.mutate({
 			mutation: DELETE_EVENT,
@@ -56,6 +57,9 @@ const DateView = ({ date, classes, client, currentUser }) => {
 					</CardHeader>
 				)}{' '}
 				<CardBody style={{ zIndex: '1' }} className={classes.cardBodyRotate}>
+					<div className='gradient-box'>
+						<span>{date.venue}</span>
+					</div>
 					<h4 className={classes.cardTitle}>
 						<a classes={{ root: 'test' }} href='#' onClick={e => e.preventDefault()}>
 							{date.title}
