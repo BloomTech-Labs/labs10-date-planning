@@ -13,12 +13,12 @@
   //z-index: -1;
 
   &:hover {
-    border: 4px solid #f33340;
+     box-shadow: 0 4px 20px 0px rgba(255, 255, 255, 0.14), 0 7px 12px -5px rgba(85,187,185, 0.56) !important;
   }
   background-color: #fafafa;
 }
 
-.Event__location {
+.gradient_border {
   display: flex;
   align-items: center;
   width: 100%;
@@ -46,4 +46,20 @@
     margin: -$border;
     border-radius: inherit;
     background-image: linear-gradient(to right, #81d6e3, #98ceea, #b1c5e5, #c4bed7, #cabac8);  }
+}
+
+.user_card {
+  cursor: pointer;
+  &:hover {
+    background-image: linear-gradient(to right, #81d6e3, #98ceea, #b1c5e5, #c4bed7, #cabac8);
+    border-radius: 6px; 
+    box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+    .gradient_border {
+      background: transparent;
+    }
+    p {
+      color: white;
+    }
+  }
+  
 }

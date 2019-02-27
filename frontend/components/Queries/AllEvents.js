@@ -33,8 +33,11 @@ export const ALL_EVENTS_QUERY = gql`
 				notes
 				attending {
 					id
+					dob
 					firstName
 					imageThumbnail
+					biography
+					imageLarge
 				}
 				price {
 					min
