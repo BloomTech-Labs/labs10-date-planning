@@ -47,6 +47,9 @@ const landingPageStyle = {
 		padding: '0',
 		marginTop: '0',
 	},
+	section: {
+		padding: '70px 0 0',
+	},
 	left: {
 		float: 'left!important',
 		display: 'block',

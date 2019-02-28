@@ -1,5 +1,5 @@
-# source: https://up4v2-130f000aa8.herokuapp.com/up4version2/dev
-# timestamp: Tue Feb 26 2019 16:10:03 GMT-0600 (Central Standard Time)
+# source: https://ykrueng-labs2-b2f475839e.herokuapp.com/backend/dev
+# timestamp: Thu Feb 28 2019 12:24:28 GMT-0600 (Central Standard Time)
 
 type AggregateChat {
   count: Int!
@@ -297,6 +297,7 @@ type DirectMessage implements Node {
   text: String!
   from: User!
   createdAt: DateTime!
+  seen: Boolean
   chat: Chat!
 }
 
@@ -312,6 +313,7 @@ type DirectMessageConnection {
 
 input DirectMessageCreateInput {
   text: String!
+  seen: Boolean
   from: UserCreateOneInput!
   chat: ChatCreateOneWithoutMessagesInput!
 }
@@ -323,6 +325,7 @@ input DirectMessageCreateManyWithoutChatInput {
 
 input DirectMessageCreateWithoutChatInput {
   text: String!
+  seen: Boolean
   from: UserCreateOneInput!
 }
 
@@ -342,6 +345,8 @@ enum DirectMessageOrderByInput {
   text_DESC
   createdAt_ASC
   createdAt_DESC
+  seen_ASC
+  seen_DESC
   updatedAt_ASC
   updatedAt_DESC
 }
@@ -350,6 +355,7 @@ type DirectMessagePreviousValues {
   id: ID!
   text: String!
   createdAt: DateTime!
+  seen: Boolean
 }
 
 input DirectMessageScalarWhereInput {
@@ -463,6 +469,10 @@ input DirectMessageScalarWhereInput {
 
   """All values greater than or equal the given value."""
   createdAt_gte: DateTime
+  seen: Boolean
+
+  """All values that are not equal to given value."""
+  seen_not: Boolean
 }
 
 type DirectMessageSubscriptionPayload {
@@ -506,16 +516,19 @@ input DirectMessageSubscriptionWhereInput {
 
 input DirectMessageUpdateInput {
   text: String
+  seen: Boolean
   from: UserUpdateOneRequiredInput
   chat: ChatUpdateOneRequiredWithoutMessagesInput
 }
 
 input DirectMessageUpdateManyDataInput {
   text: String
+  seen: Boolean
 }
 
 input DirectMessageUpdateManyMutationInput {
   text: String
+  seen: Boolean
 }
 
 input DirectMessageUpdateManyWithoutChatInput {
@@ -536,6 +549,7 @@ input DirectMessageUpdateManyWithWhereNestedInput {
 
 input DirectMessageUpdateWithoutChatDataInput {
   text: String
+  seen: Boolean
   from: UserUpdateOneRequiredInput
 }
 
@@ -661,6 +675,10 @@ input DirectMessageWhereInput {
 
   """All values greater than or equal the given value."""
   createdAt_gte: DateTime
+  seen: Boolean
+
+  """All values that are not equal to given value."""
+  seen_not: Boolean
   from: UserWhereInput
   chat: ChatWhereInput
 }

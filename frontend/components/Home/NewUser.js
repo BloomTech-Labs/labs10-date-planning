@@ -183,7 +183,7 @@ const NewUser = ({ classes }) => {
 													query: LOCATION_SUGGESTION_QUERY,
 													variables: { city: e },
 												});
-												console.log(data);
+
 												setItems(data.locationSearch);
 											}}
 										>
@@ -245,7 +245,7 @@ const NewUser = ({ classes }) => {
 											color='primary'
 											disabled={!selectedDate || !location || !gender}
 											onClick={() => {
-												console.log(location, gender, selectedDate);
+												//console.log(location, gender, selectedDate);
 												NProgress.start();
 												updateUser();
 											}}

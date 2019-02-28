@@ -1,6 +1,7 @@
 import React from 'react';
 // nodejs library to set properties for components
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
 // @material-ui/icons
@@ -14,14 +15,20 @@ function Media({ ...props }) {
 		avatarLink,
 		avatar,
 		avatarAlt,
+		currentUser,
 		title,
 		body,
 		footer,
 		innerMedias,
 		...rest
 	} = props;
+
+	const yayclasses = classNames({
+		[classes.media]: true,
+		[classes.reverse]: currentUser,
+	});
 	return (
-		<div {...rest} className={classes.media}>
+		<div {...rest} className={yayclasses}>
 			<a href={avatarLink} className={classes.mediaLink}>
 				<div className={classes.mediaAvatar}>
 					<img src={avatar} alt={avatarAlt} />
@@ -42,12 +49,14 @@ function Media({ ...props }) {
 }
 
 Media.defaultProps = {
-	avatarLink: '#pablo',
+	avatarLink: '#',
 	avatarAlt: '...',
+	currentUser: false,
 };
 
 Media.propTypes = {
 	avatarLink: PropTypes.string,
+	currentUser: PropTypes.bool,
 	avatar: PropTypes.string,
 	avatarAlt: PropTypes.string,
 	title: PropTypes.node,

@@ -6,9 +6,9 @@ module.exports = {
 
 		return db.query.chat(
 			{
-				where: { id: args.id }
+				where: { id: args.id },
 			},
-			info
+			info,
 		);
 	},
 	getUserChats(parent, args, { request, db }, info) {
@@ -19,24 +19,40 @@ module.exports = {
 		return db.query.chats(
 			{
 				where: {
-					users_some: { id: user.id }
-				}
+					users_some: { id: user.id },
+				},
 			},
-			info
+			info,
 		);
 	},
+	// async getMessages(parent, args, { request, db }, info) {
+	// 	const { user } = request;
+	// 	if (!user) throw new Error('You must be logged in to start a conversation!');
+
+	// 	return db.query.chats(
+	// 		{
+	// 			where: {
+	// 				users_some: { id: user.id },
+	// 			},
+	// 		},
+	// 		`{messages {id text createdAt seen from { id firstName imageThumbnail dob gender}}}`,
+	// 	);
+
+	// },
 	async getConversation(parent, args, { request, db }, info) {
 		// this is to check if there is already a convo between logged in user and someone else
 		const { user } = request;
 		if (!user) throw new Error('You must be logged in to start a conversation!');
 
-		const [chat] = await db.query.chats(
+		const [ chat ] = await db.query.chats(
 			{
-				where: { AND: [{ users_some: { id: user.id } }, { users_some: { id: args.id } }] }
+				where: {
+					AND: [ { users_some: { id: user.id } }, { users_some: { id: args.id } } ],
+				},
 			},
-			info
+			info,
 		);
-		// console.log(chat);
+
 		return chat;
-	}
+	},
 };

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { withApollo, Mutation } from 'react-apollo';
 import moment from 'moment';
 import NProgress from 'nprogress';
+import Slider from 'react-slick';
 
 //query& M
 import { CURRENT_USER_QUERY } from '../Queries/User';
@@ -10,11 +11,20 @@ import { ADD_EVENT_MUTATION } from '../Mutations/addEvent';
 //MUI
 
 import { Bookmark, Add, ChevronLeft, BookmarkBorder, FlashOn } from '@material-ui/icons';
-import { IconButton, Table, TableBody, TableCell, TableRow, TableHead, Typography } from '@material-ui/core';
+import {
+	IconButton,
+	Table,
+	TableBody,
+	TableCell,
+	TableRow,
+	TableHead,
+	Typography,
+	Avatar,
+} from '@material-ui/core';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 //Components
-import EventModal from './EventModal';
+import UserModel from './EventModal';
 import InfoModal from './InfoModal';
 //Styled components
 import Card from '../../styledComponents/Card/Card';
@@ -22,6 +32,8 @@ import Button from '../../styledComponents/CustomButtons/Button';
 import CardHeader from '../../styledComponents/Card/CardHeader';
 import CardFooter from '../../styledComponents/Card/CardFooter';
 import CardBody from '../../styledComponents/Card/CardBody';
+import GridContainer from '../../styledComponents/Grid/GridContainer';
+import GridItem from '../../styledComponents/Grid/GridItem';
 //utils
 import getAge from '../../utils/getAge';
 //styles
@@ -29,20 +41,28 @@ import CardStyles from '../../static/jss/material-kit-pro-react/views/components
 import '../../styles/Home/Event.scss';
 
 import '../../styles/Home/EventModal.scss';
+//import '../../styles/Settings/Date.scss';
 
-function useForceUpdate() {
-	const [ value, set ] = useState(true); //boolean state
-	return () => set(!value); // toggle the state to force render
-}
-
-const Event = ({ event, classes, user, location }) => {
-	const [ modal, showModal ] = useState({});
+let settings = {
+	infinite: true,
+	speed: 500,
+	slidesToShow: 1,
+	slidesToScroll: 1,
+};
+const Event = ({ event, classes, user, location, refetch }) => {
+	const [ modal, showModal ] = useState(false);
 	const [ rotate, setRotate ] = useState('');
 	const [ height, setHeight ] = useState('191px');
 	const [ val, set ] = useState(false);
 	const divEl = useRef(null);
 	const imgEl = useRef(null);
 	let isSaved = user.events.find(e => e.id === event.id);
+	let potentialMatches = event.attending.filter(
+		u =>
+			u.id !== user.id &&
+			(!user.minAgePref ||
+				(getAge(u.dob) >= user.minAgePref && getAge(u.dob) <= user.maxAgePref)),
+	);
 
 	useEffect(
 		() => {
@@ -65,10 +85,7 @@ const Event = ({ event, classes, user, location }) => {
 	);
 
 	const handleClick = async (e, addEvent) => {
-		console.log(event);
-		e.stopPropagation();
-
-		showModal({ message: true });
+		//e.stopPropagation();
 
 		addEvent();
 	};
@@ -87,8 +104,8 @@ const Event = ({ event, classes, user, location }) => {
 				style={{ height: height }}
 				className={`${classes.rotatingCardContainer} ${classes.manualRotate} ${rotate}`}
 			>
-				<Card blog className={classes.cardRotate}>
-					<div ref={divEl} style={{backgroundColor: '#fafafa', border:'3px solid #4cb5ae'}} className={`${classes.front} `}>
+				<Card blog className={`${classes.cardRotate}`}>
+					<div ref={divEl} className={`${classes.front} Event__border`}>
 						{event.image_url && (
 							<CardHeader image>
 								<a href='#' onClick={e => e.preventDefault()}>
@@ -103,20 +120,7 @@ const Event = ({ event, classes, user, location }) => {
 								/>
 							</CardHeader>
 						)}
-						<CardBody  className={classes.cardBodyRotate}>
-							<h6
-								style={{
-									// backgroundColor: '#b2ddf7',
-									backgroundImage:
-										'linear-gradient(to top, #8ad2ff, #94d5fd, #9fd8fb, #a8daf9, #b2ddf7)',
-									color: '#fafafa',
-									borderRadius: '6px',
-									padding: '10px',
-								}}
-								className={classes.cardCategory}
-							>
-								{event.location.venue}
-							</h6>
+						<CardBody className={classes.cardBodyRotate}>
 							<Mutation
 								mutation={ADD_EVENT_MUTATION}
 								variables={{
@@ -134,16 +138,6 @@ const Event = ({ event, classes, user, location }) => {
 									const { currentUser } = cache.readQuery({
 										query: CURRENT_USER_QUERY,
 									});
-									// const { getEvents } = cache.readQuery({
-									// 	query: ALL_EVENTS_QUERY,
-									// 	variables: {
-									// 		location,
-									// 		page: 0,
-									// 		categories: [],
-									// 		dates: [],
-									// 		genres: [],
-									// 	},
-									// });
 
 									cache.writeQuery({
 										query: CURRENT_USER_QUERY,
@@ -154,27 +148,24 @@ const Event = ({ event, classes, user, location }) => {
 											},
 										},
 									});
-									// cache.writeQuery({
-									// 	query: ALL_EVENTS_QUERY,
-									// 	data: {
-									// 		getEvents: {
-									// 			...getEvents,
-									// 			events: newEvents,
-									// 		},
-									// 	},
-									// });
 								}}
-								refetchQueries={[
-									{ query: ALL_EVENTS_QUERY, variables: { location: location } },
-								]}
-								awaitRefetchQueries
+								// refetchQueries={[
+								// 	{
+								// 		query: ALL_EVENTS_QUERY,
+								// 		variables: { location: location.value },
+								// 	},
+								// ]}
+								// awaitRefetchQueries
 								onError={() => NProgress.done()}
-								onCompleted={() => NProgress.done()}
+								onCompleted={async () => {
+									await refetch();
+								}}
 							>
 								{(addEvent, { error, loading, called }) => {
+									if (error) console.log(error);
 									if (called) NProgress.start();
 									return (
-										<Typography className={classes.cardTitle}>
+										<Typography variant='h4' className={classes.cardTitle}>
 											<a href='#' onClick={e => e.preventDefault()}>
 												{event.title}{' '}
 												<IconButton
@@ -188,97 +179,171 @@ const Event = ({ event, classes, user, location }) => {
 									);
 								}}
 							</Mutation>
+							<div className={` gradient_border`}>
+								{event.location.venue}
+								<div
+									className={`${classes.stats} ${classes.mlAuto}`}
+									style={{ display: 'block' }}
+								>
+									{event.times.length > 2 ? (
+										<div>
+											{moment(event.times[0]).calendar()} -{' '}
+											{moment(event.times[event.times.length - 1]).calendar()}
+										</div>
+									) : (
+										event.times.map((time, i) => (
+											<div key={i}>{moment(time).calendar()}</div>
+										))
+									)}
+								</div>
+							</div>
 						</CardBody>
-						<CardFooter>
-							{/* {isSaved && <Bookmark className='Event__bookmark' />} */}
 
-							{event.attending.length ? (
+						{/* {isSaved && <Bookmark className='Event__bookmark' />} */}
+
+						{potentialMatches.length ? (
+							<CardFooter style={{ display: 'block' }}>
 								<div
 									style={{ cursor: 'pointer', display: 'flex' }}
 									onClick={() => setRotate(classes.activateRotate)}
 								>
-									<FlashOn />
-									<p>{event.attending.length} users interested in this event.</p>
+									<FlashOn style={{ color: '#ff101f' }} />
+									<p>
+										{potentialMatches.length} potential match{potentialMatches.length > 1 ? 'es ' : ' '}
+									</p>
 								</div>
-							) : (
-								''
-							)}
+								<div style={{ display: 'flex' }}>
+									{potentialMatches.map(usr => (
+										<img
+											key={usr.id}
+											src={usr.imageThumbnail}
+											style={{
+												width: '30px',
+												height: '30px',
+												borderRadius: '6px',
+												border: '1px solid #cabac8',
+											}}
+										/>
+									))}
+								</div>
+							</CardFooter>
+						) : (
+							''
+						)}
 
-							<div
-								className={`${classes.stats} ${classes.mlAuto}`}
-								style={{ display: 'block' }}
-							>
-								{event.times.length > 2 ? (
-									<div>
-										{moment(event.times[0]).calendar()} -{' '}
-										{moment(event.times[event.times.length - 1]).calendar()}
-									</div>
-								) : (
-									event.times.map((time, i) => (
-										<div key={i}>{moment(time).calendar()}</div>
-									))
-								)}
-							</div>
-						</CardFooter>
 						{/* <EventModal modal={modal} showModal={showModal} event={event} /> */}
 					</div>
-					<div
-						style={{ height: 'auto', backgroundColor: 'white' }}
-						className={`${classes.back}  ${classes.wrapperBackground} `}
+					<GridContainer
+						style={{
+							height: 'auto',
+							margin: 0,
+						}}
+						className={`${classes.back} Event__border `}
 					>
-						<CardBody
-							background
-							style={{
-								backgroundColor: 'white',
-								borderRadius: '6px',
-								width: '100%',
-								maxWidth: '100%',
-								height: divEl.current ? `${divEl.current.clientHeight}px` : height,
-								display: 'block',
-							}}
-							className={`${classes.cardBodyRotate} `}
-						>
-							<div style={{ display: 'flex' }}>
-								<IconButton onClick={() => setRotate('')}>
-									<ChevronLeft />
-								</IconButton>
-								<h4 className={classes.cardTitle}>
-									<a href='#' onClick={e => e.preventDefault()}>
-										{event.title}
-									</a>
-								</h4>
-							</div>
-							<Table>
-								<TableHead>
-									<TableRow>
-										<TableCell>{''}</TableCell>
-										<TableCell>{''}</TableCell>
-										<TableCell>{''}</TableCell>
-										<TableCell>{''}</TableCell>
-									</TableRow>
-								</TableHead>
-								<TableBody>
-									{event.attending.map(usr => (
-										<TableRow key={usr.id}>
-											<TableCell>
-												<img
+						<GridItem sm={12} md={12}>
+							<CardBody
+								//background
+								style={{
+									//backgroundColor: 'white',
+									padding: '15px',
+									borderRadius: '6px',
+									width: '100%',
+									maxWidth: '100%',
+									height: divEl.current
+										? `${divEl.current.clientHeight}px`
+										: height,
+									display: 'block',
+								}}
+								className={`${classes.cardBodyRotate} `}
+							>
+								<div style={{ display: 'flex' }}>
+									<IconButton
+										style={{ height: '30px', width: '30px' }}
+										onClick={() => setRotate('')}
+									>
+										<ChevronLeft />
+									</IconButton>
+									<div>
+										<h3 className={classes.cardTitle}>
+											<a href='#' onClick={e => e.preventDefault()}>
+												{event.title}
+											</a>
+										</h3>
+										<h6 style={{ color: '#ff101f' }}>
+											Showing{' '}
+											{!user.genderPrefs.length ||
+											user.genderPrefs.length === 3 ? (
+												' everyone '
+											) : user.genderPrefs.includes(
+												'MALE',
+											) ? user.genderPrefs.includes('FEMALE') ? (
+												' men and women '
+											) : (
+												' men '
+											) : (
+												' women '
+											)}{' '}
+											between the ages of {user.minAgePref || '18'} and{' '}
+											{user.maxAgePref || '100'}
+										</h6>
+									</div>
+								</div>
+								<GridContainer>
+									{potentialMatches.map(usr => (
+										<GridItem
+											key={usr.id}
+											sm={4}
+											md={4}
+											style={{ padding: '5px' }}
+										>
+											<div
+												className='user_card'
+												onClick={() => showModal(true)}
+											>
+												<div
+													className='gradient_border'
 													style={{
-														height: '40px',
-														width: '40px',
-														borderRadius: '50%',
+														//borderRadius: '50%',
+														padding: '5px',
+														marginBottom: '5px',
+														flexDirection: 'column',
 													}}
-													src={usr.imageThumbnail}
-												/>
-											</TableCell>
-											<TableCell>{user.firstName}</TableCell>
-											<TableCell>{getAge(user.dob)}</TableCell>
-											{/* <TableCell>{user.gender.toLowerCase()}</TableCell> */}
-										</TableRow>
+												>
+													<Avatar
+														src={usr.imageThumbnail}
+														imgProps={{ height: 70, width: 70 }}
+														style={{
+															width: '100%',
+															height: '124px',
+															borderRadius: '6px',
+														}}
+													/>
+													<div
+														style={{
+															display: 'flex',
+															justifyContent: 'center',
+														}}
+													>
+														<p style={{ margin: 0 }}>
+															{usr.firstName} |{' '}
+														</p>
+														<p style={{ margin: 0 }}>
+															{getAge(usr.dob)}
+														</p>
+													</div>
+												</div>
+											</div>
+											<UserModel
+												modal={modal}
+												showModal={showModal}
+												potentialMatch={usr}
+											/>
+										</GridItem>
 									))}
-								</TableBody>
-							</Table>
-						</CardBody>
-					</div>
+								</GridContainer>
+							</CardBody>
+						</GridItem>
+					</GridContainer>
 					<InfoModal showModal={showModal} modal={modal} />
 				</Card>
 			</div>

@@ -6,31 +6,32 @@ import JoinUs from './joinus';
 
 const BillingPage = () => (
 	<User>
-		{({ loading, error, data: { currentUser } }) => {
+		{({ loading, error, data }) => {
 			if (loading) return <div>Loading...</div>;
-			if (error || !currentUser) return <JoinUs />;
+			if (error || !data.currentUser) return <JoinUs />;
 
 			return (
 				<>
-					<Billing currentUser={currentUser} />
-					<TransactionList currentUser={currentUser} />
+					<Billing currentUser={data.currentUser} />
+					{/* <TransactionList currentUser={currentUser} /> */}
 				</>
 			);
 		}}
 	</User>
 );
 
-BillingPage.getInitialProps = async ctx => {
-	let user = await isLoggedIn(ctx.apolloClient);
+// BillingPage.getInitialProps = async ctx => {
+	
+// 	let user = await isLoggedIn(ctx.apolloClient);
 
-	if (!user.currentUser) {
-		redirect(ctx, '/joinus');
-	}
-	//console.log(!user.currentUser && router.pathname !== '/joinus');
-	// if (!(user.currentUser && router.aspath != '/joinus')) {
-	// 	redirect(ctx, '/joinus');
-	// }
-	return { user: user.currentUser };
-};
+// 	if (!user) {
+// 		redirect(ctx, '/joinus');
+// 	}
+// 	//console.log(!user.currentUser && router.pathname !== '/joinus');
+// 	// if (!(user.currentUser && router.aspath != '/joinus')) {
+// 	// 	redirect(ctx, '/joinus');
+// 	// }
+// 	return { };
+// };
 
 export default BillingPage;

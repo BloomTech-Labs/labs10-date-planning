@@ -1,10 +1,16 @@
 import withApollo from 'next-with-apollo';
 import ApolloClient from 'apollo-boost';
+import { HttpLink } from 'apollo-link-http';
+import { InMemoryCache } from 'apollo-cache-inmemory';
 import { endpoint, prodEndpoint } from '../config';
+
+//const cache = new InMemoryCache({ dataIdFromObject: object => object.key || null });
 
 function createClient({ headers }) {
 	return new ApolloClient({
-		uri: process.env.NODE_ENV === 'development' ? endpoint : prodEndpoint,
+		uri: endpoint,
+		//ssrMode: true,
+		//uri: process.env.NODE_ENV === 'development' ? endpoint : prodEndpoint,
 		request: operation => {
 			operation.setContext({
 				fetchOptions: {
@@ -13,6 +19,8 @@ function createClient({ headers }) {
 				headers,
 			});
 		},
+
+		//cache,
 		// clientState: {
 		// 	defaults,
 		// 	resolvers,

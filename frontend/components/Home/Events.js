@@ -8,7 +8,7 @@ import { adopt } from 'react-adopt';
 import { State, Map, Value, Toggle } from 'react-powerplug';
 //MUI
 import withStyles from '@material-ui/core/styles/withStyles';
-import { Drawer, Divider, IconButton } from '@material-ui/core';
+import { Drawer, Divider, IconButton, Hidden } from '@material-ui/core';
 import { Menu, ChevronLeft, ChevronRight } from '@material-ui/icons';
 //Q&M
 import { ALL_EVENTS_QUERY } from '../Queries/AllEvents';
@@ -31,7 +31,8 @@ import styles from '../../static/jss/material-kit-pro-react/views/ecommerceSecti
 import { auth } from '../../utils/firebase';
 
 // import Prism from '../../static/img/prism.png'
-import Triangles from '../../static/img/footer_lodyas.png'
+import Triangles from '../../static/img/footer_lodyas.png';
+import Wood from '../../static/img/office.png';
 
 const Composed = adopt({
 	drawer: <Toggle initial={false} />,
@@ -83,10 +84,17 @@ const Events = ({ classes, newUser }) => {
 				user: { data: { currentUser } },
 			}) => {
 				return (
-					<div style={{ paddingTop: '40px', backgroundImage:`url(${Triangles})`}}>
-					{/* <div className={classes.section}> */}
+					<div
+						style={{
+							paddingTop: '40px',
+							height: '100%',
+							backgroundImage: `url("https://www.transparenttextures.com/patterns/shattered-dark.png")`,
+							backgroundColor: '#000000',
+						}}
+					>
+						{/* <div className={classes.section}> */}
 						{newUser && <NewUser />}
-						<div  className={classes.container}>
+						<div className={classes.container}>
 							<Fragment>
 								<IconButton
 									// color="inherit"
@@ -154,16 +162,18 @@ const Events = ({ classes, newUser }) => {
 									/>
 								</Drawer>
 								<GridContainer>
-									<GridItem md={12} sm={9}>
+									<GridItem sm={12} md={12} sm={12}>
 										{!loading ? (
 											<GridContainer>
-												<GridItem sm={6} md={6} lg={6}>
+												<GridItem sm={12} md={6} lg={6}>
 													<InfiniteScroll
 														pageStart={0}
 														loadMore={async page => {
 															if (page > getEvents.page_count - 1) {
 																await refetch({
-																	variables: { page: page + 1 },
+																	variables: {
+																		page: page + 1,
+																	},
 																});
 															}
 														}}
@@ -177,25 +187,38 @@ const Events = ({ classes, newUser }) => {
 																<Event
 																	event={event}
 																	key={event.id}
+																	refetch={refetch}
 																	user={currentUser}
 																	location={location}
 																/>
 															))}
+
+														{getEvents.events.map(event => (
+															<Event
+																event={event}
+																key={event.id}
+																refetch={refetch}
+																user={currentUser}
+																location={location}
+															/>
+														))}
 													</InfiniteScroll>
 												</GridItem>
 
-												<GridItem sm={6} md={6} lg={6}>
+												<GridItem sm={12} md={6} lg={6}>
 													{getEvents.events
 														.filter((e, i) => i % 2 !== 0)
 														.map(event => (
 															<Event
 																event={event}
 																key={event.id}
+																refetch={refetch}
 																user={currentUser}
 																location={location}
 															/>
 														))}
 												</GridItem>
+
 												{/* <GridItem sm={6} md={4} lg={4}>
 										{events.events[2] &&
 											events.events[2].map(event => (

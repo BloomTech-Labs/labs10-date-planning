@@ -60,6 +60,7 @@ type DirectMessage {
 	text: String!
 	from: User!
 	createdAt: DateTime!
+	seen: Boolean @default(value: "false")
 	chat: Chat!
 }
 
