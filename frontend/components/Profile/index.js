@@ -3,9 +3,21 @@ import { withApollo, Mutation, Query } from "react-apollo";
 import { adopt } from "react-adopt";
 import InputRange from "react-input-range";
 import { List, State, Map, Value, Toggle } from "react-powerplug";
+import classNames from "classnames";
 //MUI
 import withStyles from "@material-ui/core/styles/withStyles";
-import { FormControl, MenuItem, Select, InputLabel } from "@material-ui/core";
+import {
+  FormControl,
+  MenuItem,
+  Select,
+  InputLabel,
+  Drawer,
+  IconButton,
+  Divider
+} from "@material-ui/core";
+import { Menu } from "@material-ui/icons";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 //Q&M
 import User, { CURRENT_USER_QUERY } from "../Queries/User";
 import { UPDATE_USER_MUTATION } from "../Mutations/updateUser";
@@ -48,7 +60,9 @@ const Composed = adopt({
     </Mutation>
   )
 });
-const Profile = ({ classes }) => {
+const Profile = ({ classes, theme }) => {
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
   return (
     <Composed>
       {({
@@ -62,7 +76,118 @@ const Profile = ({ classes }) => {
       }) => {
         return (
           <div className="Profile__background">
+            <Drawer
+              className={classes.drawer}
+              variant="persistent"
+              anchor="left"
+              open={drawerOpen}
+              classes={{
+                paper: classes.drawerPaper
+              }}
+            >
+              <div className={classes.drawerHeader}>
+                <IconButton onClick={() => setDrawerOpen(!drawerOpen)}>
+                  {drawerOpen ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                </IconButton>
+              </div>
+              <Divider />
+              <InputLabel
+                htmlFor="multiple-select"
+                className={classes.selectLabel}
+              >
+                Gender preferences
+              </InputLabel>
+              <Select
+                multiple
+                value={genderPref.list}
+                onChange={e => genderPref.set(e.target.value)}
+                MenuProps={{
+                  className: classes.selectMenu,
+                  classes: { paper: classes.selectPaper }
+                }}
+                classes={{ select: classes.select }}
+                inputProps={{
+                  name: "multipleSelect",
+                  id: "multiple-select"
+                }}
+              >
+                <MenuItem
+                  classes={{
+                    root: classes.selectMenuItem,
+                    selected: classes.selectMenuItemSelectedMultiple
+                  }}
+                  value="MALE"
+                >
+                  Men
+                </MenuItem>
+                <MenuItem
+                  classes={{
+                    root: classes.selectMenuItem,
+                    selected: classes.selectMenuItemSelectedMultiple
+                  }}
+                  value="FEMALE"
+                >
+                  Women
+                </MenuItem>
+                <MenuItem
+                  classes={{
+                    root: classes.selectMenuItem,
+                    selected: classes.selectMenuItemSelectedMultiple
+                  }}
+                  value="OTHER"
+                >
+                  Other
+                </MenuItem>
+              </Select>
+              {/* </FormControl> */}
+              <Button
+                style={{marginBottom: '20px'}}
+                onClick={() => {
+                  NProgress.start();
+                  updateUser({
+                    variables: {
+                      genderPrefs: genderPref.list
+                    }
+                  });
+                }}
+              >
+                Set Gender
+              </Button>
+              <div>
+                <InputRange
+                  maxValue={100}
+                  minValue={18}
+                  value={agePref.state}
+                  onChange={value => agePref.setState(value)}
+                />
+              </div>
+
+              <Button
+                style={{ marginTop: "30px" }}
+                onClick={() => {
+                  NProgress.start();
+                  updateUser({
+                    variables: {
+                      minAgePref: agePref.state.min,
+                      maxAgePref: agePref.state.max
+                    }
+                  });
+                }}
+              >
+                set ages
+              </Button>
+            </Drawer>
             <div className="Profile-Header">
+              <IconButton
+                // color="inherit"
+                aria-label="Open drawer"
+                onClick={() => setDrawerOpen(!drawerOpen)}
+                className={classNames(
+                  classes.menuButton
+                )}
+              >
+                <Menu />
+              </IconButton>
               <div className="inner">
                 <div
                   className="prof-img"
@@ -93,95 +218,8 @@ const Profile = ({ classes }) => {
               <div>
                 <Dates />
               </div>
-
-              <div>hi</div>
-
               <div>
-                <FormControl className={classes.selectFormControl}>
-                  <InputLabel
-                    htmlFor="multiple-select"
-                    className={classes.selectLabel}
-                  >
-                    Gender preferences
-                  </InputLabel>
-                  <Select
-                    multiple
-                    value={genderPref.list}
-                    onChange={e => genderPref.set(e.target.value)}
-                    MenuProps={{
-                      className: classes.selectMenu,
-                      classes: { paper: classes.selectPaper }
-                    }}
-                    classes={{ select: classes.select }}
-                    inputProps={{
-                      name: "multipleSelect",
-                      id: "multiple-select"
-                    }}
-                  >
-                    <MenuItem
-                      classes={{
-                        root: classes.selectMenuItem,
-                        selected: classes.selectMenuItemSelectedMultiple
-                      }}
-                      value="MALE"
-                    >
-                      Men
-                    </MenuItem>
-                    <MenuItem
-                      classes={{
-                        root: classes.selectMenuItem,
-                        selected: classes.selectMenuItemSelectedMultiple
-                      }}
-                      value="FEMALE"
-                    >
-                      Women
-                    </MenuItem>
-                    <MenuItem
-                      classes={{
-                        root: classes.selectMenuItem,
-                        selected: classes.selectMenuItemSelectedMultiple
-                      }}
-                      value="OTHER"
-                    >
-                      Other
-                    </MenuItem>
-                  </Select>
-                </FormControl>
-                <Button
-                  onClick={() => {
-                    NProgress.start();
-                    updateUser({
-                      variables: {
-                        genderPrefs: genderPref.list
-                      }
-                    });
-                  }}
-                >
-                  Set Gender
-                </Button>
-                <div>
-                  <InputRange
-                    maxValue={100}
-                    minValue={18}
-                    value={agePref.state}
-                    onChange={value => agePref.setState(value)}
-                  />
-                </div>
-
-                <Button
-                  style={{ marginTop: "30px" }}
-                  onClick={() => {
-                    NProgress.start();
-                    updateUser({
-                      variables: {
-                        minAgePref: agePref.state.min,
-                        maxAgePref: agePref.state.max
-                      }
-                    });
-                  }}
-                >
-                  set ages
-                </Button>
+                {/* <FormControl className={classes.selectFormControl}> */}
               </div>
 
               {/* </div> */}
