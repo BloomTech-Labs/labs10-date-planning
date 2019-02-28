@@ -6,9 +6,9 @@ module.exports = {
 
 		return db.query.chat(
 			{
-				where: { id: args.id }
+				where: { id: args.id },
 			},
-			info
+			info,
 		);
 	},
 	getUserChats(parent, args, { request, db }, info) {
@@ -19,10 +19,10 @@ module.exports = {
 		return db.query.chats(
 			{
 				where: {
-					users_some: { id: user.id }
-				}
+					users_some: { id: user.id },
+				},
 			},
-			info
+			info,
 		);
 	},
 	async getConversation(parent, args, { request, db }, info) {
@@ -30,13 +30,15 @@ module.exports = {
 		const { user } = request;
 		if (!user) throw new Error('You must be logged in to start a conversation!');
 
-		const [chat] = await db.query.chats(
+		const [ chat ] = await db.query.chats(
 			{
-				where: { AND: [{ users_some: { id: user.id } }, { users_some: { id: args.id } }] }
+				where: {
+					AND: [ { users_some: { id: user.id } }, { users_some: { id: args.id } } ],
+				},
 			},
-			info
+			info,
 		);
-		// console.log(chat);
+		console.log(chat);
 		return chat;
-	}
+	},
 };
