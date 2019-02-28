@@ -61,7 +61,7 @@ const Composed = adopt({
   )
 });
 const Profile = ({ classes, theme }) => {
-  const [drawerOpen, setDrawerOpen] = useState(true);
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   return (
     <Composed>
@@ -141,6 +141,7 @@ const Profile = ({ classes, theme }) => {
               </Select>
               {/* </FormControl> */}
               <Button
+                style={{marginBottom: '20px'}}
                 onClick={() => {
                   NProgress.start();
                   updateUser({
@@ -182,8 +183,7 @@ const Profile = ({ classes, theme }) => {
                 aria-label="Open drawer"
                 onClick={() => setDrawerOpen(!drawerOpen)}
                 className={classNames(
-                  classes.menuButton,
-                  drawerOpen && classes.hide
+                  classes.menuButton
                 )}
               >
                 <Menu />
