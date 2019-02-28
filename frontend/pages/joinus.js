@@ -8,8 +8,8 @@ const Index = () => (
 	<User>
 		{({ data, loading }) => {
 			if (loading) return <div>loading</div>;
-			if (!data.currentUser) return <Splash />;
-			else return <Home />;
+			return <Splash />;
+			//else return <Home />;
 		}}
 	</User>
 );
