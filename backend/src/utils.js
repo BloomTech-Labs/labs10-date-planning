@@ -173,4 +173,43 @@ module.exports = {
 		}
 		return null;
 	},
+	async getScore(currentUserId, matchingUserId, db) {
+		const users = await db.query.users({
+			where: {
+				OR: [
+					{ id: matchingUserId },
+					{ id: currentUserId }
+				]
+			}
+		}, `{ firstName, minAgePref, maxAgePref, genderPrefs, age, gender }`)
+
+		if (
+			users[0].age > users[1].maxAgePref ||
+			users[0].age < users[1].minAgePref ||
+			!users[1].genderPrefs.includes(users[0].gender) ||
+			users[1].age > users[0].maxAgePref ||
+			users[1].age < users[0].minAgePref ||
+			!users[0].genderPrefs.includes(users[1].gender)
+		) {
+			return null;
+		};
+
+		const sharedEvent = await db.query.events({
+			where: {
+				AND: [
+					{
+						attending_some: {
+							id: currentUserId
+						}
+					},
+					{
+						attending_some: {
+							id: matchingUserId
+						}
+					}
+				]
+			}
+		});
+		return sharedEvent.length
+	}
 };

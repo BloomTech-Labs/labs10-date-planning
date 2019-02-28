@@ -1,6 +1,6 @@
 const axios = require('axios');
 const { forwardTo } = require('prisma-binding');
-const { transformEvents, fetchEvents, setDates } = require('../utils');
+const { transformEvents, fetchEvents, setDates, getScore } = require('../utils');
 const stripe = require('../stripe');
 const MessageQuery = require('./Messages/MessageQuery');
 const UserQuery = require('./User/UserQuery');
@@ -29,7 +29,7 @@ const Query = {
 			info,
 		);
 	},
-	async getEvents(parent, { location, alt, page, ...args }, { db }, info) {
+	async getEvents(parent, { location, alt, page, ...args }, { db, request }, info) {
 		location = location.split(',')[0].toLowerCase();
 
 		let cats =
@@ -67,8 +67,23 @@ const Query = {
 			}
 		}
 
+		const eventList = await transformEvents(events, db)
+
+		const newList = await eventList.map( async event => (
+			{
+				...event,
+				attending: await event.attending.map(async attendee => {
+					if (attendee.id === request.user.id) return attendee;
+					return ({
+						...attendee,
+						score: await getScore(request.user.id, attendee.id, db)
+					})
+				})
+			}
+		));
+
 		return {
-			events: transformEvents(events, db),
+			events: newList,
 			page_count: response.data.page.size,
 			total_items: response.data.page.totalElements,
 			page_total: response.data.page.totalPages,
