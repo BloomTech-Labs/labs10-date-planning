@@ -3,11 +3,13 @@ import { withApollo, Mutation } from 'react-apollo';
 import moment from 'moment';
 import NProgress from 'nprogress';
 import Slider from 'react-slick';
+import { useMutation } from 'react-apollo-hooks';
 
 //query& M
 import { CURRENT_USER_QUERY } from '../Queries/User';
 import { ALL_EVENTS_QUERY } from '../Queries/AllEvents';
 import { ADD_EVENT_MUTATION } from '../Mutations/addEvent';
+import { DELETE_EVENT_MUTATION } from '../Mutations/updateUser';
 //MUI
 
 import { Bookmark, Add, ChevronLeft, BookmarkBorder, FlashOn } from '@material-ui/icons';
@@ -41,6 +43,7 @@ import CardStyles from '../../static/jss/material-kit-pro-react/views/components
 import '../../styles/Home/Event.scss';
 
 import '../../styles/Home/EventModal.scss';
+
 //import '../../styles/Settings/Date.scss';
 
 let settings = {
@@ -49,7 +52,12 @@ let settings = {
 	slidesToShow: 1,
 	slidesToScroll: 1,
 };
+
 const Event = ({ event, classes, user, location, refetch }) => {
+	const deleteEvent = useMutation(DELETE_EVENT_MUTATION, {
+		variables: { id: event.id },
+	});
+
 	const [ modal, showModal ] = useState(false);
 	const [ rotate, setRotate ] = useState('');
 	const [ height, setHeight ] = useState('191px');
@@ -87,7 +95,13 @@ const Event = ({ event, classes, user, location, refetch }) => {
 	const handleClick = async (e, addEvent) => {
 		//e.stopPropagation();
 
-		addEvent();
+		if (isSaved) {
+			NProgress.start();
+			let res = await deleteEvent();
+			if (res.data || res.error) NProgress.done();
+		} else {
+			addEvent();
+		}
 	};
 
 	event.times = event.times.sort((a, b) => {
@@ -161,15 +175,16 @@ const Event = ({ event, classes, user, location, refetch }) => {
 									await refetch();
 								}}
 							>
-								{(addEvent, { error, loading, called }) => {
+								{(addEvent, { error, loading, called, data }) => {
 									if (error) console.log(error);
 									if (called) NProgress.start();
+
 									return (
 										<Typography variant='h4' className={classes.cardTitle}>
 											<a href='#' onClick={e => e.preventDefault()}>
 												{event.title}{' '}
 												<IconButton
-													disabled={isSaved !== undefined}
+													//disabled={isSaved !== undefined}
 													onClick={e => handleClick(e, addEvent)}
 												>
 													{isSaved ? <Bookmark /> : <BookmarkBorder />}
