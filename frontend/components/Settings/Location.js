@@ -26,7 +26,7 @@ const Location = ({ user, classes }) => {
 
 	return (
 		<Fragment>
-			<div style={{ display: 'flex', alignItems: 'center', color: '#ff101f' }}>
+			<div style={{display: 'flex'}}>
 				<Typography variant='h5' style={{ color: '#394859', marginLeft: '6px' }}>
 					{user.location ? user.location : 'Set your default location'}
 				</Typography>
