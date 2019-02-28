@@ -165,7 +165,7 @@ const Events = ({ classes, newUser }) => {
 									<GridItem sm={12} md={12} sm={12}>
 										{!loading ? (
 											<GridContainer>
-												<GridItem sm={8} md={6} lg={6}>
+												<GridItem sm={12} md={6} lg={6}>
 													<InfiniteScroll
 														pageStart={0}
 														loadMore={async page => {
@@ -205,13 +205,14 @@ const Events = ({ classes, newUser }) => {
 													</InfiniteScroll>
 												</GridItem>
 
-												<GridItem sm={8} md={6} lg={6}>
+												<GridItem sm={12} md={6} lg={6}>
 													{getEvents.events
 														.filter((e, i) => i % 2 !== 0)
 														.map(event => (
 															<Event
 																event={event}
 																key={event.id}
+																refetch={refetch}
 																user={currentUser}
 																location={location}
 															/>

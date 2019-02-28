@@ -42,6 +42,7 @@ type Query {
 	getSharedEvents(userToMatchId: String!): [Event!]!
 	getMatchUsers: [MatchScore!]!
 	getScore: Int
+	getMessages: [DirectMessage]
 }
 
 type Subscription {
@@ -71,6 +72,7 @@ type DirectMessage {
 	from: User!
 	createdAt: DateTime!
 	chat: Chat!
+	seen: Boolean
 }
 
 input AddEventInput {
