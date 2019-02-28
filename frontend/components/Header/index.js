@@ -3,6 +3,7 @@ import Router, { withRouter } from 'next/router';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 import NProgress from 'nprogress';
+import { useQuery } from 'react-apollo-hooks';
 
 //MUI
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -10,7 +11,9 @@ import { List, ListItem, Badge, IconButton } from '@material-ui/core';
 import { AccountCircle, Explore, Mail } from '@material-ui/icons';
 import navbarsStyle from '../../static/jss/material-kit-pro-react/views/componentsSections/navbarsStyle.jsx';
 //Q&M
+
 import User, { CURRENT_USER_QUERY } from '../Queries/User';
+import { ALL_CHATS_QUERY } from '../Queries/AllChats';
 // styled components
 import GridContainer from '../../styledComponents/Grid/GridContainer.jsx';
 import GridItem from '../../styledComponents/Grid/GridItem.jsx';
@@ -38,6 +41,7 @@ const SIGNOUT_MUTATION = gql`
 	}
 `;
 const Nav = ({ classes, color }) => {
+	const { data, loading } = useQuery(ALL_CHATS_QUERY, { pollInterval: 60000 });
 	const handleClick = (e, signout, client) => {
 		if (e === 'Sign out') {
 			signout();

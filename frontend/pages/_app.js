@@ -2,6 +2,7 @@ import App, { Container } from 'next/app';
 import Router from 'next/router';
 import Page from '../components/Page';
 import { ApolloProvider } from 'react-apollo';
+import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks';
 import withData from '../utils/withData';
 import redirect from '../utils/redirect';
 import { MuiThemeProvider } from '@material-ui/core/styles';
@@ -48,9 +49,11 @@ class MyApp extends App {
 						<CssBaseline />
 
 						<ApolloProvider client={apollo}>
-							<Page>
-								<Component pageContext={this.pageContext} {...pageProps} />
-							</Page>
+							<ApolloHooksProvider client={apollo}>
+								<Page>
+									<Component pageContext={this.pageContext} {...pageProps} />
+								</Page>
+							</ApolloHooksProvider>
 						</ApolloProvider>
 					</MuiThemeProvider>
 				</JssProvider>

@@ -12,6 +12,7 @@ export const GET_CONVERSATION_QUERY = gql`
 				id
 				text
 				from {
+					id
 					firstName
 					imageThumbnail
 				}

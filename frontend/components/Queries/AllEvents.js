@@ -39,11 +39,6 @@ export const ALL_EVENTS_QUERY = gql`
 					biography
 					imageLarge
 				}
-				price {
-					min
-					max
-					currency
-				}
 				location {
 					venue
 					city

@@ -31,7 +31,7 @@ const Query = {
 	},
 	async getEvents(parent, { location, alt, page, ...args }, { db }, info) {
 		location = location.split(',')[0].toLowerCase();
-		console.log(location);
+
 		let cats =
 			!args.categories || !args.categories.length
 				? [ 'KZFzniwnSyZfZ7v7nJ', 'KZFzniwnSyZfZ7v7na', 'KZFzniwnSyZfZ7v7n1' ]
@@ -39,10 +39,10 @@ const Query = {
 
 		const dates =
 			!args.dates || !args.dates.length ? undefined : setDates(args.dates.toString());
-		console.log(location, cats, dates, page, args.genres);
+
 		let events;
 		let response = await fetchEvents(location, cats, dates, page, 50, args.genres);
-		console.log(response);
+
 		events = response.data._embedded.events;
 
 		let uniques = events.reduce((a, t) => {
@@ -66,7 +66,7 @@ const Query = {
 				}
 			}
 		}
-		console.log(events);
+
 		return {
 			events: transformEvents(events, db),
 			page_count: response.data.page.size,

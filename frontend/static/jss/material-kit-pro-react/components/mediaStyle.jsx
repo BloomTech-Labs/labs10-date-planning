@@ -13,6 +13,9 @@ const mediaStyle = {
 			paddingRight: '0px',
 		},
 	},
+	reverse: {
+		flexDirection: 'row-reverse',
+	},
 	mediaLink: {
 		padding: '10px',
 		float: 'left !important',

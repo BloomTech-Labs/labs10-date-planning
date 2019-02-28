@@ -60,7 +60,7 @@ const EventModal = ({ modal, showModal, classes, potentialMatch }) => {
 	if (!modal) return <div />;
 	else
 		return (
-			<Composed matchId={potentialMatch.id.toString()}>
+			<Composed matchId={potentialMatch.id}>
 				{({ user: { data: { currentUser } }, createChat, id, convo }) => {
 					console.log(createChat.result, id, convo);
 					return (
@@ -131,9 +131,11 @@ const EventModal = ({ modal, showModal, classes, potentialMatch }) => {
 										<div className='date'>{potentialMatch.biography}</div>
 									</div>
 								)}
-								{convo.data.getConversation.messages &&
+								{convo.data.getConversation &&
+									convo.data.getConversation.messages &&
 									convo.data.getConversation.messages.map(message => (
 										<Media
+											currentUser={message.from.id === currentUser.id}
 											key={message.id}
 											avatar={message.from.imageThumbnail}
 											title={
