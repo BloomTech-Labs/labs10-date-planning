@@ -20,6 +20,12 @@ const CURRENT_USER_QUERY = gql`
 			imageLarge
 			createdAt
 			permissions
+			liked {
+				id
+			}
+			blocked {
+				id
+			}
 			events {
 				id
 				title

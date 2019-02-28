@@ -108,10 +108,13 @@ type User {
 	minAgePref: Int
 	maxAgePref: Int
 	events: [Event!]!
+	liked: [User]
+	blocked: [User]
 	createdAt: DateTime!
 	updatedAt: DateTime!
 	stripeCustomerId: String
 	stripeSubscriptionId: String
+	score: Int
 }
 
 type Event {

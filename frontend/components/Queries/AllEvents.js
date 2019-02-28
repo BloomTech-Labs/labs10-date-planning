@@ -38,6 +38,7 @@ export const ALL_EVENTS_QUERY = gql`
 					imageThumbnail
 					biography
 					imageLarge
+					score
 				}
 				location {
 					venue

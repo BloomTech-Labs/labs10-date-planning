@@ -2,14 +2,14 @@ const moment = require('moment');
 const axios = require('axios');
 
 module.exports = {
-	transformEvents: function(eventsArr, db) {
+	transformEvents: function(user, eventsArr, db) {
 		return eventsArr.reduce(async (previousPromise, ev) => {
 			let events = await previousPromise;
 			let existingEvent = events.findIndex(e => e.title === ev.name);
 			if (existingEvent !== -1) {
 				events[existingEvent].times.push(ev.dates.start.dateTime);
 			} else {
-				let [ eventInDb ] = await db.query.events(
+				let [ dbEvent ] = await db.query.events(
 					{
 						where: {
 							AND: [
@@ -22,8 +22,31 @@ module.exports = {
 							],
 						},
 					},
-					`{id times attending {id firstName imageThumbnail imageLarge dob gender biography}}`,
+					`{id times attending {id firstName imageThumbnail imageLarge dob gender biography age minAgePref maxAgePref genderPrefs blocked { id }}}`,
 				);
+
+				let eventInDb;
+
+				if (dbEvent) {
+					const attendee = dbEvent.attending.filter(attendee => {
+						if (user.blocked && user.blocked.includes(attendee.id)) return false
+						if (attendee.blocked && attendee.blocked.includes(user.id)) return false
+						return (
+							user.age <= attendee.maxAgePref &&
+							user.age >= attendee.minAgePref &&
+							attendee.genderPrefs.includes(user.gender) &&
+							attendee.age <= user.maxAgePref &&
+							attendee.age >= user.minAgePref &&
+							user.genderPrefs.includes(attendee.gender)
+						)
+					}
+					)
+
+					eventInDb = {
+						...dbEvent,
+						attending: attendee
+						}
+				}
 
 				const [ img ] = ev.images.filter(img => img.width > 500);
 
@@ -173,4 +196,23 @@ module.exports = {
 		}
 		return null;
 	},
+	async getScore(currentUserId, matchingUserId, db) {
+		const sharedEvent = await db.query.events({
+			where: {
+				AND: [
+					{
+						attending_some: {
+							id: currentUserId
+						}
+					},
+					{
+						attending_some: {
+							id: matchingUserId
+						}
+					}
+				]
+			}
+		});
+		return sharedEvent.length
+	}
 };
