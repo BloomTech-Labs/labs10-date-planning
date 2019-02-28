@@ -67,7 +67,7 @@ const Query = {
 			}
 		}
 
-		const eventList = await transformEvents(events, db)
+		const eventList = await transformEvents(request.user, events, db)
 
 		const newList = await eventList.map( async event => (
 			{
