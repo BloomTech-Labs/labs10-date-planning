@@ -187,6 +187,7 @@ const Events = ({ classes, newUser }) => {
 																<Event
 																	event={event}
 																	key={event.id}
+																	refetch={refetch}
 																	user={currentUser}
 																	location={location}
 																/>
@@ -196,6 +197,7 @@ const Events = ({ classes, newUser }) => {
 															<Event
 																event={event}
 																key={event.id}
+																refetch={refetch}
 																user={currentUser}
 																location={location}
 															/>
