@@ -26,12 +26,6 @@ export const UPDATE_USER_MUTATION = gql`
 			biography
 			dob
 			gender
-			liked {
-				id
-			}
-			blocked {
-				id
-			}
 			genderPrefs
 			minAgePref
 			maxAgePref
@@ -66,6 +60,17 @@ export const UPDATE_BLOCKS_MUTATION = gql`
 		updateUser(data: { blocked: { connect: { id: $block } } }) {
 			id
 			blocked {
+				id
+			}
+		}
+	}
+`;
+
+export const DELETE_EVENT_MUTATION = gql`
+	mutation DELETE_EVENT_MUTATION($id: ID) {
+		updateUser(data: { events: { disconnect: { id: $id } } }) {
+			id
+			events {
 				id
 			}
 		}
