@@ -68,136 +68,125 @@ const Profile = ({ classes }) => {
                   className="prof-img"
                   style={{ backgroundImage: `url(${currentUser.imageLarge})` }}
                 />
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    paddingLeft: "10px"
-                  }}
-                >
+                <div style={{ display: "flex", flexDirection: "column" }}>
                   <h2>
                     {currentUser.firstName} | {getAge(currentUser.dob)}
                   </h2>
                   <Location user={currentUser} />
                 </div>
-                <div className="Profile__inputs">
-                  <div >
-                    <CustomInput
-                      labelText="Write a lil about urself"
-                      id="textarea-input"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      inputProps={{
-                        multiline: true,
-                        rows: 5,
-                        value: biography.value,
-                        onChange: e => biography.set(e.target.value),
-                        placeholder: "Write a lil about urself"
-                      }}
-                    />
-                    <Button
-                      onClick={() => {
-                        NProgress.start();
-                        updateUser({
-                          variables: { biography: biography.value }
-                        });
-                      }}
-                    >
-                      Submit
-                    </Button>
-                  </div>
-                  <FormControl className={classes.selectFormControl}>
-                    <InputLabel
-                      htmlFor="multiple-select"
-                      className={classes.selectLabel}
-                    >
-                      Gender preferences
-                    </InputLabel>
-                    <Select
-                      multiple
-                      value={genderPref.list}
-                      onChange={e => genderPref.set(e.target.value)}
-                      MenuProps={{
-                        className: classes.selectMenu,
-                        classes: { paper: classes.selectPaper }
-                      }}
-                      classes={{ select: classes.select }}
-                      inputProps={{
-                        name: "multipleSelect",
-                        id: "multiple-select"
-                      }}
-                    >
-                      <MenuItem
-                        classes={{
-                          root: classes.selectMenuItem,
-                          selected: classes.selectMenuItemSelectedMultiple
-                        }}
-                        value="MALE"
-                      >
-                        Men
-                      </MenuItem>
-                      <MenuItem
-                        classes={{
-                          root: classes.selectMenuItem,
-                          selected: classes.selectMenuItemSelectedMultiple
-                        }}
-                        value="FEMALE"
-                      >
-                        Women
-                      </MenuItem>
-                      <MenuItem
-                        classes={{
-                          root: classes.selectMenuItem,
-                          selected: classes.selectMenuItemSelectedMultiple
-                        }}
-                        value="OTHER"
-                      >
-                        Other
-                      </MenuItem>
-                    </Select>
-                    <Button
-                      onClick={() => {
-                        NProgress.start();
-                        updateUser({
-                          variables: {
-                            genderPrefs: genderPref.list
-                          }
-                        });
-                      }}
-                    >
-                      Set Gender
-                    </Button>
-                    <div>
-                      <InputRange
-                        maxValue={100}
-                        minValue={18}
-                        value={agePref.state}
-                        onChange={value => agePref.setState(value)}
-                      />
-                      <Button
-                        style={{ marginTop: "30px" }}
-                        onClick={() => {
-                          NProgress.start();
-                          updateUser({
-                            variables: {
-                              minAgePref: agePref.state.min,
-                              maxAgePref: agePref.state.max
-                            }
-                          });
-                        }}
-                      >
-                        set ages
-                      </Button>
-                    </div>
-                  </FormControl>
-                </div>
+
+                <CustomInput
+                  labelText="About"
+                  id="textarea-input"
+                  inputProps={{
+                    multiline: true,
+                    rows: 5,
+                    value: biography.value,
+                    onChange: e => biography.set(e.target.value),
+                    placeholder: "About"
+                  }}
+                />
               </div>
             </div>
+
             <div style={{ display: "flex", justifyContent: "space-evenly" }}>
-              <div />
+              <div>
+                <Dates />
+              </div>
+
+              <div>hi</div>
+
+              <div>
+                <FormControl className={classes.selectFormControl}>
+                  <InputLabel
+                    htmlFor="multiple-select"
+                    className={classes.selectLabel}
+                  >
+                    Gender preferences
+                  </InputLabel>
+                  <Select
+                    multiple
+                    value={genderPref.list}
+                    onChange={e => genderPref.set(e.target.value)}
+                    MenuProps={{
+                      className: classes.selectMenu,
+                      classes: { paper: classes.selectPaper }
+                    }}
+                    classes={{ select: classes.select }}
+                    inputProps={{
+                      name: "multipleSelect",
+                      id: "multiple-select"
+                    }}
+                  >
+                    <MenuItem
+                      classes={{
+                        root: classes.selectMenuItem,
+                        selected: classes.selectMenuItemSelectedMultiple
+                      }}
+                      value="MALE"
+                    >
+                      Men
+                    </MenuItem>
+                    <MenuItem
+                      classes={{
+                        root: classes.selectMenuItem,
+                        selected: classes.selectMenuItemSelectedMultiple
+                      }}
+                      value="FEMALE"
+                    >
+                      Women
+                    </MenuItem>
+                    <MenuItem
+                      classes={{
+                        root: classes.selectMenuItem,
+                        selected: classes.selectMenuItemSelectedMultiple
+                      }}
+                      value="OTHER"
+                    >
+                      Other
+                    </MenuItem>
+                  </Select>
+                </FormControl>
+                <Button
+                  onClick={() => {
+                    NProgress.start();
+                    updateUser({
+                      variables: {
+                        genderPrefs: genderPref.list
+                      }
+                    });
+                  }}
+                >
+                  Set Gender
+                </Button>
+                <div>
+                  <InputRange
+                    maxValue={100}
+                    minValue={18}
+                    value={agePref.state}
+                    onChange={value => agePref.setState(value)}
+                  />
+                </div>
+
+                <Button
+                  style={{ marginTop: "30px" }}
+                  onClick={() => {
+                    NProgress.start();
+                    updateUser({
+                      variables: {
+                        minAgePref: agePref.state.min,
+                        maxAgePref: agePref.state.max
+                      }
+                    });
+                  }}
+                >
+                  set ages
+                </Button>
+              </div>
+
+              {/* </div> */}
+              {/* <Dates /> */}
             </div>
-            <Dates />
           </div>
         );
       }}

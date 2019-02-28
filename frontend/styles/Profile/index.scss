@@ -1,44 +1,31 @@
 .Profile-Header {
   height: 200px;
   width: 100%;
-
-  // background-image: linear-gradient(
-  //   to right,
-  //   #cabac8,
-  //   #df9bbe,
-  //   #f6749d,
-  //   #ff4768,
-  //   #ff101f
-  // );
-  // background-color: #cabac8;
-  background-color: rgba(0, 0, 0, 0.12);
+  background-color: rgba(0, 0, 0, 0.32);
   margin-bottom: 20px;
 }
 
 .Profile__background {
-  // background-color: rgba(0,0,0,1);
+  // background-color: #fba1a1;
+  background-color: #000;
   height: 100vh;
   background-image: url("https://www.transparenttextures.com/patterns/shattered-dark.png");
 }
 
-.Profile__inputs {
-  display: flex;
-  position: relative;
-  top: -70px;
-  left: 60px;
-  
-}
 
 .inner {
-  margin: 0 auto;
+  // margin: 0 auto;
 
   padding: 50px 60px 0;
   max-width: 1000px;
   display: flex;
+  justify-content: space-around;
+  // align-items: center;
   h2 {
     display: inline;
   }
 }
+
 
 .prof-img {
   background-size: 100%;
