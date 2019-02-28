@@ -92,7 +92,7 @@ const headerStyle = theme => ({
 	},
 	warning: {
 		// backgroundColor: '#b2ddf7',
-		backgroundImage: 'linear-gradient(to top, #90d1f9, #99d4f8, #a1d7f8, #aadaf7, #b2ddf7)',
+		backgroundImage: 'linear-gradient(to right, #cabac8, #df9bbe, #f6749d, #ff4768, #ff101f)',
 		color: '#FFFFFF',
 		boxShadow: '0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(178, 221, 247, 0.46)',
 	},

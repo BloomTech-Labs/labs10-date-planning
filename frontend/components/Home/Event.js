@@ -49,7 +49,7 @@ let settings = {
 	slidesToShow: 1,
 	slidesToScroll: 1,
 };
-const Event = ({ event, classes, user, location }) => {
+const Event = ({ event, classes, user, location, refetch }) => {
 	const [ modal, showModal ] = useState(false);
 	const [ rotate, setRotate ] = useState('');
 	const [ height, setHeight ] = useState('191px');
@@ -85,7 +85,7 @@ const Event = ({ event, classes, user, location }) => {
 	);
 
 	const handleClick = async (e, addEvent) => {
-		e.stopPropagation();
+		//e.stopPropagation();
 
 		addEvent();
 	};
@@ -149,17 +149,20 @@ const Event = ({ event, classes, user, location }) => {
 										},
 									});
 								}}
-								refetchQueries={[
-									{
-										query: ALL_EVENTS_QUERY,
-										variables: { location: location },
-									},
-								]}
-								awaitRefetchQueries
+								// refetchQueries={[
+								// 	{
+								// 		query: ALL_EVENTS_QUERY,
+								// 		variables: { location: location.value },
+								// 	},
+								// ]}
+								// awaitRefetchQueries
 								onError={() => NProgress.done()}
-								onCompleted={() => NProgress.done()}
+								onCompleted={async () => {
+									await refetch();
+								}}
 							>
 								{(addEvent, { error, loading, called }) => {
+									if (error) console.log(error);
 									if (called) NProgress.start();
 									return (
 										<Typography variant='h4' className={classes.cardTitle}>
