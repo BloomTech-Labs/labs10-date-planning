@@ -112,6 +112,7 @@ type User {
 	updatedAt: DateTime!
 	stripeCustomerId: String
 	stripeSubscriptionId: String
+	score: Int
 }
 
 type Event {
