@@ -20,6 +20,7 @@ import { Visibility, VisibilityOff, Mail, Close, LockOutlined } from '@material-
 //components
 import ErrorModal from './ErrorModal';
 import ResetRequest from './PasswordRequest';
+import Transition from '../Transistion';
 //styled components
 import Button from '../../styledComponents/CustomButtons/Button';
 import Card from '../../styledComponents/Card/Card';
@@ -120,7 +121,7 @@ const Login = ({ classes }) => {
 					paper: classes.modal + ' ' + classes.modalLogin,
 				}}
 				open={modalShowing}
-				// TransitionComponent={Transition}
+				TransitionComponent={Transition}
 				keepMounted
 				onClose={() => setModalShowing(false)}
 				aria-labelledby='signup-modal-slide-title'
