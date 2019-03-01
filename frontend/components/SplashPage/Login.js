@@ -78,6 +78,7 @@ const Login = ({ classes }) => {
 		[ user.password ],
 	);
 	const firebaseLogin = async (e, firebaseAuth, company) => {
+		NProgress.start();
 		e.preventDefault();
 		try {
 			let provider;
@@ -104,6 +105,7 @@ const Login = ({ classes }) => {
 
 	const handleError = error => {
 		NProgress.done();
+		console.log('hi');
 		if (error.message.replace('GraphQL error: ', '') === 'Invalid Password!') {
 			setError({ password: error.message.replace('GraphQL error: ', '') });
 		} else {
@@ -157,7 +159,7 @@ const Login = ({ classes }) => {
 									onCompleted={() => Router.push('/home')}
 								>
 									{(firebaseAuth, { called }) => {
-										if (called) NProgress.start();
+										//if (called) NProgress.start();
 										return (
 											<Fragment>
 												<Button
@@ -204,12 +206,13 @@ const Login = ({ classes }) => {
 						awaitRefetchQueries
 					>
 						{(signin, { called }) => {
-							if (called) NProgress.start();
+							//if (called) NProgress.start();
 							return (
 								<form
 									onSubmit={async e => {
 										e.preventDefault();
 										console.log(user);
+										NProgress.start();
 										await signin({
 											variables: {
 												user: user.email,

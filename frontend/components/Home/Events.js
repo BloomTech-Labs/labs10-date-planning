@@ -28,7 +28,7 @@ import GridItem from '../../styledComponents/Grid/GridItem';
 import Paginations from '../../styledComponents/Pagination/Pagination';
 //styles
 import styles from '../../static/jss/material-kit-pro-react/views/ecommerceSections/productsStyle.jsx';
-import { auth } from '../../utils/firebase';
+// import { auth } from '../../utils/firebaseProd';
 
 // import Prism from '../../static/img/prism.png'
 import Triangles from '../../static/img/footer_lodyas.png';
