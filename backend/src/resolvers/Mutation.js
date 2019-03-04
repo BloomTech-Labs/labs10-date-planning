@@ -1,7 +1,6 @@
 const { randomBytes } = require('crypto');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const axios = require('axios');
 const { transport, formatEmail } = require('../mail');
 const stripe = require('../stripe');
 const {
@@ -43,7 +42,7 @@ const Mutation = {
 	async firebaseAuth(parent, args, ctx, info) {
 		const { uid } = await verifyIdToken(args.idToken);
 		const { providerData } = await getUserRecord(uid);
-		const { email, displayName, photoURL } = providerData[0];
+		const { email, displayName, photoURL, phoneNumber } = providerData[0];
 		// check to see if user already exists in our db
 		let user = await ctx.db.query.user({
 			where: { email }
@@ -58,6 +57,7 @@ const Mutation = {
 						email: email,
 						password: 'firebaseAuth',
 						img: { create: { img_url: photoURL, default: false } },
+						phone: phoneNumber || null,
 						imageThumbnail: photoURL || '',
 						imageLarge: photoURL || '',
 						permissions: 'FREE'
@@ -290,11 +290,7 @@ const Mutation = {
 		if (args.newPassword1 !== args.newPassword2) {
 			throw new Error('New passwords must match!');
 		}
-		// check to make sure user is logged in
 		const { user } = request;
-		// const user = await db.query.user({
-		// 	where: { id: request.userId },
-		// });
 		if (!user) {
 			throw new Error('You must be logged in!');
 		}
