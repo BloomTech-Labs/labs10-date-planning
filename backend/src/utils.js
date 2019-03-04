@@ -196,8 +196,10 @@ module.exports = {
 		}
 		return null;
 	},
+
 	async getScore(currentUserId, matchingUserId, db) {
-		const sharedEvent = await db.query.events({
+		// events that both users have in common
+		const sharedEvents = await db.query.events({
 			where: {
 				AND: [
 					{
@@ -213,6 +215,27 @@ module.exports = {
 				]
 			}
 		});
-		return sharedEvent.length
+
+		// combined events between the two users
+		const combinedEvents = await db.query.events({
+			where: {
+				OR: [
+					{
+						attending_some: {
+							id: currentUserId
+						}
+					},
+					{
+						attending_some: {
+							id: matchingUserId
+						}
+					}
+				]
+			}
+		});
+
+		// compatibility score is the ratio between 
+		// the number of sharedEvents vs.the number of combined events
+		return Math.floor(sharedEvents.length / combinedEvents.length * 10000)
 	}
 };
