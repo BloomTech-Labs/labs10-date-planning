@@ -1,25 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { withApollo, Mutation } from 'react-apollo';
+import { Mutation } from 'react-apollo';
 import moment from 'moment';
 import NProgress from 'nprogress';
-import Slider from 'react-slick';
 import { useMutation } from 'react-apollo-hooks';
 
 //query& M
 import { CURRENT_USER_QUERY } from '../Queries/User';
-import { ALL_EVENTS_QUERY } from '../Queries/AllEvents';
 import { ADD_EVENT_MUTATION } from '../Mutations/addEvent';
 import { DELETE_EVENT_MUTATION } from '../Mutations/updateUser';
 //MUI
 
-import { Bookmark, Add, ChevronLeft, BookmarkBorder, FlashOn } from '@material-ui/icons';
+import { Bookmark, ChevronLeft, BookmarkBorder, FlashOn } from '@material-ui/icons';
 import {
 	IconButton,
-	Table,
-	TableBody,
-	TableCell,
-	TableRow,
-	TableHead,
 	Typography,
 	Avatar,
 } from '@material-ui/core';
@@ -30,7 +23,6 @@ import UserModel from './EventModal';
 import InfoModal from './InfoModal';
 //Styled components
 import Card from '../../styledComponents/Card/Card';
-import Button from '../../styledComponents/CustomButtons/Button';
 import CardHeader from '../../styledComponents/Card/CardHeader';
 import CardFooter from '../../styledComponents/Card/CardFooter';
 import CardBody from '../../styledComponents/Card/CardBody';
@@ -44,16 +36,8 @@ import '../../styles/Home/Event.scss';
 
 import '../../styles/Home/EventModal.scss';
 
-//import '../../styles/Settings/Date.scss';
 
-let settings = {
-	infinite: true,
-	speed: 500,
-	slidesToShow: 1,
-	slidesToScroll: 1,
-};
-
-const Event = ({ event, classes, user, location, refetch }) => {
+const Event = ({ event, classes, user, refetch }) => {
 	const deleteEvent = useMutation(DELETE_EVENT_MUTATION, {
 		variables: { id: event.id },
 	});
@@ -113,8 +97,6 @@ const Event = ({ event, classes, user, location, refetch }) => {
 	return (
 		<div style={{ height: 'max-content' }}>
 			<div
-				// onMouseEnter={() => setHeight(`${divEl.current.clientHeight}px`)}
-				// onMouseLeave={() => setHeight('191px')}
 				style={{ height: height }}
 				className={`${classes.rotatingCardContainer} ${classes.manualRotate} ${rotate}`}
 			>
