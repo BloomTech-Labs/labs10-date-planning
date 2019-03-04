@@ -234,8 +234,61 @@ module.exports = {
 			}
 		});
 
-		// compatibility score is the ratio between 
-		// the number of sharedEvents vs.the number of combined events
-		return Math.floor(sharedEvents.length / combinedEvents.length * 10000)
+		// query current user events genre
+		const currentUser = await db.query.users({
+			where: {
+				id: currentUserId
+			}
+		}, `{ events { genre } }`)
+
+		// get unique genre list for current user
+		const currentUserGenres = currentUser[0].events.reduce(
+			(genres, event) => {
+				if (event.genre && !genres.includes(event.genre)) {
+					genres.push(event.genre)
+				}
+				return genres
+			},
+			[]
+		)
+
+		// calculate eventScore with .6 coef
+		const eventScore = combinedEvents.length === 0
+			? 0
+			: Math.floor(sharedEvents.length / combinedEvents.length * 10000 * 60 / 100)
+
+		// query matching user events genre
+		const matchingUser = await db.query.users({
+			where: {
+				id: matchingUserId
+			}
+		}, `{ events { genre } }`)
+
+		// get unique genre list for matching user
+		const matchingUserGenres = matchingUser[0].events.reduce(
+			(genres, event) => {
+				if (event.genre && !matchingUser.includes(event.genre)) {
+					genres.push(event.genre)
+				}
+				return genres
+			},
+			[]
+		)
+
+		// get shared genres between the two users
+		const sharedGenre = currentUserGenres.reduce((count, genre) => {
+			if (matchingUserGenres.includes(genre)) count++
+			return count
+		}, 0)
+
+		// calculate genreScore with .4 coef
+		const genreScore = currentUserGenres.length + matchingUserGenres.length === 0
+			? 0
+			: Math.floor(sharedGenre / (matchingUserGenres.length + currentUserGenres.length - sharedGenre) * 10000 * 40 / 100);
+
+		// compatibility score is the sum of eventScore and genreScore
+		const score = eventScore + genreScore
+
+		return score
 	}
 };
