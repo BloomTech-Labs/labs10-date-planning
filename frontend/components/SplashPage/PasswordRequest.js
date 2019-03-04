@@ -1,22 +1,13 @@
-import React, { useEffect, useState, Fragment } from 'react';
+import React, { useState, Fragment } from 'react';
 import gql from 'graphql-tag';
-import Router from 'next/router';
-import firebase from 'firebase/app';
 import { Mutation } from 'react-apollo';
 import NProgress from 'nprogress';
-// import {
-// 	ButtonBase,
-// 	Dialog,
-// 	DialogActions,
-// 	InputAdornment,
-// 	DialogTitle,
-// 	DialogContent,
-// 	IconButton,
-// 	Icon,
-// } from '@material-ui/core';
 import { Send, Close } from '@material-ui/icons';
 import CustomInput from '../../styledComponents/CustomInput/CustomInput';
 import Button from '../../styledComponents/CustomButtons/Button';
+
+import withStyles from '@material-ui/core/styles/withStyles';
+import Styles from '../../styles/Splash/PasswordRequest';
 
 const REQUEST_RESET_MUTATION = gql`
 	mutation REQUEST_RESET_MUTATION($email: String!) {
@@ -26,7 +17,7 @@ const REQUEST_RESET_MUTATION = gql`
 	}
 `;
 
-const Reset = () => {
+const Reset = ({classes}) => {
 	const [ reset, setReset ] = useState(false);
 	const [ email, setEmail ] = useState('');
 	return (
@@ -66,13 +57,14 @@ const Reset = () => {
 							</Button>
 						) : (
 							<div
-								style={{
-									width: '100%',
-									display: 'flex',
-									alignItems: 'center',
-									justifyContent: 'stretch',
-									padding: '10px 40px',
-								}}
+								className={classes.input}
+								// style={{
+								// 	width: '100%',
+								// 	display: 'flex',
+								// 	alignItems: 'center',
+								// 	justifyContent: 'stretch',
+								// 	padding: '10px 40px',
+								// }}
 							>
 								<CustomInput
 									formControlProps={{
@@ -104,4 +96,4 @@ const Reset = () => {
 		</Mutation>
 	);
 };
-export default Reset;
+export default withStyles(Styles)(Reset);

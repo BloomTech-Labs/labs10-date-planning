@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 //MUI
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Typography } from '@material-ui/core';
@@ -46,7 +46,7 @@ const Splash = ({ classes }) => {
 							<GridContainer>
 								<Register />
 
-								<Login className='login' />
+								<Login />
 							</GridContainer>
 						</div>
 					</GridItem>
