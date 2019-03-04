@@ -68,15 +68,19 @@ const Query = {
 		}
 
 		const eventList = await transformEvents(request.user, events, db)
+		const usersScore = {}
 
 		const newList = await eventList.map( async event => (
 			{
 				...event,
 				attending: await event.attending.map(async attendee => {
 					if (attendee.id === request.user.id) return attendee;
+					if (!usersScore[attendee.id]) {
+						usersScore[attendee.id] = await getScore(request.user.id, attendee.id, db)
+					}
 					return ({
 						...attendee,
-						score: await getScore(request.user.id, attendee.id, db)
+						score: usersScore[attendee.id]
 					})
 				})
 			}

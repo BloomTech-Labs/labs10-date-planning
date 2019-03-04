@@ -59,7 +59,7 @@ module.exports = {
 					times: ev.dates.start.noSpecificTime
 						? [ ev.dates.start.localDate ]
 						: [ ev.dates.start.dateTime ],
-					genres: ev.classifications[0].genre && ev.classifications[0].genre.name,
+					genre: ev.classifications[0].genre && ev.classifications[0].genre.name,
 					info: ev.info || null,
 					description: ev.info || null,
 					price: {
@@ -196,8 +196,10 @@ module.exports = {
 		}
 		return null;
 	},
+
 	async getScore(currentUserId, matchingUserId, db) {
-		const sharedEvent = await db.query.events({
+		// events that both users have in common
+		const sharedEvents = await db.query.events({
 			where: {
 				AND: [
 					{
@@ -213,6 +215,80 @@ module.exports = {
 				]
 			}
 		});
-		return sharedEvent.length
+
+		// combined events between the two users
+		const combinedEvents = await db.query.events({
+			where: {
+				OR: [
+					{
+						attending_some: {
+							id: currentUserId
+						}
+					},
+					{
+						attending_some: {
+							id: matchingUserId
+						}
+					}
+				]
+			}
+		});
+
+		// query current user events genre
+		const currentUser = await db.query.users({
+			where: {
+				id: currentUserId
+			}
+		}, `{ events { genre } }`)
+
+		// get unique genre list for current user
+		const currentUserGenres = currentUser[0].events.reduce(
+			(genres, event) => {
+				if (event.genre && !genres.includes(event.genre)) {
+					genres.push(event.genre)
+				}
+				return genres
+			},
+			[]
+		)
+
+		// calculate eventScore with .6 coef
+		const eventScore = combinedEvents.length === 0
+			? 0
+			: Math.floor(sharedEvents.length / combinedEvents.length * 10000 * 60 / 100)
+
+		// query matching user events genre
+		const matchingUser = await db.query.users({
+			where: {
+				id: matchingUserId
+			}
+		}, `{ events { genre } }`)
+
+		// get unique genre list for matching user
+		const matchingUserGenres = matchingUser[0].events.reduce(
+			(genres, event) => {
+				if (event.genre && !matchingUser.includes(event.genre)) {
+					genres.push(event.genre)
+				}
+				return genres
+			},
+			[]
+		)
+
+		// get shared genres between the two users
+		const sharedGenre = currentUserGenres.reduce((count, genre) => {
+			if (matchingUserGenres.includes(genre)) count++
+			return count
+		}, 0)
+
+		// calculate genreScore with .4 coef
+		const genreScore = currentUserGenres.length + matchingUserGenres.length === 0
+			? 0
+			: Math.floor(sharedGenre / (matchingUserGenres.length + currentUserGenres.length - sharedGenre) * 10000 * 40 / 100);
+
+		// compatibility score is the sum of eventScore and genreScore
+		const score = eventScore + genreScore
+
+		return score
 	}
 };
