@@ -56,16 +56,7 @@ const Reset = ({classes}) => {
 								Forgot your password?
 							</Button>
 						) : (
-							<div
-								className={classes.input}
-								// style={{
-								// 	width: '100%',
-								// 	display: 'flex',
-								// 	alignItems: 'center',
-								// 	justifyContent: 'stretch',
-								// 	padding: '10px 40px',
-								// }}
-							>
+							<div className={classes.input}>
 								<CustomInput
 									formControlProps={{
 										fullWidth: true,
