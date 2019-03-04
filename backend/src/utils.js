@@ -59,7 +59,7 @@ module.exports = {
 					times: ev.dates.start.noSpecificTime
 						? [ ev.dates.start.localDate ]
 						: [ ev.dates.start.dateTime ],
-					genres: ev.classifications[0].genre && ev.classifications[0].genre.name,
+					genre: ev.classifications[0].genre && ev.classifications[0].genre.name,
 					info: ev.info || null,
 					description: ev.info || null,
 					price: {
