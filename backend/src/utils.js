@@ -29,23 +29,23 @@ module.exports = {
 
 				if (dbEvent) {
 					const attendee = dbEvent.attending.filter(attendee => {
-						if (user.blocked && user.blocked.includes(attendee.id)) return false
-						if (attendee.blocked && attendee.blocked.includes(user.id)) return false
+						if (user.blocked && user.blocked.includes(attendee.id)) return false;
+						if (attendee.blocked && attendee.blocked.includes(user.id)) return false;
+
 						return (
-							user.age <= attendee.maxAgePref &&
-							user.age >= attendee.minAgePref &&
+							moment().diff(user.dob, 'years') <= attendee.maxAgePref &&
+							moment().diff(user.dob, 'years') >= attendee.minAgePref &&
 							attendee.genderPrefs.includes(user.gender) &&
-							attendee.age <= user.maxAgePref &&
-							attendee.age >= user.minAgePref &&
+							moment().diff(attendee.dob, 'years') <= user.maxAgePref &&
+							moment().diff(attendee.dob, 'years') >= user.minAgePref &&
 							user.genderPrefs.includes(attendee.gender)
-						)
-					}
-					)
+						);
+					});
 
 					eventInDb = {
 						...dbEvent,
-						attending: attendee
-						}
+						attending: attendee,
+					};
 				}
 
 				const [ img ] = ev.images.filter(img => img.width > 500);
@@ -202,17 +202,17 @@ module.exports = {
 				AND: [
 					{
 						attending_some: {
-							id: currentUserId
-						}
+							id: currentUserId,
+						},
 					},
 					{
 						attending_some: {
-							id: matchingUserId
-						}
-					}
-				]
-			}
+							id: matchingUserId,
+						},
+					},
+				],
+			},
 		});
-		return sharedEvent.length
-	}
+		return sharedEvent.length;
+	},
 };

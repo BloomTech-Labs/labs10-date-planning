@@ -41,9 +41,10 @@ const NewUser = ({ classes }) => {
 	const [ showing, setShowing ] = useState(true);
 	const [ updated, setUpdated ] = useState(false);
 	const [ selectedDate, setSelectedDate ] = useState(null);
+	const [ genderPref, setGenderPref ] = useState([ 'FEMALE' ]);
 	const [ location, setLocation ] = useState('');
 	const [ items, setItems ] = useState([]);
-	const [ gender, setGender ] = useState('');
+	const [ gender, setGender ] = useState('MALE');
 
 	const handleDateChange = date => {
 		setSelectedDate(date.format());
@@ -66,7 +67,12 @@ const NewUser = ({ classes }) => {
 			{({ data: { currentUser } }) => (
 				<Mutation
 					mutation={UPDATE_USER_MUTATION}
-					variables={{ gender: gender, dob: selectedDate, location: location }}
+					variables={{
+						gender: gender,
+						dob: selectedDate,
+						location: location,
+						genderPrefs: genderPref,
+					}}
 					onCompleted={() => {
 						NProgress.done();
 						setUpdated(true);
@@ -76,10 +82,13 @@ const NewUser = ({ classes }) => {
 					{(updateUser, { client }) => {
 						return (
 							<Dialog
+								disableBackdropClick
+								disableEscapeKeyDown
 								classes={{
 									root: classes.modalRoot,
 									paper: classes.modal,
 								}}
+								fullWidth
 								open={showing}
 								//TransitionComponent={Transition}
 								//keepMounted
@@ -103,60 +112,113 @@ const NewUser = ({ classes }) => {
 							<Close className={classes.modalClose} />
 						</Button> */}
 									<h4 className={classes.modalTitle}>
-										Welcome {currentUser.firstName}!
+										Hello {currentUser.firstName}! We have just a few questions
+										before you begin.
 									</h4>
 									<DialogContent
 										id='classic-modal-slide-description'
 										className={classes.modalBody}
 									>
-										<ImageUpload />
-										<FormControl fullWidth>
-											<InputLabel htmlFor='simple-select'>
-												Select your gender
-											</InputLabel>
-											<Select
-												MenuProps={{
-													className: classes.selectMenu,
-												}}
-												classes={{
-													select: classes.select,
-												}}
-												value={gender}
-												onChange={e => setGender(e.target.value)}
-												inputProps={{
-													name: 'simpleSelect',
-													id: 'simple-select',
-												}}
-											>
-												{' '}
-												<MenuItem
-													classes={{
-														root: classes.selectMenuItem,
-														selected: classes.selectMenuItemSelected,
+										<ImageUpload />{' '}
+										<FormControl style={{ display: 'block' }}>
+											<div style={{ display: 'flex', width: ' 100%' }}>
+												<p>I am a </p>
+												{/* <InputLabel htmlFor='simple-select'>
+													Select your gender
+												</InputLabel> */}
+												<Select
+													MenuProps={{
+														className: classes.selectMenu,
 													}}
-													value='MALE'
-												>
-													Male
-												</MenuItem>
-												<MenuItem
 													classes={{
-														root: classes.selectMenuItem,
-														selected: classes.selectMenuItemSelected,
+														select: classes.select,
 													}}
-													value='FEMALE'
-												>
-													Female
-												</MenuItem>
-												<MenuItem
-													classes={{
-														root: classes.selectMenuItem,
-														selected: classes.selectMenuItemSelected,
+													value={gender}
+													onChange={e => setGender(e.target.value)}
+													inputProps={{
+														name: 'simpleSelect',
+														id: 'simple-select',
 													}}
-													value='OTHER'
 												>
-													Other
-												</MenuItem>
-											</Select>
+													{' '}
+													<MenuItem
+														classes={{
+															root: classes.selectMenuItem,
+															selected:
+																classes.selectMenuItemSelected,
+														}}
+														value='MALE'
+													>
+														Man
+													</MenuItem>
+													<MenuItem
+														classes={{
+															root: classes.selectMenuItem,
+															selected:
+																classes.selectMenuItemSelected,
+														}}
+														value='FEMALE'
+													>
+														Woman
+													</MenuItem>
+													<MenuItem
+														classes={{
+															root: classes.selectMenuItem,
+															selected:
+																classes.selectMenuItemSelected,
+														}}
+														value='OTHER'
+													>
+														Other
+													</MenuItem>
+												</Select>
+												<p> interested in </p>
+												<Select
+													multiple
+													value={genderPref}
+													onChange={e => setGenderPref(e.target.value)}
+													MenuProps={{
+														className: classes.selectMenu,
+														classes: { paper: classes.selectPaper },
+													}}
+													classes={{ select: classes.select }}
+													inputProps={{
+														name: 'multipleSelect',
+														id: 'multiple-select',
+													}}
+												>
+													<MenuItem
+														classes={{
+															root: classes.selectMenuItem,
+															selected:
+																classes.selectMenuItemSelectedMultiple,
+														}}
+														value='MALE'
+													>
+														Men
+													</MenuItem>
+													<MenuItem
+														classes={{
+															root: classes.selectMenuItem,
+															selected:
+																classes.selectMenuItemSelectedMultiple,
+														}}
+														value='FEMALE'
+													>
+														Women
+													</MenuItem>
+													<MenuItem
+														classes={{
+															root: classes.selectMenuItem,
+															selected:
+																classes.selectMenuItemSelectedMultiple,
+														}}
+														value='OTHER'
+													>
+														Other
+													</MenuItem>
+												</Select>
+											</div>
 										</FormControl>
 										When were you born?
 										<div>
