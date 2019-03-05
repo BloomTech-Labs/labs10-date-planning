@@ -55,15 +55,20 @@ const Nav = ({ classes, color }) => {
 	}, 60000);
 	// console.log(data);
 	//console.log(loading);
-	const [newMessages, setNewMessages] = useState([]);
-	useEffect(() => {
-		if (data.getUserChats) {
-			// console.log(data);
-			setNewMessages(
-				data.getUserChats.filter(chat => chat.messages.some(message => !message.seen)).flat()
-			);
-		}
-	}, [loading]);
+	const [ newMessages, setNewMessages ] = useState([]);
+	useEffect(
+		() => {
+			if (data.getUserChats) {
+				// console.log(data);
+				setNewMessages(
+					data.getUserChats
+						.filter(chat => chat.messages.some(message => !message.seen))
+						.flat(),
+				);
+			}
+		},
+		[ loading ],
+	);
 
 	// console.log(newMessages);
 	const handleClick = (e, signout, client) => {
@@ -90,7 +95,7 @@ const Nav = ({ classes, color }) => {
 						changeColorOnScroll={
 							color === 'transparent' && {
 								height: 300,
-								color: 'warning'
+								color: 'warning',
 							}
 						}
 						links={
@@ -102,7 +107,7 @@ const Nav = ({ classes, color }) => {
 											e.preventDefault();
 											Router.push('/');
 										}}
-										color="transparent"
+										color='transparent'
 									>
 										<Explore /> Discover
 									</Button>
@@ -114,33 +119,44 @@ const Nav = ({ classes, color }) => {
 											e.preventDefault();
 											Router.push('/profile');
 										}}
-										color="transparent"
+										color='transparent'
 									>
 										<AccountCircle /> Me
 									</Button>
 								</ListItem>
-								<Query query={ALL_CHATS_QUERY} pollInterval={60000} fetchPolicy="network-only">
+								<Query
+									query={ALL_CHATS_QUERY}
+									pollInterval={60000}
+									fetchPolicy='network-only'
+								>
 									{({ data, loading, error }) => {
-										// console.log(loading, error);
+										console.log(data);
 										return (
 											<ListItem className={classes.listItem}>
 												<CustomDropdown
 													left
 													caret={false}
-													hoverColor="dark"
+													hoverColor='dark'
 													dropdownHeader={
-														newMessages.length && newMessages.length + ' new messages!'
+														newMessages.length &&
+														newMessages.length + ' new messages!'
 													}
 													buttonText={
-														<Badge badgeContent={newMessages.length} color="error">
+														<Badge
+															badgeContent={newMessages.length}
+															color='error'
+														>
 															<Mail />
 														</Badge>
 													}
 													buttonProps={{
-														className: classes.navLink + ' ' + classes.imageDropdownButton,
-														color: 'transparent'
+														className:
+															classes.navLink +
+															' ' +
+															classes.imageDropdownButton,
+														color: 'transparent',
 													}}
-													dropdownList={['billing']}
+													dropdownList={[ 'billing' ]}
 													//onClick={e => handleClick(e, signout, client)}
 												/>
 											</ListItem>
@@ -149,7 +165,7 @@ const Nav = ({ classes, color }) => {
 								</Query>
 								<Mutation
 									mutation={SIGNOUT_MUTATION}
-									refetchQueries={[{ query: CURRENT_USER_QUERY }]}
+									refetchQueries={[ { query: CURRENT_USER_QUERY } ]}
 									awaitRefetchQueries
 								>
 									{(signout, { called }) => {
@@ -161,24 +177,32 @@ const Nav = ({ classes, color }) => {
 												<CustomDropdown
 													left
 													caret={false}
-													hoverColor="dark"
-													dropdownHeader={currentUser && currentUser.firstName}
+													hoverColor='dark'
+													dropdownHeader={
+														currentUser && currentUser.firstName
+													}
 													buttonText={
 														<img
 															src={
-																currentUser && currentUser.imageThumbnail
-																	? currentUser.imageThumbnail
-																	: profileImage
+																currentUser &&
+																currentUser.imageThumbnail ? (
+																	currentUser.imageThumbnail
+																) : (
+																	profileImage
+																)
 															}
 															className={classes.img}
-															alt="profile"
+															alt='profile'
 														/>
 													}
 													buttonProps={{
-														className: classes.navLink + ' ' + classes.imageDropdownButton,
-														color: 'transparent'
+														className:
+															classes.navLink +
+															' ' +
+															classes.imageDropdownButton,
+														color: 'transparent',
 													}}
-													dropdownList={['Billing', 'Sign out']}
+													dropdownList={[ 'Billing', 'Sign out' ]}
 													onClick={e => handleClick(e, signout, client)}
 												/>
 											</ListItem>
