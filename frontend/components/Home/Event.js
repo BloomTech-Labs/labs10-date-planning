@@ -215,12 +215,12 @@ const Event = ({ event, classes, user, refetch }) => {
                     <img
                       key={usr.id}
                       src={usr.imageThumbnail}
-                    //   style={{
-                    //     width: "30px",
-                    //     height: "30px",
-                    //     borderRadius: "6px",
-                    //     border: "1px solid #cabac8"
-                    //   }}
+                      style={{
+                        width: "30px",
+                        height: "30px",
+                        borderRadius: "6px",
+                        border: "1px solid #cabac8"
+                      }}
                     />
                   ))}
                 </div>
@@ -236,7 +236,7 @@ const Event = ({ event, classes, user, refetch }) => {
               height: "auto",
               margin: 0
             }}
-            className={`${classes.back} ${classes.eventBorder} `}
+            className={`${classes.back} ${classes.eventBorderBack} `}
           >
             <GridItem sm={12} md={12}>
               <CardBody
@@ -283,11 +283,11 @@ const Event = ({ event, classes, user, refetch }) => {
                       style={{ padding: "5px" }}
                     >
                       <div
-                        className={classes.userCard}
+                        className='user_card'
                         onClick={() => showModal(true)}
                       >
                         <div
-                          className={`${classes.gradientBorder} ${classes.userCardBorder}`}
+                          className={` gradient_border ${classes.userCardBorder}`}
                         //   style={{
                         //     padding: "5px",
                         //     marginBottom: "5px",
@@ -310,7 +310,7 @@ const Event = ({ event, classes, user, refetch }) => {
                             }}
                           >
                             <p style={{ margin: 0 }}>{usr.firstName} | </p>
-                            <p style={{ margin: 0 }}>{getAge(usr.dob)}</p>
+                            <p style={{ margin: '0 0 0 2px' }}>{getAge(usr.dob)}</p>
                           </div>
                         </div>
                       </div>

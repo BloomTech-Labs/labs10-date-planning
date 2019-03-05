@@ -203,9 +203,12 @@ const styles = {
 		borderRadius: '6px',
 		transition: 'all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)',
 		backgroundColor: '#fafafa',
-		'&:hover': {
-			border: '4px solid #ff101f',
-		}
+	},
+	eventBorderBack: {
+		border: '4px solid #b2ddf7',
+		borderRadius: '6px',
+		transition: 'all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)',
+		backgroundColor: '#fafafa',
 	},
 	gradientBorder: {
 		display: 'flex',
