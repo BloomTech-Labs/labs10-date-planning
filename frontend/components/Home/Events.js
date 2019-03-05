@@ -81,6 +81,7 @@ const Events = ({ classes, newUser }) => {
 						<div className={classes.container}>
 							<Fragment>
 								<IconButton
+									style={{ color: 'white' }}
 									aria-label='Open drawer'
 									onClick={drawer.toggle}
 									className={classNames(
