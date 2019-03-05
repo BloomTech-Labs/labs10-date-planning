@@ -2,6 +2,7 @@ const { randomBytes } = require('crypto');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { transport, formatEmail } = require('../mail');
+const authy = require('authy')(process.env.AUTHY_KEY);
 const stripe = require('../stripe');
 const {
 	createUserToken,
@@ -403,6 +404,39 @@ const Mutation = {
 		);
 
 		return updated;
+	},
+	async verifyPhone(parent, args, { request, db }, info) {
+		const { user } = request;
+		if (!user) throw new Error('You must be logged in to update your profile!');
+
+		const update = await db.mutation.updateUser({
+			where: { id: user.id },
+			data: { phone: args.phone }
+		});
+
+		const verifySent = authy.phones().verification_start(args.phone, '1', 'sms', (err, res) => {
+			if (err) {
+				console.log(err);
+			}
+			return res.message;
+		});
+
+		return { message: 'Phone verification code sent!' };
+	},
+	async checkVerify(parent, args, { request }, info) {
+		const { user } = request;
+		if (!user) throw new Error('You must be logged in to update your profile!');
+
+		const verified = await authy
+			.phones()
+			.verification_check(args.phone, '1', args.code, (err, res) => {
+				if (err) {
+					throw new Error('Phone verification unsuccessful');
+				}
+				return res;
+			});
+
+		return { message: 'Phone successfully verified!' };
 	}
 };
 

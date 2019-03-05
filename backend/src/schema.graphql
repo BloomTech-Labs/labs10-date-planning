@@ -18,6 +18,8 @@ type Mutation {
 	createChat(id: String!, message: String!): Chat!
 	deleteChat(id: String): Message
 	sendMessage(id: String!, message: String!): DirectMessage!
+	verifyPhone(phone: String!): Message
+	checkVerify(phone: String!, code: String!): Message!
 }
 
 type Query {

@@ -70,11 +70,24 @@ const Nav = ({ classes, color }) => {
 			Router.push(`/billing`);
 		}
 	};
+
+	const formattedChats = newMessages => {
+		return newMessages
+			.filter(msg => msg.messages)
+			.map(chatObj => {
+				let len = chatObj.messages.length - 1;
+				const { messages } = chatObj;
+				return {
+					from: messages[len].from.firstName,
+					text: messages[len].text,
+					img: messages[len].from.imageThumbnail
+				};
+			});
+	};
 	return (
 		<User>
 			{({ data: { currentUser }, client }) => {
-				let chats = newMessages.filter(message => message.messages);
-				chats[0] && console.log(chats[0].messages[0], 'message from object');
+				let chats = formattedChats(newMessages); // these are formatted to the from, message, img object I told you about
 				return (
 					<Header
 						color={color}
@@ -128,7 +141,7 @@ const Nav = ({ classes, color }) => {
 											className: classes.navLink + ' ' + classes.imageDropdownButton,
 											color: 'transparent'
 										}}
-										dropdownList={chats[0] ? [chats[0].messages[0].from.firstName] : ['billing']}
+										dropdownList={['billing']}
 									/>
 								</ListItem>
 								<Mutation
