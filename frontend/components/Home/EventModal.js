@@ -250,44 +250,28 @@ const EventModal = ({ modal, showModal, classes, potentialMatch }) => {
 												color='primary'
 												justIcon
 												className={classes.floatRight}
-												onClick={() => {
+												onClick={async () => {
 													NProgress.start();
 													convo.data.getConversation
-														? sendMessage.mutation({
+														? await sendMessage.mutation({
 																variables: {
 																	id: id.value,
 																	message: message,
 																},
 															})
-														: createChat.mutation({
+														: await createChat.mutation({
 																variables: {
 																	id: id.value,
 																	message: message,
 																},
 															});
+													setMessage('');
 												}}
 											>
 												<Send />
 											</Button>
 										}
 									/>
-									{/* <CustomInput
-									formControlProps={{
-										fullWidth: true,
-									}}
-									inputProps={{
-										placeholder: 'Send a message?',
-										value: message,
-										onChange: e => setMessage(e.target.value),
-										endAdornment: (
-											<InputAdornment position='end'>
-												<Button justIcon round disabled={!message.length}>
-													<Send />
-												</Button>
-											</InputAdornment>
-										),
-									}}
-								/> */}
 								</div>
 							</DialogContent>
 						</Dialog>

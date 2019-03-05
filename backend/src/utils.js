@@ -236,9 +236,10 @@ module.exports = {
 		});
 
 		// calculate eventScore with .6 coef
-		const eventScore = combinedEvents.length === 0
-		? 0
-		: Math.floor(sharedEvents.length / combinedEvents.length * 10000 * 60 / 100)
+		const eventScore =
+			combinedEvents.length === 0
+				? 0
+				: Math.floor(sharedEvents.length / combinedEvents.length * 10000 * 60 / 100);
 
 		// query current user events genre
 		const currentUser = await db.query.users(
@@ -259,10 +260,10 @@ module.exports = {
 		}, []);
 
 		// calculate eventScore with .6 coef
-		const eventScore =
-			combinedEvents.length === 0
-				? 0
-				: Math.floor(sharedEvents.length / combinedEvents.length * 10000 * 60 / 100);
+		// const eventScore =
+		// 	combinedEvents.length === 0
+		// 		? 0
+		// 		: Math.floor(sharedEvents.length / combinedEvents.length * 10000 * 60 / 100);
 
 		// query matching user events genre
 		const matchingUser = await db.query.users(
