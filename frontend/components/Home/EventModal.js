@@ -23,6 +23,7 @@ import { GET_CONVERSATION_QUERY } from '../Queries/getConvo';
 
 import { ADD_EVENT_MUTATION } from '../Mutations/addEvent';
 import { CREATE_CHAT_MUTATION } from '../Mutations/createChat';
+import { SEND_MESSAGE_MUTATION } from '../Mutations/sendMessage';
 import {
 	UPDATE_USER_MUTATION,
 	LIKE_USER_MUTATION,
@@ -49,10 +50,21 @@ const Composed = adopt({
 			{render}
 		</Query>
 	),
-	createChat: ({ render }) => (
+	createChat: ({ id, render }) => (
 		<Mutation
 			mutation={CREATE_CHAT_MUTATION}
-			refetchQueries={[ { query: GET_CONVERSATION_QUERY } ]}
+			refetchQueries={[ { query: GET_CONVERSATION_QUERY, variables: { id: id.value } } ]}
+			onCompleted={() => NProgress.done()}
+			onError={() => NProgress.done()}
+		>
+			{(mutation, result) => render({ mutation, result })}
+		</Mutation>
+	),
+	sendMessage: ({ id, render }) => (
+		<Mutation
+			mutation={SEND_MESSAGE_MUTATION}
+			refetchQueries={[ { query: GET_CONVERSATION_QUERY, variables: { id: id.value } } ]}
+			awaitRefetchQueries
 			onCompleted={() => NProgress.done()}
 			onError={() => NProgress.done()}
 		>
@@ -109,13 +121,14 @@ const EventModal = ({ modal, showModal, classes, potentialMatch }) => {
 				{({
 					user: { data: { currentUser } },
 					createChat,
+					sendMessage,
 					id,
 					convo,
 					like,
 					unlike,
 					block,
 				}) => {
-					console.log(currentUser, createChat.result, id, convo);
+					console.log(convo);
 					let isLiked = currentUser.liked.find(user => user.id === id.value);
 					return (
 						<Dialog
@@ -239,12 +252,19 @@ const EventModal = ({ modal, showModal, classes, potentialMatch }) => {
 												className={classes.floatRight}
 												onClick={() => {
 													NProgress.start();
-													createChat.mutation({
-														variables: {
-															id: id.value,
-															message: message,
-														},
-													});
+													convo.data.getConversation
+														? sendMessage.mutation({
+																variables: {
+																	id: id.value,
+																	message: message,
+																},
+															})
+														: createChat.mutation({
+																variables: {
+																	id: id.value,
+																	message: message,
+																},
+															});
 												}}
 											>
 												<Send />

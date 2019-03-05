@@ -34,7 +34,7 @@ function Media({ ...props }) {
 					<img src={avatar} alt={avatarAlt} />
 				</div>
 			</a>
-			<div className={classes.mediaBody}>
+			<div className={currentUser ? classes.otherBody : classes.mediaBody}>
 				{title !== undefined ? <h4 className={classes.mediaHeading}>{title}</h4> : null}
 				{body}
 				<div className={classes.mediaFooter}>{footer}</div>
