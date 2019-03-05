@@ -26,8 +26,6 @@ const UPLOAD_IMAGE_MUTATION = gql`
 `;
 
 const ImageUpload = () => {
-	const [ image, setImage ] = useState(null);
-
 	const handleUpload = async uploadImage => {
 		openUploadWidget((error, result) => {
 			if (result.event === 'success') {
@@ -41,12 +39,6 @@ const ImageUpload = () => {
 		});
 	};
 
-	const crop = ref => {
-		// image in dataUrl
-		if (imgRef.current) {
-			console.log(imgRef.current);
-		}
-	};
 	return (
 		<div>
 			<User>
@@ -58,7 +50,16 @@ const ImageUpload = () => {
 						{(uploadImage, { error, loading }) => (
 							<div className='fileinput text-center'>
 								<div className={'thumbnail'}>
-									<img src={currentUser.imageLarge} alt='...' />
+									<img
+										src={
+											currentUser.imageLarge ? (
+												currentUser.imageLarge
+											) : (
+												defaultImage
+											)
+										}
+										alt='...'
+									/>
 								</div>
 								{currentUser.imageThumbnail === null ? (
 									<Button onClick={() => handleUpload(uploadImage)}>
@@ -81,34 +82,3 @@ const ImageUpload = () => {
 };
 
 export default ImageUpload;
-{
-	/* !image ? (
-								<UploadImage
-									// avatar
-									className='hi'
-									image={currentUser.imageThumbnail}
-									addButtonProps={{ round: false }}
-									changeButtonProps={{ round: false }}
-									removeButtonProps={{ round: false, color: 'danger' }}
-									handleUpload={file => handleUpload(file)}
-								/>
-							) : ( */
-}
-{
-	/* )} */
-}
-{
-	/* <Cropper
-										src={image}
-										width='400px'
-										height='400px'
-										styles={{ maxWidth: '400px', maxHeight: '400px' }}
-										ref={cropRef}
-										beforeImgload={() => NProgress.start()}
-										onImgLoad={() => NProgress.done()}
-									/>
-								</div> */
-}
-{
-	/* */
-}
