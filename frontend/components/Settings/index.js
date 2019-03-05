@@ -8,7 +8,7 @@ import { Menu, ChevronLeft, ChevronRight } from '@material-ui/icons';
 import Sidebar from './Sidebar';
 import Dates from './Dates';
 //styles
-import '../../styles/Settings/index.scss';
+import '../../styles/Settings/Index.scss';
 
 const drawerWidth = 240;
 

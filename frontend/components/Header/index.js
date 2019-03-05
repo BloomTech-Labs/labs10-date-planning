@@ -52,7 +52,7 @@ const Nav = ({ classes, color }) => {
 	}, []);
 	const { start, stop } = useInterval(() => {
 		refetch();
-	}, 1000);
+	}, 60000);
 	// console.log(data);
 	//console.log(loading);
 	const [newMessages, setNewMessages] = useState([]);

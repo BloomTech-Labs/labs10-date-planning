@@ -43,7 +43,9 @@ const Splash = ({ classes }) => {
 							</Typography>
 						</div>
 						<div className={`${classes.section} cd-section`} id='javascriptComponents'>
-							<GridContainer>
+							<GridContainer
+								style={{ flexDirection: 'column', alignItems: 'center' }}
+							>
 								<Register />
 
 								<Login />

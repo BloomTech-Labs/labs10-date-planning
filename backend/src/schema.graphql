@@ -86,6 +86,7 @@ input AddEventInput {
 	city: String
 	lat: String
 	long: String
+	genre: String
 }
 
 type User {
