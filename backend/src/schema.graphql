@@ -22,6 +22,8 @@ type Mutation {
 	checkVerify(phone: String!, code: String!): Message!
 	blockUser(id: String!): User!
 	likeUser(id: String!): User!
+	unblockUser(id: String!): User!
+	unlikeUser(id: String!): User!
 }
 
 type Query {
