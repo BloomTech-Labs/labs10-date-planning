@@ -55,6 +55,7 @@ const Nav = ({ classes, color }) => {
 	useEffect(
 		() => {
 			if (data.getUserChats) {
+				console.log(data.getUserChats);
 				setNewMessages(
 					data.getUserChats
 						.filter(chat => chat.messages.some(message => !message.seen))

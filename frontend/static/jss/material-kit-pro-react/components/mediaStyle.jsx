@@ -33,6 +33,9 @@ const mediaStyle = {
 			width: '100%',
 		},
 	},
+	otherBody: {
+		paddingRight: '10px',
+	},
 	mediaBody: {
 		paddingRight: '10px',
 		WebkitBoxFlex: '1',
