@@ -51,19 +51,15 @@ const Event = ({ event, classes, user, refetch }) => {
     variables: { id: event.id }
   });
 
-  const [modal, showModal] = useState(false);
-  const [rotate, setRotate] = useState("");
-  const [height, setHeight] = useState("191px");
-  const [val, set] = useState(false);
-  const divEl = useRef(null);
-  const imgEl = useRef(null);
-  let isSaved = user.events.find(e => e.id === event.id);
-  // let potentialMatches = event.attending.filter(
-  // 	u =>
-  // 		u.id !== user.id &&
-  // 		(!user.minAgePref ||
-  // 			(getAge(u.dob) >= user.minAgePref && getAge(u.dob) <= user.maxAgePref)),
-  // );
+
+	const [ modal, showModal ] = useState(false);
+	const [ rotate, setRotate ] = useState('');
+	const [ height, setHeight ] = useState('191px');
+	const [ val, set ] = useState(false);
+	const divEl = useRef(null);
+	const imgEl = useRef(null);
+	let isSaved = user.events.find(e => e.id === event.id);
+
 
   useEffect(() => {
     if (divEl) {
@@ -79,17 +75,17 @@ const Event = ({ event, classes, user, refetch }) => {
     }
   }, [imgEl]);
 
-  const handleClick = async (e, addEvent) => {
-    //e.stopPropagation();
 
-    if (isSaved) {
-      NProgress.start();
-      let res = await deleteEvent();
-      if (res.data || res.error) NProgress.done();
-    } else {
-      addEvent();
-    }
-  };
+	const handleClick = async (e, addEvent) => {
+		if (isSaved) {
+			NProgress.start();
+			let res = await deleteEvent();
+			if (res.data || res.error) NProgress.done();
+		} else {
+			addEvent();
+		}
+	};
+
 
   event.times = event.times.sort((a, b) => {
     let dateA = new Date(a);
@@ -143,31 +139,25 @@ const Event = ({ event, classes, user, refetch }) => {
                     query: CURRENT_USER_QUERY
                   });
 
-                  cache.writeQuery({
-                    query: CURRENT_USER_QUERY,
-                    data: {
-                      currentUser: {
-                        ...currentUser,
-                        events: [...currentUser.events, addEvent]
-                      }
-                    }
-                  });
-                }}
-                // refetchQueries={[
-                // 	{
-                // 		query: ALL_EVENTS_QUERY,
-                // 		variables: { location: location.value },
-                // 	},
-                // ]}
-                // awaitRefetchQueries
-                onError={() => NProgress.done()}
-                onCompleted={async () => {
-                  await refetch();
-                }}
-              >
-                {(addEvent, { error, loading, called, data }) => {
-                  if (error) console.log(error);
-                  if (called) NProgress.start();
+
+									cache.writeQuery({
+										query: CURRENT_USER_QUERY,
+										data: {
+											currentUser: {
+												...currentUser,
+												events: [ ...currentUser.events, addEvent ],
+											},
+										},
+									});
+								}}
+								onError={() => NProgress.done()}
+								onCompleted={async () => {
+									await refetch();
+								}}
+							>
+								{(addEvent, { error, loading, called, data }) => {
+									if (error) console.log(error);
+									if (called) NProgress.start();
 
                   return (
                     <Typography variant="h4" className={classes.cardTitle}>

@@ -1,71 +1,70 @@
-import React, { Fragment } from "react";
-import { Mutation, Query } from "react-apollo";
-import _ from "lodash";
-import NProgress from "nprogress";
-import InfiniteScroll from "react-infinite-scroller";
-import classNames from "classnames";
-import { adopt } from "react-adopt";
-import { State, Value, Toggle } from "react-powerplug";
+import React, { Fragment } from 'react';
+import { Mutation, Query } from 'react-apollo';
+import _ from 'lodash';
+import NProgress from 'nprogress';
+import InfiniteScroll from 'react-infinite-scroller';
+import classNames from 'classnames';
+import { adopt } from 'react-adopt';
+import { State, Value, Toggle } from 'react-powerplug';
 //MUI
-import withStyles from "@material-ui/core/styles/withStyles";
-import { Drawer, IconButton } from "@material-ui/core";
-import { Menu, ChevronLeft } from "@material-ui/icons";
+import withStyles from '@material-ui/core/styles/withStyles';
+import { Drawer, IconButton } from '@material-ui/core';
+import { Menu, ChevronLeft } from '@material-ui/icons';
 //Q&M
-import { ALL_EVENTS_QUERY } from "../Queries/AllEvents";
-import { CURRENT_USER_QUERY } from "../Queries/User";
-import { UPDATE_USER_MUTATION } from "../Mutations/updateUser";
+import { ALL_EVENTS_QUERY } from '../Queries/AllEvents';
+import { CURRENT_USER_QUERY } from '../Queries/User';
+import { UPDATE_USER_MUTATION } from '../Mutations/updateUser';
 //components
-import Filters from "./Filters";
-import Event from "./Event";
-import LocationSearch from "./LocationSearch";
-import NewUser from "./NewUser";
-import Primary from "../../styledComponents/Typography/Primary";
+import Filters from './Filters';
+import Event from './Event';
+import LocationSearch from './LocationSearch';
+import NewUser from './NewUser';
+import Primary from '../../styledComponents/Typography/Primary';
 //styled components
-import GridContainer from "../../styledComponents/Grid/GridContainer";
-import GridItem from "../../styledComponents/Grid/GridItem";
+import GridContainer from '../../styledComponents/Grid/GridContainer';
+import GridItem from '../../styledComponents/Grid/GridItem';
 //styles
-import styles from "../../static/jss/material-kit-pro-react/views/ecommerceSections/productsStyle.jsx";
+import styles from '../../static/jss/material-kit-pro-react/views/ecommerceSections/productsStyle.jsx';
 
 const Composed = adopt({
-  drawer: <Toggle initial={false} />,
-  page: <Value initial={0} />,
+	drawer: <Toggle initial={false} />,
+	page: <Value initial={0} />,
 
-  user: ({ render }) => <Query query={CURRENT_USER_QUERY}>{render}</Query>,
-  location: ({ user, render }) => (
-    <Value initial={user.data.currentUser.location || "Los Angeles, CA"}>
-      {render}
-    </Value>
-  ),
-  filters: <State initial={{ cats: [], genres: [], dates: [] }} />,
-  getEvents: ({ page, location, filters, render }) => (
-    <Query
-      query={ALL_EVENTS_QUERY}
-      variables={{
-        location: location.value,
-        page: page.value,
-        categories: filters.state.cats,
-        genres: filters.state.genres,
-        dates: filters.state.dates
-      }}
-      onCompleted={() => NProgress.done()}
-      onError={() => NProgress.done()}
-    >
-      {render}
-    </Query>
-  ),
+	user: ({ render }) => <Query query={CURRENT_USER_QUERY}>{render}</Query>,
+	location: ({ user, render }) => (
+		<Value initial={user.data.currentUser.location || 'Los Angeles, CA'}>{render}</Value>
+	),
+	filters: <State initial={{ cats: [], genres: [], dates: [] }} />,
+	getEvents: ({ page, location, filters, render }) => (
+		<Query
+			query={ALL_EVENTS_QUERY}
+			variables={{
+				location: location.value,
+				page: page.value,
+				categories: filters.state.cats,
+				genres: filters.state.genres,
+				dates: filters.state.dates,
+			}}
+			onCompleted={() => NProgress.done()}
+			onError={() => NProgress.done()}
+		>
+			{render}
+		</Query>
+	),
 
-  updateUser: ({ render }) => (
-    <Mutation
-      mutation={UPDATE_USER_MUTATION}
-      onCompleted={() => NProgress.done()}
-      onError={() => NProgress.done()}
-    >
-      {render}
-    </Mutation>
-  )
+	updateUser: ({ render }) => (
+		<Mutation
+			mutation={UPDATE_USER_MUTATION}
+			onCompleted={() => NProgress.done()}
+			onError={() => NProgress.done()}
+		>
+			{render}
+		</Mutation>
+	),
 });
 
 const Events = ({ classes, newUser }) => {
+
   return (
     <Composed>
       {({
@@ -188,44 +187,45 @@ const Events = ({ classes, newUser }) => {
                                 />
                               ))}
 
-                            {getEvents.events.map(event => (
-                              <Event
-                                event={event}
-                                key={event.id}
-                                refetch={refetch}
-                                user={currentUser}
-                                location={location}
-                              />
-                            ))}
-                          </InfiniteScroll>
-                        </GridItem>
 
-                        <GridItem sm={12} md={6} lg={6}>
-                          {getEvents.events
-                            .filter((e, i) => i % 2 !== 0)
-                            .map(event => (
-                              <Event
-                                event={event}
-                                key={event.id}
-                                refetch={refetch}
-                                user={currentUser}
-                                location={location}
-                              />
-                            ))}
-                        </GridItem>
-                      </GridContainer>
-                    ) : (
-                      <div>Loading</div>
-                    )}
-                  </GridItem>
-                </GridContainer>
-              </Fragment>
-            </div>
-          </div>
-        );
-      }}
-    </Composed>
-  );
+														{getEvents.events.map(event => (
+															<Event
+																event={event}
+																key={event.id}
+																refetch={refetch}
+																user={currentUser}
+																location={location}
+															/>
+														))}
+													</InfiniteScroll>
+												</GridItem>
+
+												<GridItem sm={12} md={6} lg={6}>
+													{getEvents.events
+														.filter((e, i) => i % 2 !== 0)
+														.map(event => (
+															<Event
+																event={event}
+																key={event.id}
+																refetch={refetch}
+																user={currentUser}
+																location={location}
+															/>
+														))}
+												</GridItem>
+											</GridContainer>
+										) : (
+											<div>Loading</div>
+										)}
+									</GridItem>
+								</GridContainer>
+							</Fragment>
+						</div>
+					</div>
+				);
+			}}
+		</Composed>
+	);
 };
 
 export default withStyles(styles, { withTheme: true })(Events);
