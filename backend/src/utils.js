@@ -31,7 +31,7 @@ module.exports = {
 					const attendee = dbEvent.attending.filter(attendee => {
 						if (user.blocked && user.blocked.includes(attendee.id)) return false;
 						if (attendee.blocked && attendee.blocked.includes(user.id)) return false;
-						console.log(user);
+						console.log(user, attendee);
 						return (
 							moment().diff(user.dob, 'years') <= attendee.maxAgePref &&
 							moment().diff(user.dob, 'years') >= attendee.minAgePref &&
