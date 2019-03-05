@@ -12,6 +12,7 @@ import User, { CURRENT_USER_QUERY } from '../Queries/User';
 import Header from '../Header';
 import Pricing from './Pricing';
 import Stripe from './Stripe';
+
 // styled components
 import GridContainer from '../../styledComponents/Grid/GridContainer.jsx';
 import GridItem from '../../styledComponents/Grid/GridItem.jsx';
@@ -69,6 +70,7 @@ const Billing = ({ classes, currentUser, client }) => {
 			<div className={`${classes.main} ${classes.mainRaised}`}>
 				<div className={classes.container}>
 					<Pricing currentUser={currentUser} />
+
 					{/* <GridContainer>
 					<GridItem xs={12} sm={12} md={4} lg={4}>
 						<Card

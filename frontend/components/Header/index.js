@@ -25,7 +25,7 @@ import Button from '../../styledComponents/CustomButtons/Button.jsx';
 //assets
 // import image from '../../static/img/bg.jpg';
 import profileImage from '../../static/img/placeholder.jpg';
-import Logo from '../../static/img/up4LogoWhite.png';
+import Logo from './UpFor';
 
 Router.onRouteChangeComplete = () => {
 	NProgress.done(true);
@@ -94,7 +94,7 @@ const Nav = ({ classes, color }) => {
 				return (
 					<Header
 						color={color}
-						brand={Logo}
+						//brand={Logo}
 						fixed={color === 'transparent'}
 						changeColorOnScroll={
 							color === 'transparent' && {

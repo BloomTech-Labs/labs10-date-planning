@@ -4,14 +4,29 @@ import posed from 'react-pose';
 
 const Container = styled.div`
 	font-family: "Baumans";
-	font-size: 220px;
+	line-height: ${props => (props.main ? '500px' : '50px')};
+	/* height: ${props => props.main && '300px'}; */
+	font-size: ${props => (props.main ? '400px' : '50px')};
 	display: flex;
 	cursor: pointer;
 `;
 
-const Up = styled.div`color: #81d6e3;`;
+const Up = styled.div`
+	color: ${props => (props.main ? '#81d6e3' : 'white')};
+	/*color: #81d6e3; */
+	font-family: "Baumans";
+	font-size: ${props => (props.main ? '400px' : '50px')};
 
-const Four = styled.div`color: #ff101f;`;
+	cursor: pointer;
+`;
+
+const Four = styled.div`
+	color: #ff101f;
+	font-family: "Baumans";
+	font-size: ${props => (props.main ? '400px' : '50px')};
+
+	cursor: pointer;
+`;
 const Fours = styled.div`display: flex;`;
 const MirroredFour = posed.div({
 	unhovered: { transform: 'rotateY(0deg)', delay: 5000 },
@@ -30,12 +45,13 @@ position: absolute;
 transform-origin: 67%;
 `;
 
-const UpFor = () => {
+const UpFor = ({ main }) => {
 	const [ hovering, setHovering ] = useState(false);
 
 	console.log('hovering', hovering);
 	return (
 		<Container
+			main={main}
 			onMouseEnter={() => {
 				setHovering(true);
 			}}
@@ -43,9 +59,9 @@ const UpFor = () => {
 				setHovering(false);
 			}}
 		>
-			<Up>Up</Up>
+			<Up main={main}>Up</Up>
 			<Fours>
-				<Four>4</Four>
+				<Four main={main}>4</Four>
 				<SecondFour pose={hovering ? 'hovered' : 'unhovered'}>4</SecondFour>
 			</Fours>
 		</Container>

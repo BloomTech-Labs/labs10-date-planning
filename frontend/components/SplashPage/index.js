@@ -12,7 +12,7 @@ import GridItem from '../../styledComponents/Grid/GridItem';
 //styles
 import Styles from '../../static/jss/material-kit-pro-react/views/landingPageStyle';
 
-import Logo from '../../static/img/up4Logo.png';
+import Logo from '../Header/UpFor';
 
 const Splash = ({ classes }) => {
 	useEffect(() => {
@@ -31,18 +31,17 @@ const Splash = ({ classes }) => {
 						sm={12}
 						md={12}
 					>
-						<img
+						<Logo main />
+						{/* <img
 							className={classes.logo}
 							src={Logo}
-						/>
-						<div
-							className={classes.tagline}
-						>
+						/> */}
+						<div className={classes.tagline}>
 							<Typography style={{ color: '#fafafa' }} variant='h2'>
 								Meet People. Go Places.
 							</Typography>
 						</div>
-						<div className={`${classes.section} cd-section`} id='javascriptComponents'>
+						<div id='javascriptComponents'>
 							<GridContainer
 								style={{ flexDirection: 'column', alignItems: 'center' }}
 							>
