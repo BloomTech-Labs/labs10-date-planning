@@ -86,6 +86,15 @@ const javascriptStyles = theme => {
 			height: '50px',
 			display: 'block',
 		},
+		//Additions
+		downshiftContainer: {
+			width: '100%'
+		},
+		downshiftPaper : {
+			position: 'absolute',
+			zIndex: 2,
+			width: '90%'
+		}
 	};
 };
 

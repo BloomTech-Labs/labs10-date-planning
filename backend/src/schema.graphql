@@ -18,6 +18,12 @@ type Mutation {
 	createChat(id: String!, message: String!): Chat!
 	deleteChat(id: String): Message
 	sendMessage(id: String!, message: String!): DirectMessage!
+	verifyPhone(phone: String!): Message
+	checkVerify(phone: String!, code: String!): Message!
+	blockUser(id: String!): User!
+	likeUser(id: String!): User!
+	unblockUser(id: String!): User!
+	unlikeUser(id: String!): User!
 }
 
 type Query {
@@ -86,6 +92,7 @@ input AddEventInput {
 	city: String
 	lat: String
 	long: String
+	genre: String
 }
 
 type User {
@@ -108,6 +115,8 @@ type User {
 	minAgePref: Int
 	maxAgePref: Int
 	events: [Event!]!
+	liked: [User]
+	blocked: [User]
 	createdAt: DateTime!
 	updatedAt: DateTime!
 	stripeCustomerId: String

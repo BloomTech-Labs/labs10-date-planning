@@ -29,7 +29,7 @@ const customInputStyle = {
 		...defaultFont,
 		color: '#AAAAAA !important',
 		fontWeight: '400',
-		fontSize: '14px',
+		fontSize: '13px',
 		lineHeight: '1.42857',
 		top: '10px',
 		'& + $underline': {

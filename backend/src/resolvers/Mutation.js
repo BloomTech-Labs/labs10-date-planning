@@ -1,8 +1,8 @@
 const { randomBytes } = require('crypto');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const axios = require('axios');
 const { transport, formatEmail } = require('../mail');
+const authy = require('authy')(process.env.AUTHY_KEY);
 const stripe = require('../stripe');
 const {
 	createUserToken,
@@ -11,9 +11,11 @@ const {
 	setUserClaims
 } = require('../firebase/firebase');
 const MessageMutation = require('./Messages/MessageMutation');
+const UserMutation = require('./User/UserMutation');
 
 const Mutation = {
 	...MessageMutation,
+	...UserMutation,
 	async signup(parent, args, { db, response }, info) {
 		// just in case some bozo puts their email in with capitalization for some reason
 		args.email = args.email.toLowerCase();
@@ -43,8 +45,7 @@ const Mutation = {
 	async firebaseAuth(parent, args, ctx, info) {
 		const { uid } = await verifyIdToken(args.idToken);
 		const { providerData } = await getUserRecord(uid);
-		const { email, displayName, photoURL } = providerData[0];
-		// console.log(email, displayName, photoURL);
+		const { email, displayName, photoURL, phoneNumber } = providerData[0];
 		// check to see if user already exists in our db
 		let user = await ctx.db.query.user({
 			where: { email }
@@ -58,8 +59,8 @@ const Mutation = {
 						lastName: nameArray[1] || '',
 						email: email,
 						password: 'firebaseAuth',
-						lastName: '',
 						img: { create: { img_url: photoURL, default: false } },
+						phone: phoneNumber || null,
 						imageThumbnail: photoURL || '',
 						imageLarge: photoURL || '',
 						permissions: 'FREE'
@@ -292,11 +293,7 @@ const Mutation = {
 		if (args.newPassword1 !== args.newPassword2) {
 			throw new Error('New passwords must match!');
 		}
-		// check to make sure user is logged in
 		const { user } = request;
-		// const user = await db.query.user({
-		// 	where: { id: request.userId },
-		// });
 		if (!user) {
 			throw new Error('You must be logged in!');
 		}
@@ -371,7 +368,8 @@ const Mutation = {
 						connect: {
 							id: user.id
 						}
-					}
+					},
+					genre: event.genre
 				}
 			},
 			info
@@ -398,7 +396,7 @@ const Mutation = {
 	async updateUser(parent, args, { request, db }, info) {
 		const { user } = request;
 		if (!user) throw new Error('You must be logged in to update your profile!');
-
+		console.log(args.data);
 		const updated = await db.mutation.updateUser(
 			{
 				where: { id: user.id },
@@ -408,6 +406,39 @@ const Mutation = {
 		);
 
 		return updated;
+	},
+	async verifyPhone(parent, args, { request, db }, info) {
+		const { user } = request;
+		if (!user) throw new Error('You must be logged in to update your profile!');
+
+		const update = await db.mutation.updateUser({
+			where: { id: user.id },
+			data: { phone: args.phone }
+		});
+
+		const verifySent = authy.phones().verification_start(args.phone, '1', 'sms', (err, res) => {
+			if (err) {
+				console.log(err);
+			}
+			return res.message;
+		});
+
+		return { message: 'Phone verification code sent!' };
+	},
+	async checkVerify(parent, args, { request }, info) {
+		const { user } = request;
+		if (!user) throw new Error('You must be logged in to update your profile!');
+
+		const verified = await authy
+			.phones()
+			.verification_check(args.phone, '1', args.code, (err, res) => {
+				if (err) {
+					throw new Error('Phone verification unsuccessful');
+				}
+				return res;
+			});
+
+		return { message: 'Phone successfully verified!' };
 	}
 };
 

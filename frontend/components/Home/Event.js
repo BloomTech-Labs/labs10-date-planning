@@ -1,55 +1,51 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { withApollo, Mutation } from 'react-apollo';
+import React, { useState, useEffect, useRef, Fragment } from 'react';
+import { Mutation } from 'react-apollo';
 import moment from 'moment';
 import NProgress from 'nprogress';
-import Slider from 'react-slick';
+import { useMutation } from 'react-apollo-hooks';
 
 //query& M
 import { CURRENT_USER_QUERY } from '../Queries/User';
-import { ALL_EVENTS_QUERY } from '../Queries/AllEvents';
 import { ADD_EVENT_MUTATION } from '../Mutations/addEvent';
-//MUI
+import { DELETE_EVENT_MUTATION } from '../Mutations/updateUser';
 
-import { Bookmark, Add, ChevronLeft, BookmarkBorder, FlashOn } from '@material-ui/icons';
-import {
-	IconButton,
-	Table,
-	TableBody,
-	TableCell,
-	TableRow,
-	TableHead,
-	Typography,
-	Avatar,
-} from '@material-ui/core';
+//MUI
+import { Bookmark, ChevronLeft, BookmarkBorder, FlashOn } from '@material-ui/icons';
+import Favorite from '@material-ui/icons/Favorite';
+import Chat from '@material-ui/icons/ChatBubble';
+import Flip from '@material-ui/icons/RotateRight';
+import { IconButton, Typography, Avatar } from '@material-ui/core';
 import withStyles from '@material-ui/core/styles/withStyles';
+
+//Images
+import Arrow from '../../static/img/up4Arrow.png';
 
 //Components
 import UserModel from './EventModal';
 import InfoModal from './InfoModal';
+
 //Styled components
 import Card from '../../styledComponents/Card/Card';
-import Button from '../../styledComponents/CustomButtons/Button';
 import CardHeader from '../../styledComponents/Card/CardHeader';
 import CardFooter from '../../styledComponents/Card/CardFooter';
 import CardBody from '../../styledComponents/Card/CardBody';
 import GridContainer from '../../styledComponents/Grid/GridContainer';
 import GridItem from '../../styledComponents/Grid/GridItem';
+
 //utils
 import getAge from '../../utils/getAge';
+
 //styles
 import CardStyles from '../../static/jss/material-kit-pro-react/views/componentsSections/sectionCards';
 import '../../styles/Home/Event.scss';
-
 import '../../styles/Home/EventModal.scss';
-//import '../../styles/Settings/Date.scss';
+import { fileURLToPath } from 'url';
 
-let settings = {
-	infinite: true,
-	speed: 500,
-	slidesToShow: 1,
-	slidesToScroll: 1,
-};
-const Event = ({ event, classes, user, location, refetch }) => {
+const Event = ({ event, classes, user, refetch }) => {
+	const deleteEvent = useMutation(DELETE_EVENT_MUTATION, {
+		variables: { id: event.id },
+	});
+
 	const [ modal, showModal ] = useState(false);
 	const [ rotate, setRotate ] = useState('');
 	const [ height, setHeight ] = useState('191px');
@@ -57,12 +53,6 @@ const Event = ({ event, classes, user, location, refetch }) => {
 	const divEl = useRef(null);
 	const imgEl = useRef(null);
 	let isSaved = user.events.find(e => e.id === event.id);
-	let potentialMatches = event.attending.filter(
-		u =>
-			u.id !== user.id &&
-			(!user.minAgePref ||
-				(getAge(u.dob) >= user.minAgePref && getAge(u.dob) <= user.maxAgePref)),
-	);
 
 	useEffect(
 		() => {
@@ -85,9 +75,13 @@ const Event = ({ event, classes, user, location, refetch }) => {
 	);
 
 	const handleClick = async (e, addEvent) => {
-		//e.stopPropagation();
-
-		addEvent();
+		if (isSaved) {
+			NProgress.start();
+			let res = await deleteEvent();
+			if (res.data || res.error) NProgress.done();
+		} else {
+			addEvent();
+		}
 	};
 
 	event.times = event.times.sort((a, b) => {
@@ -97,22 +91,25 @@ const Event = ({ event, classes, user, location, refetch }) => {
 	});
 
 	return (
-		<div style={{ height: 'max-content' }}>
+		<div style={{ height: 'max-content', position: 'relative' }}>
 			<div
-				// onMouseEnter={() => setHeight(`${divEl.current.clientHeight}px`)}
-				// onMouseLeave={() => setHeight('191px')}
 				style={{ height: height }}
 				className={`${classes.rotatingCardContainer} ${classes.manualRotate} ${rotate}`}
 			>
 				<Card blog className={`${classes.cardRotate}`}>
-					<div ref={divEl} className={`${classes.front} Event__border`}>
+					<div ref={divEl} className={`${classes.front} ${classes.eventBorder}`}>
 						{event.image_url && (
 							<CardHeader image>
 								<a href='#' onClick={e => e.preventDefault()}>
-									<img ref={imgEl} src={event.image_url} alt='...' />
+									<img
+										style={{ border: '1px solid #cabac8' }}
+										ref={imgEl}
+										src={event.image_url}
+										alt='...'
+									/>
 								</a>
 								<div
-									className={classes.coloredShadow}
+									className={`${classes.coloredShadow} `}
 									style={{
 										backgroundImage: `url(${event.image_url})`,
 										opacity: '1',
@@ -121,6 +118,58 @@ const Event = ({ event, classes, user, location, refetch }) => {
 							</CardHeader>
 						)}
 						<CardBody className={classes.cardBodyRotate}>
+							<Typography variant='h4' className={classes.cardTitle}>
+								{event.title}
+							</Typography>
+
+							<div className={classes.gradientBorder}>
+								{event.location.venue}
+								<div
+									className={`${classes.stats} ${classes.mlAuto}`}
+									style={{ display: 'block' }}
+								>
+									{event.times.length > 2 ? (
+										<div>
+											{moment(event.times[0]).calendar()} -{' '}
+											{moment(event.times[event.times.length - 1]).calendar()}
+										</div>
+									) : (
+										event.times.map((time, i) => (
+											<div key={i}>{moment(time).calendar()}</div>
+										))
+									)}
+								</div>
+							</div>
+						</CardBody>
+
+						{/* {isSaved && <Bookmark className='Event__bookmark' />} */}
+						<CardFooter style={{ display: 'flex' }}>
+							{event.attending.length ? (
+								<Fragment>
+									<div
+										className={classes.cardFooter}
+										onClick={() => setRotate(classes.activateRotate)}
+									>
+										<Flip style={{ color: '#ff101f' }} />
+									</div>
+									<div style={{ display: 'flex' }}>
+										{event.attending.map(usr => (
+											<img
+												key={usr.id}
+												src={usr.imageThumbnail}
+												style={{
+													width: '30px',
+													height: '30px',
+													borderRadius: '6px',
+													border: '1px solid #cabac8',
+												}}
+											/>
+										))}
+									</div>
+								</Fragment>
+							) : (
+								''
+							)}
 							<Mutation
 								mutation={ADD_EVENT_MUTATION}
 								variables={{
@@ -149,88 +198,35 @@ const Event = ({ event, classes, user, location, refetch }) => {
 										},
 									});
 								}}
-								// refetchQueries={[
-								// 	{
-								// 		query: ALL_EVENTS_QUERY,
-								// 		variables: { location: location.value },
-								// 	},
-								// ]}
-								// awaitRefetchQueries
 								onError={() => NProgress.done()}
 								onCompleted={async () => {
 									await refetch();
 								}}
 							>
-								{(addEvent, { error, loading, called }) => {
+								{(addEvent, { error, loading, called, data }) => {
 									if (error) console.log(error);
 									if (called) NProgress.start();
+
 									return (
-										<Typography variant='h4' className={classes.cardTitle}>
-											<a href='#' onClick={e => e.preventDefault()}>
-												{event.title}{' '}
-												<IconButton
-													disabled={isSaved !== undefined}
+										<a href='#' onClick={e => e.preventDefault()}>
+											{isSaved ? (
+												<img className={classes.arrow} src={Arrow} />
+											) : (
+												<img
 													onClick={e => handleClick(e, addEvent)}
-												>
-													{isSaved ? <Bookmark /> : <BookmarkBorder />}
-												</IconButton>
-											</a>
-										</Typography>
+													className={classes.arrow}
+													style={{
+														filter: 'grayscale(100%)',
+														opacity: '.4',
+													}}
+													src={Arrow}
+												/>
+											)}
+										</a>
 									);
 								}}
 							</Mutation>
-							<div className={` gradient_border`}>
-								{event.location.venue}
-								<div
-									className={`${classes.stats} ${classes.mlAuto}`}
-									style={{ display: 'block' }}
-								>
-									{event.times.length > 2 ? (
-										<div>
-											{moment(event.times[0]).calendar()} -{' '}
-											{moment(event.times[event.times.length - 1]).calendar()}
-										</div>
-									) : (
-										event.times.map((time, i) => (
-											<div key={i}>{moment(time).calendar()}</div>
-										))
-									)}
-								</div>
-							</div>
-						</CardBody>
-
-						{/* {isSaved && <Bookmark className='Event__bookmark' />} */}
-
-						{potentialMatches.length ? (
-							<CardFooter style={{ display: 'block' }}>
-								<div
-									style={{ cursor: 'pointer', display: 'flex' }}
-									onClick={() => setRotate(classes.activateRotate)}
-								>
-									<FlashOn style={{ color: '#ff101f' }} />
-									<p>
-										{potentialMatches.length} potential match{potentialMatches.length > 1 ? 'es ' : ' '}
-									</p>
-								</div>
-								<div style={{ display: 'flex' }}>
-									{potentialMatches.map(usr => (
-										<img
-											key={usr.id}
-											src={usr.imageThumbnail}
-											style={{
-												width: '30px',
-												height: '30px',
-												borderRadius: '6px',
-												border: '1px solid #cabac8',
-											}}
-										/>
-									))}
-								</div>
-							</CardFooter>
-						) : (
-							''
-						)}
-
+						</CardFooter>
 						{/* <EventModal modal={modal} showModal={showModal} event={event} /> */}
 					</div>
 					<GridContainer
@@ -238,25 +234,18 @@ const Event = ({ event, classes, user, location, refetch }) => {
 							height: 'auto',
 							margin: 0,
 						}}
-						className={`${classes.back} Event__border `}
+						className={`${classes.back} ${classes.eventBorderBack} `}
 					>
 						<GridItem sm={12} md={12}>
 							<CardBody
-								//background
 								style={{
-									//backgroundColor: 'white',
-									padding: '15px',
-									borderRadius: '6px',
-									width: '100%',
-									maxWidth: '100%',
 									height: divEl.current
 										? `${divEl.current.clientHeight}px`
 										: height,
-									display: 'block',
 								}}
-								className={`${classes.cardBodyRotate} `}
+								className={`${classes.cardBodyRotate} ${classes.cardBodyReverse}`}
 							>
-								<div style={{ display: 'flex' }}>
+								<div className={classes.cardBodyRotateHeader}>
 									<IconButton
 										style={{ height: '30px', width: '30px' }}
 										onClick={() => setRotate('')}
@@ -269,45 +258,52 @@ const Event = ({ event, classes, user, location, refetch }) => {
 												{event.title}
 											</a>
 										</h3>
-										<h6 style={{ color: '#ff101f' }}>
+										<h6 style={{ color: '#263238', fontSize: '15px' }}>
 											Showing{' '}
 											{!user.genderPrefs.length ||
 											user.genderPrefs.length === 3 ? (
-												' everyone '
+												<span className='genderPreference'>everyone</span>
 											) : user.genderPrefs.includes(
 												'MALE',
 											) ? user.genderPrefs.includes('FEMALE') ? (
-												' men and women '
+												<span className='genderPreference'>
+													men and women
+												</span>
 											) : (
-												' men '
+												<span className='genderPreference'>men</span>
 											) : (
-												' women '
+												<span className='genderPreference'>women</span>
 											)}{' '}
-											between the ages of {user.minAgePref || '18'} and{' '}
-											{user.maxAgePref || '100'}
+											between the ages of{' '}
+											<span
+												style={{ marginRight: '3px' }}
+												className='agePreference'
+											>
+												{user.minAgePref || '18'}
+											</span>
+											and{' '}
+											<span className='agePreference'>
+												{user.maxAgePref || '100'}
+											</span>
 										</h6>
 									</div>
 								</div>
 								<GridContainer>
-									{potentialMatches.map(usr => (
+									{event.attending.map(usr => (
 										<GridItem
 											key={usr.id}
 											sm={4}
 											md={4}
-											style={{ padding: '5px' }}
+											style={{ padding: '5px', position: 'relative' }}
 										>
+											<Favorite className={classes.favorite} />
+											<Chat className={classes.chat} />
 											<div
 												className='user_card'
 												onClick={() => showModal(true)}
 											>
 												<div
-													className='gradient_border'
-													style={{
-														//borderRadius: '50%',
-														padding: '5px',
-														marginBottom: '5px',
-														flexDirection: 'column',
-													}}
+													className={` gradient_border ${classes.userCardBorder}`}
 												>
 													<Avatar
 														src={usr.imageThumbnail}
@@ -327,7 +323,7 @@ const Event = ({ event, classes, user, location, refetch }) => {
 														<p style={{ margin: 0 }}>
 															{usr.firstName} |{' '}
 														</p>
-														<p style={{ margin: 0 }}>
+														<p style={{ margin: '0 0 0 2px' }}>
 															{getAge(usr.dob)}
 														</p>
 													</div>

@@ -5,6 +5,8 @@ const landingPageStyle = {
 		color: '#FFFFFF',
 		...container,
 		zIndex: '2',
+		//Addition
+		paddingTop: '20px'
 	},
 	title: {
 		...title,
@@ -65,6 +67,18 @@ const landingPageStyle = {
 		top: '3px',
 		position: 'relative',
 	},
+	//Addition
+	logo: {
+		maxHeight: '406px',
+		maxWidth: '670px',
+		width: '100%',
+	},
+	tagline: {
+		backgroundColor: 'rgba(0,0,0,0.4)',
+		padding: '17px',
+		borderRadius: '20px',
+		margin: '10px auto',
+	}
 };
 
 export default landingPageStyle;

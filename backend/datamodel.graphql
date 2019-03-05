@@ -75,6 +75,7 @@ type Event {
 	id: ID! @unique
 	eventfulID: String @unique
 	title: String
+	genre: String
 	description: String
 	attending: [User!]!
 	times: [String]

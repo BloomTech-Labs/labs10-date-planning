@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import Router, { withRouter } from 'next/router';
+import Router from 'next/router';
 import gql from 'graphql-tag';
-import { Mutation, Query } from 'react-apollo';
+import { Mutation } from 'react-apollo';
 import NProgress from 'nprogress';
 import { useQuery } from 'react-apollo-hooks';
 import useInterval from '@rooks/use-interval';
 
 //MUI
 import withStyles from '@material-ui/core/styles/withStyles';
-import { List, ListItem, Badge, IconButton } from '@material-ui/core';
+import { List, ListItem, Badge } from '@material-ui/core';
 import { AccountCircle, Explore, Mail } from '@material-ui/icons';
 import navbarsStyle from '../../static/jss/material-kit-pro-react/views/componentsSections/navbarsStyle.jsx';
 //Q&M
@@ -16,20 +16,17 @@ import navbarsStyle from '../../static/jss/material-kit-pro-react/views/componen
 import User, { CURRENT_USER_QUERY } from '../Queries/User';
 import { ALL_CHATS_QUERY } from '../Queries/AllChats';
 // styled components
-import GridContainer from '../../styledComponents/Grid/GridContainer.jsx';
-import GridItem from '../../styledComponents/Grid/GridItem.jsx';
+// import GridContainer from '../../styledComponents/Grid/GridContainer.jsx';
+// import GridItem from '../../styledComponents/Grid/GridItem.jsx';
 import Header from '../../styledComponents/Header/Header.jsx';
-import CustomInput from '../../styledComponents/CustomInput/CustomInput.jsx';
+// import CustomInput from '../../styledComponents/CustomInput/CustomInput.jsx';
 import CustomDropdown from '../../styledComponents/CustomDropdown/CustomDropdown.jsx';
 import Button from '../../styledComponents/CustomButtons/Button.jsx';
 //assets
-import image from '../../static/img/bg.jpg';
+// import image from '../../static/img/bg.jpg';
 import profileImage from '../../static/img/placeholder.jpg';
-import Logo from '../../static/img/up4LogoWhite.png';
+import Logo from './UpFor';
 
-//import '../../styles/Header/index.scss';
-//utils
-//import redirect from '../../utils/redirect';
 Router.onRouteChangeComplete = () => {
 	NProgress.done(true);
 };
@@ -52,14 +49,12 @@ const Nav = ({ classes, color }) => {
 	}, []);
 	const { start, stop } = useInterval(() => {
 		refetch();
-	}, 1000);
-	// console.log(data);
-	//console.log(loading);
+	}, 60000);
+
 	const [ newMessages, setNewMessages ] = useState([]);
 	useEffect(
 		() => {
 			if (data.getUserChats) {
-				console.log(data);
 				setNewMessages(
 					data.getUserChats
 						.filter(chat => chat.messages.some(message => !message.seen))
@@ -70,27 +65,36 @@ const Nav = ({ classes, color }) => {
 		[ loading ],
 	);
 
-	console.log(newMessages);
 	const handleClick = (e, signout, client) => {
 		if (e === 'Sign out') {
 			signout();
-			client.cache.reset().then(() => {
-				// Redirect to a more useful page when signed out
-				//redirect({}, '/joinus');
-				Router.push('/joinus');
-			});
+			Router.push('/joinus');
+			client.cache.reset().then(() => {});
 		} else {
 			Router.push(`/billing`);
 		}
 	};
+
+	const formattedChats = newMessages => {
+		return newMessages.filter(msg => msg.messages).map(chatObj => {
+			let len = chatObj.messages.length - 1;
+			const { messages } = chatObj;
+			return {
+				from: messages[len].from.firstName,
+				text: messages[len].text,
+				img: messages[len].from.imageThumbnail,
+			};
+		});
+	};
 	return (
 		<User>
 			{({ data: { currentUser }, client }) => {
-				let messages = newMessages.filter(message => message.messages);
+				let chats = formattedChats(newMessages); // these are formatted to the from, message, img object I told you about
+				console.log(chats);
 				return (
 					<Header
 						color={color}
-						brand={Logo}
+						//brand={Logo}
 						fixed={color === 'transparent'}
 						changeColorOnScroll={
 							color === 'transparent' && {
@@ -124,14 +128,7 @@ const Nav = ({ classes, color }) => {
 										<AccountCircle /> Me
 									</Button>
 								</ListItem>
-								{/* <Query
-								query={ALL_CHATS_QUERY}
-								pollInterval={500}
-								fetchPolicy='network-only'
-							>
-								{({ data, loading, error }) => {
-									console.log(loading, error); */}
-								{/* return ( */}
+
 								<ListItem className={classes.listItem}>
 									<CustomDropdown
 										left
@@ -151,13 +148,30 @@ const Nav = ({ classes, color }) => {
 												classes.navLink + ' ' + classes.imageDropdownButton,
 											color: 'transparent',
 										}}
-										dropdownList={[ 'billing' ]}
-										//onClick={e => handleClick(e, signout, client)}
+										dropdownList={
+											chats ? (
+												chats.map(chat => (
+													<div style={{ display: 'flex' }}>
+														<img
+															src={chat.img}
+															style={{
+																width: '40px',
+																height: '40px',
+																borderRadius: '50%',
+															}}
+														/>
+														<div>
+															<div>{chat.from}</div>
+															<div>{chat.text}</div>
+														</div>
+													</div>
+												))
+											) : (
+												[]
+											)
+										}
 									/>
 								</ListItem>
-								{/* ); */}
-								{/* }}
-							</Query> */}
 								<Mutation
 									mutation={SIGNOUT_MUTATION}
 									refetchQueries={[ { query: CURRENT_USER_QUERY } ]}
