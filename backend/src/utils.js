@@ -216,8 +216,7 @@ module.exports = {
 			},
 		});
 
-		return sharedEvent.length;
-	},
+		
 
 
 		// combined events between the two users
