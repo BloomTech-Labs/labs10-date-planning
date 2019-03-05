@@ -2,24 +2,24 @@
   height: 200px;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.32);
-  margin-bottom: 20px;
+  margin-bottom: 60px;
 }
 
 .Profile__background {
   // background-color: #fba1a1;
   background-color: #000;
-  height: 100vh;
+  height: 100%;
   background-image: url("https://www.transparenttextures.com/patterns/shattered-dark.png");
 }
 
 
 .inner {
-  // margin: 0 auto;
+  margin: 0 auto;
 
-  padding: 50px 60px 0;
-  max-width: 1000px;
+  padding: 10px 60px 0;
+  max-width: 1200px;
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;
   // align-items: center;
   h2 {
     display: inline;
@@ -37,8 +37,8 @@
 
 .input-range__slider {
   appearance: none;
-  background: #3f51b5;
-  border: 1px solid #3f51b5;
+  background: #ff101f;
+  border: 1px solid #ff101f;
   border-radius: 100%;
   cursor: pointer;
   display: block;
@@ -125,7 +125,8 @@
 }
 
 .input-range__track--active {
-  background: #3f51b5;
+  background-image: linear-gradient(to right, #cabac8, #df9bbe, #f6749d, #ff4768, #ff101f);
+  // background: #ff101f;
 }
 
 .input-range {

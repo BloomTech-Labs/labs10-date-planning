@@ -18,6 +18,8 @@ import Close from '@material-ui/icons/Close';
 // core components
 import headerStyle from '../../static/jss/material-kit-pro-react/components/headerStyle.jsx';
 
+import Logo from '../../components/Header/UpFor';
+
 class Header extends React.Component {
 	constructor(props) {
 		super(props);
@@ -68,7 +70,7 @@ class Header extends React.Component {
 				<Toolbar className={classes.container}>
 					<Link href='/'>
 						<Button className={classes.title}>
-							<img src={brand} style={{ maxHeight: '50px' }} />
+							<Logo />
 						</Button>
 					</Link>
 					<Hidden smDown implementation='css' className={classes.hidden}>

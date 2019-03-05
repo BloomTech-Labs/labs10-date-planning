@@ -87,6 +87,22 @@ const styles = {
 	textLeft: {
 		textAlign: 'left',
 	},
+	//Additions
+
+	background: {
+		paddingTop: '40px',
+		height: '100%',
+		backgroundImage: `url("https://www.transparenttextures.com/patterns/shattered-dark.png")`,
+		backgroundColor: '#000'
+	},
+	drawer: {
+		padding: '0 20px',
+		width: '250p'
+	},
+	drawerContainer: {
+		display: 'flex',
+		alignItems: 'center'
+	}
 };
 
 export default styles;

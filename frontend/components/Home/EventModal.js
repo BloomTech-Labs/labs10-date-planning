@@ -7,8 +7,15 @@ import { adopt } from 'react-adopt';
 import { State, Map, Value, Toggle } from 'react-powerplug';
 //MUI
 import withStyles from '@material-ui/core/styles/withStyles';
-import { DialogTitle, Dialog, DialogContent, InputAdornment } from '@material-ui/core';
-import { BookmarkBorder, Close, Send } from '@material-ui/icons';
+import { DialogTitle, Dialog, DialogContent, InputAdornment, IconButton } from '@material-ui/core';
+import {
+	BookmarkBorder,
+	Close,
+	Send,
+	Favorite,
+	FavoriteBorder,
+	NotInterested,
+} from '@material-ui/icons';
 //Q&M
 import User, { CURRENT_USER_QUERY } from '../Queries/User';
 import { EVENT_QUERY } from '../Queries/Event';
@@ -16,6 +23,13 @@ import { GET_CONVERSATION_QUERY } from '../Queries/getConvo';
 
 import { ADD_EVENT_MUTATION } from '../Mutations/addEvent';
 import { CREATE_CHAT_MUTATION } from '../Mutations/createChat';
+import { SEND_MESSAGE_MUTATION } from '../Mutations/sendMessage';
+import {
+	UPDATE_USER_MUTATION,
+	LIKE_USER_MUTATION,
+	UNLIKE_USER_MUTATION,
+	UPDATE_BLOCKS_MUTATION,
+} from '../Mutations/updateUser';
 //Components
 import InfoModal from './InfoModal';
 //StyledComponents
@@ -36,20 +50,62 @@ const Composed = adopt({
 			{render}
 		</Query>
 	),
-	createChat: ({ render }) => (
+	createChat: ({ id, render }) => (
 		<Mutation
 			mutation={CREATE_CHAT_MUTATION}
-			refetchQueries={[ { query: GET_CONVERSATION_QUERY } ]}
+			refetchQueries={[ { query: GET_CONVERSATION_QUERY, variables: { id: id.value } } ]}
 			onCompleted={() => NProgress.done()}
 			onError={() => NProgress.done()}
 		>
 			{(mutation, result) => render({ mutation, result })}
 		</Mutation>
 	),
+	sendMessage: ({ id, render }) => (
+		<Mutation
+			mutation={SEND_MESSAGE_MUTATION}
+			refetchQueries={[ { query: GET_CONVERSATION_QUERY, variables: { id: id.value } } ]}
+			awaitRefetchQueries
+			onCompleted={() => NProgress.done()}
+			onError={() => NProgress.done()}
+		>
+			{(mutation, result) => render({ mutation, result })}
+		</Mutation>
+	),
+	like: ({ id, render }) => (
+		<Mutation
+			mutation={LIKE_USER_MUTATION}
+			variables={{ like: id.value }}
+			onCompleted={() => NProgress.done()}
+			onError={() => NProgress.done()}
+		>
+			{render}
+		</Mutation>
+	),
+	unlike: ({ id, render }) => (
+		<Mutation
+			mutation={UNLIKE_USER_MUTATION}
+			variables={{ like: id.value }}
+			onCompleted={() => NProgress.done()}
+			onError={() => NProgress.done()}
+		>
+			{render}
+		</Mutation>
+	),
+	block: ({ id, render }) => (
+		<Mutation
+			mutation={UPDATE_BLOCKS_MUTATION}
+			variables={{ block: id.value }}
+			onCompleted={() => NProgress.done()}
+			onError={() => NProgress.done()}
+		>
+			{render}
+		</Mutation>
+	),
 });
 
 const EventModal = ({ modal, showModal, classes, potentialMatch }) => {
 	const [ message, setMessage ] = useState('');
+	//let isLiked =
 	const modalHeader = {
 		// backgroundColor: '#81d6e3',
 		backgroundImage: 'linear-gradient(to top, #8ad2ff, #94d5fd, #9fd8fb, #a8daf9, #b2ddf7)',
@@ -62,8 +118,18 @@ const EventModal = ({ modal, showModal, classes, potentialMatch }) => {
 	else
 		return (
 			<Composed matchId={potentialMatch.id}>
-				{({ user: { data: { currentUser } }, createChat, id, convo }) => {
-					console.log(createChat.result, id, convo);
+				{({
+					user: { data: { currentUser } },
+					createChat,
+					sendMessage,
+					id,
+					convo,
+					like,
+					unlike,
+					block,
+				}) => {
+					console.log(convo);
+					let isLiked = currentUser.liked.find(user => user.id === id.value);
 					return (
 						<Dialog
 							classes={{
@@ -110,6 +176,12 @@ const EventModal = ({ modal, showModal, classes, potentialMatch }) => {
 								>
 									{potentialMatch.firstName} | {getAge(potentialMatch.dob)}
 								</h4>
+								<IconButton onClick={() => (isLiked ? unlike() : like())}>
+									{isLiked ? <Favorite /> : <FavoriteBorder />}
+								</IconButton>
+								<IconButton onClick={() => block()}>
+									<NotInterested />
+								</IconButton>
 							</DialogTitle>
 							<DialogContent
 								style={{ zIndex: 3 }}
@@ -178,37 +250,28 @@ const EventModal = ({ modal, showModal, classes, potentialMatch }) => {
 												color='primary'
 												justIcon
 												className={classes.floatRight}
-												onClick={() => {
+												onClick={async () => {
 													NProgress.start();
-													createChat.mutation({
-														variables: {
-															id: id.value,
-															message: message,
-														},
-													});
+													convo.data.getConversation
+														? await sendMessage.mutation({
+																variables: {
+																	id: id.value,
+																	message: message,
+																},
+															})
+														: await createChat.mutation({
+																variables: {
+																	id: id.value,
+																	message: message,
+																},
+															});
+													setMessage('');
 												}}
 											>
 												<Send />
 											</Button>
 										}
 									/>
-									{/* <CustomInput
-									formControlProps={{
-										fullWidth: true,
-									}}
-									inputProps={{
-										placeholder: 'Send a message?',
-										value: message,
-										onChange: e => setMessage(e.target.value),
-										endAdornment: (
-											<InputAdornment position='end'>
-												<Button justIcon round disabled={!message.length}>
-													<Send />
-												</Button>
-											</InputAdornment>
-										),
-									}}
-								/> */}
 								</div>
 							</DialogContent>
 						</Dialog>

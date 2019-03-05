@@ -81,6 +81,7 @@ RegularButton.propTypes = {
 	link: PropTypes.bool,
 	justIcon: PropTypes.bool,
 	fileButton: PropTypes.bool,
+	variant: PropTypes.string,
 };
 
 export default withStyles(buttonStyle)(RegularButton);

@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Wed Feb 27 2019 20:07:08 GMT-0800 (Pacific Standard Time)
+# timestamp: Mon Mar 04 2019 16:11:56 GMT-0800 (Pacific Standard Time)
 
 type AggregateChat {
   count: Int!
@@ -693,6 +693,7 @@ type Event implements Node {
   id: ID!
   eventfulID: String
   title: String
+  genre: String
   description: String
   attending(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   times: [String!]!
@@ -719,6 +720,7 @@ type EventConnection {
 input EventCreateInput {
   eventfulID: String
   title: String
+  genre: String
   description: String
   location: String
   image_url: String
@@ -744,6 +746,7 @@ input EventCreatetimesInput {
 input EventCreateWithoutAttendingInput {
   eventfulID: String
   title: String
+  genre: String
   description: String
   location: String
   image_url: String
@@ -772,6 +775,8 @@ enum EventOrderByInput {
   eventfulID_DESC
   title_ASC
   title_DESC
+  genre_ASC
+  genre_DESC
   description_ASC
   description_DESC
   location_ASC
@@ -800,6 +805,7 @@ type EventPreviousValues {
   id: ID!
   eventfulID: String
   title: String
+  genre: String
   description: String
   times: [String!]!
   location: String
@@ -941,6 +947,46 @@ input EventScalarWhereInput {
 
   """All values not ending with the given string."""
   title_not_ends_with: String
+  genre: String
+
+  """All values that are not equal to given value."""
+  genre_not: String
+
+  """All values that are contained in given list."""
+  genre_in: [String!]
+
+  """All values that are not contained in given list."""
+  genre_not_in: [String!]
+
+  """All values less than the given value."""
+  genre_lt: String
+
+  """All values less than or equal the given value."""
+  genre_lte: String
+
+  """All values greater than the given value."""
+  genre_gt: String
+
+  """All values greater than or equal the given value."""
+  genre_gte: String
+
+  """All values containing the given string."""
+  genre_contains: String
+
+  """All values not containing the given string."""
+  genre_not_contains: String
+
+  """All values starting with the given string."""
+  genre_starts_with: String
+
+  """All values not starting with the given string."""
+  genre_not_starts_with: String
+
+  """All values ending with the given string."""
+  genre_ends_with: String
+
+  """All values not ending with the given string."""
+  genre_not_ends_with: String
   description: String
 
   """All values that are not equal to given value."""
@@ -1345,6 +1391,7 @@ input EventSubscriptionWhereInput {
 input EventUpdateInput {
   eventfulID: String
   title: String
+  genre: String
   description: String
   location: String
   image_url: String
@@ -1361,6 +1408,7 @@ input EventUpdateInput {
 input EventUpdateManyDataInput {
   eventfulID: String
   title: String
+  genre: String
   description: String
   location: String
   image_url: String
@@ -1376,6 +1424,7 @@ input EventUpdateManyDataInput {
 input EventUpdateManyMutationInput {
   eventfulID: String
   title: String
+  genre: String
   description: String
   location: String
   image_url: String
@@ -1412,6 +1461,7 @@ input EventUpdatetimesInput {
 input EventUpdateWithoutAttendingDataInput {
   eventfulID: String
   title: String
+  genre: String
   description: String
   location: String
   image_url: String
@@ -1564,6 +1614,46 @@ input EventWhereInput {
 
   """All values not ending with the given string."""
   title_not_ends_with: String
+  genre: String
+
+  """All values that are not equal to given value."""
+  genre_not: String
+
+  """All values that are contained in given list."""
+  genre_in: [String!]
+
+  """All values that are not contained in given list."""
+  genre_not_in: [String!]
+
+  """All values less than the given value."""
+  genre_lt: String
+
+  """All values less than or equal the given value."""
+  genre_lte: String
+
+  """All values greater than the given value."""
+  genre_gt: String
+
+  """All values greater than or equal the given value."""
+  genre_gte: String
+
+  """All values containing the given string."""
+  genre_contains: String
+
+  """All values not containing the given string."""
+  genre_not_contains: String
+
+  """All values starting with the given string."""
+  genre_starts_with: String
+
+  """All values not starting with the given string."""
+  genre_not_starts_with: String
+
+  """All values ending with the given string."""
+  genre_ends_with: String
+
+  """All values not ending with the given string."""
+  genre_not_ends_with: String
   description: String
 
   """All values that are not equal to given value."""

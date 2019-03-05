@@ -1,20 +1,19 @@
-import React, { useState, useEffect, Fragment } from 'react';
-import { withApollo, Mutation, Query } from 'react-apollo';
+import React, { Fragment } from 'react';
+import { Mutation, Query } from 'react-apollo';
 import _ from 'lodash';
 import NProgress from 'nprogress';
 import InfiniteScroll from 'react-infinite-scroller';
 import classNames from 'classnames';
 import { adopt } from 'react-adopt';
-import { State, Map, Value, Toggle } from 'react-powerplug';
+import { State, Value, Toggle } from 'react-powerplug';
 //MUI
 import withStyles from '@material-ui/core/styles/withStyles';
-import { Drawer, Divider, IconButton, Hidden } from '@material-ui/core';
-import { Menu, ChevronLeft, ChevronRight } from '@material-ui/icons';
+import { Drawer, IconButton } from '@material-ui/core';
+import { Menu, ChevronLeft } from '@material-ui/icons';
 //Q&M
 import { ALL_EVENTS_QUERY } from '../Queries/AllEvents';
-import User, { CURRENT_USER_QUERY } from '../Queries/User';
+import { CURRENT_USER_QUERY } from '../Queries/User';
 import { UPDATE_USER_MUTATION } from '../Mutations/updateUser';
-import Location from '../Queries/Location';
 //components
 import Filters from './Filters';
 import Event from './Event';
@@ -22,17 +21,10 @@ import LocationSearch from './LocationSearch';
 import NewUser from './NewUser';
 import Primary from '../../styledComponents/Typography/Primary';
 //styled components
-import Button from '../../styledComponents/CustomButtons/Button';
 import GridContainer from '../../styledComponents/Grid/GridContainer';
 import GridItem from '../../styledComponents/Grid/GridItem';
-import Paginations from '../../styledComponents/Pagination/Pagination';
 //styles
 import styles from '../../static/jss/material-kit-pro-react/views/ecommerceSections/productsStyle.jsx';
-import { auth } from '../../utils/firebase';
-
-// import Prism from '../../static/img/prism.png'
-import Triangles from '../../static/img/footer_lodyas.png';
-import Wood from '../../static/img/office.png';
 
 const Composed = adopt({
 	drawer: <Toggle initial={false} />,
@@ -84,20 +76,34 @@ const Events = ({ classes, newUser }) => {
 				user: { data: { currentUser } },
 			}) => {
 				return (
-					<div
-						style={{
-							paddingTop: '40px',
-							height: '100%',
-							backgroundImage: `url("https://www.transparenttextures.com/patterns/shattered-dark.png")`,
-							backgroundColor: '#000000',
-						}}
-					>
-						{/* <div className={classes.section}> */}
+					<div className={classes.background}>
+						<svg
+							style={{ width: 0, height: 0, position: 'absolute' }}
+							ariaHidden='true'
+							focusable='false'
+						>
+							<linearGradient id='favoriteID' x2='1' y2='1'>
+								<stop offset='0%' stopColor='#FF8A8A' />
+								<stop offset='50%' stopColor='#FF545F' />
+								<stop offset='100%' stopColor='#ff101f' />
+							</linearGradient>
+						</svg>
+						<svg
+							style={{ width: 0, height: 0, position: 'absolute' }}
+							ariaHidden='true'
+							focusable='false'
+						>
+							<linearGradient id='chatID' x2='1' y2='1'>
+								<stop offset='0%' stopColor='#81d6e3' />
+								<stop offset='50%' stopColor='#15C0DA' />
+								<stop offset='100%' stopColor='#81d6e3' />
+							</linearGradient>
+						</svg>
 						{newUser && <NewUser />}
 						<div className={classes.container}>
 							<Fragment>
 								<IconButton
-									// color="inherit"
+									style={{ color: 'white' }}
 									aria-label='Open drawer'
 									onClick={drawer.toggle}
 									className={classNames(
@@ -107,17 +113,8 @@ const Events = ({ classes, newUser }) => {
 								>
 									<Menu />
 								</IconButton>
-								<Drawer
-									//className={classes.drawer}
-									variant='persistent'
-									anchor='left'
-									open={drawer.on}
-									// classes={{
-									// 	paper: classes.drawerPaper,
-									// }}
-								>
-									<div style={{ padding: '0 20px', width: '250px' }}>
-										{' '}
+								<Drawer variant='persistent' anchor='left' open={drawer.on}>
+									<div className={classes.drawer}>
 										<IconButton onClick={drawer.toggle}>
 											<ChevronLeft />
 										</IconButton>
@@ -125,12 +122,7 @@ const Events = ({ classes, newUser }) => {
 										<p style={{ margin: 0 }}>
 											Showing events near {location.value}.
 										</p>
-										<div
-											style={{
-												display: 'flex',
-												alignItems: 'center',
-											}}
-										>
+										<div className={classes.drawerContainer}>
 											{currentUser.location !== location.value ? (
 												<Primary>
 													<b
@@ -154,12 +146,7 @@ const Events = ({ classes, newUser }) => {
 											)}
 										</div>
 									</div>
-									<Filters
-										// location={location.value}
-										// page={page.value}
-										// refetch={refetch}
-										filters={filters}
-									/>
+									<Filters filters={filters} />
 								</Drawer>
 								<GridContainer>
 									<GridItem sm={12} md={12} sm={12}>
@@ -218,13 +205,6 @@ const Events = ({ classes, newUser }) => {
 															/>
 														))}
 												</GridItem>
-
-												{/* <GridItem sm={6} md={4} lg={4}>
-										{events.events[2] &&
-											events.events[2].map(event => (
-												<Event event={event} key={event.id} user={user} />
-											))}
-									</GridItem> */}
 											</GridContainer>
 										) : (
 											<div>Loading</div>

@@ -2,14 +2,14 @@ const moment = require('moment');
 const axios = require('axios');
 
 module.exports = {
-	transformEvents: function(eventsArr, db) {
+	transformEvents: function(user, eventsArr, db) {
 		return eventsArr.reduce(async (previousPromise, ev) => {
 			let events = await previousPromise;
 			let existingEvent = events.findIndex(e => e.title === ev.name);
 			if (existingEvent !== -1) {
 				events[existingEvent].times.push(ev.dates.start.dateTime);
 			} else {
-				let [ eventInDb ] = await db.query.events(
+				let [ dbEvent ] = await db.query.events(
 					{
 						where: {
 							AND: [
@@ -22,9 +22,33 @@ module.exports = {
 							],
 						},
 					},
-					`{id times attending {id firstName imageThumbnail imageLarge dob gender biography}}`,
+					`{id times attending {id firstName imageThumbnail imageLarge dob gender biography age minAgePref maxAgePref genderPrefs blocked { id }}}`,
 				);
 
+				let eventInDb;
+
+				if (dbEvent) {
+					const attendee = dbEvent.attending.filter(attendee => {
+						if (user.blocked && user.blocked.includes(attendee.id)) return false;
+						if (attendee.blocked && attendee.blocked.includes(user.id)) return false;
+						if (attendee.id === user.id) return false;
+
+						return (
+							moment().diff(user.dob, 'years') <= attendee.maxAgePref &&
+							moment().diff(user.dob, 'years') >= attendee.minAgePref &&
+							attendee.genderPrefs.includes(user.gender) &&
+							moment().diff(attendee.dob, 'years') <= user.maxAgePref &&
+							moment().diff(attendee.dob, 'years') >= user.minAgePref &&
+							user.genderPrefs.includes(attendee.gender)
+						);
+					});
+
+					eventInDb = {
+						...dbEvent,
+						attending: attendee,
+					};
+				}
+				console.log(eventInDb);
 				const [ img ] = ev.images.filter(img => img.width > 500);
 
 				events.push({
@@ -36,7 +60,7 @@ module.exports = {
 					times: ev.dates.start.noSpecificTime
 						? [ ev.dates.start.localDate ]
 						: [ ev.dates.start.dateTime ],
-					genres: ev.classifications[0].genre && ev.classifications[0].genre.name,
+					genre: ev.classifications[0].genre && ev.classifications[0].genre.name,
 					info: ev.info || null,
 					description: ev.info || null,
 					price: {
@@ -172,5 +196,114 @@ module.exports = {
 			return { id, admin };
 		}
 		return null;
+	},
+
+	async getScore(currentUserId, matchingUserId, db) {
+		// events that both users have in common
+		const sharedEvents = await db.query.events({
+			where: {
+				AND: [
+					{
+						attending_some: {
+							id: currentUserId,
+						},
+					},
+					{
+						attending_some: {
+							id: matchingUserId,
+						},
+					},
+				],
+			},
+		});
+
+		// combined events between the two users
+		const combinedEvents = await db.query.events({
+			where: {
+				OR: [
+					{
+						attending_some: {
+							id: currentUserId,
+						},
+					},
+					{
+						attending_some: {
+							id: matchingUserId,
+						},
+					},
+				],
+			},
+		});
+
+		// calculate eventScore with .6 coef
+		const eventScore =
+			combinedEvents.length === 0
+				? 0
+				: Math.floor(sharedEvents.length / combinedEvents.length * 10000 * 60 / 100);
+
+		// query current user events genre
+		const currentUser = await db.query.users(
+			{
+				where: {
+					id: currentUserId,
+				},
+			},
+			`{ events { genre } }`,
+		);
+
+		// get unique genre list for current user
+		const currentUserGenres = currentUser[0].events.reduce((genres, event) => {
+			if (event.genre && !genres.includes(event.genre)) {
+				genres.push(event.genre);
+			}
+			return genres;
+		}, []);
+
+		// calculate eventScore with .6 coef
+		// const eventScore =
+		// 	combinedEvents.length === 0
+		// 		? 0
+		// 		: Math.floor(sharedEvents.length / combinedEvents.length * 10000 * 60 / 100);
+
+		// query matching user events genre
+		const matchingUser = await db.query.users(
+			{
+				where: {
+					id: matchingUserId,
+				},
+			},
+			`{ events { genre } }`,
+		);
+
+		// get unique genre list for matching user
+		const matchingUserGenres = matchingUser[0].events.reduce((genres, event) => {
+			if (event.genre && !matchingUser.includes(event.genre)) {
+				genres.push(event.genre);
+			}
+			return genres;
+		}, []);
+
+		// get shared genres between the two users
+		const sharedGenre = currentUserGenres.reduce((count, genre) => {
+			if (matchingUserGenres.includes(genre)) count++;
+			return count;
+		}, 0);
+
+		// calculate genreScore with .4 coef
+		const genreScore =
+			currentUserGenres.length + matchingUserGenres.length === 0
+				? 0
+				: Math.floor(
+						sharedGenre /
+							(matchingUserGenres.length + currentUserGenres.length - sharedGenre) *
+							10000 *
+							40 /
+							100,
+					);
+
+		// compatibility score is the sum of eventScore and genreScore
+		const score = eventScore + genreScore;
+
+		return score;
 	},
 };

@@ -20,6 +20,7 @@ import { Visibility, VisibilityOff, Mail, Close, LockOutlined } from '@material-
 //components
 import ErrorModal from './ErrorModal';
 import ResetRequest from './PasswordRequest';
+import Transition from '../Transistion';
 //styled components
 import Button from '../../styledComponents/CustomButtons/Button';
 import Card from '../../styledComponents/Card/Card';
@@ -77,6 +78,7 @@ const Login = ({ classes }) => {
 		[ user.password ],
 	);
 	const firebaseLogin = async (e, firebaseAuth, company) => {
+		NProgress.start();
 		e.preventDefault();
 		try {
 			let provider;
@@ -103,6 +105,7 @@ const Login = ({ classes }) => {
 
 	const handleError = error => {
 		NProgress.done();
+		console.log('hi');
 		if (error.message.replace('GraphQL error: ', '') === 'Invalid Password!') {
 			setError({ password: error.message.replace('GraphQL error: ', '') });
 		} else {
@@ -110,212 +113,230 @@ const Login = ({ classes }) => {
 		}
 	};
 	return (
-		<GridItem xs={6} sm={6} md={6} lg={6}>
-			<Button color='danger' onClick={() => setModalShowing(true)}>
+		<Fragment>
+			<Button color='primary' onClick={() => setModalShowing(true)}>
 				Log In
 			</Button>
-			<Dialog
-				classes={{
-					root: classes.modalRoot,
-					paper: classes.modal + ' ' + classes.modalLogin,
-				}}
-				open={modalShowing}
-				// TransitionComponent={Transition}
-				keepMounted
-				onClose={() => setModalShowing(false)}
-				aria-labelledby='signup-modal-slide-title'
-				aria-describedby='signup-modal-slide-description'
-			>
-				<Card plain className={classes.modalLoginCard}>
-					<DialogTitle
-						id='login-modal-slide-title'
-						disableTypography
-						className={classes.modalHeader}
-					>
-						<CardHeader
-							plain
-							color='primary'
-							className={`${classes.textCenter} ${classes.cardLoginHeader}`}
+			<GridItem xs={6} sm={6} md={6} lg={6}>
+				<Dialog
+					classes={{
+						root: classes.modalRoot,
+						paper: classes.modal + ' ' + classes.modalLogin,
+					}}
+					open={modalShowing}
+					TransitionComponent={Transition}
+					keepMounted
+					onClose={() => setModalShowing(false)}
+					aria-labelledby='signup-modal-slide-title'
+					aria-describedby='signup-modal-slide-description'
+				>
+					<Card plain className={classes.modalLoginCard}>
+						<DialogTitle
+							id='login-modal-slide-title'
+							disableTypography
+							className={classes.modalHeader}
 						>
-							<Button
-								simple
-								className={classes.modalCloseButton}
-								key='close'
-								aria-label='Close'
-								onClick={() => setModalShowing(false)}
+							<CardHeader
+								plain
+								color='primary'
+								className={`${classes.textCenter} ${classes.cardLoginHeader}`}
 							>
-								<Close className={classes.modalClose} />
-							</Button>
-							<h5 className={classes.cardTitleWhite}>Log in</h5>
-							<div className={classes.socialLine}>
-								<Mutation
-									mutation={FIREBASE_LOGIN}
-									refetchQueries={[ { query: CURRENT_USER_QUERY } ]}
-									awaitRefetchQueries
-									onError={handleError}
-									onCompleted={() => Router.push('/home')}
+								<Button
+									simple
+									className={classes.modalCloseButton}
+									key='close'
+									aria-label='Close'
+									onClick={() => setModalShowing(false)}
 								>
-									{(firebaseAuth, { called }) => {
-										if (called) NProgress.start();
-										return (
-											<Fragment>
-												<Button
-													justIcon
-													link
-													className={classes.socialLineButton}
-													onClick={e =>
-														firebaseLogin(e, firebaseAuth, 'google')}
-												>
-													<i className='fab fa-google' />
-												</Button>
-												<Button
-													justIcon
-													link
-													className={classes.socialLineButton}
-													onClick={e =>
-														firebaseLogin(e, firebaseAuth, 'facebook')}
-												>
-													<i className='fab fa-facebook-square' />
-												</Button>
+									<Close className={classes.modalClose} />
+								</Button>
+								<h5 className={classes.cardTitleWhite}>Log in</h5>
+								<div className={classes.socialLine}>
+									<Mutation
+										mutation={FIREBASE_LOGIN}
+										refetchQueries={[ { query: CURRENT_USER_QUERY } ]}
+										awaitRefetchQueries
+										onError={handleError}
+										onCompleted={() => Router.push('/home')}
+									>
+										{(firebaseAuth, { called }) => {
+											//if (called) NProgress.start();
+											return (
+												<Fragment>
+													<Button
+														justIcon
+														link
+														className={classes.socialLineButton}
+														onClick={e =>
+															firebaseLogin(
+																e,
+																firebaseAuth,
+																'google',
+															)}
+													>
+														<i className='fab fa-google' />
+													</Button>
+													<Button
+														justIcon
+														link
+														className={classes.socialLineButton}
+														onClick={e =>
+															firebaseLogin(
+																e,
+																firebaseAuth,
+																'facebook',
+															)}
+													>
+														<i className='fab fa-facebook-square' />
+													</Button>
 
-												<Button
-													justIcon
-													link
-													className={classes.socialLineButton}
-													onClick={e =>
-														firebaseLogin(e, firebaseAuth, 'twitter')}
-												>
-													<i className='fab fa-twitter' />
-												</Button>
-											</Fragment>
-										);
-									}}
-								</Mutation>
-							</div>
-						</CardHeader>
-					</DialogTitle>
-					<Mutation
-						mutation={LOGIN_USER}
-						variables={{ email: user.email, password: user.password }}
-						refetchQueries={[ { query: CURRENT_USER_QUERY } ]}
-						onError={handleError}
-						onCompleted={() => Router.push('/home')}
-						awaitRefetchQueries
-					>
-						{(signin, { called }) => {
-							if (called) NProgress.start();
-							return (
-								<form
-									onSubmit={async e => {
-										e.preventDefault();
-										console.log(user);
-										await signin({
-											variables: {
-												user: user.email,
-												password: user.password,
-											},
-										});
-									}}
-								>
-									<DialogContent
-										id='login-modal-slide-description'
-										className={classes.modalBody}
+													<Button
+														justIcon
+														link
+														className={classes.socialLineButton}
+														onClick={e =>
+															firebaseLogin(
+																e,
+																firebaseAuth,
+																'twitter',
+															)}
+													>
+														<i className='fab fa-twitter' />
+													</Button>
+												</Fragment>
+											);
+										}}
+									</Mutation>
+								</div>
+							</CardHeader>
+						</DialogTitle>
+						<Mutation
+							mutation={LOGIN_USER}
+							variables={{ email: user.email, password: user.password }}
+							refetchQueries={[ { query: CURRENT_USER_QUERY } ]}
+							onError={handleError}
+							onCompleted={() => Router.push('/home')}
+							awaitRefetchQueries
+						>
+							{(signin, { called }) => {
+								//if (called) NProgress.start();
+								return (
+									<form
+										onSubmit={async e => {
+											e.preventDefault();
+											console.log(user);
+											NProgress.start();
+											await signin({
+												variables: {
+													user: user.email,
+													password: user.password,
+												},
+											});
+										}}
 									>
-										<p
-											className={`${classes.description} ${classes.textCenter}`}
+										<DialogContent
+											id='login-modal-slide-description'
+											className={classes.modalBody}
 										>
-											Or Be Classical
-										</p>
-										<CardBody className={classes.cardLoginBody}>
-											<CustomInput
-												id='login-modal-email'
-												formControlProps={{
-													fullWidth: true,
-												}}
-												inputProps={{
-													startAdornment: (
-														<InputAdornment position='start'>
-															<Mail className={classes.icon} />
-														</InputAdornment>
-													),
-													placeholder: 'Email...',
-													value: user.email,
-													onChange: e =>
-														setUser({ ...user, email: e.target.value }),
-												}}
-											/>
-											<CustomInput
-												error={err.password}
-												id='login-modal-pass'
-												formControlProps={{
-													fullWidth: true,
-												}}
-												inputProps={{
-													endAdornment: (
-														<InputAdornment position='end'>
-															<IconButton
-																aria-label='Toggle password visibility'
-																onClick={() =>
-																	setPasswordShowing(
-																		!passwordShowing,
-																	)}
-															>
-																{!err.password &&
-																	(passwordShowing ? (
-																		<Visibility />
-																	) : (
-																		<VisibilityOff />
-																	))}
-															</IconButton>
-														</InputAdornment>
-													),
-													startAdornment: (
-														<InputAdornment position='start'>
-															<LockOutlined
-																className={classes.icon}
-															/>
-														</InputAdornment>
-													),
-													placeholder: 'Password...',
-													value: user.password,
-													type: passwordShowing ? 'text' : 'password',
-													onChange: e =>
-														setUser({
-															...user,
-															password: e.target.value,
-														}),
-												}}
-												labelText={err.password}
-												labelProps={{
-													error: true,
-												}}
-											/>
-										</CardBody>
-									</DialogContent>
-									<DialogActions
-										className={`${classes.modalFooter} ${classes.justifyContentCenter}`}
-									>
-										<ButtonBase type='submit'>
-											<Button
-												color='primary'
-												simple
-												disabled={!user.email || !user.password}
-												size='lg'
-												component='div'
+											<p
+												className={`${classes.description} ${classes.textCenter}`}
 											>
-												Get started
-											</Button>
-										</ButtonBase>
-									</DialogActions>
-								</form>
-							);
-						}}
-					</Mutation>
-					<Reset />
-				</Card>
-				<ErrorModal error={serverError} />
-			</Dialog>
-		</GridItem>
+												Or Be Classical
+											</p>
+											<CardBody className={classes.cardLoginBody}>
+												<CustomInput
+													id='login-modal-email'
+													formControlProps={{
+														fullWidth: true,
+													}}
+													inputProps={{
+														startAdornment: (
+															<InputAdornment position='start'>
+																<Mail className={classes.icon} />
+															</InputAdornment>
+														),
+														placeholder: 'Email...',
+														value: user.email,
+														onChange: e =>
+															setUser({
+																...user,
+																email: e.target.value,
+															}),
+													}}
+												/>
+												<CustomInput
+													error={err.password}
+													id='login-modal-pass'
+													formControlProps={{
+														fullWidth: true,
+													}}
+													inputProps={{
+														endAdornment: (
+															<InputAdornment position='end'>
+																<IconButton
+																	aria-label='Toggle password visibility'
+																	onClick={() =>
+																		setPasswordShowing(
+																			!passwordShowing,
+																		)}
+																>
+																	{!err.password &&
+																		(passwordShowing ? (
+																			<Visibility />
+																		) : (
+																			<VisibilityOff />
+																		))}
+																</IconButton>
+															</InputAdornment>
+														),
+														startAdornment: (
+															<InputAdornment position='start'>
+																<LockOutlined
+																	className={classes.icon}
+																/>
+															</InputAdornment>
+														),
+														placeholder: 'Password...',
+														value: user.password,
+														type: passwordShowing ? 'text' : 'password',
+														onChange: e =>
+															setUser({
+																...user,
+																password: e.target.value,
+															}),
+													}}
+													labelText={err.password}
+													labelProps={{
+														error: true,
+													}}
+												/>
+											</CardBody>
+										</DialogContent>
+										<DialogActions
+											className={`${classes.modalFooter} ${classes.justifyContentCenter}`}
+										>
+											<ButtonBase type='submit'>
+												<Button
+													color='primary'
+													simple
+													disabled={!user.email || !user.password}
+													size='lg'
+													component='div'
+												>
+													Get started
+												</Button>
+											</ButtonBase>
+										</DialogActions>
+									</form>
+								);
+							}}
+						</Mutation>
+						<Reset />
+					</Card>
+					<ErrorModal error={serverError} />
+				</Dialog>
+			</GridItem>
+		</Fragment>
 	);
 };
 
