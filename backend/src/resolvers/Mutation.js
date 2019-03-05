@@ -365,7 +365,8 @@ const Mutation = {
 						connect: {
 							id: user.id
 						}
-					}
+					},
+					genre: event.genre
 				}
 			},
 			info

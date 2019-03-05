@@ -147,6 +147,7 @@ const Event = ({ event, classes, user, location, refetch }) => {
 									lat: event.location.lat,
 									long: event.location.long,
 									description: event.description,
+									genre: event.genre
 								}}
 								update={(cache, { data: { addEvent } }) => {
 									const { currentUser } = cache.readQuery({
