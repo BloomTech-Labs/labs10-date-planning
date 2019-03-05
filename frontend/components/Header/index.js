@@ -51,6 +51,7 @@ const Nav = ({ classes, color }) => {
 		refetch();
 	}, 60000);
 
+
 	const [newMessages, setNewMessages] = useState([]);
 	useEffect(() => {
 		if (data.getUserChats) {
@@ -59,6 +60,7 @@ const Nav = ({ classes, color }) => {
 			);
 		}
 	}, [loading]);
+
 
 	const handleClick = (e, signout, client) => {
 		if (e === 'Sign out') {
@@ -83,7 +85,7 @@ const Nav = ({ classes, color }) => {
 						changeColorOnScroll={
 							color === 'transparent' && {
 								height: 300,
-								color: 'warning'
+								color: 'warning',
 							}
 						}
 						links={
@@ -95,7 +97,7 @@ const Nav = ({ classes, color }) => {
 											e.preventDefault();
 											Router.push('/');
 										}}
-										color="transparent"
+										color='transparent'
 									>
 										<Explore /> Discover
 									</Button>
@@ -107,11 +109,12 @@ const Nav = ({ classes, color }) => {
 											e.preventDefault();
 											Router.push('/profile');
 										}}
-										color="transparent"
+										color='transparent'
 									>
 										<AccountCircle /> Me
 									</Button>
 								</ListItem>
+
 								<ListItem className={classes.listItem}>
 									<CustomDropdown
 										left
@@ -131,9 +134,10 @@ const Nav = ({ classes, color }) => {
 									/>
 								</ListItem>
 								);
+
 								<Mutation
 									mutation={SIGNOUT_MUTATION}
-									refetchQueries={[{ query: CURRENT_USER_QUERY }]}
+									refetchQueries={[ { query: CURRENT_USER_QUERY } ]}
 									awaitRefetchQueries
 								>
 									{(signout, { called }) => {
@@ -145,24 +149,32 @@ const Nav = ({ classes, color }) => {
 												<CustomDropdown
 													left
 													caret={false}
-													hoverColor="dark"
-													dropdownHeader={currentUser && currentUser.firstName}
+													hoverColor='dark'
+													dropdownHeader={
+														currentUser && currentUser.firstName
+													}
 													buttonText={
 														<img
 															src={
-																currentUser && currentUser.imageThumbnail
-																	? currentUser.imageThumbnail
-																	: profileImage
+																currentUser &&
+																currentUser.imageThumbnail ? (
+																	currentUser.imageThumbnail
+																) : (
+																	profileImage
+																)
 															}
 															className={classes.img}
-															alt="profile"
+															alt='profile'
 														/>
 													}
 													buttonProps={{
-														className: classes.navLink + ' ' + classes.imageDropdownButton,
-														color: 'transparent'
+														className:
+															classes.navLink +
+															' ' +
+															classes.imageDropdownButton,
+														color: 'transparent',
 													}}
-													dropdownList={['Billing', 'Sign out']}
+													dropdownList={[ 'Billing', 'Sign out' ]}
 													onClick={e => handleClick(e, signout, client)}
 												/>
 											</ListItem>
