@@ -64,98 +64,129 @@ const Composed = adopt({
 });
 
 const Events = ({ classes, newUser }) => {
-	return (
-		<Composed>
-			{({
-				getEvents: { data: { getEvents }, refetch, loading, client },
-				updateUser,
-				drawer,
-				location,
-				page,
-				filters,
-				user: { data: { currentUser } },
-			}) => {
-				return (
-					<div className={classes.background}>
-						{newUser && <NewUser />}
-						<div className={classes.container}>
-							<Fragment>
-								<IconButton
-									aria-label='Open drawer'
-									onClick={drawer.toggle}
-									className={classNames(
-										classes.menuButton,
-										drawer.on && classes.hide,
-									)}
-								>
-									<Menu />
-								</IconButton>
-								<Drawer variant='persistent' anchor='left' open={drawer.on}>
-									<div className={classes.drawer}>
-										<IconButton onClick={drawer.toggle}>
-											<ChevronLeft />
-										</IconButton>
-										<LocationSearch setLocation={val => location.set(val)} />
-										<p style={{ margin: 0 }}>
-											Showing events near {location.value}.
-										</p>
-										<div className={classes.drawerContainer}>
-											{currentUser.location !== location.value ? (
-												<Primary>
-													<b
-														onClick={() => {
-															NProgress.start();
-															updateUser({
-																variables: {
-																	location: location.value,
-																},
-															});
-														}}
-														style={{
-															cursor: 'pointer',
-														}}
-													>
-														make default location?
-													</b>
-												</Primary>
-											) : (
-												<div style={{ height: '21px' }} />
-											)}
-										</div>
-									</div>
-									<Filters filters={filters} />
-								</Drawer>
-								<GridContainer>
-									<GridItem sm={12} md={12} sm={12}>
-										{getEvents ? (
-											<GridContainer>
-												<GridItem sm={12} md={6} lg={6}>
-													<InfiniteScroll
-														pageStart={0}
-														loadMore={async page => {
-															if (page > getEvents.page_count - 1) {
-																await refetch({
-																	variables: {
-																		page: page + 1,
-																	},
-																});
-															}
-														}}
-														hasMore={page.value < getEvents.page_count}
-														threshold={400}
-														loader={<div key={0} />}
-													>
-														{getEvents.events
-															.filter((e, i) => i % 2 === 0)
-															.map(event => (
-																<Event
-																	event={event}
-																	key={event.id}
-																	refetch={refetch}
-																	user={currentUser}
-																	location={location}
-																/>
-															))}
+
+  return (
+    <Composed>
+      {({
+        getEvents: {
+          data: { getEvents },
+          refetch,
+          loading,
+          client
+        },
+        updateUser,
+        drawer,
+        location,
+        page,
+        filters,
+        user: {
+          data: { currentUser }
+        }
+      }) => {
+        return (
+          <div className={classes.background}>
+            <svg
+              style={{ width: 0, height: 0, position: "absolute" }}
+              ariaHidden="true"
+              focusable="false"
+            >
+              <linearGradient id="favoriteID" x2="1" y2="1">
+                <stop offset="0%" stopColor="#FF8A8A" />
+                <stop offset="50%" stopColor="#FF545F" />
+                <stop offset="100%" stopColor="#ff101f" />
+              </linearGradient>
+            </svg>
+            <svg
+              style={{ width: 0, height: 0, position: "absolute" }}
+              ariaHidden="true"
+              focusable="false"
+            >
+              <linearGradient id="chatID" x2="1" y2="1">
+                <stop offset="0%" stopColor="#81d6e3" />
+                <stop offset="50%" stopColor="#15C0DA" />
+                <stop offset="100%" stopColor="#81d6e3" />
+              </linearGradient>
+            </svg>
+            {newUser && <NewUser />}
+            <div className={classes.container}>
+              <Fragment>
+                <IconButton
+                  aria-label="Open drawer"
+                  onClick={drawer.toggle}
+                  className={classNames(
+                    classes.menuButton,
+                    drawer.on && classes.hide
+                  )}
+                >
+                  <Menu />
+                </IconButton>
+                <Drawer variant="persistent" anchor="left" open={drawer.on}>
+                  <div className={classes.drawer}>
+                    <IconButton onClick={drawer.toggle}>
+                      <ChevronLeft />
+                    </IconButton>
+                    <LocationSearch setLocation={val => location.set(val)} />
+                    <p style={{ margin: 0 }}>
+                      Showing events near {location.value}.
+                    </p>
+                    <div className={classes.drawerContainer}>
+                      {currentUser.location !== location.value ? (
+                        <Primary>
+                          <b
+                            onClick={() => {
+                              NProgress.start();
+                              updateUser({
+                                variables: {
+                                  location: location.value
+                                }
+                              });
+                            }}
+                            style={{
+                              cursor: "pointer"
+                            }}
+                          >
+                            make default location?
+                          </b>
+                        </Primary>
+                      ) : (
+                        <div style={{ height: "21px" }} />
+                      )}
+                    </div>
+                  </div>
+                  <Filters filters={filters} />
+                </Drawer>
+                <GridContainer>
+                  <GridItem sm={12} md={12} sm={12}>
+                    {!loading ? (
+                      <GridContainer>
+                        <GridItem sm={12} md={6} lg={6}>
+                          <InfiniteScroll
+                            pageStart={0}
+                            loadMore={async page => {
+                              if (page > getEvents.page_count - 1) {
+                                await refetch({
+                                  variables: {
+                                    page: page + 1
+                                  }
+                                });
+                              }
+                            }}
+                            hasMore={page.value < getEvents.page_count}
+                            threshold={400}
+                            loader={<div key={0} />}
+                          >
+                            {getEvents.events
+                              .filter((e, i) => i % 2 === 0)
+                              .map(event => (
+                                <Event
+                                  event={event}
+                                  key={event.id}
+                                  refetch={refetch}
+                                  user={currentUser}
+                                  location={location}
+                                />
+                              ))}
+
 
 														{getEvents.events.map(event => (
 															<Event
