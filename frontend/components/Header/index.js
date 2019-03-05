@@ -70,11 +70,18 @@ const Nav = ({ classes, color }) => {
 			Router.push(`/billing`);
 		}
 	};
+
+	const formattedChats = newMessages => {
+		return newMessages
+			.filter(message => message.messages)
+			.map(chatObject => {
+				return `${chatObject.messages[0].from.firstName}: ${chatObject.messages[0].text}`;
+			});
+	};
 	return (
 		<User>
 			{({ data: { currentUser }, client }) => {
-				let chats = newMessages.filter(message => message.messages);
-				chats[0] && console.log(chats[0].messages[0], 'message from object');
+				let chats = formattedChats(newMessages);
 				return (
 					<Header
 						color={color}
@@ -128,7 +135,7 @@ const Nav = ({ classes, color }) => {
 											className: classes.navLink + ' ' + classes.imageDropdownButton,
 											color: 'transparent'
 										}}
-										dropdownList={chats[0] ? [chats[0].messages[0].from.firstName] : ['billing']}
+										dropdownList={chats ? [...chats] : ['billing']}
 									/>
 								</ListItem>
 								<Mutation
