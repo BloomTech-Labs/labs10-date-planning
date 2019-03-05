@@ -73,13 +73,14 @@ const Nav = ({ classes, color }) => {
 
 	const formattedChats = newMessages => {
 		return newMessages
-			.filter(message => message.messages)
+			.filter(msg => msg.messages)
 			.map(chatObj => {
 				let len = chatObj.messages.length - 1;
+				const { messages } = chatObj;
 				return {
-					from: chatObj.messages[len].from.firstName,
-					message: chatObj.messages[len].text,
-					img: chatObj.messages[len].from.imageThumbnail
+					from: messages[len].from.firstName,
+					text: messages[len].text,
+					img: messages[len].from.imageThumbnail
 				};
 			});
 	};
