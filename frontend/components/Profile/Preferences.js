@@ -4,15 +4,7 @@ import InputRange from 'react-input-range';
 import NProgress from 'nprogress';
 //MUI
 import withStyles from '@material-ui/core/styles/withStyles';
-import {
-	FormControl,
-	MenuItem,
-	Select,
-	InputLabel,
-	Drawer,
-	IconButton,
-	Divider,
-} from '@material-ui/core';
+import { MenuItem, Select, InputLabel, Drawer, IconButton } from '@material-ui/core';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { UPDATE_USER_MUTATION } from '../Mutations/updateUser';
