@@ -309,8 +309,17 @@ const styles = {
 	fill: 'url(#chatID) #81d6e3'
   },
   arrow: {
-	  height: '66px',
-	  width: '49px',
+	width: '47px',
+    right: '11px',
+    height: '62px',
+    bottom: '-2px',
+    position: 'absolute',
+  },
+  
+  up4Logo: {
+	  height: '20px !important',
+	  width: '30px !important',
+	  border: 'none !important'
   },
 
   cardBodyRotateHeader: {

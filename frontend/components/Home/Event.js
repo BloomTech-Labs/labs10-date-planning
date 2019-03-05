@@ -18,12 +18,13 @@ import {
 } from "@material-ui/icons";
 import Favorite from "@material-ui/icons/Favorite";
 import Chat from "@material-ui/icons/ChatBubble";
+import Flip from "@material-ui/icons/RotateRight";
 import { IconButton, Typography, Avatar } from "@material-ui/core";
 import withStyles from "@material-ui/core/styles/withStyles";
 
-
 //Images
-import Arrow from '../../static/img/up4Arrow.png'
+import Arrow from "../../static/img/up4Arrow.png";
+
 //Components
 import UserModel from "./EventModal";
 import InfoModal from "./InfoModal";
@@ -43,6 +44,7 @@ import getAge from "../../utils/getAge";
 import CardStyles from "../../static/jss/material-kit-pro-react/views/componentsSections/sectionCards";
 import "../../styles/Home/Event.scss";
 import "../../styles/Home/EventModal.scss";
+import { fileURLToPath } from "url";
 
 const Event = ({ event, classes, user, refetch }) => {
   const deleteEvent = useMutation(DELETE_EVENT_MUTATION, {
@@ -96,7 +98,7 @@ const Event = ({ event, classes, user, refetch }) => {
   });
 
   return (
-    <div style={{ height: "max-content", position: 'relative' }}>
+    <div style={{ height: "max-content", position: "relative" }}>
       <div
         style={{ height: height }}
         className={`${classes.rotatingCardContainer} ${
@@ -111,7 +113,7 @@ const Event = ({ event, classes, user, refetch }) => {
             {event.image_url && (
               <CardHeader image>
                 <a href="#" onClick={e => e.preventDefault()}>
-                  <img ref={imgEl} src={event.image_url} alt="..." />
+                  <img style={{border: '1px solid #cabac8'}} ref={imgEl} src={event.image_url} alt="..." />
                 </a>
                 <div
                   className={`${classes.coloredShadow} `}
@@ -169,15 +171,7 @@ const Event = ({ event, classes, user, refetch }) => {
 
                   return (
                     <Typography variant="h4" className={classes.cardTitle}>
-                      <a href="#" onClick={e => e.preventDefault()}>
-                        {event.title}{" "}
-                        <IconButton
-                          //disabled={isSaved !== undefined}
-                          onClick={e => handleClick(e, addEvent)}
-                        >
-                          {isSaved ? <img className={classes.arrow} src={Arrow}/>  : <img className={classes.arrow} style={{filter: 'grayscale(100%)'}}src={Arrow}/>}
-                        </IconButton>
-                      </a>
+                      {event.title}
                     </Typography>
                   );
                 }}
@@ -205,16 +199,12 @@ const Event = ({ event, classes, user, refetch }) => {
             {/* {isSaved && <Bookmark className='Event__bookmark' />} */}
 
             {event.attending.length ? (
-              <CardFooter style={{ display: "block" }}>
+              <CardFooter style={{ display: "flex" }}>
                 <div
                   className={classes.cardFooter}
                   onClick={() => setRotate(classes.activateRotate)}
                 >
-                  <FlashOn style={{ color: "#ff101f" }} />
-                  <p>
-                    {event.attending.length} potential match
-                    {event.attending.length > 1 ? "es " : " "}
-                  </p>
+                  <Flip style={{ color: "#ff101f" }} />
                 </div>
                 <div style={{ display: "flex" }}>
                   {event.attending.map(usr => (
@@ -230,6 +220,21 @@ const Event = ({ event, classes, user, refetch }) => {
                     />
                   ))}
                 </div>
+                <a href="#" onClick={e => e.preventDefault()}>
+                  {isSaved ? (
+                    <img
+                      className={classes.arrow}
+                      src={Arrow}
+                    />
+                  ) : (
+                    <img
+                      onClick={e => handleClick(e, addEvent)}
+                      className={classes.arrow}
+                      style={{ filter: "grayscale(100%)", opacity: '.4' }}
+                      src={Arrow}
+                    />
+                  )}
+                </a>
               </CardFooter>
             ) : (
               ""
@@ -307,7 +312,7 @@ const Event = ({ event, classes, user, refetch }) => {
                       style={{ padding: "5px", position: "relative" }}
                     >
                       <Favorite className={classes.favorite} />
-					  <Chat className={classes.chat} />
+                      <Chat className={classes.chat} />
                       <div
                         className="user_card"
                         onClick={() => showModal(true)}
@@ -352,7 +357,6 @@ const Event = ({ event, classes, user, refetch }) => {
           </GridContainer>
           <InfoModal showModal={showModal} modal={modal} />
         </Card>
-		
       </div>
     </div>
   );
