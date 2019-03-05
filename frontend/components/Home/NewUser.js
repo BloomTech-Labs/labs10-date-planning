@@ -1,34 +1,35 @@
-import React, { useState } from "react";
-import Link from "next/link";
-import { Mutation } from "react-apollo";
-import { MuiPickersUtilsProvider, DatePicker } from "material-ui-pickers";
-import MomentUtils from "@date-io/moment";
-import Downshift from "downshift";
-import NProgress from "nprogress";
+import React, { useState } from 'react';
+import Link from 'next/link';
+import { Mutation } from 'react-apollo';
+import moment from 'moment';
+import { MuiPickersUtilsProvider, DatePicker } from 'material-ui-pickers';
+import MomentUtils from '@date-io/moment';
+import Downshift from 'downshift';
+import NProgress from 'nprogress';
 //MUI
-import withStyles from "@material-ui/core/styles/withStyles";
+import withStyles from '@material-ui/core/styles/withStyles';
 import {
-  DialogTitle,
-  Dialog,
-  DialogContent,
-  DialogActions,
-  FormControl,
-  Select,
-  InputLabel,
-  Paper,
-  MenuItem
-} from "@material-ui/core";
+	DialogTitle,
+	Dialog,
+	DialogContent,
+	DialogActions,
+	FormControl,
+	Select,
+	InputLabel,
+	Paper,
+	MenuItem,
+} from '@material-ui/core';
 //QM
-import User from "../Queries/User";
-import { LOCATION_SUGGESTION_QUERY } from "../Queries/LocationSuggestion";
-import { UPDATE_USER_MUTATION } from "../Mutations/updateUser";
+import User from '../Queries/User';
+import { LOCATION_SUGGESTION_QUERY } from '../Queries/LocationSuggestion';
+import { UPDATE_USER_MUTATION } from '../Mutations/updateUser';
 //components
-import ImageUpload from "../Settings/ImageUpload";
+import ImageUpload from '../Settings/ImageUpload';
 //styled components
-import Input from "../../styledComponents/CustomInput/CustomInput";
-import Button from "../../styledComponents/CustomButtons/Button";
+import Input from '../../styledComponents/CustomInput/CustomInput';
+import Button from '../../styledComponents/CustomButtons/Button';
 //styles
-import Styles from "../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles.jsx";
+import Styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles.jsx';
 
 const NewUser = ({ classes }) => {
 	const [ showing, setShowing ] = useState(true);
@@ -39,13 +40,13 @@ const NewUser = ({ classes }) => {
 	const [ items, setItems ] = useState([]);
 	const [ gender, setGender ] = useState('MALE');
 
-  const handleDateChange = date => {
-    setSelectedDate(date.format());
-  };
+	const handleDateChange = date => {
+		setSelectedDate(date.format());
+	};
 
-  const handleLocationChange = selectedItem => {
-    setLocation(selectedItem.slice(0, -5));
-  };
+	const handleLocationChange = selectedItem => {
+		setLocation(selectedItem.slice(0, -5));
+	};
 
 	return (
 		<User>
@@ -106,8 +107,14 @@ const NewUser = ({ classes }) => {
 									>
 										<ImageUpload />{' '}
 										<FormControl style={{ display: 'block' }}>
-											<div style={{ display: 'flex', width: ' 100%' }}>
-												<p>I am a </p>
+											<div
+												style={{
+													display: 'flex',
+													width: ' 100%',
+													alignItems: 'flex-end',
+												}}
+											>
+												<p style={{ margin: '0 5px 5px' }}>I am a </p>
 												{/* <InputLabel htmlFor='simple-select'>
 													Select your gender
 												</InputLabel> */}
@@ -157,7 +164,10 @@ const NewUser = ({ classes }) => {
 														Other
 													</MenuItem>
 												</Select>
-												<p> interested in </p>
+												<p style={{ margin: '0 10px 5px' }}>
+													{' '}
+													interested in{' '}
+												</p>
 												<Select
 													multiple
 													value={genderPref}
@@ -212,6 +222,8 @@ const NewUser = ({ classes }) => {
 													label='Date of birth'
 													value={selectedDate}
 													disableFuture
+													minDate={moment().subtract(100, 'years')}
+													maxDate={moment().subtract(18, 'years')}
 													clearable
 													openTo='year'
 													format='MM/DD/YYYY'
@@ -231,78 +243,81 @@ const NewUser = ({ classes }) => {
 													variables: { city: e },
 												});
 
-                        setItems(data.locationSearch);
-                      }}
-                    >
-                      {({ getInputProps, getItemProps, isOpen }) => (
-                        <div className={classes.downshiftContainer}>
-                          <Input
-                            inputProps={{
-                              placeholder: "Search for a city name...",
-                              ...getInputProps()
-                            }}
-                            formControlProps={{
-                              style: {
-                                paddingTop: "12px",
-                                width: "80%"
-                              }
-                            }}
-                          />
+												setItems(data.locationSearch);
+											}}
+										>
+											{({ getInputProps, getItemProps, isOpen }) => (
+												<div className={classes.downshiftContainer}>
+													<Input
+														inputProps={{
+															placeholder:
+																'Search for a city name...',
+															...getInputProps(),
+														}}
+														formControlProps={{
+															style: {
+																paddingTop: '12px',
+																width: '80%',
+															},
+														}}
+													/>
 
-                          {isOpen ? (
-                            <Paper className={classes.downshiftPaper}>
-                              {items.map((result, index) => {
-                                return (
-                                  <MenuItem
-                                    key={index}
-                                    {...getItemProps({
-                                      item: result.city
-                                    })}
-                                  >
-                                    {result.city}
-                                  </MenuItem>
-                                );
-                              })}
-                            </Paper>
-                          ) : null}
-                        </div>
-                      )}
-                    </Downshift>
-                  </DialogContent>
-                </DialogTitle>
-                <DialogActions>
-                  {!updated ? (
-                    <Button
-                      color="primary"
-                      disabled={!selectedDate || !location || !gender}
-                      onClick={() => {
-                        NProgress.start();
-                        updateUser();
-                      }}
-                    >
-                      Save
-                    </Button>
-                  ) : (
-                    <div>
-                      <Link href="/home">
-                        <Button color="primary">Start Browsing Dates</Button>
-                      </Link>{" "}
-                      Or{" "}
-                      <Link href="/profile">
-                        <Button color="primary">
-                          Continue customizing your profile
-                        </Button>
-                      </Link>
-                    </div>
-                  )}
-                </DialogActions>
-              </Dialog>
-            );
-          }}
-        </Mutation>
-      )}
-    </User>
-  );
+													{isOpen ? (
+														<Paper className={classes.downshiftPaper}>
+															{items.map((result, index) => {
+																return (
+																	<MenuItem
+																		key={index}
+																		{...getItemProps({
+																			item: result.city,
+																		})}
+																	>
+																		{result.city}
+																	</MenuItem>
+																);
+															})}
+														</Paper>
+													) : null}
+												</div>
+											)}
+										</Downshift>
+									</DialogContent>
+								</DialogTitle>
+								<DialogActions>
+									{!updated ? (
+										<Button
+											color='primary'
+											disabled={!selectedDate || !location || !gender}
+											onClick={() => {
+												NProgress.start();
+												updateUser();
+											}}
+										>
+											Save
+										</Button>
+									) : (
+										<div>
+											<Link href='/home'>
+												<Button color='primary'>
+													Start Browsing Dates
+												</Button>
+											</Link>{' '}
+											Or{' '}
+											<Link href='/profile'>
+												<Button color='primary'>
+													Continue customizing your profile
+												</Button>
+											</Link>
+										</div>
+									)}
+								</DialogActions>
+							</Dialog>
+						);
+					}}
+				</Mutation>
+			)}
+		</User>
+	);
 };
 
 export default withStyles(Styles)(NewUser);

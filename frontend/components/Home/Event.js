@@ -44,12 +44,6 @@ const Event = ({ event, classes, user, refetch }) => {
 	const divEl = useRef(null);
 	const imgEl = useRef(null);
 	let isSaved = user.events.find(e => e.id === event.id);
-	// let potentialMatches = event.attending.filter(
-	// 	u =>
-	// 		u.id !== user.id &&
-	// 		(!user.minAgePref ||
-	// 			(getAge(u.dob) >= user.minAgePref && getAge(u.dob) <= user.maxAgePref)),
-	// );
 
 	useEffect(
 		() => {
@@ -72,8 +66,6 @@ const Event = ({ event, classes, user, refetch }) => {
 	);
 
 	const handleClick = async (e, addEvent) => {
-		//e.stopPropagation();
-
 		if (isSaved) {
 			NProgress.start();
 			let res = await deleteEvent();
@@ -140,13 +132,6 @@ const Event = ({ event, classes, user, refetch }) => {
 										},
 									});
 								}}
-								// refetchQueries={[
-								// 	{
-								// 		query: ALL_EVENTS_QUERY,
-								// 		variables: { location: location.value },
-								// 	},
-								// ]}
-								// awaitRefetchQueries
 								onError={() => NProgress.done()}
 								onCompleted={async () => {
 									await refetch();

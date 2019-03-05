@@ -31,7 +31,8 @@ module.exports = {
 					const attendee = dbEvent.attending.filter(attendee => {
 						if (user.blocked && user.blocked.includes(attendee.id)) return false;
 						if (attendee.blocked && attendee.blocked.includes(user.id)) return false;
-						console.log(user, attendee);
+						if (attendee.id === user.id) return false;
+
 						return (
 							moment().diff(user.dob, 'years') <= attendee.maxAgePref &&
 							moment().diff(user.dob, 'years') >= attendee.minAgePref &&
@@ -47,7 +48,7 @@ module.exports = {
 						attending: attendee,
 					};
 				}
-
+				console.log(eventInDb);
 				const [ img ] = ev.images.filter(img => img.width > 500);
 
 				events.push({
