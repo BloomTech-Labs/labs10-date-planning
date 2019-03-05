@@ -297,8 +297,22 @@ const styles = {
 	fontSize: '40px',
 	left: 0,
 	zIndex: 7,
-	fill: 'url(#my-cool-gradient) #ff101f'
+	fill: 'url(#favoriteID) #ff101f'
   },
+
+  chat: {
+	position: "absolute",
+	bottom: '-8px',
+	fontSize: '40px',
+	right: 0,
+	zIndex: 7,
+	fill: 'url(#chatID) #81d6e3'
+  },
+  arrow: {
+	  height: '66px',
+	  width: '49px',
+  },
+
   cardBodyRotateHeader: {
     display: "flex",
     justifyContent: "center",

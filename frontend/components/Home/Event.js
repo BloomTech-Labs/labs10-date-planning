@@ -8,8 +8,8 @@ import { useMutation } from "react-apollo-hooks";
 import { CURRENT_USER_QUERY } from "../Queries/User";
 import { ADD_EVENT_MUTATION } from "../Mutations/addEvent";
 import { DELETE_EVENT_MUTATION } from "../Mutations/updateUser";
-//MUI
 
+//MUI
 import {
   Bookmark,
   ChevronLeft,
@@ -17,12 +17,17 @@ import {
   FlashOn
 } from "@material-ui/icons";
 import Favorite from "@material-ui/icons/Favorite";
+import Chat from "@material-ui/icons/ChatBubble";
 import { IconButton, Typography, Avatar } from "@material-ui/core";
 import withStyles from "@material-ui/core/styles/withStyles";
 
+
+//Images
+import Arrow from '../../static/img/up4Arrow.png'
 //Components
 import UserModel from "./EventModal";
 import InfoModal from "./InfoModal";
+
 //Styled components
 import Card from "../../styledComponents/Card/Card";
 import CardHeader from "../../styledComponents/Card/CardHeader";
@@ -30,12 +35,13 @@ import CardFooter from "../../styledComponents/Card/CardFooter";
 import CardBody from "../../styledComponents/Card/CardBody";
 import GridContainer from "../../styledComponents/Grid/GridContainer";
 import GridItem from "../../styledComponents/Grid/GridItem";
+
 //utils
 import getAge from "../../utils/getAge";
+
 //styles
 import CardStyles from "../../static/jss/material-kit-pro-react/views/componentsSections/sectionCards";
 import "../../styles/Home/Event.scss";
-
 import "../../styles/Home/EventModal.scss";
 
 const Event = ({ event, classes, user, refetch }) => {
@@ -90,7 +96,7 @@ const Event = ({ event, classes, user, refetch }) => {
   });
 
   return (
-    <div style={{ height: "max-content" }}>
+    <div style={{ height: "max-content", position: 'relative' }}>
       <div
         style={{ height: height }}
         className={`${classes.rotatingCardContainer} ${
@@ -169,7 +175,7 @@ const Event = ({ event, classes, user, refetch }) => {
                           //disabled={isSaved !== undefined}
                           onClick={e => handleClick(e, addEvent)}
                         >
-                          {isSaved ? <Bookmark /> : <BookmarkBorder />}
+                          {isSaved ? <img className={classes.arrow} src={Arrow}/>  : <img className={classes.arrow} style={{filter: 'grayscale(100%)'}}src={Arrow}/>}
                         </IconButton>
                       </a>
                     </Typography>
@@ -301,6 +307,7 @@ const Event = ({ event, classes, user, refetch }) => {
                       style={{ padding: "5px", position: "relative" }}
                     >
                       <Favorite className={classes.favorite} />
+					  <Chat className={classes.chat} />
                       <div
                         className="user_card"
                         onClick={() => showModal(true)}
