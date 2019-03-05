@@ -51,43 +51,46 @@ const Nav = ({ classes, color }) => {
 		refetch();
 	}, 60000);
 
-	const [newMessages, setNewMessages] = useState([]);
-	useEffect(() => {
-		if (data.getUserChats) {
-			setNewMessages(
-				data.getUserChats.filter(chat => chat.messages.some(message => !message.seen)).flat()
-			);
-		}
-	}, [loading]);
+	const [ newMessages, setNewMessages ] = useState([]);
+	useEffect(
+		() => {
+			if (data.getUserChats) {
+				setNewMessages(
+					data.getUserChats
+						.filter(chat => chat.messages.some(message => !message.seen))
+						.flat(),
+				);
+			}
+		},
+		[ loading ],
+	);
 
 	const handleClick = (e, signout, client) => {
 		if (e === 'Sign out') {
 			signout();
-			client.cache.reset().then(() => {
-				Router.push('/joinus');
-			});
+			Router.push('/joinus');
+			client.cache.reset().then(() => {});
 		} else {
 			Router.push(`/billing`);
 		}
 	};
 
 	const formattedChats = newMessages => {
-		return newMessages
-			.filter(msg => msg.messages)
-			.map(chatObj => {
-				let len = chatObj.messages.length - 1;
-				const { messages } = chatObj;
-				return {
-					from: messages[len].from.firstName,
-					text: messages[len].text,
-					img: messages[len].from.imageThumbnail
-				};
-			});
+		return newMessages.filter(msg => msg.messages).map(chatObj => {
+			let len = chatObj.messages.length - 1;
+			const { messages } = chatObj;
+			return {
+				from: messages[len].from.firstName,
+				text: messages[len].text,
+				img: messages[len].from.imageThumbnail,
+			};
+		});
 	};
 	return (
 		<User>
 			{({ data: { currentUser }, client }) => {
 				let chats = formattedChats(newMessages); // these are formatted to the from, message, img object I told you about
+				console.log(chats);
 				return (
 					<Header
 						color={color}
@@ -96,7 +99,7 @@ const Nav = ({ classes, color }) => {
 						changeColorOnScroll={
 							color === 'transparent' && {
 								height: 300,
-								color: 'warning'
+								color: 'warning',
 							}
 						}
 						links={
@@ -108,7 +111,7 @@ const Nav = ({ classes, color }) => {
 											e.preventDefault();
 											Router.push('/');
 										}}
-										color="transparent"
+										color='transparent'
 									>
 										<Explore /> Discover
 									</Button>
@@ -120,7 +123,7 @@ const Nav = ({ classes, color }) => {
 											e.preventDefault();
 											Router.push('/profile');
 										}}
-										color="transparent"
+										color='transparent'
 									>
 										<AccountCircle /> Me
 									</Button>
@@ -130,23 +133,48 @@ const Nav = ({ classes, color }) => {
 									<CustomDropdown
 										left
 										caret={false}
-										hoverColor="dark"
-										dropdownHeader={newMessages.length && newMessages.length + ' new messages!'}
+										hoverColor='dark'
+										dropdownHeader={
+											newMessages.length &&
+											newMessages.length + ' new messages!'
+										}
 										buttonText={
-											<Badge badgeContent={newMessages.length} color="error">
+											<Badge badgeContent={newMessages.length} color='error'>
 												<Mail />
 											</Badge>
 										}
 										buttonProps={{
-											className: classes.navLink + ' ' + classes.imageDropdownButton,
-											color: 'transparent'
+											className:
+												classes.navLink + ' ' + classes.imageDropdownButton,
+											color: 'transparent',
 										}}
-										dropdownList={['billing']}
+										dropdownList={
+											chats ? (
+												chats.map(chat => (
+													<div style={{ display: 'flex' }}>
+														<img
+															src={chat.img}
+															style={{
+																width: '40px',
+																height: '40px',
+																borderRadius: '50%',
+															}}
+														/>
+														<div>
+															<div>{chat.from}</div>
+															<div>{chat.text}</div>
+														</div>
+													</div>
+												))
+											) : (
+												[]
+											)
+										}
 									/>
 								</ListItem>
 								<Mutation
 									mutation={SIGNOUT_MUTATION}
-									refetchQueries={[{ query: CURRENT_USER_QUERY }]}
+									refetchQueries={[ { query: CURRENT_USER_QUERY } ]}
 									awaitRefetchQueries
 								>
 									{(signout, { called }) => {
@@ -158,24 +186,32 @@ const Nav = ({ classes, color }) => {
 												<CustomDropdown
 													left
 													caret={false}
-													hoverColor="dark"
-													dropdownHeader={currentUser && currentUser.firstName}
+													hoverColor='dark'
+													dropdownHeader={
+														currentUser && currentUser.firstName
+													}
 													buttonText={
 														<img
 															src={
-																currentUser && currentUser.imageThumbnail
-																	? currentUser.imageThumbnail
-																	: profileImage
+																currentUser &&
+																currentUser.imageThumbnail ? (
+																	currentUser.imageThumbnail
+																) : (
+																	profileImage
+																)
 															}
 															className={classes.img}
-															alt="profile"
+															alt='profile'
 														/>
 													}
 													buttonProps={{
-														className: classes.navLink + ' ' + classes.imageDropdownButton,
-														color: 'transparent'
+														className:
+															classes.navLink +
+															' ' +
+															classes.imageDropdownButton,
+														color: 'transparent',
 													}}
-													dropdownList={['Billing', 'Sign out']}
+													dropdownList={[ 'Billing', 'Sign out' ]}
 													onClick={e => handleClick(e, signout, client)}
 												/>
 											</ListItem>
