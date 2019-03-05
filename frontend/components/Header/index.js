@@ -68,9 +68,8 @@ const Nav = ({ classes, color }) => {
 	const handleClick = (e, signout, client) => {
 		if (e === 'Sign out') {
 			signout();
-			client.cache.reset().then(() => {
-				Router.push('/joinus');
-			});
+			Router.push('/joinus');
+			client.cache.reset().then(() => {});
 		} else {
 			Router.push(`/billing`);
 		}
