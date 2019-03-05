@@ -41,6 +41,7 @@ const Event = ({ event, classes, user, refetch }) => {
   const deleteEvent = useMutation(DELETE_EVENT_MUTATION, {
     variables: { id: event.id }
   });
+  console.log(event.attending)
 
   const [modal, showModal] = useState(false);
   const [rotate, setRotate] = useState("");
