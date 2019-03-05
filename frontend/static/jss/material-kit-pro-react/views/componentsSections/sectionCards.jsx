@@ -197,6 +197,81 @@ const styles = {
 	marginBottom20: {
 		marginBottom: '20px',
 	},
+	//Additions
+	eventBorder: {
+		border: '4px solid #4cb5ae',
+		borderRadius: '6px',
+		transition: 'all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)',
+		backgroundColor: '#fafafa',
+		'&:hover': {
+			border: '4px solid #ff101f',
+		}
+	},
+	gradientBorder: {
+		display: 'flex',
+		alignItems: 'center',
+		width: '100%',
+		margin: '20px auto',
+		position: 'relative',
+		padding: '10px',
+		boxSizing: 'border-box',
+		color: '#000',
+		background: '#fafafa',
+		backgroundClip: 'padding-box',
+		border: '3px solid transparent',
+		borderRadius: '6px',
+		'&:before': {
+			content: '""',
+			position: 'absolute',
+			top: '0',
+			right: '0',
+			bottom: '0',
+			left: '0',
+			zIndex: '-1',
+			margin: '-3px',
+			borderRadius: 'inherit',
+			backgroundImage: 'linear-gradient(to right, #81d6e3, #98ceea, #b1c5e5, #c4bed7, #cabac8)',
+		}
+	},
+	cardFooter:{
+		cursor: 'pointer',
+		display: 'flex',
+
+		'& img': {
+			width: '30px',
+			height: '30px',
+			borderRadius: '6px',
+			border: '1px solid #cabac8'
+		}
+	},
+	cardBody: {
+		padding: '15px',
+		borderRadius: '6px',
+		width: '100%',
+		maxWidth: '100%',
+		display: 'block',
+	},
+	userCard: {
+		cursor: 'pointer',
+		'&:hover': {
+			backgroundImage: 'linear-gradient(to right, #81d6e3, #98ceea, #b1c5e5, #c4bed7, #cabac8)',
+			borderRadius: '6px',
+			boxShadow: '0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)',
+			'& .gradientBorder': {
+				background: 'transparent'
+			},
+			'& p': {
+				color: "#fafafa"
+			}
+		}
+	},
+	userCardBorder: {
+		paddign: '5px',
+		marginBottom: '5px',
+		flexDirection: 'column'
+	}
+
+
 };
 
 export default styles;
