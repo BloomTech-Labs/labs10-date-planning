@@ -94,6 +94,14 @@ const javascriptStyles = theme => {
 			position: 'absolute',
 			zIndex: 2,
 			width: '90%'
+		},
+		modalHeader: {
+			backgroundImage:
+			"linear-gradient(to right, #e2dae1, #e0cede, #dec3da, #dbb7d7, #d9abd3)",
+		borderTopLeftRadius: '6px',
+		borderTopRightRadius: '6px',
+		paddingBottom: '15px',
+		color: '#fafafa',
 		}
 	};
 };

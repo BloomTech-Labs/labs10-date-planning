@@ -105,15 +105,6 @@ const Composed = adopt({
 
 const EventModal = ({ modal, showModal, classes, potentialMatch }) => {
 	const [ message, setMessage ] = useState('');
-	//let isLiked =
-	const modalHeader = {
-		// backgroundColor: '#81d6e3',
-		backgroundImage: 'linear-gradient(to top, #8ad2ff, #94d5fd, #9fd8fb, #a8daf9, #b2ddf7)',
-		borderTopLeftRadius: '6px',
-		borderTopRightRadius: '6px',
-		paddingBottom: '15px',
-		color: '#fafafa',
-	};
 	if (!modal) return <div />;
 	else
 		return (
@@ -149,7 +140,6 @@ const EventModal = ({ modal, showModal, classes, potentialMatch }) => {
 								id='notice-modal-slide-title'
 								disableTypography
 								className={classes.modalHeader}
-								style={modalHeader}
 							>
 								{' '}
 								<Button
@@ -171,6 +161,7 @@ const EventModal = ({ modal, showModal, classes, potentialMatch }) => {
 								<h4
 									style={{
 										fontWeight: 700,
+										color: '#4cb5ae',
 									}}
 									className={classes.modalTitle}
 								>
