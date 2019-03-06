@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { Mutation, Query } from 'react-apollo';
 import _ from 'lodash';
+import { withRouter } from 'next/router';
 import NProgress from 'nprogress';
 import InfiniteScroll from 'react-infinite-scroller';
 import classNames from 'classnames';
@@ -19,6 +20,7 @@ import Filters from './Filters';
 import Event from './Event';
 import LocationSearch from './LocationSearch';
 import NewUser from './NewUser';
+import UserModal from './UserModal';
 import Primary from '../../styledComponents/Typography/Primary';
 //styled components
 import GridContainer from '../../styledComponents/Grid/GridContainer';
@@ -63,7 +65,7 @@ const Composed = adopt({
 	),
 });
 
-const Events = ({ classes, newUser }) => {
+const Events = ({ classes, newUser, router, href }) => {
 	return (
 		<Composed>
 			{({
@@ -77,6 +79,7 @@ const Events = ({ classes, newUser }) => {
 			}) => {
 				return (
 					<div className={classes.background}>
+						{router.query.user && <UserModal user={router.query.user} />}
 						<svg
 							style={{ width: 0, height: 0, position: 'absolute' }}
 							ariaHidden='true'
@@ -220,4 +223,4 @@ const Events = ({ classes, newUser }) => {
 	);
 };
 
-export default withStyles(styles, { withTheme: true })(Events);
+export default withRouter(withStyles(styles, { withTheme: true })(Events));
