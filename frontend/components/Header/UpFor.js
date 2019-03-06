@@ -42,10 +42,10 @@ const MirroredFour = posed.div({
 const SecondFour = styled(MirroredFour)`
 color: #FF101F;
 position: absolute;
-transform-origin: 67%;
+transform-origin: 70%;
 `;
 
-const UpFor = ({ main }) => {
+const UpFor = ({ main, justFour }) => {
 	const [ hovering, setHovering ] = useState(false);
 
 	console.log('hovering', hovering);
@@ -59,7 +59,7 @@ const UpFor = ({ main }) => {
 				setHovering(false);
 			}}
 		>
-			<Up main={main}>Up</Up>
+			{!justFour ? <Up main={main}>Up</Up> : null} 
 			<Fours>
 				<Four main={main}>4</Four>
 				<SecondFour pose={hovering ? 'hovered' : 'unhovered'}>4</SecondFour>

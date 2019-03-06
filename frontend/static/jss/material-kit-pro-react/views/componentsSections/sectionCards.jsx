@@ -293,33 +293,32 @@ const styles = {
 
   favorite: {
     position: "absolute",
-	bottom: '-8px',
-	fontSize: '40px',
-	left: 0,
-	zIndex: 7,
-	fill: 'url(#favoriteID) #ff101f'
+    bottom: "-8px",
+    fontSize: "40px",
+    left: 0,
+    zIndex: 7,
+    fill: "url(#favoriteID) #ff101f"
   },
 
   chat: {
-	position: "absolute",
-	bottom: '-8px',
-	fontSize: '40px',
-	right: 0,
-	zIndex: 7,
-	fill: 'url(#chatID) #81d6e3'
+    position: "absolute",
+    bottom: "-8px",
+    fontSize: "40px",
+    right: 0,
+    zIndex: 7,
+    fill: "url(#chatID) #81d6e3"
   },
   arrow: {
-	width: '47px',
-    right: '11px',
-    height: '62px',
-    bottom: '-2px',
-    position: 'absolute',
+    height: "62px",
+    boxShadow: "none !important",
+    width: "47px !important",
+    height: "60px !important"
   },
-  
+
   up4Logo: {
-	  height: '20px !important',
-	  width: '30px !important',
-	  border: 'none !important'
+    height: "20px !important",
+    width: "30px !important",
+    border: "none !important"
   },
 
   cardBodyRotateHeader: {
@@ -333,8 +332,7 @@ const styles = {
 
       "& svg": {
         position: "relative",
-		top: "-8px",
-		
+        top: "-8px"
       }
     }
   },
@@ -342,6 +340,33 @@ const styles = {
     paddign: "5px",
     marginBottom: "5px",
     flexDirection: "column"
+  },
+
+  up4: {
+    display: 'flex',
+    justifyContent: 'center',
+    height: "55px",
+    width: "64px",
+    backgroundColor: "#cabac8",
+    borderTopRightRadius: '6px',
+    borderBottomLeftRadius: '6px',
+    // backgroundImage: 'linear-gradient(to right, #81d6e3, #74d2e1, #65cedf, #55cade, #41c6dc, #2dc1e0, #17bbe4, #00b5e8, #00abf1, #00a0f9, #0093fe, #0084ff)',
+    position: "absolute",
+    top: 0,
+    right: 0
+  },
+  flip: {
+    backgroundColor: '#4cb5ae',
+    position: 'absolute',
+    bottom: '0',
+    right: '0',
+    height: '55px',
+    width: '64px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderTopLeftRadius: '6px',
+    cursor: 'pointer'
   }
 };
 
