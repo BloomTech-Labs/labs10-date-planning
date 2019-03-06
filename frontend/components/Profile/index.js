@@ -17,9 +17,12 @@ import Location from '../Settings/Location';
 import Dates from '../Settings/Dates';
 import Preferences from './Preferences';
 import UserModal from '../Home/UserModal';
+import ImageModal from './ImageModal';
 //styledcomponents
 import Button from '../../styledComponents/CustomButtons/Button';
 import CustomInput from '../../styledComponents/CustomInput/CustomInput.jsx';
+import GridContainer from '../../styledComponents/Grid/GridContainer';
+import GridItem from '../../styledComponents/Grid/GridItem';
 //utils
 import getAge from '../../utils/getAge';
 //styles
@@ -43,12 +46,14 @@ const Composed = adopt({
 });
 const Profile = ({ classes, theme, router }) => {
 	const [ drawerOpen, setDrawerOpen ] = useState(false);
-
+	const [ modal, showModal ] = useState(false);
 	return (
 		<Composed>
 			{({ user: { data: { currentUser } }, biography, updateUser }) => {
+				let profileImg = currentUser.img.find(img => img.default).img_url;
 				return (
 					<div className='Profile__background'>
+						<ImageModal modal={modal} showModal={showModal} />
 						{router.query.user && <UserModal user={router.query.user} />}
 						<Preferences
 							user={currentUser}
@@ -68,9 +73,11 @@ const Profile = ({ classes, theme, router }) => {
 							<div className='inner'>
 								<div
 									className='prof-img'
-									style={{ backgroundImage: `url(${currentUser.imageLarge})` }}
+									style={{ backgroundImage: `url(${profileImg})` }}
 								>
-									<Button className='view-all'>View all</Button>
+									<Button className='view-all' onClick={() => showModal(true)}>
+										View all
+									</Button>
 								</div>
 								<div
 									style={{
@@ -99,15 +106,15 @@ const Profile = ({ classes, theme, router }) => {
 							</div>
 						</div>
 
-						<div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
-							<div>
+						<GridContainer>
+							<GridItem sm={12} md={6} lg={6}>
 								<Dates />
-							</div>
+							</GridItem>
 							<div>{/* <FormControl className={classes.selectFormControl}> */}</div>
 
-							{/* </div> */}
+							{/* </GridContainer> */}
 							{/* <Dates /> */}
-						</div>
+						</GridContainer>
 					</div>
 				);
 			}}

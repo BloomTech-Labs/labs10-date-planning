@@ -25,7 +25,7 @@ import CustomDropdown from '../../styledComponents/CustomDropdown/CustomDropdown
 import Button from '../../styledComponents/CustomButtons/Button.jsx';
 //assets
 // import image from '../../static/img/bg.jpg';
-import profileImage from '../../static/img/placeholder.jpg';
+import profileStandIn from '../../static/img/placeholder.jpg';
 import Logo from './UpFor';
 
 Router.onRouteChangeComplete = () => {
@@ -92,7 +92,7 @@ const Nav = ({ classes, color, router, href }) => {
 				let newMessages = data.getUserChats
 					? newMessageCount(data.getUserChats, currentUser)
 					: [];
-
+				let profileImage = currentUser.img.find(img => img.default).img_url;
 				return (
 					<Header
 						color={color}
@@ -213,11 +213,10 @@ const Nav = ({ classes, color, router, href }) => {
 													buttonText={
 														<img
 															src={
-																currentUser &&
-																currentUser.imageThumbnail ? (
-																	currentUser.imageThumbnail
-																) : (
+																currentUser && profileImage ? (
 																	profileImage
+																) : (
+																	profileStandIn
 																)
 															}
 															className={classes.img}
