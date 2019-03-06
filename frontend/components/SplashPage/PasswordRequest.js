@@ -17,7 +17,7 @@ const REQUEST_RESET_MUTATION = gql`
 	}
 `;
 
-const Reset = ({classes}) => {
+const Reset = ({ classes }) => {
 	const [ reset, setReset ] = useState(false);
 	const [ email, setEmail ] = useState('');
 	return (

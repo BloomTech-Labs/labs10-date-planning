@@ -51,21 +51,6 @@ const Nav = ({ classes, color }) => {
 		refetch();
 	}, 60000);
 
-	const [ newMessages, setNewMessages ] = useState([]);
-	useEffect(
-		() => {
-			if (data.getUserChats) {
-				console.log(data.getUserChats);
-				setNewMessages(
-					data.getUserChats
-						.filter(chat => chat.messages.some(message => !message.seen))
-						.flat(),
-				);
-			}
-		},
-		[ loading ],
-	);
-
 	const handleClick = (e, signout, client) => {
 		if (e === 'Sign out') {
 			signout();
@@ -76,32 +61,49 @@ const Nav = ({ classes, color }) => {
 		}
 	};
 
-	const formattedChats = newMessages => {
+	const formattedChats = (newMessages, user) => {
 		return newMessages.filter(msg => msg.messages).map(chatObj => {
 			let len = chatObj.messages.length - 1;
-			const { messages } = chatObj;
+			const { messages, users } = chatObj;
+			let [ usr ] = users.filter(usr => usr.id !== user.id);
+
 			return {
-				from: messages[len].from.firstName,
+				id: chatObj.id,
+				from: usr.firstName,
+				fromId: usr.id,
 				text: messages[len].text,
-				img: messages[len].from.imageThumbnail,
+				img: usr.imageThumbnail,
 			};
 		});
+	};
+
+	const newMessageCount = (newMessages, user) => {
+		return newMessages.reduce((count, mess) => {
+			let newcount = mess.messages.filter(msg => !msg.seen && msg.from.id !== user.id);
+
+			return [ ...count, ...newcount ];
+		}, []);
 	};
 	return (
 		<User>
 			{({ data: { currentUser }, client }) => {
-				let chats = formattedChats(newMessages); // these are formatted to the from, message, img object I told you about
-				console.log(chats);
+				let chats = data.getUserChats ? formattedChats(data.getUserChats, currentUser) : [];
+				let newMessages = data.getUserChats
+					? newMessageCount(data.getUserChats, currentUser)
+					: [];
+
 				return (
 					<Header
 						color={color}
 						//brand={Logo}
 						fixed={color === 'transparent'}
 						changeColorOnScroll={
-							color === 'transparent' && {
-								height: 300,
-								color: 'warning',
-							}
+							color === 'transparent' ? (
+								{
+									height: 300,
+									color: 'warning',
+								}
+							) : null
 						}
 						links={
 							<List className={classes.list + ' ' + classes.mlAuto}>
@@ -152,7 +154,16 @@ const Nav = ({ classes, color }) => {
 										dropdownList={
 											chats ? (
 												chats.map(chat => (
-													<div style={{ display: 'flex' }}>
+													<div
+														style={{
+															display: 'flex',
+															backgroundColor: newMessages.some(
+																msg => msg.chat.id === chat.id,
+															)
+																? 'pink'
+																: 'white',
+														}}
+													>
 														<img
 															src={chat.img}
 															style={{
