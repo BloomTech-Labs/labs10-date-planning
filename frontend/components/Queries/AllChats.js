@@ -3,6 +3,14 @@ import gql from 'graphql-tag';
 export const ALL_CHATS_QUERY = gql`
 	query {
 		getUserChats {
+			id
+			users {
+				id
+				firstName
+				imageThumbnail
+				dob
+				gender
+			}
 			messages {
 				id
 				text
@@ -14,6 +22,9 @@ export const ALL_CHATS_QUERY = gql`
 					imageThumbnail
 					dob
 					gender
+				}
+				chat {
+					id
 				}
 			}
 		}
