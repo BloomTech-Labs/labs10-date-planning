@@ -42,7 +42,7 @@ const MirroredFour = posed.div({
 const SecondFour = styled(MirroredFour)`
 color: #FF101F;
 position: absolute;
-transform-origin: 67%;
+transform-origin: 70%;
 `;
 
 const UpFor = ({ main }) => {
