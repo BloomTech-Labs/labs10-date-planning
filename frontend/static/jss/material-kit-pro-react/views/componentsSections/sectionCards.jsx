@@ -343,30 +343,56 @@ const styles = {
   },
 
   up4: {
-    display: 'flex',
-    justifyContent: 'center',
+    display: "flex",
+    justifyContent: "center",
     height: "55px",
     width: "64px",
-    backgroundColor: "#cabac8",
-    borderTopRightRadius: '6px',
-    borderBottomLeftRadius: '6px',
-    // backgroundImage: 'linear-gradient(to right, #81d6e3, #74d2e1, #65cedf, #55cade, #41c6dc, #2dc1e0, #17bbe4, #00b5e8, #00abf1, #00a0f9, #0093fe, #0084ff)',
+    // backgroundColor: "#cabac8",
+    borderTopRightRadius: "6px",
+    borderBottomLeftRadius: "6px",
+    backgroundImage:
+      "linear-gradient(to right, #efecef, #e9e3e9, #e3dbe3, #ded2dc, #d8cad6)",
     position: "absolute",
     top: 0,
-    right: 0
+    right: 0,
+    transition: "all 3s ease-in-out",
+    "&:hover": {
+      backgroundImage:
+        "linear-gradient(to right, #e2dae1, #e0cede, #dec3da, #dbb7d7, #d9abd3)"
+    }
+  },
+  up4Saved: {
+    backgroundImage:
+      "linear-gradient(to right, #e2dae1, #e0cede, #dec3da, #dbb7d7, #d9abd3)"
   },
   flip: {
-    backgroundColor: '#4cb5ae',
-    position: 'absolute',
-    bottom: '0',
-    right: '0',
-    height: '55px',
-    width: '64px',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderTopLeftRadius: '6px',
-    cursor: 'pointer'
+    // backgroundImage: 'linear-gradient(to right, #cdcece, #c0c8c8, #b4c2c2, #a7bdbc, #9bb7b5)',
+    position: "absolute",
+    bottom: "0",
+    right: "0",
+    height: "55px",
+    width: "64px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    borderTopLeftRadius: "6px",
+    cursor: "pointer",
+    zIndex: 7,
+    // '&:hover': {
+    //   backgroundImage:
+    //     "linear-gradient(to right bottom, #a0d5d1, #8dcdc8, #79c5c0, #64bdb7, #4cb5ae)",
+      
+    // }
+  },
+
+  // flop: {
+  //   // backgroundColor: '#b2ddf7'
+  //   backgroundImage:
+  //     "linear-gradient(to right bottom, #e2f1fa, #d6ecf9, #cae7f8, #bee2f8, #b2ddf7)"
+  // }
+
+  flipper :{
+    fill: "url(#chatID) #81d6e3"
   }
 };
 

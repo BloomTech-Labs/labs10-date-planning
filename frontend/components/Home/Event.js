@@ -19,6 +19,8 @@ import {
 import Favorite from "@material-ui/icons/Favorite";
 import Chat from "@material-ui/icons/ChatBubble";
 import Flip from "@material-ui/icons/RotateRight";
+import Flipper from "@material-ui/icons/SubdirectoryArrowRightRounded";
+import Flopper from "@material-ui/icons/SubdirectoryArrowLeftRounded";
 import { IconButton, Typography, Avatar, Button } from "@material-ui/core";
 import withStyles from "@material-ui/core/styles/withStyles";
 
@@ -158,7 +160,13 @@ const Event = ({ event, classes, user, refetch }) => {
                     if (called) NProgress.start();
 
                     return (
-                      <div className={classes.up4}>
+                      <div
+                        className={
+                          isSaved
+                            ? `${classes.up4} ${classes.up4Saved}`
+                            : classes.up4
+                        }
+                      >
                         <a href="#" onClick={e => e.preventDefault()}>
                           {isSaved ? (
                             <img className={classes.arrow} src={Arrow} />
@@ -203,7 +211,9 @@ const Event = ({ event, classes, user, refetch }) => {
             {/* {isSaved && <Bookmark className='Event__bookmark' />} */}
 
             {event.attending.length ? (
-              <CardFooter style={{ display: "flex", justifyContent: 'space-between' }}>
+              <CardFooter
+                style={{ display: "flex", justifyContent: "space-between" }}
+              >
                 <div style={{ display: "flex" }}>
                   {event.attending.map(usr => (
                     <img
@@ -218,9 +228,14 @@ const Event = ({ event, classes, user, refetch }) => {
                     />
                   ))}
                 </div>
-                <div onClick={() => setRotate(classes.activateRotate)} className={classes.flip}>
-
-                <Flip   style={{ color: "#fafafa", fontSize:'36px' }} />
+                <div
+                  onClick={() => setRotate(classes.activateRotate)}
+                  className={classes.flip}
+                >
+                  <Flipper
+                    className={classes.flipper}
+                    style={{ fontSize: "36px" }}
+                  />
                 </div>
               </CardFooter>
             ) : (
@@ -339,6 +354,15 @@ const Event = ({ event, classes, user, refetch }) => {
                     </GridItem>
                   ))}
                 </GridContainer>
+                <div
+                  onClick={() => setRotate("")}
+                  className={` ${classes.flip} ${classes.flop}`}
+                >
+                  <Flopper
+                    className={classes.flipper}
+                    style={{ fontSize: "36px" }}
+                  />
+                </div>
               </CardBody>
             </GridItem>
           </GridContainer>
