@@ -2,6 +2,7 @@ import React, { useState, useEffect, Fragment } from 'react';
 import { withApollo, Mutation, Query } from 'react-apollo';
 import moment from 'moment';
 import NProgress from 'nprogress';
+import Router, { withRouter } from 'next/router';
 
 import { adopt } from 'react-adopt';
 import { State, Map, Value, Toggle } from 'react-powerplug';
@@ -20,7 +21,7 @@ import {
 import User, { CURRENT_USER_QUERY } from '../Queries/User';
 import { EVENT_QUERY } from '../Queries/Event';
 import { GET_CONVERSATION_QUERY } from '../Queries/getConvo';
-
+import { USER_QUERY } from '../Queries/OtherUser';
 import { ADD_EVENT_MUTATION } from '../Mutations/addEvent';
 import { CREATE_CHAT_MUTATION } from '../Mutations/createChat';
 import { SEND_MESSAGE_MUTATION } from '../Mutations/sendMessage';
@@ -45,6 +46,11 @@ import getAge from '../../utils/getAge';
 const Composed = adopt({
 	user: ({ render }) => <Query query={CURRENT_USER_QUERY}>{render}</Query>,
 	id: ({ matchId, render }) => <Value initial={matchId}>{render}</Value>,
+	potentialMatch: ({ id, render }) => (
+		<Query query={USER_QUERY} variables={{ id: id.value }}>
+			{render}
+		</Query>
+	),
 	convo: ({ id, render }) => (
 		<Query query={GET_CONVERSATION_QUERY} variables={{ id: id.value }}>
 			{render}
@@ -103,8 +109,9 @@ const Composed = adopt({
 	),
 });
 
-const EventModal = ({ modal, showModal, classes, potentialMatch }) => {
+const EventModal = ({ classes, user, router }) => {
 	const [ message, setMessage ] = useState('');
+	console.log(router);
 	//let isLiked =
 	const modalHeader = {
 		// backgroundColor: '#81d6e3',
@@ -114,29 +121,32 @@ const EventModal = ({ modal, showModal, classes, potentialMatch }) => {
 		paddingBottom: '15px',
 		color: '#fafafa',
 	};
-	if (!modal) return <div />;
-	else
-		return (
-			<Composed matchId={potentialMatch.id}>
-				{({
-					user: { data: { currentUser } },
-					createChat,
-					sendMessage,
-					id,
-					convo,
-					like,
-					unlike,
-					block,
-				}) => {
-					console.log(convo);
-					let isLiked = currentUser.liked.find(user => user.id === id.value);
+
+	return (
+		<Composed matchId={user}>
+			{({
+				user: { data: { currentUser } },
+				createChat,
+				sendMessage,
+				id,
+				convo,
+				like,
+				unlike,
+				block,
+				potentialMatch,
+			}) => {
+				let match = potentialMatch.data ? potentialMatch.data.user : null;
+				let isLiked = currentUser.liked.find(user => user.id === id.value);
+				if (!match) return <div />;
+				else {
+					NProgress.done();
 					return (
 						<Dialog
 							classes={{
 								root: classes.modalRoot,
 								paper: classes.modalLarge,
 							}}
-							open={modal}
+							open={user}
 							// TransitionComponent={Transition}
 							//keepMounted
 							scroll='body'
@@ -159,7 +169,12 @@ const EventModal = ({ modal, showModal, classes, potentialMatch }) => {
 									aria-label='Close'
 									onClick={e => {
 										e.stopPropagation();
-										showModal(false);
+										Router.push(
+											router.pathname,
+											router.pathname,
+											{ shallow: true },
+											{ scroll: false },
+										);
 									}}
 								>
 									{' '}
@@ -175,7 +190,7 @@ const EventModal = ({ modal, showModal, classes, potentialMatch }) => {
 										}}
 										className={classes.modalTitle}
 									>
-										{potentialMatch.firstName} | {getAge(potentialMatch.dob)}
+										{match.firstName} | {getAge(match.dob)}
 									</h4>
 									<IconButton onClick={() => (isLiked ? unlike() : like())}>
 										{isLiked ? <Favorite /> : <FavoriteBorder />}
@@ -200,18 +215,19 @@ const EventModal = ({ modal, showModal, classes, potentialMatch }) => {
 
 											height: '452px',
 										}}
-										src={potentialMatch.imageLarge}
+										src={match.imageLarge}
 									/>
-									{potentialMatch.biography && (
+									{match.biography && (
 										<div className='gradient-box'>
-											<div className='date'>{potentialMatch.biography}</div>
+											<div className='date'>{match.biography}</div>
 										</div>
 									)}
 								</div>
 								<div>
 									<div
 										style={{
-											maxHeight: '452px',
+											height: '452px',
+
 											overflowY: 'scroll',
 											margin: '20px 0',
 										}}
@@ -288,12 +304,13 @@ const EventModal = ({ modal, showModal, classes, potentialMatch }) => {
 							</DialogContent>
 						</Dialog>
 					);
-				}}
-			</Composed>
-		);
+				}
+			}}
+		</Composed>
+	);
 };
 
-export default withApollo(withStyles(styles)(EventModal));
+export default withRouter(withApollo(withStyles(styles)(EventModal)));
 
 //const [ event, setEvent ] = useState(undefined);
 //const [ isShowing, setIsShowing ] = useState(false);

@@ -48,7 +48,6 @@ transform-origin: 70%;
 const UpFor = ({ main, justFour }) => {
 	const [ hovering, setHovering ] = useState(false);
 
-	console.log('hovering', hovering);
 	return (
 		<Container
 			main={main}
@@ -59,7 +58,7 @@ const UpFor = ({ main, justFour }) => {
 				setHovering(false);
 			}}
 		>
-			{!justFour ? <Up main={main}>Up</Up> : null} 
+			{!justFour ? <Up main={main}>Up</Up> : null}
 			<Fours>
 				<Four main={main}>4</Four>
 				<SecondFour pose={hovering ? 'hovered' : 'unhovered'}>4</SecondFour>

@@ -5,6 +5,7 @@ import { Mutation } from 'react-apollo';
 import NProgress from 'nprogress';
 import { useQuery } from 'react-apollo-hooks';
 import useInterval from '@rooks/use-interval';
+import { withRouter } from 'next/router';
 
 //MUI
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -24,7 +25,7 @@ import CustomDropdown from '../../styledComponents/CustomDropdown/CustomDropdown
 import Button from '../../styledComponents/CustomButtons/Button.jsx';
 //assets
 // import image from '../../static/img/bg.jpg';
-import profileImage from '../../static/img/placeholder.jpg';
+import profileStandIn from '../../static/img/placeholder.jpg';
 import Logo from './UpFor';
 
 Router.onRouteChangeComplete = () => {
@@ -38,9 +39,9 @@ const SIGNOUT_MUTATION = gql`
 		}
 	}
 `;
-const Nav = ({ classes, color }) => {
+const Nav = ({ classes, color, router, href }) => {
 	const { data, loading, refetch } = useQuery(ALL_CHATS_QUERY);
-
+	console.log(router, href);
 	useEffect(() => {
 		start();
 		return () => {
@@ -91,7 +92,7 @@ const Nav = ({ classes, color }) => {
 				let newMessages = data.getUserChats
 					? newMessageCount(data.getUserChats, currentUser)
 					: [];
-
+				let profileImage = currentUser.img.find(img => img.default).img_url;
 				return (
 					<Header
 						color={color}
@@ -155,6 +156,13 @@ const Nav = ({ classes, color }) => {
 											chats ? (
 												chats.map(chat => (
 													<div
+														onClick={() =>
+															Router.push(
+																`${router.pathname}?user=${chat.fromId}`,
+																`${router.pathname}?user=${chat.fromId}`,
+																{ shallow: true },
+																{ scroll: false },
+															)}
 														style={{
 															display: 'flex',
 															backgroundColor: newMessages.some(
@@ -205,11 +213,10 @@ const Nav = ({ classes, color }) => {
 													buttonText={
 														<img
 															src={
-																currentUser &&
-																currentUser.imageThumbnail ? (
-																	currentUser.imageThumbnail
-																) : (
+																currentUser && profileImage ? (
 																	profileImage
+																) : (
+																	profileStandIn
 																)
 															}
 															className={classes.img}
@@ -239,4 +246,4 @@ const Nav = ({ classes, color }) => {
 	);
 };
 
-export default withStyles(navbarsStyle)(Nav);
+export default withRouter(withStyles(navbarsStyle)(Nav));

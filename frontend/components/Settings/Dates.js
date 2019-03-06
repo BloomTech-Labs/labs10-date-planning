@@ -31,41 +31,6 @@ const Dates = ({ classes }) => {
 								</div>
 							)}
 						</GridContainer>
-						{/* {currentUser.permissions === 'FREE' && (
-							<div className='Snackbar'>
-								<SnackbarContent
-									message={
-										<div
-											style={{
-												display: 'flex',
-												flexDirection: 'column',
-												alignItems: 'center',
-											}}
-										>
-											<div>
-												{' '}
-												<b>
-													You have{' '}
-													<span>{5 - currentUser.events.length} </span>
-													{currentUser.events.length === 1 ? (
-														'date left.'
-													) : (
-														'dates left.'
-													)}
-												</b>
-											</div>
-											<Link href='/billing'>
-												<Button className='Snackbar__button'>
-													Go Premium?
-												</Button>
-											</Link>
-										</div>
-									}
-									close
-									color='info'
-								/>
-							</div>
-						)} */}
 					</div>
 				);
 			}}

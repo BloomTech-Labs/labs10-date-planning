@@ -18,6 +18,10 @@ const CURRENT_USER_QUERY = gql`
 			minAgePref
 			maxAgePref
 			imageLarge
+			img {
+				default
+				img_url
+			}
 			createdAt
 			permissions
 			liked {
