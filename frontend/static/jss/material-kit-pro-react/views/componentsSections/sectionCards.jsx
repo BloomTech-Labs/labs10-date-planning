@@ -293,33 +293,32 @@ const styles = {
 
   favorite: {
     position: "absolute",
-	bottom: '-8px',
-	fontSize: '40px',
-	left: 0,
-	zIndex: 7,
-	fill: 'url(#favoriteID) #ff101f'
+    bottom: "-8px",
+    fontSize: "40px",
+    left: 0,
+    zIndex: 7,
+    fill: "url(#favoriteID) #ff101f"
   },
 
   chat: {
-	position: "absolute",
-	bottom: '-8px',
-	fontSize: '40px',
-	right: 0,
-	zIndex: 7,
-	fill: 'url(#chatID) #81d6e3'
+    position: "absolute",
+    bottom: "-8px",
+    fontSize: "40px",
+    right: 0,
+    zIndex: 7,
+    fill: "url(#chatID) #81d6e3"
   },
   arrow: {
-	width: '47px',
-    right: '11px',
-    height: '62px',
-    bottom: '-2px',
-    position: 'absolute',
+    height: "62px",
+    boxShadow: "none !important",
+    width: "47px !important",
+    height: "60px !important"
   },
-  
+
   up4Logo: {
-	  height: '20px !important',
-	  width: '30px !important',
-	  border: 'none !important'
+    height: "20px !important",
+    width: "30px !important",
+    border: "none !important"
   },
 
   cardBodyRotateHeader: {
@@ -333,8 +332,7 @@ const styles = {
 
       "& svg": {
         position: "relative",
-		top: "-8px",
-		
+        top: "-8px"
       }
     }
   },
@@ -342,6 +340,59 @@ const styles = {
     paddign: "5px",
     marginBottom: "5px",
     flexDirection: "column"
+  },
+
+  up4: {
+    display: "flex",
+    justifyContent: "center",
+    height: "55px",
+    width: "64px",
+    // backgroundColor: "#cabac8",
+    borderTopRightRadius: "6px",
+    borderBottomLeftRadius: "6px",
+    backgroundImage:
+      "linear-gradient(to right, #efecef, #e9e3e9, #e3dbe3, #ded2dc, #d8cad6)",
+    position: "absolute",
+    top: 0,
+    right: 0,
+    transition: "all 3s ease-in-out",
+    "&:hover": {
+      backgroundImage:
+        "linear-gradient(to right, #e2dae1, #e0cede, #dec3da, #dbb7d7, #d9abd3)"
+    }
+  },
+  up4Saved: {
+    backgroundImage:
+      "linear-gradient(to right, #e2dae1, #e0cede, #dec3da, #dbb7d7, #d9abd3)"
+  },
+  flip: {
+    // backgroundImage: 'linear-gradient(to right, #cdcece, #c0c8c8, #b4c2c2, #a7bdbc, #9bb7b5)',
+    position: "absolute",
+    bottom: "0",
+    right: "0",
+    height: "55px",
+    width: "64px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    borderTopLeftRadius: "6px",
+    cursor: "pointer",
+    zIndex: 7,
+    // '&:hover': {
+    //   backgroundImage:
+    //     "linear-gradient(to right bottom, #a0d5d1, #8dcdc8, #79c5c0, #64bdb7, #4cb5ae)",
+      
+    // }
+  },
+
+  // flop: {
+  //   // backgroundColor: '#b2ddf7'
+  //   backgroundImage:
+  //     "linear-gradient(to right bottom, #e2f1fa, #d6ecf9, #cae7f8, #bee2f8, #b2ddf7)"
+  // }
+
+  flipper :{
+    fill: "url(#chatID) #81d6e3"
   }
 };
 
