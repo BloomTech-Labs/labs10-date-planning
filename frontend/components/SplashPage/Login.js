@@ -108,7 +108,10 @@ const Login = ({ classes }) => {
 		console.log('hi');
 		if (error.message.replace('GraphQL error: ', '') === 'Invalid Password!') {
 			setError({ password: error.message.replace('GraphQL error: ', '') });
-		} else {
+		} else if (error.message.includes('normal')) {
+			setError({...err, password: 'Password does not match.' })
+		}
+		else {
 			setServerError(error);
 		}
 	};
