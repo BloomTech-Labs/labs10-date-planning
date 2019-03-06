@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { withApollo, Mutation, Query } from 'react-apollo';
 import { adopt } from 'react-adopt';
-
+import { withRouter } from 'next/router';
 import { Value } from 'react-powerplug';
 import classNames from 'classnames';
 //MUI
@@ -16,6 +16,7 @@ import { UPDATE_USER_MUTATION } from '../Mutations/updateUser';
 import Location from '../Settings/Location';
 import Dates from '../Settings/Dates';
 import Preferences from './Preferences';
+import UserModal from '../Home/UserModal';
 //styledcomponents
 import Button from '../../styledComponents/CustomButtons/Button';
 import CustomInput from '../../styledComponents/CustomInput/CustomInput.jsx';
@@ -40,7 +41,7 @@ const Composed = adopt({
 		</Mutation>
 	),
 });
-const Profile = ({ classes, theme }) => {
+const Profile = ({ classes, theme, router }) => {
 	const [ drawerOpen, setDrawerOpen ] = useState(false);
 
 	return (
@@ -48,6 +49,7 @@ const Profile = ({ classes, theme }) => {
 			{({ user: { data: { currentUser } }, biography, updateUser }) => {
 				return (
 					<div className='Profile__background'>
+						{router.query.user && <UserModal user={router.query.user} />}
 						<Preferences
 							user={currentUser}
 							drawerOpen={drawerOpen}
@@ -113,4 +115,4 @@ const Profile = ({ classes, theme }) => {
 	);
 };
 
-export default withStyles(style)(Profile);
+export default withRouter(withStyles(style)(Profile));

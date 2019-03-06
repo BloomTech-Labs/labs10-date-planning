@@ -2,7 +2,7 @@ import React, { useState, useEffect, Fragment } from 'react';
 import { withApollo, Mutation, Query } from 'react-apollo';
 import moment from 'moment';
 import NProgress from 'nprogress';
-import Router from 'next/router';
+import Router, { withRouter } from 'next/router';
 
 import { adopt } from 'react-adopt';
 import { State, Map, Value, Toggle } from 'react-powerplug';
@@ -109,8 +109,9 @@ const Composed = adopt({
 	),
 });
 
-const EventModal = ({ classes, user }) => {
+const EventModal = ({ classes, user, router }) => {
 	const [ message, setMessage ] = useState('');
+	console.log(router);
 	//let isLiked =
 	const modalHeader = {
 		// backgroundColor: '#81d6e3',
@@ -169,8 +170,8 @@ const EventModal = ({ classes, user }) => {
 									onClick={e => {
 										e.stopPropagation();
 										Router.push(
-											'/home',
-											'/home',
+											router.pathname,
+											router.pathname,
 											{ shallow: true },
 											{ scroll: false },
 										);
@@ -309,7 +310,7 @@ const EventModal = ({ classes, user }) => {
 	);
 };
 
-export default withApollo(withStyles(styles)(EventModal));
+export default withRouter(withApollo(withStyles(styles)(EventModal)));
 
 //const [ event, setEvent ] = useState(undefined);
 //const [ isShowing, setIsShowing ] = useState(false);
