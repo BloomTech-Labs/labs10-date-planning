@@ -1,13 +1,11 @@
-
-import React, { useEffect, useState } from 'react';
-import Router from 'next/router';
-import gql from 'graphql-tag';
-import { Mutation, Query } from 'react-apollo';
-import NProgress from 'nprogress';
-import { useQuery } from 'react-apollo-hooks';
-import useInterval from '@rooks/use-interval';
-import { withRouter } from 'next/router';
-
+import React, { useEffect, useState } from "react";
+import Router from "next/router";
+import gql from "graphql-tag";
+import { Mutation, Query } from "react-apollo";
+import NProgress from "nprogress";
+import { useQuery } from "react-apollo-hooks";
+import useInterval from "@rooks/use-interval";
+import { withRouter } from "next/router";
 
 //MUI
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -42,9 +40,9 @@ const SIGNOUT_MUTATION = gql`
   }
 `;
 const Nav = ({ classes, color, router, href, currentUser }) => {
-
-	const { data, loading, refetch } = useQuery(ALL_CHATS_QUERY, { pollInterval: 600 });
-
+  const { data, loading, refetch } = useQuery(ALL_CHATS_QUERY, {
+    pollInterval: 600
+  });
 
   const handleClick = (e, signout, client) => {
     if (e === "Sign out") {
@@ -164,12 +162,12 @@ const Nav = ({ classes, color, router, href, currentUser }) => {
                         }
                         style={{
                           display: "flex",
-						  padding: '5px',
-                        //   backgroundImage: newMessages.some(
-                        //     msg => msg.chat.id === chat.id
-                        //   )
-                        //     ? "linear-gradient(to right, #e2dae1, #e0cede, #dec3da, #dbb7d7, #d9abd3)"
-                        //     : "linear-gradient(to right, #fafafa, #fafafa)",
+                          padding: "5px"
+                          //   backgroundImage: newMessages.some(
+                          //     msg => msg.chat.id === chat.id
+                          //   )
+                          //     ? "linear-gradient(to right, #e2dae1, #e0cede, #dec3da, #dbb7d7, #d9abd3)"
+                          //     : "linear-gradient(to right, #fafafa, #fafafa)",
                         }}
                       >
                         <img
@@ -178,8 +176,9 @@ const Nav = ({ classes, color, router, href, currentUser }) => {
                             width: "40px",
                             height: "40px",
                             borderRadius: "50%",
-							marginRight: '15px',
-							boxShadow:   '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
+                            marginRight: "15px",
+                            boxShadow:
+                              "0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)"
                           }}
                         />
                         <div>

@@ -38,7 +38,7 @@ const DateView = ({ date, classes, client, currentUser }) => {
 	};
 
 	return (
-		<GridItem sm={12} md={6} lg={6}>
+		<GridItem sm={12} md={12} lg={12}>
 			<Card blog>
 				{date.image_url && (
 					<CardHeader image>

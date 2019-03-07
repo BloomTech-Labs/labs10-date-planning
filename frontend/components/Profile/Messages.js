@@ -63,17 +63,19 @@ const Messages = ({ classes, color, router, href, user }) => {
 			style={{
 				display: 'flex',
 				margin: '20px',
+				backgroundColor: '#fafafa',
+				padding: '30px'
 			}}
 		>
-			<MessageList
-				selectedChat={selectedChat}
-				currentUser={user}
-				selectedChatId={selectedChatId}
-			/>
 			<ChatList
 				userChats={data.getUserChats}
 				currentUser={user}
 				handleSelectMessage={handleSelectMessage}
+			/>
+			<MessageList
+				selectedChat={selectedChat}
+				currentUser={user}
+				selectedChatId={selectedChatId}
 			/>
 		</div>
 	);

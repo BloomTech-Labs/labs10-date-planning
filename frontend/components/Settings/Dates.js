@@ -21,7 +21,7 @@ const Dates = ({ classes }) => {
 				if (!currentUser) return <div>loading</div>;
 				else
 					return (
-						<div style={{ marginLeft: '34px' }} className={classes.container}>
+						<div style={{marginRight: '34px'}}className={classes.container}>
 							<GridContainer>
 								{currentUser.events.length ? (
 									currentUser.events.map(date => (
