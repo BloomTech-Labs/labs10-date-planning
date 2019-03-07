@@ -10,7 +10,7 @@ const ChatList = ({ userChats, currentUser, handleSelectMessage }) => {
 						<div
 							key={chat.id}
 							onClick={() => handleSelectMessage(chat.id)}
-							style={{ borderBottom: '2px solid black', display: 'flex' }}
+							style={{ borderBottom: '2px solid black', display: 'flex', maxWidth: '300px', wordBreak: 'break-all' }}
 						>
 							<img
 								src={match.img.find(img => img.default).img_url}

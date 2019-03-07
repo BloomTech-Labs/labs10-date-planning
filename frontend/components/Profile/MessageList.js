@@ -57,7 +57,7 @@ const MessageList = ({ classes, selectedChat, currentUser, selectedChatId }) => 
 															</span>
 														}
 														body={
-															<span>
+															<span style={{maxWidth:'300px', wordBreak: 'break-all'}}>
 																<p>{message.text}</p>
 															</span>
 														}
