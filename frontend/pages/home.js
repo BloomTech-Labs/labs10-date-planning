@@ -11,7 +11,7 @@ const Home = ({ query }) => {
 	<User>
 		{({ data, loading }) => {
 			console.log(data, loading)
-			if (loading) return <div>loading</div>;
+			if (loading) return <div>home</div>;
 			if ( !data.currentUser) return <JoinUs />;
 			else return (
 				<>

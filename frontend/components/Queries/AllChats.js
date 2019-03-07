@@ -8,6 +8,7 @@ export const ALL_CHATS_QUERY = gql`
 				id
 				firstName
 				img {
+					id
 					default
 					img_url
 				}
@@ -23,6 +24,7 @@ export const ALL_CHATS_QUERY = gql`
 					id
 					firstName
 					img {
+						id
 						default
 						img_url
 					}
