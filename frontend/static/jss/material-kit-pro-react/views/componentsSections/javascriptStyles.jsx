@@ -95,19 +95,31 @@ const javascriptStyles = theme => {
 			zIndex: 2,
 			width: '90%'
 		},
-		// modalHeader: {
-		// 	backgroundImage:
-		// 	"linear-gradient(to right, #e2dae1, #e0cede, #dec3da, #dbb7d7, #d9abd3)",
-		// borderTopLeftRadius: '6px',
-		// borderTopRightRadius: '6px',
-		// paddingBottom: '15px',
-		// color: '#fafafa',
-		// }
+
 		newUserContainer : {
 			display: 'flex',
 			flexDirection: 'column',
 			alignItems: 'center'
 		},
+		userModalHeader : {
+			backgroundImage: 'linear-gradient(to right, #b2ddf7, #a8daf9, #9fd8fb, #94d5fd, #8ad2ff)',
+			paddingBottom: '24px',
+		},
+		liked : {
+			'&:hover': {
+				'& svg': {
+					fill: '#ff101f'
+				}
+			}
+		},
+		blocked : {
+			'&:hover': {
+				'& svg': {
+					fill: '#fafafa'
+				}
+			}
+		}
+
 	};
 };
 
