@@ -4,6 +4,7 @@ import InputRange from 'react-input-range';
 import NProgress from 'nprogress';
 //MUI
 import withStyles from '@material-ui/core/styles/withStyles';
+import CustomInput from '../../styledComponents/CustomInput/CustomInput.jsx';
 import { MenuItem, Select, InputLabel, Drawer, IconButton } from '@material-ui/core';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
@@ -18,8 +19,9 @@ const Preferences = ({ classes, user, drawerOpen, setDrawerOpen }) => {
 		max: user.maxAgePref || 50,
 	});
 	const [ genderPref, setGenderPref ] = useState(user.genderPrefs || []);
+	const [ bio, setBio ] = useState('');
 	const updateUser = useMutation(UPDATE_USER_MUTATION);
-	console.log(user);
+
 	return (
 		<Drawer
 			className={classes.drawer}
@@ -35,6 +37,17 @@ const Preferences = ({ classes, user, drawerOpen, setDrawerOpen }) => {
 					{drawerOpen ? <ChevronLeftIcon /> : <ChevronRightIcon />}
 				</IconButton>
 			</div>
+			<CustomInput
+				//labelText='About'
+				id='textarea-input'
+				inputProps={{
+					multiline: true,
+					rows: 5,
+					value: bio,
+					onChange: e => setBio(e.target.value),
+					placeholder: 'Write a little about yourself',
+				}}
+			/>
 
 			<InputLabel htmlFor='multiple-select' className={classes.selectLabel}>
 				Gender preferences

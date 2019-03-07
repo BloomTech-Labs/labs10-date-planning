@@ -6,7 +6,10 @@ export const USER_QUERY = gql`
 			id
 			firstName
 			dob
-			imageLarge
+			img {
+				default
+				img_url
+			}
 			biography
 		}
 	}

@@ -35,10 +35,10 @@ const Location = ({ user, classes }) => {
 	return (
 		<Fragment>
 			<div style={{ display: 'flex', alignItems: 'center' }}>
-				<Typography variant='h5' style={{ color: '#394859', marginLeft: '6px' }}>
+				<Typography variant='h5' style={{ color: '#fafafa', marginLeft: '6px' }}>
 					{user.location ? user.location : 'Set your default location'}
 				</Typography>
-				<IconButton justIcon simple round onClick={() => showModal(true)}>
+				<IconButton justIcon simple round color='primary' onClick={() => showModal(true)}>
 					<EditLocation />
 				</IconButton>
 			</div>
