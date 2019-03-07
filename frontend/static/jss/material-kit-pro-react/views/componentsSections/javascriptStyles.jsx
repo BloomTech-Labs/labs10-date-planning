@@ -118,6 +118,15 @@ const javascriptStyles = theme => {
 					fill: '#fafafa'
 				}
 			}
+		},
+		chatBorder: {
+			border: '2px solid #c8c8c8',
+			borderRadius: '6px',
+			padding: '10px'
+		},
+		chat: {
+			height: '452px',
+			overflowY: 'scroll',
 		}
 
 	};
