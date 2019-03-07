@@ -3,12 +3,20 @@ import { withApollo, Mutation, Query } from 'react-apollo';
 import moment from 'moment';
 import NProgress from 'nprogress';
 import Router, { withRouter } from 'next/router';
+import Slider from 'react-slick';
 
 import { adopt } from 'react-adopt';
 import { State, Map, Value, Toggle } from 'react-powerplug';
 //MUI
 import withStyles from '@material-ui/core/styles/withStyles';
-import { DialogTitle, Dialog, DialogContent, InputAdornment, IconButton } from '@material-ui/core';
+import {
+	DialogTitle,
+	Dialog,
+	DialogContent,
+	InputAdornment,
+	IconButton,
+	Avatar,
+} from '@material-ui/core';
 import {
 	BookmarkBorder,
 	Close,
@@ -31,6 +39,7 @@ import {
 	UNLIKE_USER_MUTATION,
 	UPDATE_BLOCKS_MUTATION,
 } from '../Mutations/updateUser';
+
 //Components
 import InfoModal from './InfoModal';
 import Transition from '../Transistion';
@@ -44,6 +53,14 @@ import styles from '../../static/jss/material-kit-pro-react/views/componentsSect
 import '../../styles/Home/EventModal.scss';
 //utils
 import getAge from '../../utils/getAge';
+
+let settings = {
+	dots: true,
+	infinite: true,
+	speed: 500,
+	slidesToShow: 1,
+	slidesToScroll: 1,
+};
 
 const Composed = adopt({
 	user: ({ render }) => <Query query={CURRENT_USER_QUERY}>{render}</Query>,
@@ -232,17 +249,17 @@ const EventModal = ({ classes, user, router }) => {
 								classes={{ root: 'dialogContent' }}
 								className={classes.modalBody}
 							>
-								<div style={{ marginRight: '20px' }}>
-									<img
-										style={{
-											margin: '20px 0',
-											borderRadius: '6px',
-											overflow: 'hidden',
-											height: '375px',
-										}}
-										src={matchImg}
-									/>
-
+								<div style={{ marginRight: '20px', width: '50%' }}>
+									<Slider {...settings}>
+										{match.img.map(img => (
+											<div key={img.img_url}>
+												<img
+													src={img.img_url}
+													style={{ height: '375px', width: '375px' }}
+												/>
+											</div>
+										))}
+									</Slider>
 									<div className='gradient-box'>
 										<div className='date'>
 											{match.biography ? (
