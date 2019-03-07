@@ -25,7 +25,7 @@ const styles = {};
 const Messages = ({ classes, color, router, href, user }) => {
 	const [ selectedChatId, setSelectedChatId ] = useState('');
 
-	const { data, loading, refetch } = useQuery(ALL_CHATS_QUERY, { pollInterval: 60000 });
+	const { data, loading, refetch } = useQuery(ALL_CHATS_QUERY, { pollInterval: 600 });
 
 	const handleSelectMessage = chatId => {
 		setSelectedChatId(chatId);
