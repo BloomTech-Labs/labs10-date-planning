@@ -48,6 +48,36 @@
   }
 }
 
+.prof-img-lg {
+  background-size: 100%;
+  height: 220px;
+  position: relative;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  .view-all {
+    display: none;
+  }
+  .delete-img {
+    display: none;
+    position: absolute;
+  bottom: 0;
+  right: 0;
+  }
+  &:hover {
+    .view-all {
+      display: block;
+    }
+    .delete-img {
+      display: block;
+    }
+  }
+}
+
+
 .input-range__slider {
   appearance: none;
   background: #ff101f;

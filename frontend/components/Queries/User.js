@@ -21,6 +21,7 @@ const CURRENT_USER_QUERY = gql`
 			img {
 				default
 				img_url
+				id
 			}
 			createdAt
 			permissions
