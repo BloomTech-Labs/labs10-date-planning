@@ -15,6 +15,7 @@ export const GET_CONVERSATION_QUERY = gql`
 					id
 					firstName
 					img {
+						id
 						default
 						img_url
 					}
