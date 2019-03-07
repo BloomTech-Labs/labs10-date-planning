@@ -235,11 +235,16 @@ const EventModal = ({ classes, user, router }) => {
 										}}
 										src={matchImg}
 									/>
-									{match.biography && (
-										<div className='gradient-box'>
-											<div className='date'>{match.biography}</div>
+
+									<div className='gradient-box'>
+										<div className='date'>
+											{match.biography ? (
+												match.biography
+											) : (
+												'Hi der This is my lil fill in bio guy'
+											)}
 										</div>
-									)}
+									</div>
 								</div>
 								<div>
 									<div
