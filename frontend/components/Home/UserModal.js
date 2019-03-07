@@ -33,10 +33,12 @@ import {
 } from '../Mutations/updateUser';
 //Components
 import InfoModal from './InfoModal';
+import Transition from '../Transistion';
 //StyledComponents
 import Button from '../../styledComponents/CustomButtons/Button';
 import CustomInput from '../../styledComponents/CustomInput/CustomInput.jsx';
 import Media from '../../styledComponents/Media/Media.jsx';
+
 //styles
 import styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles.jsx';
 import '../../styles/Home/EventModal.scss';
@@ -113,7 +115,6 @@ const EventModal = ({ classes, user, router }) => {
 	const [ message, setMessage ] = useState('');
 	console.log(router);
 	//let isLiked =
-	
 
 	return (
 		<Composed matchId={user}>
@@ -140,20 +141,23 @@ const EventModal = ({ classes, user, router }) => {
 								paper: classes.modalLarge,
 							}}
 							open={user}
-							// TransitionComponent={Transition}
-							//keepMounted
+							TransitionComponent={Transition}
 							scroll='body'
-							onClose={() => showModal(false)}
+							onClose={() =>
+								Router.push(
+									router.pathname,
+									router.pathname,
+									{ shallow: true },
+									{ scroll: false },
+								)}
 							aria-labelledby='notice-modal-slide-title'
 							aria-describedby='notice-modal-slide-description'
-							//style={{ height: '700px' }}
 						>
 							<DialogTitle
 								id='notice-modal-slide-title'
 								disableTypography
 								className={`${classes.modalHeader} ${classes.userModalHeader}`}
 							>
-								{' '}
 								<Button
 									simple
 									className={classes.modalCloseButton}
@@ -169,7 +173,6 @@ const EventModal = ({ classes, user, router }) => {
 										);
 									}}
 								>
-									{' '}
 									<Close
 										style={{ color: '#fafafa' }}
 										className={classes.modalClose}
@@ -182,9 +185,14 @@ const EventModal = ({ classes, user, router }) => {
 										}}
 										className={classes.modalTitle}
 									>
-										{match.firstName} | {getAge(match.dob)}
+										{match.firstName}
+										<span style={{ padding: '0 3px' }}>&#8226;</span>
+										{getAge(match.dob)}
 									</h4>
-									<IconButton className={classes.liked} onClick={() => (isLiked ? unlike() : like())}>
+									<IconButton
+										className={classes.liked}
+										onClick={() => (isLiked ? unlike() : like())}
+									>
 										{isLiked ? <Favorite /> : <FavoriteBorder />}
 									</IconButton>
 									<IconButton className={classes.blocked} onClick={() => block()}>
@@ -257,8 +265,7 @@ const EventModal = ({ classes, user, router }) => {
 													inputProps={{
 														multiline: true,
 														rows: 6,
-														placeholder:
-															`Find out what ${match.firstName}'s up for!`,
+														placeholder: `Find out what ${match.firstName}'s up for!`,
 														value: message,
 														onChange: e => setMessage(e.target.value),
 													}}

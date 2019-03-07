@@ -88,23 +88,13 @@ const Profile = ({ classes, theme, router }) => {
 										margin: '0 20px',
 									}}
 								>
-									<h2>
-										{currentUser.firstName} | {getAge(currentUser.dob)}
+									<h2 style={{ color: '#fafafa' }}>
+										{currentUser.firstName}{' '}
+										<span style={{ padding: '0 0px' }}>&#8226;</span>{' '}
+										{getAge(currentUser.dob)}
 									</h2>
 									<Location user={currentUser} />
 								</div>
-
-								<CustomInput
-									//labelText='About'
-									id='textarea-input'
-									inputProps={{
-										multiline: true,
-										rows: 5,
-										value: biography.value,
-										onChange: e => biography.set(e.target.value),
-										placeholder: 'About',
-									}}
-								/>
 							</div>
 						</div>
 
