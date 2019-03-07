@@ -84,7 +84,7 @@ const Events = ({ classes, newUser, router, href }) => {
 						{router.query.user && <UserModal user={router.query.user} />}
 						<svg
 							style={{ width: 0, height: 0, position: 'absolute' }}
-							ariaHidden='true'
+							aria-hidden='true'
 							focusable='false'
 						>
 							<linearGradient id='favoriteID' x2='1' y2='1'>
@@ -95,7 +95,7 @@ const Events = ({ classes, newUser, router, href }) => {
 						</svg>
 						<svg
 							style={{ width: 0, height: 0, position: 'absolute' }}
-							ariaHidden='true'
+							aria-hidden='true'
 							focusable='false'
 						>
 							<linearGradient id='chatID' x2='1' y2='1'>

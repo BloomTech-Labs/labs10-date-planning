@@ -122,6 +122,7 @@ type User {
 	stripeCustomerId: String
 	stripeSubscriptionId: String
 	score: Int
+	chats: [Chat]
 }
 
 type Event {

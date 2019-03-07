@@ -41,6 +41,11 @@ const CURRENT_USER_QUERY = gql`
 				city
 				address
 			}
+			chats {
+				users {
+					id
+				}
+			}
 			stripeCustomerId
 		}
 	}

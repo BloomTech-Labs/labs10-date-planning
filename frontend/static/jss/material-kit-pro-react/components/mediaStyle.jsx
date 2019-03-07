@@ -15,6 +15,7 @@ const mediaStyle = {
 	},
 	reverse: {
 		flexDirection: 'row-reverse',
+		justifyContent: 'space-between'
 	},
 	mediaLink: {
 		padding: '10px',

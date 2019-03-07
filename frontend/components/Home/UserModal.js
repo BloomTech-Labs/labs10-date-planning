@@ -156,7 +156,7 @@ const EventModal = ({ classes, user, router }) => {
 								root: classes.modalRoot,
 								paper: classes.modalLarge,
 							}}
-							open={user}
+							open={user ? true : false}
 							TransitionComponent={Transition}
 							scroll='body'
 							onClose={() =>
@@ -232,14 +232,13 @@ const EventModal = ({ classes, user, router }) => {
 								classes={{ root: 'dialogContent' }}
 								className={classes.modalBody}
 							>
-								<div>
+								<div style={{ marginRight: '20px' }}>
 									<img
 										style={{
 											margin: '20px 0',
 											borderRadius: '6px',
 											overflow: 'hidden',
-
-											height: '452px',
+											height: '375px',
 										}}
 										src={matchImg}
 									/>
@@ -259,11 +258,13 @@ const EventModal = ({ classes, user, router }) => {
 										ref={msgRef}
 										style={{
 											height: '452px',
-
-											overflowY: 'scroll',
-											margin: '20px 0',
+											height: '375px',
 										}}
-									>
+										src={matchImg}
+									/>
+								</div>
+								<div className={classes.chatBorder}>
+									<div className={classes.chat}>
 										{convo.data.getConversation &&
 											convo.data.getConversation.messages &&
 											convo.data.getConversation.messages.map(message => {
@@ -272,6 +273,7 @@ const EventModal = ({ classes, user, router }) => {
 												return (
 													<Media
 														currentUser={
+															currentUser &&
 															message.from.id === currentUser.id
 														}
 														key={message.id}
