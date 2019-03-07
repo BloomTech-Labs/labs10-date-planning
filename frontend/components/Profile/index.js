@@ -50,7 +50,9 @@ const Profile = ({ classes, theme, router }) => {
 	return (
 		<Composed>
 			{({ user: { data: { currentUser } }, biography, updateUser }) => {
-				let profileImg = currentUser.img.find(img => img.default).img_url;
+				let profileImg =
+					currentUser.img.find(img => img.default) &&
+					currentUser.img.find(img => img.default).img_url;
 				return (
 					<div className='Profile__background'>
 						<ImageModal modal={modal} showModal={showModal} />
@@ -93,7 +95,7 @@ const Profile = ({ classes, theme, router }) => {
 								</div>
 
 								<CustomInput
-									labelText='About'
+									//labelText='About'
 									id='textarea-input'
 									inputProps={{
 										multiline: true,
