@@ -125,7 +125,7 @@ const EventModal = ({ modal, showModal, classes, potentialMatch }) => {
 						<Dialog
 							classes={{
 								root: classes.modalRoot,
-								paper: classes.modal,
+								paper: classes.modalLarge,
 							}}
 							open={modal}
 							// TransitionComponent={Transition}
@@ -158,111 +158,122 @@ const EventModal = ({ modal, showModal, classes, potentialMatch }) => {
 										className={classes.modalClose}
 									/>
 								</Button>
-								<h4
-									style={{
-										fontWeight: 700,
-										color: '#4cb5ae',
-									}}
-									className={classes.modalTitle}
-								>
-									{potentialMatch.firstName} | {getAge(potentialMatch.dob)}
-								</h4>
-								<IconButton onClick={() => (isLiked ? unlike() : like())}>
-									{isLiked ? <Favorite /> : <FavoriteBorder />}
-								</IconButton>
-								<IconButton onClick={() => block()}>
-									<NotInterested />
-								</IconButton>
+								<div style={{ display: 'flex', alignItems: 'center' }}>
+									<h4
+										style={{
+											fontWeight: 700,
+										}}
+										className={classes.modalTitle}
+									>
+										{potentialMatch.firstName} | {getAge(potentialMatch.dob)}
+									</h4>
+									<IconButton onClick={() => (isLiked ? unlike() : like())}>
+										{isLiked ? <Favorite /> : <FavoriteBorder />}
+									</IconButton>
+									<IconButton onClick={() => block()}>
+										<NotInterested />
+									</IconButton>
+								</div>
 							</DialogTitle>
 							<DialogContent
-								style={{ zIndex: 3 }}
+								style={{ zIndex: 3, display: 'flex' }}
 								id='notice-modal-slide-description'
 								classes={{ root: 'dialogContent' }}
 								className={classes.modalBody}
 							>
-								<img
-									style={{
-										margin: '20px 0',
-										borderRadius: '6px',
-										overflow: 'hidden',
-										width: '100%',
-										height: '452px',
-									}}
-									src={potentialMatch.imageLarge}
-								/>
-								{potentialMatch.biography && (
-									<div className='gradient-box'>
-										<div className='date'>{potentialMatch.biography}</div>
+								<div>
+									<img
+										style={{
+											margin: '20px 0',
+											borderRadius: '6px',
+											overflow: 'hidden',
+
+											height: '452px',
+										}}
+										src={potentialMatch.imageLarge}
+									/>
+									{potentialMatch.biography && (
+										<div className='gradient-box'>
+											<div className='date'>{potentialMatch.biography}</div>
+										</div>
+									)}
+								</div>
+								<div>
+									<div
+										style={{
+											maxHeight: '452px',
+											overflowY: 'scroll',
+											margin: '20px 0',
+										}}
+									>
+										{convo.data.getConversation &&
+											convo.data.getConversation.messages &&
+											convo.data.getConversation.messages.map(message => (
+												<Media
+													currentUser={message.from.id === currentUser.id}
+													key={message.id}
+													avatar={message.from.imageThumbnail}
+													title={
+														<span>
+															{message.from.firstName}{' '}
+															<small>· {moment(message.createdAt).fromNow()}</small>
+														</span>
+													}
+													body={
+														<span>
+															<p>{message.text}</p>
+														</span>
+													}
+												/>
+											))}
 									</div>
-								)}
-								{convo.data.getConversation &&
-									convo.data.getConversation.messages &&
-									convo.data.getConversation.messages.map(message => (
+									<div>
 										<Media
-											currentUser={message.from.id === currentUser.id}
-											key={message.id}
-											avatar={message.from.imageThumbnail}
-											title={
-												<span>
-													{message.from.firstName}{' '}
-													<small>
-														· {moment(message.createdAt).fromNow()}
-													</small>
-												</span>
-											}
+											avatar={currentUser.imageLarge}
 											body={
-												<span>
-													<p>{message.text}</p>
-												</span>
+												<CustomInput
+													id='logged'
+													formControlProps={{
+														fullWidth: true,
+													}}
+													inputProps={{
+														multiline: true,
+														rows: 6,
+														placeholder:
+															' Write some nice stuff or nothing...',
+														value: message,
+														onChange: e => setMessage(e.target.value),
+													}}
+												/>
+											}
+											footer={
+												<Button
+													color='primary'
+													justIcon
+													className={classes.floatRight}
+													onClick={async () => {
+														NProgress.start();
+														convo.data.getConversation
+															? await sendMessage.mutation({
+																	variables: {
+																		id: id.value,
+																		message: message,
+																	},
+																})
+															: await createChat.mutation({
+																	variables: {
+																		id: id.value,
+																		message: message,
+																	},
+																});
+														setMessage('');
+													}}
+												>
+													<Send />
+												</Button>
 											}
 										/>
-									))}
-								<div>
-									<Media
-										avatar={currentUser.imageLarge}
-										body={
-											<CustomInput
-												id='logged'
-												formControlProps={{
-													fullWidth: true,
-												}}
-												inputProps={{
-													multiline: true,
-													rows: 6,
-													placeholder:
-														' Write some nice stuff or nothing...',
-													value: message,
-													onChange: e => setMessage(e.target.value),
-												}}
-											/>
-										}
-										footer={
-											<Button
-												color='primary'
-												justIcon
-												className={classes.floatRight}
-												onClick={async () => {
-													NProgress.start();
-													convo.data.getConversation
-														? await sendMessage.mutation({
-																variables: {
-																	id: id.value,
-																	message: message,
-																},
-															})
-														: await createChat.mutation({
-																variables: {
-																	id: id.value,
-																	message: message,
-																},
-															});
-													setMessage('');
-												}}
-											>
-												<Send />
-											</Button>
-										}
-									/>
+									</div>
 								</div>
 							</DialogContent>
 						</Dialog>

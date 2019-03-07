@@ -98,8 +98,7 @@ const NewUser = ({ classes }) => {
 							<Close className={classes.modalClose} />
 						</Button> */}
 									<h4 className={classes.modalTitle}>
-										Hello {currentUser.firstName}! We have just a few questions
-										before you begin.
+										Hello {currentUser.firstName}!  Tell us about yourself...
 									</h4>
 									<DialogContent
 										id='classic-modal-slide-description'
@@ -114,7 +113,7 @@ const NewUser = ({ classes }) => {
 													alignItems: 'flex-end',
 												}}
 											>
-												<p style={{ margin: '0 5px 5px' }}>I am a </p>
+												<p style={{ margin: '0 5px 4px' }}>I am a </p>
 												{/* <InputLabel htmlFor='simple-select'>
 													Select your gender
 												</InputLabel> */}
@@ -164,7 +163,7 @@ const NewUser = ({ classes }) => {
 														Other
 													</MenuItem>
 												</Select>
-												<p style={{ margin: '0 10px 5px' }}>
+												<p style={{ margin: '0 10px 4px' }}>
 													{' '}
 													interested in{' '}
 												</p>

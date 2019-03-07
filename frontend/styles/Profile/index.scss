@@ -31,8 +31,21 @@
   background-size: 100%;
   height: 180px;
   width: 180px;
-  border-radius: 50%;
+  border-radius: 6px;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .view-all {
+    display: none;
+  }
+
+  &:hover {
+    .view-all {
+      display: block;
+    }
+  }
 }
 
 .input-range__slider {

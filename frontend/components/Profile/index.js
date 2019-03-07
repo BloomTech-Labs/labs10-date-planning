@@ -67,7 +67,9 @@ const Profile = ({ classes, theme }) => {
 								<div
 									className='prof-img'
 									style={{ backgroundImage: `url(${currentUser.imageLarge})` }}
-								/>
+								>
+									<Button className='view-all'>View all</Button>
+								</div>
 								<div
 									style={{
 										display: 'flex',
