@@ -92,7 +92,9 @@ const Nav = ({ classes, color, router, href }) => {
 				let newMessages = data.getUserChats
 					? newMessageCount(data.getUserChats, currentUser)
 					: [];
-				let profileImage = currentUser.img.find(img => img.default).img_url;
+				let profileImage =
+					currentUser.img.find(img => img.default) &&
+					currentUser.img.find(img => img.default).img_url;
 				return (
 					<Header
 						color={color}
