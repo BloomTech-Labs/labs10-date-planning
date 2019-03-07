@@ -48,9 +48,23 @@ const ADD_IMAGE_MUTATION = gql`
 	}
 `;
 
+const DELETE_IMAGE_MUTATION = gql`
+	mutation DELETE_IMAGE_MUTATION($id: ID) {
+		updateUser(data: { img: { delete: [{ id: $id }] } }) {
+			id
+			img {
+				img_url
+				default
+				id
+			}
+		}
+	}
+`;
+
 const ImageModal = ({ classes, modal, showModal, user }) => {
 	const setDefaultImg = useMutation(UPDATE_DEFAULT_IMG_MUTATION);
 	const addImage = useMutation(ADD_IMAGE_MUTATION);
+	const deleteImage = useMutation(DELETE_IMAGE_MUTATION);
 
 	const handleUpload = () => {
 		openUploadWidget((error, result) => {
@@ -135,7 +149,10 @@ const ImageModal = ({ classes, modal, showModal, user }) => {
 							>
 								Make Default
 							</Button>
-							<IconButton className='delete-img'>
+							<IconButton
+								onClick={() => deleteImage({ variables: { id: userImgs[1].id } })}
+								className='delete-img'
+							>
 								<Delete />
 							</IconButton>
 						</div>
@@ -158,7 +175,11 @@ const ImageModal = ({ classes, modal, showModal, user }) => {
 									>
 										Make Default
 									</Button>
-									<IconButton className='delete-img'>
+									<IconButton
+										onClick={() =>
+											deleteImage({ variables: { id: userImgs[2].id } })}
+										className='delete-img'
+									>
 										<Delete />
 									</IconButton>
 								</Fragment>
@@ -183,7 +204,11 @@ const ImageModal = ({ classes, modal, showModal, user }) => {
 									>
 										Make Default
 									</Button>
-									<IconButton className='delete-img'>
+									<IconButton
+										onClick={() =>
+											deleteImage({ variables: { id: userImgs[3].id } })}
+										className='delete-img'
+									>
 										<Delete />
 									</IconButton>
 								</Fragment>
@@ -208,7 +233,11 @@ const ImageModal = ({ classes, modal, showModal, user }) => {
 									>
 										Make Default
 									</Button>
-									<IconButton className='delete-img'>
+									<IconButton
+										onClick={() =>
+											deleteImage({ variables: { id: userImgs[4].id } })}
+										className='delete-img'
+									>
 										<Delete />
 									</IconButton>
 								</Fragment>
@@ -233,7 +262,11 @@ const ImageModal = ({ classes, modal, showModal, user }) => {
 									>
 										Make Default
 									</Button>
-									<IconButton className='delete-img'>
+									<IconButton
+										onClick={() =>
+											deleteImage({ variables: { id: userImgs[5].id } })}
+										className='delete-img'
+									>
 										<Delete />
 									</IconButton>
 								</Fragment>
