@@ -135,7 +135,7 @@ const Nav = ({ classes, color, router, href }) => {
 									</Button>
 								</ListItem>
 
-								<ListItem className={classes.listItem}>
+								<ListItem style={{bottom: '5px'}}className={classes.listItem}>
 									<CustomDropdown
 										left
 										caret={false}
@@ -204,7 +204,7 @@ const Nav = ({ classes, color, router, href }) => {
 											/* if (called) Router.push('/joinus'); */
 										}
 										return (
-											<ListItem className={classes.listItem}>
+											<ListItem style={{marginLeft: '10px'}} className={classes.listItem}>
 												<CustomDropdown
 													left
 													caret={false}
