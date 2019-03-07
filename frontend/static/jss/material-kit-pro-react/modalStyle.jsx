@@ -79,7 +79,7 @@ const modalStyle = theme => ({
 	},
 	modalLarge: {
 		[theme.breakpoints.up('md')]: {
-			maxWidth: '800px',
+			maxWidth: '813px',
 		},
 	},
 	modalSmall: {
