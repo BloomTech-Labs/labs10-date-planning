@@ -42,7 +42,9 @@ const ImageUpload = () => {
 		<div>
 			<User>
 				{({ data: { currentUser } }) => {
-					let profileImg = currentUser.img.find(img => img.default).img_url;
+					let profileImg =
+						currentUser.img.find(img => img.default) &&
+						currentUser.img.find(img => img.default).img_url;
 					console.log(profileImg);
 					return (
 						<Mutation
