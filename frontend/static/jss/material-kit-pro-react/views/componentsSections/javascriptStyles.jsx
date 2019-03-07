@@ -103,6 +103,11 @@ const javascriptStyles = theme => {
 		// paddingBottom: '15px',
 		// color: '#fafafa',
 		// }
+		newUserContainer : {
+			display: 'flex',
+			flexDirection: 'column',
+			alignItems: 'center'
+		},
 	};
 };
 
