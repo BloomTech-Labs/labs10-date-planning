@@ -47,17 +47,17 @@ const Messages = ({ classes, color, router, href, user }) => {
 		});
 	};
 
-	const newMessageCount = (newMessages, user) => {
-		return newMessages.reduce((count, mess) => {
-			let newcount = mess.messages.filter(msg => !msg.seen && msg.from.id !== user.id);
+	// const newMessageCount = (newMessages, user) => {
+	// 	return newMessages.reduce((count, mess) => {
+	// 		let newcount = mess.messages.filter(msg => !msg.seen && msg.from.id !== user.id);
 
-			return [ ...count, ...newcount ];
-		}, []);
-	};
+	// 		return [ ...count, ...newcount ];
+	// 	}, []);
+	// };
 	const selectedChat = data.getUserChats
 		? data.getUserChats.filter(chat => chat.id === selectedChatId)
 		: [];
-	console.log(data.getUserChats);
+
 	return (
 		<div
 			style={{
@@ -65,15 +65,15 @@ const Messages = ({ classes, color, router, href, user }) => {
 				margin: '20px',
 			}}
 		>
-			<ChatList
-				userChats={data.getUserChats}
-				currentUser={user}
-				handleSelectMessage={handleSelectMessage}
-			/>
 			<MessageList
 				selectedChat={selectedChat}
 				currentUser={user}
 				selectedChatId={selectedChatId}
+			/>
+			<ChatList
+				userChats={data.getUserChats}
+				currentUser={user}
+				handleSelectMessage={handleSelectMessage}
 			/>
 		</div>
 	);
