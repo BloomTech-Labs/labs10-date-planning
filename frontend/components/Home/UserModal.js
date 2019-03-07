@@ -200,7 +200,6 @@ const EventModal = ({ classes, user, router }) => {
 										alignItems: 'center',
 										justifyContent: 'center',
 										position: 'relative',
-										left: '50px',
 									}}
 								>
 									<h4
