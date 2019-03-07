@@ -22,6 +22,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 
 //Images
 import Arrow from '../../static/img/up4Arrow.png';
+import standIn from '../../static/img/placeholder.jpg';
 
 //Components
 import UserModel from './UserModal';
@@ -55,7 +56,7 @@ const Event = ({ event, classes, user, refetch }) => {
 	const [ val, set ] = useState(false);
 	const divEl = useRef(null);
 	const imgEl = useRef(null);
-	let isSaved = user.events.find(e => e.id === event.id);
+	let isSaved = user ? user.events.find(e => e.id === event.id) : false;
 
 	useEffect(
 		() => {
@@ -209,26 +210,32 @@ const Event = ({ event, classes, user, refetch }) => {
 								</div>
 							</div>
 						</CardBody>
-
 						{/* {isSaved && <Bookmark className='Event__bookmark' />} */}
-
 						{event.attending.length ? (
 							<CardFooter
 								style={{ display: 'flex', justifyContent: 'space-between' }}
 							>
 								<div style={{ display: 'flex' }}>
-									{event.attending.map(usr => (
-										<img
-											key={usr.id}
-											// src={usr.img.find(img => img.default).img_url}
-											style={{
-												width: '30px',
-												height: '30px',
-												borderRadius: '6px',
-												border: '1px solid #cabac8',
-											}}
-										/>
-									))}
+									{event.attending.map(usr => {
+										return (
+											<img
+												key={usr.id}
+												src={
+													usr.img.length ? (
+														usr.img.find(img => img.default).img_url
+													) : (
+														standIn
+													)
+												}
+												style={{
+													width: '30px',
+													height: '30px',
+													borderRadius: '6px',
+													border: '1px solid #cabac8',
+												}}
+											/>
+										);
+									})}
 								</div>
 								<div
 									onClick={() => setRotate(classes.activateRotate)}
@@ -243,7 +250,6 @@ const Event = ({ event, classes, user, refetch }) => {
 						) : (
 							''
 						)}
-
 						{/* <EventModal modal={modal} showModal={showModal} event={event} /> */}
 					</div>
 					<GridContainer
@@ -271,7 +277,8 @@ const Event = ({ event, classes, user, refetch }) => {
 										</h3>
 										<h6 style={{ color: '#263238', fontSize: '15px' }}>
 											Showing{' '}
-											{!user.genderPrefs.length ||
+											{!user ||
+											!user.genderPrefs.length ||
 											user.genderPrefs.length === 3 ? (
 												<span className='genderPreference'>everyone</span>
 											) : user.genderPrefs.includes(
@@ -290,73 +297,83 @@ const Event = ({ event, classes, user, refetch }) => {
 												style={{ marginRight: '3px' }}
 												className='agePreference'
 											>
-												{user.minAgePref || '18'}
+												{user && user.minAgePref ? user.minAgePref : '18'}
 											</span>
 											and{' '}
 											<span className='agePreference'>
-												{user.maxAgePref || '100'}
+												{user && user.maxAgePref ? user.maxAgePref : '100'}
 											</span>
 										</h6>
 									</div>
 								</div>
 								<GridContainer>
-									{event.attending.map(usr => (
-										<GridItem
-											key={usr.id}
-											sm={4}
-											md={4}
-											style={{ padding: '5px', position: 'relative' }}
-										>
-											<Favorite className={classes.favorite} />
-											<Chat className={classes.chat} />
-											<div
-												className='user_card'
-												onClick={() => {
-													NProgress.start();
-													Router.push(
-														`/home?user=${usr.id}`,
-														`/home?user=${usr.id}`,
-														{ shallow: true },
-														{ scroll: false },
-													);
-												}}
+									{event.attending.map(usr => {
+										let liked = user
+											? user.liked.find(x => x.id === usr.id)
+											: false;
+										return (
+											<GridItem
+												key={usr.id}
+												sm={4}
+												md={4}
+												style={{ padding: '5px', position: 'relative' }}
 											>
+												{liked && <Favorite className={classes.favorite} />}
+												<Chat className={classes.chat} />
 												<div
-													className={` gradient_border ${classes.userCardBorder}`}
+													className='user_card'
+													onClick={() => {
+														NProgress.start();
+														Router.push(
+															`/home?user=${usr.id}`,
+															`/home?user=${usr.id}`,
+															{ shallow: true },
+															{ scroll: false },
+														);
+													}}
 												>
-													<Avatar
-														// src={
-														// 	usr.img.find(img => img.default).img_url
-														// }
-														imgProps={{ height: 70, width: 70 }}
-														style={{
-															width: '100%',
-															height: '124px',
-															borderRadius: '6px',
-														}}
-													/>
 													<div
-														style={{
-															display: 'flex',
-															justifyContent: 'center',
-														}}
+														className={` gradient_border ${classes.userCardBorder}`}
 													>
-														<p style={{ margin: 0 }}>
-															{usr.firstName} |{' '}
-														</p>
-														<p style={{ margin: '0 0 0 2px' }}>
-															{getAge(usr.dob)}
-														</p>
+														<Avatar
+															src={
+																usr.img.length ? (
+																	usr.img.find(img => img.default)
+																		.img_url
+																) : (
+																	standIn
+																)
+															}
+															imgProps={{ height: 70, width: 70 }}
+															style={{
+																width: '100%',
+																height: '124px',
+																borderRadius: '6px',
+															}}
+														/>
+														<div
+															style={{
+																display: 'flex',
+																justifyContent: 'center',
+															}}
+														>
+															<p style={{ margin: 0 }}>
+																{usr.firstName} |{' '}
+															</p>
+															<p style={{ margin: '0 0 0 2px' }}>
+																{getAge(usr.dob)}
+															</p>
+														</div>
 													</div>
 												</div>
-											</div>
-											{/* <UserModel
+												{/* <UserModel
                         modal={modal}
                         showModal={showModal}
                         potentialMatch={usr}
                       /> */}
-										</GridItem>
-									))}
+											</GridItem>
+										);
+									})}
 								</GridContainer>
 								<div
 									onClick={() => setRotate('')}

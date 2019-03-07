@@ -67,13 +67,13 @@ const Nav = ({ classes, color, router, href }) => {
 			let len = chatObj.messages.length - 1;
 			const { messages, users } = chatObj;
 			let [ usr ] = users.filter(usr => usr.id !== user.id);
-
+			let img = usr.img.length ? usr.img.find(img => img.default).img_url : profileStandIn;
 			return {
 				id: chatObj.id,
 				from: usr.firstName,
 				fromId: usr.id,
 				text: messages[len].text,
-				img: usr.imageThumbnail,
+				img: img,
 			};
 		});
 	};
@@ -92,9 +92,7 @@ const Nav = ({ classes, color, router, href }) => {
 				let newMessages = data.getUserChats
 					? newMessageCount(data.getUserChats, currentUser)
 					: [];
-				let profileImage =
-					currentUser.img.find(img => img.default) &&
-					currentUser.img.find(img => img.default).img_url;
+				let profileImage = currentUser && currentUser.img.find(img => img.default).img_url;
 				return (
 					<Header
 						color={color}

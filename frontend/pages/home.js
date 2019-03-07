@@ -6,7 +6,7 @@ import User, { isLoggedIn } from '../components/Queries/User';
 import redirect from '../utils/redirect';
 
 const Home = ({ query }) => {
-	console.log(query)
+	
 	return (
 	<User>
 		{({ data, loading }) => {

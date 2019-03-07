@@ -8,7 +8,10 @@ export const SEND_MESSAGE_MUTATION = gql`
 			from {
 				id
 				firstName
-				imageLarge
+				img {
+					default
+					img_url
+				}
 			}
 			createdAt
 			seen

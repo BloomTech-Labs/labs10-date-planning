@@ -17,7 +17,6 @@ const CURRENT_USER_QUERY = gql`
 			genderPrefs
 			minAgePref
 			maxAgePref
-			imageLarge
 			img {
 				default
 				img_url

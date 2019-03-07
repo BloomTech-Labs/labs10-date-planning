@@ -7,7 +7,7 @@ import classNames from 'classnames';
 //MUI
 import withStyles from '@material-ui/core/styles/withStyles';
 import { IconButton } from '@material-ui/core';
-import { Menu } from '@material-ui/icons';
+import { Menu, LocalDining } from '@material-ui/icons';
 
 //Q&M
 import { CURRENT_USER_QUERY } from '../Queries/User';
@@ -31,9 +31,6 @@ import '../../styles/Profile/index.scss';
 const Composed = adopt({
 	user: ({ render }) => <Query query={CURRENT_USER_QUERY}>{render}</Query>,
 
-	biography: ({ user, render }) => (
-		<Value initial={user.data.currentUser.biography || ''}>{render}</Value>
-	),
 	updateUser: ({ render }) => (
 		<Mutation
 			mutation={UPDATE_USER_MUTATION}
@@ -49,66 +46,74 @@ const Profile = ({ classes, theme, router }) => {
 	const [ modal, showModal ] = useState(false);
 	return (
 		<Composed>
-			{({ user: { data: { currentUser } }, biography, updateUser }) => {
-				let profileImg =
-					currentUser.img.find(img => img.default) &&
-					currentUser.img.find(img => img.default).img_url;
-				return (
-					<div className='Profile__background'>
-						<ImageModal modal={modal} showModal={showModal} user={currentUser} />
-						{router.query.user && <UserModal user={router.query.user} />}
-						<Preferences
-							user={currentUser}
-							drawerOpen={drawerOpen}
-							setDrawerOpen={setDrawerOpen}
-						/>
-						<div className='Profile-Header'>
-							<IconButton
-								// color="inherit"
-								style={{ color: 'white' }}
-								aria-label='Open drawer'
-								onClick={() => setDrawerOpen(!drawerOpen)}
-								className={classNames(classes.menuButton)}
-							>
-								<Menu />
-							</IconButton>
-							<div className='inner'>
-								<div
-									className='prof-img'
-									style={{ backgroundImage: `url(${profileImg})` }}
+			{({ user: { data: { currentUser } }, updateUser }) => {
+				if (!currentUser) return <div>loading</div>;
+				else {
+					let profileImg =
+						currentUser.img.find(img => img.default) &&
+						currentUser.img.find(img => img.default).img_url;
+					return (
+						<div className='Profile__background'>
+							<ImageModal modal={modal} showModal={showModal} user={currentUser} />
+							{router.query.user && <UserModal user={router.query.user} />}
+							<Preferences
+								user={currentUser}
+								drawerOpen={drawerOpen}
+								setDrawerOpen={setDrawerOpen}
+							/>
+							<div className='Profile-Header'>
+								<IconButton
+									// color="inherit"
+									style={{ color: 'white' }}
+									aria-label='Open drawer'
+									onClick={() => setDrawerOpen(!drawerOpen)}
+									className={classNames(classes.menuButton)}
 								>
-									<Button className='view-all' onClick={() => showModal(true)}>
-										View all
-									</Button>
-								</div>
-								<div
-									style={{
-										display: 'flex',
-										flexDirection: 'column',
-										margin: '0 20px',
-									}}
-								>
-									<h2 style={{ color: '#fafafa' }}>
-										{currentUser.firstName}{' '}
-										<span style={{ padding: '0 0px' }}>&#8226;</span>{' '}
-										{getAge(currentUser.dob)}
-									</h2>
-									<Location user={currentUser} />
+									<Menu />
+								</IconButton>
+								<div className='inner'>
+									<div
+										className='prof-img'
+										style={{ backgroundImage: `url(${profileImg})` }}
+									>
+										<Button
+											className='view-all'
+											onClick={() => showModal(true)}
+										>
+											View all
+										</Button>
+									</div>
+									<div
+										style={{
+											display: 'flex',
+											flexDirection: 'column',
+											margin: '0 20px',
+										}}
+									>
+										<h2 style={{ color: '#fafafa' }}>
+											{currentUser.firstName}{' '}
+											<span style={{ padding: '0 0px' }}>&#8226;</span>{' '}
+											{getAge(currentUser.dob)}
+										</h2>
+										<Location user={currentUser} />
+									</div>
 								</div>
 							</div>
+
+							<GridContainer>
+								<GridItem sm={12} md={6} lg={6}>
+									<Dates />
+								</GridItem>
+								<div>
+									{/* <FormControl className={classes.selectFormControl}> */}
+								</div>
+
+								{/* </GridContainer> */}
+								{/* <Dates /> */}
+							</GridContainer>
 						</div>
-
-						<GridContainer>
-							<GridItem sm={12} md={6} lg={6}>
-								<Dates />
-							</GridItem>
-							<div>{/* <FormControl className={classes.selectFormControl}> */}</div>
-
-							{/* </GridContainer> */}
-							{/* <Dates /> */}
-						</GridContainer>
-					</div>
-				);
+					);
+				}
 			}}
 		</Composed>
 	);
