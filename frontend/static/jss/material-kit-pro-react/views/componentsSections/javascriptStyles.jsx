@@ -94,7 +94,32 @@ const javascriptStyles = theme => {
 			position: 'absolute',
 			zIndex: 2,
 			width: '90%'
+		},
+
+		newUserContainer : {
+			display: 'flex',
+			flexDirection: 'column',
+			alignItems: 'center'
+		},
+		userModalHeader : {
+			backgroundImage: 'linear-gradient(to right, #b2ddf7, #a8daf9, #9fd8fb, #94d5fd, #8ad2ff)',
+			paddingBottom: '24px',
+		},
+		liked : {
+			'&:hover': {
+				'& svg': {
+					fill: '#ff101f'
+				}
+			}
+		},
+		blocked : {
+			'&:hover': {
+				'& svg': {
+					fill: '#fafafa'
+				}
+			}
 		}
+
 	};
 };
 

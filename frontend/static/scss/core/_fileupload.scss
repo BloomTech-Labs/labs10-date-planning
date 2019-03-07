@@ -30,15 +30,15 @@
 
   button {
     background-image: linear-gradient(
-      to top,
-      #b893b3,
-      #bd9db8,
-      #c1a6be,
+      to right,
+      #cabac8,
       #c6b0c3,
-      #cabac8
+      #c1a6be,
+      #bd9db8,
+      #b893b3
     ) !important;
   }
-  input[type="file"]{
+  input[type="file"] {
     display: none;
   }
 }
@@ -57,11 +57,12 @@
   text-align: center;
   vertical-align: middle;
   max-width: 360px;
-  box-shadow: 0 5px 15px -8px rgba(0, 0, 0, 0.24), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 15px -8px rgba(0, 0, 0, 0.24),
+    0 8px 10px -5px rgba(0, 0, 0, 0.2);
 
-  &.img-circle{
-      border-radius: 50%;
-      max-width: 100px;
+  &.img-circle {
+    border-radius: 50%;
+    max-width: 100px;
   }
 }
 .thumbnail {
@@ -71,11 +72,12 @@
   text-align: center;
   vertical-align: middle;
   max-width: 360px;
-  box-shadow: 0 5px 15px -8px rgba(0, 0, 0, 0.24), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 15px -8px rgba(0, 0, 0, 0.24),
+    0 8px 10px -5px rgba(0, 0, 0, 0.2);
 
-  &.img-circle{
-      border-radius: 50%;
-      max-width: 100px;
+  &.img-circle {
+    border-radius: 50%;
+    max-width: 100px;
   }
 }
 .thumbnail > img {
@@ -145,8 +147,8 @@
 .input-group-addon:not(:first-child) {
   border-left: 0;
 }
-.thumbnail{
-    border: 0 none;
-    border-radius: 0;
-    padding: 0;
+.thumbnail {
+  border: 0 none;
+  border-radius: 0;
+  padding: 0;
 }
