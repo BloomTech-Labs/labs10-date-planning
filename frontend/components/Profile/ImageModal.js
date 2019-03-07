@@ -143,18 +143,24 @@ const ImageModal = ({ classes, modal, showModal, user }) => {
 									: profileStandIn})`,
 							}}
 						>
-							<Button
-								onClick={() => setDefaultImg({ variables: { id: userImgs[1].id } })}
-								className='view-all'
-							>
-								Make Default
-							</Button>
-							<IconButton
-								onClick={() => deleteImage({ variables: { id: userImgs[1].id } })}
-								className='delete-img'
-							>
-								<Delete />
-							</IconButton>
+							{userImgs[1] ? (
+								<Fragment>
+									<Button
+										onClick={() =>
+											setDefaultImg({ variables: { id: userImgs[1].id } })}
+										className='view-all'
+									>
+										Make Default
+									</Button>
+									<IconButton
+										onClick={() =>
+											deleteImage({ variables: { id: userImgs[1].id } })}
+										className='delete-img'
+									>
+										<Delete />
+									</IconButton>
+								</Fragment>
+							) : null}
 						</div>
 					</GridItem>
 					<GridItem sm={6} md={4} lg={4}>

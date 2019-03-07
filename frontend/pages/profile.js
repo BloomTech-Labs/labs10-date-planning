@@ -3,15 +3,16 @@ import redirect from '../utils/redirect';
 import User from '../components/Queries/User';
 import Profile from '../components/Profile';
 import Header from '../components/Header';
-import Messages from '../components/Profile/Messages';
+
 import JoinUs from './joinus';
 
 const ProfilePage = () => (
 	<User>
-		{({ data, loading }) => {
+		{({ data, loading, error }) => {
+			console.log('profile.js', data, loading)
 			if (loading) return <div>loading</div>;
 			if (!data.currentUser) return <JoinUs />;
-			else return <><Header color='warning'/><Profile /><Messages /></>;
+			else return <><Header color='warning' currentUser={data.currentUser}/><Profile currentUser={data.currentUser}/></>;
 		}}
 	</User>
 );
