@@ -10,7 +10,7 @@ const SettingsPage = () => (
 		{({ data, loading }) => {
 			if (loading) return <div>loading</div>;
 			if (!data.currentUser) return <JoinUs />;
-			else return (<><Header color='warning'/><Settings /></>);
+			else return (<><Header color='warning' currentUser={data.currentUser}/><Settings /></>);
 		}}
 	</User>
 )

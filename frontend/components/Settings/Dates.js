@@ -18,21 +18,23 @@ const Dates = ({ classes }) => {
 	return (
 		<User>
 			{({ data: { currentUser } }) => {
-				return (
-					<div style={{ marginLeft: '34px' }} className={classes.container}>
-						<GridContainer>
-							{currentUser.events.length ? (
-								currentUser.events.map(date => (
-									<Date key={date.id} date={date} currentUser={currentUser} />
-								))
-							) : (
-								<div>
-									<p>You don't have any dates yet!</p>
-								</div>
-							)}
-						</GridContainer>
-					</div>
-				);
+				if (!currentUser) return <div>loading</div>;
+				else
+					return (
+						<div style={{ marginLeft: '34px' }} className={classes.container}>
+							<GridContainer>
+								{currentUser.events.length ? (
+									currentUser.events.map(date => (
+										<Date key={date.id} date={date} currentUser={currentUser} />
+									))
+								) : (
+									<div>
+										<p>You don't have any dates yet!</p>
+									</div>
+								)}
+							</GridContainer>
+						</div>
+					);
 			}}
 		</User>
 	);

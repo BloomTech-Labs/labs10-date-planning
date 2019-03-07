@@ -34,7 +34,9 @@ const Composed = adopt({
 
 	user: ({ render }) => <Query query={CURRENT_USER_QUERY}>{render}</Query>,
 	location: ({ user, render }) => (
-		<Value initial={user.data.currentUser.location || 'Los Angeles, CA'}>{render}</Value>
+		<Value initial={user.data.currentUser ? user.data.currentUser.location : 'Los Angeles, CA'}>
+			{render}
+		</Value>
 	),
 	filters: <State initial={{ cats: [], genres: [], dates: [] }} />,
 	getEvents: ({ page, location, filters, render }) => (
@@ -82,7 +84,7 @@ const Events = ({ classes, newUser, router, href }) => {
 						{router.query.user && <UserModal user={router.query.user} />}
 						<svg
 							style={{ width: 0, height: 0, position: 'absolute' }}
-							ariaHidden='true'
+							aria-hidden='true'
 							focusable='false'
 						>
 							<linearGradient id='favoriteID' x2='1' y2='1'>
@@ -93,7 +95,7 @@ const Events = ({ classes, newUser, router, href }) => {
 						</svg>
 						<svg
 							style={{ width: 0, height: 0, position: 'absolute' }}
-							ariaHidden='true'
+							aria-hidden='true'
 							focusable='false'
 						>
 							<linearGradient id='chatID' x2='1' y2='1'>
@@ -126,7 +128,8 @@ const Events = ({ classes, newUser, router, href }) => {
 											Showing events near {location.value}.
 										</p>
 										<div className={classes.drawerContainer}>
-											{currentUser.location !== location.value ? (
+											{currentUser &&
+											currentUser.location !== location.value ? (
 												<Primary>
 													<b
 														onClick={() => {

@@ -6,16 +6,16 @@ import User, { isLoggedIn } from '../components/Queries/User';
 import redirect from '../utils/redirect';
 
 const Home = ({ query }) => {
-	console.log(query)
+	
 	return (
 	<User>
 		{({ data, loading }) => {
-			console.log(data)
+			console.log(data, loading)
 			if (loading) return <div>loading</div>;
 			if ( !data.currentUser) return <JoinUs />;
 			else return (
 				<>
-					<Header color='primary' />
+					<Header color='primary' currentUser={data.currentUser}/>
 					<Events  newUser={query && query.welcome} />
 				</>
 			);

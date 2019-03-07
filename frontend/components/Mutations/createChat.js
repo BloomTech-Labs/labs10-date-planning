@@ -13,7 +13,10 @@ export const CREATE_CHAT_MUTATION = gql`
 				text
 				from {
 					firstName
-					imageThumbnail
+					img {
+						default
+						img_url
+					}
 				}
 				createdAt
 			}

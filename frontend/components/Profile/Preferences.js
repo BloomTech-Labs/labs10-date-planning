@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { useQuery, useMutation } from 'react-apollo-hooks';
+import { useQuery } from 'react-apollo-hooks';
+import { useMutation } from '../Mutations/useMutation';
 import InputRange from 'react-input-range';
 import NProgress from 'nprogress';
 //MUI
@@ -19,8 +20,11 @@ const Preferences = ({ classes, user, drawerOpen, setDrawerOpen }) => {
 		max: user.maxAgePref || 50,
 	});
 	const [ genderPref, setGenderPref ] = useState(user.genderPrefs || []);
-	const [ bio, setBio ] = useState('');
-	const updateUser = useMutation(UPDATE_USER_MUTATION);
+	const [ bio, setBio ] = useState(user.biography || '');
+	const [ updateUser ] = useMutation(UPDATE_USER_MUTATION, {
+		onCompleted: () => NProgress.done(),
+		onError: () => NProgress.done(),
+	});
 
 	return (
 		<Drawer
@@ -48,7 +52,19 @@ const Preferences = ({ classes, user, drawerOpen, setDrawerOpen }) => {
 					placeholder: 'Write a little about yourself',
 				}}
 			/>
-
+			<Button
+				style={{ marginBottom: '20px' }}
+				onClick={() => {
+					NProgress.start();
+					updateUser({
+						variables: {
+							biography: bio,
+						},
+					});
+				}}
+			>
+				Set Bio
+			</Button>
 			<InputLabel htmlFor='multiple-select' className={classes.selectLabel}>
 				Gender preferences
 			</InputLabel>

@@ -7,7 +7,10 @@ export const ALL_CHATS_QUERY = gql`
 			users {
 				id
 				firstName
-				imageThumbnail
+				img {
+					default
+					img_url
+				}
 				dob
 				gender
 			}
@@ -19,7 +22,10 @@ export const ALL_CHATS_QUERY = gql`
 				from {
 					id
 					firstName
-					imageThumbnail
+					img {
+						default
+						img_url
+					}
 					dob
 					gender
 				}

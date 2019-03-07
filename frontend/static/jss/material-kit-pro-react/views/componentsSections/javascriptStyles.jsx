@@ -88,47 +88,47 @@ const javascriptStyles = theme => {
 		},
 		//Additions
 		downshiftContainer: {
-			width: '100%'
+			width: '100%',
 		},
-		downshiftPaper : {
+		downshiftPaper: {
 			position: 'absolute',
 			zIndex: 2,
-			width: '90%'
+			width: '90%',
 		},
 
-		newUserContainer : {
+		newUserContainer: {
 			display: 'flex',
 			flexDirection: 'column',
-			alignItems: 'center'
+			alignItems: 'center',
 		},
-		userModalHeader : {
-			backgroundImage: 'linear-gradient(to right, #b2ddf7, #a8daf9, #9fd8fb, #94d5fd, #8ad2ff)',
+		userModalHeader: {
+			backgroundImage:
+				'linear-gradient(to right, #b2ddf7, #a8daf9, #9fd8fb, #94d5fd, #8ad2ff)',
 			paddingBottom: '24px',
 		},
-		liked : {
+		liked: {
 			'&:hover': {
 				'& svg': {
-					fill: '#ff101f'
-				}
-			}
+					fill: '#ff101f',
+				},
+			},
 		},
-		blocked : {
+		blocked: {
 			'&:hover': {
 				'& svg': {
-					fill: '#fafafa'
-				}
-			}
+					fill: '#fafafa',
+				},
+			},
 		},
 		chatBorder: {
 			border: '2px solid #c8c8c8',
 			borderRadius: '6px',
-			padding: '10px'
+			padding: '10px',
 		},
 		chat: {
 			height: '452px',
 			overflowY: 'scroll',
-		}
-
+		},
 	};
 };
 
