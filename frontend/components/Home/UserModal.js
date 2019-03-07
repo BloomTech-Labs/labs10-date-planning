@@ -113,14 +113,7 @@ const EventModal = ({ classes, user, router }) => {
 	const [ message, setMessage ] = useState('');
 	console.log(router);
 	//let isLiked =
-	const modalHeader = {
-		// backgroundColor: '#81d6e3',
-		backgroundImage: 'linear-gradient(to top, #8ad2ff, #94d5fd, #9fd8fb, #a8daf9, #b2ddf7)',
-		borderTopLeftRadius: '6px',
-		borderTopRightRadius: '6px',
-		paddingBottom: '15px',
-		color: '#fafafa',
-	};
+	
 
 	return (
 		<Composed matchId={user}>
@@ -158,8 +151,7 @@ const EventModal = ({ classes, user, router }) => {
 							<DialogTitle
 								id='notice-modal-slide-title'
 								disableTypography
-								className={classes.modalHeader}
-								style={modalHeader}
+								className={`${classes.modalHeader} ${classes.userModalHeader}`}
 							>
 								{' '}
 								<Button
@@ -192,10 +184,10 @@ const EventModal = ({ classes, user, router }) => {
 									>
 										{match.firstName} | {getAge(match.dob)}
 									</h4>
-									<IconButton onClick={() => (isLiked ? unlike() : like())}>
+									<IconButton className={classes.liked} onClick={() => (isLiked ? unlike() : like())}>
 										{isLiked ? <Favorite /> : <FavoriteBorder />}
 									</IconButton>
-									<IconButton onClick={() => block()}>
+									<IconButton className={classes.blocked} onClick={() => block()}>
 										<NotInterested />
 									</IconButton>
 								</div>
@@ -266,7 +258,7 @@ const EventModal = ({ classes, user, router }) => {
 														multiline: true,
 														rows: 6,
 														placeholder:
-															' Write some nice stuff or nothing...',
+															`Find out what ${match.firstName}'s up for!`,
 														value: message,
 														onChange: e => setMessage(e.target.value),
 													}}
