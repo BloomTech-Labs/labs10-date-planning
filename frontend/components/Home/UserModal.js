@@ -131,6 +131,13 @@ const EventModal = ({ classes, user, router }) => {
 			}) => {
 				let match = potentialMatch.data ? potentialMatch.data.user : null;
 				let isLiked = currentUser.liked.find(user => user.id === id.value);
+				let userImg =
+					currentUser.img.find(img => img.default) &&
+					currentUser.img.find(img => img.default).img_url;
+				let matchImg = match
+					? match.img.find(img => img.default) &&
+						match.img.find(img => img.default).img_url
+					: null;
 				if (!match) return <div />;
 				else {
 					NProgress.done();
@@ -178,15 +185,26 @@ const EventModal = ({ classes, user, router }) => {
 										className={classes.modalClose}
 									/>
 								</Button>
-								<div style={{ display: 'flex', alignItems: 'center' }}>
+								<div
+									style={{
+										display: 'flex',
+										alignItems: 'center',
+										justifyContent: 'center',
+										position: 'relative',
+										left: '50px',
+									}}
+								>
 									<h4
 										style={{
 											fontWeight: 700,
+											color: '#fafafa',
+											marginRight: '10px',
+											fontSize: '40px',
 										}}
 										className={classes.modalTitle}
 									>
-										{match.firstName}
-										<span style={{ padding: '0 3px' }}>&#8226;</span>
+										{match.firstName.toUpperCase()}{' '}
+										<span style={{ padding: '0 3px' }}>&#8226;</span>{' '}
 										{getAge(match.dob)}
 									</h4>
 									<IconButton
@@ -215,7 +233,7 @@ const EventModal = ({ classes, user, router }) => {
 
 											height: '452px',
 										}}
-										src={match.imageLarge}
+										src={matchImg}
 									/>
 									{match.biography && (
 										<div className='gradient-box'>
@@ -234,28 +252,34 @@ const EventModal = ({ classes, user, router }) => {
 									>
 										{convo.data.getConversation &&
 											convo.data.getConversation.messages &&
-											convo.data.getConversation.messages.map(message => (
-												<Media
-													currentUser={message.from.id === currentUser.id}
-													key={message.id}
-													avatar={message.from.imageThumbnail}
-													title={
-														<span>
-															{message.from.firstName}{' '}
-															<small>· {moment(message.createdAt).fromNow()}</small>
-														</span>
-													}
-													body={
-														<span>
-															<p>{message.text}</p>
-														</span>
-													}
-												/>
-											))}
+											convo.data.getConversation.messages.map(message => {
+												let img = message.from.img.find(img => img.default)
+													.img_url;
+												return (
+													<Media
+														currentUser={
+															message.from.id === currentUser.id
+														}
+														key={message.id}
+														avatar={img}
+														title={
+															<span>
+																{message.from.firstName}{' '}
+																<small>· {moment(message.createdAt).fromNow()}</small>
+															</span>
+														}
+														body={
+															<span>
+																<p>{message.text}</p>
+															</span>
+														}
+													/>
+												);
+											})}
 									</div>
 									<div>
 										<Media
-											avatar={currentUser.imageLarge}
+											avatar={userImg}
 											body={
 												<CustomInput
 													id='logged'

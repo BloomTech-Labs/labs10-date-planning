@@ -35,7 +35,10 @@ export const ALL_EVENTS_QUERY = gql`
 					id
 					dob
 					firstName
-					imageThumbnail
+					img {
+						default
+						img_url
+					}
 					biography
 					imageLarge
 					score

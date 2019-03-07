@@ -56,7 +56,7 @@ const Event = ({ event, classes, user, refetch }) => {
 	const divEl = useRef(null);
 	const imgEl = useRef(null);
 	let isSaved = user.events.find(e => e.id === event.id);
-
+	console.log(event);
 	useEffect(
 		() => {
 			if (divEl) {
@@ -220,7 +220,7 @@ const Event = ({ event, classes, user, refetch }) => {
 									{event.attending.map(usr => (
 										<img
 											key={usr.id}
-											src={usr.imageThumbnail}
+											// src={usr.img.find(img => img.default).img_url}
 											style={{
 												width: '30px',
 												height: '30px',
@@ -263,12 +263,6 @@ const Event = ({ event, classes, user, refetch }) => {
 								className={`${classes.cardBodyRotate} ${classes.cardBodyReverse}`}
 							>
 								<div className={classes.cardBodyRotateHeader}>
-									<IconButton
-										style={{ height: '30px', width: '30px' }}
-										onClick={() => setRotate('')}
-									>
-										<ChevronLeft />
-									</IconButton>
 									<div>
 										<h3 className={classes.cardTitle}>
 											<a href='#' onClick={e => e.preventDefault()}>
@@ -331,7 +325,9 @@ const Event = ({ event, classes, user, refetch }) => {
 													className={` gradient_border ${classes.userCardBorder}`}
 												>
 													<Avatar
-														src={usr.imageThumbnail}
+														// src={
+														// 	usr.img.find(img => img.default).img_url
+														// }
 														imgProps={{ height: 70, width: 70 }}
 														style={{
 															width: '100%',
