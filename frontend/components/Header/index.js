@@ -39,18 +39,18 @@ const SIGNOUT_MUTATION = gql`
 		}
 	}
 `;
-const Nav = ({ classes, color, router, href }) => {
-	const { data, loading, refetch } = useQuery(ALL_CHATS_QUERY);
+const Nav = ({ classes, color, router, href, currentUser }) => {
+	const { data, loading, refetch } = useQuery(ALL_CHATS_QUERY, { pollInterval: 60000 });
 
-	useEffect(() => {
-		start();
-		return () => {
-			stop();
-		};
-	}, []);
-	const { start, stop } = useInterval(() => {
-		refetch();
-	}, 60000);
+	// useEffect(() => {
+	// 	start();
+	// 	return () => {
+	// 		stop();
+	// 	};
+	// }, []);
+	// const { start, stop } = useInterval(() => {
+	// 	refetch();
+	// }, 60000);
 
 	const handleClick = (e, signout, client) => {
 		if (e === 'Sign out') {
@@ -85,164 +85,154 @@ const Nav = ({ classes, color, router, href }) => {
 			return [ ...count, ...newcount ];
 		}, []);
 	};
-	return (
-		<User>
-			{({ data: { currentUser }, client }) => {
-				let chats = data.getUserChats ? formattedChats(data.getUserChats, currentUser) : [];
-				let newMessages = data.getUserChats
-					? newMessageCount(data.getUserChats, currentUser)
-					: [];
-				let profileImage = currentUser && currentUser.img.find(img => img.default).img_url;
-				return (
-					<Header
-						color={color}
-						//brand={Logo}
-						fixed={color === 'transparent'}
-						changeColorOnScroll={
-							color === 'transparent' ? (
-								{
-									height: 300,
-									color: 'warning',
-								}
-							) : null
-						}
-						links={
-							<List className={classes.list + ' ' + classes.mlAuto}>
-								<ListItem className={classes.listItem}>
-									<Button
-										className={classes.navLink}
-										onClick={e => {
-											e.preventDefault();
-											Router.push('/');
-										}}
-										color='transparent'
-									>
-										<Explore /> Discover
-									</Button>
-								</ListItem>
-								<ListItem className={classes.listItem}>
-									<Button
-										className={classes.navLink}
-										onClick={e => {
-											e.preventDefault();
-											Router.push('/profile');
-										}}
-										color='transparent'
-									>
-										<AccountCircle /> Me
-									</Button>
-								</ListItem>
 
-								<ListItem style={{bottom: '5px'}}className={classes.listItem}>
+	let chats = data.getUserChats ? formattedChats(data.getUserChats, currentUser) : [];
+	let newMessages = data.getUserChats ? newMessageCount(data.getUserChats, currentUser) : [];
+	let profileImage = currentUser && currentUser.img.find(img => img.default).img_url;
+	return (
+		<Header
+			color={color}
+			//brand={Logo}
+			fixed={color === 'transparent'}
+			changeColorOnScroll={
+				color === 'transparent' ? (
+					{
+						height: 300,
+						color: 'warning',
+					}
+				) : null
+			}
+			links={
+				<List className={classes.list + ' ' + classes.mlAuto}>
+					<ListItem className={classes.listItem}>
+						<Button
+							className={classes.navLink}
+							onClick={e => {
+								e.preventDefault();
+								Router.push('/');
+							}}
+							color='transparent'
+						>
+							<Explore /> Discover
+						</Button>
+					</ListItem>
+					<ListItem className={classes.listItem}>
+						<Button
+							className={classes.navLink}
+							onClick={e => {
+								e.preventDefault();
+								Router.push('/profile');
+							}}
+							color='transparent'
+						>
+							<AccountCircle /> Me
+						</Button>
+					</ListItem>
+
+					<ListItem style={{ bottom: '5px' }} className={classes.listItem}>
+						<CustomDropdown
+							left
+							caret={false}
+							hoverColor='dark'
+							dropdownHeader={
+								newMessages.length && newMessages.length + ' new messages!'
+							}
+							buttonText={
+								<Badge badgeContent={newMessages.length} color='error'>
+									<Mail />
+								</Badge>
+							}
+							buttonProps={{
+								className: classes.navLink + ' ' + classes.imageDropdownButton,
+								color: 'transparent',
+							}}
+							dropdownList={
+								chats ? (
+									chats.map(chat => (
+										<div
+											onClick={() =>
+												Router.push(
+													`${router.pathname}?user=${chat.fromId}`,
+													`${router.pathname}?user=${chat.fromId}`,
+													{ shallow: true },
+													{ scroll: false },
+												)}
+											style={{
+												display: 'flex',
+												backgroundColor: newMessages.some(
+													msg => msg.chat.id === chat.id,
+												)
+													? 'pink'
+													: 'white',
+											}}
+										>
+											<img
+												src={chat.img}
+												style={{
+													width: '40px',
+													height: '40px',
+													borderRadius: '50%',
+												}}
+											/>
+											<div>
+												<div>{chat.from}</div>
+												<div>{chat.text}</div>
+											</div>
+										</div>
+									))
+								) : (
+									[]
+								)
+							}
+						/>
+					</ListItem>
+					<Mutation
+						mutation={SIGNOUT_MUTATION}
+						refetchQueries={[ { query: CURRENT_USER_QUERY } ]}
+						awaitRefetchQueries
+					>
+						{(signout, { called }) => {
+							{
+								/* if (called) Router.push('/joinus'); */
+							}
+							return (
+								<ListItem
+									style={{ marginLeft: '10px' }}
+									className={classes.listItem}
+								>
 									<CustomDropdown
 										left
 										caret={false}
 										hoverColor='dark'
-										dropdownHeader={
-											newMessages.length &&
-											newMessages.length + ' new messages!'
-										}
+										dropdownHeader={currentUser && currentUser.firstName}
 										buttonText={
-											<Badge badgeContent={newMessages.length} color='error'>
-												<Mail />
-											</Badge>
+											<img
+												src={
+													currentUser && profileImage ? (
+														profileImage
+													) : (
+														profileStandIn
+													)
+												}
+												className={classes.img}
+												alt='profile'
+											/>
 										}
 										buttonProps={{
 											className:
 												classes.navLink + ' ' + classes.imageDropdownButton,
 											color: 'transparent',
 										}}
-										dropdownList={
-											chats ? (
-												chats.map(chat => (
-													<div
-														onClick={() =>
-															Router.push(
-																`${router.pathname}?user=${chat.fromId}`,
-																`${router.pathname}?user=${chat.fromId}`,
-																{ shallow: true },
-																{ scroll: false },
-															)}
-														style={{
-															display: 'flex',
-															backgroundColor: newMessages.some(
-																msg => msg.chat.id === chat.id,
-															)
-																? 'pink'
-																: 'white',
-														}}
-													>
-														<img
-															src={chat.img}
-															style={{
-																width: '40px',
-																height: '40px',
-																borderRadius: '50%',
-															}}
-														/>
-														<div>
-															<div>{chat.from}</div>
-															<div>{chat.text}</div>
-														</div>
-													</div>
-												))
-											) : (
-												[]
-											)
-										}
+										dropdownList={[ 'Billing', 'Sign out' ]}
+										onClick={e => handleClick(e, signout, client)}
 									/>
 								</ListItem>
-								<Mutation
-									mutation={SIGNOUT_MUTATION}
-									refetchQueries={[ { query: CURRENT_USER_QUERY } ]}
-									awaitRefetchQueries
-								>
-									{(signout, { called }) => {
-										{
-											/* if (called) Router.push('/joinus'); */
-										}
-										return (
-											<ListItem style={{marginLeft: '10px'}} className={classes.listItem}>
-												<CustomDropdown
-													left
-													caret={false}
-													hoverColor='dark'
-													dropdownHeader={
-														currentUser && currentUser.firstName
-													}
-													buttonText={
-														<img
-															src={
-																currentUser && profileImage ? (
-																	profileImage
-																) : (
-																	profileStandIn
-																)
-															}
-															className={classes.img}
-															alt='profile'
-														/>
-													}
-													buttonProps={{
-														className:
-															classes.navLink +
-															' ' +
-															classes.imageDropdownButton,
-														color: 'transparent',
-													}}
-													dropdownList={[ 'Billing', 'Sign out' ]}
-													onClick={e => handleClick(e, signout, client)}
-												/>
-											</ListItem>
-										);
-									}}
-								</Mutation>
-							</List>
-						}
-					/>
-				);
-			}}
-		</User>
+							);
+						}}
+					</Mutation>
+				</List>
+			}
+		/>
 	);
 };
 

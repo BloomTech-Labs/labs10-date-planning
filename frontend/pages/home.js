@@ -15,7 +15,7 @@ const Home = ({ query }) => {
 			if ( !data.currentUser) return <JoinUs />;
 			else return (
 				<>
-					<Header color='primary' />
+					<Header color='primary' currentUser={data.currentUser}/>
 					<Events  newUser={query && query.welcome} />
 				</>
 			);

@@ -17,13 +17,13 @@ const MessageList = ({ selectedChat, currentUser, selectedChatId }) => {
 		<Query query={GET_CONVERSATION_QUERY} variables={{ id: friend.id }}>
       {
         ({ data: { getConversation } }) => {
-          if (!getConversation) return null
+          if (!getConversation) return <div>loading</div>
           return (
             <div>
               {
                 getConversation.messages.map(message => (
                   <div id={message.id}>
-                    {`${message.from.id ===  currentUser.id ? 'You: ' : ''}${message.text}`}
+                    {`${message.from.id ===  currentUser.id ? 'You: ' : message.from.firstName}${message.text}`}
                   </div>
                 ))
               }
@@ -36,11 +36,11 @@ const MessageList = ({ selectedChat, currentUser, selectedChatId }) => {
                   <Mutation
                     mutation={SEND_MESSAGE_MUTATION}
                     variables={{ id: friend.id, message: message }}
-                    awaitRefetchQueries
-                    refetchQueries={[
-                      { query: GET_CONVERSATION_QUERY, variables: { id: friend.id } },
-                      { query: ALL_CHATS_QUERY}
-                    ]}
+                    // awaitRefetchQueries
+                    // refetchQueries={[
+                    //   { query: GET_CONVERSATION_QUERY, variables: { id: friend.id } },
+                    //   { query: ALL_CHATS_QUERY}
+                    // ]}
                   >
                     {sendMessage => <button onClick={() => {
                       sendMessage()
