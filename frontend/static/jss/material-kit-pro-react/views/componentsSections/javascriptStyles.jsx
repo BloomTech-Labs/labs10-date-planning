@@ -118,7 +118,7 @@ const javascriptStyles = theme => {
 					fill: '#fafafa'
 				}
 			}
-		}
+		},
 
 	};
 };

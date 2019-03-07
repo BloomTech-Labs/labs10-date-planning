@@ -224,14 +224,14 @@ const EventModal = ({ classes, user, router }) => {
 								classes={{ root: 'dialogContent' }}
 								className={classes.modalBody}
 							>
-								<div>
+								<div style={{marginRight: '20px'}}>
 									<img
 										style={{
 											margin: '20px 0',
 											borderRadius: '6px',
 											overflow: 'hidden',
 
-											height: '452px',
+											height: '375px',
 										}}
 										src={matchImg}
 									/>
