@@ -8,10 +8,10 @@ type Mutation {
 	resetPassword(resetToken: String!, password: String!, confirmPassword: String!): User!
 	internalPasswordReset(oldPassword: String!, newPassword1: String!, newPassword2: String!): User!
 	signout: Message
-	updateImage(thumbnail: String!, image: String!): User!
+	updateDefaultImage(id: String!): User!
 	updateLocation(city: String!): User!
 	addEvent(event: AddEventInput): Event
-	deleteEvent(id: String!, eventId: String!): User!
+	deleteEvent(id: String!, eventId: String!): ProfilePic!
 	createOrder(token: String!, subscription: Permission!): Message
 	cancelSubscription(id: String!): User!
 	updateUser(data: UserUpdateInput!): User

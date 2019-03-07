@@ -55,7 +55,7 @@ const Profile = ({ classes, theme, router }) => {
 					currentUser.img.find(img => img.default).img_url;
 				return (
 					<div className='Profile__background'>
-						<ImageModal modal={modal} showModal={showModal} />
+						<ImageModal modal={modal} showModal={showModal} user={currentUser} />
 						{router.query.user && <UserModal user={router.query.user} />}
 						<Preferences
 							user={currentUser}

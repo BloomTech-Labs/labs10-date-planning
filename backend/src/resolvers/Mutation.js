@@ -137,7 +137,7 @@ const Mutation = {
 		// });
 		return { message: 'Thanks!' };
 	},
-	async updateImage(parent, { thumbnail, image }, { db, request }, info) {
+	async updateDefaultImage(parent, { id }, { db, request }, info) {
 		const { userId, user } = request;
 		if (!userId) throw new Error('You must be logged in!');
 
@@ -147,8 +147,28 @@ const Mutation = {
 					id: user.id,
 				},
 				data: {
-					imageThumbnail: thumbnail,
-					imageLarge: image,
+					img: {
+						update: [
+							{
+								where: {
+									id,
+								},
+								data: {
+									default: true,
+								},
+							},
+						],
+						updateMany: [
+							{
+								where: {
+									id_not: id,
+								},
+								data: {
+									default: false,
+								},
+							},
+						],
+					},
 				},
 			},
 			info,
