@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect, Fragment, useRef } from 'react';
 import { withApollo, Mutation, Query } from 'react-apollo';
 import moment from 'moment';
 import NProgress from 'nprogress';
@@ -113,8 +113,17 @@ const Composed = adopt({
 
 const EventModal = ({ classes, user, router }) => {
 	const [ message, setMessage ] = useState('');
-	console.log(router);
+	const msgRef = useRef(null);
+	//console.log(msgRef.current);
 	//let isLiked =
+	useEffect(
+		() => {
+			if (msgRef.current) {
+				msgRef.current.scrollTop = msgRef.current.scrollHeight;
+			}
+		},
+		[ msgRef.current ],
+	);
 
 	return (
 		<Composed matchId={user}>
@@ -248,6 +257,7 @@ const EventModal = ({ classes, user, router }) => {
 								</div>
 								<div>
 									<div
+										ref={msgRef}
 										style={{
 											height: '452px',
 

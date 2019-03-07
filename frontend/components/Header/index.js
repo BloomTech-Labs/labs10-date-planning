@@ -41,7 +41,7 @@ const SIGNOUT_MUTATION = gql`
 `;
 const Nav = ({ classes, color, router, href }) => {
 	const { data, loading, refetch } = useQuery(ALL_CHATS_QUERY);
-	console.log(router, href);
+
 	useEffect(() => {
 		start();
 		return () => {

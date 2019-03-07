@@ -56,7 +56,7 @@ const Event = ({ event, classes, user, refetch }) => {
 	const divEl = useRef(null);
 	const imgEl = useRef(null);
 	let isSaved = user.events.find(e => e.id === event.id);
-	console.log(event);
+
 	useEffect(
 		() => {
 			if (divEl) {
