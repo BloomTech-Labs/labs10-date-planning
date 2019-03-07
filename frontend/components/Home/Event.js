@@ -263,12 +263,6 @@ const Event = ({ event, classes, user, refetch }) => {
 								className={`${classes.cardBodyRotate} ${classes.cardBodyReverse}`}
 							>
 								<div className={classes.cardBodyRotateHeader}>
-									<IconButton
-										style={{ height: '30px', width: '30px' }}
-										onClick={() => setRotate('')}
-									>
-										<ChevronLeft />
-									</IconButton>
 									<div>
 										<h3 className={classes.cardTitle}>
 											<a href='#' onClick={e => e.preventDefault()}>

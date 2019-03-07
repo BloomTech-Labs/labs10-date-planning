@@ -175,14 +175,17 @@ const EventModal = ({ classes, user, router }) => {
 										className={classes.modalClose}
 									/>
 								</Button>
-								<div style={{ display: 'flex', alignItems: 'center' }}>
+								<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', left: '50px'}}>
 									<h4
 										style={{
 											fontWeight: 700,
+											color: '#fafafa',
+											marginRight: '10px',
+											fontSize: '40px'
 										}}
 										className={classes.modalTitle}
 									>
-										{match.firstName} | {getAge(match.dob)}
+										{match.firstName.toUpperCase()} | {getAge(match.dob)}
 									</h4>
 									<IconButton className={classes.liked} onClick={() => (isLiked ? unlike() : like())}>
 										{isLiked ? <Favorite /> : <FavoriteBorder />}
