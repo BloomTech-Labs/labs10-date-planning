@@ -2,7 +2,7 @@ import React from 'react';
 
 const ChatList = ({ userChats, currentUser, handleSelectMessage }) => {
 	return (
-		<div style={{ marginLeft: '40px' }}>
+		<div style={{ marginLeft: '40px', marginRight: '40px' }}>
 			{userChats &&
 				userChats.map(chat => {
 					let match = chat.users.find(usr => usr.id !== currentUser.id);
@@ -10,13 +10,13 @@ const ChatList = ({ userChats, currentUser, handleSelectMessage }) => {
 						<div
 							key={chat.id}
 							onClick={() => handleSelectMessage(chat.id)}
-							style={{ borderBottom: '2px solid black', display: 'flex', maxWidth: '300px', wordBreak: 'break-all' }}
+							style={{ borderBottom: '2px solid black', display: 'flex', maxWidth: '300px', wordBreak: 'break-all', marginBottom:'20px' }}
 						>
 							<img
 								src={match.img.find(img => img.default).img_url}
 								style={{ width: '50px', height: '50px', borderRadius: '50%' }}
 							/>
-							<div>
+							<div style={{marginBottom: '20px'}}>
 								<div>{match.firstName}</div>
 								<div>
 									{`${chat.messages[chat.messages.length - 1].from.id ===
