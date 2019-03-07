@@ -7,6 +7,8 @@ import { useQuery } from 'react-apollo-hooks';
 import useInterval from '@rooks/use-interval';
 import { withRouter } from 'next/router';
 
+import {Paper} from '@material-ui/core'
+
 import withStyles from '@material-ui/core/styles/withStyles';
 
 import User, { CURRENT_USER_QUERY } from '../Queries/User';
@@ -59,11 +61,11 @@ const Messages = ({ classes, color, router, href, user }) => {
 		: [];
 
 	return (
-		<div
+		<Paper
 			style={{
 				display: 'flex',
 				margin: '20px',
-				backgroundColor: '#fafafa',
+				backgroundColor: '#fafafa !important',
 				padding: '30px'
 			}}
 		>
@@ -77,7 +79,7 @@ const Messages = ({ classes, color, router, href, user }) => {
 				currentUser={user}
 				selectedChatId={selectedChatId}
 			/>
-		</div>
+		</Paper>
 	);
 };
 
