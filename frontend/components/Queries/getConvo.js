@@ -14,7 +14,10 @@ export const GET_CONVERSATION_QUERY = gql`
 				from {
 					id
 					firstName
-					imageThumbnail
+					img {
+						default
+						img_url
+					}
 				}
 				createdAt
 			}

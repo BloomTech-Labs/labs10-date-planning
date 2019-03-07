@@ -33,10 +33,12 @@ import {
 } from '../Mutations/updateUser';
 //Components
 import InfoModal from './InfoModal';
+import Transition from '../Transistion';
 //StyledComponents
 import Button from '../../styledComponents/CustomButtons/Button';
 import CustomInput from '../../styledComponents/CustomInput/CustomInput.jsx';
 import Media from '../../styledComponents/Media/Media.jsx';
+
 //styles
 import styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles.jsx';
 import '../../styles/Home/EventModal.scss';
@@ -113,7 +115,6 @@ const EventModal = ({ classes, user, router }) => {
 	const [ message, setMessage ] = useState('');
 	console.log(router);
 	//let isLiked =
-	
 
 	return (
 		<Composed matchId={user}>
@@ -130,6 +131,13 @@ const EventModal = ({ classes, user, router }) => {
 			}) => {
 				let match = potentialMatch.data ? potentialMatch.data.user : null;
 				let isLiked = currentUser.liked.find(user => user.id === id.value);
+				let userImg =
+					currentUser.img.find(img => img.default) &&
+					currentUser.img.find(img => img.default).img_url;
+				let matchImg = match
+					? match.img.find(img => img.default) &&
+						match.img.find(img => img.default).img_url
+					: null;
 				if (!match) return <div />;
 				else {
 					NProgress.done();
@@ -140,20 +148,23 @@ const EventModal = ({ classes, user, router }) => {
 								paper: classes.modalLarge,
 							}}
 							open={user}
-							// TransitionComponent={Transition}
-							//keepMounted
+							TransitionComponent={Transition}
 							scroll='body'
-							onClose={() => showModal(false)}
+							onClose={() =>
+								Router.push(
+									router.pathname,
+									router.pathname,
+									{ shallow: true },
+									{ scroll: false },
+								)}
 							aria-labelledby='notice-modal-slide-title'
 							aria-describedby='notice-modal-slide-description'
-							//style={{ height: '700px' }}
 						>
 							<DialogTitle
 								id='notice-modal-slide-title'
 								disableTypography
 								className={`${classes.modalHeader} ${classes.userModalHeader}`}
 							>
-								{' '}
 								<Button
 									simple
 									className={classes.modalCloseButton}
@@ -169,25 +180,37 @@ const EventModal = ({ classes, user, router }) => {
 										);
 									}}
 								>
-									{' '}
 									<Close
 										style={{ color: '#fafafa' }}
 										className={classes.modalClose}
 									/>
 								</Button>
-								<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', left: '50px'}}>
+								<div
+									style={{
+										display: 'flex',
+										alignItems: 'center',
+										justifyContent: 'center',
+										position: 'relative',
+										left: '50px',
+									}}
+								>
 									<h4
 										style={{
 											fontWeight: 700,
 											color: '#fafafa',
 											marginRight: '10px',
-											fontSize: '40px'
+											fontSize: '40px',
 										}}
 										className={classes.modalTitle}
 									>
-										{match.firstName.toUpperCase()} | {getAge(match.dob)}
+										{match.firstName.toUpperCase()}{' '}
+										<span style={{ padding: '0 3px' }}>&#8226;</span>{' '}
+										{getAge(match.dob)}
 									</h4>
-									<IconButton className={classes.liked} onClick={() => (isLiked ? unlike() : like())}>
+									<IconButton
+										className={classes.liked}
+										onClick={() => (isLiked ? unlike() : like())}
+									>
 										{isLiked ? <Favorite /> : <FavoriteBorder />}
 									</IconButton>
 									<IconButton className={classes.blocked} onClick={() => block()}>
@@ -210,13 +233,18 @@ const EventModal = ({ classes, user, router }) => {
 
 											height: '452px',
 										}}
-										src={match.imageLarge}
+										src={matchImg}
 									/>
-									{match.biography && (
-										<div className='gradient-box'>
-											<div className='date'>{match.biography}</div>
+
+									<div className='gradient-box'>
+										<div className='date'>
+											{match.biography ? (
+												match.biography
+											) : (
+												'Hi der This is my lil fill in bio guy'
+											)}
 										</div>
-									)}
+									</div>
 								</div>
 								<div>
 									<div
@@ -229,28 +257,34 @@ const EventModal = ({ classes, user, router }) => {
 									>
 										{convo.data.getConversation &&
 											convo.data.getConversation.messages &&
-											convo.data.getConversation.messages.map(message => (
-												<Media
-													currentUser={message.from.id === currentUser.id}
-													key={message.id}
-													avatar={message.from.imageThumbnail}
-													title={
-														<span>
-															{message.from.firstName}{' '}
-															<small>· {moment(message.createdAt).fromNow()}</small>
-														</span>
-													}
-													body={
-														<span>
-															<p>{message.text}</p>
-														</span>
-													}
-												/>
-											))}
+											convo.data.getConversation.messages.map(message => {
+												let img = message.from.img.find(img => img.default)
+													.img_url;
+												return (
+													<Media
+														currentUser={
+															message.from.id === currentUser.id
+														}
+														key={message.id}
+														avatar={img}
+														title={
+															<span>
+																{message.from.firstName}{' '}
+																<small>· {moment(message.createdAt).fromNow()}</small>
+															</span>
+														}
+														body={
+															<span>
+																<p>{message.text}</p>
+															</span>
+														}
+													/>
+												);
+											})}
 									</div>
 									<div>
 										<Media
-											avatar={currentUser.imageLarge}
+											avatar={userImg}
 											body={
 												<CustomInput
 													id='logged'
@@ -260,8 +294,7 @@ const EventModal = ({ classes, user, router }) => {
 													inputProps={{
 														multiline: true,
 														rows: 6,
-														placeholder:
-															`Find out what ${match.firstName}'s up for!`,
+														placeholder: `Find out what ${match.firstName}'s up for!`,
 														value: message,
 														onChange: e => setMessage(e.target.value),
 													}}
