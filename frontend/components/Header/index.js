@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
-import Router from "next/router";
-import gql from "graphql-tag";
-import { Mutation } from "react-apollo";
-import NProgress from "nprogress";
-import { useQuery } from "react-apollo-hooks";
-import useInterval from "@rooks/use-interval";
-import { withRouter } from "next/router";
+
+import React, { useEffect, useState } from 'react';
+import Router from 'next/router';
+import gql from 'graphql-tag';
+import { Mutation, Query } from 'react-apollo';
+import NProgress from 'nprogress';
+import { useQuery } from 'react-apollo-hooks';
+import useInterval from '@rooks/use-interval';
+import { withRouter } from 'next/router';
+
 
 //MUI
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -40,19 +42,9 @@ const SIGNOUT_MUTATION = gql`
   }
 `;
 const Nav = ({ classes, color, router, href, currentUser }) => {
-  const { data, loading, refetch } = useQuery(ALL_CHATS_QUERY, {
-    pollInterval: 60000000
-  });
 
-  // useEffect(() => {
-  // 	start();
-  // 	return () => {
-  // 		stop();
-  // 	};
-  // }, []);
-  // const { start, stop } = useInterval(() => {
-  // 	refetch();
-  // }, 60000);
+	const { data, loading, refetch } = useQuery(ALL_CHATS_QUERY, { pollInterval: 600 });
+
 
   const handleClick = (e, signout, client) => {
     if (e === "Sign out") {
@@ -93,7 +85,6 @@ const Nav = ({ classes, color, router, href, currentUser }) => {
       return [...count, ...newcount];
     }, []);
   };
-
   let chats = data.getUserChats
     ? formattedChats(data.getUserChats, currentUser)
     : [];

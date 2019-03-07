@@ -9,10 +9,11 @@ import JoinUs from './joinus';
 const ProfilePage = () => (
 	<User>
 		{({ data, loading, error }) => {
-			console.log('profile.js', data, loading)
-			if (loading) return <div>loading</div>;
-			if (!data.currentUser) return <JoinUs />;
-			else return <><Header color='warning' currentUser={data.currentUser}/><Profile currentUser={data.currentUser}/></>;
+	
+			
+			//if (!data.currentUser) return <JoinUs />;
+			if (data.currentUser) return <><Header color='warning' currentUser={data.currentUser}/><Profile currentUser={data.currentUser}/></>;
+			else return  <div>hi</div>;
 		}}
 	</User>
 );

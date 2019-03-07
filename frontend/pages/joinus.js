@@ -7,7 +7,7 @@ import Home from './home';
 const Index = () => (
 	<User>
 		{({ data, loading }) => {
-			if (loading) return <div>loading</div>;
+			if (loading) return <div>hallo</div>;
 			return <Splash />;
 			//else return <Home />;
 		}}
