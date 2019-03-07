@@ -350,6 +350,7 @@ const styles = {
     // backgroundColor: "#cabac8",
     borderTopRightRadius: "6px",
     borderBottomLeftRadius: "6px",
+    boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
     backgroundImage:
       "linear-gradient(to right, #efecef, #e9e3e9, #e3dbe3, #ded2dc, #d8cad6)",
     position: "absolute",
