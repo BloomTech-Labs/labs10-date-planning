@@ -1,10 +1,61 @@
 import React from 'react';
+import { withRouter } from 'next/router';
+//MUI
 import withStyles from '@material-ui/core/styles/withStyles';
-import Button from '../../styledComponents/CustomButtons/Button';
+import Stepper from '@material-ui/core/Stepper';
+import Step from '@material-ui/core/Step';
+import StepLabel from '@material-ui/core/StepLabel';
+
+import Main from './Main';
+import Gender from './Gender';
+import GenderPrefs from './GenderPrefs';
+import Age from './Age';
+import AgePrefs from './AgePrefs';
+import Location from './Location';
+import Images from './Images';
+import Bio from './Bio';
+
 import style from '../../static/jss/material-kit-pro-react/views/signupPageStyle.jsx';
 
-const Welcome = ({ classes, user }) => {
-	console.log(user);
+function getSteps() {
+	return [
+		'Welcome',
+		'Gender',
+		'Gender Preference',
+		'Age',
+		'Age Preference',
+		'Location',
+		'Images',
+		'Bio',
+	];
+}
+
+function getStepContent(stepIndex, user) {
+	switch (stepIndex) {
+		case 0:
+			return <Main user={user} />;
+		case 1:
+			return <Gender />;
+		case 2:
+			return <GenderPrefs />;
+		case 3:
+			return <Age />;
+		case 4:
+			return <AgePrefs />;
+		case 5:
+			return <Location />;
+		case 6:
+			return <Images user={user} />;
+		case 7:
+			return <Bio />;
+		default:
+			return 'Unknown stepIndex';
+	}
+}
+
+const Welcome = ({ classes, user, router: { query } }) => {
+	console.log(user, query);
+	const steps = getSteps();
 	return (
 		<div
 			className={classes.pageHeader}
@@ -15,14 +66,26 @@ const Welcome = ({ classes, user }) => {
 				backgroundPosition: 'top center',
 			}}
 		>
-			<div className={classes.container}>
-				{' '}
-				<h2>Welcome to Up4 {user.firstName}!</h2>
-				<h3>Tell us a little about yourself...</h3>
-				<Button>Get Started</Button>
+			<div
+				style={{
+					height: '100vh',
+					display: 'flex',
+					flexDirection: 'column',
+					justifyContent: 'space-between',
+				}}
+				className={classes.container}
+			>
+				{getStepContent(parseInt(query.slug), user)}
+				<Stepper activeStep={parseInt(query.slug)} alternativeLabel>
+					{steps.map(label => (
+						<Step key={label}>
+							<StepLabel>{label}</StepLabel>
+						</Step>
+					))}
+				</Stepper>
 			</div>
 		</div>
 	);
 };
 
-export default withStyles(style)(Welcome);
+export default withRouter(withStyles(style)(Welcome));

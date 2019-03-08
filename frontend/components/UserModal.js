@@ -159,7 +159,10 @@ const EventModal = ({ classes, user, router }) => {
 				let isLiked = currentUser
 					? currentUser.liked.find(user => user.id === id.value)
 					: false;
-				let userImg = currentUser ? currentUser.img.find(img => img.default).img_url : null;
+				let userImg =
+					currentUser && currentUser.img.find(img => img.default)
+						? currentUser.img.find(img => img.default).img_url
+						: null;
 				let matchImg = match
 					? match.img.find(img => img.default) &&
 						match.img.find(img => img.default).img_url

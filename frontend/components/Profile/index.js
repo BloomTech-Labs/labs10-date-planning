@@ -26,6 +26,7 @@ import GridContainer from '../../styledComponents/Grid/GridContainer';
 import GridItem from '../../styledComponents/Grid/GridItem';
 //utils
 import getAge from '../../utils/getAge';
+import profileStandIn from '../../static/img/placeholder.jpg';
 //styles
 import style from '../../static/jss/material-kit-pro-react/views/componentsSections/basicsStyle.jsx';
 import '../../styles/Profile/index.scss';
@@ -44,9 +45,9 @@ const Profile = ({ classes, theme, router, currentUser }) => {
 	const [ drawerOpen, setDrawerOpen ] = useState(false);
 	const [ modal, showModal ] = useState(false);
 
-	let profileImg =
-		currentUser.img.find(img => img.default) &&
-		currentUser.img.find(img => img.default).img_url;
+	let profileImg = currentUser.img.find(img => img.default)
+		? currentUser.img.find(img => img.default).img_url
+		: profileStandIn;
 	return (
 		<div className='Profile__background'>
 			<ImageModal modal={modal} showModal={showModal} user={currentUser} />
