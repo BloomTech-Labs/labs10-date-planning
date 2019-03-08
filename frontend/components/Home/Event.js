@@ -308,9 +308,15 @@ const Event = ({ event, classes, user, refetch }) => {
 								</div>
 								<GridContainer>
 									{event.attending.map(usr => {
+										let chat = user
+											? user.chats.find(x =>
+													x.users.some(y => y.id === usr.id),
+												)
+											: false;
 										let liked = user
 											? user.liked.find(x => x.id === usr.id)
 											: false;
+										console.log(chat);
 										return (
 											<GridItem
 												key={usr.id}
@@ -319,7 +325,7 @@ const Event = ({ event, classes, user, refetch }) => {
 												style={{ padding: '5px', position: 'relative' }}
 											>
 												{liked && <Favorite className={classes.favorite} />}
-												<Chat className={classes.chat} />
+												{chat && <Chat className={classes.chat} />}
 												<div
 													className='user_card'
 													onClick={() => {

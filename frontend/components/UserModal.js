@@ -316,6 +316,7 @@ const EventModal = ({ classes, user, router }) => {
 									<div>
 										<Media
 											avatar={userImg}
+											currentUser
 											body={
 												<CustomInput
 													id='logged'

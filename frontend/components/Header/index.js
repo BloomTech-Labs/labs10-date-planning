@@ -125,7 +125,7 @@ const Nav = ({ classes, color, router, href, currentUser }) => {
 
 					<ListItem style={{ bottom: '5px' }} className={classes.listItem}>
 						<CustomDropdown
-							left
+							dropPlacement='bottom-end'
 							caret={false}
 							hoverColor='dark'
 							dropdownHeader={
@@ -154,11 +154,11 @@ const Nav = ({ classes, color, router, href, currentUser }) => {
 											style={{
 												display: 'flex',
 												padding: '5px',
-												//   backgroundImage: newMessages.some(
-												//     msg => msg.chat.id === chat.id
-												//   )
-												//     ? "linear-gradient(to right, #e2dae1, #e0cede, #dec3da, #dbb7d7, #d9abd3)"
-												//     : "linear-gradient(to right, #fafafa, #fafafa)",
+												backgroundImage:
+													newMessages.some(
+														msg => msg.chat.id === chat.id,
+													) &&
+													'linear-gradient(to right, #e2dae1, #e0cede, #dec3da, #dbb7d7, #d9abd3)',
 											}}
 										>
 											<img
