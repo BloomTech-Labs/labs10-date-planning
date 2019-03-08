@@ -8,5 +8,6 @@ module.exports = withSass(
 		publicRuntimeConfig: {
 			appContext: '/',
 		},
+		//target: 'serverless'
 	}),
 );

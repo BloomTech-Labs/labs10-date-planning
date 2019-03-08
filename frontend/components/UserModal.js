@@ -26,33 +26,33 @@ import {
 	NotInterested,
 } from '@material-ui/icons';
 //Q&M
-import User, { CURRENT_USER_QUERY } from '../Queries/User';
-import { EVENT_QUERY } from '../Queries/Event';
-import { GET_CONVERSATION_QUERY } from '../Queries/getConvo';
-import { USER_QUERY } from '../Queries/OtherUser';
-import { ADD_EVENT_MUTATION } from '../Mutations/addEvent';
-import { CREATE_CHAT_MUTATION } from '../Mutations/createChat';
-import { SEND_MESSAGE_MUTATION } from '../Mutations/sendMessage';
+import User, { CURRENT_USER_QUERY } from './Queries/User';
+import { EVENT_QUERY } from './Queries/Event';
+import { GET_CONVERSATION_QUERY } from './Queries/getConvo';
+import { USER_QUERY } from './Queries/OtherUser';
+import { ADD_EVENT_MUTATION } from './Mutations/addEvent';
+import { CREATE_CHAT_MUTATION } from './Mutations/createChat';
+import { SEND_MESSAGE_MUTATION } from './Mutations/sendMessage';
 import {
 	UPDATE_USER_MUTATION,
 	LIKE_USER_MUTATION,
 	UNLIKE_USER_MUTATION,
 	UPDATE_BLOCKS_MUTATION,
-} from '../Mutations/updateUser';
+} from './Mutations/updateUser';
 
 //Components
-import InfoModal from './InfoModal';
-import Transition from '../Transistion';
+import InfoModal from './Home/InfoModal';
+import Transition from './Transistion';
 //StyledComponents
-import Button from '../../styledComponents/CustomButtons/Button';
-import CustomInput from '../../styledComponents/CustomInput/CustomInput.jsx';
-import Media from '../../styledComponents/Media/Media.jsx';
+import Button from '../styledComponents/CustomButtons/Button';
+import CustomInput from '../styledComponents/CustomInput/CustomInput.jsx';
+import Media from '../styledComponents/Media/Media.jsx';
 
 //styles
-import styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles.jsx';
-import '../../styles/Home/EventModal.scss';
+import styles from '../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles.jsx';
+import '../styles/Home/EventModal.scss';
 //utils
-import getAge from '../../utils/getAge';
+import getAge from '../utils/getAge';
 
 let settings = {
 	dots: true,
@@ -271,17 +271,17 @@ const EventModal = ({ classes, user, router }) => {
 									</div>
 								</div>
 								<div>
-									<div
-										ref={msgRef}
+									{/* <div
+										
 										style={{
 											height: '452px',
 											height: '375px',
 										}}
 										src={matchImg}
-									/>
+									/> */}
 								</div>
 								<div className={classes.chatBorder}>
-									<div className={classes.chat}>
+									<div ref={msgRef} className={classes.chat}>
 										{convo.data.getConversation &&
 											convo.data.getConversation.messages &&
 											convo.data.getConversation.messages.map(message => {

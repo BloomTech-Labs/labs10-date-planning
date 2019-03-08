@@ -130,7 +130,7 @@ const javascriptStyles = theme => {
 			maxWidth: '365px',
 		},
 		chat: {
-			height: '452px',
+			height: '375px',
 			overflowY: 'scroll',
 			borderBottom: '1px solid #c8c8c8',
 		},
