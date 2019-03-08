@@ -12,8 +12,22 @@ import getPageContext from "../utils/getPageContext";
 import withApollo from "../utils/withApollo";
 
 class MyApp extends App {
-	constructor() {
-		super();
+	// static async getInitialProps(ctx) {
+	// 	let appProps = {};
+	// 	const {
+	// 		Component,
+	// 		router,
+	// 		ctx: { req, res }
+	// 	} = ctx;
+
+	// 	if (Component.getInitialProps) {
+	// 		appProps = await Component.getInitialProps(ctx);
+	// 	}
+
+	// 	return { ...appProps };
+	// }
+	constructor(props) {
+		super(props);
 		this.pageContext = getPageContext();
 	}
 
@@ -26,26 +40,27 @@ class MyApp extends App {
 
 	render() {
 		const { Component, pageProps, apolloClient } = this.props;
+		// console.log(Object.keys(this.props), "props in app.js render");
 		return (
 			<Container>
-				<JssProvider
-					registry={this.pageContext.sheetsRegistry}
-					generateClassName={this.pageContext.generateClassName}
-				>
-					<MuiThemeProvider
-						theme={this.pageContext.theme}
-						sheetsManager={this.pageContext.sheetsManager}
-					>
-						<CssBaseline />
-						<ApolloProvider client={apolloClient}>
-							<ApolloHooksProvider client={apolloClient}>
+				<ApolloProvider client={apolloClient}>
+					<ApolloHooksProvider client={apolloClient}>
+						<JssProvider
+							registry={this.pageContext.sheetsRegistry}
+							generateClassName={this.pageContext.generateClassName}
+						>
+							<MuiThemeProvider
+								theme={this.pageContext.theme}
+								sheetsManager={this.pageContext.sheetsManager}
+							>
+								<CssBaseline />
 								<Page>
 									<Component {...pageProps} pageContext={this.pageContext} />
 								</Page>
-							</ApolloHooksProvider>
-						</ApolloProvider>
-					</MuiThemeProvider>
-				</JssProvider>
+							</MuiThemeProvider>
+						</JssProvider>
+					</ApolloHooksProvider>
+				</ApolloProvider>
 			</Container>
 		);
 	}

@@ -1,4 +1,4 @@
-import { isLoggedIn } from "../components/Queries/User";
+import { isLoggedIn } from "../utils/getLoggedIn";
 import redirect from "../utils/redirect";
 import User from "../components/Queries/User";
 import Profile from "../components/Profile";
@@ -21,17 +21,17 @@ const ProfilePage = () => (
 	</User>
 );
 
-// ProfilePage.getInitialProps = async ctx => {
-// 	let user = await isLoggedIn(ctx.apolloClient);
+ProfilePage.getInitialProps = async ctx => {
+	const user = await isLoggedIn(ctx);
 
-// 	if (!user) {
-// 		redirect(ctx, '/joinus');
-// 	}
-// 	//console.log(!user.currentUser && router.pathname !== '/joinus');
-// 	// if (!(user.currentUser && router.aspath != '/joinus')) {
-// 	// 	redirect(ctx, '/joinus');
-// 	// }
-// 	return {  };
-// };
+	if (!user && !process.browser) {
+		redirect(ctx, "/joinus");
+	}
+	//console.log(!user.currentUser && router.pathname !== '/joinus');
+	// if (!(user.currentUser && router.aspath != '/joinus')) {
+	// 	redirect(ctx, '/joinus');
+	// }
+	return { data: user };
+};
 
 export default ProfilePage;

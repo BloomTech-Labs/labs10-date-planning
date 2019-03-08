@@ -17,24 +17,18 @@ const Index = () => (
 );
 
 Index.getInitialProps = async ctx => {
-	// console.log(ctx.req.headers, "ctx.req Index.getInit");
-	// console.log("\n");
-	// console.log(ctx.res.headers, "ctx.res Index.getInit");
-	// console.log("\n");
-	// console.log(ctx.apolloClient, "ctx.apolloClient Index.getInit");
-	// console.log("\n");
-
-	const blah = await isLoggedIn(ctx.apolloClient);
-	// console.log(blah, "isLoggedIn index");
-	// console.log(Object.keys(ctx), "ctx Index.getInit");
-	// console.log(ctx);
-	// if (!ctx.req.headers.cookie) {
+	let currentUser = null;
+	if (!process.browser) {
+		currentUser = await isLoggedIn(ctx);
+	}
+	console.log("somehow in index.js");
+	// if (!currentUser && !process.browser) {
 	// 	// console.log("inside redirect");
 	// 	// If not signed in, send them somewhere more useful
 	// 	redirect(ctx, "/joinus");
 	// }
 
-	return {};
+	return { data: currentUser };
 };
 
 export default Index;

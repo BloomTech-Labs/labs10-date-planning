@@ -1,11 +1,11 @@
-import { ApolloClient, InMemoryCache } from "apollo-boost";
-// import { InMemoryCache } from 'apollo-cache-inmemory';
+// import { ApolloClient, InMemoryCache } from "apollo-boost";
+import { InMemoryCache } from "apollo-cache-inmemory";
 import { ApolloLink, Observable, split } from "apollo-link";
 import { HttpLink, createHttpLink } from "apollo-link-http";
 // import { InMemoryCache } from "apollo-cache-inmemory";
 // import { createHttpLink } from "apollo-link-http";
 import { setContext } from "apollo-link-context";
-// import { ApolloClient } from "apollo-client";
+import { ApolloClient } from "apollo-client";
 import { onError } from "apollo-link-error";
 import fetch from "isomorphic-unfetch";
 
@@ -19,16 +19,19 @@ if (!process.browser) {
 
 function create(initialState, { getToken }) {
 	const httpLink = createHttpLink({
-		uri: process.env.NODE_ENV === "development" ? endpoint : prodEndpoint,
-		credentials: "include",
-		fetchOptions: {
-			credentials: "include"
-		}
+		uri: process.env.NODE_ENV === "development" ? endpoint : prodEndpoint
+		// credentials: "include",
+		// fetchOptions: {
+		// 	credentials: "include"
+		// }
 	});
 
 	const authLink = setContext((_, { headers }) => {
 		const token = getToken();
 		return {
+			fetchOptions: {
+				credentials: "include"
+			},
 			headers: {
 				...headers,
 				auth: token ? `${token}` : ""
@@ -48,7 +51,7 @@ function create(initialState, { getToken }) {
 			authLink,
 			httpLink
 		]),
-		ssrMode: true,
+		ssrMode: !process.browser,
 		cache: new InMemoryCache().restore(initialState || {})
 		// link: authLink.concat(httpLink), // Disables forceFetch on the server (so queries are only run once)
 		// request: operation => {

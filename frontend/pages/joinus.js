@@ -1,5 +1,6 @@
 import Splash from "../components/SplashPage";
-import { isLoggedIn } from "../components/Queries/User";
+import { isLoggedIn } from "../utils/getLoggedIn";
+import { withApollo } from "react-apollo";
 import redirect from "../utils/redirect";
 import User from "../components/Queries/User";
 import Home from "./home";
@@ -15,16 +16,18 @@ const Index = () => (
 );
 
 Index.getInitialProps = async ctx => {
-	let user = await isLoggedIn(ctx.apolloClient);
+	const user = await isLoggedIn(ctx);
+	console.log(user, "hey im here (step1)");
 
 	if (user) {
+		console.log("user in joinus page");
 		redirect(ctx, "/home");
 	}
 	//console.log(!user.currentUser && router.pathname !== '/joinus');
 	// if (!(user.currentUser && router.aspath != '/joinus')) {
 	// 	redirect(ctx, '/joinus');
 	// }
-	return {};
+	return { data: user };
 };
 
 export default Index;
