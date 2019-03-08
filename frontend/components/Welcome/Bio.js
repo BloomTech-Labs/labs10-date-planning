@@ -14,7 +14,12 @@ const Bio = ({ user }) => {
 			variables={{ biography: bio }}
 			onCompleted={() => {
 				NProgress.done();
-				Router.push(`/home`, `/home`, { scroll: false });
+				Router.push(
+					`/welcome?slug=8`,
+					`/welcome/pro`,
+					{ shallow: true },
+					{ scroll: false },
+				);
 			}}
 		>
 			{updateUser => (

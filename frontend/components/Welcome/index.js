@@ -14,6 +14,7 @@ import AgePrefs from './AgePrefs';
 import Location from './Location';
 import Images from './Images';
 import Bio from './Bio';
+import Pro from './ProFeatures';
 
 import style from '../../static/jss/material-kit-pro-react/views/signupPageStyle.jsx';
 
@@ -27,6 +28,7 @@ function getSteps() {
 		'Location',
 		'Images',
 		'Bio',
+		'Go Pro',
 	];
 }
 
@@ -48,6 +50,8 @@ function getStepContent(stepIndex, user) {
 			return <Images user={user} />;
 		case 7:
 			return <Bio />;
+		case 8:
+			return <Pro />;
 		default:
 			return 'Unknown stepIndex';
 	}
