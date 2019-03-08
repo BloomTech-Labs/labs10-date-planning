@@ -29,15 +29,16 @@ function Media({ ...props }) {
 	});
 	return (
 		<div {...rest} className={yayclasses}>
-			<a href={avatarLink} className={classes.mediaLink}>
+			<div className={classes.mediaLink}>
 				<div className={classes.mediaAvatar}>
 					<img src={avatar} alt={avatarAlt} />
 				</div>
-			</a>
+				<div className={classes.mediaFooter}>{footer}</div>
+			</div>
 			<div className={currentUser ? classes.otherBody : classes.mediaBody}>
 				{title !== undefined ? <h4 className={classes.mediaHeading}>{title}</h4> : null}
 				{body}
-				<div className={classes.mediaFooter}>{footer}</div>
+
 				{innerMedias !== undefined ? (
 					innerMedias.map((prop, key) => {
 						return prop;

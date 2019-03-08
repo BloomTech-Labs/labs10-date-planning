@@ -59,7 +59,7 @@ const Mutation = {
 						lastName: nameArray[1] || '',
 						email: email,
 						password: 'firebaseAuth',
-						img: { create: { img_url: photoURL, default: true } },
+						img: { create: { img_url: photoURL } },
 						phone: phoneNumber || null,
 						imageThumbnail: photoURL || '',
 						imageLarge: photoURL || '',

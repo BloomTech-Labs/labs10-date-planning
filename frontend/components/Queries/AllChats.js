@@ -20,6 +20,7 @@ export const ALL_CHATS_QUERY = gql`
 				text
 				createdAt
 				seen
+				updatedAt
 				from {
 					id
 					firstName

@@ -10,7 +10,7 @@ const BillingPage = () => (
 			if (loading) return <div>Loading...</div>;
 			if (error || !data.currentUser) return <JoinUs />;
 
-			return (
+			else return (
 				<>
 					<Billing currentUser={data.currentUser} />
 					{/* <TransactionList currentUser={currentUser} /> */}
