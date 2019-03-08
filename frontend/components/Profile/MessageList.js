@@ -41,7 +41,7 @@ const MessageList = ({
       {({ data: { getConversation } }) => {
         if (!getConversation) return <div>loading</div>;
         return (
-          <div style={{ flexGrow: 1 }}>
+          <div style={{ flexGrow: 1}}>
             {getConversation.messages.map(message => {
               let img = message.from.img.find(img => img.default).img_url;
 

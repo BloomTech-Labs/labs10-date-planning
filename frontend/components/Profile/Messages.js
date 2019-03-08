@@ -8,6 +8,8 @@ import useInterval from '@rooks/use-interval';
 import { withRouter } from 'next/router';
 
 import {Paper} from '@material-ui/core'
+import GridContainer from '../../styledComponents/Grid/GridContainer';
+import GridItem from '../../styledComponents/Grid/GridItem';
 
 import withStyles from '@material-ui/core/styles/withStyles';
 
@@ -65,20 +67,26 @@ const Messages = ({ classes, color, router, href, user }) => {
 			style={{
 				display: 'flex',
 				margin: '20px',
-				backgroundColor: '#fafafa !important',
 				padding: '30px'
 			}}
 		>
+		<GridContainer>
+			<GridItem sm={12} md={6} lg={6}>
+
 			<ChatList
 				userChats={data.getUserChats}
 				currentUser={user}
-				handleSelectMessage={handleSelectMessage}
-			/>
+				handleSelectMessage={handleSelectMessage} />
+			</GridItem>
+			<GridItem sm={12} md={6} lg={6}>
+
 			<MessageList
 				selectedChat={selectedChat}
 				currentUser={user}
 				selectedChatId={selectedChatId}
 			/>
+			</GridItem>
+		</GridContainer>
 		</Paper>
 	);
 };

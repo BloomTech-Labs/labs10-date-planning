@@ -303,7 +303,7 @@ const EventModal = ({ classes, user, router }) => {
 														}
 														body={
 															<span>
-																<p>{message.text}</p>
+																<p style={{wordBreak: 'break-word'}}>{message.text}</p>
 															</span>
 														}
 													/>

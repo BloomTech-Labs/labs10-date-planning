@@ -86,10 +86,10 @@ const Profile = ({ classes, theme, router, currentUser }) => {
 			</div>
 
 			<GridContainer style={{marginRight: '15px'}}>
-				<GridItem sm={12} md={8} lg={8}>
+				<GridItem sm={12} md={7} lg={7}>
 					<Messages user={currentUser} />
 				</GridItem>
-				<GridItem sm={12} md={4} lg={4}>
+				<GridItem sm={12} md={5} lg={5}>
 					<Dates />
 				</GridItem>
 
