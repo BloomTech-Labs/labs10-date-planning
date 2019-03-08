@@ -136,24 +136,43 @@ const Mutation = {
 		// });
 		return { message: "Thanks!" };
 	},
-	// async updateImage(parent, { thumbnail, image }, { db, request }, info) {
-	// 	const { userId, user } = request;
-	// 	if (!userId) throw new Error("You must be logged in!");
+	async updateDefaultImage(parent, { id }, { db, request }, info) {
+		const { userId, user } = request;
+		if (!userId) throw new Error("You must be logged in!");
 
-	// 	return db.mutation.updateUser(
-	// 		{
-	// 			where: {
-	// 				id: user.id
-	// 			},
-	// 			data: {
-	// 				imageThumbnail: thumbnail,
-	// 				imageLarge: image
-	// 			}
-	// 		},
-	// 		info
-	// 	);
-	// },
-
+		return db.mutation.updateUser(
+			{
+				where: {
+					id: user.id
+				},
+				data: {
+					img: {
+						update: [
+							{
+								where: {
+									id
+								},
+								data: {
+									default: true
+								}
+							}
+						],
+						updateMany: [
+							{
+								where: {
+									id_not: id
+								},
+								data: {
+									default: false
+								}
+							}
+						]
+					}
+				}
+			},
+			info
+		);
+	},
 	async updateLocation(parent, { city }, { db, request }, info) {
 		const { userId, user } = request;
 		if (!userId) throw new Error("You must be logged in!");

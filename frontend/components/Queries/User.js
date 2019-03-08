@@ -65,7 +65,12 @@ export const isLoggedIn = async client => {
 	});
 	console.log(data, "isLoggedIn queries component");
 	// return Object.values(data).some(val => val.hasOwnProperty("currentUser"));
-	return {};
+	if (data) {
+		const { currentUser } = data;
+		console.log(currentUser, "isLoggedIn currentUser");
+		return { currentUser };
+	}
+	return;
 };
 
 User.propTypes = {

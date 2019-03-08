@@ -17,15 +17,15 @@ const Index = () => (
 );
 
 Index.getInitialProps = async ctx => {
-	console.log(ctx.req.headers, "ctx.req Index.getInit");
+	// console.log(ctx.req.headers, "ctx.req Index.getInit");
 	// console.log("\n");
 	// console.log(ctx.res.headers, "ctx.res Index.getInit");
-	console.log("\n");
-	console.log(ctx.apolloClient, "ctx.apolloClient Index.getInit");
-	console.log("\n");
+	// console.log("\n");
+	// console.log(ctx.apolloClient, "ctx.apolloClient Index.getInit");
+	// console.log("\n");
 
 	const blah = await isLoggedIn(ctx.apolloClient);
-	console.log(blah, "isLoggedIn index");
+	// console.log(blah, "isLoggedIn index");
 	// console.log(Object.keys(ctx), "ctx Index.getInit");
 	// console.log(ctx);
 	// if (!ctx.req.headers.cookie) {

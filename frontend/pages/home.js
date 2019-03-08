@@ -2,9 +2,9 @@ import JoinUs from "./joinus";
 import Router from "next/router";
 import Events from "../components/Home/Events";
 import Header from "../components/Header";
-// import User, { isLoggedIn } from "../components/Queries/User";
-import User from "../components/Queries/User";
-import { isLoggedIn } from "../utils/getLoggedIn";
+import User, { isLoggedIn } from "../components/Queries/User";
+// import User from "../components/Queries/User";
+// import { isLoggedIn } from "../utils/getLoggedIn";
 import redirect from "../utils/redirect";
 
 const Home = ({ query }) => {
@@ -28,6 +28,8 @@ const Home = ({ query }) => {
 
 Home.getInitialProps = async ctx => {
 	const blah = await isLoggedIn(ctx.apolloClient);
+	console.log(ctx.apolloClient.cache, "cache Home.get");
+	console.log(ctx.apolloClient.query, "query Home.get");
 	console.log(blah, "result from isLoggedIn Home.getInit");
 	// if (!ctx.req.headers.cookies) {
 	// 	console.log("inside redirect");

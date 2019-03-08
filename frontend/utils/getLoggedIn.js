@@ -69,6 +69,6 @@ export function isLoggedIn(apolloClient) {
 		})
 		.catch(() => {
 			// Fail gracefully
-			return { currentUser: {} };
+			return null;
 		});
 }
