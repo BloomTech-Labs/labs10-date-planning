@@ -49,12 +49,12 @@ function createClient(initialState, { getToken }) {
 	  connectToDevTools: process.browser,
 	  ssrMode: true,
 	  link: authLink.concat(httpLink),
-	  cache,
-		clientState: {
-			defaults,
-			resolvers,
-			typeDefs
-		}
+	//   cache,
+	// 	clientState: {
+	// 		defaults,
+	// 		resolvers,
+	// 		typeDefs
+	// 	}
 	});
   }
 
