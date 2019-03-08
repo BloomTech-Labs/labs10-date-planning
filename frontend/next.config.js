@@ -4,9 +4,10 @@ const isProd = process.env.NODE_ENV === 'production';
 
 module.exports = withSass(
 	withImages({
-		serverRuntimeConfig: {},
-		publicRuntimeConfig: {
-			appContext: '/',
-		},
+		// serverRuntimeConfig: {},
+		// publicRuntimeConfig: {
+		// 	appContext: '/',
+		// },
+		target: 'serverless',
 	}),
 );

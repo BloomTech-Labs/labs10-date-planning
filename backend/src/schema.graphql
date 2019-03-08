@@ -24,6 +24,7 @@ type Mutation {
 	likeUser(id: String!): User!
 	unblockUser(id: String!): User!
 	unlikeUser(id: String!): User!
+	updateSeenMessage(chatId: String!): Chat!
 }
 
 type Query {
@@ -77,6 +78,7 @@ type DirectMessage {
 	text: String!
 	from: User!
 	createdAt: DateTime!
+	updatedAt: DateTime
 	chat: Chat!
 	seen: Boolean
 }

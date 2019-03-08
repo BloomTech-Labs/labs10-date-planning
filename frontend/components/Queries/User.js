@@ -13,7 +13,6 @@ const CURRENT_USER_QUERY = gql`
 			biography
 			dob
 			location
-			imageThumbnail
 			genderPrefs
 			minAgePref
 			maxAgePref
@@ -22,7 +21,6 @@ const CURRENT_USER_QUERY = gql`
 				img_url
 				id
 			}
-			createdAt
 			permissions
 			liked {
 				id
