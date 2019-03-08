@@ -15,10 +15,6 @@ server.express.use(bodyParser.json());
 server.express.use(async (req, res, next) => {
 	const { token } = req.cookies;
 	const { auth } = req.headers;
-	// console.log(auth, `auth here`);
-	// console.log(token, `token here`);
-	// console.log(req.headers, "request headers");
-	// console.log(req.cookies, "request cookies");
 
 	if (token) {
 		const { userId } = jwt.verify(token, process.env.APP_SECRET);
@@ -26,18 +22,9 @@ server.express.use(async (req, res, next) => {
 	}
 
 	if (auth && !token) {
-		// console.log(auth);
 		const { userId } = jwt.verify(auth, process.env.APP_SECRET);
 		req.userId = userId;
 	}
-	// console.log("auth confirmed");
-	// console.log(Object.keys(auth), "auth object garbage");
-
-	// const id = req.cookies.userId;
-	// if (id) {
-	// 	const firebaseUser = await verifyUserToken(session);
-	// 	req.userId = id;
-	// }
 	next();
 });
 
