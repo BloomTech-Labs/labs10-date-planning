@@ -81,7 +81,9 @@ const Events = ({ classes, newUser, router, href }) => {
 			}) => {
 				return (
 					<div className={classes.background}>
-						{router.query.user && <UserModal user={router.query.user} />}
+						{router.query.user && (
+							<UserModal user={router.query.user} currentUser={currentUser} />
+						)}
 						<svg
 							style={{ width: 0, height: 0, position: 'absolute' }}
 							aria-hidden='true'

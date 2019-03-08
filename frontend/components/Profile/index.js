@@ -51,7 +51,7 @@ const Profile = ({ classes, theme, router, currentUser }) => {
 	return (
 		<div className='Profile__background'>
 			<ImageModal modal={modal} showModal={showModal} user={currentUser} />
-			{router.query.user && <UserModal user={router.query.user} />}
+			{router.query.user && <UserModal user={router.query.user} currentUser={currentUser} />}
 			<Preferences user={currentUser} drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} />
 			<div className='Profile-Header'>
 				<IconButton

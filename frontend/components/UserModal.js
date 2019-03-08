@@ -1,5 +1,6 @@
 import React, { useState, useEffect, Fragment, useRef } from 'react';
 import { withApollo, Mutation, Query } from 'react-apollo';
+import { useQuery, useMutation } from 'react-apollo-hooks';
 import moment from 'moment';
 import NProgress from 'nprogress';
 import Router, { withRouter } from 'next/router';
@@ -39,6 +40,7 @@ import {
 	UNLIKE_USER_MUTATION,
 	UPDATE_BLOCKS_MUTATION,
 } from './Mutations/updateUser';
+import { UDPATE_SEEN_MSG_MUTATION } from './Mutations/updateSeenMessage';
 
 //Components
 import InfoModal from './Home/InfoModal';
@@ -70,11 +72,7 @@ const Composed = adopt({
 			{render}
 		</Query>
 	),
-	convo: ({ id, render }) => (
-		<Query query={GET_CONVERSATION_QUERY} variables={{ id: id.value }}>
-			{render}
-		</Query>
-	),
+
 	createChat: ({ id, render }) => (
 		<Mutation
 			mutation={CREATE_CHAT_MUTATION}
@@ -128,11 +126,35 @@ const Composed = adopt({
 	),
 });
 
-const EventModal = ({ classes, user, router }) => {
+const EventModal = ({ classes, user, router, currentUser }) => {
 	const [ message, setMessage ] = useState('');
+	const [ newMsgs, setNewMsgs ] = useState([]);
+	const updateSeen = useMutation(UDPATE_SEEN_MSG_MUTATION);
+	const { data, loading } = useQuery(GET_CONVERSATION_QUERY, {
+		variables: { id: user },
+	});
+
 	const msgRef = useRef(null);
-	//console.log(msgRef.current);
-	//let isLiked =
+
+	useEffect(
+		() => {
+			if (data.getConversation) {
+				let unseen = data.getConversation.messages.filter(
+					msg => msg.from.id !== currentUser.id && !msg.seen,
+				);
+				if (unseen.length) {
+					setNewMsgs(unseen);
+					updateSeen({
+						variables: {
+							chatId: data.getConversation.id,
+						},
+					});
+				}
+			}
+		},
+		[ data ],
+	);
+
 	useEffect(
 		() => {
 			if (msgRef.current) {
@@ -145,11 +167,11 @@ const EventModal = ({ classes, user, router }) => {
 	return (
 		<Composed matchId={user}>
 			{({
-				user: { data: { currentUser } },
+				//user: { data: { currentUser } },
 				createChat,
 				sendMessage,
 				id,
-				convo,
+
 				like,
 				unlike,
 				block,
@@ -163,10 +185,7 @@ const EventModal = ({ classes, user, router }) => {
 					currentUser && currentUser.img.find(img => img.default)
 						? currentUser.img.find(img => img.default).img_url
 						: null;
-				let matchImg = match
-					? match.img.find(img => img.default) &&
-						match.img.find(img => img.default).img_url
-					: null;
+
 				if (!match) return <div />;
 				else {
 					NProgress.done();
@@ -285,23 +304,32 @@ const EventModal = ({ classes, user, router }) => {
 								</div>
 								<div className={classes.chatBorder}>
 									<div ref={msgRef} className={classes.chat}>
-										{convo.data.getConversation &&
-											convo.data.getConversation.messages &&
-											convo.data.getConversation.messages.map(message => {
+										{data.getConversation &&
+											data.getConversation.messages.map(message => {
+												let fromMatch = message.from.id !== currentUser.id;
+												let unseen = newMsgs.find(
+													msg => msg.id === message.id,
+												);
 												let img = message.from.img.find(img => img.default)
 													.img_url;
 												return (
 													<Media
-														currentUser={
-															currentUser &&
-															message.from.id === currentUser.id
-														}
+														currentUser={!fromMatch}
 														key={message.id}
 														avatar={img}
 														title={
 															<span>
 																{message.from.firstName}{' '}
-																<small>· {moment(message.createdAt).fromNow()}</small>
+																<small
+																	style={{
+																		fontWeight:
+																			unseen && 'bold',
+																	}}
+																>
+																	·{' '}
+																	{moment(message.createdAt).fromNow()}{' '}
+																	{unseen ? <span style={{ color: 'red' }}>new</span> : null}
+																</small>
 															</span>
 														}
 														body={

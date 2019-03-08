@@ -316,7 +316,7 @@ const Event = ({ event, classes, user, refetch }) => {
 										let liked = user
 											? user.liked.find(x => x.id === usr.id)
 											: false;
-										console.log(chat);
+
 										return (
 											<GridItem
 												key={usr.id}

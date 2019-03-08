@@ -4,11 +4,13 @@ module.exports = {
 		if (!user) throw new Error('You must be logged in to start a conversation!');
 
 		// check to see if chat between users already exists
-		let [chat] = await db.query.chats(
+		let [ chat ] = await db.query.chats(
 			{
-				where: { AND: [{ users_some: { id: user.id } }, { users_some: { id: args.id } }] }
+				where: {
+					AND: [ { users_some: { id: user.id } }, { users_some: { id: args.id } } ],
+				},
 			},
-			info
+			info,
 		);
 		if (chat) throw new Error('Conversation between these users already exists');
 
@@ -17,14 +19,14 @@ module.exports = {
 			{
 				data: {
 					users: {
-						connect: [{ id: user.id }, { id: args.id }]
+						connect: [ { id: user.id }, { id: args.id } ],
 					},
 					messages: {
-						create: [{ text: args.message, from: { connect: { id: user.id } } }]
-					}
-				}
+						create: [ { text: args.message, from: { connect: { id: user.id } } } ],
+					},
+				},
 			},
-			info
+			info,
 		);
 
 		return chat;
@@ -35,11 +37,9 @@ module.exports = {
 
 		// check to see if chat between users already exists
 		// check to see if chat between users already exists
-		let [chat] = await db.query.chats(
-			{
-				where: { AND: [{ users_some: { id: user.id } }, { users_some: { id: args.id } }] }
-			}
-		);
+		let [ chat ] = await db.query.chats({
+			where: { AND: [ { users_some: { id: user.id } }, { users_some: { id: args.id } } ] },
+		});
 
 		if (!chat) throw new Error('No previous conversation between these users');
 
@@ -50,17 +50,17 @@ module.exports = {
 					text: args.message,
 					from: {
 						connect: {
-							id: user.id
-						}
+							id: user.id,
+						},
 					},
 					chat: {
 						connect: {
-							id: chat.id
-						}
-					}
+							id: chat.id,
+						},
+					},
 				},
 			},
-			info
+			info,
 		);
 
 		return message;
@@ -71,10 +71,34 @@ module.exports = {
 		if (!user) throw new Error('You must be logged in to start a conversation!');
 
 		const success = await db.mutation.deleteChat({
-			where: { id: args.id }
+			where: { id: args.id },
 		});
 
 		// console.log(success);
 		return { message: 'Chat successfully erased' };
-	}
+	},
+	async updateSeenMessage(parent, { chatId }, { request, db }, info) {
+		const { user, userId } = request;
+
+		let updated = await db.mutation.updateManyDirectMessages({
+			where: {
+				chat: {
+					id: chatId,
+				},
+				seen: false,
+				from: {
+					id_not: userId,
+				},
+			},
+			data: {
+				seen: true,
+			},
+		});
+		return db.query.chat(
+			{
+				where: { id: chatId },
+			},
+			info,
+		);
+	},
 };
