@@ -13,20 +13,6 @@ import getPageContext from "../utils/getPageContext";
 import withApollo from "../utils/withApollo";
 
 class MyApp extends App {
-	// static async getInitialProps(ctx) {
-	// 	let appProps = {};
-	// 	const {
-	// 		Component,
-	// 		router,
-	// 		ctx: { req, res }
-	// 	} = ctx;
-
-	// 	if (Component.getInitialProps) {
-	// 		appProps = await Component.getInitialProps(ctx);
-	// 	}
-
-	// 	return { ...appProps };
-	// }
 	constructor(props) {
 		super(props);
 		this.pageContext = getPageContext();

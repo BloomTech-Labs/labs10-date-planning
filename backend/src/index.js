@@ -14,17 +14,22 @@ server.express.use(bodyParser.json());
 
 server.express.use(async (req, res, next) => {
 	const { token } = req.cookies;
-	const { auth } = req.headers;
-
 	if (token) {
 		const { userId } = jwt.verify(token, process.env.APP_SECRET);
 		req.userId = userId;
 	}
+	// const { token } = req.cookies;
+	// const { auth } = req.headers;
 
-	if (auth && !token) {
-		const { userId } = jwt.verify(auth, process.env.APP_SECRET);
-		req.userId = userId;
-	}
+	// if (token) {
+	// 	const { userId } = jwt.verify(token, process.env.APP_SECRET);
+	// 	req.userId = userId;
+	// }
+
+	// if (auth) {
+	// 	const { userId } = jwt.verify(auth, process.env.APP_SECRET);
+	// 	req.userId = userId;
+	// }
 	next();
 });
 
