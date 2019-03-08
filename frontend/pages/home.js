@@ -1,41 +1,41 @@
-import JoinUs from './joinus';
-import Router from 'next/router'
-import Events from '../components/Home/Events';
-import Header from '../components/Header';
-import User, { isLoggedIn } from '../components/Queries/User';
-import redirect from '../utils/redirect';
+import JoinUs from "./joinus";
+import Router from "next/router";
+import Events from "../components/Home/Events";
+import Header from "../components/Header";
+// import User, { isLoggedIn } from "../components/Queries/User";
+import User from "../components/Queries/User";
+import { isLoggedIn } from "../utils/getLoggedIn";
+import redirect from "../utils/redirect";
 
 const Home = ({ query }) => {
-	
 	return (
-	<User>
-		{({ data, loading }) => {
-			console.log(data, loading)
-			if (loading) return <div>home</div>;
-			if ( !data.currentUser) return <JoinUs />;
-			else return (
-				<>
-					<Header color='primary' currentUser={data.currentUser}/>
-					<Events  newUser={query && query.welcome} />
-				</>
-			);
-		}}
-	</User>
-	)
+		<User>
+			{({ data, loading }) => {
+				console.log(data, "home render props");
+				if (loading) return <div>home</div>;
+				if (!data.currentUser) return <JoinUs />;
+				else
+					return (
+						<>
+							<Header color="primary" currentUser={data.currentUser} />
+							<Events newUser={query && query.welcome} />
+						</>
+					);
+			}}
+		</User>
+	);
 };
 
-// Home.getInitialProps = async ctx => {
-// 	let user = await isLoggedIn(ctx.apolloClient);
+Home.getInitialProps = async ctx => {
+	const blah = await isLoggedIn(ctx.apolloClient);
+	console.log(blah, "result from isLoggedIn Home.getInit");
+	// if (!ctx.req.headers.cookies) {
+	// 	console.log("inside redirect");
+	// 	// If not signed in, send them somewhere more useful
+	// 	redirect(ctx, "/joinus");
+	// }
 
-// 	if (!user) {
-// 		redirect(ctx, '/joinus');
-// 	}
-// 	//if (ctx.query.welcome)
-// 	//console.log(!user.currentUser && router.pathname !== '/joinus');
-// 	// if (!(user.currentUser && router.aspath != '/joinus')) {
-// 	// 	redirect(ctx, '/joinus');
-// 	// }
-// 	return { };
-// };
+	return {};
+};
 
 export default Home;

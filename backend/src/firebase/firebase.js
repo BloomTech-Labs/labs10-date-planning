@@ -1,18 +1,18 @@
-const firebaseAdmin = require('firebase-admin');
+const firebaseAdmin = require("firebase-admin");
 
 const admin = firebaseAdmin.initializeApp(
 	{
 		credential: firebaseAdmin.credential.cert({
-			type: 'service_account',
+			type: "service_account",
 			project_id: process.env.FIREBASE_PROJECT_ID,
 			private_key_id: process.PRIVATE_KEY_ID,
-			private_key: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+			private_key: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n"),
 			client_email: process.env.FIREBASE_CLIENT_EMAIL,
 			client_id: process.env.FIREBASE_CLIENT_ID
 		}),
 		databaseURL: process.env.FIREBASE_DATABASE_URL
 	},
-	'server'
+	"server"
 );
 
 const createUserToken = async (args, ctx) => {
@@ -25,16 +25,16 @@ const createUserToken = async (args, ctx) => {
 	const expiresIn = 60 * 60 * 24 * 5 * 1000;
 
 	if (!(new Date().getTime() / 1000 - decodedIdToken.auth_time < 5 * 60))
-		return { error: { message: 'Recent sign in required!' }, token: null };
+		return { error: { message: "Recent sign in required!" }, token: null };
 
 	const sessionCookie = await admin.auth().createSessionCookie(idToken, { expiresIn });
-	ctx.response.cookie('session', sessionCookie, {
-		maxAge: 60 * 60 * 24 * 5 * 1000,
-		httpOnly: true
-	});
+	// ctx.response.cookie("session", sessionCookie, {
+	// 	maxAge: 60 * 60 * 24 * 5 * 1000,
+	// 	httpOnly: true
+	// });
 	return sessionCookie
 		? sessionCookie
-		: { error: 'User Session Token Creation Error', token: null };
+		: { error: "User Session Token Creation Error", token: null };
 };
 
 const verifyUserToken = async token => {
@@ -44,7 +44,7 @@ const verifyUserToken = async token => {
 		.catch(error => {
 			return {
 				error: {
-					message: 'User Session Token Verification Error',
+					message: "User Session Token Verification Error",
 					stack: error
 				},
 				claims: null
@@ -55,7 +55,7 @@ const verifyUserToken = async token => {
 	//{ error: false, claims };
 	else
 		return {
-			error: { message: 'User Session Token Verification Error' },
+			error: { message: "User Session Token Verification Error" },
 			claims: null
 		};
 };
