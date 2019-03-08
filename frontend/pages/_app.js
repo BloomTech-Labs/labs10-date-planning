@@ -6,7 +6,8 @@ import "../static/scss/material-kit-pro-react.scss";
 import { ApolloProvider } from "react-apollo";
 import App, { Container } from "next/app";
 import redirect from "../utils/redirect";
-import Page from "../components/Page";
+// import Page from "../components/Page";
+import Page from "../layouts/main";
 
 import getPageContext from "../utils/getPageContext";
 import withApollo from "../utils/withApollo";
