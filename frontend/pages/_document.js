@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import Document, { Head, Main, NextScript } from "next/document";
 import flush from "styled-jsx/server";
 
@@ -12,17 +11,9 @@ class MyDocument extends Document {
 				<Head>
 					<meta charSet="utf-8" />
 					<meta
-						name="viewport"
-						content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no"
-					/>
-					<meta
 						name="theme-color"
 						content={pageContext ? pageContext.theme.palette.primary.main : null}
 					/>
-					{/* <link
-						rel="stylesheet"
-						href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"
-					/> */}
 				</Head>
 				<body>
 					<Main />
@@ -39,10 +30,6 @@ MyDocument.getInitialProps = ctx => {
 		const WrappedComponent = props => {
 			pageContext = props.pageContext;
 			return <Component {...props} />;
-		};
-
-		WrappedComponent.propTypes = {
-			pageContext: PropTypes.object.isRequired
 		};
 
 		return WrappedComponent;
