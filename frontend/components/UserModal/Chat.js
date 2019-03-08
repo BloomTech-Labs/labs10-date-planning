@@ -1,26 +1,72 @@
-const Chat = () => {
-	return (
-		<div className={classes.chatBorder}>
-			<div ref={msgRef} className={classes.chat}>
-				{data.getConversation &&
-					data.getConversation.messages.map(message => {
-						let fromMatch = message.from.id !== currentUser.id;
-						let unseen = newMsgs.find(msg => msg.id === message.id);
-						let img = message.from.img.find(img => img.default).img_url;
+import React, { useState, useEffect, useRef } from 'react';
+import NProgress from 'nprogress';
+import moment from 'moment';
+
+import withStyles from '@material-ui/core/styles/withStyles';
+import { Send } from '@material-ui/icons';
+
+import { useQuery } from 'react-apollo-hooks';
+import { useMutation } from '../Mutations/useMutation';
+
+import { SEND_MESSAGE_MUTATION } from '../Mutations/sendMessage';
+import { GET_CONVERSATION_QUERY } from '../Queries/getConvo';
+
+import CustomInput from '../../styledComponents/CustomInput/CustomInput.jsx';
+import Media from '../../styledComponents/Media/Media.jsx';
+import Button from '../../styledComponents/CustomButtons/Button';
+
+import styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles.jsx';
+
+const Chat = ({ id }) => {
+	const [ message, setMessage ] = useState('');
+	const sendMessage = useMutation(SEND_MESSAGE_MUTATION, {
+		variables: { message, id },
+		onCompleted: () => {
+			NProgress.done();
+			setMessage('');
+		},
+		onError: () => NProgress.done(),
+	});
+	const { data, loading } = useQuery(GET_CONVERSATION_QUERY, {
+		variables: { id },
+	});
+
+	const msgRef = useRef(null);
+
+	useEffect(
+		() => {
+			if (msgRef.current) {
+				msgRef.current.scrollTop = msgRef.current.scrollHeight;
+			}
+		},
+		[ msgRef.current ],
+	);
+
+	if (data.getConversation) {
+		let messages = data.getConversation.messages;
+		let user = data.getConversation.users.find(usr => usr.id !== id);
+		let match = data.getConversation.users.find(usr => usr.id === id);
+		return (
+			<div className={classes.chatBorder}>
+				<div ref={msgRef} className={classes.chat}>
+					{messages.map(msg => {
+						let fromMatch = msg.from.id === id;
+						let unseen = msg.from.id === id && !msg.seen;
+						let img = msg.from.img.find(img => img.default).img_url;
 						return (
 							<Media
 								currentUser={!fromMatch}
-								key={message.id}
+								key={msg.id}
 								avatar={img}
 								title={
 									<span>
-										{message.from.firstName}{' '}
+										{msg.from.firstName}
 										<small
 											style={{
 												fontWeight: unseen && 'bold',
 											}}
 										>
-											· {moment(message.createdAt).fromNow()}{' '}
+											· {moment(msg.createdAt).fromNow()}
 											{unseen ? (
 												<span style={{ color: 'red' }}>new</span>
 											) : null}
@@ -29,60 +75,55 @@ const Chat = () => {
 								}
 								body={
 									<span>
-										<p>{message.text}</p>
+										<p>{msg.text}</p>
 									</span>
 								}
 							/>
 						);
 					})}
+				</div>
+				<div>
+					<Media
+						avatar={user.img.find(i => i.default).img_url}
+						currentUser
+						body={
+							<CustomInput
+								id='logged'
+								formControlProps={{
+									fullWidth: true,
+								}}
+								inputProps={{
+									multiline: true,
+									rows: 6,
+									placeholder: `Find out what ${match.firstName}'s up for!`,
+									value: message,
+									onChange: e => setMessage(e.target.value),
+								}}
+							/>
+						}
+						footer={
+							<Button
+								color='primary'
+								justIcon
+								className={classes.floatRight}
+								onClick={() => {
+									NProgress.start();
+									sendMessage({
+										variables: {
+											id: id.value,
+											message: message,
+										},
+									});
+								}}
+							>
+								<Send />
+							</Button>
+						}
+					/>
+				</div>
 			</div>
-			<div>
-				<Media
-					avatar={userImg}
-					currentUser
-					body={
-						<CustomInput
-							id='logged'
-							formControlProps={{
-								fullWidth: true,
-							}}
-							inputProps={{
-								multiline: true,
-								rows: 6,
-								placeholder: `Find out what ${match.firstName}'s up for!`,
-								value: message,
-								onChange: e => setMessage(e.target.value),
-							}}
-						/>
-					}
-					footer={
-						<Button
-							color='primary'
-							justIcon
-							className={classes.floatRight}
-							onClick={async () => {
-								NProgress.start();
-								convo.data.getConversation
-									? await sendMessage.mutation({
-											variables: {
-												id: id.value,
-												message: message,
-											},
-										})
-									: await createChat.mutation({
-											variables: {
-												id: id.value,
-												message: message,
-											},
-										});
-								setMessage('');
-							}}
-						>
-							<Send />
-						</Button>
-					}
-				/>
-			</div>
-		</div>
-	);
+		);
+	} else return null;
 };
+
+export default withStyles(styles)(Chat);
