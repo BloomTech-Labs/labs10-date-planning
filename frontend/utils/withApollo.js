@@ -5,7 +5,7 @@ import React from "react";
 import Head from "next/head";
 import cookie from "cookie";
 
-import initApollo from "./initApollo";
+import { initApollo } from "./initApollo";
 
 function parseCookies(req, options = {}) {
 	return cookie.parse(req ? req.headers.cookie || "empty" : document.cookie, options);
@@ -26,14 +26,7 @@ export default App => {
 				ctx: { req, res }
 			} = ctx;
 
-			const apollo = initApollo(
-				{},
-				{
-					getToken: () => {
-						return parseCookies(req).token;
-					}
-				}
-			);
+			const apollo = initApollo({});
 
 			ctx.ctx.apolloClient = apollo;
 
@@ -46,17 +39,19 @@ export default App => {
 				return {};
 			}
 
-			// if (!process.browser) {
-			try {
-				await getDataFromTree(
-					<App {...appProps} Component={Component} router={router} apolloClient={apollo} />
-				);
-			} catch (error) {
-				console.error("Error while running `getDataFromTree`", error);
-			}
 			if (!process.browser) {
+				try {
+					await getDataFromTree(
+						<App {...appProps} Component={Component} router={router} apolloClient={apollo} />
+					);
+				} catch (error) {
+					console.error("Error while running `getDataFromTree`", error);
+				}
 				Head.rewind();
 			}
+			// if (!process.browser) {
+
+			// }
 			const apolloState = apollo.cache.extract();
 
 			return {
@@ -68,10 +63,10 @@ export default App => {
 		constructor(props) {
 			super(props);
 			this.apolloClient = initApollo(props.apolloState, {
-				getToken: () => {
-					let cookie = parseCookies().token;
-					return cookie;
-				}
+				// getToken: () => {
+				// 	let cookie = parseCookies().token;
+				// 	return cookie;
+				// }
 			});
 		}
 

@@ -12,7 +12,7 @@ import fetch from "isomorphic-unfetch";
 
 import { endpoint, prodEndpoint } from "../config";
 
-// let apolloClient = null;
+let apolloClient = null;
 
 // if (!process.browser) {
 // 	global.fetch = fetch;
@@ -21,10 +21,7 @@ import { endpoint, prodEndpoint } from "../config";
 export default withApollo(({ ctx, headers, initialState }) => {
 	const httpLink = createHttpLink({
 		uri: process.env.NODE_ENV === "development" ? endpoint : prodEndpoint,
-		headers: {
-			...headers,
-			auth: token ? `${token}` : ""
-		},
+		headers: ctx && ctx.req ? { ...headers, auth: ctx.req.headers.cookies } : headers,
 		credentials: "include",
 		fetchOptions: {
 			credentials: "include"
@@ -53,11 +50,11 @@ export default withApollo(({ ctx, headers, initialState }) => {
 					console.error({ networkError });
 				}
 			}),
-			authLink,
+			// authLink,
 			httpLink
 		]),
 		credentials: "include",
-		headers: ctx ? { ...headers, ...ctx.req.headers } : headers,
+		headers: ctx && ctx.req ? { ...headers, auth: ctx.req.headers.cookies } : headers,
 		fetchOptions: {
 			credentials: "include"
 		},
@@ -75,14 +72,14 @@ export default withApollo(({ ctx, headers, initialState }) => {
 	});
 });
 
-// export default function initApollo(initialState, options) {
-// 	if (!process.browser) {
-// 		return create(initialState, options);
-// 	}
+export function initApollo(initialState, options) {
+	if (!process.browser) {
+		return create(initialState, options);
+	}
 
-// 	if (!apolloClient) {
-// 		apolloClient = create(initialState, options);
-// 	}
+	if (!apolloClient) {
+		apolloClient = create(initialState, options);
+	}
 
-// 	return apolloClient;
-// }
+	return apolloClient;
+}

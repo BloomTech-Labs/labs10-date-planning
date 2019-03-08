@@ -7,6 +7,7 @@ import { ApolloProvider } from "react-apollo";
 import App, { Container } from "next/app";
 import redirect from "../utils/redirect";
 // import Page from "../components/Page";
+import withData from "../utils/initApollo";
 import Page from "../layouts/main";
 
 import getPageContext from "../utils/getPageContext";
@@ -26,12 +27,12 @@ class MyApp extends App {
 	}
 
 	render() {
-		const { Component, pageProps, apolloClient } = this.props;
+		const { Component, pageProps, apolloClient, apollo } = this.props;
 		// console.log(Object.keys(this.props), "props in app.js render");
 		return (
 			<Container>
-				<ApolloProvider client={apolloClient}>
-					<ApolloHooksProvider client={apolloClient}>
+				<ApolloProvider client={apollo}>
+					<ApolloHooksProvider client={apollo}>
 						<JssProvider
 							registry={this.pageContext.sheetsRegistry}
 							generateClassName={this.pageContext.generateClassName}
@@ -53,4 +54,4 @@ class MyApp extends App {
 	}
 }
 
-export default withApollo(MyApp);
+export default withData(MyApp);
