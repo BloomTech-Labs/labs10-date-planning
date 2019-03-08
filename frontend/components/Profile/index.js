@@ -16,7 +16,7 @@ import { UPDATE_USER_MUTATION } from '../Mutations/updateUser';
 import Location from '../Settings/Location';
 import Dates from '../Settings/Dates';
 import Preferences from './Preferences';
-import UserModal from '../UserModal';
+import UserModal from '../UserModal/';
 import ImageModal from './ImageModal';
 import Messages from './Messages';
 //styledcomponents

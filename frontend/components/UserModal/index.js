@@ -27,34 +27,34 @@ import {
 	NotInterested,
 } from '@material-ui/icons';
 //Q&M
-import User, { CURRENT_USER_QUERY } from './Queries/User';
-import { EVENT_QUERY } from './Queries/Event';
-import { GET_CONVERSATION_QUERY } from './Queries/getConvo';
-import { USER_QUERY } from './Queries/OtherUser';
-import { ADD_EVENT_MUTATION } from './Mutations/addEvent';
-import { CREATE_CHAT_MUTATION } from './Mutations/createChat';
-import { SEND_MESSAGE_MUTATION } from './Mutations/sendMessage';
+import User, { CURRENT_USER_QUERY } from '../Queries/User';
+import { EVENT_QUERY } from '../Queries/Event';
+import { GET_CONVERSATION_QUERY } from '../Queries/getConvo';
+import { USER_QUERY } from '../Queries/OtherUser';
+import { ADD_EVENT_MUTATION } from '../Mutations/addEvent';
+import { CREATE_CHAT_MUTATION } from '../Mutations/createChat';
+import { SEND_MESSAGE_MUTATION } from '../Mutations/sendMessage';
 import {
 	UPDATE_USER_MUTATION,
 	LIKE_USER_MUTATION,
 	UNLIKE_USER_MUTATION,
 	UPDATE_BLOCKS_MUTATION,
-} from './Mutations/updateUser';
-import { UDPATE_SEEN_MSG_MUTATION } from './Mutations/updateSeenMessage';
+} from '../Mutations/updateUser';
+import { UDPATE_SEEN_MSG_MUTATION } from '../Mutations/updateSeenMessage';
 
 //Components
-import InfoModal from './Home/InfoModal';
-import Transition from './Transistion';
+import InfoModal from '../Home/InfoModal';
+import Transition from '../Transistion';
 //StyledComponents
-import Button from '../styledComponents/CustomButtons/Button';
-import CustomInput from '../styledComponents/CustomInput/CustomInput.jsx';
-import Media from '../styledComponents/Media/Media.jsx';
+import Button from '../../styledComponents/CustomButtons/Button';
+import CustomInput from '../../styledComponents/CustomInput/CustomInput.jsx';
+import Media from '../../styledComponents/Media/Media.jsx';
 
 //styles
-import styles from '../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles.jsx';
-import '../styles/Home/EventModal.scss';
+import styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles.jsx';
+import '../../styles/Home/EventModal.scss';
 //utils
-import getAge from '../utils/getAge';
+import getAge from '../../utils/getAge';
 
 let settings = {
 	dots: true,
@@ -65,7 +65,6 @@ let settings = {
 };
 
 const Composed = adopt({
-	user: ({ render }) => <Query query={CURRENT_USER_QUERY}>{render}</Query>,
 	id: ({ matchId, render }) => <Value initial={matchId}>{render}</Value>,
 	potentialMatch: ({ id, render }) => (
 		<Query query={USER_QUERY} variables={{ id: id.value }}>
@@ -193,9 +192,11 @@ const EventModal = ({ classes, user, router, currentUser }) => {
 						<Dialog
 							classes={{
 								root: classes.modalRoot,
-								paper: classes.modalLarge,
+								//paper: classes.modalLarge,
 							}}
 							open={user ? true : false}
+							fullWidth
+							maxWidth='lg'
 							TransitionComponent={Transition}
 							scroll='body'
 							onClose={() =>
