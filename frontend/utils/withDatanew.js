@@ -47,7 +47,7 @@ function createClient(initialState, { getToken }) {
 
   return new ApolloClient({
 	  connectToDevTools: process.browser,
-	  ssrMode: !process.browser, // Disables forceFetch on the server (so queries are only run once)
+	  ssrMode: true,
 	  link: authLink.concat(httpLink),
 	  cache,
 		clientState: {
