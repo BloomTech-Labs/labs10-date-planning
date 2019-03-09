@@ -123,11 +123,11 @@ const javascriptStyles = theme => {
 		chatBorder: {
 			border: '2px solid #c8c8c8',
 			borderRadius: '6px',
-			width: '100%',
+			width: '50%',
 			padding: '10px',
 			backgroundColor: '#fafafa',
 			backgroundImage: 'url("https://www.transparenttextures.com/patterns/ag-square.png")',
-			maxWidth: '450px',
+			maxWidth: '500px',
 		},
 		chat: {
 			height: '600px',

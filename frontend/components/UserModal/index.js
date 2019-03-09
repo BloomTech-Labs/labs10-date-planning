@@ -63,38 +63,15 @@ let settings = {
 };
 
 const Composed = adopt({
-	id: ({ matchId, render }) => <Value initial={matchId}>{render}</Value>,
 	potentialMatch: ({ id, render }) => (
-		<Query query={USER_QUERY} variables={{ id: id.value }}>
+		<Query query={USER_QUERY} variables={{ id }}>
 			{render}
 		</Query>
 	),
-
-	// createChat: ({ id, render }) => (
-	// 	<Mutation
-	// 		mutation={CREATE_CHAT_MUTATION}
-	// 		refetchQueries={[ { query: GET_CONVERSATION_QUERY, variables: { id: id.value } } ]}
-	// 		onCompleted={() => NProgress.done()}
-	// 		onError={() => NProgress.done()}
-	// 	>
-	// 		{(mutation, result) => render({ mutation, result })}
-	// 	</Mutation>
-	// ),
-	// sendMessage: ({ id, render }) => (
-	// 	<Mutation
-	// 		mutation={SEND_MESSAGE_MUTATION}
-	// 		refetchQueries={[ { query: GET_CONVERSATION_QUERY, variables: { id: id.value } } ]}
-	// 		awaitRefetchQueries
-	// 		onCompleted={() => NProgress.done()}
-	// 		onError={() => NProgress.done()}
-	// 	>
-	// 		{(mutation, result) => render({ mutation, result })}
-	// 	</Mutation>
-	// ),
 	like: ({ id, render }) => (
 		<Mutation
 			mutation={LIKE_USER_MUTATION}
-			variables={{ like: id.value }}
+			variables={{ like: id }}
 			onCompleted={() => NProgress.done()}
 			onError={() => NProgress.done()}
 		>
@@ -104,7 +81,7 @@ const Composed = adopt({
 	unlike: ({ id, render }) => (
 		<Mutation
 			mutation={UNLIKE_USER_MUTATION}
-			variables={{ like: id.value }}
+			variables={{ like: id }}
 			onCompleted={() => NProgress.done()}
 			onError={() => NProgress.done()}
 		>
@@ -114,7 +91,7 @@ const Composed = adopt({
 	block: ({ id, render }) => (
 		<Mutation
 			mutation={UPDATE_BLOCKS_MUTATION}
-			variables={{ block: id.value }}
+			variables={{ block: id }}
 			onCompleted={() => NProgress.done()}
 			onError={() => NProgress.done()}
 		>
@@ -124,61 +101,18 @@ const Composed = adopt({
 });
 
 const EventModal = ({ classes, user, router, currentUser }) => {
-	// //const [ message, setMessage ] = useState('');
-	// const [ newMsgs, setNewMsgs ] = useState([]);
-	// const updateSeen = useMutation(UDPATE_SEEN_MSG_MUTATION);
-	// // const { data, loading } = useQuery(GET_CONVERSATION_QUERY, {
-	// // 	variables: { id: user },
-	// // });
-
-	// //const msgRef = useRef(null);
-
-	// useEffect(
-	// 	() => {
-	// 		if (data.getConversation) {
-	// 			let unseen = data.getConversation.messages.filter(
-	// 				msg => msg.from.id !== currentUser.id && !msg.seen,
-	// 			);
-	// 			if (unseen.length) {
-	// 				setNewMsgs(unseen);
-	// 				updateSeen({
-	// 					variables: {
-	// 						chatId: data.getConversation.id,
-	// 					},
-	// 				});
-	// 			}
-	// 		}
-	// 	},
-	// 	[ data ],
-	// );
-
-	// // useEffect(
-	// // 	() => {
-	// // 		if (msgRef.current) {
-	// // 			msgRef.current.scrollTop = msgRef.current.scrollHeight;
-	// // 		}
-	// // 	},
-	// // 	[ msgRef.current ],
-	// // );
-
 	return (
-		<Composed matchId={user}>
-			{({
-				id,
-
-				like,
-				unlike,
-				block,
-				potentialMatch,
-			}) => {
+		<Composed id={user}>
+			{({ like, unlike, block, potentialMatch }) => {
+				console.log(potentialMatch);
 				let match = potentialMatch.data ? potentialMatch.data.user : null;
-				let isLiked = currentUser
-					? currentUser.liked.find(user => user.id === id.value)
-					: false;
-				let userImg =
+				let isLiked = currentUser ? currentUser.liked.find(usr => usr.id === user) : false;
+				{
+					/* let userImg =
 					currentUser && currentUser.img.find(img => img.default)
 						? currentUser.img.find(img => img.default).img_url
-						: null;
+						: null; */
+				}
 
 				if (!match) return <div />;
 				else {
@@ -262,22 +196,28 @@ const EventModal = ({ classes, user, router, currentUser }) => {
 								</div>
 							</DialogTitle>
 							<DialogContent
-								style={{ zIndex: 3, display: 'flex' }}
+								style={{
+									zIndex: 3,
+									display: 'flex',
+									justifyContent: 'space-around',
+								}}
 								id='notice-modal-slide-description'
 								classes={{ root: 'dialogContent' }}
 								className={classes.modalBody}
 							>
 								<div style={{ marginRight: '20px', width: '50%' }}>
-									<Slider {...settings}>
-										{match.img.map(img => (
-											<div key={img.img_url}>
-												<img
-													src={img.img_url}
-													style={{ height: '375px', width: '375px' }}
-												/>
-											</div>
-										))}
-									</Slider>
+									<div style={{ width: '100%' }}>
+										<Slider {...settings}>
+											{match.img.map(img => (
+												<div key={img.img_url}>
+													<img
+														src={img.img_url}
+														style={{ height: '100%', width: '100%' }}
+													/>
+												</div>
+											))}
+										</Slider>
+									</div>
 									<div className='gradient-box'>
 										<div className='date'>
 											{match.biography ? (

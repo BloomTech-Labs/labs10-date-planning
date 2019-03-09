@@ -149,7 +149,7 @@ const Nav = ({ classes, color, router, href, currentUser }) => {
 											onClick={() =>
 												Router.push(
 													`${router.pathname}?user=${chat.fromId}`,
-													`${router.pathname}?user=${chat.fromId}`,
+													`${router.pathname}/user/${chat.fromId}`,
 													{ shallow: true },
 													{ scroll: false },
 												)}
