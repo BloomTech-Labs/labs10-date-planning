@@ -334,7 +334,7 @@ const EventModal = ({ classes, user, router, currentUser }) => {
 														}
 														body={
 															<span>
-																<p>{message.text}</p>
+																<p style={{wordBreak: 'break-word'}}>{message.text}</p>
 															</span>
 														}
 													/>
