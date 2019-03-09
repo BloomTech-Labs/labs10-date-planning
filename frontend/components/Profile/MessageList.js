@@ -49,7 +49,7 @@ const MessageList = ({
               position: "relative"
             }}
           >
-            <div style={{height: '80%', overflow: 'scroll'}}>
+            <div className={classes.messageList}>
               {getConversation.messages.map(message => {
                 let img = message.from.img.find(img => img.default).img_url;
 
@@ -93,8 +93,8 @@ const MessageList = ({
                 >
                   {sendMessage => (
                     <Media
+                      style={{position: 'absolute', bottom: 0, width: '100%', left: '-5px', borderTop: '2px solid #b2ddf7'}}
                       avatar={currentUser.img.find(img => img.default).img_url}
-                      style={{position: 'relative', bottom:'0'}}
                       body={
                         <CustomInput
                           id="logged"
