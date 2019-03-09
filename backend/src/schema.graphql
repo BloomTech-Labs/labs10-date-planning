@@ -11,13 +11,13 @@ type Mutation {
 	updateDefaultImage(id: String!): User!
 	updateLocation(city: String!): User!
 	addEvent(event: AddEventInput): Event
-	deleteEvent(id: String!, eventId: String!): ProfilePic!
+	deleteEvent(id: String!, eventId: String!): User!
 	createOrder(token: String!, subscription: Permission!): Message
 	cancelSubscription(id: String!): User!
 	updateUser(data: UserUpdateInput!): User
 	createChat(id: String!, message: String!): Chat!
 	deleteChat(id: String): Message
-	sendMessage(id: String!, message: String!): Chat!
+	sendMessage(id: String!, message: String!): DirectMessage!
 	verifyPhone(phone: String!): Message
 	checkVerify(phone: String!, code: String!): Message!
 	blockUser(id: String!): User!
