@@ -127,10 +127,10 @@ const javascriptStyles = theme => {
 			padding: '10px',
 			backgroundColor: '#fafafa',
 			backgroundImage: 'url("https://www.transparenttextures.com/patterns/ag-square.png")',
-			maxWidth: '365px',
+			maxWidth: '450px',
 		},
 		chat: {
-			height: '375px',
+			height: '600px',
 			overflowY: 'scroll',
 			borderBottom: '1px solid #c8c8c8',
 		},

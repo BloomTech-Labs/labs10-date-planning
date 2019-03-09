@@ -20,7 +20,7 @@ import Filters from './Filters';
 import Event from './Event';
 import LocationSearch from './LocationSearch';
 import NewUser from './NewUser';
-import UserModal from '../UserModal';
+import UserModal from '../UserModal/';
 import Primary from '../../styledComponents/Typography/Primary';
 //styled components
 import GridContainer from '../../styledComponents/Grid/GridContainer';

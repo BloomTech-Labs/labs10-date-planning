@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Fragment, useRef } from 'react';
 import { withApollo, Mutation, Query } from 'react-apollo';
 import { useQuery, useMutation } from 'react-apollo-hooks';
-import moment from 'moment';
+
 import NProgress from 'nprogress';
 import Router, { withRouter } from 'next/router';
 import Slider from 'react-slick';
@@ -27,34 +27,32 @@ import {
 	NotInterested,
 } from '@material-ui/icons';
 //Q&M
-import User, { CURRENT_USER_QUERY } from './Queries/User';
-import { EVENT_QUERY } from './Queries/Event';
-import { GET_CONVERSATION_QUERY } from './Queries/getConvo';
-import { USER_QUERY } from './Queries/OtherUser';
-import { ADD_EVENT_MUTATION } from './Mutations/addEvent';
-import { CREATE_CHAT_MUTATION } from './Mutations/createChat';
-import { SEND_MESSAGE_MUTATION } from './Mutations/sendMessage';
+import User, { CURRENT_USER_QUERY } from '../Queries/User';
+import { EVENT_QUERY } from '../Queries/Event';
+//import { GET_CONVERSATION_QUERY } from '../Queries/getConvo';
+import { USER_QUERY } from '../Queries/OtherUser';
+import { ADD_EVENT_MUTATION } from '../Mutations/addEvent';
+//import { CREATE_CHAT_MUTATION } from '../Mutations/createChat';
+import { SEND_MESSAGE_MUTATION } from '../Mutations/sendMessage';
 import {
 	UPDATE_USER_MUTATION,
 	LIKE_USER_MUTATION,
 	UNLIKE_USER_MUTATION,
 	UPDATE_BLOCKS_MUTATION,
-} from './Mutations/updateUser';
-import { UDPATE_SEEN_MSG_MUTATION } from './Mutations/updateSeenMessage';
+} from '../Mutations/updateUser';
+import { UDPATE_SEEN_MSG_MUTATION } from '../Mutations/updateSeenMessage';
 
 //Components
-import InfoModal from './Home/InfoModal';
-import Transition from './Transistion';
+import Chat from './Chat';
+import Transition from '../Transistion';
 //StyledComponents
-import Button from '../styledComponents/CustomButtons/Button';
-import CustomInput from '../styledComponents/CustomInput/CustomInput.jsx';
-import Media from '../styledComponents/Media/Media.jsx';
+import Button from '../../styledComponents/CustomButtons/Button';
 
 //styles
-import styles from '../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles.jsx';
-import '../styles/Home/EventModal.scss';
+import styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles.jsx';
+import '../../styles/Home/EventModal.scss';
 //utils
-import getAge from '../utils/getAge';
+import getAge from '../../utils/getAge';
 
 let settings = {
 	dots: true,
@@ -65,7 +63,6 @@ let settings = {
 };
 
 const Composed = adopt({
-	user: ({ render }) => <Query query={CURRENT_USER_QUERY}>{render}</Query>,
 	id: ({ matchId, render }) => <Value initial={matchId}>{render}</Value>,
 	potentialMatch: ({ id, render }) => (
 		<Query query={USER_QUERY} variables={{ id: id.value }}>
@@ -73,27 +70,27 @@ const Composed = adopt({
 		</Query>
 	),
 
-	createChat: ({ id, render }) => (
-		<Mutation
-			mutation={CREATE_CHAT_MUTATION}
-			refetchQueries={[ { query: GET_CONVERSATION_QUERY, variables: { id: id.value } } ]}
-			onCompleted={() => NProgress.done()}
-			onError={() => NProgress.done()}
-		>
-			{(mutation, result) => render({ mutation, result })}
-		</Mutation>
-	),
-	sendMessage: ({ id, render }) => (
-		<Mutation
-			mutation={SEND_MESSAGE_MUTATION}
-			refetchQueries={[ { query: GET_CONVERSATION_QUERY, variables: { id: id.value } } ]}
-			awaitRefetchQueries
-			onCompleted={() => NProgress.done()}
-			onError={() => NProgress.done()}
-		>
-			{(mutation, result) => render({ mutation, result })}
-		</Mutation>
-	),
+	// createChat: ({ id, render }) => (
+	// 	<Mutation
+	// 		mutation={CREATE_CHAT_MUTATION}
+	// 		refetchQueries={[ { query: GET_CONVERSATION_QUERY, variables: { id: id.value } } ]}
+	// 		onCompleted={() => NProgress.done()}
+	// 		onError={() => NProgress.done()}
+	// 	>
+	// 		{(mutation, result) => render({ mutation, result })}
+	// 	</Mutation>
+	// ),
+	// sendMessage: ({ id, render }) => (
+	// 	<Mutation
+	// 		mutation={SEND_MESSAGE_MUTATION}
+	// 		refetchQueries={[ { query: GET_CONVERSATION_QUERY, variables: { id: id.value } } ]}
+	// 		awaitRefetchQueries
+	// 		onCompleted={() => NProgress.done()}
+	// 		onError={() => NProgress.done()}
+	// 	>
+	// 		{(mutation, result) => render({ mutation, result })}
+	// 	</Mutation>
+	// ),
 	like: ({ id, render }) => (
 		<Mutation
 			mutation={LIKE_USER_MUTATION}
@@ -127,49 +124,46 @@ const Composed = adopt({
 });
 
 const EventModal = ({ classes, user, router, currentUser }) => {
-	const [ message, setMessage ] = useState('');
-	const [ newMsgs, setNewMsgs ] = useState([]);
-	const updateSeen = useMutation(UDPATE_SEEN_MSG_MUTATION);
-	const { data, loading } = useQuery(GET_CONVERSATION_QUERY, {
-		variables: { id: user },
-	});
+	// //const [ message, setMessage ] = useState('');
+	// const [ newMsgs, setNewMsgs ] = useState([]);
+	// const updateSeen = useMutation(UDPATE_SEEN_MSG_MUTATION);
+	// // const { data, loading } = useQuery(GET_CONVERSATION_QUERY, {
+	// // 	variables: { id: user },
+	// // });
 
-	const msgRef = useRef(null);
+	// //const msgRef = useRef(null);
 
-	useEffect(
-		() => {
-			if (data.getConversation) {
-				let unseen = data.getConversation.messages.filter(
-					msg => msg.from.id !== currentUser.id && !msg.seen,
-				);
-				if (unseen.length) {
-					setNewMsgs(unseen);
-					updateSeen({
-						variables: {
-							chatId: data.getConversation.id,
-						},
-					});
-				}
-			}
-		},
-		[ data ],
-	);
+	// useEffect(
+	// 	() => {
+	// 		if (data.getConversation) {
+	// 			let unseen = data.getConversation.messages.filter(
+	// 				msg => msg.from.id !== currentUser.id && !msg.seen,
+	// 			);
+	// 			if (unseen.length) {
+	// 				setNewMsgs(unseen);
+	// 				updateSeen({
+	// 					variables: {
+	// 						chatId: data.getConversation.id,
+	// 					},
+	// 				});
+	// 			}
+	// 		}
+	// 	},
+	// 	[ data ],
+	// );
 
-	useEffect(
-		() => {
-			if (msgRef.current) {
-				msgRef.current.scrollTop = msgRef.current.scrollHeight;
-			}
-		},
-		[ msgRef.current ],
-	);
+	// // useEffect(
+	// // 	() => {
+	// // 		if (msgRef.current) {
+	// // 			msgRef.current.scrollTop = msgRef.current.scrollHeight;
+	// // 		}
+	// // 	},
+	// // 	[ msgRef.current ],
+	// // );
 
 	return (
 		<Composed matchId={user}>
 			{({
-				//user: { data: { currentUser } },
-				createChat,
-				sendMessage,
 				id,
 
 				like,
@@ -193,9 +187,11 @@ const EventModal = ({ classes, user, router, currentUser }) => {
 						<Dialog
 							classes={{
 								root: classes.modalRoot,
-								paper: classes.modalLarge,
+								//paper: classes.modalLarge,
 							}}
 							open={user ? true : false}
+							fullWidth
+							maxWidth='lg'
 							TransitionComponent={Transition}
 							scroll='body'
 							onClose={() =>
@@ -292,103 +288,7 @@ const EventModal = ({ classes, user, router, currentUser }) => {
 										</div>
 									</div>
 								</div>
-								<div>
-									{/* <div
-										
-										style={{
-											height: '452px',
-											height: '375px',
-										}}
-										src={matchImg}
-									/> */}
-								</div>
-								<div className={classes.chatBorder}>
-									<div ref={msgRef} className={classes.chat}>
-										{data.getConversation &&
-											data.getConversation.messages.map(message => {
-												let fromMatch = message.from.id !== currentUser.id;
-												let unseen = newMsgs.find(
-													msg => msg.id === message.id,
-												);
-												let img = message.from.img.find(img => img.default)
-													.img_url;
-												return (
-													<Media
-														currentUser={!fromMatch}
-														key={message.id}
-														avatar={img}
-														title={
-															<span>
-																{message.from.firstName}{' '}
-																<small
-																	style={{
-																		fontWeight:
-																			unseen && 'bold',
-																	}}
-																>
-																	·{' '}
-																	{moment(message.createdAt).fromNow()}{' '}
-																	{unseen ? <span style={{ color: 'red' }}>new</span> : null}
-																</small>
-															</span>
-														}
-														body={
-															<span>
-																<p style={{wordBreak: 'break-word'}}>{message.text}</p>
-															</span>
-														}
-													/>
-												);
-											})}
-									</div>
-									<div>
-										<Media
-											avatar={userImg}
-											currentUser
-											body={
-												<CustomInput
-													id='logged'
-													formControlProps={{
-														fullWidth: true,
-													}}
-													inputProps={{
-														multiline: true,
-														rows: 6,
-														placeholder: `Find out what ${match.firstName}'s up for!`,
-														value: message,
-														onChange: e => setMessage(e.target.value),
-													}}
-												/>
-											}
-											footer={
-												<Button
-													color='primary'
-													justIcon
-													className={classes.floatRight}
-													onClick={async () => {
-														NProgress.start();
-														convo.data.getConversation
-															? await sendMessage.mutation({
-																	variables: {
-																		id: id.value,
-																		message: message,
-																	},
-																})
-															: await createChat.mutation({
-																	variables: {
-																		id: id.value,
-																		message: message,
-																	},
-																});
-														setMessage('');
-													}}
-												>
-													<Send />
-												</Button>
-											}
-										/>
-									</div>
-								</div>
+								<Chat id={user} />
 							</DialogContent>
 						</Dialog>
 					);

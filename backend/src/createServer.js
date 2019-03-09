@@ -11,12 +11,12 @@ function createServer() {
 			// also good to have these lil guys too
 			Mutation,
 			Query,
-			Subscription
+			Subscription,
 		},
 		resolverValidationOptions: {
-			requireResolversForResolveType: false // this is an option i added because the internet. hope you dont mind
+			requireResolversForResolveType: false, // this is an option i added because the internet. hope you dont mind
 		},
-		context: req => ({ ...req, db }) //context is important kids
+		context: req => ({ ...req, db }), //context is important kids
 	});
 }
 

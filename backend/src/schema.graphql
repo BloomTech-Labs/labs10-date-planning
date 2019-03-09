@@ -11,7 +11,7 @@ type Mutation {
 	updateDefaultImage(id: String!): User!
 	updateLocation(city: String!): User!
 	addEvent(event: AddEventInput): Event
-	deleteEvent(id: String!, eventId: String!): ProfilePic!
+	deleteEvent(id: String!, eventId: String!): User!
 	createOrder(token: String!, subscription: Permission!): Message
 	cancelSubscription(id: String!): User!
 	updateUser(data: UserUpdateInput!): User
