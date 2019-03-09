@@ -360,6 +360,7 @@ const Register = ({ classes }) => {
 
 														return (
 															<form
+																disabled
 																className={classes.form}
 																onSubmit={e =>
 																	handleSubmit(e, signup)}
@@ -565,7 +566,8 @@ const Register = ({ classes }) => {
 																		<ButtonBase type='submit'>
 																			<Button
 																				round
-																				disabled={!terms}
+																				disabled
+																				//disabled={!terms}
 																				color='primary'
 																				component='div'
 																			>

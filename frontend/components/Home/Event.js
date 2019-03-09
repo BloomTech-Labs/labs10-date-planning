@@ -25,7 +25,7 @@ import Arrow from '../../static/img/up4Arrow.png';
 import standIn from '../../static/img/placeholder.jpg';
 
 //Components
-import UserModel from '../UserModal';
+
 import InfoModal from './InfoModal';
 import Up4 from './UpFor';
 

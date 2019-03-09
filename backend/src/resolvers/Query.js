@@ -41,7 +41,7 @@ const Query = {
 			!args.dates || !args.dates.length ? undefined : setDates(args.dates.toString());
 
 		let events;
-		let response = await fetchEvents(location, cats, dates, page, 50, args.genres);
+		let response = await fetchEvents(location, cats, dates, page, 26, args.genres);
 
 		events = response.data._embedded.events;
 
@@ -50,11 +50,11 @@ const Query = {
 			return a;
 		}, []);
 
-		if (response.data.page.totalElements > 50) {
-			while (uniques.length < 50) {
+		if (response.data.page.totalElements > 26) {
+			while (uniques.length < 26) {
 				page = page + 1;
 
-				let res = await fetchEvents(location, cats, dates, page, 50, args.genres);
+				let res = await fetchEvents(location, cats, dates, page, 26, args.genres);
 
 				if (!res.data._embedded) break;
 				else {
@@ -67,24 +67,22 @@ const Query = {
 			}
 		}
 
-		const eventList = await transformEvents(request.user, events, db)
-		const usersScore = {}
+		const eventList = await transformEvents(request.user, events, db);
+		const usersScore = {};
 
-		const newList = await eventList.map( async event => (
-			{
-				...event,
-				attending: await event.attending.map(async attendee => {
-					if (attendee.id === request.user.id) return attendee;
-					if (!usersScore[attendee.id]) {
-						usersScore[attendee.id] = await getScore(request.user.id, attendee.id, db)
-					}
-					return ({
-						...attendee,
-						score: usersScore[attendee.id]
-					})
-				})
-			}
-		));
+		const newList = await eventList.map(async event => ({
+			...event,
+			attending: await event.attending.map(async attendee => {
+				if (attendee.id === request.user.id) return attendee;
+				if (!usersScore[attendee.id]) {
+					usersScore[attendee.id] = await getScore(request.user.id, attendee.id, db);
+				}
+				return {
+					...attendee,
+					score: usersScore[attendee.id],
+				};
+			}),
+		}));
 
 		return {
 			events: newList,

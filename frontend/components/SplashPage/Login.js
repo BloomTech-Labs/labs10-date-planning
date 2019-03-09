@@ -109,9 +109,8 @@ const Login = ({ classes }) => {
 		if (error.message.replace('GraphQL error: ', '') === 'Invalid Password!') {
 			setError({ password: error.message.replace('GraphQL error: ', '') });
 		} else if (error.message.includes('normal')) {
-			setError({...err, password: 'Password does not match.' })
-		}
-		else {
+			setError({ ...err, password: 'Password does not match.' });
+		} else {
 			setServerError(error);
 		}
 	};
@@ -225,6 +224,7 @@ const Login = ({ classes }) => {
 								//if (called) NProgress.start();
 								return (
 									<form
+										disabled
 										onSubmit={async e => {
 											e.preventDefault();
 											console.log(user);
@@ -322,7 +322,8 @@ const Login = ({ classes }) => {
 												<Button
 													color='primary'
 													simple
-													disabled={!user.email || !user.password}
+													disabled
+													//disabled={!user.email || !user.password}
 													size='lg'
 													component='div'
 												>
