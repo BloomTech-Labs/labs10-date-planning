@@ -1,35 +1,37 @@
-import React from 'react';
-
+import React from "react";
+import { Paper } from "@material-ui/core";
 const ChatList = ({ userChats, currentUser, handleSelectMessage }) => {
-	return (
-		<div style={{ marginLeft: '40px', marginRight: '40px' }}>
-			{userChats &&
-				userChats.map(chat => {
-					let match = chat.users.find(usr => usr.id !== currentUser.id);
-					return (
-						<div
-							key={chat.id}
-							onClick={() => handleSelectMessage(chat.id)}
-							style={{ borderBottom: '2px solid black', display: 'flex', maxWidth: '300px', wordBreak: 'break-all', marginBottom:'20px' }}
-						>
-							<img
-								src={match.img.find(img => img.default).img_url}
-								style={{ width: '50px', height: '50px', borderRadius: '50%' }}
-							/>
-							<div style={{marginBottom: '20px'}}>
-								<div>{match.firstName}</div>
-								<div>
+  return (
+    <div style={{ padding: "20px"}}>
+      {userChats &&
+        userChats.map(chat => {
+          let match = chat.users.find(usr => usr.id !== currentUser.id);
+		  console.log(match);
+		  let age = new Date(Date.now()).getFullYear() - match.dob.split('-')[0] - 1;
+		  console.log(age);
+          return (
+            <div
+              key={chat.id}
+              onClick={() => handleSelectMessage(chat.id)}
+              style={{ display: "flex", marginBottom: '20px' }}
+            >
+              <img
+                src={match.img.find(img => img.default).img_url}
+                style={{ width: "90px", height: "90px", borderRadius: "6px", marginRight: '15px' }}
+              />
+
+              <div style={{wordBreak: 'break-word'}}>{match.firstName} | {age}</div>
+              {/* <div>
 									{`${chat.messages[chat.messages.length - 1].from.id ===
 									currentUser.id
 										? 'you: '
 										: ''} ${chat.messages[chat.messages.length - 1].text}`}
-								</div>
-							</div>
-						</div>
-					);
-				})}
-		</div>
-	);
+								</div> */}
+            </div>
+          );
+        })}
+    </div>
+  );
 };
 
 export default ChatList;

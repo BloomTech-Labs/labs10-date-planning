@@ -41,7 +41,7 @@ const MessageList = ({
       {({ data: { getConversation } }) => {
         if (!getConversation) return <div>loading</div>;
         return (
-          <div style={{ flexGrow: 1}}>
+          <div style={{ flexGrow: 1, marginLeft: '40px'}}>
             {getConversation.messages.map(message => {
               let img = message.from.img.find(img => img.default).img_url;
 
@@ -59,7 +59,7 @@ const MessageList = ({
                     </span>
                   }
                   body={
-                    <span style={{ maxWidth: "300px", wordBreak: "break-all" }}>
+                    <span style={{ maxWidth: "300px", wordBreak: "break-word" }}>
                       <p>{message.text}</p>
                     </span>
                   }

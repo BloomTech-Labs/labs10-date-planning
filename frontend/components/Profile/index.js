@@ -6,7 +6,7 @@ import { Value } from 'react-powerplug';
 import classNames from 'classnames';
 //MUI
 import withStyles from '@material-ui/core/styles/withStyles';
-import { IconButton } from '@material-ui/core';
+import { IconButton, Paper } from '@material-ui/core';
 import { Menu, LocalDining } from '@material-ui/icons';
 
 //Q&M
@@ -85,11 +85,11 @@ const Profile = ({ classes, theme, router, currentUser }) => {
 				</div>
 			</div>
 
-			<GridContainer style={{marginRight: '15px'}}>
-				<GridItem sm={12} md={7} lg={7}>
+			<GridContainer style={{margin: '0 auto', width: '80%'}}>
+				<GridItem sm={12} md={8} lg={8}>
 					<Messages user={currentUser} />
 				</GridItem>
-				<GridItem sm={12} md={5} lg={5}>
+				<GridItem sm={12} md={4} lg={4}>
 					<Dates />
 				</GridItem>
 
