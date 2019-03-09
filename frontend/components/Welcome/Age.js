@@ -22,7 +22,7 @@ const GenderPrefs = () => {
 	return (
 		<Mutation
 			mutation={UPDATE_USER_MUTATION}
-			varibales={{ dob: selectedDate }}
+			variables={{ dob: selectedDate }}
 			onCompleted={() => {
 				NProgress.done();
 				Router.push(

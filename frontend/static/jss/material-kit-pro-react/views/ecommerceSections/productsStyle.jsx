@@ -92,17 +92,18 @@ const styles = {
 	background: {
 		paddingTop: '40px',
 		height: '100%',
+		minHeight: '100vh',
 		backgroundImage: `url("https://www.transparenttextures.com/patterns/shattered-dark.png")`,
-		backgroundColor: '#000'
+		backgroundColor: '#000',
 	},
 	drawer: {
 		padding: '0 20px',
-		width: '250p'
+		width: '250p',
 	},
 	drawerContainer: {
 		display: 'flex',
-		alignItems: 'center'
-	}
+		alignItems: 'center',
+	},
 };
 
 export default styles;

@@ -43,11 +43,10 @@ import {
 import { UDPATE_SEEN_MSG_MUTATION } from '../Mutations/updateSeenMessage';
 
 //Components
-import Chat from './Chat'
+import Chat from './Chat';
 import Transition from '../Transistion';
 //StyledComponents
 import Button from '../../styledComponents/CustomButtons/Button';
-
 
 //styles
 import styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles.jsx';
@@ -125,49 +124,46 @@ const Composed = adopt({
 });
 
 const EventModal = ({ classes, user, router, currentUser }) => {
-	//const [ message, setMessage ] = useState('');
-	const [ newMsgs, setNewMsgs ] = useState([]);
-	const updateSeen = useMutation(UDPATE_SEEN_MSG_MUTATION);
-	// const { data, loading } = useQuery(GET_CONVERSATION_QUERY, {
-	// 	variables: { id: user },
-	// });
+	// //const [ message, setMessage ] = useState('');
+	// const [ newMsgs, setNewMsgs ] = useState([]);
+	// const updateSeen = useMutation(UDPATE_SEEN_MSG_MUTATION);
+	// // const { data, loading } = useQuery(GET_CONVERSATION_QUERY, {
+	// // 	variables: { id: user },
+	// // });
 
-	//const msgRef = useRef(null);
-
-	useEffect(
-		() => {
-			if (data.getConversation) {
-				let unseen = data.getConversation.messages.filter(
-					msg => msg.from.id !== currentUser.id && !msg.seen,
-				);
-				if (unseen.length) {
-					setNewMsgs(unseen);
-					updateSeen({
-						variables: {
-							chatId: data.getConversation.id,
-						},
-					});
-				}
-			}
-		},
-		[ data ],
-	);
+	// //const msgRef = useRef(null);
 
 	// useEffect(
 	// 	() => {
-	// 		if (msgRef.current) {
-	// 			msgRef.current.scrollTop = msgRef.current.scrollHeight;
+	// 		if (data.getConversation) {
+	// 			let unseen = data.getConversation.messages.filter(
+	// 				msg => msg.from.id !== currentUser.id && !msg.seen,
+	// 			);
+	// 			if (unseen.length) {
+	// 				setNewMsgs(unseen);
+	// 				updateSeen({
+	// 					variables: {
+	// 						chatId: data.getConversation.id,
+	// 					},
+	// 				});
+	// 			}
 	// 		}
 	// 	},
-	// 	[ msgRef.current ],
+	// 	[ data ],
 	// );
+
+	// // useEffect(
+	// // 	() => {
+	// // 		if (msgRef.current) {
+	// // 			msgRef.current.scrollTop = msgRef.current.scrollHeight;
+	// // 		}
+	// // 	},
+	// // 	[ msgRef.current ],
+	// // );
 
 	return (
 		<Composed matchId={user}>
 			{({
-				//user: { data: { currentUser } },
-				{/* createChat,
-				sendMessage, */}
 				id,
 
 				like,
@@ -292,8 +288,7 @@ const EventModal = ({ classes, user, router, currentUser }) => {
 										</div>
 									</div>
 								</div>
-							<Chat id={user}/>
-							
+								<Chat id={user} />
 							</DialogContent>
 						</Dialog>
 					);

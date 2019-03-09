@@ -47,8 +47,10 @@ const Nav = ({ classes, color, router, href, currentUser }) => {
 	const handleClick = (e, signout, client) => {
 		if (e === 'Sign out') {
 			signout();
-			Router.push('/joinus');
-			client.cache.reset().then(() => {});
+
+			client.cache.reset().then(() => {
+				Router.push('/joinus');
+			});
 		} else {
 			Router.push(`/billing`);
 		}
@@ -189,7 +191,7 @@ const Nav = ({ classes, color, router, href, currentUser }) => {
 						refetchQueries={[ { query: CURRENT_USER_QUERY } ]}
 						awaitRefetchQueries
 					>
-						{(signout, { called }) => {
+						{(signout, { called, client }) => {
 							{
 								/* if (called) Router.push('/joinus'); */
 							}

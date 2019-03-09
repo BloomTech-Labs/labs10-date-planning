@@ -10,6 +10,7 @@ import { useMutation } from '../Mutations/useMutation';
 
 import { SEND_MESSAGE_MUTATION } from '../Mutations/sendMessage';
 import { GET_CONVERSATION_QUERY } from '../Queries/getConvo';
+import { UDPATE_SEEN_MSG_MUTATION } from '../Mutations/updateSeenMessage';
 
 import CustomInput from '../../styledComponents/CustomInput/CustomInput.jsx';
 import Media from '../../styledComponents/Media/Media.jsx';
@@ -17,8 +18,10 @@ import Button from '../../styledComponents/CustomButtons/Button';
 
 import styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles.jsx';
 
-const Chat = ({ id }) => {
+const Chat = ({ classes, id }) => {
 	const [ message, setMessage ] = useState('');
+	const [ newMsgs, setNewMsgs ] = useState([]);
+	const updateSeen = useMutation(UDPATE_SEEN_MSG_MUTATION);
 	const sendMessage = useMutation(SEND_MESSAGE_MUTATION, {
 		variables: { message, id },
 		onCompleted: () => {
@@ -27,11 +30,30 @@ const Chat = ({ id }) => {
 		},
 		onError: () => NProgress.done(),
 	});
-	const { data, loading } = useQuery(GET_CONVERSATION_QUERY, {
+	const { data } = useQuery(GET_CONVERSATION_QUERY, {
 		variables: { id },
 	});
 
 	const msgRef = useRef(null);
+
+	useEffect(
+		() => {
+			if (data.getConversation) {
+				let unseen = data.getConversation.messages.filter(
+					msg => msg.from.id === id && !msg.seen,
+				);
+				if (unseen.length) {
+					setNewMsgs(unseen);
+					updateSeen({
+						variables: {
+							chatId: data.getConversation.id,
+						},
+					});
+				}
+			}
+		},
+		[ data ],
+	);
 
 	useEffect(
 		() => {
@@ -46,12 +68,13 @@ const Chat = ({ id }) => {
 		let messages = data.getConversation.messages;
 		let user = data.getConversation.users.find(usr => usr.id !== id);
 		let match = data.getConversation.users.find(usr => usr.id === id);
+
 		return (
 			<div className={classes.chatBorder}>
 				<div ref={msgRef} className={classes.chat}>
 					{messages.map(msg => {
 						let fromMatch = msg.from.id === id;
-						let unseen = msg.from.id === id && !msg.seen;
+						let unseen = newMsgs.find(m => m.id === msg.id);
 						let img = msg.from.img.find(img => img.default).img_url;
 						return (
 							<Media
