@@ -11,6 +11,7 @@ export const USER_QUERY = gql`
 				img_url
 			}
 			biography
+			score
 		}
 	}
 `;

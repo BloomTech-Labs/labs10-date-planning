@@ -17,7 +17,7 @@ type Mutation {
 	updateUser(data: UserUpdateInput!): User
 	createChat(id: String!, message: String!): Chat!
 	deleteChat(id: String): Message
-	sendMessage(id: String!, message: String!): DirectMessage!
+	sendMessage(id: String!, message: String!): Chat!
 	verifyPhone(phone: String!): Message
 	checkVerify(phone: String!, code: String!): Message!
 	blockUser(id: String!): User!
