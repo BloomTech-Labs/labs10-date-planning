@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { Mutation, Query } from 'react-apollo';
 import _ from 'lodash';
 import { withRouter } from 'next/router';
@@ -49,7 +49,7 @@ const Composed = adopt({
 				genres: filters.state.genres,
 				dates: filters.state.dates,
 			}}
-			onCompleted={() => NProgress.done()}
+			//onCompleted={() => NProgress.done()}
 			onError={() => NProgress.done()}
 		>
 			{render}
@@ -68,10 +68,13 @@ const Composed = adopt({
 });
 
 const Events = ({ classes, newUser, router, href }) => {
+	useEffect(() => {
+		NProgress.start();
+	}, []);
 	return (
 		<Composed>
 			{({
-				getEvents: { data: { getEvents }, refetch, loading, client },
+				getEvents: { data: { getEvents }, refetch, loading },
 				updateUser,
 				drawer,
 				location,
@@ -161,7 +164,7 @@ const Events = ({ classes, newUser, router, href }) => {
 										{!loading ? (
 											<GridContainer>
 												<GridItem sm={12} md={6} lg={6}>
-													<InfiniteScroll
+													{/* <InfiniteScroll
 														pageStart={0}
 														loadMore={async page => {
 															if (page > getEvents.page_count - 1) {
@@ -175,20 +178,10 @@ const Events = ({ classes, newUser, router, href }) => {
 														hasMore={page.value < getEvents.page_count}
 														threshold={400}
 														loader={<div key={0} />}
-													>
-														{getEvents.events
-															.filter((e, i) => i % 2 === 0)
-															.map(event => (
-																<Event
-																	event={event}
-																	key={event.id}
-																	refetch={refetch}
-																	user={currentUser}
-																	location={location}
-																/>
-															))}
-
-														{getEvents.events.map(event => (
+													> */}
+													{getEvents.events
+														.filter((e, i) => i % 2 === 0)
+														.map(event => (
 															<Event
 																event={event}
 																key={event.id}
@@ -197,7 +190,17 @@ const Events = ({ classes, newUser, router, href }) => {
 																location={location}
 															/>
 														))}
-													</InfiniteScroll>
+
+													{/* {getEvents.events.map(event => (
+															<Event
+																event={event}
+																key={event.id}
+																refetch={refetch}
+																user={currentUser}
+																location={location}
+															/>
+														))} */}
+													{/* </InfiniteScroll> */}
 												</GridItem>
 
 												<GridItem sm={12} md={6} lg={6}>

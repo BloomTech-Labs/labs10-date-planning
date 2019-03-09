@@ -11,12 +11,12 @@ import { ADD_EVENT_MUTATION } from '../Mutations/addEvent';
 import { DELETE_EVENT_MUTATION } from '../Mutations/updateUser';
 
 //MUI
-import { Bookmark, ChevronLeft, BookmarkBorder, FlashOn } from '@material-ui/icons';
-import Favorite from '@material-ui/icons/Favorite';
-import Chat from '@material-ui/icons/ChatBubble';
-import Flip from '@material-ui/icons/RotateRight';
-import Flipper from '@material-ui/icons/SubdirectoryArrowRightRounded';
-import Flopper from '@material-ui/icons/SubdirectoryArrowLeftRounded';
+import {
+	Favorite,
+	ChatBubble as Chat,
+	SubdirectoryArrowRightRounded as Flipper,
+	SubdirectoryArrowLeftRounded as Flopper,
+} from '@material-ui/icons';
 import { IconButton, Typography, Avatar, Button } from '@material-ui/core';
 import withStyles from '@material-ui/core/styles/withStyles';
 
@@ -25,8 +25,6 @@ import Arrow from '../../static/img/up4Arrow.png';
 import standIn from '../../static/img/placeholder.jpg';
 
 //Components
-
-import InfoModal from './InfoModal';
 import Up4 from './UpFor';
 
 //Styled components
@@ -50,32 +48,24 @@ const Event = ({ event, classes, user, refetch }) => {
 		variables: { id: event.id },
 	});
 
-	//const [ modal, showModal ] = useState(false);
+	// useEffect(() => {
+	// 	NProgress.start();
+	// }, []);
+
 	const [ rotate, setRotate ] = useState('');
-	const [ height, setHeight ] = useState('191px');
+	const [ height, setHeight ] = useState(0);
 	const [ val, set ] = useState(false);
 	const divEl = useRef(null);
-	const imgEl = useRef(null);
 	let isSaved = user ? user.events.find(e => e.id === event.id) : false;
 
 	useEffect(
 		() => {
-			if (divEl) {
+			if (val) {
 				setHeight(`${divEl.current.clientHeight}px`);
+				NProgress.done();
 			}
 		},
-		[ divEl, val ],
-	);
-
-	useEffect(
-		() => {
-			if (imgEl) {
-				if (imgEl.current.clientHeight === 0) {
-					set(true);
-				}
-			}
-		},
-		[ imgEl ],
+		[ val ],
 	);
 
 	const handleClick = async (e, addEvent) => {
@@ -95,7 +85,13 @@ const Event = ({ event, classes, user, refetch }) => {
 	});
 
 	return (
-		<div style={{ height: 'max-content', position: 'relative' }}>
+		<div
+			style={{
+				height: 'max-content',
+				position: 'relative',
+				opacity: height === 0 ? '0' : '1',
+			}}
+		>
 			<div
 				style={{ height: height }}
 				className={`${classes.rotatingCardContainer} ${classes.manualRotate} ${rotate}`}
@@ -107,9 +103,9 @@ const Event = ({ event, classes, user, refetch }) => {
 								<a href='#' onClick={e => e.preventDefault()}>
 									<img
 										style={{ border: '1px solid #cabac8' }}
-										ref={imgEl}
 										src={event.image_url}
 										alt='...'
+										onLoad={() => set(true)}
 									/>
 								</a>
 								<div
@@ -332,7 +328,7 @@ const Event = ({ event, classes, user, refetch }) => {
 														NProgress.start();
 														Router.push(
 															`/home?user=${usr.id}`,
-															`/home?user=${usr.id}`,
+															`/home/user/${usr.id}`,
 															{ shallow: true },
 															{ scroll: false },
 														);
