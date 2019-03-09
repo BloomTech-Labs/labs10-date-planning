@@ -1,5 +1,6 @@
 import React, { useState, useEffect, Fragment, useRef } from 'react';
 import { withApollo, Mutation, Query } from 'react-apollo';
+import { useQuery, useMutation } from 'react-apollo-hooks';
 import moment from 'moment';
 import NProgress from 'nprogress';
 import Router, { withRouter } from 'next/router';
@@ -26,33 +27,34 @@ import {
 	NotInterested,
 } from '@material-ui/icons';
 //Q&M
-import User, { CURRENT_USER_QUERY } from '../Queries/User';
-import { EVENT_QUERY } from '../Queries/Event';
-import { GET_CONVERSATION_QUERY } from '../Queries/getConvo';
-import { USER_QUERY } from '../Queries/OtherUser';
-import { ADD_EVENT_MUTATION } from '../Mutations/addEvent';
-import { CREATE_CHAT_MUTATION } from '../Mutations/createChat';
-import { SEND_MESSAGE_MUTATION } from '../Mutations/sendMessage';
+import User, { CURRENT_USER_QUERY } from './Queries/User';
+import { EVENT_QUERY } from './Queries/Event';
+import { GET_CONVERSATION_QUERY } from './Queries/getConvo';
+import { USER_QUERY } from './Queries/OtherUser';
+import { ADD_EVENT_MUTATION } from './Mutations/addEvent';
+import { CREATE_CHAT_MUTATION } from './Mutations/createChat';
+import { SEND_MESSAGE_MUTATION } from './Mutations/sendMessage';
 import {
 	UPDATE_USER_MUTATION,
 	LIKE_USER_MUTATION,
 	UNLIKE_USER_MUTATION,
 	UPDATE_BLOCKS_MUTATION,
-} from '../Mutations/updateUser';
+} from './Mutations/updateUser';
+import { UDPATE_SEEN_MSG_MUTATION } from './Mutations/updateSeenMessage';
 
 //Components
-import InfoModal from './InfoModal';
-import Transition from '../Transistion';
+import InfoModal from './Home/InfoModal';
+import Transition from './Transistion';
 //StyledComponents
-import Button from '../../styledComponents/CustomButtons/Button';
-import CustomInput from '../../styledComponents/CustomInput/CustomInput.jsx';
-import Media from '../../styledComponents/Media/Media.jsx';
+import Button from '../styledComponents/CustomButtons/Button';
+import CustomInput from '../styledComponents/CustomInput/CustomInput.jsx';
+import Media from '../styledComponents/Media/Media.jsx';
 
 //styles
-import styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles.jsx';
-import '../../styles/Home/EventModal.scss';
+import styles from '../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles.jsx';
+import '../styles/Home/EventModal.scss';
 //utils
-import getAge from '../../utils/getAge';
+import getAge from '../utils/getAge';
 
 let settings = {
 	dots: true,
@@ -70,11 +72,7 @@ const Composed = adopt({
 			{render}
 		</Query>
 	),
-	convo: ({ id, render }) => (
-		<Query query={GET_CONVERSATION_QUERY} variables={{ id: id.value }}>
-			{render}
-		</Query>
-	),
+
 	createChat: ({ id, render }) => (
 		<Mutation
 			mutation={CREATE_CHAT_MUTATION}
@@ -128,11 +126,35 @@ const Composed = adopt({
 	),
 });
 
-const EventModal = ({ classes, user, router }) => {
+const EventModal = ({ classes, user, router, currentUser }) => {
 	const [ message, setMessage ] = useState('');
+	const [ newMsgs, setNewMsgs ] = useState([]);
+	const updateSeen = useMutation(UDPATE_SEEN_MSG_MUTATION);
+	const { data, loading } = useQuery(GET_CONVERSATION_QUERY, {
+		variables: { id: user },
+	});
+
 	const msgRef = useRef(null);
-	//console.log(msgRef.current);
-	//let isLiked =
+
+	useEffect(
+		() => {
+			if (data.getConversation) {
+				let unseen = data.getConversation.messages.filter(
+					msg => msg.from.id !== currentUser.id && !msg.seen,
+				);
+				if (unseen.length) {
+					setNewMsgs(unseen);
+					updateSeen({
+						variables: {
+							chatId: data.getConversation.id,
+						},
+					});
+				}
+			}
+		},
+		[ data ],
+	);
+
 	useEffect(
 		() => {
 			if (msgRef.current) {
@@ -145,11 +167,11 @@ const EventModal = ({ classes, user, router }) => {
 	return (
 		<Composed matchId={user}>
 			{({
-				user: { data: { currentUser } },
+				//user: { data: { currentUser } },
 				createChat,
 				sendMessage,
 				id,
-				convo,
+
 				like,
 				unlike,
 				block,
@@ -159,11 +181,11 @@ const EventModal = ({ classes, user, router }) => {
 				let isLiked = currentUser
 					? currentUser.liked.find(user => user.id === id.value)
 					: false;
-				let userImg = currentUser ? currentUser.img.find(img => img.default).img_url : null;
-				let matchImg = match
-					? match.img.find(img => img.default) &&
-						match.img.find(img => img.default).img_url
-					: null;
+				let userImg =
+					currentUser && currentUser.img.find(img => img.default)
+						? currentUser.img.find(img => img.default).img_url
+						: null;
+
 				if (!match) return <div />;
 				else {
 					NProgress.done();
@@ -271,34 +293,43 @@ const EventModal = ({ classes, user, router }) => {
 									</div>
 								</div>
 								<div>
-									<div
-										ref={msgRef}
+									{/* <div
+										
 										style={{
 											height: '452px',
 											height: '375px',
 										}}
 										src={matchImg}
-									/>
+									/> */}
 								</div>
 								<div className={classes.chatBorder}>
-									<div className={classes.chat}>
-										{convo.data.getConversation &&
-											convo.data.getConversation.messages &&
-											convo.data.getConversation.messages.map(message => {
+									<div ref={msgRef} className={classes.chat}>
+										{data.getConversation &&
+											data.getConversation.messages.map(message => {
+												let fromMatch = message.from.id !== currentUser.id;
+												let unseen = newMsgs.find(
+													msg => msg.id === message.id,
+												);
 												let img = message.from.img.find(img => img.default)
 													.img_url;
 												return (
 													<Media
-														currentUser={
-															currentUser &&
-															message.from.id === currentUser.id
-														}
+														currentUser={!fromMatch}
 														key={message.id}
 														avatar={img}
 														title={
 															<span>
 																{message.from.firstName}{' '}
-																<small>· {moment(message.createdAt).fromNow()}</small>
+																<small
+																	style={{
+																		fontWeight:
+																			unseen && 'bold',
+																	}}
+																>
+																	·{' '}
+																	{moment(message.createdAt).fromNow()}{' '}
+																	{unseen ? <span style={{ color: 'red' }}>new</span> : null}
+																</small>
 															</span>
 														}
 														body={
@@ -313,6 +344,7 @@ const EventModal = ({ classes, user, router }) => {
 									<div>
 										<Media
 											avatar={userImg}
+											currentUser
 											body={
 												<CustomInput
 													id='logged'

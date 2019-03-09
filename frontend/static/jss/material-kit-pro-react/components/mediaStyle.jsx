@@ -2,8 +2,8 @@ import { title } from '../../material-kit-pro-react';
 const mediaStyle = {
 	media: {
 		display: 'flex',
-		WebkitBoxAlign: 'start',
-		alignItems: 'flex-start',
+		// WebkitBoxAlign: 'start',
+		// alignItems: 'flex-start',
 		'& p': {
 			color: '#999999',
 			fontSize: '1rem',
@@ -15,11 +15,15 @@ const mediaStyle = {
 	},
 	reverse: {
 		flexDirection: 'row-reverse',
-		justifyContent: 'space-between'
+		justifyContent: 'space-between',
 	},
 	mediaLink: {
 		padding: '10px',
 		float: 'left !important',
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'flex-start',
+		justifyContent: 'space-between',
 	},
 	mediaAvatar: {
 		margin: '0 auto',
@@ -36,6 +40,8 @@ const mediaStyle = {
 	},
 	otherBody: {
 		paddingRight: '10px',
+		WebkitBoxFlex: '1',
+		flex: '1',
 	},
 	mediaBody: {
 		paddingRight: '10px',
@@ -51,9 +57,9 @@ const mediaStyle = {
 		},
 	},
 	mediaFooter: {
-		'& button, & a': {
-			marginBottom: '20px',
-		},
+		// '& button, & a': {
+		// 	marginBottom: '20px',
+		// },
 		'&:after': {
 			display: 'table',
 			content: '" "',

@@ -23,7 +23,7 @@ const signupPageStyle = {
 			background: 'rgba(0, 0, 0, 0.5)',
 		},
 		'&:after': {
-			background: 'linear-gradient(60deg,rgba(225,190,231,.56),rgba(186,104,200,.95))',
+			background: 'linear-gradient(60deg,rgba(76,181,174, 0.7),rgba(76,181,174, 0.9))',
 		},
 		'&:before,&:after': {
 			position: 'absolute',

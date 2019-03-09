@@ -50,7 +50,7 @@ type User {
 }
 
 type Chat {
-	id: ID! @unique
+	id: ID! @unique 
 	users: [User!]!
 	messages: [DirectMessage!]!
 }
@@ -61,6 +61,7 @@ type DirectMessage {
 	from: User!
 	createdAt: DateTime!
 	seen: Boolean @default(value: "false")
+	updatedAt: DateTime!
 	chat: Chat!
 }
 

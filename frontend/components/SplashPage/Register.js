@@ -279,11 +279,13 @@ const Register = ({ classes }) => {
 															NProgress.done();
 															setServerError(error);
 														}}
-														onCompleted={() =>
-															Router.push({
-																pathname: '/home',
-																query: { welcome: true },
-															})}
+														onCompleted={() => {
+															NProgress.done();
+															Router.push(
+																'/welcome?slug=0',
+																'/welcome/profile/getstarted',
+															);
+														}}
 													>
 														{(firebaseAuth, { called }) => {
 															if (called) NProgress.start();
@@ -343,11 +345,13 @@ const Register = ({ classes }) => {
 													refetchQueries={[
 														{ query: CURRENT_USER_QUERY },
 													]}
-													onCompleted={() =>
-														Router.push({
-															pathname: '/home',
-															query: { welcome: true },
-														})}
+													onCompleted={() => {
+														NProgress.done();
+														Router.push(
+															'/welcome?slug=0',
+															'/welcome/profile/getstarted',
+														);
+													}}
 													onError={handleError}
 													awaitRefetchQueries
 												>

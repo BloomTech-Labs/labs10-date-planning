@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "name": "up4",
+  "builds": [{ "src": "next.config.js", "use": "@now/next@canary" }, {
+    "src": "static/*",
+    "use": "@now/static"
+  }], "routes": [{"src": "/static/(.*)", "dest": "static/$1"},
+    {"src": "/(.*)", "dest": "pages/$1"}
+    ], 
+      "alias": ["up4.life", "www.up4.life"]
+    
+}

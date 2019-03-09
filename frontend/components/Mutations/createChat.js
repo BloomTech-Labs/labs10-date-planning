@@ -11,6 +11,7 @@ export const CREATE_CHAT_MUTATION = gql`
 			messages {
 				id
 				text
+				seen
 				from {
 					firstName
 					img {

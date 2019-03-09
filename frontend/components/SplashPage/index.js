@@ -11,7 +11,7 @@ import GridContainer from '../../styledComponents/Grid/GridContainer';
 import GridItem from '../../styledComponents/Grid/GridItem';
 //styles
 import Styles from '../../static/jss/material-kit-pro-react/views/landingPageStyle';
-
+import { spacing } from '@material-ui/system'
 import Logo from '../Header/UpFor';
 
 const Splash = ({ classes }) => {
@@ -43,9 +43,10 @@ const Splash = ({ classes }) => {
 						</div>
 						<div id='javascriptComponents'>
 							<GridContainer
-								style={{ flexDirection: 'column', alignItems: 'center' }}
+								style={{ flexDirection: 'column', alignItems: 'center'}}
 							>
-								<Register />
+								<Register
+								style={{ padding: '0px 0px 0px 0px'}} />
 
 								<Login />
 							</GridContainer>

@@ -11,6 +11,8 @@ export const GET_CONVERSATION_QUERY = gql`
 			messages {
 				id
 				text
+				seen
+				updatedAt
 				from {
 					id
 					firstName
