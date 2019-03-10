@@ -3,6 +3,7 @@ import Router from 'next/router';
 import gql from 'graphql-tag';
 import { Mutation, Query } from 'react-apollo';
 import NProgress from 'nprogress';
+import moment from 'moment';
 import { useQuery } from 'react-apollo-hooks';
 import useInterval from '@rooks/use-interval';
 import { withRouter } from 'next/router';
@@ -57,19 +58,29 @@ const Nav = ({ classes, color, router, href, currentUser }) => {
 	};
 
 	const formattedChats = (newMessages, user) => {
-		return newMessages.filter(msg => msg.messages).map(chatObj => {
-			let len = chatObj.messages.length - 1;
-			const { messages, users } = chatObj;
-			let [ usr ] = users.filter(usr => usr.id !== user.id);
-			let img = usr.img.length ? usr.img.find(img => img.default).img_url : profileStandIn;
-			return {
-				id: chatObj.id,
-				from: usr.firstName,
-				fromId: usr.id,
-				text: messages[len].text,
-				img: img,
-			};
-		});
+		return newMessages
+			.filter(msg => msg.messages)
+			.map(chatObj => {
+				let len = chatObj.messages.length - 1;
+				const { messages, users } = chatObj;
+				let [ usr ] = users.filter(usr => usr.id !== user.id);
+				let img = usr.img.length
+					? usr.img.find(img => img.default).img_url
+					: profileStandIn;
+				return {
+					id: chatObj.id,
+					from: usr.firstName,
+					fromId: usr.id,
+					text: messages[len].text,
+					img: img,
+					time: messages[len].createdAt,
+				};
+			})
+			.sort((a, b) => {
+				let dateA = new Date(a.time);
+				let dateB = new Date(b.time);
+				return dateB - dateA;
+			});
 	};
 
 	const newMessageCount = (newMessages, user) => {
@@ -129,9 +140,14 @@ const Nav = ({ classes, color, router, href, currentUser }) => {
 						<CustomDropdown
 							dropPlacement='bottom-end'
 							caret={false}
+							messages
 							hoverColor='dark'
 							dropdownHeader={
-								newMessages.length && newMessages.length + ' new messages!'
+								newMessages.length ? (
+									newMessages.length + ' new messages!'
+								) : (
+									'no new messages.'
+								)
 							}
 							buttonText={
 								<Badge badgeContent={newMessages.length} color='error'>
@@ -174,9 +190,25 @@ const Nav = ({ classes, color, router, href, currentUser }) => {
 														'0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
 												}}
 											/>
-											<div>
-												<div>{chat.from}</div>
-												<div>{chat.text}</div>
+											<div style={{ flexGrow: 1 }}>
+												<div
+													style={{
+														display: 'flex',
+														justifyContent: 'space-between',
+													}}
+												>
+													<p className={classes.title}>{chat.from}</p>
+													<small>{moment(chat.time).fromNow()}</small>
+												</div>
+												<div
+													style={{
+														maxWidth: '165px',
+														overflow: 'hidden',
+														textOverflow: 'ellipsis',
+													}}
+												>
+													{chat.text}
+												</div>
 											</div>
 										</div>
 									))

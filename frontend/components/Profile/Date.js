@@ -56,27 +56,39 @@ const DateView = ({ date, classes, client, currentUser }) => {
 					</CardHeader>
 				)}{' '}
 				<CardBody style={{ zIndex: '1' }} className={classes.cardBodyRotate}>
+					<h4 className={classes.cardTitle}>{date.title}</h4>
 					<div className='gradient-box'>
 						<span>{date.venue}</span>
+						<div
+							className={`${classes.stats} ${classes.mlAuto}`}
+							style={{ display: 'block' }}
+						>
+							{date.times.length > 2 ? (
+								<div>
+									{moment(date.times[0]).calendar()} -{' '}
+									{moment(date.times[date.times.length - 1]).calendar()}
+								</div>
+							) : (
+								date.times.map((time, i) => (
+									<div key={i}>{moment(time).calendar()}</div>
+								))
+							)}
+						</div>
 					</div>
-					<h4 className={classes.cardTitle}>
-						<a classes={{ root: 'test' }} href='#' onClick={e => e.preventDefault()}>
-							{date.title}
-						</a>
-					</h4>
+
 					{/* {date.description && (
 						<div className='gradient-box'>
 							<span>{date.description}</span>
 						</div>
 					)} */}
 				</CardBody>
-				<CardFooter>
+				{/* <CardFooter>
 					<div
 						className={`${classes.stats} ${classes.mlAuto}`}
 						style={{ display: 'block' }}
 					>
 						{/* <Schedule /> */}
-						{date.times.map(ev => (
+				{/* {date.times.map(ev => (
 							<div key={ev}>{moment(ev).format('dddd, MMMM Do, h:mm a')}</div>
 						))}
 					</div>
@@ -88,7 +100,7 @@ const DateView = ({ date, classes, client, currentUser }) => {
 					>
 						Delete
 					</Button>
-				</CardFooter>
+				</CardFooter> */}{' '}
 			</Card>
 		</GridItem>
 	);
