@@ -51,12 +51,10 @@ export const isLoggedIn = async client => {
 	let response = await client.query({
 		query: CURRENT_USER_QUERY
 	});
-	// let data = client.cache.extract();
 	if (response) {
-		return { data: response.data };
+		return { currentUser: response.data };
 	}
 	return {};
-	// return Object.values(data).some(val => val.hasOwnProperty('currentUser'));
 };
 
 User.propTypes = {
