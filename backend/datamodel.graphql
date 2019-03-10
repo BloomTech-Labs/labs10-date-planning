@@ -2,6 +2,7 @@ enum Category {
 	MUSIC
 	ARTS_THEATRE
 	SPORTS
+	MISCELLANEOUS
 }
 
 enum Permission {
@@ -34,7 +35,7 @@ type User {
 	img: [ProfilePic!]!
 	resetToken: String
 	resetTokenExpiry: Float
-	interests: [Category]
+	interests: [Genre]
 	events: [Event!]!
 	genderPrefs: [Gender]
 	minAgePref: Int
@@ -76,7 +77,7 @@ type Event {
 	id: ID! @unique
 	eventfulID: String @unique
 	title: String
-	genre: String
+	genre: Genre
 	description: String
 	attending: [User!]!
 	times: [String]
@@ -88,4 +89,11 @@ type Event {
 	address: String
 	lat: String
 	long: String
+}
+
+type Genre {
+	id: ID! @unique
+	tmID: String!
+	category: Category!
+	name: String! 
 }

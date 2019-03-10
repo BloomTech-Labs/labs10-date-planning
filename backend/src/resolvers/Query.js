@@ -8,6 +8,7 @@ const UserQuery = require('./User/UserQuery');
 const Query = {
 	...MessageQuery,
 	...UserQuery,
+	genres: forwardTo('db'),
 	currentUser(parent, args, { db, request }, info) {
 		// check if there is a current user ID
 		if (!request.userId) {

@@ -30,7 +30,8 @@ export const ALL_EVENTS_QUERY = gql`
 				image_url
 				description
 				times
-				genre
+				genreName
+				category
 				notes
 				attending {
 					id
@@ -41,7 +42,6 @@ export const ALL_EVENTS_QUERY = gql`
 						img_url
 					}
 					biography
-					score
 				}
 				location {
 					venue
