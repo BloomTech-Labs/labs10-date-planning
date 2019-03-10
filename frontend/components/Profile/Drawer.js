@@ -8,7 +8,7 @@ import NProgress from 'nprogress';
 //MUI
 import withStyles from '@material-ui/core/styles/withStyles';
 import CustomInput from '../../styledComponents/CustomInput/CustomInput.jsx';
-import { Settings, Event, Payment, ChatBubble, AccountCircle } from '@material-ui/icons';
+import { Settings, Event, Payment, ChatBubbleOutline, AccountCircle } from '@material-ui/icons';
 import {
 	MenuItem,
 	Select,
@@ -24,8 +24,9 @@ import { UPDATE_USER_MUTATION } from '../Mutations/updateUser';
 import Button from '../../styledComponents/CustomButtons/Button';
 import style from '../../static/jss/material-kit-pro-react/views/componentsSections/basicsStyle.jsx';
 import '../../styles/Profile/index.scss';
+import { Query } from 'react-apollo';
 
-const Preferences = ({ classes, drawerOpen, setDrawerOpen, router }) => {
+const Preferences = ({ classes, drawerOpen, setDrawerOpen, router: { query } }) => {
 	return (
 		<Drawer
 			className={classes.drawer}
@@ -41,15 +42,7 @@ const Preferences = ({ classes, drawerOpen, setDrawerOpen, router }) => {
 					onClick={() =>
 						Router.push('/profile?slug=me', '/profile/me', { shallow: true })}
 				>
-					<AccountCircle color={router.slug === 'me' ? 'primary' : 'gray'} />
-				</IconButton>
-			</ListItem>
-			<ListItem>
-				<IconButton
-					onClick={() =>
-						Router.push('/profile?slug=events', '/profile/events', { shallow: true })}
-				>
-					<Event color={router.slug === 'events' ? 'primary' : 'gray'} />
+					<AccountCircle color={query.slug === 'me' ? 'primary' : 'default'} />
 				</IconButton>
 			</ListItem>
 			<ListItem>
@@ -57,15 +50,25 @@ const Preferences = ({ classes, drawerOpen, setDrawerOpen, router }) => {
 					onClick={() =>
 						Router.push('/profile?slug=chats', '/profile/chat', { shallow: true })}
 				>
-					<ChatBubble color={router.slug === 'chats' ? 'primary' : 'gray'} />
+					<ChatBubbleOutline color={query.slug === 'chats' ? 'primary' : 'gray'} />
 				</IconButton>
 			</ListItem>
+
+			<ListItem>
+				<IconButton
+					onClick={() =>
+						Router.push('/profile?slug=events', '/profile/events', { shallow: true })}
+				>
+					<Event color={query.slug === 'events' ? 'primary' : 'default'} />
+				</IconButton>
+			</ListItem>
+
 			<ListItem>
 				<IconButton
 					onClick={() =>
 						Router.push('/profile?slug=billing', '/profile/billing', { shallow: true })}
 				>
-					<Payment color={router.slug === 'billing' ? 'primary' : 'gray'} />
+					<Payment color={query.slug === 'billing' ? 'primary' : 'gray'} />
 				</IconButton>
 			</ListItem>
 		</Drawer>

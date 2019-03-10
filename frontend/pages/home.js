@@ -16,7 +16,7 @@ const Home = ({ query }) => {
 			else return (
 				<>
 					<Header color='primary' currentUser={data.currentUser}/>
-					<Events  newUser={query && query.welcome} />
+					<Events  />
 				</>
 			);
 		}}

@@ -133,7 +133,14 @@ const ImageModal = ({ classes, modal, showModal, user }) => {
 		// 		classes={{ root: 'dialogContent' }}
 		// 		className={classes.modalBody}
 		// 	>
-		<div style={{ display: 'flex', flexDirection: 'column', marginBottom: '20px' }}>
+		<div
+			style={{
+				display: 'flex',
+				flexDirection: 'column',
+				marginBottom: '20px',
+				marginTop: '20px',
+			}}
+		>
 			<GridContainer>
 				<GridItem sm={6} md={4} lg={4}>
 					<div

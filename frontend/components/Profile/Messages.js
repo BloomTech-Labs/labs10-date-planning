@@ -24,7 +24,7 @@ Router.onRouteChangeComplete = () => {
 };
 
 const Messages = ({ classes, color, router, href, user }) => {
-	const [ selectedChatId, setSelectedChatId ] = useState('');
+	const [ selectedChatId, setSelectedChatId ] = useState(undefined);
 
 	const { data, loading, refetch } = useQuery(ALL_CHATS_QUERY, {
 		pollInterval: 600,
@@ -34,8 +34,10 @@ const Messages = ({ classes, color, router, href, user }) => {
 		setSelectedChatId(chatId);
 	};
 
-	const formattedChats = (newMessages, user) => {
-		return newMessages.filter(msg => msg.messages).map(chatObj => {
+	if (!data) return <div>loading</div>;
+
+	const formattedChats = userChats => {
+		return userChats.filter(msg => msg.messages).map(chatObj => {
 			let len = chatObj.messages.length - 1;
 			const { messages, users } = chatObj;
 			let [ usr ] = users.filter(usr => usr.id !== user.id);
@@ -45,7 +47,8 @@ const Messages = ({ classes, color, router, href, user }) => {
 				from: usr.firstName,
 				fromId: usr.id,
 				text: messages[len].text,
-				img: usr.imageThumbnail,
+				img: img,
+				time: messages[len].createdAt,
 			};
 		});
 	};
@@ -57,10 +60,11 @@ const Messages = ({ classes, color, router, href, user }) => {
 	// 		return [ ...count, ...newcount ];
 	// 	}, []);
 	// };
-	const selectedChat = data.getUserChats
-		? data.getUserChats.filter(chat => chat.id === selectedChatId)
-		: [];
-
+	const selectedChat =
+		selectedChatId && data.getUserChats
+			? data.getUserChats.filter(chat => chat.id === selectedChatId)
+			: [];
+	console.log(selectedChat);
 	return (
 		<div>
 			<div className={classes.container} style={{ paddingTop: '30px' }}>
@@ -93,7 +97,7 @@ const Messages = ({ classes, color, router, href, user }) => {
 								Slidin' in to your DMs
 							</Typography>
 							<ChatList
-								userChats={data.getUserChats}
+								userChats={formattedChats(data.getUserChats)}
 								currentUser={user}
 								handleSelectMessage={handleSelectMessage}
 							/>
@@ -107,6 +111,20 @@ const Messages = ({ classes, color, router, href, user }) => {
 									'url("https://www.transparenttextures.com/patterns/brilliant.png")',
 							}}
 						>
+							<Typography
+								variant='h6'
+								gutterBottom
+								style={{
+									backgroundImage:
+										'linear-gradient(to right, #b2ddf7, #a8daf9, #9fd8fb, #94d5fd, #8ad2ff)',
+									textAlign: 'center',
+									padding: '15px',
+									borderTopLeftRadius: '6px',
+									color: 'white',
+								}}
+							>
+								{!selectedChat.length ? 'Select a user to the left.' : 'hi'}
+							</Typography>
 							<MessageList
 								selectedChat={selectedChat}
 								currentUser={user}

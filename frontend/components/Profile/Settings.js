@@ -54,7 +54,6 @@ const Settings = ({ classes, currentUser }) => {
 			<div className={classes.container}>
 				<GridContainer>
 					<GridItem md={8} lg={8}>
-						<ImageModal modal={modal} showModal={showModal} user={currentUser} />
 						<GridContainer>
 							<GridItem md={6} lg={6}>
 								<Bio currentUser={currentUser} />
@@ -63,6 +62,7 @@ const Settings = ({ classes, currentUser }) => {
 								<Preferences currentUser={currentUser} />
 							</GridItem>
 						</GridContainer>
+						<ImageModal modal={modal} showModal={showModal} user={currentUser} />
 					</GridItem>
 					<GridItem md={4} lg={4}>
 						<Interests currentUser={currentUser} />

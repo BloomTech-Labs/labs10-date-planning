@@ -5,7 +5,6 @@ import { Mutation, Query } from 'react-apollo';
 import NProgress from 'nprogress';
 import moment from 'moment';
 import { useQuery } from 'react-apollo-hooks';
-import useInterval from '@rooks/use-interval';
 import { withRouter } from 'next/router';
 
 //MUI
@@ -27,7 +26,6 @@ import Button from '../../styledComponents/CustomButtons/Button.jsx';
 //assets
 // import image from '../../static/img/bg.jpg';
 import profileStandIn from '../../static/img/placeholder.jpg';
-import Logo from './UpFor';
 
 Router.onRouteChangeComplete = () => {
 	NProgress.done(true);

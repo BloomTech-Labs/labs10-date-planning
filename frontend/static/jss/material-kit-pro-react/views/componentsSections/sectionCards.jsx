@@ -276,6 +276,9 @@ const styles = {
 	userCard: {
 		cursor: 'pointer',
 		position: 'relative',
+		paddign: '5px',
+		marginBottom: '5px',
+		flexDirection: 'column',
 		'&:hover': {
 			backgroundImage:
 				'linear-gradient(to right, #81d6e3, #98ceea, #b1c5e5, #c4bed7, #cabac8)',
@@ -350,11 +353,6 @@ const styles = {
 				top: '-8px',
 			},
 		},
-	},
-	userCardBorder: {
-		paddign: '5px',
-		marginBottom: '5px',
-		flexDirection: 'column',
 	},
 
 	up4: {
