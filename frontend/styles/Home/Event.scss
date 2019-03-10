@@ -16,7 +16,7 @@
      box-shadow: 0 4px 20px 0px rgba(255, 255, 255, 0.14), 0 7px 12px -5px rgba(85,187,185, 0.56) !important;
      border: 4px solid red;
   }
-  background-color: #fafafa;
+  //background-color: #fafafa;
 }
 
 .gradient_border {
@@ -63,4 +63,12 @@
     }
   }
   
+}
+
+.event_user_card {
+  &:hover {
+    background-image: linear-gradient(to right, #cabac8, #df9bbe, #f6749d, #ff4768, #ff101f);
+    border-radius: 6px; 
+    box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+  }
 }

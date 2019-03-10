@@ -133,7 +133,6 @@ const customDropdownStyle = theme => ({
 		margin: '0 5px',
 		borderRadius: '2px',
 		position: 'relative',
-		borderTop: '1px solid #777',
 
 		transition: 'all 150ms linear',
 		display: 'block',

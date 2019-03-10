@@ -9,6 +9,23 @@ const Query = {
 	...MessageQuery,
 	...UserQuery,
 	genres: forwardTo('db'),
+	async userEvents(parent, args, { request, db }, info) {
+		const { user } = request;
+		if (!user) throw new Error('You must be logged in to use this feature!');
+		console.log(user);
+		let events = await db.query.events(
+			{
+				where: {
+					attending_some: {
+						id: user.id,
+					},
+				},
+			},
+			info,
+		);
+
+		return events;
+	},
 	currentUser(parent, args, { db, request }, info) {
 		// check if there is a current user ID
 		if (!request.userId) {

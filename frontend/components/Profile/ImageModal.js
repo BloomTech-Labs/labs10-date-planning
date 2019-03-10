@@ -3,7 +3,14 @@ import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 import { useQuery, useMutation } from 'react-apollo-hooks';
 import withStyles from '@material-ui/core/styles/withStyles';
-import { DialogTitle, Dialog, DialogContent, InputAdornment, IconButton } from '@material-ui/core';
+import {
+	DialogTitle,
+	Dialog,
+	DialogContent,
+	InputAdornment,
+	IconButton,
+	Paper,
+} from '@material-ui/core';
 import { Close, Delete } from '@material-ui/icons';
 import Button from '../../styledComponents/CustomButtons/Button';
 import GridContainer from '../../styledComponents/Grid/GridContainer';
@@ -80,209 +87,213 @@ const ImageModal = ({ classes, modal, showModal, user }) => {
 	let userImgs = user.img.sort((a, b) => (a.default ? -1 : b.default ? 1 : 0));
 
 	return (
-		<Dialog
-			classes={{
-				root: classes.modalRoot,
-				paper: classes.modalLarge,
-			}}
-			open={modal}
-			// TransitionComponent={Transition}
-			//keepMounted
-			scroll='body'
-			onClose={() => showModal(false)}
-			aria-labelledby='notice-modal-slide-title'
-			aria-describedby='notice-modal-slide-description'
-			//style={{ width: '600px' }}
-		>
-			<DialogTitle
-				id='notice-modal-slide-title'
-				disableTypography
-				className={classes.modalHeader}
-				style={modalHeader}
-			>
-				<Button
-					simple
-					className={classes.modalCloseButton}
-					key='close'
-					aria-label='Close'
-					onClick={e => {
-						e.stopPropagation();
-						showModal(false);
-					}}
-				>
-					{' '}
-					<Close style={{ color: '#fafafa' }} className={classes.modalClose} />
-				</Button>
-			</DialogTitle>
-			<DialogContent
-				style={{
-					zIndex: 3,
-					display: 'flex',
-					flexDirection: 'column',
-					justifyContent: 'space-between',
-					height: '600px',
-				}}
-				id='notice-modal-slide-description'
-				classes={{ root: 'dialogContent' }}
-				className={classes.modalBody}
-			>
-				<GridContainer style={{ width: '100%', height: '500px' }}>
-					<GridItem sm={6} md={4} lg={4}>
-						<div
-							className='prof-img-lg'
-							style={{ backgroundImage: `url(${userImgs[0].img_url})` }}
-						/>
-					</GridItem>
+		// <Dialog
+		// 	classes={{
+		// 		root: classes.modalRoot,
+		// 		paper: classes.modalLarge,
+		// 	}}
+		// 	open={modal}
+		// 	// TransitionComponent={Transition}
+		// 	//keepMounted
+		// 	scroll='body'
+		// 	onClose={() => showModal(false)}
+		// 	aria-labelledby='notice-modal-slide-title'
+		// 	aria-describedby='notice-modal-slide-description'
+		// 	//style={{ width: '600px' }}
+		// >
+		// 	<DialogTitle
+		// 		id='notice-modal-slide-title'
+		// 		disableTypography
+		// 		className={classes.modalHeader}
+		// 		style={modalHeader}
+		// 	>
+		// 		<Button
+		// 			simple
+		// 			className={classes.modalCloseButton}
+		// 			key='close'
+		// 			aria-label='Close'
+		// 			onClick={e => {
+		// 				e.stopPropagation();
+		// 				showModal(false);
+		// 			}}
+		// 		>
+		// 			{' '}
+		// 			<Close style={{ color: '#fafafa' }} className={classes.modalClose} />
+		// 		</Button>
+		// 	</DialogTitle>
+		// 	<DialogContent
+		// 		style={{
+		// 			zIndex: 3,
+		// 			display: 'flex',
+		// 			flexDirection: 'column',
+		// 			justifyContent: 'space-between',
+		// 			height: '600px',
+		// 		}}
+		// 		id='notice-modal-slide-description'
+		// 		classes={{ root: 'dialogContent' }}
+		// 		className={classes.modalBody}
+		// 	>
+		<div style={{ display: 'flex', flexDirection: 'column', marginBottom: '20px' }}>
+			<GridContainer>
+				<GridItem sm={6} md={4} lg={4}>
+					<div
+						className='prof-img-lg'
+						style={{ backgroundImage: `url(${userImgs[0].img_url})` }}
+					/>
+				</GridItem>
 
-					<GridItem sm={6} md={4} lg={4}>
-						<div
-							className='prof-img-lg'
-							style={{
-								backgroundImage: `url(${userImgs[1]
-									? userImgs[1].img_url
-									: profileStandIn})`,
-							}}
-						>
-							{userImgs[1] ? (
-								<Fragment>
-									<Button
-										onClick={() =>
-											setDefaultImg({ variables: { id: userImgs[1].id } })}
-										className='view-all'
-									>
-										Make Default
-									</Button>
-									<IconButton
-										onClick={() =>
-											deleteImage({ variables: { id: userImgs[1].id } })}
-										className='delete-img'
-									>
-										<Delete />
-									</IconButton>
-								</Fragment>
-							) : null}
-						</div>
-					</GridItem>
-					<GridItem sm={6} md={4} lg={4}>
-						<div
-							className='prof-img-lg'
-							style={{
-								backgroundImage: `url(${userImgs[2]
-									? userImgs[2].img_url
-									: profileStandIn})`,
-							}}
-						>
-							{userImgs[2] ? (
-								<Fragment>
-									<Button
-										className='view-all'
-										onClick={() =>
-											setDefaultImg({ variables: { id: userImgs[2].id } })}
-									>
-										Make Default
-									</Button>
-									<IconButton
-										onClick={() =>
-											deleteImage({ variables: { id: userImgs[2].id } })}
-										className='delete-img'
-									>
-										<Delete />
-									</IconButton>
-								</Fragment>
-							) : null}
-						</div>
-					</GridItem>
-					<GridItem sm={6} md={4} lg={4}>
-						<div
-							className='prof-img-lg'
-							style={{
-								backgroundImage: `url(${userImgs[3]
-									? userImgs[3].img_url
-									: profileStandIn})`,
-							}}
-						>
-							{userImgs[3] ? (
-								<Fragment>
-									<Button
-										className='view-all'
-										onClick={() =>
-											setDefaultImg({ variables: { id: userImgs[3].id } })}
-									>
-										Make Default
-									</Button>
-									<IconButton
-										onClick={() =>
-											deleteImage({ variables: { id: userImgs[3].id } })}
-										className='delete-img'
-									>
-										<Delete />
-									</IconButton>
-								</Fragment>
-							) : null}
-						</div>
-					</GridItem>
-					<GridItem sm={6} md={4} lg={4}>
-						<div
-							className='prof-img-lg'
-							style={{
-								backgroundImage: `url(${userImgs[4]
-									? userImgs[4].img_url
-									: profileStandIn})`,
-							}}
-						>
-							{userImgs[4] ? (
-								<Fragment>
-									<Button
-										className='view-all'
-										onClick={() =>
-											setDefaultImg({ variables: { id: userImgs[4].id } })}
-									>
-										Make Default
-									</Button>
-									<IconButton
-										onClick={() =>
-											deleteImage({ variables: { id: userImgs[4].id } })}
-										className='delete-img'
-									>
-										<Delete />
-									</IconButton>
-								</Fragment>
-							) : null}
-						</div>
-					</GridItem>
-					<GridItem sm={6} md={4} lg={4}>
-						<div
-							className='prof-img-lg'
-							style={{
-								backgroundImage: `url(${userImgs[5]
-									? userImgs[5].img_url
-									: profileStandIn})`,
-							}}
-						>
-							{userImgs[5] ? (
-								<Fragment>
-									<Button
-										className='view-all'
-										onClick={() =>
-											setDefaultImg({ variables: { id: userImgs[5].id } })}
-									>
-										Make Default
-									</Button>
-									<IconButton
-										onClick={() =>
-											deleteImage({ variables: { id: userImgs[5].id } })}
-										className='delete-img'
-									>
-										<Delete />
-									</IconButton>
-								</Fragment>
-							) : null}
-						</div>
-					</GridItem>
-				</GridContainer>
-				{userImgs.length < 6 && <Button onClick={handleUpload}>Add Image</Button>}
-			</DialogContent>
-		</Dialog>
+				<GridItem sm={6} md={4} lg={4}>
+					<div
+						className='prof-img-lg'
+						style={{
+							backgroundImage: `url(${userImgs[1]
+								? userImgs[1].img_url
+								: profileStandIn})`,
+						}}
+					>
+						{userImgs[1] ? (
+							<Fragment>
+								<Button
+									onClick={() =>
+										setDefaultImg({ variables: { id: userImgs[1].id } })}
+									className='view-all'
+								>
+									Make Default
+								</Button>
+								<IconButton
+									onClick={() =>
+										deleteImage({ variables: { id: userImgs[1].id } })}
+									className='delete-img'
+								>
+									<Delete />
+								</IconButton>
+							</Fragment>
+						) : null}
+					</div>
+				</GridItem>
+				<GridItem sm={6} md={4} lg={4}>
+					<div
+						className='prof-img-lg'
+						style={{
+							marginBottom: '10px',
+							backgroundImage: `url(${userImgs[2]
+								? userImgs[2].img_url
+								: profileStandIn})`,
+						}}
+					>
+						{userImgs[2] ? (
+							<Fragment>
+								<Button
+									className='view-all'
+									onClick={() =>
+										setDefaultImg({ variables: { id: userImgs[2].id } })}
+								>
+									Make Default
+								</Button>
+								<IconButton
+									onClick={() =>
+										deleteImage({ variables: { id: userImgs[2].id } })}
+									className='delete-img'
+								>
+									<Delete />
+								</IconButton>
+							</Fragment>
+						) : null}
+					</div>
+				</GridItem>
+				<GridItem sm={6} md={4} lg={4}>
+					<div
+						className='prof-img-lg'
+						style={{
+							backgroundImage: `url(${userImgs[3]
+								? userImgs[3].img_url
+								: profileStandIn})`,
+						}}
+					>
+						{userImgs[3] ? (
+							<Fragment>
+								<Button
+									className='view-all'
+									onClick={() =>
+										setDefaultImg({ variables: { id: userImgs[3].id } })}
+								>
+									Make Default
+								</Button>
+								<IconButton
+									onClick={() =>
+										deleteImage({ variables: { id: userImgs[3].id } })}
+									className='delete-img'
+								>
+									<Delete />
+								</IconButton>
+							</Fragment>
+						) : null}
+					</div>
+				</GridItem>
+				<GridItem sm={6} md={4} lg={4}>
+					<div
+						className='prof-img-lg'
+						style={{
+							backgroundImage: `url(${userImgs[4]
+								? userImgs[4].img_url
+								: profileStandIn})`,
+						}}
+					>
+						{userImgs[4] ? (
+							<Fragment>
+								<Button
+									className='view-all'
+									onClick={() =>
+										setDefaultImg({ variables: { id: userImgs[4].id } })}
+								>
+									Make Default
+								</Button>
+								<IconButton
+									onClick={() =>
+										deleteImage({ variables: { id: userImgs[4].id } })}
+									className='delete-img'
+								>
+									<Delete />
+								</IconButton>
+							</Fragment>
+						) : null}
+					</div>
+				</GridItem>
+				<GridItem sm={6} md={4} lg={4}>
+					<div
+						className='prof-img-lg'
+						style={{
+							backgroundImage: `url(${userImgs[5]
+								? userImgs[5].img_url
+								: profileStandIn})`,
+						}}
+					>
+						{userImgs[5] ? (
+							<Fragment>
+								<Button
+									className='view-all'
+									onClick={() =>
+										setDefaultImg({ variables: { id: userImgs[5].id } })}
+								>
+									Make Default
+								</Button>
+								<IconButton
+									onClick={() =>
+										deleteImage({ variables: { id: userImgs[5].id } })}
+									className='delete-img'
+								>
+									<Delete />
+								</IconButton>
+							</Fragment>
+						) : null}
+					</div>
+				</GridItem>
+			</GridContainer>
+
+			{userImgs.length < 6 && <Button onClick={handleUpload}>Add Image</Button>}
+		</div>
+		// 	</DialogContent>
+		// </Dialog>
 	);
 };
 

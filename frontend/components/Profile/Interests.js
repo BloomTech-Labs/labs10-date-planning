@@ -76,7 +76,7 @@ const Interests = ({ classes, currentUser }) => {
 			<h4 className={classes.title}>Interests</h4>
 			<div>
 				<Accordion
-					active={0}
+					active={[ 0, 1, 2 ]}
 					activeColor='rose'
 					collapses={[
 						{

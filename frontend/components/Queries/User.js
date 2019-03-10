@@ -30,14 +30,6 @@ const CURRENT_USER_QUERY = gql`
 			}
 			events {
 				id
-				title
-				description
-				url
-				image_url
-				times
-				venue
-				city
-				address
 			}
 			chats {
 				users {
