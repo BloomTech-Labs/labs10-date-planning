@@ -81,7 +81,6 @@ const Mutation = {
 	async signin(parent, { email, password }, { db, response }, info) {
 		const user = await db.query.user({ where: { email } });
 		if (!user) {
-			normal;
 			throw new Error(`No such user found for email ${email}`);
 		}
 		const valid = await bcrypt.compare(password, user.password);
