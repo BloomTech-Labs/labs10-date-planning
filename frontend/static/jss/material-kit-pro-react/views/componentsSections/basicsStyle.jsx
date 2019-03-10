@@ -15,7 +15,7 @@ const basicsStyle = theme => ({
 	},
 	title: {
 		...title,
-		marginTop: '30px',
+		marginTop: '10px',
 		minHeight: '32px',
 		textDecoration: 'none',
 	},
@@ -94,6 +94,14 @@ const basicsStyle = theme => ({
 	},
 	chip: {
 		margin: '4px',
+	},
+	inputRange: {
+		'& .input-range__label--max .input-range__label-container': {
+			display: 'none',
+		},
+		'& .input-range__label--min .input-range__label-container': {
+			display: 'none',
+		},
 	},
 });
 

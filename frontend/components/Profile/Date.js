@@ -90,12 +90,12 @@ const DateView = ({ date, classes, client, currentUser }) => {
 									style={{ position: 'relative' }}
 								>
 									<div
-										className='event_user_card'
+										className={classes.eventUserCard}
 										onClick={() => {
 											NProgress.start();
 											Router.push(
-												`/home?user=${usr.id}`,
-												`/home/user/${usr.id}`,
+												`/profile?slug=events&user=${usr.id}`,
+												`/profile/events/user/${usr.id}`,
 												{ shallow: true },
 												{ scroll: false },
 											);

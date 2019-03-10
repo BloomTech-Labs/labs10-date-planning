@@ -10,12 +10,20 @@ import {
 	InputAdornment,
 	IconButton,
 	Paper,
+	Icon,
 } from '@material-ui/core';
-import { Close, Delete } from '@material-ui/icons';
+import {
+	Close,
+	Delete,
+	AddCircle,
+	AddAPhoto,
+	AddAPhotoOutlined,
+	AddAPhotoRounded,
+} from '@material-ui/icons';
 import Button from '../../styledComponents/CustomButtons/Button';
 import GridContainer from '../../styledComponents/Grid/GridContainer';
 import GridItem from '../../styledComponents/Grid/GridItem';
-import styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles.jsx';
+import styles from '../../static/jss/Profile/settingsStyle';
 import profileStandIn from '../../static/img/placeholder.jpg';
 import { openUploadWidget } from '../../utils/cloudinary';
 
@@ -138,20 +146,20 @@ const ImageModal = ({ classes, modal, showModal, user }) => {
 				display: 'flex',
 				flexDirection: 'column',
 				marginBottom: '20px',
-				marginTop: '20px',
+				marginTop: '30px',
 			}}
 		>
 			<GridContainer>
 				<GridItem sm={6} md={4} lg={4}>
 					<div
-						className='prof-img-lg'
+						className={classes.profileImgLg}
 						style={{ backgroundImage: `url(${userImgs[0].img_url})` }}
 					/>
 				</GridItem>
 
-				<GridItem sm={6} md={4} lg={4}>
+				<GridItem sm={6} md={4} lg={4} style={{ paddingBottom: '15px' }}>
 					<div
-						className='prof-img-lg'
+						className={classes.profileImgLg}
 						style={{
 							backgroundImage: `url(${userImgs[1]
 								? userImgs[1].img_url
@@ -178,9 +186,9 @@ const ImageModal = ({ classes, modal, showModal, user }) => {
 						) : null}
 					</div>
 				</GridItem>
-				<GridItem sm={6} md={4} lg={4}>
+				<GridItem sm={6} md={4} lg={4} style={{ paddingBottom: '15px' }}>
 					<div
-						className='prof-img-lg'
+						className={classes.profileImgLg}
 						style={{
 							marginBottom: '10px',
 							backgroundImage: `url(${userImgs[2]
@@ -208,9 +216,9 @@ const ImageModal = ({ classes, modal, showModal, user }) => {
 						) : null}
 					</div>
 				</GridItem>
-				<GridItem sm={6} md={4} lg={4}>
+				<GridItem sm={6} md={4} lg={4} style={{ paddingTop: '15px' }}>
 					<div
-						className='prof-img-lg'
+						className={classes.profileImgLg}
 						style={{
 							backgroundImage: `url(${userImgs[3]
 								? userImgs[3].img_url
@@ -234,12 +242,18 @@ const ImageModal = ({ classes, modal, showModal, user }) => {
 									<Delete />
 								</IconButton>
 							</Fragment>
-						) : null}
+						) : (
+							<div style={{ position: 'absolute', top: -15, right: -15 }}>
+								<IconButton style={{ backgroundColor: '#4cb5ae', color: 'white' }}>
+									<AddAPhotoRounded />
+								</IconButton>
+							</div>
+						)}
 					</div>
 				</GridItem>
-				<GridItem sm={6} md={4} lg={4}>
+				<GridItem sm={6} md={4} lg={4} style={{ paddingTop: '15px' }}>
 					<div
-						className='prof-img-lg'
+						className={classes.profileImgLg}
 						style={{
 							backgroundImage: `url(${userImgs[4]
 								? userImgs[4].img_url
@@ -263,13 +277,20 @@ const ImageModal = ({ classes, modal, showModal, user }) => {
 									<Delete />
 								</IconButton>
 							</Fragment>
-						) : null}
+						) : (
+							<div style={{ position: 'absolute', top: -15, right: -15 }}>
+								<IconButton style={{ backgroundColor: '#4cb5ae', color: 'white' }}>
+									<AddAPhotoRounded />
+								</IconButton>
+							</div>
+						)}
 					</div>
 				</GridItem>
-				<GridItem sm={6} md={4} lg={4}>
+				<GridItem sm={6} md={4} lg={4} style={{ paddingTop: '15px' }}>
 					<div
-						className='prof-img-lg'
+						className={classes.profileImgLg}
 						style={{
+							// position: 'relative',
 							backgroundImage: `url(${userImgs[5]
 								? userImgs[5].img_url
 								: profileStandIn})`,
@@ -292,12 +313,18 @@ const ImageModal = ({ classes, modal, showModal, user }) => {
 									<Delete />
 								</IconButton>
 							</Fragment>
-						) : null}
+						) : (
+							<div style={{ position: 'absolute', top: -15, right: -15 }}>
+								<IconButton style={{ backgroundColor: '#4cb5ae', color: 'white' }}>
+									<AddAPhotoRounded />
+								</IconButton>
+							</div>
+						)}
 					</div>
 				</GridItem>
 			</GridContainer>
 
-			{userImgs.length < 6 && <Button onClick={handleUpload}>Add Image</Button>}
+			{/* {userImgs.length < 6 && <Button onClick={handleUpload}>Add Image</Button>} */}
 		</div>
 		// 	</DialogContent>
 		// </Dialog>

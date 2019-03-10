@@ -73,10 +73,13 @@ const Interests = ({ classes, currentUser }) => {
 
 	return (
 		<Paper style={{ display: 'flex', flexDirection: 'column', padding: '20px' }}>
-			<h4 className={classes.title}>Interests</h4>
+			<h4 style={{ marginBottom: '5px' }} className={classes.title}>
+				Interests
+			</h4>
 			<div>
 				<Accordion
 					active={[ 0, 1, 2 ]}
+					open
 					activeColor='rose'
 					collapses={[
 						{
