@@ -21,9 +21,9 @@ import styles from '../../static/jss/material-kit-pro-react/views/componentsSect
 const Chat = ({ classes, id }) => {
 	const [ message, setMessage ] = useState('');
 	const [ newMsgs, setNewMsgs ] = useState([]);
-	const updateSeen = useMutation(UDPATE_SEEN_MSG_MUTATION);
-	const sendMessage = useMutation(SEND_MESSAGE_MUTATION, {
-		variables: { message, id },
+	const [ updateSeen ] = useMutation(UDPATE_SEEN_MSG_MUTATION);
+	const [ sendMessage ] = useMutation(SEND_MESSAGE_MUTATION, {
+		variables: { id, message },
 		onCompleted: () => {
 			NProgress.done();
 			setMessage('');
@@ -131,12 +131,7 @@ const Chat = ({ classes, id }) => {
 								className={classes.floatRight}
 								onClick={() => {
 									NProgress.start();
-									sendMessage({
-										variables: {
-											id: id.value,
-											message: message,
-										},
-									});
+									sendMessage();
 								}}
 							>
 								<Send />

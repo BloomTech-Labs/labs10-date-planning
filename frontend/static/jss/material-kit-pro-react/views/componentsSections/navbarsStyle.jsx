@@ -10,8 +10,16 @@ const navbarsStyle = theme => ({
 	},
 	title: {
 		...title,
-		marginTop: '30px',
-		minHeight: '32px',
+		//marginTop: '30px',
+		//minHeight: '32px',
+		maxWidth: '165px',
+		overflow: 'hidden',
+		textOverflow: 'ellipsis',
+
+		margin: '0',
+		marginTop: '2px',
+		marginBottom: '0',
+		minHeight: 'auto',
 		textDecoration: 'none',
 	},
 	navbar: {

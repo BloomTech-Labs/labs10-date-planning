@@ -46,7 +46,9 @@ module.exports = {
 				{
 					data: {
 						users: { connect: [ { id: user.id }, { id } ] },
-						messages: { create: [ { text: message, from: { connect: { id } } } ] },
+						messages: {
+							create: [ { text: message, from: { connect: { id: user.id } } } ],
+						},
 					},
 				},
 				info,
@@ -59,7 +61,7 @@ module.exports = {
 					},
 					data: {
 						messages: {
-							create: [ { text: message, from: { connect: { id } } } ],
+							create: [ { text: message, from: { connect: { id: user.id } } } ],
 						},
 					},
 				},
