@@ -48,7 +48,7 @@ module.exports = {
 						attending: attendee,
 					};
 				}
-				console.log(eventInDb);
+
 				const [ img ] = ev.images.filter(img => img.width > 500);
 
 				events.push({

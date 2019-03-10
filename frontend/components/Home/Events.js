@@ -67,7 +67,8 @@ const Composed = adopt({
 	),
 });
 
-const Events = ({ classes, newUser, router, href }) => {
+const Events = ({ classes, router, href, ...props }) => {
+	console.log(props);
 	useEffect(() => {
 		NProgress.start();
 	}, []);
@@ -82,6 +83,7 @@ const Events = ({ classes, newUser, router, href }) => {
 				filters,
 				user: { data: { currentUser } },
 			}) => {
+				console.log(getEvents);
 				return (
 					<div className={classes.background}>
 						{router.query.user && (
@@ -109,7 +111,7 @@ const Events = ({ classes, newUser, router, href }) => {
 								<stop offset='100%' stopColor='#81d6e3' />
 							</linearGradient>
 						</svg>
-						{newUser && <NewUser />}
+						{/* {newUser && <NewUser />} */}
 						<div className={classes.container}>
 							<Fragment>
 								<IconButton
@@ -165,17 +167,14 @@ const Events = ({ classes, newUser, router, href }) => {
 											<GridContainer>
 												<GridItem sm={12} md={6} lg={6}>
 													{/* <InfiniteScroll
-														pageStart={0}
-														loadMore={async page => {
-															if (page > getEvents.page_count - 1) {
-																await refetch({
-																	variables: {
-																		page: page + 1,
-																	},
-																});
+														pageStart={getEvents.page_number}
+														loadMore={async p => {
+															console.log(p, getEvents.page_count);
+															if (p < getEvents.page_total - 1) {
+																page.set(page.value + 1);
 															}
 														}}
-														hasMore={page.value < getEvents.page_count}
+														hasMore={page.value < getEvents.page_total}
 														threshold={400}
 														loader={<div key={0} />}
 													> */}

@@ -21,6 +21,7 @@ export const ALL_EVENTS_QUERY = gql`
 			page_count
 			total_items
 			page_number
+			page_total
 			location
 			events {
 				id

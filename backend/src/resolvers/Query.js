@@ -31,7 +31,7 @@ const Query = {
 	},
 	async getEvents(parent, { location, alt, page, ...args }, { db, request }, info) {
 		location = location.split(',')[0].toLowerCase();
-
+		console.log(page);
 		let cats =
 			!args.categories || !args.categories.length
 				? [ 'KZFzniwnSyZfZ7v7nJ', 'KZFzniwnSyZfZ7v7na', 'KZFzniwnSyZfZ7v7n1' ]
@@ -49,13 +49,14 @@ const Query = {
 			if (!a.includes(t.name)) a.push(t.name);
 			return a;
 		}, []);
+		let pageNumber = response.data.page.number;
 
 		if (response.data.page.totalElements > 26) {
 			while (uniques.length < 26) {
 				page = page + 1;
 
 				let res = await fetchEvents(location, cats, dates, page, 26, args.genres);
-
+				pageNumber = res.data.page.number;
 				if (!res.data._embedded) break;
 				else {
 					events = [ ...events, ...res.data._embedded.events ];
@@ -89,7 +90,7 @@ const Query = {
 			page_count: response.data.page.size,
 			total_items: response.data.page.totalElements,
 			page_total: response.data.page.totalPages,
-			page_number: response.data.page.number,
+			page_number: pageNumber,
 			location: location,
 		};
 	},
