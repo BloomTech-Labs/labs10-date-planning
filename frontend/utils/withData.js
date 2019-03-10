@@ -1,56 +1,42 @@
-import withApollo from 'next-with-apollo';
-import ApolloClient from 'apollo-boost';
-import { HttpLink } from 'apollo-link-http';
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import { endpoint, prodEndpoint } from '../config';
+import { InMemoryCache } from "apollo-cache-inmemory";
+import { createHttpLink } from "apollo-link-http";
+import { setContext } from "apollo-link-context";
+import { ApolloLink, split } from "apollo-link";
+import { onError } from "apollo-link-error";
+import withApollo from "next-with-apollo";
+import ApolloClient from "apollo-client";
+import { endpoint, prodEndpoint } from "../config";
 
-//const cache = new InMemoryCache({ dataIdFromObject: object => object.key || null });
+export default withApollo(({ headers = {} }) => {
+	const ssrMode = !process.browser;
 
-function createClient({ headers }) {
-	return new ApolloClient({
-		// uri: endpoint,
-		//ssrMode: true,
-		uri: process.env.NODE_ENV === 'development' ? endpoint : prodEndpoint,
-		request: operation => {
-			operation.setContext({
-				fetchOptions: {
-					credentials: 'include',
-				},
-				headers,
-			});
-		},
-
-		//cache,
-		// clientState: {
-		// 	defaults,
-		// 	resolvers,
-		// 	typeDefs
-		// },
+	const httpLink = createHttpLink({
+		uri: process.env.NODE_ENV === "development" ? endpoint : prodEndpoint
 	});
-}
 
-// function create(initialState, { getToken }) {
-// 	const httpLink = createHttpLink({
-// 	  uri: gql_url + "/graphql",
-// 	  credentials: "include"
-// 	});
+	const contextLink = setContext(async () => ({
+		fetchOptions: {
+			credentials: "include"
+		},
+		headers
+	}));
 
-//   const authLink = setContext((_, { headers }) => {
-// 	  const token = getToken()["XSRF-TOKEN"];
-// 	  return {
-// 		headers: {
-// 		  ...headers,
-// 		  "X-XSRF-TOKEN": token
-// 		}
-// 	  };
-// 	});
+	const errorLink = onError(({ graphQLErrors, networkError }) => {
+		if (graphQLErrors) {
+			graphQLErrors.map(err => console.log(`[GraphQL error]: Message: ${err.message}`));
+		}
+		if (networkError) console.log(`[Network error]: ${networkError}`);
+	});
 
-//   return new ApolloClient({
-// 	  connectToDevTools: process.browser,
-// 	  ssrMode: !process.browser, // Disables forceFetch on the server (so queries are only run once)
-// 	  link: authLink.concat(httpLink),
-// 	  cache: new InMemoryCache().restore(initialState || {})
-// 	});
-//   }
+	let link = ApolloLink.from([errorLink, contextLink, httpLink]);
 
-export default withApollo(createClient);
+	const cache = new InMemoryCache({
+		dataIdFromObject: ({ id, __typename }) => (id && __typename ? __typename + id : null)
+	});
+
+	return new ApolloClient({
+		link,
+		ssrMode,
+		cache
+	});
+});
