@@ -67,7 +67,7 @@ const Composed = adopt({
 	)
 });
 
-const Events = ({ classes, router, href, ...props }) => {
+const Events = React.memo(({ classes, router, href, ...props }) => {
 	useEffect(() => {
 		NProgress.start();
 	}, []);
@@ -182,7 +182,6 @@ const Events = ({ classes, router, href, ...props }) => {
 																key={event.id}
 																refetch={refetch}
 																user={currentUser}
-																location={location}
 															/>
 														))}
 
@@ -207,7 +206,6 @@ const Events = ({ classes, router, href, ...props }) => {
 																key={event.id}
 																refetch={refetch}
 																user={currentUser}
-																location={location}
 															/>
 														))}
 												</GridItem>
@@ -224,6 +222,6 @@ const Events = ({ classes, router, href, ...props }) => {
 			}}
 		</Composed>
 	);
-};
+});
 
 export default withRouter(withStyles(styles, { withTheme: true })(Events));
