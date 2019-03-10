@@ -41,31 +41,42 @@ const MessageList = ({
       {({ data: { getConversation } }) => {
         if (!getConversation) return <div>loading</div>;
         return (
-          <div style={{ flexGrow: 1, marginLeft: '40px'}}>
-            {getConversation.messages.map(message => {
-              let img = message.from.img.find(img => img.default).img_url;
+          <div
+            style={{
+              flexGrow: 1,
+              marginLeft: "40px",
+              height: "100%",
+              position: "relative"
+            }}
+          >
+            <div className={classes.messageList}>
+              {getConversation.messages.map(message => {
+                let img = message.from.img.find(img => img.default).img_url;
 
-              return (
-                <Media
-                  currentUser={
-                    currentUser && message.from.id === currentUser.id
-                  }
-                  key={message.id}
-                  avatar={img}
-                  title={
-                    <span>
-                      {message.from.firstName}{" "}
-                      <small>· {moment(message.createdAt).fromNow()}</small>
-                    </span>
-                  }
-                  body={
-                    <span style={{ maxWidth: "300px", wordBreak: "break-word" }}>
-                      <p>{message.text}</p>
-                    </span>
-                  }
-                />
-              );
-            })}
+                return (
+                  <Media
+                    currentUser={
+                      currentUser && message.from.id === currentUser.id
+                    }
+                    key={message.id}
+                    avatar={img}
+                    title={
+                      <span>
+                        {message.from.firstName}{" "}
+                        <small>· {moment(message.createdAt).fromNow()}</small>
+                      </span>
+                    }
+                    body={
+                      <span
+                        style={{ maxWidth: "300px", wordBreak: "break-word" }}
+                      >
+                        <p>{message.text}</p>
+                      </span>
+                    }
+                  />
+                );
+              })}
+            </div>
             {selectedChatId && (
               <>
                 {" "}
@@ -82,6 +93,7 @@ const MessageList = ({
                 >
                   {sendMessage => (
                     <Media
+                      style={{position: 'absolute', bottom: 0, width: '100%', left: '-5px', borderTop: '2px solid #bdbdbd'}}
                       avatar={currentUser.img.find(img => img.default).img_url}
                       body={
                         <CustomInput
@@ -96,6 +108,7 @@ const MessageList = ({
                             value: message,
                             onChange: e => setMessage(e.target.value)
                           }}
+                          
                         />
                       }
                       footer={

@@ -7,7 +7,7 @@ import { useQuery } from "react-apollo-hooks";
 import useInterval from "@rooks/use-interval";
 import { withRouter } from "next/router";
 
-import { Paper, Grid } from "@material-ui/core";
+import { Paper, Grid, Typography } from "@material-ui/core";
 
 import withStyles from "@material-ui/core/styles/withStyles";
 
@@ -75,17 +75,26 @@ const Messages = ({ classes, color, router, href, user }) => {
         backgroundColor: "#fafafa",
         backgroundImage:
           'url("https://www.transparenttextures.com/patterns/brilliant.png")',
-		  margin: '30px 0'
+        margin: "30px 0"
       }}
     >
-      <Grid style={{minHeight: '700px'}}container>
-        <Grid
-          item
-          sm={12}
-          md={4}
-          lg={4}
-        >
-          <Paper style={{height: '100%', minWidth: '250px'}}>
+      <Grid style={{ minHeight: "700px" }} container>
+        <Grid item sm={12} md={4} lg={4}>
+          <Paper style={{ height: "100%", minWidth: "250px" }}>
+            <Typography
+              variant="h6"
+              gutterBottom
+              style={{
+                backgroundImage:
+                  "linear-gradient(to right, #b2ddf7, #a8daf9, #9fd8fb, #94d5fd, #8ad2ff)",
+                  textAlign: 'center',
+                  padding: '15px',
+                  borderTopLeftRadius: '6px',
+                  color: 'white'
+              }}
+            >
+              Slidin' in to your DMs
+            </Typography>
             <ChatList
               userChats={data.getUserChats}
               currentUser={user}
