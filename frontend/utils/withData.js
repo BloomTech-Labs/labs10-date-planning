@@ -22,6 +22,7 @@ export default withApollo(({ headers = {} }) => {
 			uri: wsEndpoint,
 			options: {
 				reconnect: true
+				// maybe we can add a header in here to get some sort of auth working
 				// connectionParams: {
 				//   authorization: headers.authorization
 				// }
