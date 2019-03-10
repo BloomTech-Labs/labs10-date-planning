@@ -45,7 +45,15 @@ const Profile = ({ classes, theme, router: { query }, currentUser }) => {
 	const [ drawerOpen, setDrawerOpen ] = useState(false);
 
 	return (
-		<div className='Profile__background'>
+		<div
+			style={{
+				backgroundColor: '#000',
+				height: '100%',
+				minHeight: '100vh',
+				backgroundImage:
+					'url(https://www.transparenttextures.com/patterns/shattered-dark.png)',
+			}}
+		>
 			{query.user && <UserModal user={query.user} currentUser={currentUser} />}
 			<MenuDrawer user={currentUser} drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} />
 			<IconButton
