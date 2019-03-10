@@ -47,7 +47,7 @@ const Event = React.memo(({ event, classes, user, refetch }) => {
 	const deleteEvent = useMutation(DELETE_EVENT_MUTATION, {
 		variables: { id: event.id },
 	});
-
+	console.log(event);
 	const [ rotate, setRotate ] = useState('');
 	const [ height, setHeight ] = useState(0);
 	const [ val, set ] = useState(false);
@@ -136,6 +136,7 @@ const Event = React.memo(({ event, classes, user, refetch }) => {
 										address: event.location.address,
 										lat: event.location.lat,
 										long: event.location.long,
+
 										description: event.description,
 									}}
 									update={(cache, { data: { addEvent } }) => {

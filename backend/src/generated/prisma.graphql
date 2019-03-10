@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Fri Mar 08 2019 01:32:21 GMT-0800 (Pacific Standard Time)
+# timestamp: Sat Mar 09 2019 21:02:56 GMT-0800 (Pacific Standard Time)
 
 type AggregateChat {
   count: Int!
@@ -10,6 +10,10 @@ type AggregateDirectMessage {
 }
 
 type AggregateEvent {
+  count: Int!
+}
+
+type AggregateGenre {
   count: Int!
 }
 
@@ -30,6 +34,7 @@ enum Category {
   MUSIC
   ARTS_THEATRE
   SPORTS
+  MISCELLANEOUS
 }
 
 type Chat implements Node {
@@ -739,7 +744,7 @@ type Event implements Node {
   id: ID!
   eventfulID: String
   title: String
-  genre: String
+  genre: Genre
   description: String
   attending(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   times: [String!]!
@@ -766,7 +771,6 @@ type EventConnection {
 input EventCreateInput {
   eventfulID: String
   title: String
-  genre: String
   description: String
   location: String
   image_url: String
@@ -777,6 +781,7 @@ input EventCreateInput {
   lat: String
   long: String
   times: EventCreatetimesInput
+  genre: GenreCreateOneInput
   attending: UserCreateManyWithoutEventsInput
 }
 
@@ -792,7 +797,6 @@ input EventCreatetimesInput {
 input EventCreateWithoutAttendingInput {
   eventfulID: String
   title: String
-  genre: String
   description: String
   location: String
   image_url: String
@@ -803,6 +807,7 @@ input EventCreateWithoutAttendingInput {
   lat: String
   long: String
   times: EventCreatetimesInput
+  genre: GenreCreateOneInput
 }
 
 """An edge in a connection."""
@@ -821,8 +826,6 @@ enum EventOrderByInput {
   eventfulID_DESC
   title_ASC
   title_DESC
-  genre_ASC
-  genre_DESC
   description_ASC
   description_DESC
   location_ASC
@@ -851,7 +854,6 @@ type EventPreviousValues {
   id: ID!
   eventfulID: String
   title: String
-  genre: String
   description: String
   times: [String!]!
   location: String
@@ -993,46 +995,6 @@ input EventScalarWhereInput {
 
   """All values not ending with the given string."""
   title_not_ends_with: String
-  genre: String
-
-  """All values that are not equal to given value."""
-  genre_not: String
-
-  """All values that are contained in given list."""
-  genre_in: [String!]
-
-  """All values that are not contained in given list."""
-  genre_not_in: [String!]
-
-  """All values less than the given value."""
-  genre_lt: String
-
-  """All values less than or equal the given value."""
-  genre_lte: String
-
-  """All values greater than the given value."""
-  genre_gt: String
-
-  """All values greater than or equal the given value."""
-  genre_gte: String
-
-  """All values containing the given string."""
-  genre_contains: String
-
-  """All values not containing the given string."""
-  genre_not_contains: String
-
-  """All values starting with the given string."""
-  genre_starts_with: String
-
-  """All values not starting with the given string."""
-  genre_not_starts_with: String
-
-  """All values ending with the given string."""
-  genre_ends_with: String
-
-  """All values not ending with the given string."""
-  genre_not_ends_with: String
   description: String
 
   """All values that are not equal to given value."""
@@ -1437,7 +1399,6 @@ input EventSubscriptionWhereInput {
 input EventUpdateInput {
   eventfulID: String
   title: String
-  genre: String
   description: String
   location: String
   image_url: String
@@ -1448,13 +1409,13 @@ input EventUpdateInput {
   lat: String
   long: String
   times: EventUpdatetimesInput
+  genre: GenreUpdateOneInput
   attending: UserUpdateManyWithoutEventsInput
 }
 
 input EventUpdateManyDataInput {
   eventfulID: String
   title: String
-  genre: String
   description: String
   location: String
   image_url: String
@@ -1470,7 +1431,6 @@ input EventUpdateManyDataInput {
 input EventUpdateManyMutationInput {
   eventfulID: String
   title: String
-  genre: String
   description: String
   location: String
   image_url: String
@@ -1507,7 +1467,6 @@ input EventUpdatetimesInput {
 input EventUpdateWithoutAttendingDataInput {
   eventfulID: String
   title: String
-  genre: String
   description: String
   location: String
   image_url: String
@@ -1518,6 +1477,7 @@ input EventUpdateWithoutAttendingDataInput {
   lat: String
   long: String
   times: EventUpdatetimesInput
+  genre: GenreUpdateOneInput
 }
 
 input EventUpdateWithWhereUniqueWithoutAttendingInput {
@@ -1660,46 +1620,6 @@ input EventWhereInput {
 
   """All values not ending with the given string."""
   title_not_ends_with: String
-  genre: String
-
-  """All values that are not equal to given value."""
-  genre_not: String
-
-  """All values that are contained in given list."""
-  genre_in: [String!]
-
-  """All values that are not contained in given list."""
-  genre_not_in: [String!]
-
-  """All values less than the given value."""
-  genre_lt: String
-
-  """All values less than or equal the given value."""
-  genre_lte: String
-
-  """All values greater than the given value."""
-  genre_gt: String
-
-  """All values greater than or equal the given value."""
-  genre_gte: String
-
-  """All values containing the given string."""
-  genre_contains: String
-
-  """All values not containing the given string."""
-  genre_not_contains: String
-
-  """All values starting with the given string."""
-  genre_starts_with: String
-
-  """All values not starting with the given string."""
-  genre_not_starts_with: String
-
-  """All values ending with the given string."""
-  genre_ends_with: String
-
-  """All values not ending with the given string."""
-  genre_not_ends_with: String
   description: String
 
   """All values that are not equal to given value."""
@@ -2060,6 +1980,7 @@ input EventWhereInput {
 
   """All values not ending with the given string."""
   long_not_ends_with: String
+  genre: GenreWhereInput
   attending_every: UserWhereInput
   attending_some: UserWhereInput
   attending_none: UserWhereInput
@@ -2074,6 +1995,461 @@ enum Gender {
   MALE
   FEMALE
   OTHER
+}
+
+type Genre implements Node {
+  id: ID!
+  tmID: String!
+  category: Category!
+  name: String!
+}
+
+"""A connection to a list of items."""
+type GenreConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [GenreEdge]!
+  aggregate: AggregateGenre!
+}
+
+input GenreCreateInput {
+  tmID: String!
+  category: Category!
+  name: String!
+}
+
+input GenreCreateManyInput {
+  create: [GenreCreateInput!]
+  connect: [GenreWhereUniqueInput!]
+}
+
+input GenreCreateOneInput {
+  create: GenreCreateInput
+  connect: GenreWhereUniqueInput
+}
+
+"""An edge in a connection."""
+type GenreEdge {
+  """The item at the end of the edge."""
+  node: Genre!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum GenreOrderByInput {
+  id_ASC
+  id_DESC
+  tmID_ASC
+  tmID_DESC
+  category_ASC
+  category_DESC
+  name_ASC
+  name_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type GenrePreviousValues {
+  id: ID!
+  tmID: String!
+  category: Category!
+  name: String!
+}
+
+input GenreScalarWhereInput {
+  """Logical AND on all given filters."""
+  AND: [GenreScalarWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [GenreScalarWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [GenreScalarWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  tmID: String
+
+  """All values that are not equal to given value."""
+  tmID_not: String
+
+  """All values that are contained in given list."""
+  tmID_in: [String!]
+
+  """All values that are not contained in given list."""
+  tmID_not_in: [String!]
+
+  """All values less than the given value."""
+  tmID_lt: String
+
+  """All values less than or equal the given value."""
+  tmID_lte: String
+
+  """All values greater than the given value."""
+  tmID_gt: String
+
+  """All values greater than or equal the given value."""
+  tmID_gte: String
+
+  """All values containing the given string."""
+  tmID_contains: String
+
+  """All values not containing the given string."""
+  tmID_not_contains: String
+
+  """All values starting with the given string."""
+  tmID_starts_with: String
+
+  """All values not starting with the given string."""
+  tmID_not_starts_with: String
+
+  """All values ending with the given string."""
+  tmID_ends_with: String
+
+  """All values not ending with the given string."""
+  tmID_not_ends_with: String
+  category: Category
+
+  """All values that are not equal to given value."""
+  category_not: Category
+
+  """All values that are contained in given list."""
+  category_in: [Category!]
+
+  """All values that are not contained in given list."""
+  category_not_in: [Category!]
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+}
+
+type GenreSubscriptionPayload {
+  mutation: MutationType!
+  node: Genre
+  updatedFields: [String!]
+  previousValues: GenrePreviousValues
+}
+
+input GenreSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [GenreSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [GenreSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [GenreSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: GenreWhereInput
+}
+
+input GenreUpdateDataInput {
+  tmID: String
+  category: Category
+  name: String
+}
+
+input GenreUpdateInput {
+  tmID: String
+  category: Category
+  name: String
+}
+
+input GenreUpdateManyDataInput {
+  tmID: String
+  category: Category
+  name: String
+}
+
+input GenreUpdateManyInput {
+  create: [GenreCreateInput!]
+  connect: [GenreWhereUniqueInput!]
+  set: [GenreWhereUniqueInput!]
+  disconnect: [GenreWhereUniqueInput!]
+  delete: [GenreWhereUniqueInput!]
+  update: [GenreUpdateWithWhereUniqueNestedInput!]
+  updateMany: [GenreUpdateManyWithWhereNestedInput!]
+  deleteMany: [GenreScalarWhereInput!]
+  upsert: [GenreUpsertWithWhereUniqueNestedInput!]
+}
+
+input GenreUpdateManyMutationInput {
+  tmID: String
+  category: Category
+  name: String
+}
+
+input GenreUpdateManyWithWhereNestedInput {
+  where: GenreScalarWhereInput!
+  data: GenreUpdateManyDataInput!
+}
+
+input GenreUpdateOneInput {
+  create: GenreCreateInput
+  connect: GenreWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: GenreUpdateDataInput
+  upsert: GenreUpsertNestedInput
+}
+
+input GenreUpdateWithWhereUniqueNestedInput {
+  where: GenreWhereUniqueInput!
+  data: GenreUpdateDataInput!
+}
+
+input GenreUpsertNestedInput {
+  update: GenreUpdateDataInput!
+  create: GenreCreateInput!
+}
+
+input GenreUpsertWithWhereUniqueNestedInput {
+  where: GenreWhereUniqueInput!
+  update: GenreUpdateDataInput!
+  create: GenreCreateInput!
+}
+
+input GenreWhereInput {
+  """Logical AND on all given filters."""
+  AND: [GenreWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [GenreWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [GenreWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  tmID: String
+
+  """All values that are not equal to given value."""
+  tmID_not: String
+
+  """All values that are contained in given list."""
+  tmID_in: [String!]
+
+  """All values that are not contained in given list."""
+  tmID_not_in: [String!]
+
+  """All values less than the given value."""
+  tmID_lt: String
+
+  """All values less than or equal the given value."""
+  tmID_lte: String
+
+  """All values greater than the given value."""
+  tmID_gt: String
+
+  """All values greater than or equal the given value."""
+  tmID_gte: String
+
+  """All values containing the given string."""
+  tmID_contains: String
+
+  """All values not containing the given string."""
+  tmID_not_contains: String
+
+  """All values starting with the given string."""
+  tmID_starts_with: String
+
+  """All values not starting with the given string."""
+  tmID_not_starts_with: String
+
+  """All values ending with the given string."""
+  tmID_ends_with: String
+
+  """All values not ending with the given string."""
+  tmID_not_ends_with: String
+  category: Category
+
+  """All values that are not equal to given value."""
+  category_not: Category
+
+  """All values that are contained in given list."""
+  category_in: [Category!]
+
+  """All values that are not contained in given list."""
+  category_not_in: [Category!]
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+}
+
+input GenreWhereUniqueInput {
+  id: ID
 }
 
 """Raw JSON value"""
@@ -2091,30 +2467,36 @@ type Mutation {
   createProfilePic(data: ProfilePicCreateInput!): ProfilePic!
   createEvent(data: EventCreateInput!): Event!
   createUser(data: UserCreateInput!): User!
+  createGenre(data: GenreCreateInput!): Genre!
   updateChat(data: ChatUpdateInput!, where: ChatWhereUniqueInput!): Chat
   updateDirectMessage(data: DirectMessageUpdateInput!, where: DirectMessageWhereUniqueInput!): DirectMessage
   updateProfilePic(data: ProfilePicUpdateInput!, where: ProfilePicWhereUniqueInput!): ProfilePic
   updateEvent(data: EventUpdateInput!, where: EventWhereUniqueInput!): Event
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  updateGenre(data: GenreUpdateInput!, where: GenreWhereUniqueInput!): Genre
   deleteChat(where: ChatWhereUniqueInput!): Chat
   deleteDirectMessage(where: DirectMessageWhereUniqueInput!): DirectMessage
   deleteProfilePic(where: ProfilePicWhereUniqueInput!): ProfilePic
   deleteEvent(where: EventWhereUniqueInput!): Event
   deleteUser(where: UserWhereUniqueInput!): User
+  deleteGenre(where: GenreWhereUniqueInput!): Genre
   upsertChat(where: ChatWhereUniqueInput!, create: ChatCreateInput!, update: ChatUpdateInput!): Chat!
   upsertDirectMessage(where: DirectMessageWhereUniqueInput!, create: DirectMessageCreateInput!, update: DirectMessageUpdateInput!): DirectMessage!
   upsertProfilePic(where: ProfilePicWhereUniqueInput!, create: ProfilePicCreateInput!, update: ProfilePicUpdateInput!): ProfilePic!
   upsertEvent(where: EventWhereUniqueInput!, create: EventCreateInput!, update: EventUpdateInput!): Event!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
+  upsertGenre(where: GenreWhereUniqueInput!, create: GenreCreateInput!, update: GenreUpdateInput!): Genre!
   updateManyDirectMessages(data: DirectMessageUpdateManyMutationInput!, where: DirectMessageWhereInput): BatchPayload!
   updateManyProfilePics(data: ProfilePicUpdateManyMutationInput!, where: ProfilePicWhereInput): BatchPayload!
   updateManyEvents(data: EventUpdateManyMutationInput!, where: EventWhereInput): BatchPayload!
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
+  updateManyGenres(data: GenreUpdateManyMutationInput!, where: GenreWhereInput): BatchPayload!
   deleteManyChats(where: ChatWhereInput): BatchPayload!
   deleteManyDirectMessages(where: DirectMessageWhereInput): BatchPayload!
   deleteManyProfilePics(where: ProfilePicWhereInput): BatchPayload!
   deleteManyEvents(where: EventWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
+  deleteManyGenres(where: GenreWhereInput): BatchPayload!
   executeRaw(database: PrismaDatabase, query: String!): Json!
 }
 
@@ -2506,16 +2888,19 @@ type Query {
   profilePics(where: ProfilePicWhereInput, orderBy: ProfilePicOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ProfilePic]!
   events(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event]!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
+  genres(where: GenreWhereInput, orderBy: GenreOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Genre]!
   chat(where: ChatWhereUniqueInput!): Chat
   directMessage(where: DirectMessageWhereUniqueInput!): DirectMessage
   profilePic(where: ProfilePicWhereUniqueInput!): ProfilePic
   event(where: EventWhereUniqueInput!): Event
   user(where: UserWhereUniqueInput!): User
+  genre(where: GenreWhereUniqueInput!): Genre
   chatsConnection(where: ChatWhereInput, orderBy: ChatOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ChatConnection!
   directMessagesConnection(where: DirectMessageWhereInput, orderBy: DirectMessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): DirectMessageConnection!
   profilePicsConnection(where: ProfilePicWhereInput, orderBy: ProfilePicOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProfilePicConnection!
   eventsConnection(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): EventConnection!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  genresConnection(where: GenreWhereInput, orderBy: GenreOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): GenreConnection!
 
   """Fetches an object given its ID"""
   node(
@@ -2530,6 +2915,7 @@ type Subscription {
   profilePic(where: ProfilePicSubscriptionWhereInput): ProfilePicSubscriptionPayload
   event(where: EventSubscriptionWhereInput): EventSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+  genre(where: GenreSubscriptionWhereInput): GenreSubscriptionPayload
 }
 
 type User implements Node {
@@ -2549,7 +2935,7 @@ type User implements Node {
   img(where: ProfilePicWhereInput, orderBy: ProfilePicOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ProfilePic!]
   resetToken: String
   resetTokenExpiry: Float
-  interests: [Category!]!
+  interests(where: GenreWhereInput, orderBy: GenreOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Genre!]
   events(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event!]
   genderPrefs: [Gender!]!
   minAgePref: Int
@@ -2598,17 +2984,13 @@ input UserCreateInput {
   permissions: Permission!
   stripeCustomerId: String
   stripeSubscriptionId: String
-  interests: UserCreateinterestsInput
   genderPrefs: UserCreategenderPrefsInput
   img: ProfilePicCreateManyWithoutUserInput
+  interests: GenreCreateManyInput
   events: EventCreateManyWithoutAttendingInput
   liked: UserCreateManyInput
   blocked: UserCreateManyInput
   chats: ChatCreateManyWithoutUsersInput
-}
-
-input UserCreateinterestsInput {
-  set: [Category!]
 }
 
 input UserCreateManyInput {
@@ -2656,9 +3038,9 @@ input UserCreateWithoutChatsInput {
   permissions: Permission!
   stripeCustomerId: String
   stripeSubscriptionId: String
-  interests: UserCreateinterestsInput
   genderPrefs: UserCreategenderPrefsInput
   img: ProfilePicCreateManyWithoutUserInput
+  interests: GenreCreateManyInput
   events: EventCreateManyWithoutAttendingInput
   liked: UserCreateManyInput
   blocked: UserCreateManyInput
@@ -2684,9 +3066,9 @@ input UserCreateWithoutEventsInput {
   permissions: Permission!
   stripeCustomerId: String
   stripeSubscriptionId: String
-  interests: UserCreateinterestsInput
   genderPrefs: UserCreategenderPrefsInput
   img: ProfilePicCreateManyWithoutUserInput
+  interests: GenreCreateManyInput
   liked: UserCreateManyInput
   blocked: UserCreateManyInput
   chats: ChatCreateManyWithoutUsersInput
@@ -2712,8 +3094,8 @@ input UserCreateWithoutImgInput {
   permissions: Permission!
   stripeCustomerId: String
   stripeSubscriptionId: String
-  interests: UserCreateinterestsInput
   genderPrefs: UserCreategenderPrefsInput
+  interests: GenreCreateManyInput
   events: EventCreateManyWithoutAttendingInput
   liked: UserCreateManyInput
   blocked: UserCreateManyInput
@@ -2792,7 +3174,6 @@ type UserPreviousValues {
   imageLarge: String
   resetToken: String
   resetTokenExpiry: Float
-  interests: [Category!]!
   genderPrefs: [Gender!]!
   minAgePref: Int
   maxAgePref: Int
@@ -3585,9 +3966,9 @@ input UserUpdateDataInput {
   permissions: Permission
   stripeCustomerId: String
   stripeSubscriptionId: String
-  interests: UserUpdateinterestsInput
   genderPrefs: UserUpdategenderPrefsInput
   img: ProfilePicUpdateManyWithoutUserInput
+  interests: GenreUpdateManyInput
   events: EventUpdateManyWithoutAttendingInput
   liked: UserUpdateManyInput
   blocked: UserUpdateManyInput
@@ -3618,17 +3999,13 @@ input UserUpdateInput {
   permissions: Permission
   stripeCustomerId: String
   stripeSubscriptionId: String
-  interests: UserUpdateinterestsInput
   genderPrefs: UserUpdategenderPrefsInput
   img: ProfilePicUpdateManyWithoutUserInput
+  interests: GenreUpdateManyInput
   events: EventUpdateManyWithoutAttendingInput
   liked: UserUpdateManyInput
   blocked: UserUpdateManyInput
   chats: ChatUpdateManyWithoutUsersInput
-}
-
-input UserUpdateinterestsInput {
-  set: [Category!]
 }
 
 input UserUpdateManyDataInput {
@@ -3651,7 +4028,6 @@ input UserUpdateManyDataInput {
   permissions: Permission
   stripeCustomerId: String
   stripeSubscriptionId: String
-  interests: UserUpdateinterestsInput
   genderPrefs: UserUpdategenderPrefsInput
 }
 
@@ -3687,7 +4063,6 @@ input UserUpdateManyMutationInput {
   permissions: Permission
   stripeCustomerId: String
   stripeSubscriptionId: String
-  interests: UserUpdateinterestsInput
   genderPrefs: UserUpdategenderPrefsInput
 }
 
@@ -3754,9 +4129,9 @@ input UserUpdateWithoutChatsDataInput {
   permissions: Permission
   stripeCustomerId: String
   stripeSubscriptionId: String
-  interests: UserUpdateinterestsInput
   genderPrefs: UserUpdategenderPrefsInput
   img: ProfilePicUpdateManyWithoutUserInput
+  interests: GenreUpdateManyInput
   events: EventUpdateManyWithoutAttendingInput
   liked: UserUpdateManyInput
   blocked: UserUpdateManyInput
@@ -3782,9 +4157,9 @@ input UserUpdateWithoutEventsDataInput {
   permissions: Permission
   stripeCustomerId: String
   stripeSubscriptionId: String
-  interests: UserUpdateinterestsInput
   genderPrefs: UserUpdategenderPrefsInput
   img: ProfilePicUpdateManyWithoutUserInput
+  interests: GenreUpdateManyInput
   liked: UserUpdateManyInput
   blocked: UserUpdateManyInput
   chats: ChatUpdateManyWithoutUsersInput
@@ -3810,8 +4185,8 @@ input UserUpdateWithoutImgDataInput {
   permissions: Permission
   stripeCustomerId: String
   stripeSubscriptionId: String
-  interests: UserUpdateinterestsInput
   genderPrefs: UserUpdategenderPrefsInput
+  interests: GenreUpdateManyInput
   events: EventUpdateManyWithoutAttendingInput
   liked: UserUpdateManyInput
   blocked: UserUpdateManyInput
@@ -4585,6 +4960,9 @@ input UserWhereInput {
   img_every: ProfilePicWhereInput
   img_some: ProfilePicWhereInput
   img_none: ProfilePicWhereInput
+  interests_every: GenreWhereInput
+  interests_some: GenreWhereInput
+  interests_none: GenreWhereInput
   events_every: EventWhereInput
   events_some: EventWhereInput
   events_none: EventWhereInput

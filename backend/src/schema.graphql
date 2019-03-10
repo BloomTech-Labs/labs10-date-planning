@@ -50,6 +50,7 @@ type Query {
 	getMatchUsers: [MatchScore!]!
 	getScore: Int
 	getMessages: [DirectMessage]
+	genres: [Genre!]
 }
 
 type Subscription {
@@ -94,7 +95,7 @@ input AddEventInput {
 	city: String
 	lat: String
 	long: String
-	genre: String
+	genre: GenreCreateOneInput
 }
 
 type User {
@@ -112,7 +113,7 @@ type User {
 	imageLarge: String
 	img: [ProfilePic]
 	permissions: Permission
-	interests: [Category]
+	interests: [Genre]
 	genderPrefs: [Gender]
 	minAgePref: Int
 	maxAgePref: Int
@@ -125,6 +126,15 @@ type User {
 	stripeSubscriptionId: String
 	score: Int
 	chats: [Chat]
+}
+
+type AllEvents {
+	events: [Event]
+	total_items: Int
+	page_count: Int
+	page_total: Int
+	page_number: Int
+	location: String
 }
 
 type Event {
@@ -143,7 +153,8 @@ type Event {
 	large_url: String
 	price: PriceRange
 	notes: String
-	genre: String
+	genreName: String
+	category: String 
 }
 
 type LocationInfo {
@@ -160,14 +171,7 @@ type PriceRange {
 	currency: String
 }
 
-type AllEvents {
-	events: [Event]
-	total_items: Int
-	page_count: Int
-	page_total: Int
-	page_number: Int
-	location: String
-}
+
 
 type Location {
 	city: String
@@ -203,3 +207,4 @@ type MatchScore {
 	user: User!
 	score: Int
 }
+
