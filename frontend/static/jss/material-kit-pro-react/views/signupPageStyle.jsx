@@ -20,10 +20,10 @@ const signupPageStyle = {
 		border: '0',
 		alignItems: 'center',
 		'&:before': {
-			background: 'rgba(0, 0, 0, 0.5)',
+			// background: 'rgba(0, 0, 0, 0.5)',
 		},
 		'&:after': {
-			background: 'linear-gradient(60deg,rgba(76,181,174, 0.7),rgba(76,181,174, 0.9))',
+			// background: 'linear-gradient(60deg,rgba(76,181,174, 0.7),rgba(76,181,174, 0.9))',
 		},
 		'&:before,&:after': {
 			position: 'absolute',
