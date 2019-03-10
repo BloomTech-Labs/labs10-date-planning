@@ -48,11 +48,11 @@ const User = props => (
 );
 
 export const isLoggedIn = async client => {
-	let response = await client.readQuery({
+	let response = await client.query({
 		query: CURRENT_USER_QUERY
 	});
 	// let data = client.cache.extract();
-	if (data) {
+	if (response) {
 		return { data: response.data };
 	}
 	return {};
