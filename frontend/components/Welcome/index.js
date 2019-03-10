@@ -75,7 +75,7 @@ function getImage(stepIndex) {
     case 6:
       return "../../static/img/triangle7.svg";
     case 7:
-      return "../../static/img/triangl8.svg";
+      return "../../static/img/triangle8.svg";
     case 8:
       return "../../static/img/triangle1.svg";
     default:
