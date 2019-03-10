@@ -1,7 +1,26 @@
+const moment = require('moment')
+
 module.exports = {
 	async createChat(parent, args, { request, db }, info) {
 		const { user } = request;
+
+		// User should logged in to create chat
 		if (!user) throw new Error('You must be logged in to start a conversation!');
+
+		// FREE users can only send 10 messages per week
+		if (user.permissions = 'FREE') {
+			const sentMessages = await db.query.directMessages({
+				where: {
+					AND: [
+						{ from: { id: user.id } },
+						{ createdAt_gte: moment().startOf('isoWeek') }
+					]
+				}
+			})
+
+			if (sentMessages.length > 10) throw new Error('You have reached 10 DMs per week for FREE account.')
+		}
+
 
 		// check to see if chat between users already exists
 		let [ chat ] = await db.query.chats(
@@ -33,7 +52,23 @@ module.exports = {
 	},
 	async sendMessage(parent, { id, message }, { request, db }, info) {
 		const { user } = request;
+
+		// User should logged in to create chat
 		if (!user) throw new Error('You must be logged in to send a message!');
+
+		// FREE users can only send 10 messages per week
+		if (user.permissions = 'FREE') {
+			const sentMessages = await db.query.directMessages({
+				where: {
+					AND: [
+						{ from: { id: user.id } },
+						{ createdAt_gte: moment().startOf('isoWeek') }
+					]
+				}
+			})
+
+			if (sentMessages.length > 10) throw new Error('You have reached 10 DMs per week for FREE account.')
+		}
 
 		let [ chat ] = await db.query.chats({
 			where: {

@@ -52,6 +52,7 @@ type Query {
 	getMessages: [DirectMessage]
 	genres: [Genre!]
 	userEvents: [Event]
+	getLikedByList: [User!]!
 }
 
 type Subscription {
