@@ -1,37 +1,26 @@
 import React, { useState } from 'react';
-import { useMutation } from '../Mutations/useMutation';
-import InputRange from 'react-input-range';
 import NProgress from 'nprogress';
-import { Value } from 'react-powerplug';
+
 import classNames from 'classnames';
 //MUI
 import Location from '../Settings/Location';
 import { Menu, LocalDining } from '@material-ui/icons';
-import CustomInput from '../../styledComponents/CustomInput/CustomInput.jsx';
+
 import { MenuItem, Select, InputLabel, Drawer, IconButton, Paper } from '@material-ui/core';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+
 import ImageModal from './ImageModal';
-import { UPDATE_USER_MUTATION } from '../Mutations/updateUser';
 import Button from '../../styledComponents/CustomButtons/Button';
 import getAge from '../../utils/getAge';
 import withStyles from '@material-ui/core/styles/withStyles';
 import style from '../../static/jss/material-kit-pro-react/views/componentsSections/basicsStyle.jsx';
 import '../../styles/Profile/index.scss';
+import Preferences from './Prefs';
+import Bio from './Bio';
+import Interests from './Interests';
 import GridContainer from '../../styledComponents/Grid/GridContainer';
 import GridItem from '../../styledComponents/Grid/GridItem';
 const Settings = ({ classes, currentUser }) => {
 	const [ modal, showModal ] = useState(false);
-	const [ agePref, setAgePref ] = useState({
-		min: currentUser.minAgePref || 18,
-		max: currentUser.maxAgePref || 50,
-	});
-	const [ genderPref, setGenderPref ] = useState(currentUser.genderPrefs || []);
-	const [ bio, setBio ] = useState(currentUser.biography || '');
-	const [ updateUser ] = useMutation(UPDATE_USER_MUTATION, {
-		onCompleted: () => NProgress.done(),
-		onError: () => NProgress.done(),
-	});
 
 	let profileImg = currentUser.img.find(img => img.default)
 		? currentUser.img.find(img => img.default).img_url
@@ -75,132 +64,13 @@ const Settings = ({ classes, currentUser }) => {
 			<div className={classes.container}>
 				<GridContainer>
 					<GridItem md={4} lg={4}>
-						<Paper
-							style={{ display: 'flex', flexDirection: 'column', padding: '20px' }}
-						>
-							<h4 className={classes.title}>About you</h4>
-							<CustomInput
-								//labelText='About'
-								id='textarea-input'
-								inputProps={{
-									multiline: true,
-									rows: 5,
-									value: bio,
-									onChange: e => setBio(e.target.value),
-									placeholder: 'Write a little about yourself',
-								}}
-							/>
-							<Button
-								style={{ marginBottom: '20px' }}
-								onClick={() => {
-									NProgress.start();
-									updateUser({
-										variables: {
-											biography: bio,
-										},
-									});
-								}}
-							>
-								Set Bio
-							</Button>
-						</Paper>
+						<Bio currentUser={currentUser} />
 					</GridItem>
 					<GridItem md={4} lg={4}>
-						<Paper
-							style={{ display: 'flex', flexDirection: 'column', padding: '20px' }}
-						>
-							<h4 className={classes.title}>Preferences</h4>
-							<InputLabel htmlFor='multiple-select' className={classes.selectLabel}>
-								Gender preferences
-							</InputLabel>
-							<Select
-								multiple
-								value={genderPref}
-								onChange={e => setGenderPref(e.target.value)}
-								MenuProps={{
-									className: classes.selectMenu,
-									classes: { paper: classes.selectPaper },
-								}}
-								classes={{ select: classes.select }}
-								inputProps={{
-									name: 'multipleSelect',
-									id: 'multiple-select',
-								}}
-							>
-								<MenuItem
-									classes={{
-										root: classes.selectMenuItem,
-										selected: classes.selectMenuItemSelectedMultiple,
-									}}
-									value='MALE'
-								>
-									Men
-								</MenuItem>
-								<MenuItem
-									classes={{
-										root: classes.selectMenuItem,
-										selected: classes.selectMenuItemSelectedMultiple,
-									}}
-									value='FEMALE'
-								>
-									Women
-								</MenuItem>
-								<MenuItem
-									classes={{
-										root: classes.selectMenuItem,
-										selected: classes.selectMenuItemSelectedMultiple,
-									}}
-									value='OTHER'
-								>
-									Other
-								</MenuItem>
-							</Select>
-							{/* </FormControl> */}
-							<Button
-								style={{ marginBottom: '20px' }}
-								onClick={() => {
-									NProgress.start();
-									updateUser({
-										variables: {
-											genderPrefs: genderPref,
-										},
-									});
-								}}
-							>
-								Set Gender
-							</Button>
-							<div>
-								<InputRange
-									maxValue={100}
-									minValue={18}
-									value={agePref}
-									onChange={value => setAgePref(value)}
-								/>
-							</div>
-
-							<Button
-								style={{ marginTop: '30px' }}
-								onClick={() => {
-									NProgress.start();
-									updateUser({
-										variables: {
-											minAgePref: agePref.min,
-											maxAgePref: agePref.max,
-										},
-									});
-								}}
-							>
-								set ages
-							</Button>
-						</Paper>
+						<Preferences currentUser={currentUser} />
 					</GridItem>
 					<GridItem md={4} lg={4}>
-						<Paper
-							style={{ display: 'flex', flexDirection: 'column', padding: '20px' }}
-						>
-							{' '}
-							<h4 className={classes.title}>Interests</h4>
-						</Paper>
+						<Interests currentUser={currentUser} />
 					</GridItem>
 				</GridContainer>
 			</div>
