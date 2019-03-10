@@ -1,6 +1,6 @@
-import { Query, withApollo } from 'react-apollo';
-import gql from 'graphql-tag';
-import PropTypes from 'prop-types';
+import { Query, withApollo } from "react-apollo";
+import gql from "graphql-tag";
+import PropTypes from "prop-types";
 
 const CURRENT_USER_QUERY = gql`
 	query {
@@ -48,15 +48,19 @@ const User = props => (
 );
 
 export const isLoggedIn = async client => {
-	// let { data, error } = await client.readQuery({
-	// 	query: CURRENT_USER_QUERY,
-	// });
-	let data = client.cache.extract();
-	return Object.values(data).some(val => val.hasOwnProperty('currentUser'));
+	let response = await client.readQuery({
+		query: CURRENT_USER_QUERY
+	});
+	// let data = client.cache.extract();
+	if (data) {
+		return { data: response.data };
+	}
+	return {};
+	// return Object.values(data).some(val => val.hasOwnProperty('currentUser'));
 };
 
 User.propTypes = {
-	children: PropTypes.func.isRequired,
+	children: PropTypes.func.isRequired
 };
 
 export default User;
