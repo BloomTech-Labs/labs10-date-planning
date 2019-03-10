@@ -93,7 +93,7 @@ const MessageList = ({
                 >
                   {sendMessage => (
                     <Media
-                      style={{position: 'absolute', bottom: 0, width: '100%', left: '-5px', borderTop: '2px solid #b2ddf7'}}
+                      style={{position: 'absolute', bottom: 0, width: '100%', left: '-5px', borderTop: '2px solid #bdbdbd'}}
                       avatar={currentUser.img.find(img => img.default).img_url}
                       body={
                         <CustomInput
