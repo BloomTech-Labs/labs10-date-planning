@@ -1,26 +1,26 @@
-import React from 'react';
-import Router from 'next/router';
-import Button from '../../styledComponents/CustomButtons/Button';
+import React from "react";
+import Router from "next/router";
+import Button from "../../styledComponents/CustomButtons/Button";
 
 const Main = ({ user }) => {
-	return (
-		<div>
-			<h2>Welcome to Up4 {user.firstName}!</h2>
-			<h3>Tell us a little about yourself...</h3>
-			<Button
-				onClick={() => {
-					Router.push(
-						`/welcome?slug=1`,
-						`/welcome/profile/gender`,
-						{ shallow: true },
-						{ scroll: false },
-					);
-				}}
-			>
-				Get Started
-			</Button>
-		</div>
-	);
+  return (
+    <div>
+      <h2>Welcome to Up4 {user.firstName}!</h2>
+      <h3>Tell us a little about yourself...</h3>
+      <Button
+        onClick={() => {
+          Router.push(
+            `/welcome?slug=1`,
+            `/welcome/profile/gender`,
+            { shallow: true },
+            { scroll: false }
+          );
+        }}
+      >
+        Get Started
+      </Button>
+    </div>
+  );
 };
 
 export default Main;
