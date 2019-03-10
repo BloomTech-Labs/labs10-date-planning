@@ -13,6 +13,7 @@ export const SEND_MESSAGE_MUTATION = gql`
 				text
 				seen
 				from {
+					id
 					firstName
 					img {
 						default

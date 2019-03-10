@@ -14,7 +14,7 @@ import { CURRENT_USER_QUERY } from '../Queries/User';
 import { UPDATE_USER_MUTATION } from '../Mutations/updateUser';
 //components
 import Location from '../Settings/Location';
-import Dates from '../Settings/Dates';
+import Dates from './Dates';
 import Preferences from './Preferences';
 import UserModal from '../UserModal/';
 import ImageModal from './ImageModal';
@@ -86,7 +86,7 @@ const Profile = ({ classes, theme, router, currentUser }) => {
 				</div>
 			</div>
 
-			<GridContainer style={{margin: '0 auto', width: '80%'}}>
+			<GridContainer style={{ margin: '0 auto', width: '80%' }}>
 				<GridItem sm={12} md={8} lg={8}>
 					<Messages user={currentUser} />
 				</GridItem>

@@ -58,6 +58,7 @@ class CustomDropdown extends React.Component {
 			caret,
 			hoverColor,
 			dropPlacement,
+			messages,
 			rtlActive,
 			noLiPadding,
 			innerDropDown,
@@ -70,7 +71,8 @@ class CustomDropdown extends React.Component {
 			[classes.caretRTL]: rtlActive,
 		});
 		const dropdownItem = classNames({
-			[classes.dropdownItem]: true,
+			[classes.dropdownItem]: !messages,
+			[classes.msgddi]: messages,
 			[classes[hoverColor + 'Hover']]: true,
 			[classes.noLiPadding]: noLiPadding,
 			[classes.dropdownItemRTL]: rtlActive,
@@ -161,7 +163,7 @@ class CustomDropdown extends React.Component {
 								)
 							}
 						>
-							<Paper className={classes.dropdown}>
+							<Paper className={messages ? classes.msgdd : classes.dropdown}>
 								{innerDropDown ? (
 									dropDownMenu
 								) : (
@@ -222,6 +224,7 @@ CustomDropdown.propTypes = {
 	navDropdown: PropTypes.bool,
 	// This is a function that returns the clicked menu item
 	onClick: PropTypes.func,
+	messages: PropTypes.bool,
 };
 
 export default withStyles(customDropdownStyle)(CustomDropdown);

@@ -43,7 +43,7 @@ import CardStyles from '../../static/jss/material-kit-pro-react/views/components
 import '../../styles/Home/Event.scss';
 import '../../styles/Home/EventModal.scss';
 
-const Event = ({ event, classes, user, refetch }) => {
+const Event = React.memo(({ event, classes, user, refetch }) => {
 	const deleteEvent = useMutation(DELETE_EVENT_MUTATION, {
 		variables: { id: event.id },
 	});
@@ -68,7 +68,6 @@ const Event = ({ event, classes, user, refetch }) => {
 	useEffect(
 		() => {
 			if (val) {
-				console.log(val);
 				setHeight(`${divEl.current.clientHeight}px`);
 				NProgress.done();
 			}
@@ -404,6 +403,6 @@ const Event = ({ event, classes, user, refetch }) => {
 			</div>
 		</div>
 	);
-};
+});
 
 export default withStyles(CardStyles)(Event);

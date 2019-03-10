@@ -10,6 +10,7 @@ export function useMutation(mutation, { onCompleted, onError, ...options } = {})
 	const mutate = useHookMutation(mutation, options);
 
 	const handler = async (...args) => {
+		console.log(mutate);
 		setLoading(true);
 		setCalled(true);
 		setError(null);
@@ -17,7 +18,7 @@ export function useMutation(mutation, { onCompleted, onError, ...options } = {})
 
 		try {
 			const { data } = await mutate(...args);
-
+			console.log(data);
 			setData(data);
 
 			setLoading(false);

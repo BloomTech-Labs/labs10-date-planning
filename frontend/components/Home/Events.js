@@ -67,8 +67,7 @@ const Composed = adopt({
 	),
 });
 
-const Events = ({ classes, router, href, ...props }) => {
-	console.log(props);
+const Events = React.memo(({ classes, router, href, ...props }) => {
 	useEffect(() => {
 		NProgress.start();
 	}, []);
@@ -83,7 +82,6 @@ const Events = ({ classes, router, href, ...props }) => {
 				filters,
 				user: { data: { currentUser } },
 			}) => {
-				console.log(getEvents);
 				return (
 					<div className={classes.background}>
 						{router.query.user && (
@@ -186,7 +184,6 @@ const Events = ({ classes, router, href, ...props }) => {
 																key={event.id}
 																refetch={refetch}
 																user={currentUser}
-																location={location}
 															/>
 														))}
 
@@ -211,7 +208,6 @@ const Events = ({ classes, router, href, ...props }) => {
 																key={event.id}
 																refetch={refetch}
 																user={currentUser}
-																location={location}
 															/>
 														))}
 												</GridItem>
@@ -228,6 +224,6 @@ const Events = ({ classes, router, href, ...props }) => {
 			}}
 		</Composed>
 	);
-};
+});
 
 export default withRouter(withStyles(styles, { withTheme: true })(Events));
