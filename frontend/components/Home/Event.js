@@ -48,19 +48,27 @@ const Event = ({ event, classes, user, refetch }) => {
 		variables: { id: event.id },
 	});
 
-	// useEffect(() => {
-	// 	NProgress.start();
-	// }, []);
-
 	const [ rotate, setRotate ] = useState('');
 	const [ height, setHeight ] = useState(0);
 	const [ val, set ] = useState(false);
 	const divEl = useRef(null);
+	const imgEl = useRef(null);
 	let isSaved = user ? user.events.find(e => e.id === event.id) : false;
 
 	useEffect(
 		() => {
+			NProgress.start();
+			if (imgEl.current) {
+				if (imgEl.current.complete) set(true);
+			}
+		},
+		[ imgEl ],
+	);
+
+	useEffect(
+		() => {
 			if (val) {
+				console.log(val);
 				setHeight(`${divEl.current.clientHeight}px`);
 				NProgress.done();
 			}
@@ -103,9 +111,12 @@ const Event = ({ event, classes, user, refetch }) => {
 								<a href='#' onClick={e => e.preventDefault()}>
 									<img
 										style={{ border: '1px solid #cabac8' }}
+										ref={imgEl}
 										src={event.image_url}
 										alt='...'
-										onLoad={() => set(true)}
+										onLoad={() => {
+											set(true);
+										}}
 									/>
 								</a>
 								<div

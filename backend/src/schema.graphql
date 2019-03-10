@@ -164,6 +164,7 @@ type AllEvents {
 	events: [Event]
 	total_items: Int
 	page_count: Int
+	page_total: Int
 	page_number: Int
 	location: String
 }

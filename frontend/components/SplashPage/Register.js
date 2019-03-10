@@ -76,9 +76,8 @@ const FIREBASE_SIGNUP = gql`
 	}
 `;
 
-const Register = ({ classes }) => {
+const Register = ({ classes, showing, setShowing }) => {
 	const [ passwordShowing, setPasswordShowing ] = useState(false);
-	const [ modalShowing, setModalShowing ] = useState(false);
 	const [ termsShowing, setTermsShowing ] = useState(false);
 	const [ terms, setTerms ] = useState(false);
 	const [ user, setUser ] = useState({
@@ -160,14 +159,6 @@ const Register = ({ classes }) => {
 
 	return (
 		<Fragment>
-			<Button
-				color='danger'
-				size='lg'
-				style={{ fontSize: '30px' }}
-				onClick={() => setModalShowing(true)}
-			>
-				Sign Up
-			</Button>
 			<GridItem xs={6} sm={6} md={6} lg={6}>
 				<div className={`${classes.section} cd-section`} id='javascriptComponents'>
 					<Dialog
@@ -176,11 +167,11 @@ const Register = ({ classes }) => {
 							paper: classes.modal + ' ' + classes.modalSignup,
 							container: classes.modalContainer,
 						}}
-						open={modalShowing}
+						open={showing}
 						TransitionComponent={Transition}
 						keepMounted
 						onClose={() => {
-							setModalShowing(false);
+							setShowing(false);
 						}}
 						aria-labelledby='signup-modal-slide-title'
 						aria-describedby='signup-modal-slide-description'

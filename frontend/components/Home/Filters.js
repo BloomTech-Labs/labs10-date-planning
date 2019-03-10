@@ -25,6 +25,7 @@ import GridItem from '../../styledComponents/Grid/GridItem';
 import accordionStyle from '../../static/jss/material-kit-pro-react/components/accordionStyle.jsx';
 import styles from '../../static/jss/material-kit-pro-react/views/ecommerceSections/productsStyle.jsx';
 import { mis, music, sports, performing } from '../../utils/genres';
+
 const Filters = ({ classes, filters }) => {
 	const [ categoryFilters, setCategeoryFilters ] = useState([]);
 	const [ dateFilters, setDateFilters ] = useState([]);
