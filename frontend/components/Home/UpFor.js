@@ -1,41 +1,8 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+
 import posed from 'react-pose';
-
-const Container = styled.div`
-	font-family: "Baumans";
-	line-height: ${props => (props.main ? '500px' : '50px')};
-	font-size: ${props => (props.main ? '400px' : '53px')};
-	display: flex;
-	cursor: pointer;
-`;
-
-const Up = styled.div`
-	color: ${props => (props.main ? '#81d6e3' : 'white')};
-	/*color: #81d6e3; */
-	font-family: "Baumans";
-	font-size: ${props => (props.main ? '400px' : '50px')};
-
-	cursor: pointer;
-`;
-
-const Fours = styled.div`
-	display: flex;
-	font-size: 53px;
-	position: relative;
-	right: 5px;
-`;
-
-const Four = posed.div({
-	unhovered: { color: '#ad7e81', delay: 1000 },
-	hovered: {
-		color: '#dc434c',
-		transition: {
-			type: 'tween',
-			duration: 1000,
-		},
-	},
-});
+import withStyles from '@material-ui/core/styles/withStyles';
+import styles from '../../static/jss/logoStyles';
 
 const MirroredFour = posed.div({
 	unhovered: { transform: 'rotateY(0deg)', color: '#ad7e81', delay: 1000 },
@@ -49,26 +16,12 @@ const MirroredFour = posed.div({
 	},
 });
 
-const FirstFour = styled(Four)`
-  color: #ad7e81;
-  font-family: "Baumans";
-  font-size: ${props => (props.main ? '400px' : '53px')};
-  cursor: pointer;
-`;
-
-const SecondFour = styled(MirroredFour)`
-  color: #ad7e81;
-  /* color: #dc434c; */
-  position: absolute;
-  transform-origin: 70%;
-`;
-
-const UpFor = ({ main, justFour, handleClick }) => {
+const UpFor = ({ main, justFour, handleClick, classes }) => {
 	const [ hovering, setHovering ] = useState(false);
 
 	return (
-		<Container
-			main={main}
+		<div
+			className={main ? classes.mainContainer : classes.container}
 			onClick={handleClick}
 			onMouseEnter={() => {
 				setHovering(true);
@@ -77,13 +30,20 @@ const UpFor = ({ main, justFour, handleClick }) => {
 				setHovering(false);
 			}}
 		>
-			{!justFour ? <Up main={main}>Up</Up> : null}
-			<Fours>
-				<FirstFour pose={hovering ? 'hovered' : 'unhovered'}>4</FirstFour>
-				<SecondFour pose={hovering ? 'hovered' : 'unhovered'}>4</SecondFour>
-			</Fours>
-		</Container>
+			{!justFour ? <div className={main ? classes.mainUp : classes.up}>Up</div> : null}
+			<div className={classes.fours}>
+				<div className={classes.firstFour} pose={hovering ? 'hovered' : 'unhovered'}>
+					4
+				</div>
+				<MirroredFour
+					className={classes.secondFour}
+					pose={hovering ? 'hovered' : 'unhovered'}
+				>
+					4
+				</MirroredFour>
+			</div>
+		</div>
 	);
 };
 
-export default UpFor;
+export default withStyles(styles)(UpFor);

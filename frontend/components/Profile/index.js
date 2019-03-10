@@ -1,102 +1,63 @@
 import React, { useState } from 'react';
-import { withApollo, Mutation, Query } from 'react-apollo';
-import { adopt } from 'react-adopt';
+
 import { withRouter } from 'next/router';
-import { Value } from 'react-powerplug';
+
 import classNames from 'classnames';
 //MUI
 import withStyles from '@material-ui/core/styles/withStyles';
-import { IconButton, Paper } from '@material-ui/core';
-import { Menu, LocalDining } from '@material-ui/icons';
+import { IconButton } from '@material-ui/core';
+import { Menu } from '@material-ui/icons';
 
 //Q&M
-import { CURRENT_USER_QUERY } from '../Queries/User';
-import { UPDATE_USER_MUTATION } from '../Mutations/updateUser';
+
 //components
-import Location from '../Settings/Location';
-import Dates from './Dates';
-import Preferences from './Preferences';
+
+import MenuDrawer from './Drawer';
 import UserModal from '../UserModal/';
-import ImageModal from './ImageModal';
+import Dates from './Dates';
 import Messages from './Messages';
 import Settings from './Settings';
+import Billing from './Pricing';
 //styledcomponents
-import Button from '../../styledComponents/CustomButtons/Button';
-import CustomInput from '../../styledComponents/CustomInput/CustomInput.jsx';
-import GridContainer from '../../styledComponents/Grid/GridContainer';
-import GridItem from '../../styledComponents/Grid/GridItem';
+
 //utils
-import getAge from '../../utils/getAge';
-import profileStandIn from '../../static/img/placeholder.jpg';
+
 //styles
 import style from '../../static/jss/material-kit-pro-react/views/componentsSections/basicsStyle.jsx';
 import '../../styles/Profile/index.scss';
-const Composed = adopt({
-	updateUser: ({ render }) => (
-		<Mutation
-			mutation={UPDATE_USER_MUTATION}
-			onCompleted={() => NProgress.done()}
-			onError={() => NProgress.done()}
-		>
-			{render}
-		</Mutation>
-	),
-});
-const Profile = ({ classes, theme, router, currentUser }) => {
+
+function getContent(slug, user) {
+	switch (slug) {
+		case 'me':
+			return <Settings currentUser={user} />;
+		case 'events':
+			return <Dates user={user} />;
+		case 'chats':
+			return <Messages user={user} />;
+		case 'billing':
+			return <Billing currentUser={user} />;
+		default:
+			return <Settings currentUser={user} />;
+	}
+}
+
+const Profile = ({ classes, theme, router: { query }, currentUser }) => {
 	const [ drawerOpen, setDrawerOpen ] = useState(false);
 
-	let profileImg = currentUser.img.find(img => img.default)
-		? currentUser.img.find(img => img.default).img_url
-		: profileStandIn;
 	return (
 		<div className='Profile__background'>
-			{router.query.user && <UserModal user={router.query.user} currentUser={currentUser} />}
-			<Preferences user={currentUser} drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} />
-			<Settings currentUser={currentUser} />
-			{/* <div className='Profile-Header'>
-				<IconButton
-					// color="inherit"
-					style={{ color: 'white' }}
-					aria-label='Open drawer'
-					onClick={() => setDrawerOpen(!drawerOpen)}
-					className={classNames(classes.menuButton)}
-				>
-					<Menu />
-				</IconButton>
-				<div className='inner'>
-					<div className='prof-img' style={{ backgroundImage: `url(${profileImg})` }}>
-						<Button className='view-all' onClick={() => showModal(true)}>
-							View all
-						</Button>
-					</div>
-					<div
-						style={{
-							display: 'flex',
-							flexDirection: 'column',
-							margin: '0 20px',
-						}}
-					>
-						<h2 style={{ color: '#fafafa' }}>
-							{currentUser.firstName}{' '}
-							<span style={{ padding: '0 0px' }}>&#8226;</span>{' '}
-							{getAge(currentUser.dob)}
-						</h2>
-						<Location user={currentUser} />
-					</div>
-				</div>
-			</div> */}
-
-			{/* <GridContainer style={{ margin: '0 auto', width: '80%' }}>
-				<GridItem sm={12} md={8} lg={8}>
-					<Messages user={currentUser} />
-				</GridItem>
-				<GridItem sm={12} md={4} lg={4}>
-					<Dates />
-				</GridItem>
-
-				{/* </GridContainer> */}
-			{/* <Dates /> */}
-			{/* </GridContainer> */}
+			{query.user && <UserModal user={query.user} currentUser={currentUser} />}
+			<MenuDrawer user={currentUser} drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} />
+			<IconButton
+				// color="inherit"
+				style={{ color: 'white', position: 'absolute' }}
+				aria-label='Open drawer'
+				onClick={() => setDrawerOpen(!drawerOpen)}
+				className={classNames(classes.menuButton)}
+			>
+				<Menu />
+			</IconButton>
+			{getContent(query.slug, currentUser)}
 		</div>
 	);
 };

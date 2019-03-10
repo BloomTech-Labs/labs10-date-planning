@@ -28,17 +28,7 @@ const Settings = ({ classes, currentUser }) => {
 
 	return (
 		<div>
-			<ImageModal modal={modal} showModal={showModal} user={currentUser} />
 			<div className='Profile-Header'>
-				<IconButton
-					// color="inherit"
-					style={{ color: 'white' }}
-					aria-label='Open drawer'
-					onClick={() => setDrawerOpen(!drawerOpen)}
-					className={classNames(classes.menuButton)}
-				>
-					<Menu />
-				</IconButton>
 				<div className='inner'>
 					<div className='prof-img' style={{ backgroundImage: `url(${profileImg})` }}>
 						<Button className='view-all' onClick={() => showModal(true)}>
@@ -63,11 +53,16 @@ const Settings = ({ classes, currentUser }) => {
 			</div>
 			<div className={classes.container}>
 				<GridContainer>
-					<GridItem md={4} lg={4}>
-						<Bio currentUser={currentUser} />
-					</GridItem>
-					<GridItem md={4} lg={4}>
-						<Preferences currentUser={currentUser} />
+					<GridItem md={8} lg={8}>
+						<GridContainer>
+							<GridItem md={6} lg={6}>
+								<Bio currentUser={currentUser} />
+							</GridItem>
+							<GridItem md={6} lg={6}>
+								<Preferences currentUser={currentUser} />
+							</GridItem>
+						</GridContainer>
+						<ImageModal modal={modal} showModal={showModal} user={currentUser} />
 					</GridItem>
 					<GridItem md={4} lg={4}>
 						<Interests currentUser={currentUser} />
