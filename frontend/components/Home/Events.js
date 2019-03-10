@@ -68,7 +68,6 @@ const Composed = adopt({
 });
 
 const Events = ({ classes, router, href, ...props }) => {
-	// console.log(props);
 	useEffect(() => {
 		NProgress.start();
 	}, []);
@@ -89,7 +88,6 @@ const Events = ({ classes, router, href, ...props }) => {
 					data: { currentUser }
 				}
 			}) => {
-				// console.log(getEvents);
 				return (
 					<div className={classes.background}>
 						{router.query.user && <UserModal user={router.query.user} currentUser={currentUser} />}
