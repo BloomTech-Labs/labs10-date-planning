@@ -50,7 +50,7 @@ const Billing = ({ classes, currentUser, client }) => {
 		// className={`${classes.pricing} ${classes.pricing1} ${classes.section} Billing`}
 		// style={{ backgroundImage: `url(${img})`, height: '100%' }}
 		>
-			<Header color='transparent' />
+			<Header color='transparent' currentUser={currentUser} />
 			<Parallax image={img} filter='dark' small>
 				<div className={classes.container}>
 					<GridContainer>

@@ -19,6 +19,7 @@ import Preferences from './Preferences';
 import UserModal from '../UserModal/';
 import ImageModal from './ImageModal';
 import Messages from './Messages';
+import Settings from './Settings';
 //styledcomponents
 import Button from '../../styledComponents/CustomButtons/Button';
 import CustomInput from '../../styledComponents/CustomInput/CustomInput.jsx';
@@ -43,17 +44,16 @@ const Composed = adopt({
 });
 const Profile = ({ classes, theme, router, currentUser }) => {
 	const [ drawerOpen, setDrawerOpen ] = useState(false);
-	const [ modal, showModal ] = useState(false);
 
 	let profileImg = currentUser.img.find(img => img.default)
 		? currentUser.img.find(img => img.default).img_url
 		: profileStandIn;
 	return (
 		<div className='Profile__background'>
-			<ImageModal modal={modal} showModal={showModal} user={currentUser} />
 			{router.query.user && <UserModal user={router.query.user} currentUser={currentUser} />}
 			<Preferences user={currentUser} drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} />
-			<div className='Profile-Header'>
+			<Settings currentUser={currentUser} />
+			{/* <div className='Profile-Header'>
 				<IconButton
 					// color="inherit"
 					style={{ color: 'white' }}
@@ -84,9 +84,9 @@ const Profile = ({ classes, theme, router, currentUser }) => {
 						<Location user={currentUser} />
 					</div>
 				</div>
-			</div>
+			</div> */}
 
-			<GridContainer style={{ margin: '0 auto', width: '80%' }}>
+			{/* <GridContainer style={{ margin: '0 auto', width: '80%' }}>
 				<GridItem sm={12} md={8} lg={8}>
 					<Messages user={currentUser} />
 				</GridItem>
@@ -95,8 +95,8 @@ const Profile = ({ classes, theme, router, currentUser }) => {
 				</GridItem>
 
 				{/* </GridContainer> */}
-				{/* <Dates /> */}
-			</GridContainer>
+			{/* <Dates /> */}
+			{/* </GridContainer> */}
 		</div>
 	);
 };
