@@ -67,7 +67,6 @@ const Composed = adopt({
 	)
 });
 
-
 const Events = React.memo(({ classes, router, href, ...props }) => {
 	useEffect(() => {
 		NProgress.start();
