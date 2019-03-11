@@ -26,15 +26,15 @@ const Gender = ({ user }) => {
 			}}
 		>
 			{updateUser => (
-				<div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+				<div style={{ display: "flex", flexDirection: "column", alignItems: "center", height: '100%', justifyContent: 'center', color: 'white' }}>
 					<h2>I am a...</h2>
-					<Button style={{ zIndex: 1 }} onClick={() => handleSelect("MALE", updateUser)}>
+					<Button color='danger' style={{ zIndex: 1 }} onClick={() => handleSelect("MALE", updateUser)}>
 						Man
 					</Button>
-					<Button style={{ zIndex: 1 }} onClick={() => handleSelect("FEMALE", updateUser)}>
+					<Button color='danger' style={{ zIndex: 1 }} onClick={() => handleSelect("FEMALE", updateUser)}>
 						Woman
 					</Button>
-					<Button style={{ zIndex: 1 }} onClick={() => handleSelect("OTHER", updateUser)}>
+					<Button color='danger' style={{ zIndex: 1 }} onClick={() => handleSelect("OTHER", updateUser)}>
 						Non-Binary
 					</Button>
 				</div>

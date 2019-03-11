@@ -18,7 +18,8 @@ import Pro from "./ProFeatures";
 
 import style from "../../static/jss/Welcome/welcomeStyles";
 
-// import triangle1 from '../../static/img/triangle1.svg/';
+// import triangle1 from '../../static/img/triangle1.svg';
+
 // import triangle2 from '../../static/img/triangle2.svg/';
 // import triangle3 from '../../static/img/triangle3.svg/';
 // import triangle4 from '../../static/img/triangle4.svg/';
@@ -27,52 +28,50 @@ import style from "../../static/jss/Welcome/welcomeStyles";
 // import triangle7 from '../../static/img/triangle7.svg/';
 // import triangle8 from '../../static/img/triangle8.svg/';
 
-
-
 function getSteps() {
-	return [
-		"Welcome",
-		"Gender",
-		"Gender Preference",
-		"Age",
-		"Age Preference",
-		"Location",
-		"Images",
-		"Bio",
-		"Go Pro"
-	];
+  return [
+    "Welcome",
+    "Gender",
+    "Gender Preference",
+    "Age",
+    "Age Preference",
+    "Location",
+    "Images",
+    "Bio",
+    "Go Pro"
+  ];
 }
 
 function getStepContent(stepIndex, user) {
-	switch (stepIndex) {
-		case 0:
-			return <Main user={user} />;
-		case 1:
-			return <Gender />;
-		case 2:
-			return <GenderPrefs />;
-		case 3:
-			return <Age />;
-		case 4:
-			return <AgePrefs />;
-		case 5:
-			return <Location />;
-		case 6:
-			return <Images user={user} />;
-		case 7:
-			return <Bio />;
-		case 8:
-			return <Pro />;
-		default:
-			return "Unknown stepIndex";
-	}
+  switch (stepIndex) {
+    case 0:
+      return <Main user={user} />;
+    case 1:
+      return <Gender />;
+    case 2:
+      return <GenderPrefs />;
+    case 3:
+      return <Age />;
+    case 4:
+      return <AgePrefs />;
+    case 5:
+      return <Location />;
+    case 6:
+      return <Images user={user} />;
+    case 7:
+      return <Bio />;
+    case 8:
+      return <Pro />;
+    default:
+      return "Unknown stepIndex";
+  }
 }
 
 function getImage(stepIndex) {
   switch (stepIndex) {
     case 0:
-			return "../../static/img/triangle1.svg";
-			// return triangle1;
+      // return "../../static/img/triangle1.svg";
+      return triangle1;
     case 1:
       return "../../static/img/triangle2.svg";
     case 2:
@@ -95,41 +94,45 @@ function getImage(stepIndex) {
 }
 
 const Welcome = ({ classes, user, router: { query } }) => {
-	const steps = getSteps();
+  const steps = getSteps();
 
-	return (
-		<div
-			className={classes.pageHeader}
-			style={{
-				backgroundImage: `url(${getImage(query.slug)})`,
-				backgroundSize: "cover",
-				backgroundPosition: "top center"
-			}}
-		>
-			<div
-				style={{
-					height: "100vh",
-					display: "flex",
-					flexDirection: "column",
-					justifyContent: "space-between"
-				}}
-				className={classes.container}
-			>
-				{getStepContent(parseInt(query.slug), user)}
-				<Stepper
-					classes={{ root: classes.stepper, alternativeLabel: classes.step }}
-					activeStep={parseInt(query.slug)}
-					alternativeLabel
-				>
-					{steps.map(label => (
-						<Step key={label}>
-							<StepLabel StepIconProps={{ styles: { color: "#fafafa" } }}>{label}</StepLabel>
-						</Step>
-					))}
-				</Stepper>
-			</div>
-		</div>
-	);
+  return (
+    <div
+      className={classes.pageHeader}
+      style={{
+        // backgroundImage: `url(${getImage(query.slug)})`,
+        // backgroundImage: triangle1,
+        backgroundImage: `url(../../static/img/triangle1.svg)`,
+        backgroundSize: "cover",
+        backgroundPosition: "top center"
+      }}
+    >
+      <div
+        style={{
+          height: "100vh",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between"
+        }}
+        className={classes.container}
+      >
+        {getStepContent(parseInt(query.slug), user)}
+        <Stepper
+          classes={{ root: classes.stepper, alternativeLabel: classes.step }}
+          activeStep={parseInt(query.slug)}
+          alternativeLabel
+        >
+          {steps.map(label => (
+            <Step key={label}>
+              <StepLabel StepIconProps={{ styles: { color: "#fafafa" } }}>
+                {label}
+              </StepLabel>
+            </Step>
+          ))}
+        </Stepper>
+      </div>
+    </div>
+  );
 };
 
 export default withRouter(withStyles(style)(Welcome));
