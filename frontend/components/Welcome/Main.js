@@ -1,10 +1,11 @@
-import React from 'react';
-import Router from 'next/router';
-import Button from '../../styledComponents/CustomButtons/Button';
+import React from "react";
+import Router from "next/router";
+import Link from "next/link";
+import Button from "../../styledComponents/CustomButtons/Button";
 
 const Main = ({ user }) => {
 	return (
-		<div style={{ marginTop: '100px' }}>
+		<div style={{ marginTop: "100px" }}>
 			<h2>Welcome to Up4 {user.firstName}!</h2>
 			<h3>Tell us a little about yourself...</h3>
 			<Button
@@ -14,7 +15,7 @@ const Main = ({ user }) => {
 						`/welcome?slug=1`,
 						`/welcome/profile/gender`,
 						{ shallow: true },
-						{ scroll: false },
+						{ scroll: false }
 					);
 				}}
 			>
