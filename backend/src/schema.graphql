@@ -53,6 +53,7 @@ type Query {
 	genres: [Genre!]
 	userEvents: [Event]
 	getLikedByList: [User!]!
+	getMessageLeft: Int!
 }
 
 type Subscription {
