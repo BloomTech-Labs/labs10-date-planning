@@ -160,53 +160,11 @@ const DateView = ({ date, classes, client, currentUser }) => {
 											{chat && <Chat className={classes.userChat} />}
 										</div>
 									</div>
-									{/* <UserModel
-                        modal={modal}
-                        showModal={showModal}
-                        potentialMatch={usr}
-                      /> */}
 								</GridItem>
 							);
 						})}
 					</GridContainer>
-					{/* <div className='gradient-box' style={{ width: '100%' }}>
-						<span>{date.venue}</span>
-						<div
-							className={`${classes.stats} ${classes.mlAuto}`}
-							style={{ display: 'block' }}
-						>
-							{date.times.length > 2 ? (
-								<div>
-									{moment(date.times[0]).calendar()} -{' '}
-									{moment(date.times[date.times.length - 1]).calendar()}
-								</div>
-							) : (
-								date.times.map((time, i) => (
-									<div key={i}>{moment(time).calendar()}</div>
-								))
-							)}
-						</div>
-					</div> */}
 				</CardBody>
-				{/* <CardFooter>
-					<div
-						className={`${classes.stats} ${classes.mlAuto}`}
-						style={{ display: 'block' }}
-					>
-						{/* <Schedule /> */}
-				{/* {date.times.map(ev => (
-							<div key={ev}>{moment(ev).format('dddd, MMMM Do, h:mm a')}</div>
-						))}
-					</div>
-					<Button
-						className='button2'
-						onClick={() => {
-							deleteEvent(date.id);
-						}}
-					>
-						Delete
-					</Button>
-				</CardFooter> */}{' '}
 			</Card>
 		</GridItem>
 	);

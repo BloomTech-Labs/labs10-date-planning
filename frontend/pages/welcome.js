@@ -1,6 +1,6 @@
-import Welcome from "../components/Welcome";
-import JoinUs from "./joinus";
-import User from "../components/Queries/User";
+import Welcome from '../components/Welcome';
+import JoinUs from './joinus';
+import User from '../components/Queries/User';
 
 const WelcomePage = ({ query }) => (
 	<User>
@@ -14,6 +14,7 @@ const WelcomePage = ({ query }) => (
 
 WelcomePage.getInitialProps = ctx => {
 	// return { slug: ctx.req.params.slug };
+	return {};
 };
 
 export default WelcomePage;
