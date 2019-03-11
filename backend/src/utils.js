@@ -61,9 +61,7 @@ module.exports = {
 					times: ev.dates.start.noSpecificTime
 						? [ ev.dates.start.localDate ]
 						: [ ev.dates.start.dateTime ],
-					genreName: ev.classifications[0].genre
-						? ev.classifications[0].genre.name
-						: null,
+					genre: ev.classifications[0].genre ? ev.classifications[0].genre.name : null,
 
 					category: ev.classifications[0].segment && ev.classifications[0].segment.name,
 
@@ -254,7 +252,7 @@ module.exports = {
 					id: currentUserId,
 				},
 			},
-			`{ events { genre { id } } }`,
+			`{ events { genre  } }`,
 		);
 
 		// get unique genre list for current user
@@ -278,7 +276,7 @@ module.exports = {
 					id: matchingUserId,
 				},
 			},
-			`{ events { genre {id} } }`,
+			`{ events { genre } }`,
 		);
 
 		// get unique genre list for matching user

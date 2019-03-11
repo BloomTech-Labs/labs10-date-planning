@@ -23,7 +23,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { UPDATE_USER_MUTATION } from '../Mutations/updateUser';
 import Button from '../../styledComponents/CustomButtons/Button';
 import style from '../../static/jss/material-kit-pro-react/views/componentsSections/basicsStyle.jsx';
-import '../../styles/Profile/index.scss';
+// import '../../styles/Profile/index.scss';
 import { Query } from 'react-apollo';
 
 const Preferences = ({ classes, drawerOpen, setDrawerOpen, router: { query } }) => {

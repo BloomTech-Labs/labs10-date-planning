@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Sat Mar 09 2019 21:02:56 GMT-0800 (Pacific Standard Time)
+# timestamp: Sun Mar 10 2019 22:53:51 GMT-0700 (Pacific Daylight Time)
 
 type AggregateChat {
   count: Int!
@@ -744,7 +744,7 @@ type Event implements Node {
   id: ID!
   eventfulID: String
   title: String
-  genre: Genre
+  genre: String
   description: String
   attending(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   times: [String!]!
@@ -771,6 +771,7 @@ type EventConnection {
 input EventCreateInput {
   eventfulID: String
   title: String
+  genre: String
   description: String
   location: String
   image_url: String
@@ -781,7 +782,6 @@ input EventCreateInput {
   lat: String
   long: String
   times: EventCreatetimesInput
-  genre: GenreCreateOneInput
   attending: UserCreateManyWithoutEventsInput
 }
 
@@ -797,6 +797,7 @@ input EventCreatetimesInput {
 input EventCreateWithoutAttendingInput {
   eventfulID: String
   title: String
+  genre: String
   description: String
   location: String
   image_url: String
@@ -807,7 +808,6 @@ input EventCreateWithoutAttendingInput {
   lat: String
   long: String
   times: EventCreatetimesInput
-  genre: GenreCreateOneInput
 }
 
 """An edge in a connection."""
@@ -826,6 +826,8 @@ enum EventOrderByInput {
   eventfulID_DESC
   title_ASC
   title_DESC
+  genre_ASC
+  genre_DESC
   description_ASC
   description_DESC
   location_ASC
@@ -854,6 +856,7 @@ type EventPreviousValues {
   id: ID!
   eventfulID: String
   title: String
+  genre: String
   description: String
   times: [String!]!
   location: String
@@ -995,6 +998,46 @@ input EventScalarWhereInput {
 
   """All values not ending with the given string."""
   title_not_ends_with: String
+  genre: String
+
+  """All values that are not equal to given value."""
+  genre_not: String
+
+  """All values that are contained in given list."""
+  genre_in: [String!]
+
+  """All values that are not contained in given list."""
+  genre_not_in: [String!]
+
+  """All values less than the given value."""
+  genre_lt: String
+
+  """All values less than or equal the given value."""
+  genre_lte: String
+
+  """All values greater than the given value."""
+  genre_gt: String
+
+  """All values greater than or equal the given value."""
+  genre_gte: String
+
+  """All values containing the given string."""
+  genre_contains: String
+
+  """All values not containing the given string."""
+  genre_not_contains: String
+
+  """All values starting with the given string."""
+  genre_starts_with: String
+
+  """All values not starting with the given string."""
+  genre_not_starts_with: String
+
+  """All values ending with the given string."""
+  genre_ends_with: String
+
+  """All values not ending with the given string."""
+  genre_not_ends_with: String
   description: String
 
   """All values that are not equal to given value."""
@@ -1399,6 +1442,7 @@ input EventSubscriptionWhereInput {
 input EventUpdateInput {
   eventfulID: String
   title: String
+  genre: String
   description: String
   location: String
   image_url: String
@@ -1409,13 +1453,13 @@ input EventUpdateInput {
   lat: String
   long: String
   times: EventUpdatetimesInput
-  genre: GenreUpdateOneInput
   attending: UserUpdateManyWithoutEventsInput
 }
 
 input EventUpdateManyDataInput {
   eventfulID: String
   title: String
+  genre: String
   description: String
   location: String
   image_url: String
@@ -1431,6 +1475,7 @@ input EventUpdateManyDataInput {
 input EventUpdateManyMutationInput {
   eventfulID: String
   title: String
+  genre: String
   description: String
   location: String
   image_url: String
@@ -1467,6 +1512,7 @@ input EventUpdatetimesInput {
 input EventUpdateWithoutAttendingDataInput {
   eventfulID: String
   title: String
+  genre: String
   description: String
   location: String
   image_url: String
@@ -1477,7 +1523,6 @@ input EventUpdateWithoutAttendingDataInput {
   lat: String
   long: String
   times: EventUpdatetimesInput
-  genre: GenreUpdateOneInput
 }
 
 input EventUpdateWithWhereUniqueWithoutAttendingInput {
@@ -1620,6 +1665,46 @@ input EventWhereInput {
 
   """All values not ending with the given string."""
   title_not_ends_with: String
+  genre: String
+
+  """All values that are not equal to given value."""
+  genre_not: String
+
+  """All values that are contained in given list."""
+  genre_in: [String!]
+
+  """All values that are not contained in given list."""
+  genre_not_in: [String!]
+
+  """All values less than the given value."""
+  genre_lt: String
+
+  """All values less than or equal the given value."""
+  genre_lte: String
+
+  """All values greater than the given value."""
+  genre_gt: String
+
+  """All values greater than or equal the given value."""
+  genre_gte: String
+
+  """All values containing the given string."""
+  genre_contains: String
+
+  """All values not containing the given string."""
+  genre_not_contains: String
+
+  """All values starting with the given string."""
+  genre_starts_with: String
+
+  """All values not starting with the given string."""
+  genre_not_starts_with: String
+
+  """All values ending with the given string."""
+  genre_ends_with: String
+
+  """All values not ending with the given string."""
+  genre_not_ends_with: String
   description: String
 
   """All values that are not equal to given value."""
@@ -1980,7 +2065,6 @@ input EventWhereInput {
 
   """All values not ending with the given string."""
   long_not_ends_with: String
-  genre: GenreWhereInput
   attending_every: UserWhereInput
   attending_some: UserWhereInput
   attending_none: UserWhereInput
@@ -2023,11 +2107,6 @@ input GenreCreateInput {
 input GenreCreateManyInput {
   create: [GenreCreateInput!]
   connect: [GenreWhereUniqueInput!]
-}
-
-input GenreCreateOneInput {
-  create: GenreCreateInput
-  connect: GenreWhereUniqueInput
 }
 
 """An edge in a connection."""
@@ -2282,23 +2361,9 @@ input GenreUpdateManyWithWhereNestedInput {
   data: GenreUpdateManyDataInput!
 }
 
-input GenreUpdateOneInput {
-  create: GenreCreateInput
-  connect: GenreWhereUniqueInput
-  disconnect: Boolean
-  delete: Boolean
-  update: GenreUpdateDataInput
-  upsert: GenreUpsertNestedInput
-}
-
 input GenreUpdateWithWhereUniqueNestedInput {
   where: GenreWhereUniqueInput!
   data: GenreUpdateDataInput!
-}
-
-input GenreUpsertNestedInput {
-  update: GenreUpdateDataInput!
-  create: GenreCreateInput!
 }
 
 input GenreUpsertWithWhereUniqueNestedInput {
@@ -2466,37 +2531,37 @@ type Mutation {
   createDirectMessage(data: DirectMessageCreateInput!): DirectMessage!
   createProfilePic(data: ProfilePicCreateInput!): ProfilePic!
   createEvent(data: EventCreateInput!): Event!
-  createUser(data: UserCreateInput!): User!
   createGenre(data: GenreCreateInput!): Genre!
+  createUser(data: UserCreateInput!): User!
   updateChat(data: ChatUpdateInput!, where: ChatWhereUniqueInput!): Chat
   updateDirectMessage(data: DirectMessageUpdateInput!, where: DirectMessageWhereUniqueInput!): DirectMessage
   updateProfilePic(data: ProfilePicUpdateInput!, where: ProfilePicWhereUniqueInput!): ProfilePic
   updateEvent(data: EventUpdateInput!, where: EventWhereUniqueInput!): Event
-  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateGenre(data: GenreUpdateInput!, where: GenreWhereUniqueInput!): Genre
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   deleteChat(where: ChatWhereUniqueInput!): Chat
   deleteDirectMessage(where: DirectMessageWhereUniqueInput!): DirectMessage
   deleteProfilePic(where: ProfilePicWhereUniqueInput!): ProfilePic
   deleteEvent(where: EventWhereUniqueInput!): Event
-  deleteUser(where: UserWhereUniqueInput!): User
   deleteGenre(where: GenreWhereUniqueInput!): Genre
+  deleteUser(where: UserWhereUniqueInput!): User
   upsertChat(where: ChatWhereUniqueInput!, create: ChatCreateInput!, update: ChatUpdateInput!): Chat!
   upsertDirectMessage(where: DirectMessageWhereUniqueInput!, create: DirectMessageCreateInput!, update: DirectMessageUpdateInput!): DirectMessage!
   upsertProfilePic(where: ProfilePicWhereUniqueInput!, create: ProfilePicCreateInput!, update: ProfilePicUpdateInput!): ProfilePic!
   upsertEvent(where: EventWhereUniqueInput!, create: EventCreateInput!, update: EventUpdateInput!): Event!
-  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertGenre(where: GenreWhereUniqueInput!, create: GenreCreateInput!, update: GenreUpdateInput!): Genre!
+  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   updateManyDirectMessages(data: DirectMessageUpdateManyMutationInput!, where: DirectMessageWhereInput): BatchPayload!
   updateManyProfilePics(data: ProfilePicUpdateManyMutationInput!, where: ProfilePicWhereInput): BatchPayload!
   updateManyEvents(data: EventUpdateManyMutationInput!, where: EventWhereInput): BatchPayload!
-  updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
   updateManyGenres(data: GenreUpdateManyMutationInput!, where: GenreWhereInput): BatchPayload!
+  updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
   deleteManyChats(where: ChatWhereInput): BatchPayload!
   deleteManyDirectMessages(where: DirectMessageWhereInput): BatchPayload!
   deleteManyProfilePics(where: ProfilePicWhereInput): BatchPayload!
   deleteManyEvents(where: EventWhereInput): BatchPayload!
-  deleteManyUsers(where: UserWhereInput): BatchPayload!
   deleteManyGenres(where: GenreWhereInput): BatchPayload!
+  deleteManyUsers(where: UserWhereInput): BatchPayload!
   executeRaw(database: PrismaDatabase, query: String!): Json!
 }
 
@@ -2887,20 +2952,20 @@ type Query {
   directMessages(where: DirectMessageWhereInput, orderBy: DirectMessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [DirectMessage]!
   profilePics(where: ProfilePicWhereInput, orderBy: ProfilePicOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ProfilePic]!
   events(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event]!
-  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   genres(where: GenreWhereInput, orderBy: GenreOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Genre]!
+  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   chat(where: ChatWhereUniqueInput!): Chat
   directMessage(where: DirectMessageWhereUniqueInput!): DirectMessage
   profilePic(where: ProfilePicWhereUniqueInput!): ProfilePic
   event(where: EventWhereUniqueInput!): Event
-  user(where: UserWhereUniqueInput!): User
   genre(where: GenreWhereUniqueInput!): Genre
+  user(where: UserWhereUniqueInput!): User
   chatsConnection(where: ChatWhereInput, orderBy: ChatOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ChatConnection!
   directMessagesConnection(where: DirectMessageWhereInput, orderBy: DirectMessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): DirectMessageConnection!
   profilePicsConnection(where: ProfilePicWhereInput, orderBy: ProfilePicOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProfilePicConnection!
   eventsConnection(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): EventConnection!
-  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   genresConnection(where: GenreWhereInput, orderBy: GenreOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): GenreConnection!
+  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
 
   """Fetches an object given its ID"""
   node(
@@ -2914,8 +2979,8 @@ type Subscription {
   directMessage(where: DirectMessageSubscriptionWhereInput): DirectMessageSubscriptionPayload
   profilePic(where: ProfilePicSubscriptionWhereInput): ProfilePicSubscriptionPayload
   event(where: EventSubscriptionWhereInput): EventSubscriptionPayload
-  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   genre(where: GenreSubscriptionWhereInput): GenreSubscriptionPayload
+  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 
 type User implements Node {

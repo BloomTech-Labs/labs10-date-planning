@@ -7,6 +7,7 @@ export const USER_QUERY = gql`
 			firstName
 			dob
 			img {
+				id
 				default
 				img_url
 			}
