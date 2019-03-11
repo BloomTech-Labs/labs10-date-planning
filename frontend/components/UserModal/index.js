@@ -1,6 +1,5 @@
 import React, { useState, useEffect, Fragment, useRef } from 'react';
 import { withApollo, Mutation, Query } from 'react-apollo';
-import { useQuery, useMutation } from 'react-apollo-hooks';
 
 import NProgress from 'nprogress';
 import Router, { withRouter } from 'next/router';
@@ -25,12 +24,13 @@ import {
 	Favorite,
 	FavoriteBorder,
 	NotInterested,
+	MoreHoriz,
 } from '@material-ui/icons';
 //Q&M
 import User, { CURRENT_USER_QUERY } from '../Queries/User';
 import { EVENT_QUERY } from '../Queries/Event';
 //import { GET_CONVERSATION_QUERY } from '../Queries/getConvo';
-import { USER_QUERY } from '../Queries/OtherUser';
+import { USER_QUERY, SHARED_EVENTS_QUERY } from '../Queries/OtherUser';
 import { ADD_EVENT_MUTATION } from '../Mutations/addEvent';
 //import { CREATE_CHAT_MUTATION } from '../Mutations/createChat';
 import { SEND_MESSAGE_MUTATION } from '../Mutations/sendMessage';
@@ -45,9 +45,12 @@ import { UDPATE_SEEN_MSG_MUTATION } from '../Mutations/updateSeenMessage';
 //Components
 import Chat from './Chat';
 import Transition from '../Transistion';
+import CommonEvents from './CommonEvents';
 //StyledComponents
 import Button from '../../styledComponents/CustomButtons/Button';
-
+import GridContainer from '../../styledComponents/Grid/GridContainer';
+import GridItem from '../../styledComponents/Grid/GridItem';
+import CustomDropdown from '../../styledComponents/CustomDropdown/CustomDropdown.jsx';
 //styles
 import styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles.jsx';
 import '../../styles/Home/EventModal.scss';
@@ -68,6 +71,7 @@ const Composed = adopt({
 			{render}
 		</Query>
 	),
+
 	like: ({ id, render }) => (
 		<Mutation
 			mutation={LIKE_USER_MUTATION}
@@ -100,7 +104,7 @@ const Composed = adopt({
 	),
 });
 
-const EventModal = ({ classes, user, router, currentUser }) => {
+const UserModal = ({ classes, user, router, currentUser }) => {
 	return (
 		<Composed id={user}>
 			{({ like, unlike, block, potentialMatch }) => {
@@ -113,7 +117,7 @@ const EventModal = ({ classes, user, router, currentUser }) => {
 						? currentUser.img.find(img => img.default).img_url
 						: null; */
 				}
-
+				//console.log(match.events, currentUser.events);
 				if (!match) return <div />;
 				else {
 					NProgress.done();
@@ -125,6 +129,7 @@ const EventModal = ({ classes, user, router, currentUser }) => {
 							}}
 							open={user ? true : false}
 							fullWidth
+							fullScreen
 							maxWidth='lg'
 							TransitionComponent={Transition}
 							scroll='body'
@@ -163,72 +168,100 @@ const EventModal = ({ classes, user, router, currentUser }) => {
 										className={classes.modalClose}
 									/>
 								</Button>
+
 								<div
 									style={{
 										display: 'flex',
 										alignItems: 'center',
-										justifyContent: 'center',
-										position: 'relative',
+										justifyContent: 'space-between',
 									}}
 								>
-									<h4
+									<div
 										style={{
-											fontWeight: 700,
-											color: '#fafafa',
-											marginRight: '10px',
-											fontSize: '40px',
+											display: 'flex',
+											alignItems: 'center',
 										}}
-										className={classes.modalTitle}
 									>
-										{match.firstName.toUpperCase()}{' '}
-										<span style={{ padding: '0 3px' }}>&#8226;</span>{' '}
-										{getAge(match.dob)}
-									</h4>
-									<IconButton
-										className={classes.liked}
-										onClick={() => (isLiked ? unlike() : like())}
-									>
-										{isLiked ? <Favorite /> : <FavoriteBorder />}
-									</IconButton>
-									<IconButton className={classes.blocked} onClick={() => block()}>
-										<NotInterested />
-									</IconButton>
+										<h4
+											style={{
+												fontWeight: 700,
+												color: '#fafafa',
+												marginRight: '10px',
+												fontSize: '40px',
+											}}
+											className={classes.modalTitle}
+										>
+											{match.firstName.toUpperCase()}
+											<span style={{ padding: '0 3px' }}>&#8226;</span>{' '}
+											{getAge(match.dob)}
+										</h4>
+										<IconButton
+											className={classes.liked}
+											onClick={() => (isLiked ? unlike() : like())}
+										>
+											{isLiked ? <Favorite /> : <FavoriteBorder />}
+										</IconButton>
+									</div>
+
+									<CustomDropdown
+										dropPlacement='bottom-end'
+										caret={false}
+										hoverColor='dark'
+										buttonText={<MoreHoriz />}
+										buttonProps={{
+											className:
+												classes.navLink + ' ' + classes.imageDropdownButton,
+											color: 'transparent',
+										}}
+										dropdownList={[ 'Block User' ]}
+										onClick={() => block()}
+									/>
 								</div>
 							</DialogTitle>
 							<DialogContent
 								style={{
 									zIndex: 3,
-									display: 'flex',
-									justifyContent: 'space-around',
 								}}
-								id='notice-modal-slide-description'
-								classes={{ root: 'dialogContent' }}
+								// id='notice-modal-slide-description'
+								//classes={{ root: 'dialogContent' }}
 								className={classes.modalBody}
 							>
-								<div style={{ marginRight: '20px', width: '50%' }}>
-									<div style={{ width: '100%' }}>
-										<Slider {...settings}>
-											{match.img.map(img => (
-												<div key={img.img_url}>
-													<img
-														src={img.img_url}
-														style={{ height: '100%', width: '100%' }}
-													/>
-												</div>
-											))}
-										</Slider>
-									</div>
-									<div className='gradient-box'>
-										<div className='date'>
-											{match.biography ? (
-												match.biography
-											) : (
-												'Hi der This is my lil fill in bio guy'
-											)}
+								<GridContainer>
+									<GridItem md={3} lg={3}>
+										<div className={classes.gradientBox}>
+											<div className='date'>
+												{match.biography ? (
+													match.biography
+												) : (
+													'Hi der This is my lil fill in bio guy'
+												)}
+											</div>
 										</div>
-									</div>
-								</div>
-								<Chat id={user} />
+
+										<CommonEvents id={user} />
+									</GridItem>
+									<GridItem md={6} lg={6}>
+										<div style={{ width: '100%' }}>
+											<Slider {...settings}>
+												{match.img.map(img => (
+													<div key={img.img_url}>
+														<img
+															src={img.img_url}
+															style={{
+																height: '100%',
+																width: '100%',
+															}}
+														/>
+													</div>
+												))}
+											</Slider>
+										</div>
+									</GridItem>
+
+									<GridItem md={3} lg={3}>
+										<Chat id={user} />
+									</GridItem>
+								</GridContainer>
 							</DialogContent>
 						</Dialog>
 					);
@@ -238,7 +271,7 @@ const EventModal = ({ classes, user, router, currentUser }) => {
 	);
 };
 
-export default withRouter(withApollo(withStyles(styles)(EventModal)));
+export default withRouter(withApollo(withStyles(styles)(UserModal)));
 
 //const [ event, setEvent ] = useState(undefined);
 //const [ isShowing, setIsShowing ] = useState(false);

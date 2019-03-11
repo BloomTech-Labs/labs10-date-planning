@@ -30,7 +30,7 @@ export const ADD_EVENT_MUTATION = gql`
 				lat: $lat
 				long: $long
 				description: $description
-				genreName: $genre
+				genre: $genre
 				category: $category
 			}
 		) {

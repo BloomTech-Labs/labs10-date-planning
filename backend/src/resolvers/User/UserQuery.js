@@ -76,19 +76,22 @@ module.exports = {
 			user: match,
 			score: getScore(match.id),
 		}));
-  },
-  
-  async getLikedByList(parent, args, { request, db }, info) {
-    const { user } = request;
-    if (!user) throw new Error('You must be logged in to use this feature!');
-    if (user.permissions === 'FREE') throw new Error('You do not have access to this feature')
+	},
 
-    return db.query.users({
-      where: {
-        liked_some: {
-          id: user.id
-        }
-      }
-    }, info)
-  }
+	async getLikedByList(parent, args, { request, db }, info) {
+		const { user } = request;
+		if (!user) throw new Error('You must be logged in to use this feature!');
+		//if (user.permissions === 'FREE') throw new Error('You do not have access to this feature')
+
+		return db.query.users(
+			{
+				where: {
+					liked_some: {
+						id: user.id,
+					},
+				},
+			},
+			info,
+		);
+	},
 };

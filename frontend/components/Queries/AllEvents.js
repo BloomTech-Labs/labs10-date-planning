@@ -30,7 +30,7 @@ export const ALL_EVENTS_QUERY = gql`
 				image_url
 				description
 				times
-				genreName
+				genre
 				category
 				notes
 				attending {

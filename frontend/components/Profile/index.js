@@ -18,6 +18,7 @@ import Dates from './Dates';
 import Messages from './Messages';
 import Settings from './Settings';
 import Billing from './Pricing';
+import Footer from '../Footer';
 //styledcomponents
 
 //utils
@@ -50,22 +51,26 @@ const Profile = ({ classes, theme, router: { query }, currentUser }) => {
 				backgroundColor: '#000',
 				height: '100%',
 				minHeight: '100vh',
+
 				backgroundImage:
 					'url(https://www.transparenttextures.com/patterns/shattered-dark.png)',
 			}}
 		>
 			{query.user && <UserModal user={query.user} currentUser={currentUser} />}
 			<MenuDrawer user={currentUser} drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} />
-			<IconButton
+			{/* <IconButton
 				// color="inherit"
 				style={{ color: 'white', position: 'absolute' }}
 				aria-label='Open drawer'
 				onClick={() => setDrawerOpen(!drawerOpen)}
 				className={classNames(classes.menuButton)}
-			>
-				<Menu />
-			</IconButton>
-			{getContent(query.slug, currentUser)}
+			> */}
+			{/* <Menu />
+			</IconButton> */}
+			<div style={{ marginBottom: '20px', height: '100%' }}>
+				{getContent(query.slug, currentUser)}
+			</div>
+			<Footer />
 		</div>
 	);
 };

@@ -24,7 +24,7 @@ module.exports = [
 	{ name: 'Soccer', tmID: 'KnvZfZ7vA7E', category: 'SPORTS' },
 	{ name: 'Tennis', tmID: 'KnvZfZ7vAAv', category: 'SPORTS' },
 
-	{ name: 'Circus', tmID: 'speciality acts KnvZfZ7v7n1', category: 'ARTS_THEATRE' },
+	{ name: 'Circus', tmID: 'KnvZfZ7v7n1', category: 'ARTS_THEATRE' },
 	{ name: 'Classical', tmID: 'KnvZfZ7v7nJ', category: 'ARTS_THEATRE' },
 	{ name: 'Comedy', tmID: 'KnvZfZ7vAe1', category: 'ARTS_THEATRE' },
 	{ name: 'Dance', tmID: 'KnvZfZ7v7nI', category: 'ARTS_THEATRE' },

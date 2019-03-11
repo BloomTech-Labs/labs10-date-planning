@@ -10,7 +10,7 @@ import { withRouter } from 'next/router';
 import { Paper, Grid, Typography } from '@material-ui/core';
 
 import withStyles from '@material-ui/core/styles/withStyles';
-
+import LikedBy from './LikedBy';
 import User, { CURRENT_USER_QUERY } from '../Queries/User';
 import { ALL_CHATS_QUERY } from '../Queries/AllChats';
 import GridContainer from '../../styledComponents/Grid/GridContainer';
@@ -68,6 +68,7 @@ const Messages = ({ classes, color, router, href, user }) => {
 	return (
 		<div>
 			<div className={classes.container} style={{ paddingTop: '30px' }}>
+				<LikedBy />
 				{/* <Paper
 					style={{
 						display: 'flex',
@@ -81,7 +82,10 @@ const Messages = ({ classes, color, router, href, user }) => {
 				> */}
 				<GridContainer>
 					<GridItem sm={12} md={4} lg={4}>
-						<Paper style={{ height: '100%', minWidth: '250px' }}>
+						<Paper
+							style={{ height: '100%', minWidth: '250px' }}
+							className={classes.paper}
+						>
 							<Typography
 								variant='h6'
 								gutterBottom
@@ -105,11 +109,12 @@ const Messages = ({ classes, color, router, href, user }) => {
 					</GridItem>
 					<GridItem sm={12} md={8} lg={8}>
 						<Paper
-							style={{
-								backgroundColor: '#fafafa',
-								backgroundImage:
-									'url("https://www.transparenttextures.com/patterns/brilliant.png")',
-							}}
+							className={classes.paper}
+							// style={{
+							// 	backgroundColor: '#fafafa',
+							// 	backgroundImage:
+							// 		'url("https://www.transparenttextures.com/patterns/brilliant.png")',
+							// }}
 						>
 							<Typography
 								variant='h6'

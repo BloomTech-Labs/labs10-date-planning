@@ -25,6 +25,7 @@ type Mutation {
 	unblockUser(id: String!): User!
 	unlikeUser(id: String!): User!
 	updateSeenMessage(chatId: String!): Chat!
+	deleteManyGenres(where: GenreWhereInput): BatchPayload!
 }
 
 type Query {
@@ -98,7 +99,7 @@ input AddEventInput {
 	city: String
 	lat: String
 	long: String
-	genreName: String
+	genre: String
 	category: String
 }
 
@@ -157,7 +158,7 @@ type Event {
 	large_url: String
 	price: PriceRange
 	notes: String
-	genreName: String
+	genre: String
 	category: String 
 }
 
