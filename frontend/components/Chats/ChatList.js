@@ -40,6 +40,23 @@ const MY_CHAT_SUBSCRIPTION = gql`
   }
 `
 
+const MY_MESSAGE_SUBSCRIPTION = gql`
+  subscription (
+    $id: String!
+  ){
+    myMessages(id: $id) {
+      mutation
+      node {
+        chat {
+          id
+        }
+        id
+        text
+      }
+    }
+  }
+`
+
 export default ({ user }) => {
   const friend_id = "cjt338qnr010h0872slg4lwuw"
   const [message, setMessage] = useState('')
@@ -66,6 +83,30 @@ export default ({ user }) => {
                 }
               })}
             }
+            subscribetoNewMessages={() => {
+              subscribeToMore({
+                document: MY_MESSAGE_SUBSCRIPTION,
+                variables: {
+                  id: user.id
+                },
+                updateQuery: (prev, { subscriptionData }) => {
+                  if (!subscriptionData) return prev
+                  const newMessage = {...(subscriptionData.data.myMessages.node)}
+
+                  return {getUserChats: prev.getUserChats.map(
+                    chat => {
+                      if (chat.id === newMessage.chat.id) {
+                        return {
+                          ...chat,
+                          messages: [...chat.messages, newMessage]
+                        }
+                      }
+                      return chat
+                    }
+                  )}
+                }
+              })
+            }}
           />
         )
       }}
