@@ -124,7 +124,13 @@ const Welcome = ({ classes, user, router: { query } }) => {
         >
           {steps.map(label => (
             <Step key={label}>
-              <StepLabel StepIconProps={{ styles: { color: "#fafafa" } }}>
+              <StepLabel
+                // className={classes.activeIcon}
+                classes={{
+                  label: classes.step
+                }}
+								StepIconProps={{classes: {active: classes.active}}}
+              >
                 {label}
               </StepLabel>
             </Step>
