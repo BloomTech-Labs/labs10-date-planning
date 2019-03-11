@@ -67,7 +67,7 @@ module.exports = {
 				}
 			})
 
-			if (sentMessages.length > 10) throw new Error('You have reached 10 DMs per week for FREE account.')
+			if (sentMessages.length >= 20) throw new Error('You have reached 20 DMs per week for FREE account.')
 		}
 
 		let [ chat ] = await db.query.chats({
