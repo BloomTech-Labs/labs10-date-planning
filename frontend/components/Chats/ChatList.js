@@ -70,6 +70,7 @@ export default ({ user }) => {
         return (
           <Chats 
             data={data}
+            currentUser={user}
             subscribeToNewChats={() => {
               subscribeToMore({
                 document: MY_CHAT_SUBSCRIPTION,
@@ -91,7 +92,18 @@ export default ({ user }) => {
                 },
                 updateQuery: (prev, { subscriptionData }) => {
                   if (!subscriptionData) return prev
-                  const newMessage = {...(subscriptionData.data.myMessages.node)}
+
+                  const convos = prev.getUserChats.find(
+                    chat => chat.id === subscriptionData.data.myMessages.node.chat.id
+                  )
+
+                  const doubleMessage = convos.messages.find(
+                    message => message.id === subscriptionData.data.myMessages.node.id
+                  )
+
+                  if (doubleMessage) return prev
+
+                  const newMessage = { ...(subscriptionData.data.myMessages.node) }
 
                   return {getUserChats: prev.getUserChats.map(
                     chat => {

@@ -1,7 +1,31 @@
 import React, { useEffect, useState } from 'react'
+import { withApollo, Query, Mutation } from 'react-apollo'
+import gql from 'graphql-tag'
 
-export default ({ subscribeToNewChats, subscribetoNewMessages, data }) => {
+const SEND_MESSAGE_MUTATION = gql`
+	mutation SEND_MESSAGE_MUTATION($id: String!, $message: String!) {
+		sendMessage(id: $id, message: $message) {
+			id
+			users {
+				id
+				firstName
+			}
+			messages {
+				id
+				text
+			}
+		}
+	}
+`;
+
+export default ({
+  subscribeToNewChats,
+  subscribetoNewMessages,
+  data,
+  currentUser
+}) => {
   const [chatId, setChatId] = useState('')
+  const [textToSend, setTextToSend] = useState('')
   useEffect(
     () => {
       subscribeToNewChats()
@@ -12,6 +36,13 @@ export default ({ subscribeToNewChats, subscribetoNewMessages, data }) => {
   const selectedChat = !data.getUserChats
     ? null
     : data.getUserChats.filter(chat => chat.id === chatId)
+  
+  let friend;
+  if (selectedChat.length > 0) {
+    friend = selectedChat[0].users.filter(
+      user => user.id !== currentUser.id
+    )[0];
+  }
   
   return (
     <div style={{display: 'flex'}}>
@@ -45,11 +76,42 @@ export default ({ subscribeToNewChats, subscribetoNewMessages, data }) => {
         {
           selectedChat
           && selectedChat.length > 0
-          && selectedChat[0].messages.map(convos => {
+          &&
+          selectedChat[0].messages.map(convos => {
               return <div key={convos.id}>
                 {convos.text}
               </div>
             })
+        }
+        {
+          selectedChat
+          && selectedChat.length > 0
+          && <Mutation
+            mutation={SEND_MESSAGE_MUTATION}
+            variables={{ id: friend.id, message: textToSend }}
+          >
+            {
+              sendMessage => (
+                <>
+                  <input
+                    type="text"
+                    value={textToSend}
+                    onChange={e => {
+                      setTextToSend(e.target.value)
+                    }}
+                  />
+                  <button
+                    onClick={() => {
+                      sendMessage()
+                      setTextToSend('')
+                    }}
+                  >
+                    Send
+                  </button>
+                </>
+              )
+            }
+          </Mutation>
         }
       </div>
     </div>
