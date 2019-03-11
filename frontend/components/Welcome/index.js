@@ -18,14 +18,14 @@ import Pro from "./ProFeatures";
 
 import style from "../../static/jss/Welcome/welcomeStyles";
 
-import triangle1 from '..../../static/img/triangle1.svg/';
-import triangle2 from '..../../static/img/triangle2.svg/';
-import triangle3 from '..../../static/img/triangle3.svg/';
-import triangle4 from '..../../static/img/triangle4.svg/';
-import triangle5 from '..../../static/img/triangle5.svg/';
-import triangle6 from '..../../static/img/triangle6.svg/';
-import triangle7 from '..../../static/img/triangle7.svg/';
-import triangle8 from '..../../static/img/triangle8.svg/';
+// import triangle1 from '../../static/img/triangle1.svg/';
+// import triangle2 from '../../static/img/triangle2.svg/';
+// import triangle3 from '../../static/img/triangle3.svg/';
+// import triangle4 from '../../static/img/triangle4.svg/';
+// import triangle5 from '../../static/img/triangle5.svg/';
+// import triangle6 from '../../static/img/triangle6.svg/';
+// import triangle7 from '../../static/img/triangle7.svg/';
+// import triangle8 from '../../static/img/triangle8.svg/';
 
 
 function getSteps() {
@@ -70,7 +70,8 @@ function getStepContent(stepIndex, user) {
 function getImage(stepIndex) {
   switch (stepIndex) {
     case 0:
-      return triangle1;
+			return "../../static/img/triangle2.svg";
+			// return triangle1;
     case 1:
       return "../../static/img/triangle2.svg";
     case 2:
