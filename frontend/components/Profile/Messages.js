@@ -10,7 +10,7 @@ import { withRouter } from 'next/router';
 import { Paper, Grid, Typography } from '@material-ui/core';
 
 import withStyles from '@material-ui/core/styles/withStyles';
-
+import LikedBy from './LikedBy';
 import User, { CURRENT_USER_QUERY } from '../Queries/User';
 import { ALL_CHATS_QUERY } from '../Queries/AllChats';
 import GridContainer from '../../styledComponents/Grid/GridContainer';
@@ -68,6 +68,7 @@ const Messages = ({ classes, color, router, href, user }) => {
 	return (
 		<div>
 			<div className={classes.container} style={{ paddingTop: '30px' }}>
+				<LikedBy />
 				{/* <Paper
 					style={{
 						display: 'flex',

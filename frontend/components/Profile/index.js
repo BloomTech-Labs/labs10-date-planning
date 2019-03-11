@@ -51,6 +51,7 @@ const Profile = ({ classes, theme, router: { query }, currentUser }) => {
 				backgroundColor: '#000',
 				height: '100%',
 				minHeight: '100vh',
+
 				backgroundImage:
 					'url(https://www.transparenttextures.com/patterns/shattered-dark.png)',
 			}}
@@ -66,7 +67,9 @@ const Profile = ({ classes, theme, router: { query }, currentUser }) => {
 			> */}
 			{/* <Menu />
 			</IconButton> */}
-			<div style={{ marginBottom: '20px' }}>{getContent(query.slug, currentUser)}</div>
+			<div style={{ marginBottom: '20px', height: '100%' }}>
+				{getContent(query.slug, currentUser)}
+			</div>
 			<Footer />
 		</div>
 	);
