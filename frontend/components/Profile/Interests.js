@@ -29,10 +29,22 @@ const UPDATE_INTERESTS_MUTATION = gql`
 		}
 	}
 `;
+const DELETE_INTERESTS_MUTATION = gql`
+	mutation DELETE_INTERESTS_MUTATION($id: ID) {
+		updateUser(data: { interests: { disconnect: { id: $id } } }) {
+			id
+			interests {
+				id
+				name
+			}
+		}
+	}
+`;
 
 const Interests = ({ classes, currentUser }) => {
 	const { data } = useQuery(ALL_GENRE_QUERY);
-	const [ updateUser ] = useMutation(UPDATE_INTERESTS_MUTATION);
+	const [ addInterest ] = useMutation(UPDATE_INTERESTS_MUTATION);
+	const [ deleteInterest ] = useMutation(DELETE_INTERESTS_MUTATION);
 	console.log(currentUser);
 	const musicChips = (
 		<div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
@@ -46,7 +58,10 @@ const Interests = ({ classes, currentUser }) => {
 							key={genre.id}
 							clickable
 							className={interested ? classes.interestedChip : classes.chip}
-							onClick={() => updateUser({ variables: { id: genre.id } })}
+							onClick={() =>
+								interested
+									? deleteInterest({ variables: { id: genre.id } })
+									: addInterest({ variables: { id: genre.id } })}
 							color='primary'
 							variant={interested ? 'default' : 'outlined'}
 						/>
@@ -71,9 +86,10 @@ const Interests = ({ classes, currentUser }) => {
 							clickable
 							className={interested ? classes.interestedChip : classes.chip}
 							color='primary'
-							onClick={() => updateUser({ variables: { id: genre.id } })}
-							//onDelete={handleDelete}
-							//deleteIcon={<DoneIcon />}
+							onClick={() =>
+								interested
+									? deleteInterest({ variables: { id: genre.id } })
+									: addInterest({ variables: { id: genre.id } })}
 							variant={interested ? 'default' : 'outlined'}
 						/>
 					);
@@ -97,7 +113,10 @@ const Interests = ({ classes, currentUser }) => {
 							clickable
 							className={interested ? classes.interestedChip : classes.chip}
 							color='primary'
-							onClick={() => updateUser({ variables: { id: genre.id } })}
+							onClick={() =>
+								interested
+									? deleteInterest({ variables: { id: genre.id } })
+									: addInterest({ variables: { id: genre.id } })}
 							variant={interested ? 'default' : 'outlined'}
 						/>
 					);
