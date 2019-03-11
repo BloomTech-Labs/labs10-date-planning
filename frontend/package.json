@@ -5,6 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"dev": "next",
+		"route-dev": "node server.js",
 		"build": "next build",
 		"start": "next start -p $PORT",
 		"heroku-postbuild": "next build",
@@ -30,6 +31,7 @@
 		"date-fns": "^2.0.0-alpha.27",
 		"dotenv": "^6.2.0",
 		"downshift": "^3.2.2",
+		"express": "^4.16.4",
 		"firebase": "^5.8.3",
 		"graphql": "^14.1.1",
 		"graphql-tag": "^2.10.1",
