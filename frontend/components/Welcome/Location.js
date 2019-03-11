@@ -33,7 +33,14 @@ const GenderPrefs = ({ classes }) => {
 			}}
 		>
 			{(updateUser, { client }) => (
-				<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+				<div
+					style={{
+						display: 'flex',
+						flexDirection: 'column',
+						alignItems: 'center',
+						zIndex: 1,
+					}}
+				>
 					<h2>I am located in</h2>
 					<Downshift
 						inputValue={location}
@@ -83,6 +90,7 @@ const GenderPrefs = ({ classes }) => {
 						)}
 					</Downshift>
 					<Button
+						style={{ zIndex: 1 }}
 						onClick={() => {
 							NProgress.start();
 							updateUser();

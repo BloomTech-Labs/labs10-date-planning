@@ -30,7 +30,14 @@ const GenderPrefs = () => {
 			}}
 		>
 			{updateUser => (
-				<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+				<div
+					style={{
+						display: 'flex',
+						flexDirection: 'column',
+						alignItems: 'center',
+						zIndex: 1,
+					}}
+				>
 					<h2>I am interested in ...</h2>
 					<InputRange
 						maxValue={100}

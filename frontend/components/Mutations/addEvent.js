@@ -16,6 +16,7 @@ export const ADD_EVENT_MUTATION = gql`
 		$long: String
 		$description: String
 		$genre: String
+		$category: String
 	) {
 		addEvent(
 			event: {
@@ -29,7 +30,8 @@ export const ADD_EVENT_MUTATION = gql`
 				lat: $lat
 				long: $long
 				description: $description
-				genre: $genre
+				genreName: $genre
+				category: $category
 			}
 		) {
 			id

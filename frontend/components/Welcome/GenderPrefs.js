@@ -26,22 +26,34 @@ const GenderPrefs = () => {
 			{updateUser => (
 				<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 					<h2>I am interested in...</h2>
-					<Button onClick={() => setGenderPrefs([ ...genderPrefs, 'MALE' ])}>Men</Button>
-					<Button onClick={() => setGenderPrefs([ ...genderPrefs, 'FEMALE' ])}>
+					<Button
+						style={{ zIndex: 1 }}
+						onClick={() => setGenderPrefs([ ...genderPrefs, 'MALE' ])}
+					>
+						Men
+					</Button>
+					<Button
+						style={{ zIndex: 1 }}
+						onClick={() => setGenderPrefs([ ...genderPrefs, 'FEMALE' ])}
+					>
 						Women
 					</Button>
-					<Button onClick={() => setGenderPrefs([ ...genderPrefs, 'OTHER' ])}>
+					<Button
+						style={{ zIndex: 1 }}
+						onClick={() => setGenderPrefs([ ...genderPrefs, 'OTHER' ])}
+					>
 						Non-Binary
 					</Button>
 					<p>Selected: {genderPrefs.toString()}</p>
 					<Button
+						style={{ zIndex: 1 }}
 						disabled={!genderPrefs.length}
 						onClick={() => {
 							NProgress.start();
 							updateUser();
 						}}
 					>
-						Set Preferences
+						Next
 					</Button>
 				</div>
 			)}
