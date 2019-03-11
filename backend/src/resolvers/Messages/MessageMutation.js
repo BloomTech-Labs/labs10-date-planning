@@ -155,9 +155,10 @@ module.exports = {
 
 		return db.mutation.updateManyDirectMessages({
 			where: {
-				chat: {
-					id: args.chatId
-				}
+				AND: [
+					{ chat: { id: args.chatId } },
+					{ from: { id_not: userId } }
+				]
 			},
 			data: {
 				seen: true
