@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import moment from 'moment';
 import { withApollo } from 'react-apollo';
+import Router from 'next/router';
 import gql from 'graphql-tag';
 //MUI
 import { IconButton, Typography, Avatar } from '@material-ui/core';
@@ -21,10 +22,9 @@ import GridContainer from '../../styledComponents/Grid/GridContainer';
 import Button from '../../styledComponents/CustomButtons/Button.jsx';
 //styles
 import CardStyles from '../../static/jss/material-kit-pro-react/views/componentsSections/sectionCards';
-import '../../styles/Settings/Date.scss';
+
 import getAge from '../../utils/getAge';
-import '../../styles/Home/Event.scss';
-import '../../styles/Home/EventModal.scss';
+
 const DELETE_EVENT = gql`
 	mutation deleteEvent($id: String!, $eventId: String!) {
 		deleteEvent(id: $id, eventId: $eventId) {
@@ -46,19 +46,31 @@ const DateView = ({ date, classes, client, currentUser }) => {
 			},
 		});
 	};
-	console.log(date);
 
 	return (
 		<GridItem sm={12} md={6} lg={6}>
 			<Card
 				background
-				//className={classes.gradientBorder}
 				style={{
-					backgroundImage: `url(${date.image_url})`,
+					position: 'relative',
 					border: '4px solid #4cb5ae',
 					borderRadius: '11px',
 				}}
 			>
+				<div
+					style={{
+						backgroundSize: 'cover',
+						backgroundPosition: 'center',
+						position: 'absolute',
+						filter: 'blur(2px)',
+						left: 0,
+						right: 0,
+						top: 0,
+						bottom: 0,
+						display: 'block',
+						backgroundImage: `url(${date.image_url})`,
+					}}
+				/>
 				<CardBody background style={{ maxWidth: '100%', padding: '10px' }}>
 					<h4 className={classes.cardTitleWhite}>{date.title}</h4>
 					<h6 className={classes.cardCategoryWhite}>

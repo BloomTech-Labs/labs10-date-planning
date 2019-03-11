@@ -42,7 +42,7 @@ const Preferences = ({ classes, drawerOpen, setDrawerOpen, router: { query } }) 
 					onClick={() =>
 						Router.push('/profile?slug=me', '/profile/me', { shallow: true })}
 				>
-					<AccountCircle color={query.slug === 'me' ? 'primary' : 'default'} />
+					<AccountCircle color={query.slug === 'me' ? 'primary' : 'inherit'} />
 				</IconButton>
 			</ListItem>
 			<ListItem>
@@ -50,7 +50,7 @@ const Preferences = ({ classes, drawerOpen, setDrawerOpen, router: { query } }) 
 					onClick={() =>
 						Router.push('/profile?slug=chats', '/profile/chat', { shallow: true })}
 				>
-					<ChatBubbleOutline color={query.slug === 'chats' ? 'primary' : 'gray'} />
+					<ChatBubbleOutline color={query.slug === 'chats' ? 'primary' : 'inherit'} />
 				</IconButton>
 			</ListItem>
 
@@ -59,7 +59,7 @@ const Preferences = ({ classes, drawerOpen, setDrawerOpen, router: { query } }) 
 					onClick={() =>
 						Router.push('/profile?slug=events', '/profile/events', { shallow: true })}
 				>
-					<Event color={query.slug === 'events' ? 'primary' : 'default'} />
+					<Event color={query.slug === 'events' ? 'primary' : 'inherit'} />
 				</IconButton>
 			</ListItem>
 
@@ -68,7 +68,7 @@ const Preferences = ({ classes, drawerOpen, setDrawerOpen, router: { query } }) 
 					onClick={() =>
 						Router.push('/profile?slug=billing', '/profile/billing', { shallow: true })}
 				>
-					<Payment color={query.slug === 'billing' ? 'primary' : 'gray'} />
+					<Payment color={query.slug === 'billing' ? 'primary' : 'inherit'} />
 				</IconButton>
 			</ListItem>
 		</Drawer>

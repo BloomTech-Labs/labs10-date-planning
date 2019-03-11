@@ -37,6 +37,7 @@ const style = {
 		height: '220px',
 		position: 'relative',
 		borderRadius: '6px',
+		border: '1px solid #fafafa',
 		cursor: 'pointer',
 		display: 'flex',
 		justifyContent: 'center',
@@ -44,15 +45,21 @@ const style = {
 		flexDirection: 'column',
 		'& .view-all': {
 			display: 'none',
+			backgroundColor: '#ff101f',
 		},
 		'& .delete-img': {
 			display: 'none',
 			position: 'absolute',
 			bottom: 0,
 			right: 0,
+			color: '#fafafa',
+			backgroundColor: 'rgba(0, 0, 0, 0.38)',
 		},
 		'&:hover': {
-			'& .view-all & .delete-img': {
+			'& .view-all': {
+				display: 'block',
+			},
+			'& .delete-img': {
 				display: 'block',
 			},
 		},
