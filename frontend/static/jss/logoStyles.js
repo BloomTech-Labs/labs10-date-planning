@@ -25,6 +25,12 @@ const styles = {
 		position: 'relative',
 		marginRight: '5px',
 	},
+	mainFours: {
+		display: 'flex',
+		fontSize: '400px',
+		position: 'relative',
+		marginRight: '5px',
+	},
 	redFirstFour: {
 		color: '#ff101f',
 	},

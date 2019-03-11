@@ -32,10 +32,10 @@ const Pro = () => {
 				</GridItem>
 			</GridContainer>
 			<Link href='/billing'>
-				<Button>Go Pro!</Button>
+				<Button style={{ zIndex: 1 }}>Go Pro!</Button>
 			</Link>
 			<Link href='/home'>
-				<Button>Skip</Button>
+				<Button style={{ zIndex: 1 }}>Skip</Button>
 			</Link>
 		</div>
 	);

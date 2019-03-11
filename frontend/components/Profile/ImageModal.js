@@ -183,7 +183,16 @@ const ImageModal = ({ classes, modal, showModal, user }) => {
 									<Delete />
 								</IconButton>
 							</Fragment>
-						) : null}
+						) : (
+							<div style={{ position: 'absolute', top: -15, right: -15 }}>
+								<IconButton
+									onClick={handleUpload}
+									style={{ backgroundColor: '#4cb5ae', color: 'white' }}
+								>
+									<AddAPhotoRounded />
+								</IconButton>
+							</div>
+						)}
 					</div>
 				</GridItem>
 				<GridItem sm={6} md={4} lg={4} style={{ paddingBottom: '15px' }}>
@@ -213,7 +222,16 @@ const ImageModal = ({ classes, modal, showModal, user }) => {
 									<Delete />
 								</IconButton>
 							</Fragment>
-						) : null}
+						) : (
+							<div style={{ position: 'absolute', top: -15, right: -15 }}>
+								<IconButton
+									onClick={handleUpload}
+									style={{ backgroundColor: '#4cb5ae', color: 'white' }}
+								>
+									<AddAPhotoRounded />
+								</IconButton>
+							</div>
+						)}
 					</div>
 				</GridItem>
 				<GridItem sm={6} md={4} lg={4} style={{ paddingTop: '15px' }}>
@@ -244,7 +262,10 @@ const ImageModal = ({ classes, modal, showModal, user }) => {
 							</Fragment>
 						) : (
 							<div style={{ position: 'absolute', top: -15, right: -15 }}>
-								<IconButton style={{ backgroundColor: '#4cb5ae', color: 'white' }}>
+								<IconButton
+									onClick={handleUpload}
+									style={{ backgroundColor: '#4cb5ae', color: 'white' }}
+								>
 									<AddAPhotoRounded />
 								</IconButton>
 							</div>
@@ -279,7 +300,10 @@ const ImageModal = ({ classes, modal, showModal, user }) => {
 							</Fragment>
 						) : (
 							<div style={{ position: 'absolute', top: -15, right: -15 }}>
-								<IconButton style={{ backgroundColor: '#4cb5ae', color: 'white' }}>
+								<IconButton
+									onClick={handleUpload}
+									style={{ backgroundColor: '#4cb5ae', color: 'white' }}
+								>
 									<AddAPhotoRounded />
 								</IconButton>
 							</div>
@@ -315,7 +339,10 @@ const ImageModal = ({ classes, modal, showModal, user }) => {
 							</Fragment>
 						) : (
 							<div style={{ position: 'absolute', top: -15, right: -15 }}>
-								<IconButton style={{ backgroundColor: '#4cb5ae', color: 'white' }}>
+								<IconButton
+									onClick={handleUpload}
+									style={{ backgroundColor: '#4cb5ae', color: 'white' }}
+								>
 									<AddAPhotoRounded />
 								</IconButton>
 							</div>

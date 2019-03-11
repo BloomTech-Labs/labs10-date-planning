@@ -29,7 +29,7 @@ const UpFor = ({ main, justFour, classes }) => {
 			}}
 		>
 			{!justFour ? <div className={main ? classes.mainUp : classes.up}>Up</div> : null}
-			<div className={classes.fours}>
+			<div className={main ? classes.mainFours : classes.fours}>
 				<div className={classes.redFirstFour} main={main}>
 					4
 				</div>
