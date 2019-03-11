@@ -37,18 +37,10 @@ const styles = {
     }
   },
   active: {
-    color: "#ff101f !important",
-//     "& text": {
-//       fill: "#fafafa !important"
-//     },
-//     "& svg": {
-//       color: "#ff101f !important"
-//     }
-//   },
-//   activeIcon: {
-//     "& svg": {
-//       color: "#ff101f !important"
-//     }
+    color: "#ff101f !important"
+  },
+  completed: {
+	  color: '#cabac8 !important'
   }
 };
 

@@ -129,7 +129,7 @@ const Welcome = ({ classes, user, router: { query } }) => {
                 classes={{
                   label: classes.step
                 }}
-								StepIconProps={{classes: {active: classes.active}}}
+                StepIconProps={{ classes: { active: classes.active, completed: classes.completed } }}
               >
                 {label}
               </StepLabel>
