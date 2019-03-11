@@ -4,11 +4,18 @@ module.exports = {
 			return ctx.db.subscription.chat(
 				{
 					where: {
-						node: {
-							users_some: {
-								id: args.id,
+						AND: [
+							{
+								mutation_in: ['CREATED', 'DELETED']
 							},
-						},
+							{
+								node: {
+									users_some: {
+										id: args.id,
+									},
+								}
+							},
+						]
 					},
 				},
 				info,

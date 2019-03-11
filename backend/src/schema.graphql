@@ -57,7 +57,7 @@ type Query {
 }
 
 type Subscription {
-	myChat(id: String!): ChatSubscriptionPayload!
+	myChat(id: String!): ChatSubscriptionPayload
 	myMessages(id: String!): MessageSubscriptionPayload!
 }
 
