@@ -224,9 +224,15 @@ const basicsStyle = theme => ({
     display: "flex",
     flexDirection: "column",
     padding: "20px",
-    backgroundColor: "#1f1c1c",
-    backgroundImage:
-      "url(https://www.transparenttextures.com/patterns/dark-matter.png)"
+    backgroundColor: "rgba(0,0,0,0.32)",
+    '&:before': {
+      borderBottom: '1px solid #fafafa !important'
+    },
+    '& svg': {
+      fill: '#fafafa'
+    }
+    // backgroundImage:
+    //   "url(https://www.transparenttextures.com/patterns/dark-matter.png)"
   },
   darkBackground: {
     background: "transparent",

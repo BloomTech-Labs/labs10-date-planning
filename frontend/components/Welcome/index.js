@@ -28,6 +28,7 @@ import style from "../../static/jss/Welcome/welcomeStyles";
 // import triangle8 from '../../static/img/triangle8.svg/';
 
 
+
 function getSteps() {
 	return [
 		"Welcome",
@@ -70,7 +71,7 @@ function getStepContent(stepIndex, user) {
 function getImage(stepIndex) {
   switch (stepIndex) {
     case 0:
-			return "../../static/img/triangle2.svg";
+			return "../../static/img/triangle1.svg";
 			// return triangle1;
     case 1:
       return "../../static/img/triangle2.svg";
