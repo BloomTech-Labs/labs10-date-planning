@@ -25,6 +25,7 @@ type Mutation {
 	unblockUser(id: String!): User!
 	unlikeUser(id: String!): User!
 	updateSeenMessage(chatId: String!): Chat!
+	deleteManyGenres(where: GenreWhereInput): BatchPayload!
 }
 
 type Query {

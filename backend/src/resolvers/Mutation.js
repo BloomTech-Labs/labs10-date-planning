@@ -1,6 +1,7 @@
 const { randomBytes } = require('crypto');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const { forwardTo } = require('prisma-binding');
 const { transport, formatEmail } = require('../mail');
 const authy = require('authy')(process.env.AUTHY_KEY);
 const stripe = require('../stripe');
@@ -16,6 +17,7 @@ const UserMutation = require('./User/UserMutation');
 const Mutation = {
 	...MessageMutation,
 	...UserMutation,
+	deleteManyGenres: forwardTo('db'),
 	async signup(parent, args, { db, response }, info) {
 		// just in case some bozo puts their email in with capitalization for some reason
 		args.email = args.email.toLowerCase();
@@ -344,7 +346,8 @@ const Mutation = {
 	async addEvent(parent, { event }, { db, request }, info) {
 		const { userId, user } = request;
 		if (!userId) throw new Error('You must be signed in to add an event.');
-		if (user.permissions === 'FREE' && user.events.length >= 10) throw new Error('You have reached maximum saved events for FREE account.')
+		if (user.permissions === 'FREE' && user.events.length >= 10)
+			throw new Error('You have reached maximum saved events for FREE account.');
 
 		const [ existingEvents ] = await db.query.events({
 			where: {

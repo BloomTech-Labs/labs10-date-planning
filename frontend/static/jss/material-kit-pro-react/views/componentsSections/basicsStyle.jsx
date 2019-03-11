@@ -102,8 +102,13 @@ const basicsStyle = theme => ({
 		marginLeft: 0,
 	},
 	chip: {
-		margin: '4px',
+		margin: '5px',
 		fontSize: '12px',
+	},
+	interestedChip: {
+		margin: '5px',
+		fontSize: '12px',
+		color: '#fafafa',
 	},
 	inputRange: {
 		marginBottom: '13px',

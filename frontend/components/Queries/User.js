@@ -1,6 +1,6 @@
-import { Query, withApollo } from "react-apollo";
-import gql from "graphql-tag";
-import PropTypes from "prop-types";
+import { Query, withApollo } from 'react-apollo';
+import gql from 'graphql-tag';
+import PropTypes from 'prop-types';
 
 const CURRENT_USER_QUERY = gql`
 	query {
@@ -36,6 +36,11 @@ const CURRENT_USER_QUERY = gql`
 					id
 				}
 			}
+			interests {
+				id
+				category
+				name
+			}
 			stripeCustomerId
 		}
 	}
@@ -49,7 +54,7 @@ const User = props => (
 
 export const isLoggedIn = async client => {
 	let response = await client.query({
-		query: CURRENT_USER_QUERY
+		query: CURRENT_USER_QUERY,
 	});
 	if (response) {
 		return { currentUser: response.data };
@@ -58,7 +63,7 @@ export const isLoggedIn = async client => {
 };
 
 User.propTypes = {
-	children: PropTypes.func.isRequired
+	children: PropTypes.func.isRequired,
 };
 
 export default User;

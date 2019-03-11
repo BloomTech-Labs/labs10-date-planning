@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import NProgress from 'nprogress';
-import { UseQuery } from 'react-apollo-hooks';
+import gql from 'graphql-tag';
+import { useQuery } from 'react-apollo-hooks';
 //M&Q
 
 import { useMutation } from '../Mutations/useMutation';
@@ -17,60 +18,93 @@ import Button from '../../styledComponents/CustomButtons/Button';
 //styles
 import style from '../../static/jss/material-kit-pro-react/views/componentsSections/basicsStyle.jsx';
 
-import { mis, music, sports, performing } from '../../utils/genres';
+const UPDATE_INTERESTS_MUTATION = gql`
+	mutation UPDATE_INTERESTS_MUTATION($id: ID) {
+		updateUser(data: { interests: { connect: { id: $id } } }) {
+			id
+			interests {
+				id
+				name
+			}
+		}
+	}
+`;
 
 const Interests = ({ classes, currentUser }) => {
+	const { data } = useQuery(ALL_GENRE_QUERY);
+	const [ updateUser ] = useMutation(UPDATE_INTERESTS_MUTATION);
+	console.log(currentUser);
 	const musicChips = (
 		<div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-			{music.map(genre => (
-				<Chip
-					icon={<MusicNote />}
-					label={genre.name}
-					key={genre.id}
-					clickable
-					className={classes.chip}
-					color='primary'
-					//onDelete={handleDelete}
-					//deleteIcon={<DoneIcon />}
-					variant='outlined'
-				/>
-			))}
+			{data.genres ? (
+				data.genres.filter(genre => genre.category === 'MUSIC').map(genre => {
+					let interested = currentUser.interests.find(i => i.id === genre.id);
+					return (
+						<Chip
+							icon={<MusicNote />}
+							label={genre.name}
+							key={genre.id}
+							clickable
+							className={interested ? classes.interestedChip : classes.chip}
+							onClick={() => updateUser({ variables: { id: genre.id } })}
+							color='primary'
+							variant={interested ? 'default' : 'outlined'}
+						/>
+					);
+				})
+			) : (
+				[]
+			)}
 		</div>
 	);
 
 	const sportChips = (
 		<div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-			{sports.map(genre => (
-				<Chip
-					key={genre.id}
-					icon={<FitnessCenter />}
-					label={genre.name}
-					clickable
-					className={classes.chip}
-					color='primary'
-					//onDelete={handleDelete}
-					//deleteIcon={<DoneIcon />}
-					variant='outlined'
-				/>
-			))}
+			{data.genres ? (
+				data.genres.filter(genre => genre.category === 'SPORTS').map(genre => {
+					let interested = currentUser.interests.find(i => i.id === genre.id);
+					return (
+						<Chip
+							key={genre.id}
+							icon={<FitnessCenter />}
+							label={genre.name}
+							clickable
+							className={interested ? classes.interestedChip : classes.chip}
+							color='primary'
+							onClick={() => updateUser({ variables: { id: genre.id } })}
+							//onDelete={handleDelete}
+							//deleteIcon={<DoneIcon />}
+							variant={interested ? 'default' : 'outlined'}
+						/>
+					);
+				})
+			) : (
+				[]
+			)}
 		</div>
 	);
 
 	const performingChips = (
 		<div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-			{performing.map(genre => (
-				<Chip
-					key={genre.id}
-					icon={<LocalActivity />}
-					label={genre.name}
-					clickable
-					className={classes.chip}
-					color='primary'
-					//onDelete={handleDelete}
-					//deleteIcon={<DoneIcon />}
-					variant='outlined'
-				/>
-			))}
+			{data.genres ? (
+				data.genres.filter(genre => genre.category === 'ARTS_THEATRE').map(genre => {
+					let interested = currentUser.interests.find(i => i.id === genre.id);
+					return (
+						<Chip
+							key={genre.id}
+							icon={<LocalActivity />}
+							label={genre.name}
+							clickable
+							className={interested ? classes.interestedChip : classes.chip}
+							color='primary'
+							onClick={() => updateUser({ variables: { id: genre.id } })}
+							variant={interested ? 'default' : 'outlined'}
+						/>
+					);
+				})
+			) : (
+				[]
+			)}
 		</div>
 	);
 
