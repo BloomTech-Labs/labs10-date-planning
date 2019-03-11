@@ -225,8 +225,8 @@ const basicsStyle = theme => ({
     flexDirection: "column",
     padding: "20px",
     backgroundColor: "rgba(0,0,0,0.32)",
-    '&:before': {
-      borderBottom: '1px solid #fafafa !important'
+    '& ::before': {
+      borderBottom: '1px solid #fafafa'
     },
     '& svg': {
       fill: '#fafafa'
