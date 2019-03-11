@@ -13,7 +13,7 @@ const WelcomePage = ({ query }) => (
 );
 
 WelcomePage.getInitialProps = ctx => {
-	return { slug: ctx.req.params.slug };
+	// return { slug: ctx.req.params.slug };
 };
 
 export default WelcomePage;
