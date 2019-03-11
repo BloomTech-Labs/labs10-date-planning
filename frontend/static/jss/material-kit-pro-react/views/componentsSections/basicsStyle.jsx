@@ -102,7 +102,7 @@ const basicsStyle = theme => ({
 		marginLeft: 0,
 	},
 	chip: {
-		margin: '5px',
+		margin: '4px',
 		fontSize: '12px',
 	},
 	inputRange: {
@@ -220,8 +220,8 @@ const basicsStyle = theme => ({
 		flexDirection: 'column',
 		padding: '20px',
 		backgroundColor: 'rgba(0,0,0,0.32)',
-		'&:before': {
-			borderBottom: '1px solid #fafafa !important',
+		'& ::before': {
+			borderBottom: '1px solid #fafafa',
 		},
 		'& svg': {
 			fill: '#fafafa',
