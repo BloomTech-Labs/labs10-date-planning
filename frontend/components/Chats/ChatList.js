@@ -10,34 +10,10 @@ const ALL_CHATS_QUERY = gql`
 			users {
 				id
 				firstName
-				img {
-					id
-					default
-					img_url
-				}
-				dob
-				gender
 			}
 			messages {
 				id
 				text
-				createdAt
-				seen
-				updatedAt
-				from {
-					id
-					firstName
-					img {
-						id
-						default
-						img_url
-					}
-					dob
-					gender
-				}
-				chat {
-					id
-				}
 			}
 		}
 	}
@@ -51,7 +27,12 @@ const MY_CHAT_SUBSCRIPTION = gql`
       mutation
       node {
         id
+        users {
+          id
+          firstName
+        }
         messages {
+          id
           text
         }
       }
@@ -71,17 +52,17 @@ export default ({ user }) => {
  
         return (
           <Chats 
+            data={data}
             subscribeToNewChats={() => {
-              console.log('Subsci')
               subscribeToMore({
                 document: MY_CHAT_SUBSCRIPTION,
                 variables: {
                   id: user.id
                 },
                 updateQuery: (prev, { subscriptionData }) => {
-                  console.log({subscriptionData})
                   if (!subscriptionData) return prev
-                  return prev
+                  const newNode = [...(prev.getUserChats), subscriptionData.data.myChat.node]
+                  return {getUserChats: newNode}
                 }
               })}
             }
