@@ -66,6 +66,14 @@ const Pricing = ({ classes, currentUser, client }) => {
 							>
 								FREE
 							</h3>
+							<ul>
+								<li>
+									Save up to <b>10</b> events at a time
+								</li>
+								<li>
+									Send <b>20</b> messages per week
+								</li>
+							</ul>
 							<p
 								className={
 									currentSubs === 'FREE' ? (
@@ -115,6 +123,14 @@ const Pricing = ({ classes, currentUser, client }) => {
 							>
 								<small>$</small> 9.99 <small>/month</small>
 							</h3>
+							<ul>
+								<li>
+									Save <b>unlimited</b> events
+								</li>
+								<li>
+									Send <b>unlimited</b> messages
+								</li>
+							</ul>
 							<p
 								className={
 									currentSubs === 'MONTHLY' ? (
@@ -176,6 +192,14 @@ const Pricing = ({ classes, currentUser, client }) => {
 							>
 								<small>$</small> 29.99 <small>/year</small>
 							</h3>
+							<ul>
+								<li>
+									Save <b>unlimited</b> events
+								</li>
+								<li>
+									Send <b>unlimited</b> messages
+								</li>
+							</ul>
 							<p
 								className={
 									currentSubs === 'YEARLY' ? (

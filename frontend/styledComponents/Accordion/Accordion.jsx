@@ -54,7 +54,7 @@ class Accordion extends React.Component {
 	render() {
 		const { classes, collapses, activeColor } = this.props;
 		return (
-			<div className={classes.root}>
+			<div style={{ marginBottom: 0 }} className={classes.root}>
 				{collapses.map((prop, key) => {
 					return (
 						<ExpansionPanel
@@ -82,7 +82,12 @@ class Accordion extends React.Component {
 									expandIcon: classes.expansionPanelSummaryExpandIcon,
 								}}
 							>
-								<h4 className={classes.title}>{prop.title}</h4>
+								<h4
+									style={{ fontSize: '14px', color: '#fafafa' }}
+									className={classes.title}
+								>
+									{prop.title}
+								</h4>
 							</ExpansionPanelSummary>
 							<ExpansionPanelDetails className={classes.expansionPanelDetails}>
 								{prop.content}
