@@ -80,7 +80,7 @@ const Messages = ({ classes, color, router, href, user }) => {
 						margin: '30px 0',
 					}}
 				> */}
-				<GridContainer>
+				<GridContainer style={{ height: 'calc(100vh - 100px)' }}>
 					<GridItem sm={12} md={4} lg={4}>
 						<Paper
 							style={{ height: '100%', minWidth: '250px' }}
@@ -110,6 +110,7 @@ const Messages = ({ classes, color, router, href, user }) => {
 					<GridItem sm={12} md={8} lg={8}>
 						<Paper
 							className={classes.paper}
+
 							// style={{
 							// 	backgroundColor: '#fafafa',
 							// 	backgroundImage:
