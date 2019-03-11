@@ -1,13 +1,14 @@
-import React from 'react';
-import Router from 'next/router';
-import NProgress from 'nprogress';
-import { Mutation } from 'react-apollo';
+import React from "react";
+import Router, { Link } from "next/router";
+import NProgress from "nprogress";
+import { Mutation } from "react-apollo";
 
-import { UPDATE_USER_MUTATION } from '../Mutations/updateUser';
-import Button from '../../styledComponents/CustomButtons/Button';
+import { UPDATE_USER_MUTATION } from "../Mutations/updateUser";
+import Button from "../../styledComponents/CustomButtons/Button";
 
 const Gender = ({ user }) => {
 	const handleSelect = (value, updateUser) => {
+		console.log("started");
 		NProgress.start();
 		updateUser({ variables: { gender: value } });
 	};
@@ -20,23 +21,20 @@ const Gender = ({ user }) => {
 					`/welcome?slug=2`,
 					`/welcome/profile/gender/preferences`,
 					{ shallow: true },
-					{ scroll: false },
+					{ scroll: false }
 				);
 			}}
 		>
 			{updateUser => (
-				<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+				<div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
 					<h2>I am a...</h2>
-					<Button style={{ zIndex: 1 }} onClick={() => handleSelect('MALE', updateUser)}>
+					<Button style={{ zIndex: 1 }} onClick={() => handleSelect("MALE", updateUser)}>
 						Man
 					</Button>
-					<Button
-						style={{ zIndex: 1 }}
-						onClick={() => handleSelect('FEMALE', updateUser)}
-					>
+					<Button style={{ zIndex: 1 }} onClick={() => handleSelect("FEMALE", updateUser)}>
 						Woman
 					</Button>
-					<Button style={{ zIndex: 1 }} onClick={() => handleSelect('OTHER', updateUser)}>
+					<Button style={{ zIndex: 1 }} onClick={() => handleSelect("OTHER", updateUser)}>
 						Non-Binary
 					</Button>
 				</div>

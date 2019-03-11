@@ -1,22 +1,22 @@
-import React, { Fragment } from 'react';
-import { withRouter } from 'next/router';
+import React, { Fragment } from "react";
+import { withRouter } from "next/router";
 //MUI
-import withStyles from '@material-ui/core/styles/withStyles';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
+import withStyles from "@material-ui/core/styles/withStyles";
+import Stepper from "@material-ui/core/Stepper";
+import Step from "@material-ui/core/Step";
+import StepLabel from "@material-ui/core/StepLabel";
 
-import Main from './Main';
-import Gender from './Gender';
-import GenderPrefs from './GenderPrefs';
-import Age from './Age';
-import AgePrefs from './AgePrefs';
-import Location from './Location';
-import Images from './Images';
-import Bio from './Bio';
-import Pro from './ProFeatures';
+import Main from "./Main";
+import Gender from "./Gender";
+import GenderPrefs from "./GenderPrefs";
+import Age from "./Age";
+import AgePrefs from "./AgePrefs";
+import Location from "./Location";
+import Images from "./Images";
+import Bio from "./Bio";
+import Pro from "./ProFeatures";
 
-import style from '../../static/jss/Welcome/welcomeStyles';
+import style from "../../static/jss/Welcome/welcomeStyles";
 
 import triangle1 from '..../../static/img/triangle1.svg/';
 import triangle2 from '..../../static/img/triangle2.svg/';
@@ -30,15 +30,15 @@ import triangle8 from '..../../static/img/triangle8.svg/';
 
 function getSteps() {
 	return [
-		'Welcome',
-		'Gender',
-		'Gender Preference',
-		'Age',
-		'Age Preference',
-		'Location',
-		'Images',
-		'Bio',
-		'Go Pro',
+		"Welcome",
+		"Gender",
+		"Gender Preference",
+		"Age",
+		"Age Preference",
+		"Location",
+		"Images",
+		"Bio",
+		"Go Pro"
 	];
 }
 
@@ -63,7 +63,7 @@ function getStepContent(stepIndex, user) {
 		case 8:
 			return <Pro />;
 		default:
-			return 'Unknown stepIndex';
+			return "Unknown stepIndex";
 	}
 }
 
@@ -99,17 +99,17 @@ const Welcome = ({ classes, user, router: { query } }) => {
 		<div
 			className={classes.pageHeader}
 			style={{
-				backgroundImage: `url(${getImage(parseInt(query.slug))})`,
-				backgroundSize: 'cover',
-				backgroundPosition: 'top center',
+				backgroundImage: `url(${getImage(query.slug)})`,
+				backgroundSize: "cover",
+				backgroundPosition: "top center"
 			}}
 		>
 			<div
 				style={{
-					height: '100vh',
-					display: 'flex',
-					flexDirection: 'column',
-					justifyContent: 'space-between',
+					height: "100vh",
+					display: "flex",
+					flexDirection: "column",
+					justifyContent: "space-between"
 				}}
 				className={classes.container}
 			>
@@ -121,9 +121,7 @@ const Welcome = ({ classes, user, router: { query } }) => {
 				>
 					{steps.map(label => (
 						<Step key={label}>
-							<StepLabel StepIconProps={{ styles: { color: '#fafafa' } }}>
-								{label}
-							</StepLabel>
+							<StepLabel StepIconProps={{ styles: { color: "#fafafa" } }}>{label}</StepLabel>
 						</Step>
 					))}
 				</Stepper>
@@ -133,3 +131,53 @@ const Welcome = ({ classes, user, router: { query } }) => {
 };
 
 export default withRouter(withStyles(style)(Welcome));
+
+// function getStepContent(stepIndex, user) {
+//   switch (stepIndex) {
+//     case "profile/getstarted":
+//       return <Main user={user} />;
+//     case "gender":
+//       return <Gender />;
+//     case "gender/preferences":
+//       return <GenderPrefs />;
+//     case "age":
+//       return <Age />;
+//     case "age/preferences":
+//       return <AgePrefs />;
+//     case "location":
+//       return <Location />;
+//     case "images":
+//       return <Images user={user} />;
+//     case "about":
+//       return <Bio />;
+//     case "pro":
+//       return <Pro />;
+//     default:
+//       return null;
+//   }
+// }
+
+// function getImage(stepIndex) {
+//   switch (stepIndex) {
+//     case "profile/getstarted":
+//       return "../../static/img/triangle1.svg";
+//     case "gender":
+//       return "../../static/img/triangle2.svg";
+//     case "gender/preferences":
+//       return "../../static/img/triangle3.svg";
+//     case "age":
+//       return "../../static/img/triangle4.svg";
+//     case "age/preferences":
+//       return "../../static/img/triangle5.svg";
+//     case "location":
+//       return "../../static/img/triangle6.svg";
+//     case "images":
+//       return "../../static/img/triangle7.svg";
+//     case "about":
+//       return "../../static/img/triangl8.svg";
+//     case "pro":
+//       return "../../static/img/triangle1.svg";
+//     default:
+//       return null;
+//   }
+// }
