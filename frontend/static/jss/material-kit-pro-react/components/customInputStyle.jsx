@@ -84,7 +84,7 @@ const customInputStyle = {
 	},
 	whiteInput: {
 		'&,&::placeholder': {
-			color: '#FFFFFF',
+			color: '#fafafa',
 			opacity: '1',
 		},
 	},

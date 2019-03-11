@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import moment from 'moment';
 import { withApollo } from 'react-apollo';
+import Router from 'next/router';
 import gql from 'graphql-tag';
 //MUI
 import { IconButton, Typography, Avatar } from '@material-ui/core';
@@ -21,10 +22,9 @@ import GridContainer from '../../styledComponents/Grid/GridContainer';
 import Button from '../../styledComponents/CustomButtons/Button.jsx';
 //styles
 import CardStyles from '../../static/jss/material-kit-pro-react/views/componentsSections/sectionCards';
-import '../../styles/Settings/Date.scss';
+
 import getAge from '../../utils/getAge';
-import '../../styles/Home/Event.scss';
-import '../../styles/Home/EventModal.scss';
+
 const DELETE_EVENT = gql`
 	mutation deleteEvent($id: String!, $eventId: String!) {
 		deleteEvent(id: $id, eventId: $eventId) {
@@ -63,7 +63,6 @@ const DateView = ({ date, classes, client, currentUser }) => {
 						backgroundPosition: 'center',
 						position: 'absolute',
 						filter: 'blur(2px)',
-
 						left: 0,
 						right: 0,
 						top: 0,

@@ -18,6 +18,7 @@ const basicsStyle = theme => ({
 		marginTop: '10px',
 		minHeight: '32px',
 		textDecoration: 'none',
+		color: '#fafafa',
 	},
 	space50: {
 		height: '50px',
@@ -34,6 +35,14 @@ const basicsStyle = theme => ({
 	},
 
 	//Appended styles from docs
+	selectLabel: {
+		...customSelectStyle.selectLabel,
+		color: '#fafafa',
+	},
+	select: {
+		...customSelectStyle.select,
+		color: '#fafafa',
+	},
 
 	root: {
 		display: 'flex',
@@ -94,8 +103,10 @@ const basicsStyle = theme => ({
 	},
 	chip: {
 		margin: '4px',
+		fontSize: '12px',
 	},
 	inputRange: {
+		marginBottom: '13px',
 		'& .input-range__slider': {
 			appearance: 'none',
 			background: '#ff101f',
@@ -201,6 +212,17 @@ const basicsStyle = theme => ({
 		'& .input-range__label--min .input-range__label-container': {
 			display: 'none',
 		},
+	},
+	paper: {
+		background: 'transparent',
+		border: '4px solid #4cb5ae',
+		display: 'flex',
+		flexDirection: 'column',
+		padding: '20px',
+	},
+	darkBackground: {
+		background: 'transparent',
+		color: '#fafafa',
 	},
 });
 

@@ -35,7 +35,6 @@ const modalHeader = {
 	paddingBottom: '15px',
 	color: '#fafafa',
 };
-import '../../styles/Profile/index.scss';
 
 const UPDATE_DEFAULT_IMG_MUTATION = gql`
 	mutation UPDATE_DEFAULT_IMG_MUTATION($id: String!) {
@@ -95,52 +94,6 @@ const ImageModal = ({ classes, modal, showModal, user }) => {
 	let userImgs = user.img.sort((a, b) => (a.default ? -1 : b.default ? 1 : 0));
 
 	return (
-		// <Dialog
-		// 	classes={{
-		// 		root: classes.modalRoot,
-		// 		paper: classes.modalLarge,
-		// 	}}
-		// 	open={modal}
-		// 	// TransitionComponent={Transition}
-		// 	//keepMounted
-		// 	scroll='body'
-		// 	onClose={() => showModal(false)}
-		// 	aria-labelledby='notice-modal-slide-title'
-		// 	aria-describedby='notice-modal-slide-description'
-		// 	//style={{ width: '600px' }}
-		// >
-		// 	<DialogTitle
-		// 		id='notice-modal-slide-title'
-		// 		disableTypography
-		// 		className={classes.modalHeader}
-		// 		style={modalHeader}
-		// 	>
-		// 		<Button
-		// 			simple
-		// 			className={classes.modalCloseButton}
-		// 			key='close'
-		// 			aria-label='Close'
-		// 			onClick={e => {
-		// 				e.stopPropagation();
-		// 				showModal(false);
-		// 			}}
-		// 		>
-		// 			{' '}
-		// 			<Close style={{ color: '#fafafa' }} className={classes.modalClose} />
-		// 		</Button>
-		// 	</DialogTitle>
-		// 	<DialogContent
-		// 		style={{
-		// 			zIndex: 3,
-		// 			display: 'flex',
-		// 			flexDirection: 'column',
-		// 			justifyContent: 'space-between',
-		// 			height: '600px',
-		// 		}}
-		// 		id='notice-modal-slide-description'
-		// 		classes={{ root: 'dialogContent' }}
-		// 		className={classes.modalBody}
-		// 	>
 		<div
 			style={{
 				display: 'flex',
@@ -209,6 +162,7 @@ const ImageModal = ({ classes, modal, showModal, user }) => {
 							<Fragment>
 								<Button
 									className='view-all'
+									color='rose'
 									onClick={() =>
 										setDefaultImg({ variables: { id: userImgs[2].id } })}
 								>
@@ -324,6 +278,7 @@ const ImageModal = ({ classes, modal, showModal, user }) => {
 							<Fragment>
 								<Button
 									className='view-all'
+									color='rose'
 									onClick={() =>
 										setDefaultImg({ variables: { id: userImgs[5].id } })}
 								>
@@ -350,11 +305,7 @@ const ImageModal = ({ classes, modal, showModal, user }) => {
 					</div>
 				</GridItem>
 			</GridContainer>
-
-			{/* {userImgs.length < 6 && <Button onClick={handleUpload}>Add Image</Button>} */}
 		</div>
-		// 	</DialogContent>
-		// </Dialog>
 	);
 };
 
