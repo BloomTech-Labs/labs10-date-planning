@@ -12,7 +12,7 @@ import ImageModal from './ImageModal';
 import Button from '../../styledComponents/CustomButtons/Button';
 import getAge from '../../utils/getAge';
 import withStyles from '@material-ui/core/styles/withStyles';
-import style from '../../static/jss/material-kit-pro-react/views/componentsSections/basicsStyle.jsx';
+import style from '../../static/jss/Profile/settingsStyle';
 import '../../styles/Profile/index.scss';
 import Preferences from './Prefs';
 import Bio from './Bio';
@@ -28,19 +28,12 @@ const Settings = ({ classes, currentUser }) => {
 
 	return (
 		<div>
-			<ImageModal modal={modal} showModal={showModal} user={currentUser} />
-			<div className='Profile-Header'>
-				<IconButton
-					// color="inherit"
-					style={{ color: 'white' }}
-					aria-label='Open drawer'
-					onClick={() => setDrawerOpen(!drawerOpen)}
-					className={classNames(classes.menuButton)}
-				>
-					<Menu />
-				</IconButton>
-				<div className='inner'>
-					<div className='prof-img' style={{ backgroundImage: `url(${profileImg})` }}>
+			<div className={classes.profileHeader}>
+				<div className={classes.innerHeader}>
+					<div
+						className={classes.profileImg}
+						style={{ backgroundImage: `url(${profileImg})` }}
+					>
 						<Button className='view-all' onClick={() => showModal(true)}>
 							View all
 						</Button>
@@ -52,7 +45,7 @@ const Settings = ({ classes, currentUser }) => {
 							margin: '0 20px',
 						}}
 					>
-						<h2 style={{ color: '#fafafa' }}>
+						<h2 style={{ color: '#fafafa', display: 'inline' }}>
 							{currentUser.firstName}{' '}
 							<span style={{ padding: '0 0px' }}>&#8226;</span>{' '}
 							{getAge(currentUser.dob)}
@@ -63,11 +56,16 @@ const Settings = ({ classes, currentUser }) => {
 			</div>
 			<div className={classes.container}>
 				<GridContainer>
-					<GridItem md={4} lg={4}>
-						<Bio currentUser={currentUser} />
-					</GridItem>
-					<GridItem md={4} lg={4}>
-						<Preferences currentUser={currentUser} />
+					<GridItem md={8} lg={8}>
+						<GridContainer>
+							<GridItem md={6} lg={6}>
+								<Bio currentUser={currentUser} />
+							</GridItem>
+							<GridItem md={6} lg={6}>
+								<Preferences currentUser={currentUser} />
+							</GridItem>
+						</GridContainer>
+						<ImageModal modal={modal} showModal={showModal} user={currentUser} />
 					</GridItem>
 					<GridItem md={4} lg={4}>
 						<Interests currentUser={currentUser} />

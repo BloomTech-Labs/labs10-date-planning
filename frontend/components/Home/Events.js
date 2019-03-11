@@ -34,6 +34,8 @@ const Composed = adopt({
 
 	user: ({ render }) => <Query query={CURRENT_USER_QUERY}>{render}</Query>,
 	location: ({ user, render }) => (
+		// not sure what happened but the default for this value is not working at all
+		// had to add it into the Query to make site work
 		<Value initial={user.data.currentUser ? user.data.currentUser.location : "Los Angeles, CA"}>
 			{render}
 		</Value>
@@ -43,7 +45,7 @@ const Composed = adopt({
 		<Query
 			query={ALL_EVENTS_QUERY}
 			variables={{
-				location: location.value,
+				location: location.value || "Los Angeles, CA",
 				page: page.value,
 				categories: filters.state.cats,
 				genres: filters.state.genres,

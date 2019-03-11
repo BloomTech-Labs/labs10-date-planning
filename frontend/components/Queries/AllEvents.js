@@ -38,6 +38,7 @@ export const ALL_EVENTS_QUERY = gql`
 					dob
 					firstName
 					img {
+						id
 						default
 						img_url
 					}

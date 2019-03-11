@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import Router from 'next/router';
 import gql from 'graphql-tag';
 import { Mutation, Query } from 'react-apollo';
 import NProgress from 'nprogress';
 import moment from 'moment';
 import { useQuery } from 'react-apollo-hooks';
-import useInterval from '@rooks/use-interval';
 import { withRouter } from 'next/router';
 
 //MUI
 import withStyles from '@material-ui/core/styles/withStyles';
-import { List, ListItem, Badge } from '@material-ui/core';
+import { List, ListItem, Badge, Divider } from '@material-ui/core';
 import { AccountCircle, Explore, Mail } from '@material-ui/icons';
 import navbarsStyle from '../../static/jss/material-kit-pro-react/views/componentsSections/navbarsStyle.jsx';
 //Q&M
@@ -27,7 +26,6 @@ import Button from '../../styledComponents/CustomButtons/Button.jsx';
 //assets
 // import image from '../../static/img/bg.jpg';
 import profileStandIn from '../../static/img/placeholder.jpg';
-import Logo from './UpFor';
 
 Router.onRouteChangeComplete = () => {
 	NProgress.done(true);
@@ -161,56 +159,59 @@ const Nav = ({ classes, color, router, href, currentUser }) => {
 							dropdownList={
 								chats ? (
 									chats.map(chat => (
-										<div
-											onClick={() =>
-												Router.push(
-													`${router.pathname}?user=${chat.fromId}`,
-													`${router.pathname}/user/${chat.fromId}`,
-													{ shallow: true },
-													{ scroll: false },
-												)}
-											style={{
-												display: 'flex',
-												padding: '5px',
-												backgroundImage:
-													newMessages.some(
-														msg => msg.chat.id === chat.id,
-													) &&
-													'linear-gradient(to right, #e2dae1, #e0cede, #dec3da, #dbb7d7, #d9abd3)',
-											}}
-										>
-											<img
-												src={chat.img}
+										<Fragment>
+											<Divider className={classes.dropdownDividerItem} />
+											<div
+												onClick={() =>
+													Router.push(
+														`${router.pathname}?user=${chat.fromId}`,
+														`${router.pathname}/user/${chat.fromId}`,
+														{ shallow: true },
+														{ scroll: false },
+													)}
 												style={{
-													width: '40px',
-													height: '40px',
-													borderRadius: '50%',
-													marginRight: '15px',
-													boxShadow:
-														'0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
+													display: 'flex',
+													padding: '5px',
+													backgroundImage:
+														newMessages.some(
+															msg => msg.chat.id === chat.id,
+														) &&
+														'linear-gradient(to right, #e2dae1, #e0cede, #dec3da, #dbb7d7, #d9abd3)',
 												}}
-											/>
-											<div style={{ flexGrow: 1 }}>
-												<div
+											>
+												<img
+													src={chat.img}
 													style={{
-														display: 'flex',
-														justifyContent: 'space-between',
+														width: '40px',
+														height: '40px',
+														borderRadius: '50%',
+														marginRight: '15px',
+														boxShadow:
+															'0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
 													}}
-												>
-													<p className={classes.title}>{chat.from}</p>
-													<small>{moment(chat.time).fromNow()}</small>
-												</div>
-												<div
-													style={{
-														maxWidth: '165px',
-														overflow: 'hidden',
-														textOverflow: 'ellipsis',
-													}}
-												>
-													{chat.text}
+												/>
+												<div style={{ flexGrow: 1 }}>
+													<div
+														style={{
+															display: 'flex',
+															justifyContent: 'space-between',
+														}}
+													>
+														<p className={classes.title}>{chat.from}</p>
+														<small>{moment(chat.time).fromNow()}</small>
+													</div>
+													<div
+														style={{
+															maxWidth: '165px',
+															overflow: 'hidden',
+															textOverflow: 'ellipsis',
+														}}
+													>
+														{chat.text}
+													</div>
 												</div>
 											</div>
-										</div>
+										</Fragment>
 									))
 								) : (
 									[]

@@ -1,8 +1,8 @@
-import JoinUs from './joinus';
-import User from '../components/Queries/User';
-import { isLoggedIn } from '../components/Queries/User';
-import redirect from '../utils/redirect';
-import Home from './home';
+import JoinUs from "./joinus";
+import User from "../components/Queries/User";
+import { isLoggedIn } from "../components/Queries/User";
+import redirect from "../utils/redirect";
+import Home from "./home";
 
 const Index = () => (
 	<User>
@@ -14,19 +14,18 @@ const Index = () => (
 	</User>
 );
 
-// Index.getInitialProps = async ctx => {
-// 	let user = await isLoggedIn(ctx.apolloClient);
+Index.getInitialProps = async ctx => {
+	let user = await isLoggedIn(ctx.apolloClient);
+	// console.log(user);
 
-// 	if (!user) {
-// 		redirect(ctx, '/joinus');
-// 	} else {
-// 		redirect(ctx, '/home');
-// 	}
-// 	//console.log(!user.currentUser && router.pathname !== '/joinus');
-// 	// if (!(user.currentUser && router.aspath != '/joinus')) {
-// 	// 	redirect(ctx, '/joinus');
-// 	// }
-// 	return {};
-// };
+	if (!user.currentUser) {
+		console.log("no user Index.getInitProps");
+		// redirect(ctx, '/joinus');
+	}
+	// else {
+	// 	redirect(ctx, '/home');
+	// }
+	return {};
+};
 
 export default Index;

@@ -25,8 +25,12 @@ const Prefs = ({ classes, currentUser }) => {
 	return (
 		<Paper style={{ display: 'flex', flexDirection: 'column', padding: '20px' }}>
 			<h4 className={classes.title}>Preferences</h4>
-			<InputLabel htmlFor='multiple-select' className={classes.selectLabel}>
-				Gender preferences
+			<InputLabel
+				style={{ marginBottom: '15px' }}
+				htmlFor='multiple-select'
+				className={classes.selectLabel}
+			>
+				Interested in
 			</InputLabel>
 			<Select
 				multiple
@@ -71,22 +75,19 @@ const Prefs = ({ classes, currentUser }) => {
 				</MenuItem>
 			</Select>
 			{/* </FormControl> */}
-			<Button
-				style={{ marginBottom: '20px' }}
-				onClick={() => {
-					NProgress.start();
-					updateUser({
-						variables: {
-							genderPrefs: genderPref,
-						},
-					});
-				}}
+
+			<InputLabel
+				htmlFor='multiple-select'
+				style={{ margin: '25px 0 35px' }}
+				className={classes.selectLabel}
 			>
-				Set Gender
-			</Button>
-			<div>
+				Between the ages of
+			</InputLabel>
+			<div className={classes.inputRange}>
 				<InputRange
-					maxValue={100}
+					minLabel='range-label'
+					maxLabel='range-label'
+					maxValue={80}
 					minValue={18}
 					value={agePref}
 					onChange={value => setAgePref(value)}

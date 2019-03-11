@@ -7,7 +7,7 @@ import { WebSocketLink } from "apollo-link-ws";
 import { onError } from "apollo-link-error";
 import withApollo from "next-with-apollo";
 import ApolloClient from "apollo-client";
-import { endpoint, prodEndpoint } from "../config";
+import { endpoint, prodEndpoint, wsEndpoint } from "../config";
 
 export default withApollo(({ headers = {} }) => {
 	const ssrMode = !process.browser;
@@ -16,15 +16,18 @@ export default withApollo(({ headers = {} }) => {
 		uri: process.env.NODE_ENV === "development" ? endpoint : prodEndpoint
 	});
 
-	// const wsLink = !ssrMode && new WebSocketLink({
-	//   uri: "OUR SECRET WEBSOCKET LINK GOES HERE",
-	//   options: {
-	//     reconnect: true,
-	//     connectionParams: {
-	//       authorization: headers.authorization
-	//     }
-	//   }
-	// })
+	const wsLink =
+		!ssrMode &&
+		new WebSocketLink({
+			uri: wsEndpoint,
+			options: {
+				reconnect: true
+				// maybe we can add a header in here to get some sort of auth working
+				// connectionParams: {
+				//   authorization: headers.authorization
+				// }
+			}
+		});
 
 	const contextLink = setContext(async () => ({
 		fetchOptions: {
@@ -42,20 +45,17 @@ export default withApollo(({ headers = {} }) => {
 
 	let link = ApolloLink.from([errorLink, contextLink, httpLink]);
 
-	// if (!ssrMode) {
-	//   link = split(
-	//     // split based on operation type
-	//     ({ query }) => {
-	//       const definition = getMainDefinition(query);
-	//       return (
-	//         definition.kind === 'OperationDefinition' &&
-	//         definition.operation === 'subscription'
-	//       )
-	//     },
-	//     wsLink,
-	//     link
-	//   )
-	// }
+	if (!ssrMode) {
+		link = split(
+			// split based on operation type
+			({ query }) => {
+				const definition = getMainDefinition(query);
+				return definition.kind === "OperationDefinition" && definition.operation === "subscription";
+			},
+			wsLink,
+			link
+		);
+	}
 
 	const cache = new InMemoryCache({
 		dataIdFromObject: ({ id, __typename }) => (id && __typename ? __typename + id : null)

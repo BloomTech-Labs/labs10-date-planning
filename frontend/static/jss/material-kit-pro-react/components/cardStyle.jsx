@@ -59,7 +59,7 @@ const cardStyle = {
 			left: '0',
 			top: '0',
 			content: '""',
-			backgroundColor: 'rgba(0, 0, 0, 0.56)',
+			backgroundColor: 'rgba(0, 0, 0, 0.7)',
 			borderRadius: '6px',
 		},
 		'& small': {

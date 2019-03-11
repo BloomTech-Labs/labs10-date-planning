@@ -16,7 +16,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 
 import Stripe from './Stripe';
 import '../../styles/Billing/Billing.scss';
-import style from '../../static/jss/material-kit-pro-react/views/pricingSections/pricingStyle.jsx';
+import style from '../../static/jss/material-kit-pro-react/views/componentsSections/sectionCards.jsx';
 const CANCEL_SUBSCRIPTION = gql`
 	mutation cancelSubscription($id: String!) {
 		cancelSubscription(id: $id) {
@@ -34,7 +34,7 @@ const Pricing = ({ classes, currentUser, client }) => {
 		});
 	};
 	return (
-		<div className={classes.pricingSection}>
+		<div className={classes.container}>
 			<GridContainer>
 				<GridItem md={4} sm={4}>
 					<Card

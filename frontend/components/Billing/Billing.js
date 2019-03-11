@@ -10,8 +10,8 @@ import { Done, DoneAll, DoneOutline } from '@material-ui/icons';
 import User, { CURRENT_USER_QUERY } from '../Queries/User';
 //components
 import Header from '../Header';
-import Pricing from './Pricing';
-import Stripe from './Stripe';
+import Pricing from '../Profile/PrefsPricing';
+import Stripe from '../Profile/Stripe';
 
 // styled components
 import GridContainer from '../../styledComponents/Grid/GridContainer.jsx';

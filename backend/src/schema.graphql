@@ -51,6 +51,8 @@ type Query {
 	getScore: Int
 	getMessages: [DirectMessage]
 	genres: [Genre!]
+	userEvents: [Event]
+	getLikedByList: [User!]!
 }
 
 type Subscription {

@@ -81,7 +81,6 @@ const Mutation = {
 	async signin(parent, { email, password }, { db, response }, info) {
 		const user = await db.query.user({ where: { email } });
 		if (!user) {
-			normal;
 			throw new Error(`No such user found for email ${email}`);
 		}
 		const valid = await bcrypt.compare(password, user.password);
@@ -345,6 +344,7 @@ const Mutation = {
 	async addEvent(parent, { event }, { db, request }, info) {
 		const { userId, user } = request;
 		if (!userId) throw new Error('You must be signed in to add an event.');
+		if (user.permissions === 'FREE' && user.events.length >= 10) throw new Error('You have reached maximum saved events for FREE account.')
 
 		const [ existingEvents ] = await db.query.events({
 			where: {

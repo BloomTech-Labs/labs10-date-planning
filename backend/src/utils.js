@@ -23,7 +23,7 @@ module.exports = {
 							],
 						},
 					},
-					`{id times  attending {id firstName imageThumbnail img {default img_url} imageLarge dob gender biography age minAgePref maxAgePref genderPrefs blocked { id }}}`,
+					`{id times  attending {id firstName imageThumbnail img {id default img_url} imageLarge dob gender biography age minAgePref maxAgePref genderPrefs blocked { id }}}`,
 				);
 
 				let eventInDb;

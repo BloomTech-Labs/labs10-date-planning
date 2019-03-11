@@ -40,14 +40,12 @@ import getAge from '../../utils/getAge';
 
 //styles
 import CardStyles from '../../static/jss/material-kit-pro-react/views/componentsSections/sectionCards';
-import '../../styles/Home/Event.scss';
-import '../../styles/Home/EventModal.scss';
 
 const Event = React.memo(({ event, classes, user, refetch }) => {
 	const deleteEvent = useMutation(DELETE_EVENT_MUTATION, {
 		variables: { id: event.id },
 	});
-	console.log(event);
+
 	const [ rotate, setRotate ] = useState('');
 	const [ height, setHeight ] = useState(0);
 	const [ val, set ] = useState(false);
@@ -103,7 +101,7 @@ const Event = React.memo(({ event, classes, user, refetch }) => {
 				style={{ height: height }}
 				className={`${classes.rotatingCardContainer} ${classes.manualRotate} ${rotate}`}
 			>
-				<Card blog className={`${classes.cardRotate}`}>
+				<Card blog className={classes.cardRotate}>
 					<div ref={divEl} className={`${classes.front} ${classes.eventBorder}`}>
 						{event.image_url && (
 							<CardHeader style={{ position: 'relative' }} image>
@@ -334,7 +332,6 @@ const Event = React.memo(({ event, classes, user, refetch }) => {
 												{liked && <Favorite className={classes.favorite} />}
 												{chat && <Chat className={classes.chat} />}
 												<div
-													className='user_card'
 													onClick={() => {
 														NProgress.start();
 														Router.push(
@@ -346,7 +343,7 @@ const Event = React.memo(({ event, classes, user, refetch }) => {
 													}}
 												>
 													<div
-														className={` gradient_border ${classes.userCardBorder}`}
+														className={` ${classes.gradientBorder}  ${classes.userCard}`}
 													>
 														<Avatar
 															src={
@@ -379,11 +376,6 @@ const Event = React.memo(({ event, classes, user, refetch }) => {
 														</div>
 													</div>
 												</div>
-												{/* <UserModel
-                        modal={modal}
-                        showModal={showModal}
-                        potentialMatch={usr}
-                      /> */}
 											</GridItem>
 										);
 									})}

@@ -2,7 +2,7 @@ import { container, title, mlAuto, mrAuto } from '../../../material-kit-pro-reac
 import customCheckboxRadioSwitch from '../../../material-kit-pro-react/customCheckboxRadioSwitchStyle';
 import customSelectStyle from '../../../material-kit-pro-react/customSelectStyle';
 
-const drawerWidth = 240;
+const drawerWidth = 'auto';
 
 const basicsStyle = theme => ({
 	mlAuto,
@@ -15,7 +15,7 @@ const basicsStyle = theme => ({
 	},
 	title: {
 		...title,
-		marginTop: '30px',
+		marginTop: '10px',
 		minHeight: '32px',
 		textDecoration: 'none',
 	},
@@ -65,7 +65,9 @@ const basicsStyle = theme => ({
 	},
 	drawerPaper: {
 		width: drawerWidth,
-		padding: 20,
+		// padding: 10,
+		paddingTop: '100px',
+		zIndex: 1000,
 	},
 	drawerHeader: {
 		display: 'flex',
@@ -92,6 +94,14 @@ const basicsStyle = theme => ({
 	},
 	chip: {
 		margin: '4px',
+	},
+	inputRange: {
+		'& .input-range__label--max .input-range__label-container': {
+			display: 'none',
+		},
+		'& .input-range__label--min .input-range__label-container': {
+			display: 'none',
+		},
 	},
 });
 

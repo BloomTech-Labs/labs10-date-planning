@@ -44,9 +44,9 @@ const MessageList = ({
           <div
             style={{
               flexGrow: 1,
-              marginLeft: "40px",
+             
               height: "100%",
-              position: "relative"
+              
             }}
           >
             <div className={classes.messageList}>
@@ -93,7 +93,7 @@ const MessageList = ({
                 >
                   {sendMessage => (
                     <Media
-                      style={{position: 'absolute', bottom: 0, width: '100%', left: '-5px', borderTop: '2px solid #bdbdbd'}}
+                      style={{ width: '100%',  borderTop: '2px solid #bdbdbd'}}
                       avatar={currentUser.img.find(img => img.default).img_url}
                       body={
                         <CustomInput
