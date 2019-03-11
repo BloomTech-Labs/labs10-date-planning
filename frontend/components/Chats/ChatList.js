@@ -79,6 +79,7 @@ export default ({ user }) => {
                 },
                 updateQuery: (prev, { subscriptionData }) => {
                   if (!subscriptionData) return prev
+                  if (subscriptionData.data.myChat.mutation === 'UPDATED') return prev
                   const newNode = [...(prev.getUserChats), subscriptionData.data.myChat.node]
                   return {getUserChats: newNode}
                 }
