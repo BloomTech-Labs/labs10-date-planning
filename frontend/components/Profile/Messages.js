@@ -64,12 +64,10 @@ const Messages = ({ classes, color, router, href, user }) => {
 		selectedChatId && data.getUserChats
 			? data.getUserChats.filter(chat => chat.id === selectedChatId)
 			: [];
-	console.log(selectedChat);
+	console.log(user);
 	return (
-		<div>
-			<div className={classes.container} style={{ paddingTop: '30px' }}>
-				<LikedBy />
-				{/* <Paper
+		<div className={classes.container} style={{ padding: '30px 0 50px' }}>
+			{/* <Paper
 					style={{
 						display: 'flex',
 						// margin: "20px",
@@ -80,7 +78,9 @@ const Messages = ({ classes, color, router, href, user }) => {
 						margin: '30px 0',
 					}}
 				> */}
-				<GridContainer style={{ height: 'calc(100vh - 100px)' }}>
+			<GridContainer style={{ height: '100%', flexDirection: 'column' }}>
+				<LikedBy user={user} />
+				<GridContainer style={{ height: 'calc(100vh - 300px)' }}>
 					<GridItem sm={12} md={4} lg={4}>
 						<Paper
 							style={{ height: '100%', minWidth: '250px' }}
@@ -107,10 +107,10 @@ const Messages = ({ classes, color, router, href, user }) => {
 							/>
 						</Paper>
 					</GridItem>
-					<GridItem sm={12} md={8} lg={8}>
+					<GridItem sm={12} md={8} lg={8} style={{ maxHeight: 'calc(100vh - 300px)' }}>
 						<Paper
 							className={classes.paper}
-
+							style={{ height: '100%' }}
 							// style={{
 							// 	backgroundColor: '#fafafa',
 							// 	backgroundImage:
@@ -139,8 +139,8 @@ const Messages = ({ classes, color, router, href, user }) => {
 						</Paper>
 					</GridItem>
 				</GridContainer>
-				{/* </Paper> */}
-			</div>
+			</GridContainer>
+			{/* </Paper> */}
 		</div>
 	);
 };

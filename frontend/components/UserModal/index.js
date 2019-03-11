@@ -259,7 +259,7 @@ const UserModal = ({ classes, user, router, currentUser }) => {
 									</GridItem>
 
 									<GridItem md={3} lg={3}>
-										<Chat id={user} />
+										<Chat id={user} currentUser={currentUser} />
 									</GridItem>
 								</GridContainer>
 							</DialogContent>

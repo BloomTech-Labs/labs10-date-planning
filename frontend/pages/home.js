@@ -24,19 +24,19 @@ const Home = ({ query }) => {
 	);
 };
 
-Home.getInitialProps = async ctx => {
-	let user = await isLoggedIn(ctx.apolloClient);
+// Home.getInitialProps = async ctx => {
+// 	let user = await isLoggedIn(ctx.apolloClient);
 
-	if (!user.currentUser) {
-		console.log("no user logged in");
-		// redirect(ctx, '/joinus');
-	}
-	// 	//if (ctx.query.welcome)
-	// 	//console.log(!user.currentUser && router.pathname !== '/joinus');
-	// 	// if (!(user.currentUser && router.aspath != '/joinus')) {
-	// 	// 	redirect(ctx, '/joinus');
-	// 	// }
-	return {};
-};
+// 	if (!user.currentUser) {
+// 		console.log("no user logged in");
+// 		// redirect(ctx, '/joinus');
+// 	}
+// 	// 	//if (ctx.query.welcome)
+// 	// 	//console.log(!user.currentUser && router.pathname !== '/joinus');
+// 	// 	// if (!(user.currentUser && router.aspath != '/joinus')) {
+// 	// 	// 	redirect(ctx, '/joinus');
+// 	// 	// }
+// 	return {};
+// };
 
 export default Home;
