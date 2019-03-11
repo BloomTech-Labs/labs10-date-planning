@@ -1,5 +1,5 @@
 import Billing from '../components/Billing/Billing';
-import TransactionList from '../components/Billing/TransactionList';
+
 import User from '../components/Queries/User';
 import { isLoggedIn } from '../components/Queries/User';
 import JoinUs from './joinus';

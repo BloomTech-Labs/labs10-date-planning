@@ -10,7 +10,7 @@ import { Done, DoneAll, DoneOutline } from '@material-ui/icons';
 import User, { CURRENT_USER_QUERY } from '../Queries/User';
 //components
 import Header from '../Header';
-import Pricing from '../Profile/PrefsPricing';
+import Pricing from '../Profile/Pricing';
 import Stripe from '../Profile/Stripe';
 
 // styled components

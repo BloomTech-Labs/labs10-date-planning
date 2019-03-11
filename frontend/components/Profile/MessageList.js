@@ -35,7 +35,12 @@ const MessageList = ({
     )[0];
   }
 
-  if (selectedChat.length === 0) return <div />;
+  if (selectedChat.length === 0) return <div style={{
+              flexGrow: 1,
+             
+              height: "100%",
+              
+            }}/>;
   return (
     <Query query={GET_CONVERSATION_QUERY} variables={{ id: friend.id }}>
       {({ data: { getConversation } }) => {

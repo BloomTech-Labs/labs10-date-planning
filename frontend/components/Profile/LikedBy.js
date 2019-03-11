@@ -6,7 +6,19 @@ import withStyles from '@material-ui/core/styles/withStyles';
 const LikedBy = () => {
 	const { data } = useQuery(LIKED_BY_QUERY);
 	console.log(data);
-	return <div>hi</div>;
+	if (!data.getLikedByList || !data.getLikedByList.length) return null;
+	return (
+		<div style={{ display: 'flex' }}>
+			{data.getLikedByList.map(usr => (
+				<div style={{ height: '50px', margin: '20px' }}>
+					<img
+						src={usr.img.find(x => x.default).img_url}
+						style={{ height: '100%', borderRadius: '6px' }}
+					/>
+				</div>
+			))}
+		</div>
+	);
 };
 
 export default LikedBy;
