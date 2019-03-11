@@ -9,6 +9,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import { MenuItem, Select, InputLabel, Paper } from '@material-ui/core';
 //components
 import Button from '../../styledComponents/CustomButtons/Button';
+import Card from '../../styledComponents/Card/Card';
 //styles
 import style from '../../static/jss/material-kit-pro-react/views/componentsSections/basicsStyle.jsx';
 

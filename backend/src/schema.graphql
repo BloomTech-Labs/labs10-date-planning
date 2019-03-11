@@ -96,7 +96,8 @@ input AddEventInput {
 	city: String
 	lat: String
 	long: String
-	genre: GenreCreateOneInput
+	genreName: String
+	category: String
 }
 
 type User {

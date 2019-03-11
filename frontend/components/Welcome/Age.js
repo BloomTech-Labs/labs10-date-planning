@@ -49,7 +49,7 @@ const GenderPrefs = () => {
 								handleTextFieldChange,
 								pick12hOr24hFormat,
 							}) => ( */}
-						<Paper style={{ overflow: 'hidden' }}>
+						<Paper style={{ overflow: 'hidden', zIndex: 1 }}>
 							<InlineDatePicker
 								label='Date of birth'
 								value={selectedDate}
@@ -68,6 +68,7 @@ const GenderPrefs = () => {
 					</MuiPickersUtilsProvider>
 
 					<Button
+						style={{ zIndex: 1 }}
 						disabled={!selectedDate}
 						onClick={() => {
 							updateUser();

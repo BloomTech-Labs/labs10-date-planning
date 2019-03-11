@@ -8,6 +8,7 @@ const Main = ({ user }) => {
 			<h2>Welcome to Up4 {user.firstName}!</h2>
 			<h3>Tell us a little about yourself...</h3>
 			<Button
+				style={{ zIndex: 1 }}
 				onClick={() => {
 					Router.push(
 						`/welcome?slug=1`,

@@ -23,7 +23,14 @@ const Bio = ({ user }) => {
 			}}
 		>
 			{updateUser => (
-				<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+				<div
+					style={{
+						display: 'flex',
+						flexDirection: 'column',
+						alignItems: 'center',
+						zIndex: 1,
+					}}
+				>
 					<h2>Write something about yourself</h2>
 					<CustomInput
 						//labelText='About'

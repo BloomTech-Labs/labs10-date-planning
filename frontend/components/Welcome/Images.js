@@ -51,7 +51,14 @@ const GenderPrefs = ({ user }) => {
 			}}
 		>
 			{uploadImage => (
-				<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+				<div
+					style={{
+						display: 'flex',
+						flexDirection: 'column',
+						alignItems: 'center',
+						zIndex: 1,
+					}}
+				>
 					<h2>Upload an Image.</h2>
 					<div className={'thumbnail'}>
 						{user.img.length ? <img src={user.img[0].img_url} alt='...' /> : null}
