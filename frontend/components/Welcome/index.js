@@ -18,6 +18,17 @@ import Pro from "./ProFeatures";
 
 import style from "../../static/jss/Welcome/welcomeStyles";
 
+// import triangle1 from '../../static/img/triangle1.svg/';
+// import triangle2 from '../../static/img/triangle2.svg/';
+// import triangle3 from '../../static/img/triangle3.svg/';
+// import triangle4 from '../../static/img/triangle4.svg/';
+// import triangle5 from '../../static/img/triangle5.svg/';
+// import triangle6 from '../../static/img/triangle6.svg/';
+// import triangle7 from '../../static/img/triangle7.svg/';
+// import triangle8 from '../../static/img/triangle8.svg/';
+
+
+
 function getSteps() {
 	return [
 		"Welcome",
@@ -58,28 +69,29 @@ function getStepContent(stepIndex, user) {
 }
 
 function getImage(stepIndex) {
-	switch (stepIndex) {
-		case 0:
+  switch (stepIndex) {
+    case 0:
 			return "../../static/img/triangle1.svg";
-		case 1:
-			return "../../static/img/triangle2.svg";
-		case 2:
-			return "../../static/img/triangle3.svg";
-		case 3:
-			return "../../static/img/triangle4.svg";
-		case 4:
-			return "../../static/img/triangle5.svg";
-		case 5:
-			return "../../static/img/triangle6.svg";
-		case 6:
-			return "../../static/img/triangle7.svg";
-		case 7:
-			return "../../static/img/triangl8.svg";
-		case 8:
-			return "../../static/img/triangle1.svg";
-		default:
-			return null;
-	}
+			// return triangle1;
+    case 1:
+      return "../../static/img/triangle2.svg";
+    case 2:
+      return "../../static/img/triangle3.svg";
+    case 3:
+      return "../../static/img/triangle4.svg";
+    case 4:
+      return "../../static/img/triangle5.svg";
+    case 5:
+      return "../../static/img/triangle6.svg";
+    case 6:
+      return "../../static/img/triangle7.svg";
+    case 7:
+      return "../../static/img/triangle8.svg";
+    case 8:
+      return "../../static/img/triangle1.svg";
+    default:
+      return null;
+  }
 }
 
 const Welcome = ({ classes, user, router: { query } }) => {
