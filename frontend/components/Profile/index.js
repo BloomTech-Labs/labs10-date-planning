@@ -18,6 +18,7 @@ import Dates from './Dates';
 import Messages from './Messages';
 import Settings from './Settings';
 import Billing from './Pricing';
+import Footer from '../Footer';
 //styledcomponents
 
 //utils
@@ -56,16 +57,17 @@ const Profile = ({ classes, theme, router: { query }, currentUser }) => {
 		>
 			{query.user && <UserModal user={query.user} currentUser={currentUser} />}
 			<MenuDrawer user={currentUser} drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} />
-			<IconButton
+			{/* <IconButton
 				// color="inherit"
 				style={{ color: 'white', position: 'absolute' }}
 				aria-label='Open drawer'
 				onClick={() => setDrawerOpen(!drawerOpen)}
 				className={classNames(classes.menuButton)}
-			>
-				<Menu />
-			</IconButton>
-			{getContent(query.slug, currentUser)}
+			> */}
+			{/* <Menu />
+			</IconButton> */}
+			<div style={{ marginBottom: '20px' }}>{getContent(query.slug, currentUser)}</div>
+			<Footer />
 		</div>
 	);
 };

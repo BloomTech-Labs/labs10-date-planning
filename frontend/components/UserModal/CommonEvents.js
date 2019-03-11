@@ -30,22 +30,9 @@ const CommonEvents = ({ classes, id }) => {
 									position: 'relative',
 									border: '4px solid #4cb5ae',
 									borderRadius: '11px',
+									backgroundImage: `url(${event.image_url})`,
 								}}
 							>
-								<div
-									style={{
-										backgroundSize: 'cover',
-										backgroundPosition: 'center',
-										position: 'absolute',
-										//filter: 'blur(2px)',
-										left: 0,
-										right: 0,
-										top: 0,
-										bottom: 0,
-										display: 'block',
-										backgroundImage: `url(${event.image_url})`,
-									}}
-								/>
 								<CardBody
 									background
 									style={{
