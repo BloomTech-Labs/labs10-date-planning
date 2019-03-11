@@ -81,7 +81,10 @@ const Messages = ({ classes, color, router, href, user }) => {
 				> */}
 				<GridContainer>
 					<GridItem sm={12} md={4} lg={4}>
-						<Paper style={{ height: '100%', minWidth: '250px' }}>
+						<Paper
+							style={{ height: '100%', minWidth: '250px' }}
+							className={classes.paper}
+						>
 							<Typography
 								variant='h6'
 								gutterBottom
@@ -105,11 +108,12 @@ const Messages = ({ classes, color, router, href, user }) => {
 					</GridItem>
 					<GridItem sm={12} md={8} lg={8}>
 						<Paper
-							style={{
-								backgroundColor: '#fafafa',
-								backgroundImage:
-									'url("https://www.transparenttextures.com/patterns/brilliant.png")',
-							}}
+							className={classes.paper}
+							// style={{
+							// 	backgroundColor: '#fafafa',
+							// 	backgroundImage:
+							// 		'url("https://www.transparenttextures.com/patterns/brilliant.png")',
+							// }}
 						>
 							<Typography
 								variant='h6'

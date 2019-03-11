@@ -74,6 +74,7 @@ const basicsStyle = theme => ({
 	},
 	drawerPaper: {
 		width: drawerWidth,
+		backgroundColor: '#fafafa',
 		// padding: 10,
 		paddingTop: '100px',
 		zIndex: 1000,
