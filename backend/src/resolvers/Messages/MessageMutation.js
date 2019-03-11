@@ -140,4 +140,28 @@ module.exports = {
 			info,
 		);
 	},
+	async markAllAsSeen(parent, args, { request, db }, info) {
+		const { user, userId } = request;
+
+		if (!user) throw new Error('You must be logged in to start a conversation!')
+
+		const chat = db.query.chat({
+			where: {
+				id: args.chatId
+			}
+		})
+
+		if (!chat) throw new Error('Chat does not exist')
+
+		return db.mutation.updateManyDirectMessages({
+			where: {
+				chat: {
+					id: args.chatId
+				}
+			},
+			data: {
+				seen: true
+			}
+		})
+	}
 };
