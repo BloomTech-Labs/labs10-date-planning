@@ -4,8 +4,8 @@ import { withApollo } from 'react-apollo';
 import Router from 'next/router';
 import gql from 'graphql-tag';
 import { useMutation } from '../Mutations/useMutation';
+import Slider from 'react-slick';
 
-import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext } from 'pure-react-carousel';
 // import 'pure-react-carousel/dist/react-carousel.es.css';
 //MUI
 import { IconButton, Typography, Avatar } from '@material-ui/core';
@@ -97,7 +97,7 @@ const DateView = ({ date, classes, client, currentUser, refetch }) => {
 				>
 					<Delete fontSize='small' style={{ color: '#fafafa' }} />
 				</IconButton>
-				<CardBody background style={{ maxWidth: '100%', padding: '12px' }}>
+				<CardBody background style={{ maxWidth: '100%', padding: '12px', height: '100%' }}>
 					<h4 style={{ margin: '2px 11px' }} className={classes.cardTitleWhite}>
 						{date.title}{' '}
 					</h4>
@@ -114,7 +114,8 @@ const DateView = ({ date, classes, client, currentUser, refetch }) => {
 							))
 						)}
 					</h6>
-					<GridContainer id='users'>
+
+					<Slider {...settings} className={classes.slicky}>
 						{date.attending.filter(usr => usr.id !== currentUser.id).map((usr, i) => {
 							let chat = currentUser
 								? currentUser.chats.find(x => x.users.some(y => y.id === usr.id))
@@ -123,75 +124,69 @@ const DateView = ({ date, classes, client, currentUser, refetch }) => {
 								? currentUser.liked.find(x => x.id === usr.id)
 								: false;
 							return (
-								<GridItem
-									key={usr.id}
-									sm={carousel ? 12 : 4}
-									md={carousel ? 12 : 4}
-									style={{ position: 'relative' }}
+								<div
+									className={classes.eventUserCard}
+									style={{
+										width: '96%',
+										margin: '5px',
+									}}
+									onClick={() => {
+										NProgress.start();
+										Router.push(
+											`/profile?slug=events&user=${usr.id}`,
+											`/profile/events/user/${usr.id}`,
+											{ shallow: true },
+											{ scroll: false },
+										);
+									}}
 								>
 									<div
-										className={classes.eventUserCard}
-										onClick={() => {
-											NProgress.start();
-											Router.push(
-												`/profile?slug=events&user=${usr.id}`,
-												`/profile/events/user/${usr.id}`,
-												{ shallow: true },
-												{ scroll: false },
-											);
+										className={classes.userCardBorder}
+										style={{
+											border: '1px solid #cabac8',
+											borderRadius: '7px',
 										}}
 									>
-										<div
-											className={`  ${classes.userCardBorder}`}
+										<img
+											src={
+												usr.img.length ? (
+													usr.img.find(img => img.default).img_url
+												) : (
+													standIn
+												)
+											}
 											style={{
-												border: '1px solid #cabac8',
-												borderRadius: '7px',
+												// width: '130px',
+												maxHeight: '148px',
+												borderRadius: '6px',
 											}}
-										>
-											<Avatar
-												src={
-													usr.img.length ? (
-														usr.img.find(img => img.default).img_url
-													) : (
-														standIn
-													)
-												}
-												imgProps={{ height: 70, width: 70 }}
-												style={{
-													width: '100%',
-													height: '100%',
-													borderRadius: '6px',
-												}}
-											/>
-										</div>
-										<div
-											style={{
-												display: 'flex',
-												justifyContent: 'center',
-											}}
-										>
-											{liked && (
-												<Favorite className={classes.userFavorite} />
-											)}{' '}
-											<p style={{ margin: 0 }} className={classes.title}>
-												{usr.firstName}{' '}
-												<span style={{ padding: '0 3px' }}>
-													&#8226;
-												</span>{' '}
-											</p>
-											<p
-												style={{ margin: '0 0 0 2px' }}
-												className={classes.title}
-											>
-												{getAge(usr.dob)}
-											</p>
-											{chat && <Chat className={classes.userChat} />}
-										</div>
+										/>
 									</div>
-								</GridItem>
+									<div
+										style={{
+											display: 'flex',
+											justifyContent: 'center',
+										}}
+									>
+										{liked && (
+											<Favorite className={classes.userFavorite} />
+										)}{' '}
+										<p style={{ margin: 0 }} className={classes.title}>
+											{usr.firstName}{' '}
+											<span style={{ padding: '0 3px' }}>&#8226;</span>{' '}
+										</p>
+										<p
+											style={{ margin: '0 0 0 2px' }}
+											className={classes.title}
+										>
+											{getAge(usr.dob)}
+										</p>
+										{chat && <Chat className={classes.userChat} />}
+									</div>
+								</div>
 							);
 						})}
-					</GridContainer>
+					</Slider>
 				</CardBody>
 			</Card>
 		</GridItem>
