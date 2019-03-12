@@ -23,6 +23,6 @@ const Index = () => (
 // 	// 	// 	redirect(ctx, '/joinus');
 // 	// 	// }
 // 	return {};
-};
+// };
 
 export default Index;
