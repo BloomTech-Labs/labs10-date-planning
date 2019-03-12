@@ -17,7 +17,7 @@ const REQUEST_RESET_MUTATION = gql`
 	}
 `;
 
-const Reset = ({classes}) => {
+const Reset = ({ classes }) => {
 	const [ reset, setReset ] = useState(false);
 	const [ email, setEmail ] = useState('');
 	return (
@@ -28,61 +28,61 @@ const Reset = ({classes}) => {
 			variables={{ email }}
 		>
 			{(requestReset, { data, error }) => {
+				console.log(data);
 				if (error) {
 					return (
 						<Button color='rose' simple disabled>
 							{error.message.replace('GraphQL error: ', '')}
 						</Button>
 					);
-				}
-				if (data) {
+				} else if (data) {
 					return (
 						<p style={{ textAlign: 'center' }}>
 							A password reset link has been sent to {email}
 						</p>
 					);
-				}
-				return (
-					<Fragment>
-						{!reset ? (
-							<Button
-								color='rose'
-								simple
-								onClick={e => {
-									e.stopPropagation();
-									setReset(true);
-								}}
-							>
-								Forgot your password?
-							</Button>
-						) : (
-							<div className={classes.input}>
-								<CustomInput
-									formControlProps={{
-										fullWidth: true,
-									}}
-									inputProps={{
-										placeholder: 'Enter your email',
-										value: email,
-										type: 'email',
-										onChange: e => setEmail(e.target.value),
-									}}
-								/>
+				} else
+					return (
+						<Fragment>
+							{!reset ? (
 								<Button
-									justIcon
-									round
-									disabled={!email}
-									onClick={() => {
-										NProgress.start();
-										requestReset();
+									color='rose'
+									simple
+									onClick={e => {
+										e.stopPropagation();
+										setReset(true);
 									}}
 								>
-									{email ? <Send /> : <Close />}
+									Forgot your password?
 								</Button>
-							</div>
-						)}
-					</Fragment>
-				);
+							) : (
+								<div className={classes.input}>
+									<CustomInput
+										formControlProps={{
+											fullWidth: true,
+										}}
+										inputProps={{
+											placeholder: 'Enter your email',
+											value: email,
+											type: 'email',
+											onChange: e => setEmail(e.target.value),
+										}}
+									/>
+									<Button
+										justIcon
+										round
+										disabled={!email}
+										onClick={() => {
+											NProgress.start();
+											requestReset();
+										}}
+									>
+										{email ? <Send /> : <Close />}
+									</Button>
+								</div>
+							)}
+						</Fragment>
+					);
 			}}
 		</Mutation>
 	);

@@ -59,14 +59,14 @@ const FIREBASE_LOGIN = gql`
 	}
 `;
 
-const Login = ({ classes }) => {
+const Login = ({ classes, showing, setShowing }) => {
 	const [ passwordShowing, setPasswordShowing ] = useState(false);
 	const [ user, setUser ] = useState({ email: '', password: '' });
 	const [ err, setError ] = useState({
 		email: undefined,
 		password: undefined,
 	});
-	const [ modalShowing, setModalShowing ] = useState(false);
+	//const [ modalShowing, setModalShowing ] = useState(false);
 	const [ serverError, setServerError ] = useState(undefined);
 
 	useEffect(
@@ -108,25 +108,24 @@ const Login = ({ classes }) => {
 		console.log('hi');
 		if (error.message.replace('GraphQL error: ', '') === 'Invalid Password!') {
 			setError({ password: error.message.replace('GraphQL error: ', '') });
+		} else if (error.message.includes('normal')) {
+			setError({ ...err, password: 'Password does not match.' });
 		} else {
 			setServerError(error);
 		}
 	};
 	return (
 		<Fragment>
-			<Button color='primary' onClick={() => setModalShowing(true)}>
-				Log In
-			</Button>
 			<GridItem xs={6} sm={6} md={6} lg={6}>
 				<Dialog
 					classes={{
 						root: classes.modalRoot,
 						paper: classes.modal + ' ' + classes.modalLogin,
 					}}
-					open={modalShowing}
+					open={showing}
 					TransitionComponent={Transition}
 					keepMounted
-					onClose={() => setModalShowing(false)}
+					onClose={() => setShowing(false)}
 					aria-labelledby='signup-modal-slide-title'
 					aria-describedby='signup-modal-slide-description'
 				>
@@ -146,7 +145,7 @@ const Login = ({ classes }) => {
 									className={classes.modalCloseButton}
 									key='close'
 									aria-label='Close'
-									onClick={() => setModalShowing(false)}
+									onClick={() => setShowing(false)}
 								>
 									<Close className={classes.modalClose} />
 								</Button>
@@ -222,6 +221,7 @@ const Login = ({ classes }) => {
 								//if (called) NProgress.start();
 								return (
 									<form
+										disabled
 										onSubmit={async e => {
 											e.preventDefault();
 											console.log(user);
@@ -319,7 +319,8 @@ const Login = ({ classes }) => {
 												<Button
 													color='primary'
 													simple
-													disabled={!user.email || !user.password}
+													disabled
+													//disabled={!user.email || !user.password}
 													size='lg'
 													component='div'
 												>

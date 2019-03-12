@@ -16,7 +16,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 
 import Stripe from './Stripe';
 import '../../styles/Billing/Billing.scss';
-import style from '../../static/jss/material-kit-pro-react/views/pricingSections/pricingStyle.jsx';
+import style from '../../static/jss/material-kit-pro-react/views/componentsSections/sectionCards.jsx';
 const CANCEL_SUBSCRIPTION = gql`
 	mutation cancelSubscription($id: String!) {
 		cancelSubscription(id: $id) {
@@ -34,7 +34,7 @@ const Pricing = ({ classes, currentUser, client }) => {
 		});
 	};
 	return (
-		<div className={classes.pricingSection}>
+		<div className={classes.container}>
 			<GridContainer>
 				<GridItem md={4} sm={4}>
 					<Card
@@ -66,6 +66,14 @@ const Pricing = ({ classes, currentUser, client }) => {
 							>
 								FREE
 							</h3>
+							<ul>
+								<li>
+									Save up to <b>10</b> events at a time
+								</li>
+								<li>
+									Send <b>20</b> messages per week
+								</li>
+							</ul>
 							<p
 								className={
 									currentSubs === 'FREE' ? (
@@ -115,6 +123,14 @@ const Pricing = ({ classes, currentUser, client }) => {
 							>
 								<small>$</small> 9.99 <small>/month</small>
 							</h3>
+							<ul>
+								<li>
+									Save <b>unlimited</b> events
+								</li>
+								<li>
+									Send <b>unlimited</b> messages
+								</li>
+							</ul>
 							<p
 								className={
 									currentSubs === 'MONTHLY' ? (
@@ -176,6 +192,14 @@ const Pricing = ({ classes, currentUser, client }) => {
 							>
 								<small>$</small> 29.99 <small>/year</small>
 							</h3>
+							<ul>
+								<li>
+									Save <b>unlimited</b> events
+								</li>
+								<li>
+									Send <b>unlimited</b> messages
+								</li>
+							</ul>
 							<p
 								className={
 									currentSubs === 'YEARLY' ? (

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 //MUI
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Typography } from '@material-ui/core';
@@ -9,12 +9,15 @@ import Login from './Login';
 import Parallax from '../../styledComponents/Parallax/Parallax';
 import GridContainer from '../../styledComponents/Grid/GridContainer';
 import GridItem from '../../styledComponents/Grid/GridItem';
+import Button from '../../styledComponents/CustomButtons/Button';
 //styles
 import Styles from '../../static/jss/material-kit-pro-react/views/landingPageStyle';
-
+import { spacing } from '@material-ui/system';
 import Logo from '../Header/UpFor';
 
 const Splash = ({ classes }) => {
+	const [ registerShowing, setRegisterShowing ] = useState(false);
+	const [ loginShowing, setLoginShowing ] = useState(false);
 	useEffect(() => {
 		window.scrollTo(0, 0);
 	}, []);
@@ -32,10 +35,7 @@ const Splash = ({ classes }) => {
 						md={12}
 					>
 						<Logo main />
-						{/* <img
-							className={classes.logo}
-							src={Logo}
-						/> */}
+
 						<div className={classes.tagline}>
 							<Typography style={{ color: '#fafafa' }} variant='h2'>
 								Meet People. Go Places.
@@ -45,12 +45,23 @@ const Splash = ({ classes }) => {
 							<GridContainer
 								style={{ flexDirection: 'column', alignItems: 'center' }}
 							>
-								<Register />
+								<Button
+									color='danger'
+									size='lg'
+									style={{ fontSize: '30px' }}
+									onClick={() => setRegisterShowing(true)}
+								>
+									Sign Up
+								</Button>
 
-								<Login />
+								<Button color='primary' onClick={() => setLoginShowing(true)}>
+									Log In
+								</Button>
 							</GridContainer>
 						</div>
 					</GridItem>
+					<Register showing={registerShowing} setShowing={setRegisterShowing} />
+					<Login showing={loginShowing} setShowing={setLoginShowing} />
 				</GridContainer>
 			</div>
 		</Parallax>

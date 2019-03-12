@@ -3,7 +3,7 @@ import { Util } from 'cloudinary-core';
 export const openUploadWidget = callback => {
 	const options = {
 		cropping: true,
-		sources: [ 'local', 'camera', 'instagram', 'facebook' ],
+		sources: [ 'local', 'instagram', 'facebook' ],
 		multiple: false,
 		croppingAspectRatio: 1,
 		gravity: 'custom',

@@ -1,56 +1,74 @@
-import withApollo from 'next-with-apollo';
-import ApolloClient from 'apollo-boost';
-import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { endpoint, prodEndpoint } from '../config';
+import { getMainDefinition } from 'apollo-utilities';
+import { createHttpLink } from 'apollo-link-http';
+import { setContext } from 'apollo-link-context';
+import { ApolloLink, split } from 'apollo-link';
+import { WebSocketLink } from 'apollo-link-ws';
+import { onError } from 'apollo-link-error';
+import withApollo from 'next-with-apollo';
+import ApolloClient from 'apollo-client';
+import { endpoint, prodEndpoint, wsEndpoint, wsProdEndpoint } from '../config';
 
-//const cache = new InMemoryCache({ dataIdFromObject: object => object.key || null });
+export default withApollo(({ headers = {} }) => {
+	const ssrMode = !process.browser;
 
-function createClient({ headers }) {
-	return new ApolloClient({
-		// uri: endpoint,
-		//ssrMode: true,
+	const httpLink = createHttpLink({
 		uri: process.env.NODE_ENV === 'development' ? endpoint : prodEndpoint,
-		request: operation => {
-			operation.setContext({
-				fetchOptions: {
-					credentials: 'include',
-				},
-				headers,
-			});
-		},
-
-		//cache,
-		// clientState: {
-		// 	defaults,
-		// 	resolvers,
-		// 	typeDefs
-		// },
 	});
-}
 
-// function create(initialState, { getToken }) {
-// 	const httpLink = createHttpLink({
-// 	  uri: gql_url + "/graphql",
-// 	  credentials: "include"
-// 	});
+	const wsLink =
+		!ssrMode &&
+		new WebSocketLink({
+			uri: process.env.NODE_ENV === 'development' ? wsEndpoint : wsProdEndpoint,
+			options: {
+				reconnect: true,
+				// maybe we can add a header in here to get some sort of auth working
+				// connectionParams: {d
+				//   authorization: headers.authorization
+				// }
+			},
+		});
 
-//   const authLink = setContext((_, { headers }) => {
-// 	  const token = getToken()["XSRF-TOKEN"];
-// 	  return {
-// 		headers: {
-// 		  ...headers,
-// 		  "X-XSRF-TOKEN": token
-// 		}
-// 	  };
-// 	});
+	const contextLink = setContext(async () => ({
+		fetchOptions: {
+			credentials: 'include',
+		},
+		headers,
+	}));
 
-//   return new ApolloClient({
-// 	  connectToDevTools: process.browser,
-// 	  ssrMode: !process.browser, // Disables forceFetch on the server (so queries are only run once)
-// 	  link: authLink.concat(httpLink),
-// 	  cache: new InMemoryCache().restore(initialState || {})
-// 	});
-//   }
+	const errorLink = onError(({ graphQLErrors, networkError }) => {
+		if (graphQLErrors) {
+			graphQLErrors.map(err => console.log(`[GraphQL error]: Message: ${err.message}`));
+		}
+		if (networkError) console.log(`[Network error]: ${networkError}`);
+	});
 
-export default withApollo(createClient);
+	let link = ApolloLink.from([ errorLink, contextLink, httpLink ]);
+
+	if (!ssrMode) {
+		link = split(
+			// split based on operation type
+			({ query }) => {
+				const definition = getMainDefinition(query);
+				return (
+					definition.kind === 'OperationDefinition' &&
+					definition.operation === 'subscription'
+				);
+			},
+			wsLink,
+			link,
+		);
+	}
+
+	const cache = new InMemoryCache(
+		{
+			// dataIdFromObject: ({ id, __typename }) => (id && __typename ? __typename + id : null)
+		},
+	);
+
+	return new ApolloClient({
+		link,
+		ssrMode,
+		cache,
+	});
+});

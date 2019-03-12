@@ -24,6 +24,7 @@ function RegularButton(props) {
 		justIcon,
 		fileButton,
 		className,
+		genderPrefs,
 		...rest
 	} = props;
 	const btnClasses = classNames({
@@ -38,6 +39,7 @@ function RegularButton(props) {
 		[classes.link]: link,
 		[classes.justIcon]: justIcon,
 		[classes.fileButton]: fileButton,
+		[classes.gender]: genderPrefs,
 		[className]: className,
 	});
 	return (
@@ -47,41 +49,41 @@ function RegularButton(props) {
 	);
 }
 
-RegularButton.propTypes = {
-	classes: PropTypes.object.isRequired,
-	color: PropTypes.oneOf([
-		'primary',
-		'secondary',
-		'info',
-		'success',
-		'warning',
-		'danger',
-		'rose',
-		'white',
-		'twitter',
-		'facebook',
-		'google',
-		'linkedin',
-		'pinterest',
-		'youtube',
-		'tumblr',
-		'github',
-		'behance',
-		'dribbble',
-		'reddit',
-		'instagram',
-		'transparent',
-	]),
-	size: PropTypes.oneOf([ 'sm', 'lg' ]),
-	simple: PropTypes.bool,
-	round: PropTypes.bool,
-	fullWidth: PropTypes.bool,
-	disabled: PropTypes.bool,
-	block: PropTypes.bool,
-	link: PropTypes.bool,
-	justIcon: PropTypes.bool,
-	fileButton: PropTypes.bool,
-	variant: PropTypes.string,
-};
+// RegularButton.propTypes = {
+// 	classes: PropTypes.object.isRequired,
+// 	color: PropTypes.oneOf([
+// 		'primary',
+// 		'secondary',
+// 		'info',
+// 		'success',
+// 		'warning',
+// 		'danger',
+// 		'rose',
+// 		'white',
+// 		'twitter',
+// 		'facebook',
+// 		'google',
+// 		'linkedin',
+// 		'pinterest',
+// 		'youtube',
+// 		'tumblr',
+// 		'github',
+// 		'behance',
+// 		'dribbble',
+// 		'reddit',
+// 		'instagram',
+// 		'transparent',
+// 	]),
+// 	size: PropTypes.oneOf([ 'sm', 'lg' ]),
+// 	simple: PropTypes.bool,
+// 	round: PropTypes.bool,
+// 	fullWidth: PropTypes.bool,
+// 	disabled: PropTypes.bool,
+// 	block: PropTypes.bool,
+// 	link: PropTypes.bool,
+// 	justIcon: PropTypes.bool,
+// 	fileButton: PropTypes.bool,
+// 	variant: PropTypes.string,
+// };
 
 export default withStyles(buttonStyle)(RegularButton);

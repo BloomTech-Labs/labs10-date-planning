@@ -1,7 +1,7 @@
 const MessageSubscription = require('./Messages/MessageSubscription');
 
 const Subscription = {
-  ...MessageSubscription
-}
+	...MessageSubscription,
+};
 
 module.exports = Subscription;

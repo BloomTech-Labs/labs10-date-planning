@@ -1,12 +1,11 @@
 import React, { Fragment } from 'react';
 import Meta from './Meta';
 
-
 const Page = ({ children }) => {
 	return (
 		<Fragment>
 			<Meta />
-			<div>{children}</div>
+			<div style={{ height: '100%' }}>{children}</div>
 		</Fragment>
 	);
 };

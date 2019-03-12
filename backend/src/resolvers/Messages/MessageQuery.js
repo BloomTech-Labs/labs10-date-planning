@@ -1,3 +1,5 @@
+const moment = require('moment')
+
 module.exports = {
 	getChat(parent, args, { request, db }, info) {
 		// this is to find a specific chat by id
@@ -55,4 +57,21 @@ module.exports = {
 
 		return chat;
 	},
+	async getMessageLeft(parent, args, { request, db }, info) {
+		const { user } = request;
+
+		// must logged in to access this query
+		if (!user) throw new Error('You must be logged in to start a conversation!')
+
+		if (user.permissions !== 'FREE') return 1000
+		const sentMessages = await db.query.directMessages({
+		where: {
+			AND: [
+				{ from: { id: user.id } },
+				{ createdAt_gte: moment().startOf('isoWeek') }
+			]}
+		})
+
+		return 20 - sentMessages.length
+	}
 };

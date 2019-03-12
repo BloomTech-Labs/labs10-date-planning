@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
-import { withApollo, Mutation, Query } from 'react-apollo';
-import { adopt } from 'react-adopt';
+import React, { useState, Fragment } from 'react';
 
-import { Value } from 'react-powerplug';
+import { withRouter } from 'next/router';
+
 import classNames from 'classnames';
 //MUI
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -10,105 +9,76 @@ import { IconButton } from '@material-ui/core';
 import { Menu } from '@material-ui/icons';
 
 //Q&M
-import { CURRENT_USER_QUERY } from '../Queries/User';
-import { UPDATE_USER_MUTATION } from '../Mutations/updateUser';
+
 //components
-import Location from '../Settings/Location';
-import Dates from '../Settings/Dates';
-import Preferences from './Preferences';
+
+import MenuDrawer from './Drawer';
+import UserModal from '../UserModal/';
+import Dates from './Dates';
+import Messages from './Chats/ChatList';
+import Settings from './Settings';
+import Billing from './Pricing';
+import Footer from '../Footer';
 //styledcomponents
-import Button from '../../styledComponents/CustomButtons/Button';
-import CustomInput from '../../styledComponents/CustomInput/CustomInput.jsx';
+
 //utils
-import getAge from '../../utils/getAge';
+
 //styles
 import style from '../../static/jss/material-kit-pro-react/views/componentsSections/basicsStyle.jsx';
 import '../../styles/Profile/index.scss';
-const Composed = adopt({
-	user: ({ render }) => <Query query={CURRENT_USER_QUERY}>{render}</Query>,
 
-	biography: ({ user, render }) => (
-		<Value initial={user.data.currentUser.biography || ''}>{render}</Value>
-	),
-	updateUser: ({ render }) => (
-		<Mutation
-			mutation={UPDATE_USER_MUTATION}
-			onCompleted={() => NProgress.done()}
-			onError={() => NProgress.done()}
-		>
-			{render}
-		</Mutation>
-	),
-});
-const Profile = ({ classes, theme }) => {
+function getContent(slug, user) {
+	switch (slug) {
+		case 'me':
+			return <Settings currentUser={user} />;
+		case 'events':
+			return <Dates user={user} />;
+		case 'chats':
+			return <Messages user={user} />;
+		case 'billing':
+			return <Billing currentUser={user} />;
+		default:
+			return <Settings currentUser={user} />;
+	}
+}
+
+const Profile = ({ classes, theme, router: { query }, currentUser }) => {
 	const [ drawerOpen, setDrawerOpen ] = useState(false);
 
 	return (
-		<Composed>
-			{({ user: { data: { currentUser } }, biography, updateUser }) => {
-				return (
-					<div className='Profile__background'>
-						<Preferences
-							user={currentUser}
-							drawerOpen={drawerOpen}
-							setDrawerOpen={setDrawerOpen}
-						/>
-						<div className='Profile-Header'>
-							<IconButton
-								// color="inherit"
-								style={{ color: 'white' }}
-								aria-label='Open drawer'
-								onClick={() => setDrawerOpen(!drawerOpen)}
-								className={classNames(classes.menuButton)}
-							>
-								<Menu />
-							</IconButton>
-							<div className='inner'>
-								<div
-									className='prof-img'
-									style={{ backgroundImage: `url(${currentUser.imageLarge})` }}
-								/>
-								<div
-									style={{
-										display: 'flex',
-										flexDirection: 'column',
-										margin: '0 20px',
-									}}
-								>
-									<h2>
-										{currentUser.firstName} | {getAge(currentUser.dob)}
-									</h2>
-									<Location user={currentUser} />
-								</div>
+		<div
+			style={{
+				backgroundColor: '#000',
+				height: '100%',
 
-								<CustomInput
-									labelText='About'
-									id='textarea-input'
-									inputProps={{
-										multiline: true,
-										rows: 5,
-										value: biography.value,
-										onChange: e => biography.set(e.target.value),
-										placeholder: 'About',
-									}}
-								/>
-							</div>
-						</div>
-
-						<div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
-							<div>
-								<Dates />
-							</div>
-							<div>{/* <FormControl className={classes.selectFormControl}> */}</div>
-
-							{/* </div> */}
-							{/* <Dates /> */}
-						</div>
-					</div>
-				);
+				backgroundImage:
+					'url(https://www.transparenttextures.com/patterns/shattered-dark.png)',
 			}}
-		</Composed>
+		>
+			{query.user && <UserModal user={query.user} currentUser={currentUser} />}
+			<MenuDrawer user={currentUser} drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} />
+			{/* <IconButton
+				// color="inherit"
+				style={{ color: 'white', position: 'absolute' }}
+				aria-label='Open drawer'
+				onClick={() => setDrawerOpen(!drawerOpen)}
+				className={classNames(classes.menuButton)}
+			> */}
+			{/* <Menu />
+			</IconButton> */}
+			<div
+				style={{
+					minHeight: 'calc(100vh - 95px)',
+					display: 'flex',
+					flexDirection: 'column',
+					justifyContent: 'space-between',
+				}}
+			>
+				{getContent(query.slug, currentUser)}
+				<Footer />
+			</div>
+		</div>
 	);
 };
 
-export default withStyles(style)(Profile);
+export default withRouter(withStyles(style)(Profile));

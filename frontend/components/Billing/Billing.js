@@ -10,8 +10,8 @@ import { Done, DoneAll, DoneOutline } from '@material-ui/icons';
 import User, { CURRENT_USER_QUERY } from '../Queries/User';
 //components
 import Header from '../Header';
-import Pricing from './Pricing';
-import Stripe from './Stripe';
+import Pricing from '../Profile/Pricing';
+import Stripe from '../Profile/Stripe';
 
 // styled components
 import GridContainer from '../../styledComponents/Grid/GridContainer.jsx';
@@ -50,7 +50,7 @@ const Billing = ({ classes, currentUser, client }) => {
 		// className={`${classes.pricing} ${classes.pricing1} ${classes.section} Billing`}
 		// style={{ backgroundImage: `url(${img})`, height: '100%' }}
 		>
-			<Header color='transparent' />
+			<Header color='transparent' currentUser={currentUser} />
 			<Parallax image={img} filter='dark' small>
 				<div className={classes.container}>
 					<GridContainer>

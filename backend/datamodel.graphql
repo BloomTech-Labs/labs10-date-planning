@@ -2,6 +2,7 @@ enum Category {
 	MUSIC
 	ARTS_THEATRE
 	SPORTS
+	MISCELLANEOUS
 }
 
 enum Permission {
@@ -34,7 +35,7 @@ type User {
 	img: [ProfilePic!]!
 	resetToken: String
 	resetTokenExpiry: Float
-	interests: [Category]
+	interests: [Genre]
 	events: [Event!]!
 	genderPrefs: [Gender]
 	minAgePref: Int
@@ -50,7 +51,7 @@ type User {
 }
 
 type Chat {
-	id: ID! @unique
+	id: ID! @unique 
 	users: [User!]!
 	messages: [DirectMessage!]!
 }
@@ -61,6 +62,7 @@ type DirectMessage {
 	from: User!
 	createdAt: DateTime!
 	seen: Boolean @default(value: "false")
+	updatedAt: DateTime!
 	chat: Chat!
 }
 
@@ -87,4 +89,11 @@ type Event {
 	address: String
 	lat: String
 	long: String
+}
+
+type Genre {
+	id: ID! @unique
+	tmID: String!
+	category: Category!
+	name: String! 
 }

@@ -94,7 +94,7 @@ const headerLinksStyle = theme => ({
 			height: '20px',
 		},
 	},
-	navLinkJustIcon: {
+	navLinkjustIcon: {
 		'& .fab,& .far,& .fal,& .fas,& .material-icons': {
 			marginRight: '0px',
 		},

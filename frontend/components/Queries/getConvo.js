@@ -7,14 +7,25 @@ export const GET_CONVERSATION_QUERY = gql`
 			users {
 				id
 				firstName
+				img {
+					id
+					default
+					img_url
+				}
 			}
 			messages {
 				id
 				text
+				seen
+				updatedAt
 				from {
 					id
 					firstName
-					imageThumbnail
+					img {
+						id
+						default
+						img_url
+					}
 				}
 				createdAt
 			}

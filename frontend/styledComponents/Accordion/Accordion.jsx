@@ -32,7 +32,7 @@ class Accordion extends React.Component {
 
 	handleChange = panel => (event, expanded) => {
 		let newArray;
-
+		if (this.props.open) return;
 		if (this.state.single) {
 			if (this.state.active[0] === panel) {
 				newArray = [];
@@ -54,7 +54,7 @@ class Accordion extends React.Component {
 	render() {
 		const { classes, collapses, activeColor } = this.props;
 		return (
-			<div className={classes.root}>
+			<div style={{ marginBottom: 0 }} className={classes.root}>
 				{collapses.map((prop, key) => {
 					return (
 						<ExpansionPanel
@@ -62,6 +62,7 @@ class Accordion extends React.Component {
 								this.state.active === key || this.state.active.indexOf(key) !== -1
 							}
 							onChange={this.handleChange(key)}
+							style={{ cursor: this.props.open ? 'auto' : 'pointer' }}
 							key={key}
 							classes={{
 								root: classes.expansionPanel,
@@ -69,7 +70,7 @@ class Accordion extends React.Component {
 							}}
 						>
 							<ExpansionPanelSummary
-								expandIcon={<ExpandMore />}
+								expandIcon={this.props.open ? null : <ExpandMore />}
 								classes={{
 									root: `${classes.expansionPanelSummary} ${classes[
 										activeColor + 'ExpansionPanelSummary'
@@ -81,7 +82,12 @@ class Accordion extends React.Component {
 									expandIcon: classes.expansionPanelSummaryExpandIcon,
 								}}
 							>
-								<h4 className={classes.title}>{prop.title}</h4>
+								<h4
+									style={{ fontSize: '14px', color: '#fafafa' }}
+									className={classes.title}
+								>
+									{prop.title}
+								</h4>
 							</ExpansionPanelSummary>
 							<ExpansionPanelDetails className={classes.expansionPanelDetails}>
 								{prop.content}

@@ -3,7 +3,15 @@ import Downshift from 'downshift';
 import { ApolloConsumer, Mutation } from 'react-apollo';
 //MUI
 import withStyles from '@material-ui/core/styles/withStyles';
-import { Dialog, Typography, DialogTitle, DialogContent, Paper, MenuItem, IconButton } from '@material-ui/core';
+import {
+	Dialog,
+	Typography,
+	DialogTitle,
+	DialogContent,
+	Paper,
+	MenuItem,
+	IconButton,
+} from '@material-ui/core';
 import { NearMe, Close, PersonPin, EditLocation } from '@material-ui/icons';
 import Danger from '../../styledComponents/Typography/Danger';
 //QM
@@ -26,12 +34,12 @@ const Location = ({ user, classes }) => {
 
 	return (
 		<Fragment>
-			<div style={{display: 'flex'}}>
-				<Typography variant='h5' style={{ color: '#394859', marginLeft: '6px' }}>
+			<div style={{ display: 'flex', alignItems: 'center' }}>
+				<Typography variant='h5' style={{ color: '#fafafa', marginLeft: '6px' }}>
 					{user.location ? user.location : 'Set your default location'}
 				</Typography>
-				<IconButton justIcon simple round onClick={() => showModal(true)}>
-					<EditLocation/>
+				<IconButton justIcon simple round color='primary' onClick={() => showModal(true)}>
+					<EditLocation />
 				</IconButton>
 			</div>
 			<Dialog

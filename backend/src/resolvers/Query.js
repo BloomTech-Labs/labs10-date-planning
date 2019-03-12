@@ -8,6 +8,24 @@ const UserQuery = require('./User/UserQuery');
 const Query = {
 	...MessageQuery,
 	...UserQuery,
+	genres: forwardTo('db'),
+	async userEvents(parent, args, { request, db }, info) {
+		const { user } = request;
+		if (!user) throw new Error('You must be logged in to use this feature!');
+		console.log(user);
+		let events = await db.query.events(
+			{
+				where: {
+					attending_some: {
+						id: user.id,
+					},
+				},
+			},
+			info,
+		);
+
+		return events;
+	},
 	currentUser(parent, args, { db, request }, info) {
 		// check if there is a current user ID
 		if (!request.userId) {
@@ -31,7 +49,7 @@ const Query = {
 	},
 	async getEvents(parent, { location, alt, page, ...args }, { db, request }, info) {
 		location = location.split(',')[0].toLowerCase();
-
+		console.log(page);
 		let cats =
 			!args.categories || !args.categories.length
 				? [ 'KZFzniwnSyZfZ7v7nJ', 'KZFzniwnSyZfZ7v7na', 'KZFzniwnSyZfZ7v7n1' ]
@@ -41,7 +59,7 @@ const Query = {
 			!args.dates || !args.dates.length ? undefined : setDates(args.dates.toString());
 
 		let events;
-		let response = await fetchEvents(location, cats, dates, page, 50, args.genres);
+		let response = await fetchEvents(location, cats, dates, page, 26, args.genres);
 
 		events = response.data._embedded.events;
 
@@ -49,13 +67,14 @@ const Query = {
 			if (!a.includes(t.name)) a.push(t.name);
 			return a;
 		}, []);
+		let pageNumber = response.data.page.number;
 
-		if (response.data.page.totalElements > 50) {
-			while (uniques.length < 50) {
+		if (response.data.page.totalElements > 26) {
+			while (uniques.length < 26) {
 				page = page + 1;
 
-				let res = await fetchEvents(location, cats, dates, page, 50, args.genres);
-
+				let res = await fetchEvents(location, cats, dates, page, 26, args.genres);
+				pageNumber = res.data.page.number;
 				if (!res.data._embedded) break;
 				else {
 					events = [ ...events, ...res.data._embedded.events ];
@@ -67,31 +86,29 @@ const Query = {
 			}
 		}
 
-		const eventList = await transformEvents(request.user, events, db)
-		const usersScore = {}
+		const eventList = await transformEvents(request.user, events, db);
+		const usersScore = {};
 
-		const newList = await eventList.map( async event => (
-			{
-				...event,
-				attending: await event.attending.map(async attendee => {
-					if (attendee.id === request.user.id) return attendee;
-					if (!usersScore[attendee.id]) {
-						usersScore[attendee.id] = await getScore(request.user.id, attendee.id, db)
-					}
-					return ({
-						...attendee,
-						score: usersScore[attendee.id]
-					})
-				})
-			}
-		));
+		const newList = await eventList.map(async event => ({
+			...event,
+			attending: await event.attending.map(async attendee => {
+				if (attendee.id === request.user.id) return attendee;
+				if (!usersScore[attendee.id]) {
+					usersScore[attendee.id] = await getScore(request.user.id, attendee.id, db);
+				}
+				return {
+					...attendee,
+					score: usersScore[attendee.id],
+				};
+			}),
+		}));
 
 		return {
 			events: newList,
 			page_count: response.data.page.size,
 			total_items: response.data.page.totalElements,
 			page_total: response.data.page.totalPages,
-			page_number: response.data.page.number,
+			page_number: pageNumber,
 			location: location,
 		};
 	},

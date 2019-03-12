@@ -1,11 +1,11 @@
-import React, { useEffect, useState, Fragment } from 'react';
-import gql from 'graphql-tag';
-import { Mutation } from 'react-apollo';
-import firebase from 'firebase/app';
-import Router from 'next/router';
-import NProgress from 'nprogress';
+import React, { useEffect, useState, Fragment } from "react";
+import gql from "graphql-tag";
+import { Mutation } from "react-apollo";
+import firebase from "firebase/app";
+import Router from "next/router";
+import NProgress from "nprogress";
 //MUI
-import withStyles from '@material-ui/core/styles/withStyles';
+import withStyles from "@material-ui/core/styles/withStyles";
 import {
 	DialogTitle,
 	Dialog,
@@ -15,8 +15,8 @@ import {
 	FormControlLabel,
 	ButtonBase,
 	IconButton,
-	Icon,
-} from '@material-ui/core';
+	Icon
+} from "@material-ui/core";
 import {
 	Visibility,
 	VisibilityOff,
@@ -26,27 +26,27 @@ import {
 	Email,
 	Check,
 	Close,
-	LockOutlined,
-} from '@material-ui/icons';
+	LockOutlined
+} from "@material-ui/icons";
 //Q&M
-import { CURRENT_USER_QUERY } from '../Queries/User';
+import { CURRENT_USER_QUERY } from "../Queries/User";
 //Components
-import ErrorModal from './ErrorModal';
-import Terms from '../../components/SplashPage/Terms';
-import Transition from '../Transistion';
+import ErrorModal from "./ErrorModal";
+import Terms from "../../components/SplashPage/Terms";
+import Transition from "../Transistion";
 //styled components
-import Button from '../../styledComponents/CustomButtons/Button';
-import Card from '../../styledComponents/Card/Card';
-import GridContainer from '../../styledComponents/Grid/GridContainer';
-import GridItem from '../../styledComponents/Grid/GridItem';
-import CustomInput from '../../styledComponents/CustomInput/CustomInput';
-import InfoArea from '../../styledComponents/InfoArea/InfoArea';
+import Button from "../../styledComponents/CustomButtons/Button";
+import Card from "../../styledComponents/Card/Card";
+import GridContainer from "../../styledComponents/Grid/GridContainer";
+import GridItem from "../../styledComponents/Grid/GridItem";
+import CustomInput from "../../styledComponents/CustomInput/CustomInput";
+import InfoArea from "../../styledComponents/InfoArea/InfoArea";
 //assets
-import TheaterMasks from '../../static/icons/TheatreMask';
+import TheaterMasks from "../../static/icons/TheatreMask";
 //styles
-import Styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles';
+import Styles from "../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles";
 //utils
-import { auth } from '../../utils/firebase';
+import { auth } from "../../utils/firebase";
 
 const REGISTER_USER = gql`
 	mutation REGISTER_USER(
@@ -76,34 +76,31 @@ const FIREBASE_SIGNUP = gql`
 	}
 `;
 
-const Register = ({ classes }) => {
-	const [ passwordShowing, setPasswordShowing ] = useState(false);
-	const [ modalShowing, setModalShowing ] = useState(false);
-	const [ termsShowing, setTermsShowing ] = useState(false);
-	const [ terms, setTerms ] = useState(false);
-	const [ user, setUser ] = useState({
+const Register = ({ classes, showing, setShowing }) => {
+	const [passwordShowing, setPasswordShowing] = useState(false);
+	// const [showing, setModalShowing] = useState(false);
+	const [termsShowing, setTermsShowing] = useState(false);
+	const [terms, setTerms] = useState(false);
+	const [user, setUser] = useState({
 		name: undefined,
 		email: undefined,
-		password: undefined,
+		password: undefined
 	});
-	const [ err, setError ] = useState({
+	const [err, setError] = useState({
 		name: undefined,
 		email: undefined,
-		password: undefined,
+		password: undefined
 	});
-	const [ serverError, setServerError ] = useState(undefined);
+	const [serverError, setServerError] = useState(undefined);
 	const handleChange = ({ target: { name, value } }) => {
 		setUser({ ...user, [name]: value });
 	};
 
-	useEffect(
-		() => {
-			if (err.password) {
-				setError({ ...err, password: undefined });
-			}
-		},
-		[ user.password ],
-	);
+	useEffect(() => {
+		if (err.password) {
+			setError({ ...err, password: undefined });
+		}
+	}, [user.password]);
 
 	const firebaseSignup = async (e, firebaseAuth, company) => {
 		e.preventDefault();
@@ -111,13 +108,13 @@ const Register = ({ classes }) => {
 		try {
 			let provider;
 			switch (company) {
-				case 'google':
+				case "google":
 					provider = new firebase.auth.GoogleAuthProvider();
 					break;
-				case 'facebook':
+				case "facebook":
 					provider = new firebase.auth.FacebookAuthProvider();
 					break;
-				case 'twitter':
+				case "twitter":
 					provider = new firebase.auth.TwitterAuthProvider();
 					break;
 				default:
@@ -132,26 +129,26 @@ const Register = ({ classes }) => {
 	};
 	const handleSubmit = async (e, signup) => {
 		e.preventDefault();
-		let nameArray = user.name.split(' ');
+		let nameArray = user.name.split(" ");
 		if (nameArray.length < 2) {
-			setError({ ...err, name: 'First name and last name required.' });
+			setError({ ...err, name: "First name and last name required." });
 		} else {
 			let newUser = await signup({
 				variables: {
 					email: user.email,
 					password: user.password,
 					firstName: nameArray[0],
-					lastName: nameArray[1],
-				},
+					lastName: nameArray[1]
+				}
 			});
 		}
 	};
 
 	const handleError = error => {
 		NProgress.done();
-		if (error.message.includes('unique')) {
-			setError({ ...err, email: 'A user with this email already exists.' });
-		} else if (error.message.includes('Password')) {
+		if (error.message.includes("unique")) {
+			setError({ ...err, email: "A user with this email already exists." });
+		} else if (error.message.includes("Password")) {
 			setError({ ...err, password: error.message });
 		} else {
 			setServerError(error);
@@ -160,30 +157,22 @@ const Register = ({ classes }) => {
 
 	return (
 		<Fragment>
-			<Button
-				color='danger'
-				size='lg'
-				style={{ fontSize: '30px' }}
-				onClick={() => setModalShowing(true)}
-			>
-				Sign Up
-			</Button>
 			<GridItem xs={6} sm={6} md={6} lg={6}>
-				<div className={`${classes.section} cd-section`} id='javascriptComponents'>
+				<div className={`${classes.section} cd-section`} id="javascriptComponents">
 					<Dialog
 						classes={{
 							root: classes.modalRoot,
-							paper: classes.modal + ' ' + classes.modalSignup,
-							container: classes.modalContainer,
+							paper: classes.modal + " " + classes.modalSignup,
+							container: classes.modalContainer
 						}}
-						open={modalShowing}
+						open={showing}
 						TransitionComponent={Transition}
 						keepMounted
 						onClose={() => {
-							setModalShowing(false);
+							setShowing(false);
 						}}
-						aria-labelledby='signup-modal-slide-title'
-						aria-describedby='signup-modal-slide-description'
+						aria-labelledby="signup-modal-slide-title"
+						aria-describedby="signup-modal-slide-description"
 					>
 						<Card plain className={classes.modalSignupCard}>
 							{termsShowing ? (
@@ -191,99 +180,76 @@ const Register = ({ classes }) => {
 							) : (
 								<div>
 									<DialogTitle
-										id='signup-modal-slide-title'
+										id="signup-modal-slide-title"
 										disableTypography
 										className={classes.modalHeader}
 									>
 										<Button
 											simple
 											className={classes.modalCloseButton}
-											key='close'
-											aria-label='Close'
-											onClick={() => setModalShowing(false)}
+											key="close"
+											aria-label="Close"
+											onClick={() => setShowing(false)}
 										>
-											{' '}
+											{" "}
 											<Close className={classes.modalClose} />
 										</Button>
-										<h3
-											className={`${classes.cardTitle} ${classes.modalTitle}`}
-										>
-											Register
-										</h3>
+										<h3 className={`${classes.cardTitle} ${classes.modalTitle}`}>Register</h3>
 									</DialogTitle>
-									<DialogContent
-										id='signup-modal-slide-description'
-										className={classes.modalBody}
-									>
+									<DialogContent id="signup-modal-slide-description" className={classes.modalBody}>
 										<GridContainer>
-											<GridItem
-												xs={12}
-												sm={5}
-												md={5}
-												className={classes.mlAuto}
-											>
+											<GridItem xs={12} sm={5} md={5} className={classes.mlAuto}>
 												<InfoArea
 													className={classes.infoArea}
-													title='Concerts'
+													title="Concerts"
 													description={
 														<p>
-															Find shows near you according to your
-															tastes and get notified when your
-															favorite performers are in town.
+															Find shows near you according to your tastes and get notified when
+															your favorite performers are in town.
 														</p>
 													}
 													icon={MusicNote}
-													iconColor='rose'
+													iconColor="rose"
 												/>
 												<InfoArea
 													className={classes.infoArea}
-													title='Comedy and Theater'
+													title="Comedy and Theater"
 													description={
 														<p>
-															Get the scoop on nearby comedy and
-															theatrical events as well as other kind
-															of live performances.
+															Get the scoop on nearby comedy and theatrical events as well as other
+															kind of live performances.
 														</p>
 													}
 													icon={TheaterMasks}
-													iconColor='primary'
+													iconColor="primary"
 												/>
 												<InfoArea
 													className={classes.infoArea}
-													title='Epicurean Adventures'
+													title="Epicurean Adventures"
 													description={
 														<p>
-															Be the first to make a reservation at
-															nearby restaurant grand openings or prix
-															fixe events.
+															Be the first to make a reservation at nearby restaurant grand openings
+															or prix fixe events.
 														</p>
 													}
 													icon={Restaurant}
-													iconColor='info'
+													iconColor="info"
 												/>
 											</GridItem>
-											<GridItem
-												xs={12}
-												sm={5}
-												md={5}
-												className={classes.mrAuto}
-											>
+											<GridItem xs={12} sm={5} md={5} className={classes.mrAuto}>
 												<div className={classes.textCenter}>
 													<Mutation
 														mutation={FIREBASE_SIGNUP}
-														refetchQueries={[
-															{ query: CURRENT_USER_QUERY },
-														]}
+														refetchQueries={[{ query: CURRENT_USER_QUERY }]}
 														awaitRefetchQueries
 														onError={error => {
 															NProgress.done();
 															setServerError(error);
 														}}
-														onCompleted={() =>
-															Router.push({
-																pathname: '/home',
-																query: { welcome: true },
-															})}
+														onCompleted={() => {
+															NProgress.done();
+															Router.push("/welcome?slug=0", "/welcome/profile/getstarted");
+														}}
 													>
 														{(firebaseAuth, { called }) => {
 															if (called) NProgress.start();
@@ -292,62 +258,42 @@ const Register = ({ classes }) => {
 																	<Button
 																		justIcon
 																		round
-																		color='google'
-																		onClick={e =>
-																			firebaseSignup(
-																				e,
-																				firebaseAuth,
-																				'google',
-																			)}
+																		color="google"
+																		onClick={e => firebaseSignup(e, firebaseAuth, "google")}
 																	>
-																		<i className='fab fa-google' />
+																		<i className="fab fa-google" />
 																	</Button>
 
 																	<Button
 																		justIcon
 																		round
-																		color='facebook'
-																		onClick={e =>
-																			firebaseSignup(
-																				e,
-																				firebaseAuth,
-																				'facebook',
-																			)}
+																		color="facebook"
+																		onClick={e => firebaseSignup(e, firebaseAuth, "facebook")}
 																	>
-																		<i className='fab fa-facebook-f' />
+																		<i className="fab fa-facebook-f" />
 																	</Button>
 																	<Button
 																		justIcon
 																		round
-																		color='instagram'
-																		onClick={e =>
-																			firebaseSignup(
-																				e,
-																				firebaseAuth,
-																				'twitter',
-																			)}
+																		color="instagram"
+																		onClick={e => firebaseSignup(e, firebaseAuth, "twitter")}
 																	>
-																		<i className='fab fa-twitter' />
+																		<i className="fab fa-twitter" />
 																	</Button>
 																</Fragment>
 															);
 														}}
 													</Mutation>
 
-													<h4 className={classes.socialTitle}>
-														or be classical
-													</h4>
+													<h4 className={classes.socialTitle}>or be classical</h4>
 												</div>
 												<Mutation
 													mutation={REGISTER_USER}
-													refetchQueries={[
-														{ query: CURRENT_USER_QUERY },
-													]}
-													onCompleted={() =>
-														Router.push({
-															pathname: '/home',
-															query: { welcome: true },
-														})}
+													refetchQueries={[{ query: CURRENT_USER_QUERY }]}
+													onCompleted={() => {
+														NProgress.done();
+														Router.push("/welcome?slug=0", "/welcome/profile/getstarted");
+													}}
 													onError={handleError}
 													awaitRefetchQueries
 												>
@@ -356,218 +302,156 @@ const Register = ({ classes }) => {
 
 														return (
 															<form
+																disabled
 																className={classes.form}
-																onSubmit={e =>
-																	handleSubmit(e, signup)}
+																onSubmit={e => handleSubmit(e, signup)}
 															>
 																<fieldset
-																	style={{ border: 'none' }}
+																	style={{ border: "none" }}
 																	disabled={loading}
 																	aria-busy={loading}
 																>
 																	<CustomInput
 																		error={err.name}
-																		id='name'
+																		id="name"
 																		formControlProps={{
 																			fullWidth: true,
-																			className:
-																				classes.customFormControlClasses,
+																			className: classes.customFormControlClasses
 																		}}
 																		inputProps={{
 																			startAdornment: (
 																				<InputAdornment
-																					position='start'
-																					className={
-																						classes.inputAdornment
-																					}
+																					position="start"
+																					className={classes.inputAdornment}
 																				>
-																					<Face
-																						className={
-																							classes.inputAdornmentIcon
-																						}
-																					/>
+																					<Face className={classes.inputAdornmentIcon} />
 																				</InputAdornment>
 																			),
-																			placeholder:
-																				'Full Name...',
-																			autoComplete: 'name',
+																			placeholder: "Full Name...",
+																			autoComplete: "name",
 																			autoFocus: true,
 																			required: true,
-																			name: 'name',
+																			name: "name",
 																			value: user.name,
-																			onChange: handleChange,
+																			onChange: handleChange
 																		}}
 																		labelText={err.name}
 																		labelProps={{
-																			error: true,
+																			error: true
 																		}}
 																	/>
 																	<CustomInput
 																		error={err.email}
-																		id='email'
+																		id="email"
 																		formControlProps={{
 																			fullWidth: true,
-																			className:
-																				classes.customFormControlClasses,
+																			className: classes.customFormControlClasses
 																		}}
 																		inputProps={{
 																			startAdornment: (
 																				<InputAdornment
-																					position='start'
-																					className={
-																						classes.inputAdornment
-																					}
+																					position="start"
+																					className={classes.inputAdornment}
 																				>
-																					<Email
-																						className={
-																							classes.inputAdornmentIcon
-																						}
-																					/>
+																					<Email className={classes.inputAdornmentIcon} />
 																				</InputAdornment>
 																			),
-																			placeholder: 'Email...',
+																			placeholder: "Email...",
 																			required: true,
-																			name: 'email',
+																			name: "email",
 																			value: user.email,
-																			onChange: handleChange,
+																			onChange: handleChange
 																		}}
 																		labelText={err.email}
 																		labelProps={{
-																			error: true,
+																			error: true
 																		}}
 																	/>
 																	<CustomInput
 																		error={err.password}
-																		id='password'
+																		id="password"
 																		formControlProps={{
 																			fullWidth: true,
-																			className:
-																				classes.customFormControlClasses,
+																			className: classes.customFormControlClasses
 																		}}
 																		inputProps={{
 																			endAdornment: (
-																				<InputAdornment position='end'>
+																				<InputAdornment position="end">
 																					<IconButton
-																						aria-label='Toggle password visibility'
-																						onClick={() =>
-																							setPasswordShowing(
-																								!passwordShowing,
-																							)}
+																						aria-label="Toggle password visibility"
+																						onClick={() => setPasswordShowing(!passwordShowing)}
 																					>
 																						{!err.password &&
 																							(passwordShowing ? (
-																								<Visibility
-																								/>
+																								<Visibility />
 																							) : (
-																								<VisibilityOff
-																								/>
+																								<VisibilityOff />
 																							))}
 																					</IconButton>
 																				</InputAdornment>
 																			),
 																			startAdornment: (
 																				<InputAdornment
-																					position='start'
-																					className={
-																						classes.inputAdornment
-																					}
+																					position="start"
+																					className={classes.inputAdornment}
 																				>
-																					<LockOutlined
-																						className={
-																							classes.inputAdornmentIcon
-																						}
-																					/>
+																					<LockOutlined className={classes.inputAdornmentIcon} />
 																				</InputAdornment>
 																			),
-																			placeholder:
-																				'Password...',
-																			autoComplete:
-																				'new-password',
+																			placeholder: "Password...",
+																			autoComplete: "new-password",
 																			required: true,
-																			name: 'password',
-																			type: passwordShowing
-																				? 'text'
-																				: 'password',
+																			name: "password",
+																			type: passwordShowing ? "text" : "password",
 																			value: user.password,
 																			onChange: handleChange,
-																			error:
-																				err.password &&
-																				true,
+																			error: err.password && true
 																		}}
-																		labelText='Must be at least 8 characters including a number.'
+																		labelText="Must be at least 8 characters including a number."
 																		labelProps={{
-																			error: err.password
-																				? true
-																				: false,
+																			error: err.password ? true : false
 																		}}
 																	/>
 																	<FormControlLabel
 																		classes={{
-																			label: classes.label,
+																			label: classes.label
 																		}}
 																		control={
 																			<Checkbox
 																				tabIndex={-1}
 																				checked={terms}
 																				required={true}
-																				onClick={() =>
-																					setTerms(
-																						!terms,
-																					)}
-																				checkedIcon={
-																					<Check
-																						className={
-																							classes.checkedIcon
-																						}
-																					/>
-																				}
-																				icon={
-																					<Check
-																						className={
-																							classes.uncheckedIcon
-																						}
-																					/>
-																				}
+																				onClick={() => setTerms(!terms)}
+																				checkedIcon={<Check className={classes.checkedIcon} />}
+																				icon={<Check className={classes.uncheckedIcon} />}
 																				classes={{
-																					checked:
-																						classes.checked,
-																					root:
-																						classes.checkRoot,
+																					checked: classes.checked,
+																					root: classes.checkRoot
 																				}}
 																			/>
 																		}
 																		label={
 																			<span>
-																				I agree to the{' '}
-																				<a
-																					onClick={() =>
-																						setTermsShowing(
-																							true,
-																						)}
-																					href='#'
-																				>
-																					terms and
-																					conditions
+																				I agree to the{" "}
+																				<a onClick={() => setTermsShowing(true)} href="#">
+																					terms and conditions
 																				</a>
 																				.
 																			</span>
 																		}
 																	/>
-																	<div
-																		className={
-																			classes.textCenter
-																		}
-																	>
-																		<ButtonBase type='submit'>
+																	<div className={classes.textCenter}>
+																		<ButtonBase type="submit">
 																			<Button
 																				round
-																				disabled={!terms}
-																				color='primary'
-																				component='div'
+																				disabled
+																				//disabled={!terms}
+																				color="primary"
+																				component="div"
 																			>
 																				Get Started
 																			</Button>
-																		</ButtonBase>{' '}
+																		</ButtonBase>{" "}
 																	</div>
 																</fieldset>
 															</form>

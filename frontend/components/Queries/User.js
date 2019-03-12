@@ -13,12 +13,14 @@ const CURRENT_USER_QUERY = gql`
 			biography
 			dob
 			location
-			imageThumbnail
 			genderPrefs
 			minAgePref
 			maxAgePref
-			imageLarge
-			createdAt
+			img {
+				default
+				img_url
+				id
+			}
 			permissions
 			liked {
 				id
@@ -28,14 +30,16 @@ const CURRENT_USER_QUERY = gql`
 			}
 			events {
 				id
-				title
-				description
-				url
-				image_url
-				times
-				venue
-				city
-				address
+			}
+			chats {
+				users {
+					id
+				}
+			}
+			interests {
+				id
+				category
+				name
 			}
 			stripeCustomerId
 		}
@@ -49,11 +53,13 @@ const User = props => (
 );
 
 export const isLoggedIn = async client => {
-	// let { data, error } = await client.readQuery({
-	// 	query: CURRENT_USER_QUERY,
-	// });
-	let data = client.cache.extract();
-	return Object.values(data).some(val => val.hasOwnProperty('currentUser'));
+	let response = await client.query({
+		query: CURRENT_USER_QUERY,
+	});
+	if (response) {
+		return { currentUser: response.data };
+	}
+	return {};
 };
 
 User.propTypes = {

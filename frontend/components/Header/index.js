@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import Router from 'next/router';
 import gql from 'graphql-tag';
-import { Mutation } from 'react-apollo';
+import { Mutation, Query } from 'react-apollo';
 import NProgress from 'nprogress';
+import moment from 'moment';
 import { useQuery } from 'react-apollo-hooks';
-import useInterval from '@rooks/use-interval';
+import { withRouter } from 'next/router';
 
 //MUI
 import withStyles from '@material-ui/core/styles/withStyles';
-import { List, ListItem, Badge } from '@material-ui/core';
+import { List, ListItem, Badge, Divider } from '@material-ui/core';
 import { AccountCircle, Explore, Mail } from '@material-ui/icons';
 import navbarsStyle from '../../static/jss/material-kit-pro-react/views/componentsSections/navbarsStyle.jsx';
 //Q&M
@@ -24,8 +25,7 @@ import CustomDropdown from '../../styledComponents/CustomDropdown/CustomDropdown
 import Button from '../../styledComponents/CustomButtons/Button.jsx';
 //assets
 // import image from '../../static/img/bg.jpg';
-import profileImage from '../../static/img/placeholder.jpg';
-import Logo from './UpFor';
+import profileStandIn from '../../static/img/placeholder.jpg';
 
 Router.onRouteChangeComplete = () => {
 	NProgress.done(true);
@@ -38,194 +38,235 @@ const SIGNOUT_MUTATION = gql`
 		}
 	}
 `;
-const Nav = ({ classes, color }) => {
-	const { data, loading, refetch } = useQuery(ALL_CHATS_QUERY);
-
-	useEffect(() => {
-		start();
-		return () => {
-			stop();
-		};
-	}, []);
-	const { start, stop } = useInterval(() => {
-		refetch();
-	}, 60000);
-
-	const [ newMessages, setNewMessages ] = useState([]);
-	useEffect(
-		() => {
-			if (data.getUserChats) {
-				console.log(data.getUserChats);
-				setNewMessages(
-					data.getUserChats
-						.filter(chat => chat.messages.some(message => !message.seen))
-						.flat(),
-				);
-			}
-		},
-		[ loading ],
-	);
+const Nav = ({ classes, color, router, href, currentUser }) => {
+	const { data, loading, refetch } = useQuery(ALL_CHATS_QUERY, {
+		pollInterval: 600,
+	});
 
 	const handleClick = (e, signout, client) => {
 		if (e === 'Sign out') {
 			signout();
-			Router.push('/joinus');
-			client.cache.reset().then(() => {});
+
+			client.cache.reset().then(() => {
+				Router.push('/joinus');
+			});
 		} else {
 			Router.push(`/billing`);
 		}
 	};
 
-	const formattedChats = newMessages => {
-		return newMessages.filter(msg => msg.messages).map(chatObj => {
-			let len = chatObj.messages.length - 1;
-			const { messages } = chatObj;
-			return {
-				from: messages[len].from.firstName,
-				text: messages[len].text,
-				img: messages[len].from.imageThumbnail,
-			};
-		});
+	const formattedChats = (newMessages, user) => {
+		return newMessages
+			.filter(msg => msg.messages)
+			.map(chatObj => {
+				let len = chatObj.messages.length - 1;
+				const { messages, users } = chatObj;
+				let [ usr ] = users.filter(usr => usr.id !== user.id);
+				let img = usr.img.length
+					? usr.img.find(img => img.default).img_url
+					: profileStandIn;
+				return {
+					id: chatObj.id,
+					from: usr.firstName,
+					fromId: usr.id,
+					text: messages[len].text,
+					img: img,
+					time: messages[len].createdAt,
+				};
+			})
+			.sort((a, b) => {
+				let dateA = new Date(a.time);
+				let dateB = new Date(b.time);
+				return dateB - dateA;
+			});
 	};
-	return (
-		<User>
-			{({ data: { currentUser }, client }) => {
-				let chats = formattedChats(newMessages); // these are formatted to the from, message, img object I told you about
-				console.log(chats);
-				return (
-					<Header
-						color={color}
-						//brand={Logo}
-						fixed={color === 'transparent'}
-						changeColorOnScroll={
-							color === 'transparent' && {
-								height: 300,
-								color: 'warning',
-							}
-						}
-						links={
-							<List className={classes.list + ' ' + classes.mlAuto}>
-								<ListItem className={classes.listItem}>
-									<Button
-										className={classes.navLink}
-										onClick={e => {
-											e.preventDefault();
-											Router.push('/');
-										}}
-										color='transparent'
-									>
-										<Explore /> Discover
-									</Button>
-								</ListItem>
-								<ListItem className={classes.listItem}>
-									<Button
-										className={classes.navLink}
-										onClick={e => {
-											e.preventDefault();
-											Router.push('/profile');
-										}}
-										color='transparent'
-									>
-										<AccountCircle /> Me
-									</Button>
-								</ListItem>
 
-								<ListItem className={classes.listItem}>
+	const newMessageCount = (newMessages, user) => {
+		return newMessages.reduce((count, mess) => {
+			let newcount = mess.messages.filter(msg => !msg.seen && msg.from.id !== user.id);
+
+			return [ ...count, ...newcount ];
+		}, []);
+	};
+	let chats = data.getUserChats ? formattedChats(data.getUserChats, currentUser) : [];
+	let newMessages = data.getUserChats ? newMessageCount(data.getUserChats, currentUser) : [];
+	let profileImage =
+		currentUser && currentUser.img.length
+			? currentUser.img.find(img => img.default).img_url
+			: profileStandIn;
+	return (
+		<Header
+			color={color}
+			//brand={Logo}
+			fixed={color === 'transparent'}
+			changeColorOnScroll={
+				color === 'transparent' ? (
+					{
+						height: 300,
+						color: 'warning',
+					}
+				) : null
+			}
+			links={
+				<List className={classes.list + ' ' + classes.mlAuto}>
+					<ListItem className={classes.listItem}>
+						<Button
+							className={classes.navLink}
+							onClick={e => {
+								e.preventDefault();
+								Router.push('/');
+							}}
+							color='transparent'
+						>
+							<Explore /> Discover
+						</Button>
+					</ListItem>
+					<ListItem className={classes.listItem}>
+						<Button
+							className={classes.navLink}
+							onClick={e => {
+								e.preventDefault();
+								Router.push('/profile');
+							}}
+							color='transparent'
+						>
+							<AccountCircle /> Me
+						</Button>
+					</ListItem>
+
+					<ListItem style={{ bottom: '5px' }} className={classes.listItem}>
+						<CustomDropdown
+							dropPlacement='bottom-end'
+							caret={false}
+							messages
+							hoverColor='dark'
+							dropdownHeader={
+								newMessages.length ? (
+									newMessages.length + ' new messages!'
+								) : (
+									'no new messages.'
+								)
+							}
+							buttonText={
+								<Badge badgeContent={newMessages.length} color='error'>
+									<Mail />
+								</Badge>
+							}
+							buttonProps={{
+								className: classes.navLink + ' ' + classes.imageDropdownButton,
+								color: 'transparent',
+							}}
+							dropdownList={
+								chats ? (
+									chats.map(chat => (
+										<Fragment>
+											<Divider className={classes.dropdownDividerItem} />
+											<div
+												onClick={() =>
+													Router.push(
+														`${router.pathname}?user=${chat.fromId}`,
+														`${router.pathname}/user/${chat.fromId}`,
+														{ shallow: true },
+														{ scroll: false },
+													)}
+												style={{
+													display: 'flex',
+													padding: '5px',
+													backgroundImage:
+														newMessages.some(
+															msg => msg.chat.id === chat.id,
+														) &&
+														'linear-gradient(to right, #e2dae1, #e0cede, #dec3da, #dbb7d7, #d9abd3)',
+												}}
+											>
+												<img
+													src={chat.img}
+													style={{
+														width: '40px',
+														height: '40px',
+														borderRadius: '50%',
+														marginRight: '15px',
+														boxShadow:
+															'0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
+													}}
+												/>
+												<div style={{ flexGrow: 1 }}>
+													<div
+														style={{
+															display: 'flex',
+															justifyContent: 'space-between',
+														}}
+													>
+														<p className={classes.title}>{chat.from}</p>
+														<small>{moment(chat.time).fromNow()}</small>
+													</div>
+													<div
+														style={{
+															maxWidth: '165px',
+															overflow: 'hidden',
+															textOverflow: 'ellipsis',
+														}}
+													>
+														{chat.text}
+													</div>
+												</div>
+											</div>
+										</Fragment>
+									))
+								) : (
+									[]
+								)
+							}
+						/>
+					</ListItem>
+					<Mutation
+						mutation={SIGNOUT_MUTATION}
+						refetchQueries={[ { query: CURRENT_USER_QUERY } ]}
+						awaitRefetchQueries
+					>
+						{(signout, { called, client }) => {
+							{
+								/* if (called) Router.push('/joinus'); */
+							}
+							return (
+								<ListItem
+									style={{ marginLeft: '10px' }}
+									className={classes.listItem}
+								>
 									<CustomDropdown
 										left
 										caret={false}
 										hoverColor='dark'
-										dropdownHeader={
-											newMessages.length &&
-											newMessages.length + ' new messages!'
-										}
+										dropdownHeader={currentUser && currentUser.firstName}
 										buttonText={
-											<Badge badgeContent={newMessages.length} color='error'>
-												<Mail />
-											</Badge>
+											<img
+												src={
+													currentUser && profileImage ? (
+														profileImage
+													) : (
+														profileStandIn
+													)
+												}
+												className={classes.img}
+												alt='profile'
+											/>
 										}
 										buttonProps={{
 											className:
 												classes.navLink + ' ' + classes.imageDropdownButton,
 											color: 'transparent',
 										}}
-										dropdownList={
-											chats ? (
-												chats.map(chat => (
-													<div style={{ display: 'flex' }}>
-														<img
-															src={chat.img}
-															style={{
-																width: '40px',
-																height: '40px',
-																borderRadius: '50%',
-															}}
-														/>
-														<div>
-															<div>{chat.from}</div>
-															<div>{chat.text}</div>
-														</div>
-													</div>
-												))
-											) : (
-												[]
-											)
-										}
+										dropdownList={[ 'Sign out' ]}
+										onClick={e => handleClick(e, signout, client)}
 									/>
 								</ListItem>
-								<Mutation
-									mutation={SIGNOUT_MUTATION}
-									refetchQueries={[ { query: CURRENT_USER_QUERY } ]}
-									awaitRefetchQueries
-								>
-									{(signout, { called }) => {
-										{
-											/* if (called) Router.push('/joinus'); */
-										}
-										return (
-											<ListItem className={classes.listItem}>
-												<CustomDropdown
-													left
-													caret={false}
-													hoverColor='dark'
-													dropdownHeader={
-														currentUser && currentUser.firstName
-													}
-													buttonText={
-														<img
-															src={
-																currentUser &&
-																currentUser.imageThumbnail ? (
-																	currentUser.imageThumbnail
-																) : (
-																	profileImage
-																)
-															}
-															className={classes.img}
-															alt='profile'
-														/>
-													}
-													buttonProps={{
-														className:
-															classes.navLink +
-															' ' +
-															classes.imageDropdownButton,
-														color: 'transparent',
-													}}
-													dropdownList={[ 'Billing', 'Sign out' ]}
-													onClick={e => handleClick(e, signout, client)}
-												/>
-											</ListItem>
-										);
-									}}
-								</Mutation>
-							</List>
-						}
-					/>
-				);
-			}}
-		</User>
+							);
+						}}
+					</Mutation>
+				</List>
+			}
+		/>
 	);
 };
 
-export default withStyles(navbarsStyle)(Nav);
+export default withRouter(withStyles(navbarsStyle)(Nav));

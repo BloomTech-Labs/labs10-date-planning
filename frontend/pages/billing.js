@@ -1,5 +1,5 @@
 import Billing from '../components/Billing/Billing';
-import TransactionList from '../components/Billing/TransactionList';
+
 import User from '../components/Queries/User';
 import { isLoggedIn } from '../components/Queries/User';
 import JoinUs from './joinus';
@@ -10,7 +10,7 @@ const BillingPage = () => (
 			if (loading) return <div>Loading...</div>;
 			if (error || !data.currentUser) return <JoinUs />;
 
-			return (
+			else return (
 				<>
 					<Billing currentUser={data.currentUser} />
 					{/* <TransactionList currentUser={currentUser} /> */}

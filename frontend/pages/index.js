@@ -7,7 +7,7 @@ import Home from './home';
 const Index = () => (
 	<User>
 		{({ data, loading, error }) => {
-			if (loading) return <div>loading</div>;
+			if (loading) return <div>index</div>;
 			if (error || !data.currentUser) return <JoinUs />;
 			else return <Home />;
 		}}
@@ -16,15 +16,14 @@ const Index = () => (
 
 // Index.getInitialProps = async ctx => {
 // 	let user = await isLoggedIn(ctx.apolloClient);
+// 	// console.log(user);
 
-// 	if (!user) {
-// 		redirect(ctx, '/joinus');
-// 	} else {
-// 		redirect(ctx, '/home');
+// 	if (!user.currentUser) {
+// 		console.log("no user Index.getInitProps");
+// 		// redirect(ctx, '/joinus');
 // 	}
-// 	//console.log(!user.currentUser && router.pathname !== '/joinus');
-// 	// if (!(user.currentUser && router.aspath != '/joinus')) {
-// 	// 	redirect(ctx, '/joinus');
+// 	// else {
+// 	// 	redirect(ctx, '/home');
 // 	// }
 // 	return {};
 // };

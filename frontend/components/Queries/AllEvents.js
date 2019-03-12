@@ -21,6 +21,7 @@ export const ALL_EVENTS_QUERY = gql`
 			page_count
 			total_items
 			page_number
+			page_total
 			location
 			events {
 				id
@@ -30,15 +31,18 @@ export const ALL_EVENTS_QUERY = gql`
 				description
 				times
 				genre
+				category
 				notes
 				attending {
 					id
 					dob
 					firstName
-					imageThumbnail
+					img {
+						id
+						default
+						img_url
+					}
 					biography
-					imageLarge
-					score
 				}
 				location {
 					venue

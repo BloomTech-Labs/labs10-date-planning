@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useRef, Fragment } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Mutation } from 'react-apollo';
 import moment from 'moment';
 import NProgress from 'nprogress';
 import { useMutation } from 'react-apollo-hooks';
+import Router from 'next/router';
 
 //query& M
 import { CURRENT_USER_QUERY } from '../Queries/User';
@@ -10,19 +11,21 @@ import { ADD_EVENT_MUTATION } from '../Mutations/addEvent';
 import { DELETE_EVENT_MUTATION } from '../Mutations/updateUser';
 
 //MUI
-import { Bookmark, ChevronLeft, BookmarkBorder, FlashOn } from '@material-ui/icons';
-import Favorite from '@material-ui/icons/Favorite';
-import Chat from '@material-ui/icons/ChatBubble';
-import Flip from '@material-ui/icons/RotateRight';
-import { IconButton, Typography, Avatar } from '@material-ui/core';
+import {
+	Favorite,
+	ChatBubble as Chat,
+	SubdirectoryArrowRightRounded as Flipper,
+	SubdirectoryArrowLeftRounded as Flopper,
+} from '@material-ui/icons';
+import { IconButton, Typography, Avatar, Button } from '@material-ui/core';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 //Images
 import Arrow from '../../static/img/up4Arrow.png';
+import standIn from '../../static/img/placeholder.jpg';
 
 //Components
-import UserModel from './EventModal';
-import InfoModal from './InfoModal';
+import Up4 from './UpFor';
 
 //Styled components
 import Card from '../../styledComponents/Card/Card';
@@ -37,41 +40,37 @@ import getAge from '../../utils/getAge';
 
 //styles
 import CardStyles from '../../static/jss/material-kit-pro-react/views/componentsSections/sectionCards';
-import '../../styles/Home/Event.scss';
-import '../../styles/Home/EventModal.scss';
-import { fileURLToPath } from 'url';
 
-const Event = ({ event, classes, user, refetch }) => {
+const Event = React.memo(({ event, classes, user, refetch }) => {
 	const deleteEvent = useMutation(DELETE_EVENT_MUTATION, {
 		variables: { id: event.id },
 	});
 
-	const [ modal, showModal ] = useState(false);
 	const [ rotate, setRotate ] = useState('');
-	const [ height, setHeight ] = useState('191px');
+	const [ height, setHeight ] = useState(0);
 	const [ val, set ] = useState(false);
 	const divEl = useRef(null);
 	const imgEl = useRef(null);
-	let isSaved = user.events.find(e => e.id === event.id);
+	let isSaved = user ? user.events.find(e => e.id === event.id) : false;
 
 	useEffect(
 		() => {
-			if (divEl) {
-				setHeight(`${divEl.current.clientHeight}px`);
+			NProgress.start();
+			if (imgEl.current) {
+				if (imgEl.current.complete) set(true);
 			}
 		},
-		[ divEl, val ],
+		[ imgEl ],
 	);
 
 	useEffect(
 		() => {
-			if (imgEl) {
-				if (imgEl.current.clientHeight === 0) {
-					set(true);
-				}
+			if (val) {
+				setHeight(`${divEl.current.clientHeight}px`);
+				NProgress.done();
 			}
 		},
-		[ imgEl ],
+		[ val ],
 	);
 
 	const handleClick = async (e, addEvent) => {
@@ -91,21 +90,30 @@ const Event = ({ event, classes, user, refetch }) => {
 	});
 
 	return (
-		<div style={{ height: 'max-content', position: 'relative' }}>
+		<div
+			style={{
+				height: 'max-content',
+				position: 'relative',
+				opacity: height === 0 ? '0' : '1',
+			}}
+		>
 			<div
 				style={{ height: height }}
 				className={`${classes.rotatingCardContainer} ${classes.manualRotate} ${rotate}`}
 			>
-				<Card blog className={`${classes.cardRotate}`}>
+				<Card blog className={classes.cardRotate}>
 					<div ref={divEl} className={`${classes.front} ${classes.eventBorder}`}>
 						{event.image_url && (
-							<CardHeader image>
+							<CardHeader style={{ position: 'relative' }} image>
 								<a href='#' onClick={e => e.preventDefault()}>
 									<img
 										style={{ border: '1px solid #cabac8' }}
 										ref={imgEl}
 										src={event.image_url}
 										alt='...'
+										onLoad={() => {
+											set(true);
+										}}
 									/>
 								</a>
 								<div
@@ -115,6 +123,73 @@ const Event = ({ event, classes, user, refetch }) => {
 										opacity: '1',
 									}}
 								/>
+								<Mutation
+									mutation={ADD_EVENT_MUTATION}
+									variables={{
+										title: event.title,
+										venue: event.location.venue,
+										image_url: event.image_url,
+										times: event.times,
+										city: event.location.city,
+										address: event.location.address,
+										lat: event.location.lat,
+										long: event.location.long,
+
+										description: event.description,
+									}}
+									update={(cache, { data: { addEvent } }) => {
+										const { currentUser } = cache.readQuery({
+											query: CURRENT_USER_QUERY,
+										});
+
+										cache.writeQuery({
+											query: CURRENT_USER_QUERY,
+											data: {
+												currentUser: {
+													...currentUser,
+													events: [ ...currentUser.events, addEvent ],
+												},
+											},
+										});
+									}}
+									onError={() => NProgress.done()}
+									onCompleted={() => {
+										NProgress.done();
+										refetch();
+									}}
+								>
+									{(addEvent, { error, loading, called, data }) => {
+										if (error) console.log(error);
+										if (called) NProgress.start();
+
+										return (
+											<div
+												className={
+													isSaved ? (
+														`${classes.up4} ${classes.up4Saved}`
+													) : (
+														classes.up4
+													)
+												}
+											>
+												<a href='#' onClick={e => e.preventDefault()}>
+													{isSaved ? (
+														<img
+															className={classes.arrow}
+															src={Arrow}
+														/>
+													) : (
+														<Up4
+															handleClick={e =>
+																handleClick(e, addEvent)}
+															justFour
+														/>
+													)}
+												</a>
+											</div>
+										);
+									}}
+								</Mutation>
 							</CardHeader>
 						)}
 						<CardBody className={classes.cardBodyRotate}>
@@ -141,22 +216,23 @@ const Event = ({ event, classes, user, refetch }) => {
 								</div>
 							</div>
 						</CardBody>
-
 						{/* {isSaved && <Bookmark className='Event__bookmark' />} */}
-						<CardFooter style={{ display: 'flex' }}>
-							{event.attending.length ? (
-								<Fragment>
-									<div
-										className={classes.cardFooter}
-										onClick={() => setRotate(classes.activateRotate)}
-									>
-										<Flip style={{ color: '#ff101f' }} />
-									</div>
-									<div style={{ display: 'flex' }}>
-										{event.attending.map(usr => (
+						{event.attending.length ? (
+							<CardFooter
+								style={{ display: 'flex', justifyContent: 'space-between' }}
+							>
+								<div style={{ display: 'flex' }}>
+									{event.attending.map(usr => {
+										return (
 											<img
 												key={usr.id}
-												src={usr.imageThumbnail}
+												src={
+													usr.img.length ? (
+														usr.img.find(img => img.default).img_url
+													) : (
+														standIn
+													)
+												}
 												style={{
 													width: '30px',
 													height: '30px',
@@ -164,69 +240,22 @@ const Event = ({ event, classes, user, refetch }) => {
 													border: '1px solid #cabac8',
 												}}
 											/>
-										))}
-									</div>
-								</Fragment>
-							) : (
-								''
-							)}
-							<Mutation
-								mutation={ADD_EVENT_MUTATION}
-								variables={{
-									title: event.title,
-									venue: event.location.venue,
-									image_url: event.image_url,
-									times: event.times,
-									city: event.location.city,
-									address: event.location.address,
-									lat: event.location.lat,
-									long: event.location.long,
-									description: event.description,
-								}}
-								update={(cache, { data: { addEvent } }) => {
-									const { currentUser } = cache.readQuery({
-										query: CURRENT_USER_QUERY,
-									});
-
-									cache.writeQuery({
-										query: CURRENT_USER_QUERY,
-										data: {
-											currentUser: {
-												...currentUser,
-												events: [ ...currentUser.events, addEvent ],
-											},
-										},
-									});
-								}}
-								onError={() => NProgress.done()}
-								onCompleted={async () => {
-									await refetch();
-								}}
-							>
-								{(addEvent, { error, loading, called, data }) => {
-									if (error) console.log(error);
-									if (called) NProgress.start();
-
-									return (
-										<a href='#' onClick={e => e.preventDefault()}>
-											{isSaved ? (
-												<img className={classes.arrow} src={Arrow} />
-											) : (
-												<img
-													onClick={e => handleClick(e, addEvent)}
-													className={classes.arrow}
-													style={{
-														filter: 'grayscale(100%)',
-														opacity: '.4',
-													}}
-													src={Arrow}
-												/>
-											)}
-										</a>
-									);
-								}}
-							</Mutation>
-						</CardFooter>
+										);
+									})}
+								</div>
+								<div
+									onClick={() => setRotate(classes.activateRotate)}
+									className={classes.flip}
+								>
+									<Flipper
+										className={classes.flipper}
+										style={{ fontSize: '36px' }}
+									/>
+								</div>
+							</CardFooter>
+						) : (
+							''
+						)}
 						{/* <EventModal modal={modal} showModal={showModal} event={event} /> */}
 					</div>
 					<GridContainer
@@ -246,12 +275,6 @@ const Event = ({ event, classes, user, refetch }) => {
 								className={`${classes.cardBodyRotate} ${classes.cardBodyReverse}`}
 							>
 								<div className={classes.cardBodyRotateHeader}>
-									<IconButton
-										style={{ height: '30px', width: '30px' }}
-										onClick={() => setRotate('')}
-									>
-										<ChevronLeft />
-									</IconButton>
 									<div>
 										<h3 className={classes.cardTitle}>
 											<a href='#' onClick={e => e.preventDefault()}>
@@ -260,7 +283,8 @@ const Event = ({ event, classes, user, refetch }) => {
 										</h3>
 										<h6 style={{ color: '#263238', fontSize: '15px' }}>
 											Showing{' '}
-											{!user.genderPrefs.length ||
+											{!user ||
+											!user.genderPrefs.length ||
 											user.genderPrefs.length === 3 ? (
 												<span className='genderPreference'>everyone</span>
 											) : user.genderPrefs.includes(
@@ -279,72 +303,100 @@ const Event = ({ event, classes, user, refetch }) => {
 												style={{ marginRight: '3px' }}
 												className='agePreference'
 											>
-												{user.minAgePref || '18'}
+												{user && user.minAgePref ? user.minAgePref : '18'}
 											</span>
 											and{' '}
 											<span className='agePreference'>
-												{user.maxAgePref || '100'}
+												{user && user.maxAgePref ? user.maxAgePref : '100'}
 											</span>
 										</h6>
 									</div>
 								</div>
 								<GridContainer>
-									{event.attending.map(usr => (
-										<GridItem
-											key={usr.id}
-											sm={4}
-											md={4}
-											style={{ padding: '5px', position: 'relative' }}
-										>
-											<Favorite className={classes.favorite} />
-											<Chat className={classes.chat} />
-											<div
-												className='user_card'
-												onClick={() => showModal(true)}
+									{event.attending.map(usr => {
+										let chat = user
+											? user.chats.find(x =>
+													x.users.some(y => y.id === usr.id),
+												)
+											: false;
+										let liked = user
+											? user.liked.find(x => x.id === usr.id)
+											: false;
+
+										return (
+											<GridItem
+												key={usr.id}
+												sm={4}
+												md={4}
+												style={{ padding: '5px', position: 'relative' }}
 											>
+												{liked && <Favorite className={classes.favorite} />}
+												{chat && <Chat className={classes.chat} />}
 												<div
-													className={` gradient_border ${classes.userCardBorder}`}
+													onClick={() => {
+														NProgress.start();
+														Router.push(
+															`/home?user=${usr.id}`,
+															`/home/user/${usr.id}`,
+															{ shallow: true },
+															{ scroll: false },
+														);
+													}}
 												>
-													<Avatar
-														src={usr.imageThumbnail}
-														imgProps={{ height: 70, width: 70 }}
-														style={{
-															width: '100%',
-															height: '124px',
-															borderRadius: '6px',
-														}}
-													/>
 													<div
-														style={{
-															display: 'flex',
-															justifyContent: 'center',
-														}}
+														className={` ${classes.gradientBorder}  ${classes.userCard}`}
 													>
-														<p style={{ margin: 0 }}>
-															{usr.firstName} |{' '}
-														</p>
-														<p style={{ margin: '0 0 0 2px' }}>
-															{getAge(usr.dob)}
-														</p>
+														<Avatar
+															src={
+																usr.img.length ? (
+																	usr.img.find(img => img.default)
+																		.img_url
+																) : (
+																	standIn
+																)
+															}
+															imgProps={{ height: 70, width: 70 }}
+															style={{
+																width: '100%',
+																height: '124px',
+																borderRadius: '6px',
+															}}
+														/>
+														<div
+															style={{
+																display: 'flex',
+																justifyContent: 'center',
+															}}
+														>
+															<p style={{ margin: 0 }}>
+																{usr.firstName} |{' '}
+															</p>
+															<p style={{ margin: '0 0 0 2px' }}>
+																{getAge(usr.dob)}
+															</p>
+														</div>
 													</div>
 												</div>
-											</div>
-											<UserModel
-												modal={modal}
-												showModal={showModal}
-												potentialMatch={usr}
-											/>
-										</GridItem>
-									))}
+											</GridItem>
+										);
+									})}
 								</GridContainer>
+								<div
+									onClick={() => setRotate('')}
+									className={` ${classes.flip} ${classes.flop}`}
+								>
+									<Flopper
+										className={classes.flipper}
+										style={{ fontSize: '36px' }}
+									/>
+								</div>
 							</CardBody>
 						</GridItem>
 					</GridContainer>
-					<InfoModal showModal={showModal} modal={modal} />
 				</Card>
 			</div>
 		</div>
 	);
-};
+});
 
 export default withStyles(CardStyles)(Event);

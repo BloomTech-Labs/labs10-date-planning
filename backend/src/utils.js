@@ -5,6 +5,7 @@ module.exports = {
 	transformEvents: function(user, eventsArr, db) {
 		return eventsArr.reduce(async (previousPromise, ev) => {
 			let events = await previousPromise;
+
 			let existingEvent = events.findIndex(e => e.title === ev.name);
 			if (existingEvent !== -1) {
 				events[existingEvent].times.push(ev.dates.start.dateTime);
@@ -22,7 +23,7 @@ module.exports = {
 							],
 						},
 					},
-					`{id times attending {id firstName imageThumbnail imageLarge dob gender biography age minAgePref maxAgePref genderPrefs blocked { id }}}`,
+					`{id times  attending {id firstName imageThumbnail img {id default img_url} imageLarge dob gender biography age minAgePref maxAgePref genderPrefs blocked { id }}}`,
 				);
 
 				let eventInDb;
@@ -48,7 +49,7 @@ module.exports = {
 						attending: attendee,
 					};
 				}
-				console.log(eventInDb);
+
 				const [ img ] = ev.images.filter(img => img.width > 500);
 
 				events.push({
@@ -60,7 +61,10 @@ module.exports = {
 					times: ev.dates.start.noSpecificTime
 						? [ ev.dates.start.localDate ]
 						: [ ev.dates.start.dateTime ],
-					genre: ev.classifications[0].genre && ev.classifications[0].genre.name,
+					genre: ev.classifications[0].genre ? ev.classifications[0].genre.name : null,
+
+					category: ev.classifications[0].segment && ev.classifications[0].segment.name,
+
 					info: ev.info || null,
 					description: ev.info || null,
 					price: {
@@ -248,7 +252,7 @@ module.exports = {
 					id: currentUserId,
 				},
 			},
-			`{ events { genre } }`,
+			`{ events { genre  } }`,
 		);
 
 		// get unique genre list for current user

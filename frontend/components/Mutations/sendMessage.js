@@ -4,14 +4,24 @@ export const SEND_MESSAGE_MUTATION = gql`
 	mutation SEND_MESSAGE_MUTATION($id: String!, $message: String!) {
 		sendMessage(id: $id, message: $message) {
 			id
-			text
-			from {
+			users {
 				id
 				firstName
-				imageLarge
 			}
-			createdAt
-			seen
+			messages {
+				id
+				text
+				seen
+				from {
+					id
+					firstName
+					img {
+						default
+						img_url
+					}
+				}
+				createdAt
+			}
 		}
 	}
 `;
