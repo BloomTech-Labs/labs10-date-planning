@@ -48,4 +48,20 @@ module.exports = {
 			);
 		},
 	},
+	myMessage: {
+		async subscribe(parent, args, ctx, info) {
+			return ctx.db.subscription.directMessage(
+				{
+					where: {
+						node: {
+							chat: {
+								id: args.chatId
+							},
+						},
+					},
+				},
+				info,
+			);
+		},
+	},
 };
