@@ -12,17 +12,17 @@ const Index = () => (
 	</User>
 );
 
-Index.getInitialProps = async ctx => {
-	let user = await isLoggedIn(ctx.apolloClient);
+// Index.getInitialProps = async ctx => {
+// 	let user = await isLoggedIn(ctx.apolloClient);
 
-	if (user.currentUser) {
-		redirect(ctx, "/home");
-	}
-	// 	//console.log(!user.currentUser && router.pathname !== '/joinus');
-	// 	// if (!(user.currentUser && router.aspath != '/joinus')) {
-	// 	// 	redirect(ctx, '/joinus');
-	// 	// }
-	return {};
+// 	if (user.currentUser) {
+// 		redirect(ctx, "/home");
+// 	}
+// 	// 	//console.log(!user.currentUser && router.pathname !== '/joinus');
+// 	// 	// if (!(user.currentUser && router.aspath != '/joinus')) {
+// 	// 	// 	redirect(ctx, '/joinus');
+// 	// 	// }
+// 	return {};
 };
 
 export default Index;
