@@ -43,7 +43,7 @@ const Gender = ({ user }) => {
               alignItems: "center",
               justifyContent: "center",
               backgroundColor: "rgb(0,0,0,.6)",
-              padding: "40px",
+              padding: "90px",
               //   border: '2px solid #ff101f',
               borderRadius: "6px"
             }}
