@@ -18,15 +18,16 @@ import Pro from "./ProFeatures";
 
 import style from "../../static/jss/Welcome/welcomeStyles";
 
-// import triangle1 from '../../static/img/triangle1.svg';
 
-// import triangle2 from '../../static/img/triangle2.svg/';
-// import triangle3 from '../../static/img/triangle3.svg/';
-// import triangle4 from '../../static/img/triangle4.svg/';
-// import triangle5 from '../../static/img/triangle5.svg/';
-// import triangle6 from '../../static/img/triangle6.svg/';
-// import triangle7 from '../../static/img/triangle7.svg/';
-// import triangle8 from '../../static/img/triangle8.svg/';
+import triangle1 from '../../static/img/triangle1.svg';
+import triangle2 from '../../static/img/triangle2.svg';
+import triangle3 from '../../static/img/triangle3.svg';
+import triangle4 from '../../static/img/triangle4.svg';
+import triangle5 from '../../static/img/triangle5.svg';
+import triangle6 from '../../static/img/triangle6.svg';
+import triangle7 from '../../static/img/triangle7.svg';
+import triangle8 from '../../static/img/triangle8.svg';
+
 
 function getSteps() {
   return [
@@ -70,43 +71,36 @@ function getStepContent(stepIndex, user) {
 function getImage(stepIndex) {
   switch (stepIndex) {
     case 0:
-      // return "../../static/img/triangle1.svg";
       return triangle1;
     case 1:
-      return "../../static/img/triangle2.svg";
+      return triangle1;
     case 2:
-      return "../../static/img/triangle3.svg";
+      return triangle2;
     case 3:
-      return "../../static/img/triangle4.svg";
+      return triangle3;
     case 4:
-      return "../../static/img/triangle5.svg";
+      return triangle4;
     case 5:
-      return "../../static/img/triangle6.svg";
+      return triangle5;
     case 6:
-      return "../../static/img/triangle7.svg";
+      return triangle6;
     case 7:
-      return "../../static/img/triangle8.svg";
+      return triangle7;
     case 8:
-      return "../../static/img/triangle1.svg";
+      return triangle8;
     default:
       return null;
   }
 }
 
 const Welcome = ({ classes, user, router: { query } }) => {
-  const steps = getSteps();
+	const steps = getSteps();
+	console.log(getImage(parseInt(query.slug)));
 
   return (
     <div
-      className={classes.pageHeader}
-      style={{
-        // backgroundImage: `url(${getImage(query.slug)})`,
-        // backgroundImage: triangle1,
-        backgroundImage: `url(../../static/img/triangle1.svg)`,
-        backgroundSize: "cover",
-        backgroundPosition: "top center"
-      }}
-    >
+      className={classes.pageHeader}>
+		<img src={getImage(parseInt(query.slug))} style={{height: '100vh', width: '100vw', position: 'absolute', zIndex: '-10'}} />
       <div
         style={{
           height: "100vh",
@@ -129,7 +123,12 @@ const Welcome = ({ classes, user, router: { query } }) => {
                 classes={{
                   label: classes.step
                 }}
-                StepIconProps={{ classes: { active: classes.active, completed: classes.completed } }}
+                StepIconProps={{
+                  classes: {
+                    active: classes.active,
+                    completed: classes.completed
+                  }
+                }}
               >
                 {label}
               </StepLabel>

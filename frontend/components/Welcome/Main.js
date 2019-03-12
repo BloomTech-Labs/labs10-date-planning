@@ -13,7 +13,7 @@ const Main = ({ user }) => {
         color: "white",
         display: "flex",
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
       }}
     >
       <div
