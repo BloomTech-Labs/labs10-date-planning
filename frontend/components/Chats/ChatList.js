@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { withApollo, Query, Mutation } from 'react-apollo';
+import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import Chats from './Chats'
 
@@ -14,6 +14,11 @@ const ALL_CHATS_QUERY = gql`
 			messages {
 				id
 				text
+        seen
+        from {
+          id
+        }
+        updatedAt
 			}
 		}
 	}
@@ -34,6 +39,10 @@ const MY_CHAT_SUBSCRIPTION = gql`
         messages {
           id
           text
+          seen
+          from {
+            id
+          }
         }
       }
     }
@@ -52,15 +61,16 @@ const MY_MESSAGE_SUBSCRIPTION = gql`
         }
         id
         text
+        seen
+        from {
+          id
+        }
       }
     }
   }
 `
 
 export default ({ user }) => {
-  const friend_id = "cjt338qnr010h0872slg4lwuw"
-  const [message, setMessage] = useState('')
-
   return (
     <Query query={ALL_CHATS_QUERY}>
       {({ loading, error, data, subscribeToMore }) => {
