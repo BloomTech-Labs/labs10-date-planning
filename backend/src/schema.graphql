@@ -26,6 +26,7 @@ type Mutation {
 	unlikeUser(id: String!): User!
 	updateSeenMessage(chatId: String!): Chat!
 	deleteManyGenres(where: GenreWhereInput): BatchPayload!
+	markAllAsSeen(chatId: String!): Chat!
 }
 
 type Query {
@@ -76,6 +77,11 @@ type ChatSubscriptionPayload {
 type MessageSubscriptionPayload {
 	mutation: MutationType!
 	node: DirectMessage
+}
+
+type BatchPayload {
+  """The number of nodes that have been affected by the Batch operation."""
+  count: Long!
 }
 
 type DirectMessage {
