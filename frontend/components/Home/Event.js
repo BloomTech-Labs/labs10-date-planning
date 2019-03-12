@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Mutation } from 'react-apollo';
 import moment from 'moment';
 import NProgress from 'nprogress';
-import { useMutation } from 'react-apollo-hooks';
+import { useMutation } from '../Mutations/useMutation';
 import Router from 'next/router';
 
 //query& M
@@ -42,8 +42,10 @@ import getAge from '../../utils/getAge';
 import CardStyles from '../../static/jss/material-kit-pro-react/views/componentsSections/sectionCards';
 
 const Event = React.memo(({ event, classes, user, refetch }) => {
-	const deleteEvent = useMutation(DELETE_EVENT_MUTATION, {
+	const [ deleteEvent ] = useMutation(DELETE_EVENT_MUTATION, {
 		variables: { id: event.id },
+		onCompleted: e => console.log(e),
+		onError: e => console.log(e),
 	});
 
 	const [ rotate, setRotate ] = useState('');
@@ -155,7 +157,6 @@ const Event = React.memo(({ event, classes, user, refetch }) => {
 									onError={() => NProgress.done()}
 									onCompleted={() => {
 										NProgress.done();
-										refetch();
 									}}
 								>
 									{(addEvent, { error, loading, called, data }) => {
@@ -172,12 +173,14 @@ const Event = React.memo(({ event, classes, user, refetch }) => {
 													)
 												}
 											>
-												<a href='#' onClick={e => e.preventDefault()}>
+												<div style={{ cursor: 'pointer' }}>
 													{isSaved ? (
-														<img
-															className={classes.arrow}
-															src={Arrow}
-														/>
+														<div onClick={() => deleteEvent()}>
+															<img
+																className={classes.arrow}
+																src={Arrow}
+															/>
+														</div>
 													) : (
 														<Up4
 															handleClick={e =>
@@ -185,7 +188,7 @@ const Event = React.memo(({ event, classes, user, refetch }) => {
 															justFour
 														/>
 													)}
-												</a>
+												</div>
 											</div>
 										);
 									}}
@@ -222,7 +225,7 @@ const Event = React.memo(({ event, classes, user, refetch }) => {
 								style={{ display: 'flex', justifyContent: 'space-between' }}
 							>
 								<div style={{ display: 'flex' }}>
-									{event.attending.map(usr => {
+									{event.attending.filter(x => x.id !== user.id).map(usr => {
 										return (
 											<img
 												key={usr.id}
