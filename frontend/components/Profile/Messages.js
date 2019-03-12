@@ -25,6 +25,7 @@ Router.onRouteChangeComplete = () => {
 
 const Messages = ({ classes, color, router, href, user }) => {
 	const [ selectedChatId, setSelectedChatId ] = useState(undefined);
+	const [ newChatUser, setNewChatUser ] = useState(undefined);
 
 	const { data, loading, refetch } = useQuery(ALL_CHATS_QUERY, {
 		pollInterval: 600,
@@ -34,38 +35,63 @@ const Messages = ({ classes, color, router, href, user }) => {
 		setSelectedChatId(chatId);
 	};
 
+	const handleSelectUser = usr => {
+		console.log(usr);
+		let chat;
+		if (data.getUserChats && data.getUserChats.length) {
+			chat = data.getUserChats.find(chat => chat.users.some(x => x.id === usr.id));
+		}
+		if (chat) setSelectedChatId(chat.id);
+		else {
+			setSelectedChatId(undefined);
+			setNewChatUser(usr);
+		}
+	};
+
 	if (!data) return <div>loading</div>;
 
 	const formattedChats = userChats => {
-		return userChats.filter(msg => msg.messages).map(chatObj => {
-			let len = chatObj.messages.length - 1;
-			const { messages, users } = chatObj;
-			let [ usr ] = users.filter(usr => usr.id !== user.id);
-			let img = usr.img.length ? usr.img.find(img => img.default).img_url : profileStandIn;
-			return {
-				id: chatObj.id,
-				from: usr.firstName,
-				fromId: usr.id,
-				text: messages[len].text,
-				img: img,
-				time: messages[len].createdAt,
-			};
-		});
+		return userChats
+			.filter(msg => msg.messages)
+			.map(chatObj => {
+				let newMsgs = chatObj.messages.filter(msg => msg.from.id !== user.id && !msg.seen);
+				let len = chatObj.messages.length - 1;
+				const { messages, users } = chatObj;
+				let [ usr ] = users.filter(usr => usr.id !== user.id);
+				let img = usr.img.length
+					? usr.img.find(img => img.default).img_url
+					: profileStandIn;
+
+				return {
+					id: chatObj.id,
+					from: usr.firstName,
+					fromId: usr.id,
+					text: messages[len].text,
+					img: img,
+					time: messages[len].createdAt,
+					newMsgs: newMsgs.length,
+				};
+			})
+			.sort((a, b) => {
+				let dateA = new Date(a.time);
+				let dateB = new Date(b.time);
+				return dateB - dateA;
+			});
 	};
 
 	const selectedChat =
 		selectedChatId && data.getUserChats
 			? data.getUserChats.filter(chat => chat.id === selectedChatId)
 			: [];
-	console.log(selectedChat);
+
 	const chatUser = selectedChat.length
 		? selectedChat[0].users.find(usr => usr.id !== user.id)
 		: null;
-	console.log(chatUser);
+
 	return (
 		<div className={classes.container} style={{ padding: '30px 0 50px' }}>
 			<GridContainer style={{ height: '100%', flexDirection: 'column' }}>
-				<LikedBy user={user} />
+				<LikedBy user={user} setSelected={handleSelectUser} />
 				<GridContainer style={{ height: 'calc(100vh - 300px)' }}>
 					<GridItem sm={12} md={4} lg={4}>
 						<Paper
@@ -73,7 +99,7 @@ const Messages = ({ classes, color, router, href, user }) => {
 							className={classes.paper}
 						>
 							<Typography
-								variant='h6'
+								variant='div'
 								gutterBottom
 								style={{
 									backgroundImage:
@@ -93,13 +119,14 @@ const Messages = ({ classes, color, router, href, user }) => {
 								userChats={formattedChats(data.getUserChats)}
 								currentUser={user}
 								handleSelectMessage={handleSelectMessage}
+								selectedChat={selectedChat}
 							/>
 						</Paper>
 					</GridItem>
 					<GridItem sm={12} md={8} lg={8} style={{ maxHeight: 'calc(100vh - 300px)' }}>
 						<Paper className={classes.paper} style={{ height: '100%' }}>
 							<Typography
-								variant='h6'
+								variant='div'
 								gutterBottom
 								style={{
 									backgroundImage:
@@ -110,18 +137,29 @@ const Messages = ({ classes, color, router, href, user }) => {
 									color: 'white',
 								}}
 							>
-								{!chatUser ? (
+								{!chatUser && !newChatUser ? (
 									<h4 style={{ margin: '15px' }} className={classes.title}>
 										Select a user to the left.
 									</h4>
 								) : (
 									<span style={{ display: 'flex', alignItems: 'center' }}>
 										<img
-											src={chatUser.img.find(x => x.default).img_url}
-											style={{ height: '65px', borderRadius: '6px' }}
+											onClick={() => Router.push(`/profile?slug=chats&user=${chatUser ? chatUser.id : newChatUser.id}`, `/profile/chat/user/${chatUser ? chatUser.id : newChatUser.id}`, {shallow: true})}
+											src={
+												chatUser ? (
+													chatUser.img.find(x => x.default).img_url
+												) : (
+													newChatUser.img.find(x => x.default).img_url
+												)
+											}
+											style={{
+												height: '65px',
+												borderRadius: '6px',
+												cursor: 'pointer',
+											}}
 										/>
 										<h3 style={{ margin: '0 10px' }} className={classes.title}>
-											{chatUser.firstName}
+											{chatUser ? chatUser.firstName : newChatUser.firstName}
 										</h3>
 									</span>
 								)}
@@ -130,6 +168,7 @@ const Messages = ({ classes, color, router, href, user }) => {
 								selectedChat={selectedChat}
 								currentUser={user}
 								selectedChatId={selectedChatId}
+								newChat={newChatUser}
 							/>
 						</Paper>
 					</GridItem>

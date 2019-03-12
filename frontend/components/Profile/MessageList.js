@@ -13,7 +13,7 @@ import { Send } from '@material-ui/icons';
 import withStyles from '@material-ui/core/styles/withStyles';
 import styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles.jsx';
 
-const MessageList = ({ classes, selectedChat, currentUser, selectedChatId }) => {
+const MessageList = ({ classes, selectedChat, currentUser, selectedChatId, newChat }) => {
 	const [ message, setMessage ] = useState('');
 	const msgRef = useRef(null);
 	let friend;
@@ -64,7 +64,7 @@ const MessageList = ({ classes, selectedChat, currentUser, selectedChatId }) => 
 										key={message.id}
 										avatar={img}
 										title={
-											<span>
+											<span style={{ color: '#fafafa' }}>
 												{message.from.firstName}{' '}
 												<small>
 													· {moment(message.createdAt).fromNow()}
@@ -78,24 +78,28 @@ const MessageList = ({ classes, selectedChat, currentUser, selectedChatId }) => 
 													wordBreak: 'break-word',
 												}}
 											>
-												<p>{message.text}</p>
+												<p style={{ color: '#fafafa' }}>{message.text}</p>
 											</span>
 										}
 									/>
 								);
 							})}
 						</div>
-						{selectedChatId && (
+						{(selectedChatId || newChat) && (
 							<Fragment>
 								{' '}
 								<Mutation
 									mutation={SEND_MESSAGE_MUTATION}
-									variables={{ id: friend.id, message: message }}
+									variables={{
+										id: selectedChatId ? friend.id : newChat.id,
+										message: message,
+									}}
 									onCompleted={() => NProgress.done()}
 									onError={() => NProgress.done()}
 								>
 									{sendMessage => (
 										<Media
+											currentUser
 											style={{
 												width: '100%',
 												borderTop: '2px solid #bdbdbd',
@@ -112,9 +116,12 @@ const MessageList = ({ classes, selectedChat, currentUser, selectedChatId }) => 
 													inputProps={{
 														multiline: true,
 														rows: 6,
-														placeholder: `Respond to ${friend.firstName}`,
+														placeholder: selectedChatId
+															? `Respond to ${friend.firstName}`
+															: `Start a conversation with ${newChat.firstName}`,
 														value: message,
 														onChange: e => setMessage(e.target.value),
+														style: { color: '#fafafa' },
 													}}
 												/>
 											}
