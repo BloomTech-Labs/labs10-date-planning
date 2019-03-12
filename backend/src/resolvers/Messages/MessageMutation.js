@@ -56,7 +56,7 @@ module.exports = {
 		// User should logged in to create chat
 		if (!user) throw new Error('You must be logged in to send a message!');
 
-		// FREE users can only send 10 messages per week
+		// FREE users can only send 20 messages per week
 		if (user.permissions = 'FREE') {
 			const sentMessages = await db.query.directMessages({
 				where: {
@@ -67,7 +67,7 @@ module.exports = {
 				}
 			})
 
-			if (sentMessages.length >= 1000) throw new Error('You have reached 20 DMs per week for FREE account.')
+			if (sentMessages.length >= 20) throw new Error('You have reached 20 DMs per week for FREE account.')
 		}
 
 		let [ chat ] = await db.query.chats({
