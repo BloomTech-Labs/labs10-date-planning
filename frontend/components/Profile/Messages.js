@@ -53,31 +53,17 @@ const Messages = ({ classes, color, router, href, user }) => {
 		});
 	};
 
-	// const newMessageCount = (newMessages, user) => {
-	// 	return newMessages.reduce((count, mess) => {
-	// 		let newcount = mess.messages.filter(msg => !msg.seen && msg.from.id !== user.id);
-
-	// 		return [ ...count, ...newcount ];
-	// 	}, []);
-	// };
 	const selectedChat =
 		selectedChatId && data.getUserChats
 			? data.getUserChats.filter(chat => chat.id === selectedChatId)
 			: [];
-	console.log(user);
+	console.log(selectedChat);
+	const chatUser = selectedChat.length
+		? selectedChat[0].users.find(usr => usr.id !== user.id)
+		: null;
+	console.log(chatUser);
 	return (
 		<div className={classes.container} style={{ padding: '30px 0 50px' }}>
-			{/* <Paper
-					style={{
-						display: 'flex',
-						// margin: "20px",
-						// padding: "30px",
-						// backgroundColor: '#fafafa',
-						// backgroundImage:
-						// 	'url("https://www.transparenttextures.com/patterns/brilliant.png")',
-						margin: '30px 0',
-					}}
-				> */}
 			<GridContainer style={{ height: '100%', flexDirection: 'column' }}>
 				<LikedBy user={user} />
 				<GridContainer style={{ height: 'calc(100vh - 300px)' }}>
@@ -93,12 +79,15 @@ const Messages = ({ classes, color, router, href, user }) => {
 									backgroundImage:
 										'linear-gradient(to right, #b2ddf7, #a8daf9, #9fd8fb, #94d5fd, #8ad2ff)',
 									textAlign: 'center',
-									padding: '15px',
+									padding: '7px',
 									borderTopLeftRadius: '6px',
 									color: 'white',
 								}}
 							>
-								Slidin' in to your DMs
+								{' '}
+								<h4 style={{ margin: '15px' }} className={classes.title}>
+									Slidin' in to your DMs
+								</h4>
 							</Typography>
 							<ChatList
 								userChats={formattedChats(data.getUserChats)}
@@ -108,15 +97,7 @@ const Messages = ({ classes, color, router, href, user }) => {
 						</Paper>
 					</GridItem>
 					<GridItem sm={12} md={8} lg={8} style={{ maxHeight: 'calc(100vh - 300px)' }}>
-						<Paper
-							className={classes.paper}
-							style={{ height: '100%' }}
-							// style={{
-							// 	backgroundColor: '#fafafa',
-							// 	backgroundImage:
-							// 		'url("https://www.transparenttextures.com/patterns/brilliant.png")',
-							// }}
-						>
+						<Paper className={classes.paper} style={{ height: '100%' }}>
 							<Typography
 								variant='h6'
 								gutterBottom
@@ -124,12 +105,26 @@ const Messages = ({ classes, color, router, href, user }) => {
 									backgroundImage:
 										'linear-gradient(to right, #b2ddf7, #a8daf9, #9fd8fb, #94d5fd, #8ad2ff)',
 									textAlign: 'center',
-									padding: '15px',
+									padding: '7px',
 									borderTopLeftRadius: '6px',
 									color: 'white',
 								}}
 							>
-								{!selectedChat.length ? 'Select a user to the left.' : 'hi'}
+								{!chatUser ? (
+									<h4 style={{ margin: '15px' }} className={classes.title}>
+										Select a user to the left.
+									</h4>
+								) : (
+									<span style={{ display: 'flex', alignItems: 'center' }}>
+										<img
+											src={chatUser.img.find(x => x.default).img_url}
+											style={{ height: '65px', borderRadius: '6px' }}
+										/>
+										<h3 style={{ margin: '0 10px' }} className={classes.title}>
+											{chatUser.firstName}
+										</h3>
+									</span>
+								)}
 							</Typography>
 							<MessageList
 								selectedChat={selectedChat}

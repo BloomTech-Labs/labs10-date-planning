@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, useRef, useEffect, Fragment } from 'react';
 import { Query, Mutation } from 'react-apollo';
 import { SEND_MESSAGE_MUTATION } from '../Mutations/sendMessage';
 import { GET_CONVERSATION_QUERY } from '../Queries/getConvo';
@@ -9,24 +9,25 @@ import NProgress from 'nprogress';
 import Button from '../../styledComponents/CustomButtons/Button';
 import CustomInput from '../../styledComponents/CustomInput/CustomInput.jsx';
 import Media from '../../styledComponents/Media/Media.jsx';
-import {
-	BookmarkBorder,
-	Close,
-	Send,
-	Favorite,
-	FavoriteBorder,
-	NotInterested,
-} from '@material-ui/icons';
+import { Send } from '@material-ui/icons';
 import withStyles from '@material-ui/core/styles/withStyles';
 import styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles.jsx';
 
 const MessageList = ({ classes, selectedChat, currentUser, selectedChatId }) => {
 	const [ message, setMessage ] = useState('');
-
+	const msgRef = useRef(null);
 	let friend;
 	if (selectedChat.length > 0) {
 		friend = selectedChat[0].users.filter(user => user.id !== currentUser.id)[0];
 	}
+	useEffect(
+		() => {
+			if (msgRef.current) {
+				msgRef.current.scrollTop = msgRef.current.scrollHeight;
+			}
+		},
+		[ selectedChat ],
+	);
 
 	if (selectedChat.length === 0)
 		return (
@@ -46,16 +47,12 @@ const MessageList = ({ classes, selectedChat, currentUser, selectedChatId }) => 
 						style={{
 							flexGrow: 1,
 							height: '100%',
+							overflow: 'scroll',
 							display: 'flex',
 							flexDirection: 'column',
 						}}
 					>
-						<div
-							className={classes.messageList}
-							style={{
-								overflow: 'scroll',
-							}}
-						>
+						<div className={classes.messageList} ref={msgRef}>
 							{getConversation.messages.map(message => {
 								let img = message.from.img.find(img => img.default).img_url;
 
