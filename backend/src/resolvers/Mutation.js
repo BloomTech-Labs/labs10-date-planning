@@ -447,7 +447,7 @@ const Mutation = {
 
 		const verifySent = authy.phones().verification_start(args.phone, '1', 'sms', (err, res) => {
 			if (err) {
-				console.log(err);
+				throw new Error(err);
 			}
 			return res.message;
 		});

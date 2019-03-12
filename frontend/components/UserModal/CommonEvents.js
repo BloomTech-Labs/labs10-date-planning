@@ -23,7 +23,7 @@ const CommonEvents = ({ classes, id }) => {
 			<GridContainer>
 				{data.getSharedEvents.length ? (
 					data.getSharedEvents.map(event => (
-						<GridItem sm={12} md={12} lg={12}>
+						<GridItem sm={12} md={12} lg={12} key={event.id}>
 							<Card
 								background
 								style={{
@@ -32,8 +32,7 @@ const CommonEvents = ({ classes, id }) => {
 									borderRadius: '11px',
 									backgroundImage: `url(${event.image_url})`,
 									marginTop: '0',
-									marginBottom: '0'
-								
+									marginBottom: '0',
 								}}
 							>
 								<CardBody

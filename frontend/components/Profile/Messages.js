@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Router from 'next/router';
 import gql from 'graphql-tag';
-import { Mutation } from 'react-apollo';
+import { Mutation, Query } from 'react-apollo';
 import NProgress from 'nprogress';
 import { useQuery } from 'react-apollo-hooks';
 import useInterval from '@rooks/use-interval';
@@ -23,13 +23,28 @@ Router.onRouteChangeComplete = () => {
 	NProgress.done(true);
 };
 
-const Messages = ({ classes, color, router, href, user }) => {
+const Messages = ({
+	classes,
+	color,
+	router,
+	href,
+	data,
+	currentUser,
+	subscribeToNewChats,
+	subscribetoNewMessages,
+}) => {
 	const [ selectedChatId, setSelectedChatId ] = useState(undefined);
 	const [ newChatUser, setNewChatUser ] = useState(undefined);
 
-	const { data, loading, refetch } = useQuery(ALL_CHATS_QUERY, {
-		pollInterval: 600,
-	});
+	// const { data, loading, refetch } = useQuery(ALL_CHATS_QUERY, {
+	// 	pollInterval: 600,
+	// });
+
+	useEffect(() => {
+		subscribeToNewChats();
+		subscribetoNewMessages();
+		return () => console.log('unmounting...');
+	}, []);
 
 	const handleSelectMessage = chatId => {
 		setSelectedChatId(chatId);
@@ -54,10 +69,12 @@ const Messages = ({ classes, color, router, href, user }) => {
 		return userChats
 			.filter(msg => msg.messages)
 			.map(chatObj => {
-				let newMsgs = chatObj.messages.filter(msg => msg.from.id !== user.id && !msg.seen);
+				let newMsgs = chatObj.messages.filter(
+					msg => msg.from.id !== currentUser.id && !msg.seen,
+				);
 				let len = chatObj.messages.length - 1;
 				const { messages, users } = chatObj;
-				let [ usr ] = users.filter(usr => usr.id !== user.id);
+				let [ usr ] = users.filter(usr => usr.id !== currentUser.id);
 				let img = usr.img.length
 					? usr.img.find(img => img.default).img_url
 					: profileStandIn;
@@ -85,13 +102,13 @@ const Messages = ({ classes, color, router, href, user }) => {
 			: [];
 
 	const chatUser = selectedChat.length
-		? selectedChat[0].users.find(usr => usr.id !== user.id)
+		? selectedChat[0].users.find(usr => usr.id !== currentUser.id)
 		: null;
 
 	return (
 		<div className={classes.container} style={{ padding: '30px 0' }}>
 			<GridContainer style={{ height: '100%', flexDirection: 'column' }}>
-				<LikedBy user={user} setSelected={handleSelectUser} />
+				<LikedBy user={currentUser} setSelected={handleSelectUser} />
 				<GridContainer style={{ height: 'calc(100vh - 300px)' }}>
 					<GridItem sm={12} md={4} lg={4}>
 						<Paper
@@ -117,7 +134,7 @@ const Messages = ({ classes, color, router, href, user }) => {
 							</Typography>
 							<ChatList
 								userChats={formattedChats(data.getUserChats)}
-								currentUser={user}
+								currentUser={currentUser}
 								handleSelectMessage={handleSelectMessage}
 								selectedChat={selectedChat}
 							/>
@@ -175,7 +192,7 @@ const Messages = ({ classes, color, router, href, user }) => {
 							</Typography>
 							<MessageList
 								selectedChat={selectedChat}
-								currentUser={user}
+								currentUser={currentUser}
 								selectedChatId={selectedChatId}
 								newChat={newChatUser}
 							/>

@@ -1,6 +1,6 @@
 import User from '../components/Queries/User'
 import JoinUs from './joinus'
-import Chats from '../components/Chats/ChatList'
+import Chats from '../components/Profile/Chats/ChatList'
 
 const ChatPage = () => (
 	<User>
