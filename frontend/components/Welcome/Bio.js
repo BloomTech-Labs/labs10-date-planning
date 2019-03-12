@@ -1,14 +1,18 @@
 import React, { useState } from "react";
+
 import {withStyles} from '@material-ui/core'
+
 import Router from "next/router";
 import NProgress from "nprogress";
 import { Mutation } from "react-apollo";
 import CustomInput from "../../styledComponents/CustomInput/CustomInput.jsx";
 import { UPDATE_USER_MUTATION } from "../Mutations/updateUser";
 import Button from "../../styledComponents/CustomButtons/Button";
+
 import styles from '../../static/jss/Welcome/welcomeStyles';
 
 const Bio = ({ user, classes }) => {
+
   const [bio, setBio] = useState("");
   return (
     <Mutation
@@ -47,14 +51,18 @@ const Bio = ({ user, classes }) => {
               borderRadius: "6px",
               zIndex: "1"
             }}
+
 			className={classes.textArea}
+
           >
             <h2>Write something about yourself</h2>
             <CustomInput
               //labelText='About'
+
               formControlProps={{
                 fullWidth: true
               }}
+
               id="textarea-input"
               inputProps={{
                 multiline: true,
@@ -65,7 +73,9 @@ const Bio = ({ user, classes }) => {
               }}
             />
             <Button
+
 			style={{zIndex:'2'}}
+
               color="danger"
               disabled={!bio}
               onClick={() => {

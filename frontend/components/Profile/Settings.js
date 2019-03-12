@@ -29,7 +29,7 @@ const Settings = ({ classes, currentUser }) => {
 		: profileStandIn;
 
 	return (
-		<div>
+		<div style={{ marginBottom: '30px' }}>
 			<div className={classes.profileHeader}>
 				<div className={classes.innerHeader}>
 					<div

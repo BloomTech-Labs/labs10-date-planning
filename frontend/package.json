@@ -48,6 +48,7 @@
 		"node-sass": "^4.11.0",
 		"nprogress": "^0.2.0",
 		"prop-types": "^15.7.2",
+		"pure-react-carousel": "^1.19.0",
 		"react": "^16.8.1",
 		"react-adopt": "^0.6.0",
 		"react-apollo": "^2.4.1",

@@ -40,6 +40,7 @@ const styles = {
     color: "#ff101f !important"
   },
   completed: {
+
     color: "#da6068 !important"
   },
   textArea: {
@@ -49,6 +50,7 @@ const styles = {
     "& ::after": {
       borderBottomColor: "#ff101f"
     }
+
   }
 };
 
