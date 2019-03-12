@@ -69,10 +69,19 @@ export default ({
         chat
         &&
         chat.messages.map(convos => {
-            return <div key={convos.id}>
-              {`${convos.text} ${convos.seen ? ' - seen - ' : ''} - ${convos.seen ? convos.updatedAt : ''}`}
-            </div>
-          })
+          const align = convos.from.id === currentUser.id ? 'right' : 'left'
+          const color = convos.from.id === currentUser.id ? 'blue' : 'black'
+          console.log(align)
+          return <div
+            key={convos.id}
+            style={{
+              textAlign: align,
+              color: color
+            }}
+          >
+            {`${convos.text} ${convos.seen ? ' - seen' : ''} - ${convos.seen ? convos.updatedAt : ''}`}
+          </div>
+        })
       }
       {
         chat

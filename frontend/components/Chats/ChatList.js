@@ -43,6 +43,7 @@ const MY_CHAT_SUBSCRIPTION = gql`
           from {
             id
           }
+          updatedAt
         }
       }
     }
@@ -65,6 +66,7 @@ const MY_MESSAGE_SUBSCRIPTION = gql`
         from {
           id
         }
+        updatedAt
       }
     }
   }

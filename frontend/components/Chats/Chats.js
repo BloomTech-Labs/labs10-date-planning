@@ -21,18 +21,11 @@ export default ({
   const selectedChat = !data.getUserChats
     ? null
     : data.getUserChats.find(chat => chat.id === chatId)
-  
-  let friend;
-  if (selectedChat) {
-    friend = selectedChat.users.find(
-      user => user.id !== currentUser.id
-    );
-  }
 
   return (
     <div style={{display: 'flex'}}>
       <div>
-        Chat List:
+        Chat List: {currentUser.firstName}
         {
           data.getUserChats && data.getUserChats.map(
             (chat, i) => (
@@ -45,7 +38,7 @@ export default ({
                   setChatId(chat.id)
                 }}
               >
-                {`${i} - ${chat.id}`}
+                {`${i} - ${chat.users.find(user => user.id !== currentUser.id).firstName}`}
                 <div>
                   {
                     chat.messages[chat.messages.length - 1].text
