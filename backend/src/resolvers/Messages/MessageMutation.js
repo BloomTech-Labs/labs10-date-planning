@@ -157,7 +157,8 @@ module.exports = {
 			where: {
 				AND: [
 					{ chat: { id: args.chatId } },
-					{ from: { id_not: userId } }
+					{ from: { id_not: userId } },
+					{ seen: false }
 				]
 			},
 			data: {
