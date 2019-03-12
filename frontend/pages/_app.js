@@ -32,6 +32,20 @@ class MyApp extends App {
 		pageProps.query = ctx.query;
 
 		return { pageProps };
+		// static async getInitialProps(ctx) {
+		// 	const {
+		// 	  Component,
+		// 	  router,
+		// 	  ctx: { req, res }
+		// 	} = ctx;
+		// 	const apollo = initApollo(
+		// 	  {},
+		// 	  {
+		// 		getToken: () => parseCookies(req).token,
+		// 		cookies: req ? req.headers.cookie : "",
+		// 		csrfToken: res ? res.locals.csrfToken : document.cookie
+		// 	  }
+		// 	);
 	}
 	render() {
 		const { Component, apollo, pageProps } = this.props;
