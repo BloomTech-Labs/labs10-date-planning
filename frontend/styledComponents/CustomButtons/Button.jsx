@@ -24,6 +24,7 @@ function RegularButton(props) {
 		justIcon,
 		fileButton,
 		className,
+		genderPrefs,
 		...rest
 	} = props;
 	const btnClasses = classNames({
@@ -38,6 +39,7 @@ function RegularButton(props) {
 		[classes.link]: link,
 		[classes.justIcon]: justIcon,
 		[classes.fileButton]: fileButton,
+		[classes.gender]: genderPrefs,
 		[className]: className,
 	});
 	return (

@@ -23,7 +23,7 @@ export default withApollo(({ headers = {} }) => {
 			options: {
 				reconnect: true,
 				// maybe we can add a header in here to get some sort of auth working
-				// connectionParams: {
+				// connectionParams: {d
 				//   authorization: headers.authorization
 				// }
 			},
