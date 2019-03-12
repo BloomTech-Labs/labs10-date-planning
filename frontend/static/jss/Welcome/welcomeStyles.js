@@ -40,7 +40,15 @@ const styles = {
     color: "#ff101f !important"
   },
   completed: {
-	  color: '#cabac8 !important'
+    color: "#da6068 !important"
+  },
+  textArea: {
+    "& textarea": {
+      color: "#fafafa"
+    },
+    "& ::after": {
+      borderBottomColor: "#ff101f"
+    }
   }
 };
 

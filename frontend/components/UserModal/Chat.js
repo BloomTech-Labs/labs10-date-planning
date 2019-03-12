@@ -98,7 +98,7 @@ const Chat = ({ classes, id, currentUser }) => {
 								}
 								body={
 									<span>
-										<p>{msg.text}</p>
+										<p style={{wordBreak:'break-word'}}>{msg.text}</p>
 									</span>
 								}
 							/>

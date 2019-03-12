@@ -103,8 +103,8 @@ const javascriptStyles = theme => {
 		},
 		userModalHeader: {
 			backgroundImage:
-				'linear-gradient(to right, #b2ddf7, #a8daf9, #9fd8fb, #94d5fd, #8ad2ff)',
-			paddingBottom: '24px',
+			'linear-gradient(to right, #81d6e3, #98ceea, #b1c5e5, #c4bed7, #cabac8)',
+			paddingBottom: '24px'
 		},
 		liked: {
 			'&:hover': {
@@ -121,13 +121,13 @@ const javascriptStyles = theme => {
 			},
 		},
 		chatBorder: {
-			border: '2px solid #c8c8c8',
+			border: '4px solid #cabac8',
 			borderRadius: '6px',
 			width: '100%',
 			padding: '10px',
-			backgroundColor: '#fafafa',
+			backgroundColor: '#1b1b1b59',
 			backgroundImage: 'url("https://www.transparenttextures.com/patterns/ag-square.png")',
-			maxWidth: '450px',
+			// maxWidth: '450px',
 		},
 
 		chat: {
