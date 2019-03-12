@@ -18,7 +18,7 @@ import Button from '../../styledComponents/CustomButtons/Button';
 
 import styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles.jsx';
 
-const Chat = ({ classes, id }) => {
+const Chat = ({ classes, id, currentUser }) => {
 	const [ message, setMessage ] = useState('');
 	const [ newMsgs, setNewMsgs ] = useState([]);
 	const [ updateSeen ] = useMutation(UDPATE_SEEN_MSG_MUTATION);
@@ -141,7 +141,43 @@ const Chat = ({ classes, id }) => {
 				</div>
 			</div>
 		);
-	} else return null;
+	} else
+		return (
+			<div>
+				<Media
+					avatar={currentUser.img.find(i => i.default).img_url}
+					currentUser
+					body={
+						<CustomInput
+							id='logged'
+							formControlProps={{
+								fullWidth: true,
+							}}
+							inputProps={{
+								multiline: true,
+								rows: 6,
+								placeholder: `Find out what this user is up for!`,
+								value: message,
+								onChange: e => setMessage(e.target.value),
+							}}
+						/>
+					}
+					footer={
+						<Button
+							color='primary'
+							justIcon
+							className={classes.floatRight}
+							onClick={() => {
+								NProgress.start();
+								sendMessage();
+							}}
+						>
+							<Send />
+						</Button>
+					}
+				/>
+			</div>
+		);
 };
 
 export default withStyles(styles)(Chat);

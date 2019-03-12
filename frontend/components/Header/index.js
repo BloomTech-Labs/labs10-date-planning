@@ -256,7 +256,7 @@ const Nav = ({ classes, color, router, href, currentUser }) => {
 												classes.navLink + ' ' + classes.imageDropdownButton,
 											color: 'transparent',
 										}}
-										dropdownList={[ 'Billing', 'Sign out' ]}
+										dropdownList={[ 'Sign out' ]}
 										onClick={e => handleClick(e, signout, client)}
 									/>
 								</ListItem>

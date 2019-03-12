@@ -67,9 +67,7 @@ const Profile = ({ classes, theme, router: { query }, currentUser }) => {
 			> */}
 			{/* <Menu />
 			</IconButton> */}
-			<div style={{ marginBottom: '20px', height: '100%' }}>
-				{getContent(query.slug, currentUser)}
-			</div>
+			{getContent(query.slug, currentUser)}
 			<Footer />
 		</div>
 	);
