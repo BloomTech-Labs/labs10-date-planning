@@ -137,24 +137,25 @@ const Event = React.memo(({ event, classes, user, refetch }) => {
 
 										description: event.description,
 									}}
-									// update={(cache, { data: { addEvent } }) => {
-									// 	const { currentUser } = cache.readQuery({
-									// 		query: CURRENT_USER_QUERY,
-									// 	});
+									update={(cache, { data: { addEvent } }) => {
+										const { currentUser } = cache.readQuery({
+											query: CURRENT_USER_QUERY,
+										});
 
-									// 	cache.writeQuery({
-									// 		query: CURRENT_USER_QUERY,
-									// 		data: {
-									// 			currentUser: {
-									// 				...currentUser,
-									// 				events: [ ...currentUser.events, addEvent ],
-									// 			},
-									// 		},
-									// 	});
-									// }}
+										cache.writeQuery({
+											query: CURRENT_USER_QUERY,
+											data: {
+												currentUser: {
+													...currentUser,
+													events: [ ...currentUser.events, addEvent ],
+												},
+											},
+										});
+									}}
 									onError={() => NProgress.done()}
-									onCompleted={async () => {
-										await refetch();
+									onCompleted={() => {
+										NProgress.done();
+										refetch();
 									}}
 								>
 									{(addEvent, { error, loading, called, data }) => {

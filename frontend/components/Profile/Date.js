@@ -3,6 +3,9 @@ import moment from 'moment';
 import { withApollo } from 'react-apollo';
 import Router from 'next/router';
 import gql from 'graphql-tag';
+
+import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext } from 'pure-react-carousel';
+// import 'pure-react-carousel/dist/react-carousel.es.css';
 //MUI
 import { IconButton, Typography, Avatar } from '@material-ui/core';
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -25,6 +28,14 @@ import CardStyles from '../../static/jss/material-kit-pro-react/views/components
 
 import getAge from '../../utils/getAge';
 
+let settings = {
+	dots: true,
+	infinite: true,
+	speed: 500,
+	slidesToShow: 3,
+	slidesToScroll: 3,
+};
+
 const DELETE_EVENT = gql`
 	mutation deleteEvent($id: String!, $eventId: String!) {
 		deleteEvent(id: $id, eventId: $eventId) {
@@ -37,6 +48,7 @@ const DELETE_EVENT = gql`
 `;
 
 const DateView = ({ date, classes, client, currentUser }) => {
+	const carousel = date.attending.filter(usr => usr.id !== currentUser.id).length > 3;
 	const deleteEvent = async eventId => {
 		let { data, loading } = await client.mutate({
 			mutation: DELETE_EVENT,
@@ -62,7 +74,7 @@ const DateView = ({ date, classes, client, currentUser }) => {
 						backgroundSize: 'cover',
 						backgroundPosition: 'center',
 						position: 'absolute',
-						filter: 'blur(2px)',
+						filter: 'blur(1px)',
 						left: 0,
 						right: 0,
 						top: 0,
@@ -86,8 +98,8 @@ const DateView = ({ date, classes, client, currentUser }) => {
 							))
 						)}
 					</h6>
-					<GridContainer>
-						{date.attending.filter(usr => usr.id !== currentUser.id).map(usr => {
+					<GridContainer id='users'>
+						{date.attending.filter(usr => usr.id !== currentUser.id).map((usr, i) => {
 							let chat = currentUser
 								? currentUser.chats.find(x => x.users.some(y => y.id === usr.id))
 								: false;
@@ -97,8 +109,8 @@ const DateView = ({ date, classes, client, currentUser }) => {
 							return (
 								<GridItem
 									key={usr.id}
-									sm={4}
-									md={4}
+									sm={carousel ? 12 : 4}
+									md={carousel ? 12 : 4}
 									style={{ position: 'relative' }}
 								>
 									<div

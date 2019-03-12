@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 
 import { withRouter } from 'next/router';
 
@@ -50,7 +50,6 @@ const Profile = ({ classes, theme, router: { query }, currentUser }) => {
 			style={{
 				backgroundColor: '#000',
 				height: '100%',
-				minHeight: '100vh',
 
 				backgroundImage:
 					'url(https://www.transparenttextures.com/patterns/shattered-dark.png)',
@@ -67,8 +66,17 @@ const Profile = ({ classes, theme, router: { query }, currentUser }) => {
 			> */}
 			{/* <Menu />
 			</IconButton> */}
-			{getContent(query.slug, currentUser)}
-			<Footer />
+			<div
+				style={{
+					minHeight: 'calc(100vh - 95px)',
+					display: 'flex',
+					flexDirection: 'column',
+					justifyContent: 'space-between',
+				}}
+			>
+				{getContent(query.slug, currentUser)}
+				<Footer />
+			</div>
 		</div>
 	);
 };

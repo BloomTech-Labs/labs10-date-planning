@@ -89,7 +89,7 @@ const Messages = ({ classes, color, router, href, user }) => {
 		: null;
 
 	return (
-		<div className={classes.container} style={{ padding: '30px 0 50px' }}>
+		<div className={classes.container} style={{ padding: '30px 0' }}>
 			<GridContainer style={{ height: '100%', flexDirection: 'column' }}>
 				<LikedBy user={user} setSelected={handleSelectUser} />
 				<GridContainer style={{ height: 'calc(100vh - 300px)' }}>
@@ -144,7 +144,16 @@ const Messages = ({ classes, color, router, href, user }) => {
 								) : (
 									<span style={{ display: 'flex', alignItems: 'center' }}>
 										<img
-											onClick={() => Router.push(`/profile?slug=chats&user=${chatUser ? chatUser.id : newChatUser.id}`, `/profile/chat/user/${chatUser ? chatUser.id : newChatUser.id}`, {shallow: true})}
+											onClick={() =>
+												Router.push(
+													`/profile?slug=chats&user=${chatUser
+														? chatUser.id
+														: newChatUser.id}`,
+													`/profile/chat/user/${chatUser
+														? chatUser.id
+														: newChatUser.id}`,
+													{ shallow: true },
+												)}
 											src={
 												chatUser ? (
 													chatUser.img.find(x => x.default).img_url
