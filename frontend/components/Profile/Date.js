@@ -3,6 +3,7 @@ import moment from 'moment';
 import { withApollo } from 'react-apollo';
 import Router from 'next/router';
 import gql from 'graphql-tag';
+import { useMutation } from '../Mutations/useMutation';
 
 import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext } from 'pure-react-carousel';
 // import 'pure-react-carousel/dist/react-carousel.es.css';
@@ -14,9 +15,11 @@ import {
 	ChatBubble as Chat,
 	SubdirectoryArrowRightRounded as Flipper,
 	SubdirectoryArrowLeftRounded as Flopper,
+	Delete,
 } from '@material-ui/icons';
 //styled components
 import Card from '../../styledComponents/Card/Card';
+import { USER_EVENTS_QUERY } from '../Queries/UserEvents';
 import CardHeader from '../../styledComponents/Card/CardHeader';
 import CardFooter from '../../styledComponents/Card/CardFooter';
 import CardBody from '../../styledComponents/Card/CardBody';
@@ -42,22 +45,26 @@ const DELETE_EVENT = gql`
 			id
 			events {
 				id
+				attending {
+					id
+				}
 			}
 		}
 	}
 `;
 
-const DateView = ({ date, classes, client, currentUser }) => {
-	const carousel = date.attending.filter(usr => usr.id !== currentUser.id).length > 3;
-	const deleteEvent = async eventId => {
-		let { data, loading } = await client.mutate({
-			mutation: DELETE_EVENT,
-			variables: {
-				id: currentUser.id,
-				eventId,
+const DateView = ({ date, classes, client, currentUser, refetch }) => {
+	const [ deleteEvent ] = useMutation(DELETE_EVENT, {
+		variables: { id: currentUser.id, eventId: date.id },
+		refetchQueries: [
+			{
+				query: USER_EVENTS_QUERY,
 			},
-		});
-	};
+		],
+		onCompleted: () => console.log('hi'),
+	});
+	const carousel = date.attending.filter(usr => usr.id !== currentUser.id).length > 3;
+	console.log(carousel);
 
 	return (
 		<GridItem sm={12} md={6} lg={6}>
@@ -83,8 +90,17 @@ const DateView = ({ date, classes, client, currentUser }) => {
 						backgroundImage: `url(${date.image_url})`,
 					}}
 				/>
-				<CardBody background style={{ maxWidth: '100%', padding: '10px' }}>
-					<h4 className={classes.cardTitleWhite}>{date.title}</h4>
+				<IconButton
+					style={{ position: 'absolute', top: 0, right: 0, zIndex: 3 }}
+					aria-label='Delete'
+					onClick={() => deleteEvent()}
+				>
+					<Delete fontSize='small' style={{ color: '#fafafa' }} />
+				</IconButton>
+				<CardBody background style={{ maxWidth: '100%', padding: '12px' }}>
+					<h4 style={{ margin: '2px 11px' }} className={classes.cardTitleWhite}>
+						{date.title}{' '}
+					</h4>
 					<h6 className={classes.cardCategoryWhite}>
 						<span>{date.venue}</span> <span style={{ padding: '0 3px' }}>&#8226;</span>
 						{date.times.length > 2 ? (
