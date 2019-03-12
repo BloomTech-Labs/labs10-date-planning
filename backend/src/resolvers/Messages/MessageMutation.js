@@ -67,7 +67,7 @@ module.exports = {
 				}
 			})
 
-			if (sentMessages.length >= 20) throw new Error('You have reached 20 DMs per week for FREE account.')
+			if (sentMessages.length >= 1000) throw new Error('You have reached 20 DMs per week for FREE account.')
 		}
 
 		let [ chat ] = await db.query.chats({
@@ -153,7 +153,7 @@ module.exports = {
 
 		if (!chat) throw new Error('Chat does not exist')
 
-		return db.mutation.updateManyDirectMessages({
+		await db.mutation.updateManyDirectMessages({
 			where: {
 				AND: [
 					{ chat: { id: args.chatId } },
@@ -164,5 +164,12 @@ module.exports = {
 				seen: true
 			}
 		})
+
+		return db.mutation.updateChat({
+			where: {
+				id: args.chatId
+			},
+			data: {}
+		})
 	}
-};
+}
