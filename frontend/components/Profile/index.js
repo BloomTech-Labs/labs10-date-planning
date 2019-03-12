@@ -15,7 +15,7 @@ import { Menu } from '@material-ui/icons';
 import MenuDrawer from './Drawer';
 import UserModal from '../UserModal/';
 import Dates from './Dates';
-import Messages from './Messages';
+import Messages from './Chats/ChatList';
 import Settings from './Settings';
 import Billing from './Pricing';
 import Footer from '../Footer';
