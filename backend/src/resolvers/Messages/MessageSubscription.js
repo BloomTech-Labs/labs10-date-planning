@@ -6,7 +6,7 @@ module.exports = {
 					where: {
 						AND: [
 							{
-								mutation_in: ['CREATED', 'DELETED']
+								mutation_in: ['CREATED', 'UPDATED', 'DELETED']
 							},
 							{
 								node: {
