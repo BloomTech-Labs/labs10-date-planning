@@ -31,6 +31,9 @@ const CommonEvents = ({ classes, id }) => {
 									border: '4px solid #4cb5ae',
 									borderRadius: '11px',
 									backgroundImage: `url(${event.image_url})`,
+									marginTop: '0',
+									marginBottom: '0'
+								
 								}}
 							>
 								<CardBody
