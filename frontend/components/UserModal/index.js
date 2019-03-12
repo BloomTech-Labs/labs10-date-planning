@@ -1,9 +1,12 @@
 import React, { useState, useEffect, Fragment, useRef } from "react";
 import { withApollo, Mutation, Query } from "react-apollo";
+import gql from 'graphql-tag';
 
 import NProgress from "nprogress";
 import Router, { withRouter } from "next/router";
 import Slider from "react-slick";
+
+import { GET_CONVERSATION_QUERY } from '../Queries/getConvo';
 
 import { adopt } from "react-adopt";
 import { State, Map, Value, Toggle } from "react-powerplug";
@@ -57,6 +60,30 @@ import "../../styles/Home/EventModal.scss";
 //utils
 import getAge from "../../utils/getAge";
 
+const MESSAGE_SUBSCRIPTION = gql`
+  subscription($chatId: String!) {
+    myMessage(chatId: $chatId) {
+      mutation
+      node {
+        id
+        text
+        seen
+        createdAt
+        from {
+          id
+          firstName
+          img {
+            id
+            img_url
+            default
+          }
+        }
+        updatedAt
+      }
+    }
+  }
+`
+
 let settings = {
   dots: true,
   infinite: true,
@@ -108,7 +135,7 @@ const UserModal = ({ classes, user, router, currentUser }) => {
   return (
     <Composed id={user}>
       {({ like, unlike, block, potentialMatch }) => {
-        console.log(potentialMatch);
+        //console.log(potentialMatch);
         let match = potentialMatch.data ? potentialMatch.data.user : null;
         let isLiked = currentUser
           ? currentUser.liked.find(usr => usr.id === user)
@@ -293,7 +320,42 @@ const UserModal = ({ classes, user, router, currentUser }) => {
                   </GridItem>
 
                   <GridItem md={5} lg={5}>
-                    <Chat id={user} currentUser={currentUser} />
+                    <Query
+                      query={GET_CONVERSATION_QUERY}
+                      variables={{id: user}}
+                    >
+                      {
+                        ({ loading, error, data, subscribeToMore }) => {
+                          if (loading) return <div>Fetching</div>
+                          if (error) return <div>Error</div>
+                          return (
+                            <Chat
+                              data={data}
+                              id={user}
+                              currentUser={currentUser}
+                              subscribeToNewMessages={() => {
+                                data.getConversation && subscribeToMore({
+                                  document: MESSAGE_SUBSCRIPTION,
+                                  variables: { chatId: data.getConversation.id },
+                                  updateQuery: (prev, { subscriptionData }) => {
+                                    if (!subscriptionData) return prev;
+                                    return {
+                                      getConversation: {
+                                        ...getConversation,
+                                        messages: [
+                                          ...prev.getConversation.messages,
+                                          subscriptionData.data.node
+                                        ]
+                                      }
+                                    };
+                                  }
+                                })
+                              }}
+                            />
+                          )
+                        }
+                      }
+                    </Query>
                   </GridItem>
                 </GridContainer>
               </DialogContent>
