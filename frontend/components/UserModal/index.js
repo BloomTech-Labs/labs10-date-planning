@@ -251,7 +251,7 @@ const UserModal = ({ classes, user, router, currentUser }) => {
                   <GridItem md={2} lg={2}>
                     <CommonEvents id={user} />
                   </GridItem>
-                  <GridItem md={5} lg={5}>
+                  <GridItem style={{display: 'flex', flexDirection:'column'}} md={5} lg={5}>
                     <div style={{ width: "100%" }}>
                       <Slider {...settings}>
                         {match.img.map(img => (
@@ -275,11 +275,16 @@ const UserModal = ({ classes, user, router, currentUser }) => {
                         backgroundColor: "#1b1b1b59",
                         backgroundImage:
                           'url("https://www.transparenttextures.com/patterns/dark-matter.png")',
-                        color: "#fafafa"
+                        color: "#fafafa",
+                        flexGrow: 1,
+                        marginBottom: 0,
+                        display: 'flex',
+                        alignItems: 'flex-start'
+
                       }}
                       className={classes.gradientBox}
                     >
-                      <div className="date">
+                      <div>
                         {match.biography
                           ? match.biography
                           : "Hi der This is my lil fill in bio guy"}
