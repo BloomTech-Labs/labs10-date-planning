@@ -220,7 +220,7 @@ const styles = {
 		padding: '10px',
 		boxSizing: 'border-box',
 		color: '#000',
-		background: '#fafafa',
+		background: '#fafafadd',
 		backgroundClip: 'padding-box',
 		border: '3px solid transparent',
 		borderRadius: '6px',

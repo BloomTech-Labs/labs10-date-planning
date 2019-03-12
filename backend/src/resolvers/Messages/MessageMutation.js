@@ -56,7 +56,7 @@ module.exports = {
 		// User should logged in to create chat
 		if (!user) throw new Error('You must be logged in to send a message!');
 
-		// FREE users can only send 10 messages per week
+		// FREE users can only send 20 messages per week
 		if (user.permissions = 'FREE') {
 			const sentMessages = await db.query.directMessages({
 				where: {
@@ -140,4 +140,37 @@ module.exports = {
 			info,
 		);
 	},
-};
+	async markAllAsSeen(parent, args, { request, db }, info) {
+		const { user, userId } = request;
+
+		if (!user) throw new Error('You must be logged in to start a conversation!')
+
+		const chat = db.query.chat({
+			where: {
+				id: args.chatId
+			}
+		})
+
+		if (!chat) throw new Error('Chat does not exist')
+
+		await db.mutation.updateManyDirectMessages({
+			where: {
+				AND: [
+					{ chat: { id: args.chatId } },
+					{ from: { id_not: userId } },
+					{ seen: false }
+				]
+			},
+			data: {
+				seen: true
+			}
+		})
+
+		return db.mutation.updateChat({
+			where: {
+				id: args.chatId
+			},
+			data: {}
+		})
+	}
+}

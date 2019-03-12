@@ -98,7 +98,7 @@ const Chat = ({ classes, id, currentUser }) => {
 								}
 								body={
 									<span>
-										<p>{msg.text}</p>
+										<p style={{wordBreak:'break-word'}}>{msg.text}</p>
 									</span>
 								}
 							/>
@@ -143,7 +143,7 @@ const Chat = ({ classes, id, currentUser }) => {
 		);
 	} else
 		return (
-			<div>
+			<div className={classes.chatButton}>
 				<Media
 					avatar={currentUser.img.find(i => i.default).img_url}
 					currentUser
@@ -166,7 +166,6 @@ const Chat = ({ classes, id, currentUser }) => {
 						<Button
 							color='primary'
 							justIcon
-							className={classes.floatRight}
 							onClick={() => {
 								NProgress.start();
 								sendMessage();
