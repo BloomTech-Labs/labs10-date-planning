@@ -146,6 +146,17 @@ const UserModal = ({ classes, user, router, currentUser }) => {
               aria-labelledby="notice-modal-slide-title"
               aria-describedby="notice-modal-slide-description"
             >
+              <svg
+                style={{ width: 0, height: 0, position: "absolute" }}
+                aria-hidden="true"
+                focusable="false"
+              >
+                <linearGradient id="favoriteID" x2="1" y2="1">
+                  <stop offset="0%" stopColor="#FF8A8A" />
+                  <stop offset="50%" stopColor="#FF545F" />
+                  <stop offset="100%" stopColor="#ff101f" />
+                </linearGradient>
+              </svg>
               <DialogTitle
                 id="notice-modal-slide-title"
                 disableTypography
@@ -202,7 +213,11 @@ const UserModal = ({ classes, user, router, currentUser }) => {
                       className={classes.liked}
                       onClick={() => (isLiked ? unlike() : like())}
                     >
-                      {isLiked ? <Favorite /> : <FavoriteBorder />}
+                      {isLiked ? (
+                        <Favorite className={classes.favorite} />
+                      ) : (
+                        <FavoriteBorder />
+                      )}
                     </IconButton>
                   </div>
 
@@ -213,7 +228,7 @@ const UserModal = ({ classes, user, router, currentUser }) => {
                     buttonText={<MoreHoriz />}
                     buttonProps={{
                       className:
-                        classes.navLink + " " + classes.imageDropdownButton,
+                        classes.navLink + " " + classes.imageDropdownButton + " " + classes.dots,
                       color: "transparent"
                     }}
                     dropdownList={["Block User"]}
@@ -248,7 +263,7 @@ const UserModal = ({ classes, user, router, currentUser }) => {
                                 overflow: "hidden",
                                 height: "100%",
                                 width: "100%",
-								border: '4px solid #b2ddf7'
+                                border: "4px solid #b2ddf7"
                               }}
                             />
                           </div>
@@ -257,10 +272,10 @@ const UserModal = ({ classes, user, router, currentUser }) => {
                     </div>
                     <div
                       style={{
-                        backgroundColor: '#1b1b1b59',
+                        backgroundColor: "#1b1b1b59",
                         backgroundImage:
                           'url("https://www.transparenttextures.com/patterns/dark-matter.png")',
-						  color: '#fafafa'
+                        color: "#fafafa"
                       }}
                       className={classes.gradientBox}
                     >
