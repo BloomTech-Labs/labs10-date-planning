@@ -61,6 +61,7 @@
 		"react-image-cropper": "^1.3.0",
 		"react-image-gallery": "^0.8.12",
 		"react-infinite-scroller": "^1.2.4",
+		"react-input-mask": "^2.0.4",
 		"react-input-range": "^1.3.0",
 		"react-jss": "^8.6.1",
 		"react-pose": "^4.0.7",

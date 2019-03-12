@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Router from 'next/router';
 import Link from 'next/link';
 import Button from '../../styledComponents/CustomButtons/Button';
 import Logo from '../Header/UpFor';
+import Verify from '../verifyPhone';
 
 const Main = ({ user }) => {
 	return (
@@ -48,9 +49,7 @@ const Main = ({ user }) => {
 				>
 					Get Started
 				</Button>
-				<Button simple white style={{ zIndex: 1 }}>
-					Verify your phone number.
-				</Button>
+				<Verify />
 			</div>
 		</div>
 	);
