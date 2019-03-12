@@ -1,6 +1,9 @@
-import { container } from '../material-kit-pro-react';
+import { container, title } from '../material-kit-pro-react';
+
 const style = {
+	title,
 	container,
+
 	profileHeader: {
 		height: '200px',
 		width: '100%',
@@ -14,6 +17,7 @@ const style = {
 		display: 'flex',
 		justifyContent: 'flex-start',
 	},
+
 	profileImg: {
 		backgroundSize: '100%',
 		height: '180px',

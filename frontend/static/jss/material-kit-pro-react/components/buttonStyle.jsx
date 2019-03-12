@@ -338,6 +338,8 @@ const buttonStyle = {
 		'&$danger': {
 			'&,&:focus,&:hover,&:visited': {
 				color: dangerColor,
+				border: '1px solid',
+				borderColor: dangerColor,
 			},
 		},
 		'&$twitter': {
@@ -477,6 +479,10 @@ const buttonStyle = {
 	},
 	fileButton: {
 		// display: "inline-block"
+	},
+	gender: {
+		border: '1px solid #ff101f',
+		width: '128px',
 	},
 };
 
