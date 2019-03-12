@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 // core components
-import { Done, DoneAll, DoneOutline } from '@material-ui/icons';
+import { Done, DoneAll, DoneOutline, Close } from '@material-ui/icons';
 import GridContainer from '../../styledComponents/Grid/GridContainer.jsx';
 import GridItem from '../../styledComponents/Grid/GridItem.jsx';
 //mport NavPills from '../../styledComponents/NavPills/NavPills.jsx';
@@ -34,7 +34,15 @@ const Pricing = ({ classes, currentUser, client }) => {
 		});
 	};
 	return (
-		<div className={classes.container}>
+		<div
+			className={classes.container}
+			style={{
+				flexGrow: 1,
+				display: 'flex',
+				flexDirection: 'column',
+				justifyContent: 'center',
+			}}
+		>
 			<GridContainer>
 				<GridItem md={4} sm={4}>
 					<Card
@@ -66,25 +74,39 @@ const Pricing = ({ classes, currentUser, client }) => {
 							>
 								FREE
 							</h3>
-							<ul>
+							<ul style={{ marginBottom: '36px' }}>
 								<li>
 									Save up to <b>10</b> events at a time
 								</li>
 								<li>
 									Send <b>20</b> messages per week
 								</li>
+								<li>
+									<span style={{ textDecoration: 'line-through' }}>
+										See who likes you{' '}
+									</span>
+									<Close
+										style={{
+											fontSize: '16px',
+											marginBottom: '5px',
+											float: 'right',
+										}}
+									/>
+								</li>
+								<li>
+									<span style={{ textDecoration: 'line-through' }}>
+										View read receipts
+									</span>
+									<Close
+										style={{
+											fontSize: '16px',
+											marginBottom: '5px',
+
+											float: 'right',
+										}}
+									/>
+								</li>
 							</ul>
-							<p
-								className={
-									currentSubs === 'FREE' ? (
-										classes.cardDescription
-									) : (
-										classes.cardCategory
-									)
-								}
-							>
-								This plan allows you save a maximum of 5 events to your account.
-							</p>
 							<Button
 								round
 								color={currentSubs !== 'FREE' ? 'rose' : 'white'}
@@ -97,12 +119,15 @@ const Pricing = ({ classes, currentUser, client }) => {
 				</GridItem>
 				<GridItem sm={4} md={4}>
 					<Card
+						plain={currentSubs !== 'MONTHLY'}
+						color={currentSubs === 'MONTHLY' && 'primary'}
 						pricing
 						raised={currentSubs === 'MONTHLY'}
-						plain={currentSubs !== 'MONTHLY'}
 					>
 						<CardBody pricing plain={currentSubs !== 'MONTHLY'}>
-							<h6 className={`${classes.cardCategory} ${classes.marginBottom20}`}>
+							<h6
+								className={`${classes.cardCategoryWhite} ${classes.marginBottom20}`}
+							>
 								Month to Month
 							</h6>
 							<div className={classes.icon}>
@@ -116,32 +141,39 @@ const Pricing = ({ classes, currentUser, client }) => {
 									}
 								/>
 							</div>
-							<h3
-								className={`${currentSubs !== 'MONTHLY'
-									? classes.cardTitle
-									: classes.cardTitleWhite} ${classes.marginTop30}`}
-							>
+							<h3 className={`${classes.cardTitleWhite} ${classes.marginTop30}`}>
 								<small>$</small> 9.99 <small>/month</small>
 							</h3>
-							<ul>
+							<ul style={{ marginBottom: '36px' }}>
 								<li>
 									Save <b>unlimited</b> events
 								</li>
 								<li>
 									Send <b>unlimited</b> messages
 								</li>
+								<li>
+									<span>See who likes you </span>
+									<Done
+										style={{
+											fontSize: '16px',
+											marginBottom: '5px',
+											float: 'right',
+										}}
+									/>
+								</li>
+								<li>
+									View read receipts{' '}
+									<Done
+										style={{
+											fontSize: '16px',
+											marginBottom: '5px',
+
+											float: 'right',
+										}}
+									/>
+								</li>
 							</ul>
-							<p
-								className={
-									currentSubs === 'MONTHLY' ? (
-										classes.cardDescription
-									) : (
-										classes.cardCategory
-									)
-								}
-							>
-								This plan allows you save unlimited dates to your account!
-							</p>
+
 							{currentSubs === 'MONTHLY' ? (
 								<Button
 									onClick={() => {
@@ -166,12 +198,15 @@ const Pricing = ({ classes, currentUser, client }) => {
 				</GridItem>
 				<GridItem sm={4} md={4} lg={4}>
 					<Card
+						plain={currentSubs !== 'YEARLY'}
+						color={currentSubs === 'YEARLY' && 'primary'}
 						pricing
 						raised={currentSubs === 'YEARLY'}
-						plain={currentSubs !== 'YEARLY'}
 					>
 						<CardBody pricing plain={currentSubs !== 'YEARLY'}>
-							<h6 className={`${classes.cardCategory} ${classes.marginBottom20}`}>
+							<h6
+								className={`${classes.cardCategoryWhite} ${classes.marginBottom20}`}
+							>
 								Yearly
 							</h6>
 							<div className={classes.icon}>
@@ -185,11 +220,7 @@ const Pricing = ({ classes, currentUser, client }) => {
 									}
 								/>
 							</div>
-							<h3
-								className={`${currentSubs !== 'YEARLY'
-									? classes.cardTitle
-									: classes.cardTitleWhite} ${classes.marginTop30}`}
-							>
+							<h3 className={`${classes.cardTitleWhite} ${classes.marginTop30}`}>
 								<small>$</small> 29.99 <small>/year</small>
 							</h3>
 							<ul>
@@ -199,17 +230,33 @@ const Pricing = ({ classes, currentUser, client }) => {
 								<li>
 									Send <b>unlimited</b> messages
 								</li>
+								<li>
+									<span>See who likes you </span>
+									<Done
+										style={{
+											fontSize: '16px',
+											marginBottom: '5px',
+											float: 'right',
+										}}
+									/>
+								</li>
+								<li>
+									View read receipts{' '}
+									<Done
+										style={{
+											fontSize: '16px',
+											marginBottom: '5px',
+
+											float: 'right',
+										}}
+									/>
+								</li>
 							</ul>
 							<p
-								className={
-									currentSubs === 'YEARLY' ? (
-										classes.cardDescription
-									) : (
-										classes.cardCategory
-									)
-								}
+								style={{ fontSize: '10px', margin: '5px 0' }}
+								className={classes.cardCategoryWhite}
 							>
-								Discounted price when purchasing annual subscription.
+								*Discounted price when purchasing annual subscription.
 							</p>
 							{currentSubs === 'YEARLY' ? (
 								<Button

@@ -74,7 +74,7 @@ const DateView = ({ date, classes, client, currentUser }) => {
 						backgroundSize: 'cover',
 						backgroundPosition: 'center',
 						position: 'absolute',
-						filter: 'blur(1px)',
+
 						left: 0,
 						right: 0,
 						top: 0,
@@ -143,7 +143,7 @@ const DateView = ({ date, classes, client, currentUser }) => {
 												imgProps={{ height: 70, width: 70 }}
 												style={{
 													width: '100%',
-													height: '124px',
+													height: '100%',
 													borderRadius: '6px',
 												}}
 											/>
