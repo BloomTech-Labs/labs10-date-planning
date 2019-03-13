@@ -27,7 +27,7 @@ const GenderPrefs = () => {
 				NProgress.done();
 				Router.push(
 					`/welcome?slug=4`,
-					`/welcome/profile/age/preferences`,
+					`/welcome/profile/gender/preferences`,
 					{ shallow: true },
 					{ scroll: false },
 				);
@@ -56,7 +56,7 @@ const GenderPrefs = () => {
 							borderRadius: '6px',
 						}}
 					>
-						<h2>When were you born?</h2>
+						<h2>My birthday is...</h2>
 
 						<MuiPickersUtilsProvider utils={MomentUtils}>
 							{/* <BasePicker value={selectedDate} onChange={setSelectedDate}>
@@ -72,7 +72,7 @@ const GenderPrefs = () => {
 							}) => ( */}
 							<Paper style={{ overflow: 'hidden', zIndex: 1 }}>
 								<InlineDatePicker
-									label='Date of birth'
+									// label='Date of birth'
 									value={selectedDate}
 									disableFuture
 									minDate={moment().subtract(100, 'years')}
