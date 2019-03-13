@@ -97,6 +97,7 @@ const Chat = ({ chat, currentUser, classes }) => {
 			<div className={classes.messageList} ref={msgRef}>
 				{chat &&
 					chat.messages.map(msg => {
+						console.log(msg);
 						const img = msg.from.img.find(x => x.default).img_url;
 						return (
 							<Media
@@ -106,7 +107,9 @@ const Chat = ({ chat, currentUser, classes }) => {
 								title={
 									<span style={{ color: '#fafafa' }}>
 										{msg.from.firstName}{' '}
-										<small>· {moment(msg.createdAt).fromNow()}</small>
+										<small style={{ fontSize: '12px' }}>
+											· {moment(msg.createdAt).fromNow()}
+										</small>
 									</span>
 								}
 								body={
@@ -116,7 +119,15 @@ const Chat = ({ chat, currentUser, classes }) => {
 											wordBreak: 'break-word',
 										}}
 									>
-										<p style={{ color: '#fafafa' }}>{msg.text}</p>
+										<p style={{ color: '#fafafa', fontSize: '14px' }}>
+											{msg.text}
+										</p>
+										{msg.seen ? (
+											<small>
+												<span style={{ marginRight: '2px' }}>seen</span>
+												{moment(msg.UpdatedAt).format('dddd, MMM do h:m a')}
+											</small>
+										) : null}
 									</span>
 								}
 							/>

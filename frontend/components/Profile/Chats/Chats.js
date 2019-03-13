@@ -11,11 +11,10 @@ import SmallChat from './SideView';
 
 const Chats = ({ subscribeToNewChats, subscribetoNewMessages, data, currentUser, classes }) => {
 	const [ chatId, setChatId ] = useState('');
-
+	console.log(data);
 	useEffect(() => {
 		subscribeToNewChats();
 		subscribetoNewMessages();
-		return () => console.log('unmounting...');
 	}, []);
 
 	const formattedChats = userChats => {
