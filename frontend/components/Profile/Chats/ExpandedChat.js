@@ -10,6 +10,7 @@ import Button from "../../../styledComponents/CustomButtons/Button";
 import CustomInput from "../../../styledComponents/CustomInput/CustomInput.jsx";
 import Media from "../../../styledComponents/Media/Media.jsx";
 import { Send } from "@material-ui/icons";
+import scrollbar from '../../../static/jss/ScrollbarStyles';
 
 const SEND_MESSAGE_MUTATION = gql`
   mutation SEND_MESSAGE_MUTATION($id: String!, $message: String!) {
@@ -87,9 +88,9 @@ const Chat = ({ chat, currentUser, classes }) => {
       style={{
         flexGrow: 1,
         height: "100%",
-        overflow: "scroll",
+        overflow: "hidden",
         display: "flex",
-        flexDirection: "column"
+        flexDirection: "column",
       }}
     >
       <div className={classes.messageList} ref={msgRef}>
