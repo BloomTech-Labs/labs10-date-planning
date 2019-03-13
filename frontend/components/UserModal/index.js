@@ -278,53 +278,67 @@ const UserModal = ({ classes, user, router, currentUser }) => {
 							>
 								<GridContainer>
 									<GridItem
-										style={{ display: 'flex', flexDirection: 'column' }}
-										md={4}
-										lg={4}
+										md={8}
+										lg={8}
+										style={{
+											display: 'flex',
+											flexDirection: 'column',
+											justifyContent: 'space-between',
+										}}
 									>
-										<div style={{ width: '100%' }}>
-											<Slider {...settings}>
-												{match.img.map(img => (
-													<div key={img.img_url}>
-														<img
-															src={img.img_url}
-															style={{
-																borderRadius: '6px',
-																overflow: 'hidden',
-																height: '100%',
-																width: '100%',
-																border: '4px solid #b2ddf7',
-															}}
-														/>
+										<GridContainer>
+											<GridItem
+												style={{ display: 'flex', flexDirection: 'column' }}
+												md={7}
+												lg={7}
+											>
+												<div style={{ width: '100%' }}>
+													<Slider {...settings}>
+														{match.img.map(img => (
+															<div key={img.img_url}>
+																<img
+																	src={img.img_url}
+																	style={{
+																		borderRadius: '6px',
+																		overflow: 'hidden',
+																		height: '100%',
+																		width: '100%',
+																		border: '4px solid #b2ddf7',
+																	}}
+																/>
+															</div>
+														))}
+													</Slider>
+												</div>
+											</GridItem>
+											<GridItem md={2} lg={2}>
+												<div
+													style={{
+														backgroundColor: '#1b1b1b59',
+														backgroundImage:
+															'url("https://www.transparenttextures.com/patterns/dark-matter.png")',
+														color: '#fafafa',
+														flexGrow: 1,
+														marginBottom: 0,
+														display: 'flex',
+														alignItems: 'flex-start',
+													}}
+													className={classes.gradientBox}
+												>
+													<div>
+														{match.biography ? (
+															match.biography
+														) : (
+															'Hi der This is my lil fill in bio guy'
+														)}
 													</div>
-												))}
-											</Slider>
-										</div>
+												</div>
+											</GridItem>
+										</GridContainer>
+										<CommonEvents id={user} />
 									</GridItem>
-									<GridItem md={2} lg={2}>
-										<div
-											style={{
-												backgroundColor: '#1b1b1b59',
-												backgroundImage:
-													'url("https://www.transparenttextures.com/patterns/dark-matter.png")',
-												color: '#fafafa',
-												flexGrow: 1,
-												marginBottom: 0,
-												display: 'flex',
-												alignItems: 'flex-start',
-											}}
-											className={classes.gradientBox}
-										>
-											<div>
-												{match.biography ? (
-													match.biography
-												) : (
-													'Hi der This is my lil fill in bio guy'
-												)}
-											</div>
-										</div>
-									</GridItem>
-									<GridItem md={5} lg={5}>
+
+									<GridItem md={4} lg={4}>
 										<Query
 											query={GET_CONVERSATION_QUERY}
 											variables={{ id: user }}
@@ -372,7 +386,6 @@ const UserModal = ({ classes, user, router, currentUser }) => {
 										</Query>
 									</GridItem>
 								</GridContainer>
-								<CommonEvents id={user} />
 							</DialogContent>
 						</Dialog>
 					);

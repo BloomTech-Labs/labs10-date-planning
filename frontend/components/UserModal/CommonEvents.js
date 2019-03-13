@@ -42,7 +42,7 @@ const CommonEvents = ({ classes, id }) => {
 									padding: '10px',
 									display: 'flex',
 									alignItems: 'center',
-									minHeight: '180px',
+									minHeight: '110px',
 								}}
 							>
 								{' '}

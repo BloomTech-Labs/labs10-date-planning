@@ -30,13 +30,16 @@ const Chat = ({ classes, data, id, currentUser, subscribeToNewMessages }) => {
 	const markAllAsSeen = useMutation(MARK_SEEN);
 
 	useEffect(() => {
-		subscribeToNewMessages()
-	}, [])
+		subscribeToNewMessages();
+	}, []);
 
 	useEffect(() => {
 		const unSeen =
 			data &&
-			data.getConversation && data.getConversation.messages.filter(msg => !msg.seen && msg.from.id !== currentUser.id);
+			data.getConversation &&
+			data.getConversation.messages.filter(
+				msg => !msg.seen && msg.from.id !== currentUser.id,
+			);
 
 		if (unSeen && unSeen.length > 0) {
 			markAllAsSeen({
@@ -51,7 +54,7 @@ const Chat = ({ classes, data, id, currentUser, subscribeToNewMessages }) => {
 		let messages = data.getConversation.messages;
 		let user = data.getConversation.users.find(usr => usr.id !== id);
 		let match = data.getConversation.users.find(usr => usr.id === id);
-
+		console.log(messages);
 		return (
 			<div className={classes.chatBorder}>
 				<div className={classes.chat}>
@@ -70,18 +73,29 @@ const Chat = ({ classes, data, id, currentUser, subscribeToNewMessages }) => {
 										<small
 											style={{
 												fontWeight: unseen && 'bold',
+												fontSize: '12px',
 											}}
 										>
 											· {moment(msg.createdAt).fromNow()}
 											{unseen ? (
-												<span style={{ color: 'red' }}>new</span>
+												<span style={{ color: 'red', paddingLeft: '3px' }}>
+													new
+												</span>
 											) : null}
 										</small>
 									</span>
 								}
 								body={
 									<span>
-										<p style={{wordBreak:'break-word'}}>{msg.text}</p>
+										<p style={{ wordBreak: 'break-word', fontSize: '14px' }}>
+											{msg.text}
+										</p>
+										{msg.seen ? (
+											<small>
+												<span style={{ marginRight: '2px' }}>seen</span>
+												{moment(msg.UpdatedAt).format('M/D/YY h:m a')}
+											</small>
+										) : null}
 									</span>
 								}
 							/>
@@ -94,61 +108,10 @@ const Chat = ({ classes, data, id, currentUser, subscribeToNewMessages }) => {
 					onCompleted={() => NProgress.done()}
 					onError={() => NProgress.done()}
 				>
-					{
-						sendMessage => (
-							<div>
-								<Media
-									avatar={user.img.find(i => i.default).img_url}
-									currentUser
-									body={
-										<CustomInput
-											id='logged'
-											formControlProps={{
-												fullWidth: true,
-											}}
-											inputProps={{
-												multiline: true,
-												rows: 6,
-												placeholder: `Find out what ${match.firstName}'s up for!`,
-												value: message,
-												onChange: e => setMessage(e.target.value),
-											}}
-										/>
-									}
-									footer={
-										<Button
-											color='primary'
-											justIcon
-											className={classes.floatRight}
-											onClick={() => {
-												NProgress.start();
-												sendMessage();
-												setMessage('');
-											}}
-										>
-											<Send />
-										</Button>
-									}
-								/>
-							</div>
-						)
-					}
-				</Mutation>
-			</div>
-		);
-	} else
-		return (
-			<Mutation
-				mutation={SEND_MESSAGE_MUTATION}
-				variables={{ id, message }}
-				onCompleted={() => NProgress.done()}
-				onError={() => NProgress.done()}
-			>
-				{
-					sendMessage => (
-						<div className={classes.chatButton}>
+					{sendMessage => (
+						<div>
 							<Media
-								avatar={currentUser.img.find(i => i.default).img_url}
+								avatar={user.img.find(i => i.default).img_url}
 								currentUser
 								body={
 									<CustomInput
@@ -159,7 +122,7 @@ const Chat = ({ classes, data, id, currentUser, subscribeToNewMessages }) => {
 										inputProps={{
 											multiline: true,
 											rows: 6,
-											placeholder: `Find out what this user is up for!`,
+											placeholder: `Find out what ${match.firstName}'s up for!`,
 											value: message,
 											onChange: e => setMessage(e.target.value),
 										}}
@@ -169,6 +132,7 @@ const Chat = ({ classes, data, id, currentUser, subscribeToNewMessages }) => {
 									<Button
 										color='primary'
 										justIcon
+										className={classes.floatRight}
 										onClick={() => {
 											NProgress.start();
 											sendMessage();
@@ -180,8 +144,54 @@ const Chat = ({ classes, data, id, currentUser, subscribeToNewMessages }) => {
 								}
 							/>
 						</div>
-					)
-				}
+					)}
+				</Mutation>
+			</div>
+		);
+	} else
+		return (
+			<Mutation
+				mutation={SEND_MESSAGE_MUTATION}
+				variables={{ id, message }}
+				onCompleted={() => NProgress.done()}
+				onError={() => NProgress.done()}
+			>
+				{sendMessage => (
+					<div className={classes.chatButton}>
+						<Media
+							avatar={currentUser.img.find(i => i.default).img_url}
+							currentUser
+							body={
+								<CustomInput
+									id='logged'
+									formControlProps={{
+										fullWidth: true,
+									}}
+									inputProps={{
+										multiline: true,
+										rows: 6,
+										placeholder: `Find out what this user is up for!`,
+										value: message,
+										onChange: e => setMessage(e.target.value),
+									}}
+								/>
+							}
+							footer={
+								<Button
+									color='primary'
+									justIcon
+									onClick={() => {
+										NProgress.start();
+										sendMessage();
+										setMessage('');
+									}}
+								>
+									<Send />
+								</Button>
+							}
+						/>
+					</div>
+				)}
 			</Mutation>
 		);
 };
