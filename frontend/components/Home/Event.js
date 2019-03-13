@@ -54,7 +54,7 @@ const Event = React.memo(({ event, classes, user, refetch }) => {
 	const divEl = useRef(null);
 	const imgEl = useRef(null);
 	let isSaved = user ? user.events.find(e => e.id === event.id) : false;
-	console.log(event.attending);
+
 	useEffect(
 		() => {
 			NProgress.start();
@@ -74,16 +74,6 @@ const Event = React.memo(({ event, classes, user, refetch }) => {
 		},
 		[ val ],
 	);
-
-	const handleClick = async (e, addEvent) => {
-		if (isSaved) {
-			NProgress.start();
-			let res = await deleteEvent();
-			if (res.data || res.error) NProgress.done();
-		} else {
-			addEvent();
-		}
-	};
 
 	event.times = event.times.sort((a, b) => {
 		let dateA = new Date(a);
@@ -183,8 +173,7 @@ const Event = React.memo(({ event, classes, user, refetch }) => {
 														</div>
 													) : (
 														<Up4
-															handleClick={e =>
-																handleClick(e, addEvent)}
+															handleClick={() => addEvent()}
 															justFour
 														/>
 													)}

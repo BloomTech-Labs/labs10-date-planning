@@ -297,25 +297,27 @@ module.exports = {
 							10000 *
 							20 /
 							100,
-				);
+					);
 
 		// get shared interest between the two users
 		const sharedInterest = currentUser[0].interests.reduce((shared, interest) => {
-			if (matchingUser[0].interests.find(i => i.id === interest.id)) shared.push(interest)
-			shared
+			if (matchingUser[0].interests.find(i => i.id === interest.id)) shared.push(interest);
+			return shared;
 		}, []);
 
 		// calculate genreScore with .4 coef
 		const interestScore =
-		currentUser[0].interests.length + matchingUser[0].interests.length === 0
-			? 0
-			: Math.floor(
-					sharedGenre /
-						(matchingUser[0].interests.length + currentUser[0].interests.length - sharedGenre) *
-						10000 *
-						40 /
-						100,
-			);
+			currentUser[0].interests.length + matchingUser[0].interests.length === 0
+				? 0
+				: Math.floor(
+						sharedGenre /
+							(matchingUser[0].interests.length +
+								currentUser[0].interests.length -
+								sharedGenre) *
+							10000 *
+							40 /
+							100,
+					);
 
 		// compatibility score is the sum of eventScore and genreScore
 		const score = eventScore + genreScore + interestScore;
