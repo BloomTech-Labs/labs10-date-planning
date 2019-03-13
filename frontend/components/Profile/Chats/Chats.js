@@ -9,20 +9,13 @@ import styles from "../../../static/jss/material-kit-pro-react/views/componentsS
 import ExpandedChat from "./ExpandedChat";
 import SmallChat from "./SideView";
 
-const Chats = ({
-  subscribeToNewChats,
-  subscribetoNewMessages,
-  data,
-  currentUser,
-  classes
-}) => {
-  const [chatId, setChatId] = useState("");
-
-  useEffect(() => {
-    subscribeToNewChats();
-    subscribetoNewMessages();
-    return () => console.log("unmounting...");
-  }, []);
+const Chats = ({ subscribeToNewChats, subscribetoNewMessages, data, currentUser, classes }) => {
+	const [ chatId, setChatId ] = useState('');
+	console.log(data);
+	useEffect(() => {
+		subscribeToNewChats();
+		subscribetoNewMessages();
+	}, []);
 
   const formattedChats = userChats => {
     return userChats
@@ -117,7 +110,7 @@ const Chats = ({
             style={{ maxHeight: "calc(100vh - 300px)" }}
           >
             <Paper
-              className={classes.paper}
+              className={classes.paper2}
               style={{
                 height: "100%",
                 backgroundColor: "#1f1e1e",

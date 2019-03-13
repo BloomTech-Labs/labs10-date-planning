@@ -18,44 +18,44 @@ const CommonEvents = ({ classes, id }) => {
 	const { data } = useQuery(SHARED_EVENTS_QUERY, { variables: { id } });
 	if (!data.getSharedEvents) return <div>loading</div>;
 	return (
-		<Fragment>
+		<div style={{ display: 'flex' }}>
 			{/* <h4 style={{textAlign: 'center'}}className={classes.title}>Events in common</h4> */}
-			<GridContainer>
-				{data.getSharedEvents.length ? (
-					data.getSharedEvents.map(event => (
-						<GridItem sm={12} md={12} lg={12} key={event.id}>
-							<Card
+			{/* <GridContainer style={{ display: 'flex' }}> */}
+			{data.getSharedEvents.length ? (
+				data.getSharedEvents.map(event => (
+					<GridItem sm={12} md={12} lg={12} key={event.id}>
+						<Card
+							background
+							style={{
+								position: 'relative',
+								border: '4px solid #4cb5ae',
+								borderRadius: '11px',
+								backgroundImage: `url(${event.image_url})`,
+								marginTop: '0',
+								marginBottom: '0',
+							}}
+						>
+							<CardBody
 								background
 								style={{
-									position: 'relative',
-									border: '4px solid #4cb5ae',
-									borderRadius: '11px',
-									backgroundImage: `url(${event.image_url})`,
-									marginTop: '0',
-									marginBottom: '0',
+									maxWidth: '100%',
+									padding: '10px',
+									display: 'flex',
+									alignItems: 'center',
+									minHeight: '180px',
 								}}
 							>
-								<CardBody
-									background
-									style={{
-										maxWidth: '100%',
-										padding: '10px',
-										display: 'flex',
-										alignItems: 'center',
-										minHeight: '180px',
-									}}
-								>
-									{' '}
-									<h4 className={classes.cardTitleWhite}>{event.title}</h4>
-								</CardBody>
-							</Card>
-						</GridItem>
-					))
-				) : (
-					<div>No shared events!</div>
-				)}
-			</GridContainer>
-		</Fragment>
+								{' '}
+								<h4 className={classes.cardTitleWhite}>{event.title}</h4>
+							</CardBody>
+						</Card>
+					</GridItem>
+				))
+			) : (
+				<div>No shared events!</div>
+			)}
+			{/* </GridContainer> */}
+		</div>
 	);
 };
 

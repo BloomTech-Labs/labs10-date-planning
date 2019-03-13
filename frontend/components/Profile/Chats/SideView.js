@@ -12,10 +12,10 @@ const Chat = ({ chat, setChat, selectedChat, classes }) => {
 			style={{
 				display: 'flex',
 				marginBottom: '20px',
-				padding: '5px 10px',
+				padding: isSelected ? '10px 15px' : '12px 17px',
 				borderRadius: '2px',
-				backgroundImage: isSelected
-					? 'linear-gradient(to top, #b893b3, #bd9db8, #c1a6be, #c6b0c3, #cabac8)'
+				border: isSelected
+					?  '2px solid #b2ddf7'
 					: 'none',
 			}}
 		>

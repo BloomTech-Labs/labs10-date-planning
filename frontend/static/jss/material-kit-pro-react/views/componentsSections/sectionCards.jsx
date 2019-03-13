@@ -278,7 +278,7 @@ const styles = {
 	userCard: {
 		cursor: 'pointer',
 		position: 'relative',
-		paddign: '5px',
+		padding: '5px',
 		marginBottom: '5px',
 		flexDirection: 'column',
 		'&:hover': {
