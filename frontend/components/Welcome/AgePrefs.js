@@ -53,7 +53,7 @@ const GenderPrefs = ({ classes }) => {
 							borderRadius: '6px',
 						}}
 					>
-						<h2>I am interested in ...</h2>
+						<h2>Between the ages of...</h2>
 						<div className={classes.inputRange} style={{ width: '100%' }}>
 							<InputRange
 								minLabel='range-label'
