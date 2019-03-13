@@ -239,11 +239,11 @@ module.exports = {
 			},
 		});
 
-		// calculate eventScore with .6 coef
+		// calculate eventScore with .4 coef
 		const eventScore =
 			combinedEvents.length === 0
 				? 0
-				: Math.floor(sharedEvents.length / combinedEvents.length * 10000 * 60 / 100);
+				: Math.floor(sharedEvents.length / combinedEvents.length * 10000 * 40 / 100);
 
 		// query current user events genre
 		const currentUser = await db.query.users(
@@ -252,7 +252,7 @@ module.exports = {
 					id: currentUserId,
 				},
 			},
-			`{ events { genre  } }`,
+			`{ events { genre  } interests { id } }`,
 		);
 
 		// get unique genre list for current user
@@ -263,12 +263,6 @@ module.exports = {
 			return genres;
 		}, []);
 
-		// calculate eventScore with .6 coef
-		// const eventScore =
-		// 	combinedEvents.length === 0
-		// 		? 0
-		// 		: Math.floor(sharedEvents.length / combinedEvents.length * 10000 * 60 / 100);
-
 		// query matching user events genre
 		const matchingUser = await db.query.users(
 			{
@@ -276,7 +270,7 @@ module.exports = {
 					id: matchingUserId,
 				},
 			},
-			`{ events { genre } }`,
+			`{ events { genre } interests { id } }`,
 		);
 
 		// get unique genre list for matching user
@@ -293,7 +287,7 @@ module.exports = {
 			return count;
 		}, 0);
 
-		// calculate genreScore with .4 coef
+		// calculate genreScore with .2 coef
 		const genreScore =
 			currentUserGenres.length + matchingUserGenres.length === 0
 				? 0
@@ -301,12 +295,30 @@ module.exports = {
 						sharedGenre /
 							(matchingUserGenres.length + currentUserGenres.length - sharedGenre) *
 							10000 *
-							40 /
+							20 /
 							100,
-					);
+				);
+
+		// get shared interest between the two users
+		const sharedInterest = currentUser[0].interests.reduce((shared, interest) => {
+			if (matchingUser[0].interests.find(i => i.id === interest.id)) shared.push(interest)
+			shared
+		}, []);
+
+		// calculate genreScore with .4 coef
+		const interestScore =
+		currentUser[0].interests.length + matchingUser[0].interests.length === 0
+			? 0
+			: Math.floor(
+					sharedGenre /
+						(matchingUser[0].interests.length + currentUser[0].interests.length - sharedGenre) *
+						10000 *
+						40 /
+						100,
+			);
 
 		// compatibility score is the sum of eventScore and genreScore
-		const score = eventScore + genreScore;
+		const score = eventScore + genreScore + interestScore;
 
 		return score;
 	},
