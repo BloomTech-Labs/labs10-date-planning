@@ -174,6 +174,7 @@ const Event = React.memo(({ event, classes, user, refetch }) => {
 														</div>
 													) : (
 														<Up4
+															
 															handleClick={() => addEvent()}
 															justFour
 														/>
