@@ -302,16 +302,16 @@ module.exports = {
 		// get shared interest between the two users
 		const sharedInterest = currentUser[0].interests.reduce((shared, interest) => {
 			if (matchingUser[0].interests.find(i => i.id === interest.id)) shared.push(interest)
-			shared
+			return shared
 		}, []);
 
-		// calculate genreScore with .4 coef
+		// calculate interestScore with .4 coef
 		const interestScore =
 		currentUser[0].interests.length + matchingUser[0].interests.length === 0
 			? 0
 			: Math.floor(
 					sharedGenre /
-						(matchingUser[0].interests.length + currentUser[0].interests.length - sharedGenre) *
+						(matchingUser[0].interests.length + currentUser[0].interests.length - sharedInterest) *
 						10000 *
 						40 /
 						100,
