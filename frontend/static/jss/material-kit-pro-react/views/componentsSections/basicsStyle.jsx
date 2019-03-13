@@ -77,6 +77,11 @@ const basicsStyle = theme => ({
 		// padding: 10,
 		paddingTop: '100px',
 		zIndex: 1000,
+		backgroundColor: '#2d2d2d80',
+
+		'& svg': {
+			color : '#fafafa'
+		}
 	},
 	drawerHeader: {
 		display: 'flex',
