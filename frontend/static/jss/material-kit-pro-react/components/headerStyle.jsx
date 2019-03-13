@@ -3,172 +3,176 @@
 // #############################
 
 import {
-	container,
-	defaultFont,
-	primaryColor,
-	infoColor,
-	successColor,
-	warningColor,
-	dangerColor,
-	roseColor,
-	transition,
-	boxShadow,
-	drawerWidth,
-} from '../../material-kit-pro-react';
+  container,
+  defaultFont,
+  primaryColor,
+  infoColor,
+  successColor,
+  warningColor,
+  dangerColor,
+  roseColor,
+  transition,
+  boxShadow,
+  drawerWidth
+} from "../../material-kit-pro-react";
 
 const headerStyle = theme => ({
-	appBar: {
-		display: 'flex',
-		border: '0',
-		borderRadius: '3px',
-		padding: '0.625rem 0',
-		// marginBottom: '20px',
-		color: '#555',
-		width: '100%',
-		backgroundColor: '#fff',
-		boxShadow: '0 4px 18px 0px rgba(255, 255, 255, 0.22), 0 7px 10px -5px rgba(0, 0, 0, 0.15)',
-		transition: 'all 150ms ease 0s',
-		alignItems: 'center',
-		flexFlow: 'row nowrap',
-		justifyContent: 'flex-start',
-		position: 'relative',
-	},
-	absolute: {
-		position: 'absolute',
-		top: 'auto',
-	},
-	fixed: {
-		position: 'fixed',
-	},
-	container: {
-		...container,
-		minHeight: '50px',
-		alignItems: 'center',
-		justifyContent: 'space-between',
-		display: 'flex',
-		flexWrap: 'nowrap',
-	},
-	title: {
-		'&,& a': {
-			...defaultFont,
-			lineHeight: '30px',
-			fontSize: '18px',
-			borderRadius: '3px',
-			textTransform: 'none',
-			whiteSpace: 'nowrap',
-			color: 'inherit',
-			'&:hover,&:focus': {
-				color: 'inherit',
-				background: 'transparent',
-			},
-		},
-	},
-	appResponsive: {
-		margin: '20px 10px',
-		marginTop: '0px',
-	},
-	primary: {
-		//backgroundColor: primaryColor,
-		// backgroundImage: 'linear-gradient(to top, #4cb5ae, #59beb7, #65c7c0, #71d0ca, #7dd9d3)',
-		// backgroundImage: 'linear-gradient(to right, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1)',
-		//backgroundImage:
-		background: 'rgb(76,181,174)',
-		backgroundImage:
-			'linear-gradient(90deg, rgba(126,183,184,1) 13%, rgba(146,184,188,1) 29%, rgba(160,184,191,1) 54%, rgba(179,185,195,1) 70%, rgba(188,185,197,1) 86%, rgba(202,186,200,1) 93%);',
-		//'linear-gradient(to right, #4cb5ae, #55bbb9, #5ec2c3, #68c8cd, #72ced7, #7dcee0, #8acee6, #98ceea, #acc7e7, #bcc1df, #c6bdd3, #cabac8)',
-		color: '#FFFFFF',
-		boxShadow:
-			'0 2px 5px 0px rgba(255, 255, 255, 0.14), 0 7px 12px -5px rgba(85,187,185, 0.56)',
-	},
-	info: {
-		backgroundColor: infoColor,
-		color: '#FFFFFF',
-		boxShadow: '0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(0, 188, 212, 0.46)',
-	},
-	success: {
-		backgroundColor: successColor,
-		color: '#FFFFFF',
-		boxShadow: '0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(76, 175, 80, 0.46)',
-	},
-	warning: {
-		// backgroundColor: '#b2ddf7',
-		backgroundImage: 'linear-gradient(to right, #cabac8, #df9bbe, #f6749d, #ff4768, #ff101f)',
-		color: '#FFFFFF',
-		boxShadow: '0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(178, 221, 247, 0.46)',
-	},
-	danger: {
-		backgroundColor: dangerColor,
-		color: '#FFFFFF',
-		boxShadow: '0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(244, 67, 54, 0.46)',
-	},
-	rose: {
-		backgroundColor: roseColor,
-		color: '#FFFFFF',
-		boxShadow: '0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(233, 30, 99, 0.46)',
-	},
-	transparent: {
-		backgroundColor: 'transparent !important',
-		boxShadow: 'none',
-		paddingTop: '25px',
-		color: '#FFFFFF',
-	},
-	dark: {
-		color: '#FFFFFF',
-		backgroundColor: '#212121 !important',
-		boxShadow: '0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(33, 33, 33, 0.46)',
-	},
-	white: {
-		border: '0',
-		padding: '0.625rem 0',
-		marginBottom: '20px',
-		color: '#555',
-		backgroundColor: '#fff !important',
-		boxShadow: '0 4px 18px 0px rgba(0, 0, 0, 0.12), 0 7px 10px -5px rgba(0, 0, 0, 0.15)',
-	},
-	drawerPaper: {
-		border: 'none',
-		bottom: '0',
-		transitionProperty: 'top, bottom, width',
-		transitionDuration: '.2s, .2s, .35s',
-		transitionTimingFunction: 'linear, linear, ease',
-		width: drawerWidth,
-		...boxShadow,
-		position: 'fixed',
-		display: 'block',
-		top: '0',
-		height: '100vh',
-		right: '0',
-		left: 'auto',
-		visibility: 'visible',
-		overflowY: 'visible',
-		borderTop: 'none',
-		textAlign: 'left',
-		paddingRight: '0px',
-		paddingLeft: '0',
-		...transition,
-	},
-	hidden: {
-		width: '100%',
-	},
-	collapse: {
-		[theme.breakpoints.up('md')]: {
-			display: 'flex !important',
-			MsFlexPreferredSize: 'auto',
-			flexBasis: 'auto',
-		},
-		WebkitBoxFlex: '1',
-		MsFlexPositive: '1',
-		flexGrow: '1',
-		WebkitBoxAlign: 'center',
-		MsFlexAlign: 'center',
-		alignItems: 'center',
-	},
-	closeButtonDrawer: {
-		position: 'absolute',
-		right: '8px',
-		top: '9px',
-		zIndex: '1',
-	},
+  appBar: {
+    display: "flex",
+    border: "0",
+    borderRadius: "3px",
+    padding: "0.625rem 0",
+    // marginBottom: '20px',
+    color: "#555",
+    width: "100%",
+    backgroundColor: "#fff",
+    boxShadow:
+      "0 4px 18px 0px rgba(255, 255, 255, 0.22), 0 7px 10px -5px rgba(0, 0, 0, 0.15)",
+    transition: "all 150ms ease 0s",
+    alignItems: "center",
+    flexFlow: "row nowrap",
+    justifyContent: "flex-start",
+    position: "relative"
+  },
+  absolute: {
+    position: "absolute",
+    top: "auto"
+  },
+  fixed: {
+    position: "fixed"
+  },
+  container: {
+    ...container,
+    minHeight: "50px",
+    alignItems: "center",
+    justifyContent: "space-between",
+    display: "flex",
+    flexWrap: "nowrap"
+  },
+  title: {
+    "&,& a": {
+      ...defaultFont,
+      lineHeight: "30px",
+      fontSize: "18px",
+      borderRadius: "3px",
+      textTransform: "none",
+      whiteSpace: "nowrap",
+      color: "inherit",
+      "&:hover,&:focus": {
+        color: "inherit",
+        background: "transparent"
+      }
+    }
+  },
+  appResponsive: {
+    margin: "20px 10px",
+    marginTop: "0px"
+  },
+  primary: {
+    background: "rgb(76,181,174)",
+    backgroundImage:
+      "linear-gradient(to right, #4cb5ae, #5abdc0, #6dc5d0, #81ccde, #96d3ea, #a3d3ee, #b0d3f0, #bdd3f0, #c4cce8, #c9c5de, #cbbfd3, #cabac8)",
+    color: "#FFFFFF",
+    boxShadow:
+      "0 2px 5px 0px rgba(255, 255, 255, 0.14), 0 7px 12px -5px rgba(85,187,185, 0.56)"
+  },
+  info: {
+    backgroundColor: infoColor,
+    color: "#FFFFFF",
+    boxShadow:
+      "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(0, 188, 212, 0.46)"
+  },
+  success: {
+    backgroundColor: successColor,
+    color: "#FFFFFF",
+    boxShadow:
+      "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(76, 175, 80, 0.46)"
+  },
+  warning: {
+    // backgroundColor: '#b2ddf7',
+    backgroundImage:
+      "linear-gradient(to right, #cabac8, #df9bbe, #f6749d, #ff4768, #ff101f)",
+    color: "#FFFFFF",
+    boxShadow:
+      "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(178, 221, 247, 0.46)"
+  },
+  danger: {
+    backgroundColor: dangerColor,
+    color: "#FFFFFF",
+    boxShadow:
+      "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(244, 67, 54, 0.46)"
+  },
+  rose: {
+    backgroundColor: roseColor,
+    color: "#FFFFFF",
+    boxShadow:
+      "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(233, 30, 99, 0.46)"
+  },
+  transparent: {
+    backgroundColor: "transparent !important",
+    boxShadow: "none",
+    paddingTop: "25px",
+    color: "#FFFFFF"
+  },
+  dark: {
+    color: "#FFFFFF",
+    backgroundColor: "#212121 !important",
+    boxShadow:
+      "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(33, 33, 33, 0.46)"
+  },
+  white: {
+    border: "0",
+    padding: "0.625rem 0",
+    marginBottom: "20px",
+    color: "#555",
+    backgroundColor: "#fff !important",
+    boxShadow:
+      "0 4px 18px 0px rgba(0, 0, 0, 0.12), 0 7px 10px -5px rgba(0, 0, 0, 0.15)"
+  },
+  drawerPaper: {
+    border: "none",
+    bottom: "0",
+    transitionProperty: "top, bottom, width",
+    transitionDuration: ".2s, .2s, .35s",
+    transitionTimingFunction: "linear, linear, ease",
+    width: drawerWidth,
+    ...boxShadow,
+    position: "fixed",
+    display: "block",
+    top: "0",
+    height: "100vh",
+    right: "0",
+    left: "auto",
+    visibility: "visible",
+    overflowY: "visible",
+    borderTop: "none",
+    textAlign: "left",
+    paddingRight: "0px",
+    paddingLeft: "0",
+    ...transition
+  },
+  hidden: {
+    width: "100%"
+  },
+  collapse: {
+    [theme.breakpoints.up("md")]: {
+      display: "flex !important",
+      MsFlexPreferredSize: "auto",
+      flexBasis: "auto"
+    },
+    WebkitBoxFlex: "1",
+    MsFlexPositive: "1",
+    flexGrow: "1",
+    WebkitBoxAlign: "center",
+    MsFlexAlign: "center",
+    alignItems: "center"
+  },
+  closeButtonDrawer: {
+    position: "absolute",
+    right: "8px",
+    top: "9px",
+    zIndex: "1"
+  }
 });
 
 export default headerStyle;
