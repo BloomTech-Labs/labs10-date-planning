@@ -58,6 +58,11 @@ const styles = {
     }
   },
   verifyInput: {
+    display: 'flex',
+    flexDirection: 'column',
+    '& ::after':{
+      borderBottomColor: '#15c0da'
+    },
     "& input": {
       color: "#fafafa"
     }

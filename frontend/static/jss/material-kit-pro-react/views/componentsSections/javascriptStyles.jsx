@@ -252,6 +252,9 @@ const javascriptStyles = theme => {
           "linear-gradient(to right, #81d6e3, #71d0df, #5ecadb, #49c3d8, #2dbdd4)",
         background: "transparent"
       }
+    },
+    location: {
+      fill: 'url(#indexID) #4CB5AE',
     }
   };
 };
