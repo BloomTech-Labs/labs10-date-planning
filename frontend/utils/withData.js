@@ -43,7 +43,17 @@ export default withApollo(({ headers = {} }) => {
 		if (networkError) console.log(`[Network error]: ${networkError}`);
 	});
 
-	let link = ApolloLink.from([ errorLink, contextLink, httpLink ]);
+	const authLink = setContext((_, { headers }) => {
+	  const token = getToken()["XSRF-TOKEN"];
+	  return {
+		headers: {
+		  ...headers,
+		  "X-XSRF-TOKEN": token
+		}
+	  };
+	});
+
+	let link = ApolloLink.from([ errorLink, contextLink, httpLink, authLink ]);
 
 	if (!ssrMode) {
 		link = split(
