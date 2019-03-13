@@ -306,19 +306,12 @@ module.exports = {
 		}, []);
 
 		// calculate interestScore with .4 coef
-		// calculate interestScore with .4 coef
-		const interestScore =
-			currentUser[0].interests.length + matchingUser[0].interests.length === 0
-				? 0
-				: Math.floor(
-						sharedGenre /
-							(matchingUser[0].interests.length +
-								currentUser[0].interests.length -
-								sharedInterest.length) *
-							10000 *
-							40 /
-							100,
-					);
+
+		const interestScore = currentUser[0].interests.length + matchingUser[0].interests.length === 0
+			? 0
+			: Math.floor( sharedInterest.length / (matchingUser[0].interests.length + currentUser[0].interests.length - sharedInterest.length) * 10000 * 40 / 100 );
+
+
 		// compatibility score is the sum of eventScore and genreScore
 		const score = eventScore + genreScore + interestScore;
 
