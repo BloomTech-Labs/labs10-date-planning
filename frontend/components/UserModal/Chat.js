@@ -9,13 +9,46 @@ import { Send } from '@material-ui/icons';
 import { Mutation } from 'react-apollo';
 import { useMutation } from 'react-apollo-hooks';
 
-import { SEND_MESSAGE_MUTATION } from '../Mutations/sendMessage';
+// import { SEND_MESSAGE_MUTATION } from '../Mutations/sendMessage';
 
 import CustomInput from '../../styledComponents/CustomInput/CustomInput.jsx';
 import Media from '../../styledComponents/Media/Media.jsx';
 import Button from '../../styledComponents/CustomButtons/Button';
 
 import styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles.jsx';
+
+const SEND_MESSAGE_MUTATION = gql`
+  mutation SEND_MESSAGE_MUTATION($id: String!, $message: String!) {
+    sendMessage(id: $id, message: $message) {
+      id
+      users {
+        id
+        firstName
+        img {
+          id
+          img_url
+          default
+        }
+      }
+      messages {
+        id
+        text
+        seen
+        createdAt
+        from {
+          id
+          firstName
+          img {
+            id
+            img_url
+            default
+          }
+        }
+        updatedAt
+      }
+    }
+  }
+`;
 
 const MARK_SEEN = gql`
 	mutation MARK_SEEN($chatId: String!) {
