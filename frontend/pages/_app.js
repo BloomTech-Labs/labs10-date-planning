@@ -31,6 +31,15 @@ class MyApp extends App {
 
 		pageProps.query = ctx.query;
 
+		// 	const apollo = initApollo(
+		// 	  {},
+		// 	  {
+		// 		getToken: () => parseCookies(req).token,
+		// 		cookies: req ? req.headers.cookie : "",
+		// 		csrfToken: res ? res.locals.csrfToken : document.cookie
+		// 	  }
+		// 	);
+
 		return { pageProps };
 		// static async getInitialProps(ctx) {
 		// 	const {
