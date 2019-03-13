@@ -234,6 +234,20 @@ const basicsStyle = theme => ({
 		// backgroundImage:
 		//   "url(https://www.transparenttextures.com/patterns/dark-matter.png)"
 	},
+	paper2: {
+		background: 'transparent',
+		border: '2px solid #b2ddf7',
+		display: 'flex',
+		flexDirection: 'column',
+		padding: '20px',
+		backgroundColor: 'rgba(0,0,0,0.32)',
+		'& ::before': {
+			borderBottom: '1px solid #fafafa',
+		},
+		'& svg': {
+			fill: '#fafafa',
+		},
+	},
 	darkBackground: {
 		background: 'transparent',
 		color: '#fafafa',

@@ -238,6 +238,20 @@ const javascriptStyles = theme => {
       backgroundImage:
         "linear-gradient(to right, #8dd2cd, #7ecbc5, #6ec3bd, #5ebcb6, #4cb5ae)",
       color: "#fafafa !important"
+    },
+    expandedChat: {
+      display: "flex",
+      justifyContent: "flex-end",
+      alignItems: "flex-end",
+      borderTop: "2px solid #b2ddf7",
+      "& ::after": {
+        borderBottomColor: "#81d6e3"
+      },
+      "& button": {
+        backgroundImage:
+          "linear-gradient(to right, #81d6e3, #71d0df, #5ecadb, #49c3d8, #2dbdd4)",
+        background: "transparent"
+      }
     }
   };
 };
