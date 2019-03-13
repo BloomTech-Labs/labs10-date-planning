@@ -352,6 +352,7 @@ const UserModal = ({ classes, user, router, currentUser }) => {
 														id={user}
 														currentUser={currentUser}
 														subscribeToNewMessages={() => {
+															data &&
 															data.getConversation &&
 																subscribeToMore({
 																	document: MESSAGE_SUBSCRIPTION,
@@ -364,19 +365,10 @@ const UserModal = ({ classes, user, router, currentUser }) => {
 																		{ subscriptionData },
 																	) => {
 																		if (!subscriptionData)
-																			return prev;
+																			return prev
 																		return {
-																			getConversation: {
-																				...getConversation,
-																				messages: [
-																					...prev
-																						.getConversation
-																						.messages,
-																					subscriptionData
-																						.data.node,
-																				],
-																			},
-																		};
+																			...prev
+																		}
 																	},
 																});
 														}}
