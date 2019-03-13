@@ -305,7 +305,8 @@ module.exports = {
 			return shared;
 		}, []);
 
-		// calculate genreScore with .4 coef
+		// calculate interestScore with .4 coef
+		// calculate interestScore with .4 coef
 		const interestScore =
 			currentUser[0].interests.length + matchingUser[0].interests.length === 0
 				? 0
@@ -313,12 +314,11 @@ module.exports = {
 						sharedGenre /
 							(matchingUser[0].interests.length +
 								currentUser[0].interests.length -
-								sharedGenre) *
+								sharedInterest.length) *
 							10000 *
 							40 /
 							100,
 					);
-
 		// compatibility score is the sum of eventScore and genreScore
 		const score = eventScore + genreScore + interestScore;
 

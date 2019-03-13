@@ -47,6 +47,7 @@ const Event = React.memo(({ event, classes, user, refetch }) => {
 		onCompleted: e => console.log(e),
 		onError: e => console.log(e),
 	});
+	console.log(event.attending);
 
 	const [ rotate, setRotate ] = useState('');
 	const [ height, setHeight ] = useState(0);
@@ -361,7 +362,8 @@ const Event = React.memo(({ event, classes, user, refetch }) => {
 															}}
 														>
 															<p style={{ margin: 0 }}>
-																{usr.firstName} |{' '}
+																{usr.firstName}{' '}
+																<span style={{ padding: '0 3px' }}>&#8226;</span>
 															</p>
 															<p style={{ margin: '0 0 0 2px' }}>
 																{getAge(usr.dob)}

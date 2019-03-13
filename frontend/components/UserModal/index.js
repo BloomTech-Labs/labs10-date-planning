@@ -144,6 +144,7 @@ const UserModal = ({ classes, user, router, currentUser }) => {
 						? currentUser.img.find(img => img.default).img_url
 						: null; */
 				}
+
 				//console.log(match.events, currentUser.events);
 				if (!match) return <div />;
 				else {
@@ -299,6 +300,8 @@ const UserModal = ({ classes, user, router, currentUser }) => {
 												))}
 											</Slider>
 										</div>
+									</GridItem>
+									<GridItem md={2} lg={2}>
 										<div
 											style={{
 												backgroundColor: '#1b1b1b59',
@@ -320,9 +323,6 @@ const UserModal = ({ classes, user, router, currentUser }) => {
 												)}
 											</div>
 										</div>
-									</GridItem>
-									<GridItem md={2} lg={2}>
-										<CommonEvents id={user} />
 									</GridItem>
 									<GridItem md={5} lg={5}>
 										<Query
@@ -372,6 +372,7 @@ const UserModal = ({ classes, user, router, currentUser }) => {
 										</Query>
 									</GridItem>
 								</GridContainer>
+								<CommonEvents id={user} />
 							</DialogContent>
 						</Dialog>
 					);

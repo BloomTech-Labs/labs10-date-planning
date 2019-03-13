@@ -43,6 +43,7 @@ export const ALL_EVENTS_QUERY = gql`
 						img_url
 					}
 					biography
+					score
 				}
 				location {
 					venue
