@@ -46,6 +46,7 @@ const Splash = ({ classes }) => {
 								style={{ flexDirection: 'column', alignItems: 'center' }}
 							>
 								<Button
+									className={classes.registerButton}
 									color='danger'
 									size='lg'
 									style={{ fontSize: '30px' }}

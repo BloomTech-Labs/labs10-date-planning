@@ -527,9 +527,10 @@ const Register = ({ classes, showing, setShowing }) => {
                                   <div className={classes.textCenter}>
                                     <ButtonBase type="submit">
                                       <Button
+									  	className={classes.registerModalButton}
                                         round
-                                        disabled
-                                        //disabled={!terms}
+                                        // disabled
+                                        disabled={!terms}
                                         color="primary"
                                         component="div"
                                       >
