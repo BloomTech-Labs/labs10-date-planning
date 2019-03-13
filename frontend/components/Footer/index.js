@@ -6,6 +6,7 @@ import styles from '../../static/jss/material-kit-pro-react/views/componentsSect
 import List from '@material-ui/core/List';
 import Button from '../../styledComponents/CustomButtons/Button.jsx';
 import ListItem from '@material-ui/core/ListItem';
+
 const Footer = ({ classes }) => {
 	return (
 		<StyledFooter
@@ -13,12 +14,17 @@ const Footer = ({ classes }) => {
 			content={
 				<div>
 					<div className={classes.left}>
-						<a
-							href='https://www.creative-tim.com/product/material-kit-pro-react'
+						<div
 							className={classes.footerBrand}
+							style={{
+								fontFamily: 'Baumans',
+								fontSize: '24px',
+								color: '#fafafa',
+								lineHeight: 'normal',
+							}}
 						>
-							Up4
-						</a>
+							<span style={{ color: '#4cb5ae' }}>Up</span>4
+						</div>
 					</div>
 					{/* <div className={classes.pullCenter}>
 						<List className={classes.list}>
@@ -54,15 +60,15 @@ const Footer = ({ classes }) => {
 						<ul>
 							<li>
 								<Button
-									href='https://twitter.com/CreativeTim'
+									href='https://github.com/Lambda-School-Labs/labs10-date-planning'
 									color='twitter'
 									justIcon
 									simple
 								>
-									<i className='fab fa-twitter' />
+									<i className='fab fa-github' />
 								</Button>
 							</li>
-							<li>
+							{/* <li>
 								<Button
 									href='https://dribbble.com/creativetim'
 									color='dribbble'
@@ -81,7 +87,7 @@ const Footer = ({ classes }) => {
 								>
 									<i className='fab fa-google-plus-g' />
 								</Button>
-							</li>
+							</li> */}
 						</ul>
 					</div>
 				</div>

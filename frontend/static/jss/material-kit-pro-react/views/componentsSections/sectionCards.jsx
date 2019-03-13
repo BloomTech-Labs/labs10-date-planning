@@ -201,6 +201,8 @@ const styles = {
 	//Additions
 	eventBorder: {
 		border: '4px solid #4cb5ae',
+		margin: '5px',
+		padding: '3px',
 		borderRadius: '6px',
 		transition: 'all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)',
 		backgroundColor: '#fafafa',
@@ -276,7 +278,7 @@ const styles = {
 	userCard: {
 		cursor: 'pointer',
 		position: 'relative',
-		paddign: '5px',
+		padding: '5px',
 		marginBottom: '5px',
 		flexDirection: 'column',
 		'&:hover': {
@@ -408,8 +410,9 @@ const styles = {
 	},
 	eventUserCard: {
 		cursor: 'pointer',
+
 		'&:hover': {
-			backgroundColor: '#fafafa',
+			backgroundColor: '#111111',
 
 			borderRadius: '6px',
 			boxShadow:
@@ -417,6 +420,22 @@ const styles = {
 			'& .title': {
 				color: 'black',
 			},
+		},
+	},
+	slicky: {
+		height: '230px',
+		'& .slick-slide': {
+			margin: '0 8px',
+			maxWidth: '150px',
+		},
+		'& .slick-prev': {
+			left: '-50px',
+		},
+		'& .slick-next': {
+			right: '-53px',
+		},
+		'& .slick-dots li button:before': {
+			color: 'transparent',
 		},
 	},
 };

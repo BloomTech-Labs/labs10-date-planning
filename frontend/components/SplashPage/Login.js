@@ -129,7 +129,7 @@ const Login = ({ classes, showing, setShowing }) => {
 					aria-labelledby='signup-modal-slide-title'
 					aria-describedby='signup-modal-slide-description'
 				>
-					<Card plain className={classes.modalLoginCard}>
+					<Card plain className={classes.modalLoginCard + " " + classes.login}>
 						<DialogTitle
 							id='login-modal-slide-title'
 							disableTypography
@@ -138,7 +138,7 @@ const Login = ({ classes, showing, setShowing }) => {
 							<CardHeader
 								plain
 								color='primary'
-								className={`${classes.textCenter} ${classes.cardLoginHeader}`}
+								className={`${classes.textCenter} ${classes.cardLoginHeader} ${classes.loginHeader}`}
 							>
 								<Button
 									simple
@@ -317,10 +317,11 @@ const Login = ({ classes, showing, setShowing }) => {
 										>
 											<ButtonBase type='submit'>
 												<Button
+													className={classes.loginButton}
 													color='primary'
 													simple
-													disabled
-													//disabled={!user.email || !user.password}
+													// disabled
+													disabled={!user.email || !user.password}
 													size='lg'
 													component='div'
 												>

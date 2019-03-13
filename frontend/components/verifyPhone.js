@@ -2,9 +2,14 @@ import React, { useState } from 'react';
 import InputMask from 'react-input-mask';
 import { SEND_VERIFICATION_MUTATION, CHECK_VERIFICATION_MUTATION } from './Mutations/verifyText';
 import { useMutation } from './Mutations/useMutation';
-import Button from '../styledComponents/CustomButtons/Button';
+import {withStyles} from '@material-ui/core'
 
-const Verify = () => {
+import styles from '../static/jss/Welcome/welcomeStyles.js';
+
+import Button from '../styledComponents/CustomButtons/Button';
+import CustomInput from '../styledComponents/CustomInput/CustomInput.jsx'
+
+const Verify = ({classes}) => {
 	const [ verify, setVerify ] = useState(false);
 	const [ verifySent, setVerifySent ] = useState(false);
 	const [ verified, setVerified ] = useState(false);
@@ -39,12 +44,12 @@ const Verify = () => {
 	return (
 		<div>
 			<Button simple white style={{ zIndex: 1 }} onClick={() => setVerify(true)}>
-				Verify your phone number.
+				Verify your phone number to send and recieve messages.
 			</Button>
 			{verify && (
-				<div>
-					<input
-						style={{ zIndex: 7 }}
+				<div className={classes.verifyInput}>
+					<CustomInput
+						
 						//mask='(999) 999-9999'
 						value={phone}
 						onChange={e => {
@@ -66,7 +71,7 @@ const Verify = () => {
 				<div>
 					<p>Verification text sent, please enter the code below. </p>
 					<input
-						style={{ zIndex: 1 }}
+						
 						//mask='9999'
 						value={code}
 						onChange={e => {
@@ -89,4 +94,4 @@ const Verify = () => {
 	);
 };
 
-export default Verify;
+export default withStyles(styles)(Verify);

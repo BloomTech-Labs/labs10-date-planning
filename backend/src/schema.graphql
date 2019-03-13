@@ -61,6 +61,7 @@ type Query {
 type Subscription {
 	myChat(id: String!): ChatSubscriptionPayload
 	myMessages(id: String!): MessageSubscriptionPayload!
+	myMessage(chatId: String!): MessageSubscriptionPayload!
 }
 
 enum MutationType {
