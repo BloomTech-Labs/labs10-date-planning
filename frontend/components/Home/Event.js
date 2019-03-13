@@ -54,7 +54,7 @@ const Event = React.memo(({ event, classes, user, refetch }) => {
 	const divEl = useRef(null);
 	const imgEl = useRef(null);
 	let isSaved = user ? user.events.find(e => e.id === event.id) : false;
-
+	console.log(event.attending);
 	useEffect(
 		() => {
 			NProgress.start();
