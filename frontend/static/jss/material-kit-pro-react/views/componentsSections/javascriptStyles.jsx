@@ -187,10 +187,33 @@ const javascriptStyles = theme => {
     favorite: {
       fill: "url(#favoriteID) #ff101f"
     },
-    dots:{
-      '& svg': {
+    dots: {
+      "& svg": {
+        color: "#fafafa"
+      }
+    },
+    register: {
+      backgroundColor: "#262323",
+      backgroundImage:
+        'url("https://www.transparenttextures.com/theme/images/transparent.png")',
+      color: '#fafafa',
+      border: '2px solid #81d6e3',
+      '& h3':{
+        color: '#fafafa',
+      },
+      '& h4':{
+        color: '#fafafa',
+      },
+      '& input':{
         color: '#fafafa'
       }
+      
+    },
+    registerCheck: {
+      border: '1px solid #fafafa !important',
+    },
+    registerField: {
+      color: '#fafafa !important'
     }
   };
 };
