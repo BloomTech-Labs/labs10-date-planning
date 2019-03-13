@@ -93,7 +93,7 @@ const Chat = ({ classes, data, id, currentUser, subscribeToNewMessages }) => {
 										{msg.seen ? (
 											<small>
 												<span style={{ marginRight: '2px' }}>seen</span>
-												{moment(msg.UpdatedAt).format('M/D/YY h:m a')}
+												{moment(msg.UpdatedAt).format('M/D/YY h:mm a')}
 											</small>
 										) : null}
 									</span>
