@@ -27,6 +27,7 @@ import triangle5 from '../../static/img/triangle5.svg';
 import triangle6 from '../../static/img/triangle6.svg';
 import triangle7 from '../../static/img/triangle7.svg';
 import triangle8 from '../../static/img/triangle8.svg';
+import triangle9 from '../../static/img/triangle9.svg';
 
 function getSteps() {
 	return [
@@ -91,7 +92,7 @@ function getImage(stepIndex) {
 		case 8:
 			return triangle8;
 		case 9:
-			return triangle8;
+			return triangle9;
 		default:
 			return null;
 	}
