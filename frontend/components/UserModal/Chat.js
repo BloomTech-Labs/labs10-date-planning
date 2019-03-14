@@ -119,8 +119,9 @@ const Chat = ({ classes, data, id, currentUser, subscribeToNewMessages, match })
 										>
 											· {moment(msg.createdAt).fromNow()}
 											{unseen ? (
-							<span style={{ color: 'red', marginLeft: '6px' }}>new</span>
-
+												<span style={{ color: 'red', marginLeft: '6px' }}>
+													new
+												</span>
 											) : null}
 										</small>
 									</span>
@@ -145,8 +146,14 @@ const Chat = ({ classes, data, id, currentUser, subscribeToNewMessages, match })
 				<Mutation
 					mutation={SEND_MESSAGE_MUTATION}
 					variables={{ id, message }}
-					onCompleted={() => NProgress.done()}
-					onError={() => NProgress.done()}
+					onCompleted={e => {
+						console.log(e);
+						NProgress.done();
+					}}
+					onError={e => {
+						console.log(e);
+						NProgress.done();
+					}}
 				>
 					{sendMessage => (
 						<div>
@@ -193,11 +200,25 @@ const Chat = ({ classes, data, id, currentUser, subscribeToNewMessages, match })
 			<Mutation
 				mutation={SEND_MESSAGE_MUTATION}
 				variables={{ id, message }}
-				onCompleted={() => NProgress.done()}
-				onError={() => NProgress.done()}
+				onCompleted={e => {
+					console.log(e);
+					NProgress.done();
+				}}
+				onError={e => {
+					console.log(e);
+					NProgress.done();
+				}}
 			>
 				{sendMessage => (
-					<div className={classes.chatButton}>
+					<form
+						className={classes.chatButton}
+						onSubmit={() => {
+							NProgress.start();
+							sendMessage();
+
+							setMessage('');
+						}}
+					>
 						<Media
 							avatar={currentUser.img.find(i => i.default).img_url}
 							currentUser
@@ -230,7 +251,7 @@ const Chat = ({ classes, data, id, currentUser, subscribeToNewMessages, match })
 								</Button>
 							}
 						/>
-					</div>
+					</form>
 				)}
 			</Mutation>
 		);

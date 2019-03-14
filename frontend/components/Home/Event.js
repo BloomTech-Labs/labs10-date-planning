@@ -47,7 +47,6 @@ const Event = React.memo(({ event, classes, user, refetch }) => {
 		onCompleted: e => console.log(e),
 		onError: e => console.log(e),
 	});
-	console.log(event.attending);
 
 	const [ rotate, setRotate ] = useState('');
 	const [ height, setHeight ] = useState(0);
@@ -174,7 +173,6 @@ const Event = React.memo(({ event, classes, user, refetch }) => {
 														</div>
 													) : (
 														<Up4
-															
 															handleClick={() => addEvent()}
 															justFour
 														/>

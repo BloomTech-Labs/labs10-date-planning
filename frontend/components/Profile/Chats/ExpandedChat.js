@@ -5,7 +5,7 @@ import { useMutation } from 'react-apollo-hooks';
 import Router from 'next/router';
 import moment from 'moment';
 import gql from 'graphql-tag';
-import { withStyles } from '@material-ui/core';
+import { withStyles, ButtonBase } from '@material-ui/core';
 import styles from '../../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles.jsx';
 import Button from '../../../styledComponents/CustomButtons/Button';
 import CustomInput from '../../../styledComponents/CustomInput/CustomInput.jsx';
@@ -151,7 +151,15 @@ const Chat = ({ chat, currentUser, classes }) => {
 					onError={() => NProgress.done()}
 				>
 					{sendMessage => (
-						<div className={classes.expandedChat}>
+						<form
+							className={classes.expandedChat}
+							onSubmit={() => {
+								NProgress.start();
+								sendMessage();
+
+								setMessage('');
+							}}
+						>
 							<CustomInput
 								id='logged'
 								formControlProps={{
@@ -166,21 +174,17 @@ const Chat = ({ chat, currentUser, classes }) => {
 									style: { color: '#fafafa', width: '80%' },
 								}}
 							/>
-
-							<Button
-								color='primary'
-								justIcon
-								className={classes.floatRight}
-								onClick={() => {
-									NProgress.start();
-									sendMessage();
-
-									setMessage('');
-								}}
-							>
-								<Send />
-							</Button>
-						</div>
+							<ButtonBase type='submit'>
+								<Button
+									color='primary'
+									justIcon
+									className={classes.floatRight}
+									component='div'
+								>
+									<Send />
+								</Button>
+							</ButtonBase>
+						</form>
 					)}
 				</Mutation>
 			)}

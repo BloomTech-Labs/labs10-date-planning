@@ -173,7 +173,7 @@ const UserModal = ({ classes, user, router, currentUser }) => {
 												pathname: router.pathname,
 												query: { slug: router.query.slug },
 											},
-											`${router.pathname}/${router.query.slug}`,
+											router.query.slug ? `${router.pathname}/${router.query.slug}` : router.pathname,
 											{ shallow: true },
 											{ scroll: false },
 										);
@@ -232,7 +232,7 @@ const UserModal = ({ classes, user, router, currentUser }) => {
 												}}
 												className={classes.title}
 											>
-												{match.score * 0.01}% match!
+												{(match.score * 0.01).toFixed()}% match!
 											</h3>
 										) : null}
 										<CustomDropdown

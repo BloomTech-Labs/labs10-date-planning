@@ -40,6 +40,7 @@ const CURRENT_USER_QUERY = gql`
 				id
 				category
 				name
+				tmID
 			}
 			stripeCustomerId
 		}
