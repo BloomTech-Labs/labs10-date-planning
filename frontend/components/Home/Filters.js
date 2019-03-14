@@ -104,8 +104,8 @@ const Filters = ({ classes, filters }) => {
 						{
 							title: 'Category',
 							content: (
-								<div className={classes.customExpandPanel}>
-									<div
+								<div sclassName={classes.customExpandPanel}>
+									<div 
 										className={
 											classes.checkboxAndRadio +
 											' ' +
@@ -120,7 +120,7 @@ const Filters = ({ classes, filters }) => {
 										>
 											<ExpansionPanelSummary
 												expandIcon={<ExpandMore />}
-												style={{ padding: 0, margin: 0 }}
+												style={{ padding: 0, margin: 0}}
 												classes={{
 													root: `${classes.expansionPanelSummary} ${classes[
 														'primary' +
