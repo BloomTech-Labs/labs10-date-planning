@@ -159,7 +159,7 @@ const Events = React.memo(({ classes, router, href, ...props }) => {
 											)}
 										</div>
 									</div>
-									<Filters filters={filters} />
+									<Filters filters={filters} user={currentUser} />
 								</Drawer>
 								<GridContainer>
 									<GridItem sm={12} md={12} sm={12}>
