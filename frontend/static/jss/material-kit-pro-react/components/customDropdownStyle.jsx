@@ -46,7 +46,7 @@ const customDropdownStyle = theme => ({
     display: "block",
     "& > div > button,& > div > a": {
       margin: "0px !important",
-	  color: "inherit !important",
+      color: "inherit !important",
       padding: "10px 20px !important",
       "& > span:first-child": {
         width: "100%",
@@ -75,17 +75,17 @@ const customDropdownStyle = theme => ({
     textAlign: "left",
     listStyle: "none",
     backgroundColor: "#fff",
-	backgroundClip: "padding-box",
-},
-msgdd: {
-	color: '#fafafa !important',
+    backgroundClip: "padding-box"
+  },
+  msgdd: {
+    color: "#fafafa !important",
     minWidth: "240px",
     maxWidth: "240px",
     borderRadius: "3px",
     border: "0",
-	boxShadow: "0 2px 5px 0 rgba(0, 0, 0, 0.26)",
-	border: '1px solid #b2ddf7',
-	borderRadius: '6px',
+    boxShadow: "0 2px 5px 0 rgba(0, 0, 0, 0.26)",
+    border: "1px solid #b2ddf7",
+    borderRadius: "6px",
     top: "100%",
     zIndex: "1000",
     padding: "5px 0",
@@ -94,18 +94,18 @@ msgdd: {
     textAlign: "left",
     listStyle: "none",
     backgroundColor: "#242121",
-	minWidth: '400px',
+    minWidth: "400px",
     backgroundUImage:
-	  "url(https://www.transparenttextures.com/theme/images/transparent.png)",
-	'& div':{
-		color: '#fafafa'
-	},
-	'& small': {
-		color: '#fafafa'
-	},
-	'& img': {
-		borderRadius: '6px !important'
-	}
+      "url(https://www.transparenttextures.com/theme/images/transparent.png)",
+    "& div": {
+      color: "#fafafa"
+    },
+    "& small": {
+      color: "#fafafa"
+    },
+    "& img": {
+      borderRadius: "6px !important"
+    }
   },
   menuList: {
     padding: "0"
@@ -165,9 +165,11 @@ msgdd: {
   },
   primaryHover: {
     "&:hover": {
-      backgroundColor: '#878787',
-      color: "#FFFFFF",
-    //   ...primaryBoxShadow
+      backgroundColor: "#191919",
+	//   border: "1px solid #81d6e3",
+	//   padding: '-1px',
+      color: "#FFFFFF"
+      //   ...primaryBoxShadow
     }
   },
   infoHover: {
