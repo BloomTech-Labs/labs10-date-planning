@@ -3,12 +3,14 @@ import User from '../components/Queries/User';
 import { isLoggedIn } from '../components/Queries/User';
 import redirect from '../utils/redirect';
 import Home from './home';
+import Welcome from './welcome';
 
 const Index = () => (
 	<User>
 		{({ data, loading, error }) => {
 			if (loading) return <div>index</div>;
 			if (error || !data.currentUser) return <JoinUs />;
+			if (!data.currentUser.gender) return <Welcome />;
 			else return <Home />;
 		}}
 	</User>

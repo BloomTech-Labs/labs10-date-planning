@@ -27,6 +27,8 @@ type Mutation {
 	updateSeenMessage(chatId: String!): Chat!
 	deleteManyGenres(where: GenreWhereInput): BatchPayload!
 	markAllAsSeen(chatId: String!): Chat!
+	deleteUser: Message
+	uploadImage(url: String!): User!
 }
 
 type Query {

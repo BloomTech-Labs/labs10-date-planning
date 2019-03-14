@@ -18,6 +18,13 @@ enum Gender {
 	OTHER
 }
 
+enum GenderPrefs {
+	MALE
+	FEMALE 
+	OTHER 
+	FRIENDS
+}
+
 type User {
 	id: ID! @unique
 	firstName: String!
@@ -37,7 +44,7 @@ type User {
 	resetTokenExpiry: Float
 	interests: [Genre]
 	events: [Event!]!
-	genderPrefs: [Gender]
+	genderPrefs: [GenderPrefs]
 	minAgePref: Int
 	maxAgePref: Int
 	permissions: Permission!
