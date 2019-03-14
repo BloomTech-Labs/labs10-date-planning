@@ -26,7 +26,6 @@ const Chat = ({ chat, setChat, selectedChat, classes }) => {
 						width: '90px',
 						height: '90px',
 						borderRadius: '6px',
-						overflow: 'hidden',
 					}}
 				/>
 			</Badge>
