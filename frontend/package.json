@@ -74,6 +74,17 @@
 		"subscriptions-transport-ws": "^0.9.15",
 		"utf-8-validate": "^5.0.2"
 	},
+	"jest": {
+		"setupTestFrameworkScriptFile": "<rootDir>/jest.setup.js",
+		"testPathIgnorePatterns": [
+		  "<rootDir>/.next/",
+		  "<rootDir>/node_modules/"
+		],
+		"transform": {
+		  "\\.(gql|graphql)$": "jest-transform-graphql",
+		  ".*": "babel-jest"
+		}
+	},
 	"babel": {
 		"env": {
 			"development": {
