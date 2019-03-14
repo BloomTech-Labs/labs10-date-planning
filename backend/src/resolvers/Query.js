@@ -115,24 +115,24 @@ const Query = {
 		}
 
 		const eventList = await transformEvents(request.user, events, db);
-		const usersScore = {};
+		// const usersScore = {};
 
-		const newList = await eventList.map(async event => ({
-			...event,
-			attending: await event.attending.map(async attendee => {
-				if (attendee.id === request.user.id) return attendee;
-				if (!usersScore[attendee.id]) {
-					usersScore[attendee.id] = await getScore(request.user.id, attendee.id, db);
-				}
-				return {
-					...attendee,
-					score: usersScore[attendee.id],
-				};
-			}),
-		}));
+		// const newList = await eventList.map(async event => ({
+		// 	...event,
+		// 	attending: await event.attending.map(async attendee => {
+		// 		if (attendee.id === request.user.id) return attendee;
+		// 		if (!usersScore[attendee.id]) {
+		// 			usersScore[attendee.id] = await getScore(request.user.id, attendee.id, db);
+		// 		}
+		// 		return {
+		// 			...attendee,
+		// 			score: usersScore[attendee.id],
+		// 		};
+		// 	}),
+		// }));
 
 		return {
-			events: newList,
+			events: eventList,
 			page_count: response.data.page.size,
 			total_items: response.data.page.totalElements,
 			page_total: response.data.page.totalPages,
