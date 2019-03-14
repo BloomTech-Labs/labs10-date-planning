@@ -26,7 +26,7 @@ const GenderPrefs = () => {
 			onCompleted={() => {
 				NProgress.done();
 				Router.push(
-					`/welcome?slug=4`,
+					`/welcome?slug=3`,
 					`/welcome/profile/gender/preferences`,
 					{ shallow: true },
 					{ scroll: false },

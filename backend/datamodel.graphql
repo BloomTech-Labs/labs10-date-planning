@@ -48,6 +48,7 @@ type User {
 	liked: [User!]! @relation(name: "LikedUser")
 	blocked: [User!]! @relation(name: "BlockedUser")
 	chats: [Chat!]!
+  verified: Boolean @default: value: "false")
 }
 
 type Chat {
