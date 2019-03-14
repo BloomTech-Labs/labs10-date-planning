@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Router from 'next/router';
 //MUI
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Dialog, DialogContent, DialogActions } from '@material-ui/core';
@@ -7,7 +8,7 @@ import Button from '../../styledComponents/CustomButtons/Button';
 //styles
 import Styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles.jsx';
 
-const ErrorModal = ({ error, classes }) => {
+const ErrorModal = ({ error, classes, billing }) => {
 	const [ modal, showModal ] = useState(false);
 	useEffect(
 		() => {
@@ -39,7 +40,11 @@ const ErrorModal = ({ error, classes }) => {
 			</DialogContent>
 			<DialogActions className={classes.modalFooter + ' ' + classes.modalFooterCenter}>
 				<Button
-					onClick={() => showModal(false)}
+					onClick={() => {
+						billing
+							? Router.push('/profile?slug=billing', '/profile/billing')
+							: showModal(false);
+					}}
 					color='danger'
 					simple
 					className={
@@ -48,7 +53,7 @@ const ErrorModal = ({ error, classes }) => {
 						classes.modalSmallFooterSecondButton
 					}
 				>
-					Ok
+					{billing ? 'Go Pro?' : 'Ok'}
 				</Button>
 			</DialogActions>
 		</Dialog>

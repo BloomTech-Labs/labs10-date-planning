@@ -72,7 +72,7 @@ const Chat = ({ classes, data, id, currentUser, subscribeToNewMessages, match, c
 	const msgRef = useRef(null);
 
 	useEffect(() => {
-		subscribeToNewMessages();
+		//subscribeToNewMessages();
 		if (!currentUser.verified) {
 			setError({
 				msg: 'You must verify your account before you can send messages!',
