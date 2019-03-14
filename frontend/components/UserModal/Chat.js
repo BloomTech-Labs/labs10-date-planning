@@ -58,7 +58,7 @@ const MARK_SEEN = gql`
 	}
 `;
 
-const Chat = ({ classes, data, id, currentUser, subscribeToNewMessages }) => {
+const Chat = ({ classes, data, id, currentUser, subscribeToNewMessages, match }) => {
 	const [ message, setMessage ] = useState('');
 	const markAllAsSeen = useMutation(MARK_SEEN);
 	const msgRef = useRef(null);
@@ -211,7 +211,7 @@ const Chat = ({ classes, data, id, currentUser, subscribeToNewMessages }) => {
 									inputProps={{
 										multiline: true,
 										rows: 6,
-										placeholder: `Find out what this user is up for!`,
+										placeholder: `Find out what ${match.firstName} is up for!`,
 										value: message,
 										onChange: e => setMessage(e.target.value),
 									}}

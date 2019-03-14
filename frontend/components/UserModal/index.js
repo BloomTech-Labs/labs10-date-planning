@@ -1,49 +1,24 @@
-import React, { useState, useEffect, Fragment, useRef } from 'react';
+import React from 'react';
 import { withApollo, Mutation, Query } from 'react-apollo';
 import gql from 'graphql-tag';
-
 import NProgress from 'nprogress';
 import Router, { withRouter } from 'next/router';
 import Slider from 'react-slick';
-
-import { GET_CONVERSATION_QUERY } from '../Queries/getConvo';
-
 import { adopt } from 'react-adopt';
-import { State, Map, Value, Toggle } from 'react-powerplug';
+
 //MUI
 import withStyles from '@material-ui/core/styles/withStyles';
-import {
-	DialogTitle,
-	Dialog,
-	DialogContent,
-	InputAdornment,
-	IconButton,
-	Avatar,
-} from '@material-ui/core';
-import {
-	BookmarkBorder,
-	Close,
-	Send,
-	Favorite,
-	FavoriteBorder,
-	NotInterested,
-	MoreHoriz,
-} from '@material-ui/icons';
+import { DialogTitle, Dialog, DialogContent, IconButton } from '@material-ui/core';
+import { Close, Favorite, FavoriteBorder, MoreHoriz } from '@material-ui/icons';
 //Q&M
-import User, { CURRENT_USER_QUERY } from '../Queries/User';
-import { EVENT_QUERY } from '../Queries/Event';
-//import { GET_CONVERSATION_QUERY } from '../Queries/getConvo';
-import { USER_QUERY, SHARED_EVENTS_QUERY } from '../Queries/OtherUser';
-import { ADD_EVENT_MUTATION } from '../Mutations/addEvent';
-//import { CREATE_CHAT_MUTATION } from '../Mutations/createChat';
-import { SEND_MESSAGE_MUTATION } from '../Mutations/sendMessage';
+
+import { USER_QUERY } from '../Queries/OtherUser';
+import { GET_CONVERSATION_QUERY } from '../Queries/getConvo';
 import {
-	UPDATE_USER_MUTATION,
 	LIKE_USER_MUTATION,
 	UNLIKE_USER_MUTATION,
 	UPDATE_BLOCKS_MUTATION,
 } from '../Mutations/updateUser';
-import { UDPATE_SEEN_MSG_MUTATION } from '../Mutations/updateSeenMessage';
 
 //Components
 import Chat from './Chat';
@@ -57,7 +32,7 @@ import GridItem from '../../styledComponents/Grid/GridItem';
 import CustomDropdown from '../../styledComponents/CustomDropdown/CustomDropdown.jsx';
 //styles
 import styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles.jsx';
-import '../../styles/Home/EventModal.scss';
+
 //utils
 import getAge from '../../utils/getAge';
 
@@ -240,30 +215,31 @@ const UserModal = ({ classes, user, router, currentUser }) => {
 											onClick={() => (isLiked ? unlike() : like())}
 										>
 											{isLiked ? (
-												<Favorite className={classes.favorite} />
+												<Favorite className={classes.userFavorite} />
 											) : (
-												<FavoriteBorder />
+												<FavoriteBorder className={classes.notFavorite} />
 											)}
 										</IconButton>
-									</div>
 
-									<CustomDropdown
-										dropPlacement='bottom-end'
-										caret={false}
-										hoverColor='dark'
-										buttonText={<MoreHoriz />}
-										buttonProps={{
-											className:
-												classes.navLink +
-												' ' +
-												classes.imageDropdownButton +
-												' ' +
-												classes.dots,
-											color: 'transparent',
-										}}
-										dropdownList={[ 'Block User' ]}
-										onClick={() => block()}
-									/>
+										<CustomDropdown
+											dropPlacement='bottom-end'
+											caret={false}
+											hoverColor='dark'
+											buttonText={<MoreHoriz />}
+											buttonProps={{
+												className:
+													classes.navLink +
+													' ' +
+													classes.imageDropdownButton +
+													' ' +
+													classes.dots,
+												style: { marginBottom: 0 },
+												color: 'transparent',
+											}}
+											dropdownList={[ `Block ${match.firstName}` ]}
+											onClick={() => block()}
+										/>
+									</div>
 								</div>
 							</DialogTitle>
 							<DialogContent
@@ -352,6 +328,7 @@ const UserModal = ({ classes, user, router, currentUser }) => {
 													<Chat
 														data={data}
 														id={user}
+														match={match}
 														currentUser={currentUser}
 														subscribeToNewMessages={() => {
 															data &&
