@@ -40,7 +40,7 @@ const LikedBy = ({ user, setSelected, classes }) => {
               })
             }
           >
-            Go pro
+            Go Pro
           </span>{" "}
           to see them.
         </h5>
