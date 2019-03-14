@@ -44,16 +44,16 @@ export default withApollo(({ headers = {} }) => {
 	});
 
 	const authLink = setContext((_, { headers }) => {
-	  const token = getToken()["XSRF-TOKEN"];
-	  return {
-		headers: {
-		  ...headers,
-		  "X-XSRF-TOKEN": token
-		}
-	  };
+		const token = getToken()['XSRF-TOKEN'];
+		return {
+			headers: {
+				...headers,
+				'X-XSRF-TOKEN': token,
+			},
+		};
 	});
 
-	let link = ApolloLink.from([ errorLink, contextLink, httpLink, authLink ]);
+	let link = ApolloLink.from([ errorLink, contextLink, authLink, httpLink ]);
 
 	if (!ssrMode) {
 		link = split(
