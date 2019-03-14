@@ -262,7 +262,8 @@ const javascriptStyles = theme => {
       "& button": {
         backgroundImage:
           "linear-gradient(to right, #81d6e3, #71d0df, #5ecadb, #49c3d8, #2dbdd4)",
-        background: "transparent"
+        background: "transparent",
+        borderRadius: '6px'
       }
     },
     userFavorite: {

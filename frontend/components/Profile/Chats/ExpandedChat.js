@@ -176,7 +176,7 @@ const Chat = ({ chat, currentUser, classes }) => {
 							/>
 							<ButtonBase type='submit'>
 								<Button
-									color='primary'
+									style={{background: 'transparent', borderRadius: '6px !important'}}
 									justIcon
 									className={classes.floatRight}
 									component='div'
