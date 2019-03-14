@@ -148,16 +148,23 @@ const javascriptStyles = theme => {
 			borderBottom: '1px solid #c8c8c8',
 		},
 
-		messageList: {
-			height: '80%',
-			overflow: 'scroll',
-			padding: '20px 10px',
-		},
-		gradientBox: {
-			display: 'flex',
-			alignItems: 'center',
-			width: '100%',
-			margin: '20px auto',
+
+    messageList: {
+      height: "80%",
+      overflow: "scroll",
+      padding: "20px 10px",
+      borderRadius: "6px",
+      border: "1px solid #a7defa",
+      backgroundColor: "#373737",
+      backgroundImage:
+        "url(https://www.transparenttextures.com/patterns/dark-fish-skin.png)"
+    },
+    gradientBox: {
+      display: "flex",
+      alignItems: "center",
+      width: "100%",
+      margin: "20px auto",
+
 
 			position: 'relative',
 			padding: '10px',
@@ -241,7 +248,10 @@ const javascriptStyles = theme => {
       display: "flex",
       justifyContent: "flex-end",
       alignItems: "flex-end",
-      borderTop: "2px solid #b2ddf7",
+      // borderTop: "2px solid #b2ddf7",
+      "& textarea": {
+        color: "#fafafa"
+      },
       "& ::after": {
         borderBottomColor: "#81d6e3"
       },
@@ -272,7 +282,7 @@ const javascriptStyles = theme => {
 			},
 		},
     location: {
-      fill: 'url(#indexID) #4CB5AE',
+      fill: "url(#indexID) #4CB5AE"
     }
   };
 
