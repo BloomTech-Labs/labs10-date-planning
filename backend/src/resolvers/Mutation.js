@@ -419,8 +419,7 @@ const Mutation = {
 	},
 	async updateUser(parent, args, { request, db }, info) {
 		const { user } = request;
-		if (!user) throw new Error("You must be logged in to update your profile!");
-		// console.log(args.data);
+		if (!user) throw new Error('You must be logged in to update your profile!');
 		const updated = await db.mutation.updateUser(
 			{
 				where: { id: user.id },
