@@ -61,11 +61,19 @@ const MARK_SEEN = gql`
 const Chat = ({ classes, data, id, currentUser, subscribeToNewMessages }) => {
 	const [ message, setMessage ] = useState('');
 	const markAllAsSeen = useMutation(MARK_SEEN);
+	const msgRef = useRef(null);
 
 	useEffect(() => {
 		subscribeToNewMessages();
 	}, []);
-
+	useEffect(
+		() => {
+			if (msgRef.current) {
+				msgRef.current.scrollTop = msgRef.current.scrollHeight;
+			}
+		},
+		[ data.getConversation ],
+	);
 	useEffect(() => {
 		const unSeen =
 			data &&
@@ -90,7 +98,7 @@ const Chat = ({ classes, data, id, currentUser, subscribeToNewMessages }) => {
 
 		return (
 			<div className={classes.chatBorder}>
-				<div className={classes.chat}>
+				<div className={classes.chat} ref={msgRef}>
 					{messages.map(msg => {
 						let fromMatch = msg.from.id === id;
 						let unseen = !msg.seen;
@@ -155,7 +163,7 @@ const Chat = ({ classes, data, id, currentUser, subscribeToNewMessages }) => {
 										inputProps={{
 											multiline: true,
 											rows: 6,
-											placeholder: `Find out what ${match.firstName}'s up for!`,
+											placeholder: `Respond to ${match.firstName}`,
 											value: message,
 											onChange: e => setMessage(e.target.value),
 										}}
