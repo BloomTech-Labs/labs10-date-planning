@@ -191,12 +191,14 @@ const styles = {
 	},
 	marginTop30: {
 		marginTop: '30px',
+		color: '#fafafa'
 	},
 	textCenter: {
 		textAlign: 'center',
 	},
 	marginBottom20: {
 		marginBottom: '20px',
+		color: '#fafafa'
 	},
 	//Additions
 	eventBorder: {

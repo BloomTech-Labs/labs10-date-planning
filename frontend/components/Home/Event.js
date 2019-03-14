@@ -51,6 +51,7 @@ const Event = React.memo(({ event, classes, user, refetch }) => {
 	const [ rotate, setRotate ] = useState('');
 	const [ height, setHeight ] = useState(0);
 	const [ val, set ] = useState(false);
+	const [ saved, setSaved ] = useState('false')
 	const divEl = useRef(null);
 	const imgEl = useRef(null);
 	let isSaved = user ? user.events.find(e => e.id === event.id) : false;
