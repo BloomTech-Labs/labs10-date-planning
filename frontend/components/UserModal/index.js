@@ -116,7 +116,7 @@ const UserModal = ({ classes, user, router, currentUser }) => {
 			{({ like, unlike, block, potentialMatch }) => {
 				let match = potentialMatch.data ? potentialMatch.data.user : null;
 				let isLiked = currentUser ? currentUser.liked.find(usr => usr.id === user) : false;
-
+				console.log(match);
 				if (!match) return <div />;
 				else {
 					NProgress.done();
