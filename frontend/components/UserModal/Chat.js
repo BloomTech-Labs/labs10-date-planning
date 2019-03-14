@@ -131,7 +131,7 @@ const Chat = ({ classes, data, id, currentUser, subscribeToNewMessages, match })
 										<p style={{ wordBreak: 'break-word', fontSize: '14px' }}>
 											{msg.text}
 										</p>
-										{msg.seen ? (
+										{currentUser.permissions !== 'FREE' && msg.seen ? (
 											<small>
 												<span style={{ marginRight: '2px' }}>seen</span>
 												{moment(msg.UpdatedAt).format('M/D/YY h:mm a')}

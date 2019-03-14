@@ -99,7 +99,10 @@ const Composed = adopt({
 		<Mutation
 			mutation={UPDATE_BLOCKS_MUTATION}
 			variables={{ block: id }}
-			onCompleted={() => NProgress.done()}
+			onCompleted={() => {
+				NProgress.done();
+				Router.push(router.pathname, router.pathname, { shallow: true }, { scroll: false });
+			}}
 			onError={() => NProgress.done()}
 		>
 			{render}
