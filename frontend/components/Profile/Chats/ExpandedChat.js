@@ -2,6 +2,7 @@ import React, { useEffect, useState, Fragment, useRef } from 'react';
 import NProgress from 'nprogress';
 import { Mutation } from 'react-apollo';
 import { useMutation } from 'react-apollo-hooks';
+import Router from 'next/router';
 import moment from 'moment';
 import gql from 'graphql-tag';
 import { withStyles } from '@material-ui/core';
@@ -105,6 +106,13 @@ const Chat = ({ chat, currentUser, classes }) => {
 								currentUser={currentUser && msg.from.id === currentUser.id}
 								key={msg.id}
 								avatar={img}
+								avatarClick={() =>
+									Router.push(
+										`/profile?slug=chats&user=${msg.from.id}`,
+										`/profile/chat/user/${msg.from.id}`,
+										{ shallow: true },
+										{ scroll: false },
+									)}
 								title={
 									<span style={{ color: '#fafafa' }}>
 										{msg.from.firstName}{' '}

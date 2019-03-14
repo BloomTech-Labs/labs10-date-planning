@@ -1,5 +1,5 @@
-# source: http://localhost:4466
-# timestamp: Wed Mar 13 2019 20:54:56 GMT-0700 (Pacific Daylight Time)
+# source: https://ykrueng-labs2-b2f475839e.herokuapp.com/backend/dev
+# timestamp: Wed Mar 13 2019 23:31:20 GMT-0500 (Central Daylight Time)
 
 type AggregateChat {
   count: Int!
@@ -196,7 +196,6 @@ input ChatUpdateInput {
 input ChatUpdateManyWithoutUsersInput {
   create: [ChatCreateWithoutUsersInput!]
   connect: [ChatWhereUniqueInput!]
-  set: [ChatWhereUniqueInput!]
   disconnect: [ChatWhereUniqueInput!]
   delete: [ChatWhereUniqueInput!]
   update: [ChatUpdateWithWhereUniqueWithoutUsersInput!]
@@ -564,7 +563,6 @@ input DirectMessageUpdateManyMutationInput {
 input DirectMessageUpdateManyWithoutChatInput {
   create: [DirectMessageCreateWithoutChatInput!]
   connect: [DirectMessageWhereUniqueInput!]
-  set: [DirectMessageWhereUniqueInput!]
   disconnect: [DirectMessageWhereUniqueInput!]
   delete: [DirectMessageWhereUniqueInput!]
   update: [DirectMessageUpdateWithWhereUniqueWithoutChatInput!]
@@ -1491,7 +1489,6 @@ input EventUpdateManyMutationInput {
 input EventUpdateManyWithoutAttendingInput {
   create: [EventCreateWithoutAttendingInput!]
   connect: [EventWhereUniqueInput!]
-  set: [EventWhereUniqueInput!]
   disconnect: [EventWhereUniqueInput!]
   delete: [EventWhereUniqueInput!]
   update: [EventUpdateWithWhereUniqueWithoutAttendingInput!]
@@ -2341,7 +2338,6 @@ input GenreUpdateManyDataInput {
 input GenreUpdateManyInput {
   create: [GenreCreateInput!]
   connect: [GenreWhereUniqueInput!]
-  set: [GenreWhereUniqueInput!]
   disconnect: [GenreWhereUniqueInput!]
   delete: [GenreWhereUniqueInput!]
   update: [GenreUpdateWithWhereUniqueNestedInput!]
@@ -2817,7 +2813,6 @@ input ProfilePicUpdateManyMutationInput {
 input ProfilePicUpdateManyWithoutUserInput {
   create: [ProfilePicCreateWithoutUserInput!]
   connect: [ProfilePicWhereUniqueInput!]
-  set: [ProfilePicWhereUniqueInput!]
   disconnect: [ProfilePicWhereUniqueInput!]
   delete: [ProfilePicWhereUniqueInput!]
   update: [ProfilePicUpdateWithWhereUniqueWithoutUserInput!]
@@ -4114,7 +4109,6 @@ input UserUpdateManyDataInput {
 input UserUpdateManyInput {
   create: [UserCreateInput!]
   connect: [UserWhereUniqueInput!]
-  set: [UserWhereUniqueInput!]
   disconnect: [UserWhereUniqueInput!]
   delete: [UserWhereUniqueInput!]
   update: [UserUpdateWithWhereUniqueNestedInput!]
@@ -4150,7 +4144,6 @@ input UserUpdateManyMutationInput {
 input UserUpdateManyWithoutChatsInput {
   create: [UserCreateWithoutChatsInput!]
   connect: [UserWhereUniqueInput!]
-  set: [UserWhereUniqueInput!]
   disconnect: [UserWhereUniqueInput!]
   delete: [UserWhereUniqueInput!]
   update: [UserUpdateWithWhereUniqueWithoutChatsInput!]
@@ -4162,7 +4155,6 @@ input UserUpdateManyWithoutChatsInput {
 input UserUpdateManyWithoutEventsInput {
   create: [UserCreateWithoutEventsInput!]
   connect: [UserWhereUniqueInput!]
-  set: [UserWhereUniqueInput!]
   disconnect: [UserWhereUniqueInput!]
   delete: [UserWhereUniqueInput!]
   update: [UserUpdateWithWhereUniqueWithoutEventsInput!]

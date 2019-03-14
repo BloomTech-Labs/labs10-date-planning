@@ -56,8 +56,6 @@ module.exports = {
 		// User should logged in to create chat
 		if (!user) throw new Error('You must be logged in to send a message!');
 
-		console.log(user.permissions);
-
 		// FREE users can only send 20 messages per week
 		if (user.permissions === 'FREE') {
 			const sentMessages = await db.query.directMessages({
@@ -115,7 +113,6 @@ module.exports = {
 			where: { id: args.id },
 		});
 
-		// console.log(success);
 		return { message: 'Chat successfully erased' };
 	},
 	async updateSeenMessage(parent, { chatId }, { request, db }, info) {
