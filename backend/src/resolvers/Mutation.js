@@ -72,8 +72,9 @@ const Mutation = {
 			);
 			await setUserClaims(uid, { id: user.id, admin: false });
 		}
-		const token = await createUserToken(args, ctx);
-		ctx.response.cookie('userId', user.id, {
+		const session = await createUserToken(args, ctx);
+		const token = await jwt.sign({ userId: user.id }, process.env.APP_SECRET);
+		ctx.response.cookie('token', token, {
 			httpOnly: true,
 			maxAge: 1000 * 60 * 60 * 24 * 365, // 1 year long cookie bc why not. FIGHT ME
 		});
@@ -425,7 +426,6 @@ const Mutation = {
 	async updateUser(parent, args, { request, db }, info) {
 		const { user } = request;
 		if (!user) throw new Error('You must be logged in to update your profile!');
-		console.log(args.data);
 		const updated = await db.mutation.updateUser(
 			{
 				where: { id: user.id },
@@ -445,29 +445,30 @@ const Mutation = {
 			data: { phone: args.phone },
 		});
 
-		const verifySent = authy.phones().verification_start(args.phone, '1', 'sms', (err, res) => {
+		authy.phones().verification_start(args.phone, '1', 'sms', (err, res) => {
 			if (err) {
+				console.log(err);
 				throw new Error(err);
 			}
-			return res.message;
+			return { message: 'Phone verification code sent!' };
 		});
-
-		return { message: 'Phone verification code sent!' };
 	},
-	async checkVerify(parent, args, { request }, info) {
+	checkVerify(parent, args, { request, db }, info) {
 		const { user } = request;
 		if (!user) throw new Error('You must be logged in to update your profile!');
 
-		const verified = await authy
-			.phones()
-			.verification_check(args.phone, '1', args.code, (err, res) => {
-				if (err) {
-					throw new Error('Phone verification unsuccessful');
-				}
-				return res;
+		authy.phones().verification_check(args.phone, '1', args.code, async (err, res) => {
+			if (err) {
+				throw new Error('Phone verification unsuccessful');
+			}
+			let user = await db.mutation.updateUser({
+				where: { id: user.id },
+				data: { verified: true },
 			});
-
-		return { message: 'Phone successfully verified!' };
+			if (user) {
+				return { message: 'Phone successfully verified!' };
+			}
+		});
 	},
 };
 

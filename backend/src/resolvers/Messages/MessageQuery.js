@@ -1,4 +1,4 @@
-const moment = require('moment')
+const moment = require('moment');
 
 module.exports = {
 	getChat(parent, args, { request, db }, info) {
@@ -27,20 +27,19 @@ module.exports = {
 			info,
 		);
 	},
-	// async getMessages(parent, args, { request, db }, info) {
-	// 	const { user } = request;
-	// 	if (!user) throw new Error('You must be logged in to start a conversation!');
+	async getMessages(parent, { id }, { request, db }, info) {
+		const { user } = request;
+		if (!user) throw new Error('You must be logged in to start a conversation!');
 
-	// 	return db.query.chats(
-	// 		{
-	// 			where: {
-	// 				users_some: { id: user.id },
-	// 			},
-	// 		},
-	// 		`{messages {id text createdAt seen from { id firstName imageThumbnail dob gender}}}`,
-	// 	);
-
-	// },
+		return db.query.chats(
+			{
+				where: {
+					users_some: { id: user.id },
+				},
+			},
+			`{messages {id text createdAt seen from { id firstName imageThumbnail dob gender}}}`,
+		);
+	},
 	async getConversation(parent, args, { request, db }, info) {
 		// this is to check if there is already a convo between logged in user and someone else
 		const { user } = request;
@@ -61,17 +60,15 @@ module.exports = {
 		const { user } = request;
 
 		// must logged in to access this query
-		if (!user) throw new Error('You must be logged in to start a conversation!')
+		if (!user) throw new Error('You must be logged in to start a conversation!');
 
-		if (user.permissions !== 'FREE') return 1000
+		if (user.permissions !== 'FREE') return 1000;
 		const sentMessages = await db.query.directMessages({
-		where: {
-			AND: [
-				{ from: { id: user.id } },
-				{ createdAt_gte: moment().startOf('isoWeek') }
-			]}
-		})
+			where: {
+				AND: [ { from: { id: user.id } }, { createdAt_gte: moment().startOf('isoWeek') } ],
+			},
+		});
 
-		return 20 - sentMessages.length
-	}
+		return 20 - sentMessages.length;
+	},
 };

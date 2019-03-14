@@ -30,7 +30,7 @@ const Main = ({ user }) => {
 				}}
 			>
 				<h2 style={{ display: 'flex' }}>
-					<span style={{ marginRight: '6px' }}>Welcome to</span>
+					<span style={{ marginRight: '26px' }}>Welcome to</span>
 					{<Logo />}
 					<span style={{ marginLeft: '6px' }}>{user.firstName}!</span>
 				</h2>

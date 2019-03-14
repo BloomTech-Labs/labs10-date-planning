@@ -40,7 +40,17 @@ const Composed = adopt({
 			{render}
 		</Value>
 	),
-	filters: <State initial={{ cats: [], genres: [], dates: [] }} />,
+	filters: ({ render }) => (
+		<State
+			initial={{
+				cats: [],
+				genres: [],
+				dates: [],
+			}}
+		>
+			{render}
+		</State>
+	),
 	getEvents: ({ page, location, filters, render }) => (
 		<Query
 			query={ALL_EVENTS_QUERY}
@@ -115,7 +125,10 @@ const Events = React.memo(({ classes, router, href, ...props }) => {
 						<div className={classes.container}>
 							<Fragment>
 								<IconButton
-									style={{ color: 'white' }}
+									style={{
+										color: 'white',
+										backgroundColor: 'transparent !important',
+									}}
 									aria-label='Open drawer'
 									onClick={drawer.toggle}
 									className={classNames(
@@ -125,9 +138,17 @@ const Events = React.memo(({ classes, router, href, ...props }) => {
 								>
 									<Menu />
 								</IconButton>
-								<Drawer variant='persistent' anchor='left' open={drawer.on}>
+								<Drawer
+									classes={{ paper: classes.metaDrawer }}
+									variant='persistent'
+									anchor='left'
+									open={drawer.on}
+								>
 									<div className={classes.drawer}>
-										<IconButton onClick={drawer.toggle}>
+										<IconButton
+											className={classes.transparentButton}
+											onClick={drawer.toggle}
+										>
 											<ChevronLeft />
 										</IconButton>
 										<LocationSearch setLocation={val => location.set(val)} />
@@ -159,7 +180,7 @@ const Events = React.memo(({ classes, router, href, ...props }) => {
 											)}
 										</div>
 									</div>
-									<Filters filters={filters} />
+									<Filters filters={filters} user={currentUser} />
 								</Drawer>
 								<GridContainer>
 									<GridItem sm={12} md={12} sm={12}>

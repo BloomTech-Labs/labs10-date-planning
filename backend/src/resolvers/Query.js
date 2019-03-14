@@ -2,6 +2,7 @@ const axios = require('axios');
 const { forwardTo } = require('prisma-binding');
 const { transformEvents, fetchEvents, setDates, getScore } = require('../utils');
 const stripe = require('../stripe');
+const moment = require('moment');
 const MessageQuery = require('./Messages/MessageQuery');
 const UserQuery = require('./User/UserQuery');
 
@@ -12,7 +13,6 @@ const Query = {
 	async userEvents(parent, args, { request, db }, info) {
 		const { user } = request;
 		if (!user) throw new Error('You must be logged in to use this feature!');
-		console.log(user);
 		let events = await db.query.events(
 			{
 				where: {
@@ -38,18 +38,45 @@ const Query = {
 			info,
 		);
 	},
-	user(parent, args, { db }, info) {
+	async user(parent, args, { request, db }, info) {
 		// finds a user based on the args provided in the mutation
-		return db.query.user(
+		const { userId } = request;
+
+		let score = 0;
+		if (args.where.id) {
+			score = await getScore(userId, args.where.id, db);
+		}
+
+		const user = await db.query.user(
 			{
 				...args,
 			},
-			info,
+			`{
+				id
+				firstName
+				dob
+				img {
+					id
+					default
+					img_url
+				}
+				biography
+				events {
+					id
+				}
+				interests {
+					id
+				}
+			}`,
 		);
+
+		return {
+			...user,
+			score,
+		};
 	},
 	async getEvents(parent, { location, alt, page, ...args }, { db, request }, info) {
 		location = location.split(',')[0].toLowerCase();
-		console.log(page);
 		let cats =
 			!args.categories || !args.categories.length
 				? [ 'KZFzniwnSyZfZ7v7nJ', 'KZFzniwnSyZfZ7v7na', 'KZFzniwnSyZfZ7v7n1' ]
@@ -87,24 +114,24 @@ const Query = {
 		}
 
 		const eventList = await transformEvents(request.user, events, db);
-		const usersScore = {};
+		// const usersScore = {};
 
-		const newList = await eventList.map(async event => ({
-			...event,
-			attending: await event.attending.map(async attendee => {
-				if (attendee.id === request.user.id) return attendee;
-				if (!usersScore[attendee.id]) {
-					usersScore[attendee.id] = await getScore(request.user.id, attendee.id, db);
-				}
-				return {
-					...attendee,
-					score: usersScore[attendee.id],
-				};
-			}),
-		}));
+		// const newList = await eventList.map(async event => ({
+		// 	...event,
+		// 	attending: await event.attending.map(async attendee => {
+		// 		if (attendee.id === request.user.id) return attendee;
+		// 		if (!usersScore[attendee.id]) {
+		// 			usersScore[attendee.id] = await getScore(request.user.id, attendee.id, db);
+		// 		}
+		// 		return {
+		// 			...attendee,
+		// 			score: usersScore[attendee.id],
+		// 		};
+		// 	}),
+		// }));
 
 		return {
-			events: newList,
+			events: eventList,
 			page_count: response.data.page.size,
 			total_items: response.data.page.totalElements,
 			page_total: response.data.page.totalPages,
@@ -198,6 +225,17 @@ const Query = {
 		});
 
 		return invoices.data;
+	},
+
+	async remainingMessages(parent, args, { db, request }, info) {
+		const { userId, user } = request;
+		const sentMessages = await db.query.directMessages({
+			where: {
+				AND: [ { from: { id: user.id } }, { createdAt_gte: moment().startOf('isoWeek') } ],
+			},
+		});
+
+		return 20 - sentMessages.length;
 	},
 };
 

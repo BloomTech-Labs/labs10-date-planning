@@ -54,9 +54,10 @@ const GenderPrefs = ({ classes }) => {
 							//   border: '2px solid #ff101f',
 							borderRadius: '6px',
 							zIndex: '1',
+							width: '400px',
 						}}
 					>
-						<h2>I am located in</h2>
+						<h2>I live in...</h2>
 						<Downshift
 							inputValue={location}
 							onChange={handleLocationChange}

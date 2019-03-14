@@ -10,7 +10,7 @@ import { withRouter } from 'next/router';
 //MUI
 import withStyles from '@material-ui/core/styles/withStyles';
 import { List, ListItem, Badge, Divider } from '@material-ui/core';
-import { AccountCircle, Explore, Mail } from '@material-ui/icons';
+import { AccountCircle, Explore, Mail, LocationCityOutlined } from '@material-ui/icons';
 import navbarsStyle from '../../static/jss/material-kit-pro-react/views/componentsSections/navbarsStyle.jsx';
 //Q&M
 
@@ -118,7 +118,8 @@ const Nav = ({ classes, color, router, href, currentUser }) => {
 							}}
 							color='transparent'
 						>
-							<Explore /> Discover
+							{/* <Explore /> Discover */}
+							<LocationCityOutlined style={{ height: '30px', width: '30px' }} />
 						</Button>
 					</ListItem>
 					<ListItem className={classes.listItem}>
@@ -130,16 +131,17 @@ const Nav = ({ classes, color, router, href, currentUser }) => {
 							}}
 							color='transparent'
 						>
-							<AccountCircle /> Me
+							<AccountCircle style={{ height: '30px', width: '30px' }} />
 						</Button>
 					</ListItem>
 
 					<ListItem style={{ bottom: '5px' }} className={classes.listItem}>
 						<CustomDropdown
+							className={classes.messageDropdown}
 							dropPlacement='bottom-end'
 							caret={false}
 							messages
-							hoverColor='dark'
+							// hoverColor='dark'
 							dropdownHeader={
 								newMessages.length ? (
 									newMessages.length + ' new messages!'
@@ -149,7 +151,15 @@ const Nav = ({ classes, color, router, href, currentUser }) => {
 							}
 							buttonText={
 								<Badge badgeContent={newMessages.length} color='error'>
-									<Mail />
+									<Mail
+										style={{
+											height: '30px',
+											width: '30px',
+											marginLeft: '10px',
+											position: 'relative',
+											top: 2,
+										}}
+									/>
 								</Badge>
 							}
 							buttonProps={{
@@ -160,12 +170,26 @@ const Nav = ({ classes, color, router, href, currentUser }) => {
 								chats ? (
 									chats.map(chat => (
 										<Fragment>
-											<Divider className={classes.dropdownDividerItem} />
+											{/* <Divider className={classes.dropdownDividerItem} /> */}
 											<div
 												onClick={() =>
 													Router.push(
-														`${router.pathname}?user=${chat.fromId}`,
-														`${router.pathname}/user/${chat.fromId}`,
+														{
+															pathname:
+																router.pathname === '/'
+																	? '/home'
+																	: router.pathname,
+															query: {
+																slug: router.query.slug,
+																user: chat.fromId,
+															},
+														},
+														router.query.slug
+															? `${router.pathname}/${router.query
+																	.slug}/user/${chat.fromId}`
+															: router.pathname === '/'
+																? `/user/${chat.fromId}`
+																: `${router.pathname}/user/${chat.fromId}`,
 														{ shallow: true },
 														{ scroll: false },
 													)}
