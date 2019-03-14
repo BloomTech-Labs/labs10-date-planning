@@ -46,6 +46,7 @@ const Splash = ({ classes }) => {
 								style={{ flexDirection: 'column', alignItems: 'center' }}
 							>
 								<Button
+									className={classes.registerButton}
 									color='danger'
 									size='lg'
 									style={{ fontSize: '30px' }}
@@ -54,7 +55,7 @@ const Splash = ({ classes }) => {
 									Sign Up
 								</Button>
 
-								<Button color='primary' onClick={() => setLoginShowing(true)}>
+								<Button className={classes.loginButton} onClick={() => setLoginShowing(true)}>
 									Log In
 								</Button>
 							</GridContainer>

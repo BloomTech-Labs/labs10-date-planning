@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Mutation } from 'react-apollo';
 import moment from 'moment';
 import NProgress from 'nprogress';
-import { useMutation } from 'react-apollo-hooks';
+import { useMutation } from '../Mutations/useMutation';
 import Router from 'next/router';
 
 //query& M
@@ -26,7 +26,7 @@ import standIn from '../../static/img/placeholder.jpg';
 
 //Components
 import Up4 from './UpFor';
-
+import ErrorModal from '../SplashPage/ErrorModal';
 //Styled components
 import Card from '../../styledComponents/Card/Card';
 import CardHeader from '../../styledComponents/Card/CardHeader';
@@ -42,13 +42,16 @@ import getAge from '../../utils/getAge';
 import CardStyles from '../../static/jss/material-kit-pro-react/views/componentsSections/sectionCards';
 
 const Event = React.memo(({ event, classes, user, refetch }) => {
-	const deleteEvent = useMutation(DELETE_EVENT_MUTATION, {
+	const [ deleteEvent ] = useMutation(DELETE_EVENT_MUTATION, {
 		variables: { id: event.id },
+		onCompleted: e => console.log(e),
+		onError: e => console.log(e),
 	});
-
+	const [ error, setError ] = useState(null);
 	const [ rotate, setRotate ] = useState('');
 	const [ height, setHeight ] = useState(0);
 	const [ val, set ] = useState(false);
+	const [ saved, setSaved ] = useState('false');
 	const divEl = useRef(null);
 	const imgEl = useRef(null);
 	let isSaved = user ? user.events.find(e => e.id === event.id) : false;
@@ -73,16 +76,6 @@ const Event = React.memo(({ event, classes, user, refetch }) => {
 		[ val ],
 	);
 
-	const handleClick = async (e, addEvent) => {
-		if (isSaved) {
-			NProgress.start();
-			let res = await deleteEvent();
-			if (res.data || res.error) NProgress.done();
-		} else {
-			addEvent();
-		}
-	};
-
 	event.times = event.times.sort((a, b) => {
 		let dateA = new Date(a);
 		let dateB = new Date(b);
@@ -97,6 +90,7 @@ const Event = React.memo(({ event, classes, user, refetch }) => {
 				opacity: height === 0 ? '0' : '1',
 			}}
 		>
+			{error ? <ErrorModal error={error} billing /> : null}
 			<div
 				style={{ height: height }}
 				className={`${classes.rotatingCardContainer} ${classes.manualRotate} ${rotate}`}
@@ -152,10 +146,12 @@ const Event = React.memo(({ event, classes, user, refetch }) => {
 											},
 										});
 									}}
-									onError={() => NProgress.done()}
+									onError={e => {
+										NProgress.done();
+										setError(e);
+									}}
 									onCompleted={() => {
 										NProgress.done();
-										refetch();
 									}}
 								>
 									{(addEvent, { error, loading, called, data }) => {
@@ -172,20 +168,21 @@ const Event = React.memo(({ event, classes, user, refetch }) => {
 													)
 												}
 											>
-												<a href='#' onClick={e => e.preventDefault()}>
+												<div style={{ cursor: 'pointer' }}>
 													{isSaved ? (
-														<img
-															className={classes.arrow}
-															src={Arrow}
-														/>
+														<div onClick={() => deleteEvent()}>
+															<img
+																className={classes.arrow}
+																src={Arrow}
+															/>
+														</div>
 													) : (
 														<Up4
-															handleClick={e =>
-																handleClick(e, addEvent)}
+															handleClick={() => addEvent()}
 															justFour
 														/>
 													)}
-												</a>
+												</div>
 											</div>
 										);
 									}}
@@ -222,7 +219,7 @@ const Event = React.memo(({ event, classes, user, refetch }) => {
 								style={{ display: 'flex', justifyContent: 'space-between' }}
 							>
 								<div style={{ display: 'flex' }}>
-									{event.attending.map(usr => {
+									{event.attending.filter(x => x.id !== user.id).map(usr => {
 										return (
 											<img
 												key={usr.id}
@@ -369,7 +366,8 @@ const Event = React.memo(({ event, classes, user, refetch }) => {
 															}}
 														>
 															<p style={{ margin: 0 }}>
-																{usr.firstName} |{' '}
+																{usr.firstName}{' '}
+																<span style={{ padding: '0 3px' }}>&#8226;</span>
 															</p>
 															<p style={{ margin: '0 0 0 2px' }}>
 																{getAge(usr.dob)}

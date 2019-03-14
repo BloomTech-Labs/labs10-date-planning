@@ -18,12 +18,23 @@ const CommonEvents = ({ classes, id }) => {
 	const { data } = useQuery(SHARED_EVENTS_QUERY, { variables: { id } });
 	if (!data.getSharedEvents) return <div>loading</div>;
 	return (
-		<Fragment>
-			{/* <h4 style={{textAlign: 'center'}}className={classes.title}>Events in common</h4> */}
+		<div>
+			{/* <h4 className={classes.title} style={{ color: '#fafafa' }}>
+				Events in Common
+			</h4> */}
 			<GridContainer>
+				{/* <h4 style={{textAlign: 'center'}}className={classes.title}>Events in common</h4> */}
+				{/* <GridContainer style={{ display: 'flex' }}> */}
+
 				{data.getSharedEvents.length ? (
 					data.getSharedEvents.map(event => (
-						<GridItem sm={12} md={12} lg={12} key={event.id}>
+						<GridItem
+							sm={4}
+							md={6}
+							lg={6}
+							key={event.id}
+							//style={{ maxWidth: '280px' }}
+						>
 							<Card
 								background
 								style={{
@@ -32,7 +43,7 @@ const CommonEvents = ({ classes, id }) => {
 									borderRadius: '11px',
 									backgroundImage: `url(${event.image_url})`,
 									marginTop: '0',
-									marginBottom: '0',
+									//marginBottom: '',
 								}}
 							>
 								<CardBody
@@ -42,7 +53,7 @@ const CommonEvents = ({ classes, id }) => {
 										padding: '10px',
 										display: 'flex',
 										alignItems: 'center',
-										minHeight: '180px',
+										minHeight: '110px',
 									}}
 								>
 									{' '}
@@ -54,8 +65,9 @@ const CommonEvents = ({ classes, id }) => {
 				) : (
 					<div>No shared events!</div>
 				)}
+				{/* </GridContainer> */}
 			</GridContainer>
-		</Fragment>
+		</div>
 	);
 };
 

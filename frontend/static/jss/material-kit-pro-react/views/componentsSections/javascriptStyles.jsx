@@ -146,13 +146,23 @@ const javascriptStyles = theme => {
     chat: {
       height: "600px",
       overflowY: "scroll",
-      borderBottom: "1px solid #c8c8c8"
+      backgroundColor: "#373737",
+      backgroundImage:
+        "url(https://www.transparenttextures.com/patterns/dark-fish-skin.png)",
+      border: "1px solid #cabac8",
+      borderRadius: "6px",
+      margin: "4px"
     },
 
     messageList: {
       height: "80%",
       overflow: "scroll",
-      padding: "20px 10px"
+      padding: "20px 10px",
+      borderRadius: "6px",
+      border: "1px solid #a7defa",
+      backgroundColor: "#373737",
+      backgroundImage:
+        "url(https://www.transparenttextures.com/patterns/dark-fish-skin.png)"
     },
     gradientBox: {
       display: "flex",
@@ -187,10 +197,103 @@ const javascriptStyles = theme => {
     favorite: {
       fill: "url(#favoriteID) #ff101f"
     },
-    dots:{
-      '& svg': {
-        color: '#fafafa'
+    dots: {
+      "& svg": {
+        color: "#fafafa"
       }
+    },
+    register: {
+      backgroundColor: "#262323",
+      backgroundImage:
+        'url("https://www.transparenttextures.com/theme/images/transparent.png")',
+      color: "#fafafa",
+      border: "2px solid #81d6e3",
+      "& h3": {
+        color: "#fafafa"
+      },
+      "& h4": {
+        color: "#fafafa"
+      },
+      "& input": {
+        color: "#fafafa"
+      }
+    },
+    registerCheck: {
+      border: "1px solid #fafafa !important"
+    },
+    registerField: {
+      color: "#fafafa !important"
+    },
+    login: {
+      backgroundColor: "#262323",
+      backgroundImage:
+        'url("https://www.transparenttextures.com/theme/images/transparent.png")',
+      border: "2px solid #81d6e3",
+      "& input": {
+        color: "#fafafa"
+      }
+    },
+    loginHeader: {
+      backgroundImage:
+        "linear-gradient(to right, #81d6e3, #78d5e3, #6ed4e3, #63d2e4, #57d1e4, #4fd0e4, #45cee4, #3acde4, #32cce4, #28cbe5, #1ac9e5, #02c8e6)",
+      background: "transparent"
+    },
+    loginButton: {
+      backgroundImage:
+        "linear-gradient(to right, #81d6e3, #78d5e3, #6ed4e3, #63d2e4, #57d1e4, #4fd0e4, #45cee4, #3acde4, #32cce4, #28cbe5, #1ac9e5, #02c8e6)",
+      color: "#fafafa !important"
+    },
+    registerModalButton: {
+      backgroundImage:
+        "linear-gradient(to right, #8dd2cd, #7ecbc5, #6ec3bd, #5ebcb6, #4cb5ae)",
+      color: "#fafafa !important"
+    },
+    expandedChat: {
+      display: "flex",
+      justifyContent: "flex-end",
+      alignItems: "flex-end",
+      // borderTop: "2px solid #b2ddf7",
+      "& textarea": {
+        color: "#fafafa"
+      },
+      "& ::after": {
+        borderBottomColor: "#81d6e3"
+      },
+      "& button": {
+        backgroundImage:
+          "linear-gradient(to right, #81d6e3, #71d0df, #5ecadb, #49c3d8, #2dbdd4)",
+        background: "transparent",
+        borderRadius: "6px",
+        marginLeft: "20px",
+        position: 'relative',
+        bottom: '16px'
+      }
+    },
+    userFavorite: {
+      fontSize: "30px",
+      // marginTop: '4px',
+      // marginRight: '4px',
+      zIndex: 7,
+      fill: "url(#favoriteID) #ff101f"
+    },
+    notFavorite: {
+      fontSize: "30px",
+      // marginTop: '4px',
+      // marginRight: '4px',
+      zIndex: 7,
+      fill: "url(#favoriteID) #ff101f"
+    },
+    slicky: {
+      "& .slick-slide": {},
+      "& .slick-dots li button:before": {
+        color: "transparent"
+      }
+    },
+    location: {
+      fill: "url(#indexID) #4CB5AE"
+    },
+    inputWidth: {
+      width: "80%"
     }
   };
 };

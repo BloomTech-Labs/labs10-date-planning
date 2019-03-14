@@ -1,15 +1,18 @@
 import React, { useEffect, useState, Fragment, useRef } from 'react';
 import NProgress from 'nprogress';
-import { Mutation } from 'react-apollo';
+import { Mutation, withApollo } from 'react-apollo';
 import { useMutation } from 'react-apollo-hooks';
+import Router from 'next/router';
 import moment from 'moment';
 import gql from 'graphql-tag';
-import { withStyles } from '@material-ui/core';
+import { withStyles, ButtonBase } from '@material-ui/core';
+import Verify from '../../verifyPhone';
 import styles from '../../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles.jsx';
 import Button from '../../../styledComponents/CustomButtons/Button';
 import CustomInput from '../../../styledComponents/CustomInput/CustomInput.jsx';
 import Media from '../../../styledComponents/Media/Media.jsx';
 import { Send } from '@material-ui/icons';
+import scrollbar from '../../../static/jss/ScrollbarStyles';
 
 const SEND_MESSAGE_MUTATION = gql`
 	mutation SEND_MESSAGE_MUTATION($id: String!, $message: String!) {
@@ -51,11 +54,29 @@ const MARK_SEEN = gql`
 		}
 	}
 `;
+const REMAINING_MESSAGES = gql`
+	query {
+		remainingMessages
+	}
+`;
 
-const Chat = ({ chat, currentUser, classes }) => {
+const Chat = ({ chat, currentUser, classes, client }) => {
 	const [ message, setMessage ] = useState('');
 	const msgRef = useRef(null);
+	const [ error, setError ] = useState(null);
 	const markAllAsSeen = useMutation(MARK_SEEN);
+
+	useEffect(() => {
+		if (!currentUser.verified) {
+			setError({
+				msg: 'You must verify your account before you can send messages!',
+				link: null,
+				linkText: 'Verify now?',
+			});
+		} else if (currentUser.permissions === 'FREE') {
+			getRemainingMessages();
+		}
+	}, []);
 
 	useEffect(() => {
 		const unSeen =
@@ -78,6 +99,16 @@ const Chat = ({ chat, currentUser, classes }) => {
 		},
 		[ chat ],
 	);
+	const getRemainingMessages = async () => {
+		let messagesRemaining = await client.query({ query: REMAINING_MESSAGES });
+		if (messagesRemaining.data.remainingMessages === 0) {
+			setError({
+				msg: 'You are out of weekly messages allowed on a free account!',
+				link: '/profile/billing',
+				linkText: 'Go Pro?',
+			});
+		}
+	};
 
 	let friend;
 	if (chat) {
@@ -89,7 +120,7 @@ const Chat = ({ chat, currentUser, classes }) => {
 			style={{
 				flexGrow: 1,
 				height: '100%',
-				overflow: 'scroll',
+				overflow: 'hidden',
 				display: 'flex',
 				flexDirection: 'column',
 			}}
@@ -97,16 +128,26 @@ const Chat = ({ chat, currentUser, classes }) => {
 			<div className={classes.messageList} ref={msgRef}>
 				{chat &&
 					chat.messages.map(msg => {
+						console.log(msg);
 						const img = msg.from.img.find(x => x.default).img_url;
 						return (
 							<Media
 								currentUser={currentUser && msg.from.id === currentUser.id}
 								key={msg.id}
 								avatar={img}
+								avatarClick={() =>
+									Router.push(
+										`/profile?slug=chats&user=${msg.from.id}`,
+										`/profile/chat/user/${msg.from.id}`,
+										{ shallow: true },
+										{ scroll: false },
+									)}
 								title={
 									<span style={{ color: '#fafafa' }}>
 										{msg.from.firstName}{' '}
-										<small>· {moment(msg.createdAt).fromNow()}</small>
+										<small style={{ fontSize: '12px' }}>
+											· {moment(msg.createdAt).fromNow()}
+										</small>
 									</span>
 								}
 								body={
@@ -116,7 +157,15 @@ const Chat = ({ chat, currentUser, classes }) => {
 											wordBreak: 'break-word',
 										}}
 									>
-										<p style={{ color: '#fafafa' }}>{msg.text}</p>
+										<p style={{ color: '#fafafa', fontSize: '14px' }}>
+											{msg.text}
+										</p>
+										{currentUser.permissions !== 'FREE' && msg.seen ? (
+											<small>
+												<span style={{ marginRight: '2px' }}>seen</span>
+												{moment(msg.UpdatedAt).format('M/D/YY h:mm a')}
+											</small>
+										) : null}
 									</span>
 								}
 							/>
@@ -130,15 +179,26 @@ const Chat = ({ chat, currentUser, classes }) => {
 					onCompleted={() => NProgress.done()}
 					onError={() => NProgress.done()}
 				>
-					{sendMessage => (
-						<Media
-							currentUser
-							style={{
-								width: '100%',
-								borderTop: '2px solid #bdbdbd',
-							}}
-							avatar={currentUser.img.find(img => img.default).img_url}
-							body={
+					{sendMessage =>
+						error ? !error.link ? (
+							<Verify />
+						) : (
+							<div>
+								<h4>{error.msg}</h4>
+								<Button onClick={() => Router.push(error.link)}>
+									{error.linkText}
+								</Button>
+							</div>
+						) : (
+							<form
+								className={classes.expandedChat}
+								onSubmit={e => {
+									e.preventDefault();
+									NProgress.start();
+									sendMessage();
+									setMessage('');
+								}}
+							>
 								<CustomInput
 									id='logged'
 									formControlProps={{
@@ -148,34 +208,31 @@ const Chat = ({ chat, currentUser, classes }) => {
 										multiline: true,
 										rows: 6,
 										placeholder: `Respond to ${friend.firstName}`,
-
 										value: message,
 										onChange: e => setMessage(e.target.value),
-										style: { color: '#fafafa' },
+										style: { color: '#fafafa', width: '80%' },
 									}}
 								/>
-							}
-							footer={
-								<Button
-									color='primary'
-									justIcon
-									className={classes.floatRight}
-									onClick={() => {
-										NProgress.start();
-										sendMessage();
-
-										setMessage('');
-									}}
-								>
-									<Send />
-								</Button>
-							}
-						/>
-					)}
+								/>
+								<ButtonBase type='submit'>
+									<Button
+										style={{
+											background: 'transparent',
+											borderRadius: '6px !important',
+										}}
+										justIcon
+										className={classes.floatRight}
+										component='div'
+									>
+										<Send />
+									</Button>
+								</ButtonBase>
+							</form>
+						)}
 				</Mutation>
 			)}
 		</div>
 	);
 };
 
-export default withStyles(styles)(Chat);
+export default withApollo(withStyles(styles)(Chat));

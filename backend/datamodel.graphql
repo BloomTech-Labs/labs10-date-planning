@@ -48,10 +48,11 @@ type User {
 	liked: [User!]! @relation(name: "LikedUser")
 	blocked: [User!]! @relation(name: "BlockedUser")
 	chats: [Chat!]!
+	verified: Boolean @default(value: "false")
 }
 
 type Chat {
-	id: ID! @unique 
+	id: ID! @unique
 	users: [User!]!
 	messages: [DirectMessage!]!
 }
@@ -95,5 +96,5 @@ type Genre {
 	id: ID! @unique
 	tmID: String!
 	category: Category!
-	name: String! 
+	name: String!
 }

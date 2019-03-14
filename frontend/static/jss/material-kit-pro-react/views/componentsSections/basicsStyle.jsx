@@ -77,6 +77,11 @@ const basicsStyle = theme => ({
 		// padding: 10,
 		paddingTop: '100px',
 		zIndex: 1000,
+		backgroundColor: '#2d2d2d80',
+
+		'& svg': {
+			color : '#fafafa'
+		}
 	},
 	drawerHeader: {
 		display: 'flex',
@@ -234,10 +239,32 @@ const basicsStyle = theme => ({
 		// backgroundImage:
 		//   "url(https://www.transparenttextures.com/patterns/dark-matter.png)"
 	},
+	paper2: {
+		background: 'transparent',
+		border: '2px solid #b2ddf7',
+		display: 'flex',
+		flexDirection: 'column',
+		padding: '20px',
+		backgroundColor: 'rgba(0,0,0,0.32)',
+		'& ::before': {
+			borderBottom: '1px solid #fafafa',
+		},
+		'& svg': {
+			fill: '#fafafa',
+		},
+	},
 	darkBackground: {
 		background: 'transparent',
 		color: '#fafafa',
 	},
+	interests: {
+		'& span': {
+			color: '#fafafa'
+		},
+		'& svg': {
+			color: '#fafafa'
+		}
+	}
 });
 
 export default basicsStyle;

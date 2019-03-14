@@ -8,7 +8,6 @@ const CURRENT_USER_QUERY = gql`
 			id
 			firstName
 			lastName
-			gender
 			email
 			biography
 			dob
@@ -16,6 +15,7 @@ const CURRENT_USER_QUERY = gql`
 			genderPrefs
 			minAgePref
 			maxAgePref
+			verified
 			img {
 				default
 				img_url
@@ -40,6 +40,7 @@ const CURRENT_USER_QUERY = gql`
 				id
 				category
 				name
+				tmID
 			}
 			stripeCustomerId
 		}

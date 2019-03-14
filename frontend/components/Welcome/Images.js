@@ -68,7 +68,7 @@ const GenderPrefs = ({ user }) => {
 							zIndex: '1',
 						}}
 					>
-						<h2>Upload an Image.</h2>
+						<h2>I look like...</h2>
 						<div className={'thumbnail'}>
 							{user.img.length ? <img src={user.img[0].img_url} alt='...' /> : null}
 						</div>

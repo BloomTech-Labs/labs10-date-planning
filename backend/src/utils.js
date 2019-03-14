@@ -221,38 +221,19 @@ module.exports = {
 			},
 		});
 
-		// combined events between the two users
-		const combinedEvents = await db.query.events({
-			where: {
-				OR: [
-					{
-						attending_some: {
-							id: currentUserId,
-						},
-					},
-					{
-						attending_some: {
-							id: matchingUserId,
-						},
-					},
-				],
-			},
-		});
+		// calculate eventScore giving 10 max points
+		let eventScore = Math.floor(Math.log2(3.5 * sharedEvents.length + 1) * 1000)
+		eventScore = eventScore > 5000 ? 5000 : eventScore
 
-		// calculate eventScore with .6 coef
-		const eventScore =
-			combinedEvents.length === 0
-				? 0
-				: Math.floor(sharedEvents.length / combinedEvents.length * 10000 * 60 / 100);
 
-		// query current user events genre
+		// query current user events genre and current user interests
 		const currentUser = await db.query.users(
 			{
 				where: {
 					id: currentUserId,
 				},
 			},
-			`{ events { genre  } }`,
+			`{ events { id genre } interests { id } }`,
 		);
 
 		// get unique genre list for current user
@@ -263,20 +244,14 @@ module.exports = {
 			return genres;
 		}, []);
 
-		// calculate eventScore with .6 coef
-		// const eventScore =
-		// 	combinedEvents.length === 0
-		// 		? 0
-		// 		: Math.floor(sharedEvents.length / combinedEvents.length * 10000 * 60 / 100);
-
-		// query matching user events genre
+		// query matching user events genre and matching user interests
 		const matchingUser = await db.query.users(
 			{
 				where: {
 					id: matchingUserId,
 				},
 			},
-			`{ events { genre } }`,
+			`{ events { genre } interests { id } }`,
 		);
 
 		// get unique genre list for matching user
@@ -293,21 +268,21 @@ module.exports = {
 			return count;
 		}, 0);
 
-		// calculate genreScore with .4 coef
-		const genreScore =
-			currentUserGenres.length + matchingUserGenres.length === 0
-				? 0
-				: Math.floor(
-						sharedGenre /
-							(matchingUserGenres.length + currentUserGenres.length - sharedGenre) *
-							10000 *
-							40 /
-							100,
-					);
+		// calculate genreScore giving 5 max points
+		const genreScore = sharedGenre < 5 ? sharedGenre : 5;
 
-		// compatibility score is the sum of eventScore and genreScore
-		const score = eventScore + genreScore;
+		// get shared interest between the two users
+		const sharedInterest = currentUser[0].interests.reduce((shared, interest) => {
+			if (matchingUser[0].interests.find(i => i.id === interest.id)) shared.push(interest);
+			return shared;
+		}, []);
 
+		// calculate interestScore giving 5 max point
+		let interestScore = Math.floor(Math.log2(3 * sharedInterest.length + 1) * 1000)
+		interestScore = interestScore > 5000 ? 5000 : interestScore
+
+		// compatibility score is the sum of eventScore, genreScore, and interestScore
+		const score = eventScore + 0 * genreScore + interestScore;
 		return score;
 	},
 };

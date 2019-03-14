@@ -37,6 +37,7 @@ type Query {
 		dates: [String]
 		genres: [String]
 	): AllEvents
+	remainingMessages: Int
 	getEvent(id: String!): Event
 	geoHash(city: String!): GeoHash
 	currentUser: User
@@ -51,7 +52,7 @@ type Query {
 	getSharedEvents(userToMatchId: String!): [Event!]!
 	getMatchUsers: [MatchScore!]!
 	getScore: Int
-	getMessages: [DirectMessage]
+	getMessages(id: String): [DirectMessage]
 	genres: [Genre!]
 	userEvents: [Event]
 	getLikedByList: [User!]!
@@ -61,6 +62,7 @@ type Query {
 type Subscription {
 	myChat(id: String!): ChatSubscriptionPayload
 	myMessages(id: String!): MessageSubscriptionPayload!
+	myMessage(chatId: String!): MessageSubscriptionPayload!
 }
 
 enum MutationType {
@@ -80,8 +82,10 @@ type MessageSubscriptionPayload {
 }
 
 type BatchPayload {
-  """The number of nodes that have been affected by the Batch operation."""
-  count: Long!
+	"""
+	The number of nodes that have been affected by the Batch operation.
+	"""
+	count: Long!
 }
 
 type DirectMessage {
@@ -137,6 +141,7 @@ type User {
 	stripeSubscriptionId: String
 	score: Int
 	chats: [Chat]
+	verified: Boolean
 }
 
 type AllEvents {
@@ -165,7 +170,7 @@ type Event {
 	price: PriceRange
 	notes: String
 	genre: String
-	category: String 
+	category: String
 }
 
 type LocationInfo {
@@ -181,8 +186,6 @@ type PriceRange {
 	max: String
 	currency: String
 }
-
-
 
 type Location {
 	city: String
@@ -218,4 +221,3 @@ type MatchScore {
 	user: User!
 	score: Int
 }
-

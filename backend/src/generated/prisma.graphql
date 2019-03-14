@@ -1,5 +1,5 @@
-# source: https://ykrueng-labs2-b2f475839e.herokuapp.com/backend/dev
-# timestamp: Mon Mar 11 2019 15:40:41 GMT-0500 (Central Daylight Time)
+# source: http://localhost:4466
+# timestamp: Wed Mar 13 2019 22:59:09 GMT-0700 (Pacific Daylight Time)
 
 type AggregateChat {
   count: Int!
@@ -196,6 +196,7 @@ input ChatUpdateInput {
 input ChatUpdateManyWithoutUsersInput {
   create: [ChatCreateWithoutUsersInput!]
   connect: [ChatWhereUniqueInput!]
+  set: [ChatWhereUniqueInput!]
   disconnect: [ChatWhereUniqueInput!]
   delete: [ChatWhereUniqueInput!]
   update: [ChatUpdateWithWhereUniqueWithoutUsersInput!]
@@ -563,6 +564,7 @@ input DirectMessageUpdateManyMutationInput {
 input DirectMessageUpdateManyWithoutChatInput {
   create: [DirectMessageCreateWithoutChatInput!]
   connect: [DirectMessageWhereUniqueInput!]
+  set: [DirectMessageWhereUniqueInput!]
   disconnect: [DirectMessageWhereUniqueInput!]
   delete: [DirectMessageWhereUniqueInput!]
   update: [DirectMessageUpdateWithWhereUniqueWithoutChatInput!]
@@ -1489,6 +1491,7 @@ input EventUpdateManyMutationInput {
 input EventUpdateManyWithoutAttendingInput {
   create: [EventCreateWithoutAttendingInput!]
   connect: [EventWhereUniqueInput!]
+  set: [EventWhereUniqueInput!]
   disconnect: [EventWhereUniqueInput!]
   delete: [EventWhereUniqueInput!]
   update: [EventUpdateWithWhereUniqueWithoutAttendingInput!]
@@ -2338,6 +2341,7 @@ input GenreUpdateManyDataInput {
 input GenreUpdateManyInput {
   create: [GenreCreateInput!]
   connect: [GenreWhereUniqueInput!]
+  set: [GenreWhereUniqueInput!]
   disconnect: [GenreWhereUniqueInput!]
   delete: [GenreWhereUniqueInput!]
   update: [GenreUpdateWithWhereUniqueNestedInput!]
@@ -2513,6 +2517,9 @@ input GenreWhereUniqueInput {
   id: ID
 }
 
+"""Raw JSON value"""
+scalar Json
+
 """
 The `Long` scalar type represents non-fractional signed whole numeric values.
 Long can represent values between -(2^63) and 2^63 - 1.
@@ -2554,6 +2561,8 @@ type Mutation {
   deleteManyProfilePics(where: ProfilePicWhereInput): BatchPayload!
   deleteManyEvents(where: EventWhereInput): BatchPayload!
   deleteManyGenres(where: GenreWhereInput): BatchPayload!
+  deleteManyUsers(where: UserWhereInput): BatchPayload!
+  executeRaw(database: PrismaDatabase, query: String!): Json!
 }
 
 enum MutationType {
@@ -2588,6 +2597,10 @@ enum Permission {
   MONTHLY
   YEARLY
   ADMIN
+}
+
+enum PrismaDatabase {
+  default
 }
 
 type ProfilePic implements Node {
@@ -2804,6 +2817,7 @@ input ProfilePicUpdateManyMutationInput {
 input ProfilePicUpdateManyWithoutUserInput {
   create: [ProfilePicCreateWithoutUserInput!]
   connect: [ProfilePicWhereUniqueInput!]
+  set: [ProfilePicWhereUniqueInput!]
   disconnect: [ProfilePicWhereUniqueInput!]
   delete: [ProfilePicWhereUniqueInput!]
   update: [ProfilePicUpdateWithWhereUniqueWithoutUserInput!]
@@ -2999,6 +3013,7 @@ type User implements Node {
   liked(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   blocked(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   chats(where: ChatWhereInput, orderBy: ChatOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Chat!]
+  verified: Boolean
 }
 
 """A connection to a list of items."""
@@ -3035,6 +3050,7 @@ input UserCreateInput {
   permissions: Permission!
   stripeCustomerId: String
   stripeSubscriptionId: String
+  verified: Boolean
   genderPrefs: UserCreategenderPrefsInput
   img: ProfilePicCreateManyWithoutUserInput
   interests: GenreCreateManyInput
@@ -3089,6 +3105,7 @@ input UserCreateWithoutChatsInput {
   permissions: Permission!
   stripeCustomerId: String
   stripeSubscriptionId: String
+  verified: Boolean
   genderPrefs: UserCreategenderPrefsInput
   img: ProfilePicCreateManyWithoutUserInput
   interests: GenreCreateManyInput
@@ -3117,6 +3134,7 @@ input UserCreateWithoutEventsInput {
   permissions: Permission!
   stripeCustomerId: String
   stripeSubscriptionId: String
+  verified: Boolean
   genderPrefs: UserCreategenderPrefsInput
   img: ProfilePicCreateManyWithoutUserInput
   interests: GenreCreateManyInput
@@ -3145,6 +3163,7 @@ input UserCreateWithoutImgInput {
   permissions: Permission!
   stripeCustomerId: String
   stripeSubscriptionId: String
+  verified: Boolean
   genderPrefs: UserCreategenderPrefsInput
   interests: GenreCreateManyInput
   events: EventCreateManyWithoutAttendingInput
@@ -3207,6 +3226,8 @@ enum UserOrderByInput {
   stripeCustomerId_DESC
   stripeSubscriptionId_ASC
   stripeSubscriptionId_DESC
+  verified_ASC
+  verified_DESC
 }
 
 type UserPreviousValues {
@@ -3233,6 +3254,7 @@ type UserPreviousValues {
   updatedAt: DateTime!
   stripeCustomerId: String
   stripeSubscriptionId: String
+  verified: Boolean
 }
 
 input UserScalarWhereInput {
@@ -3956,6 +3978,10 @@ input UserScalarWhereInput {
 
   """All values not ending with the given string."""
   stripeSubscriptionId_not_ends_with: String
+  verified: Boolean
+
+  """All values that are not equal to given value."""
+  verified_not: Boolean
 }
 
 type UserSubscriptionPayload {
@@ -4017,6 +4043,7 @@ input UserUpdateDataInput {
   permissions: Permission
   stripeCustomerId: String
   stripeSubscriptionId: String
+  verified: Boolean
   genderPrefs: UserUpdategenderPrefsInput
   img: ProfilePicUpdateManyWithoutUserInput
   interests: GenreUpdateManyInput
@@ -4050,6 +4077,7 @@ input UserUpdateInput {
   permissions: Permission
   stripeCustomerId: String
   stripeSubscriptionId: String
+  verified: Boolean
   genderPrefs: UserUpdategenderPrefsInput
   img: ProfilePicUpdateManyWithoutUserInput
   interests: GenreUpdateManyInput
@@ -4079,12 +4107,14 @@ input UserUpdateManyDataInput {
   permissions: Permission
   stripeCustomerId: String
   stripeSubscriptionId: String
+  verified: Boolean
   genderPrefs: UserUpdategenderPrefsInput
 }
 
 input UserUpdateManyInput {
   create: [UserCreateInput!]
   connect: [UserWhereUniqueInput!]
+  set: [UserWhereUniqueInput!]
   disconnect: [UserWhereUniqueInput!]
   delete: [UserWhereUniqueInput!]
   update: [UserUpdateWithWhereUniqueNestedInput!]
@@ -4113,12 +4143,14 @@ input UserUpdateManyMutationInput {
   permissions: Permission
   stripeCustomerId: String
   stripeSubscriptionId: String
+  verified: Boolean
   genderPrefs: UserUpdategenderPrefsInput
 }
 
 input UserUpdateManyWithoutChatsInput {
   create: [UserCreateWithoutChatsInput!]
   connect: [UserWhereUniqueInput!]
+  set: [UserWhereUniqueInput!]
   disconnect: [UserWhereUniqueInput!]
   delete: [UserWhereUniqueInput!]
   update: [UserUpdateWithWhereUniqueWithoutChatsInput!]
@@ -4130,6 +4162,7 @@ input UserUpdateManyWithoutChatsInput {
 input UserUpdateManyWithoutEventsInput {
   create: [UserCreateWithoutEventsInput!]
   connect: [UserWhereUniqueInput!]
+  set: [UserWhereUniqueInput!]
   disconnect: [UserWhereUniqueInput!]
   delete: [UserWhereUniqueInput!]
   update: [UserUpdateWithWhereUniqueWithoutEventsInput!]
@@ -4177,6 +4210,7 @@ input UserUpdateWithoutChatsDataInput {
   permissions: Permission
   stripeCustomerId: String
   stripeSubscriptionId: String
+  verified: Boolean
   genderPrefs: UserUpdategenderPrefsInput
   img: ProfilePicUpdateManyWithoutUserInput
   interests: GenreUpdateManyInput
@@ -4205,6 +4239,7 @@ input UserUpdateWithoutEventsDataInput {
   permissions: Permission
   stripeCustomerId: String
   stripeSubscriptionId: String
+  verified: Boolean
   genderPrefs: UserUpdategenderPrefsInput
   img: ProfilePicUpdateManyWithoutUserInput
   interests: GenreUpdateManyInput
@@ -4233,6 +4268,7 @@ input UserUpdateWithoutImgDataInput {
   permissions: Permission
   stripeCustomerId: String
   stripeSubscriptionId: String
+  verified: Boolean
   genderPrefs: UserUpdategenderPrefsInput
   interests: GenreUpdateManyInput
   events: EventUpdateManyWithoutAttendingInput
@@ -5005,6 +5041,10 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   stripeSubscriptionId_not_ends_with: String
+  verified: Boolean
+
+  """All values that are not equal to given value."""
+  verified_not: Boolean
   img_every: ProfilePicWhereInput
   img_some: ProfilePicWhereInput
   img_none: ProfilePicWhereInput

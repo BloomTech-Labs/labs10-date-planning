@@ -6,6 +6,7 @@ export const USER_QUERY = gql`
 			id
 			firstName
 			dob
+			score
 			img {
 				id
 				default

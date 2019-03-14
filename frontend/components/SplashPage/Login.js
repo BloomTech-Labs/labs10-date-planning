@@ -19,7 +19,7 @@ import {
 import { Visibility, VisibilityOff, Mail, Close, LockOutlined } from '@material-ui/icons';
 //components
 import ErrorModal from './ErrorModal';
-import ResetRequest from './PasswordRequest';
+import Reset from './PasswordRequest';
 import Transition from '../Transistion';
 //styled components
 import Button from '../../styledComponents/CustomButtons/Button';
@@ -34,7 +34,6 @@ import { CURRENT_USER_QUERY } from '../Queries/User';
 import Styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles';
 //utils
 import { auth } from '../../utils/firebase';
-import Reset from './PasswordRequest';
 
 const LOGIN_USER = gql`
 	mutation LOGIN_USER($email: String!, $password: String!) {
@@ -129,7 +128,7 @@ const Login = ({ classes, showing, setShowing }) => {
 					aria-labelledby='signup-modal-slide-title'
 					aria-describedby='signup-modal-slide-description'
 				>
-					<Card plain className={classes.modalLoginCard}>
+					<Card plain className={classes.modalLoginCard + ' ' + classes.login}>
 						<DialogTitle
 							id='login-modal-slide-title'
 							disableTypography
@@ -138,7 +137,7 @@ const Login = ({ classes, showing, setShowing }) => {
 							<CardHeader
 								plain
 								color='primary'
-								className={`${classes.textCenter} ${classes.cardLoginHeader}`}
+								className={`${classes.textCenter} ${classes.cardLoginHeader} ${classes.loginHeader}`}
 							>
 								<Button
 									simple
@@ -317,10 +316,11 @@ const Login = ({ classes, showing, setShowing }) => {
 										>
 											<ButtonBase type='submit'>
 												<Button
+													className={classes.loginButton}
 													color='primary'
 													simple
-													disabled
-													//disabled={!user.email || !user.password}
+													// disabled
+													disabled={!user.email || !user.password}
 													size='lg'
 													component='div'
 												>
