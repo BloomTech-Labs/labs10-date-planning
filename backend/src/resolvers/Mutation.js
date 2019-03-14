@@ -445,14 +445,15 @@ const Mutation = {
 			data: { phone: args.phone },
 		});
 
-		const verifySent = authy.phones().verification_start(args.phone, '1', 'sms', (err, res) => {
+		authy.phones().verification_start(args.phone, '1', 'sms', (err, res) => {
 			if (err) {
+				console.log(err);
 				throw new Error(err);
 			}
 			return res.message;
 		});
 
-		return { message: 'Phone verification code sent!' };
+		//return { message: 'Phone verification code sent!' };
 	},
 	async checkVerify(parent, args, { request }, info) {
 		const { user } = request;
