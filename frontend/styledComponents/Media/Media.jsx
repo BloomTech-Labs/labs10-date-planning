@@ -19,6 +19,7 @@ function Media({ ...props }) {
 		title,
 		body,
 		footer,
+		avatarClick,
 		innerMedias,
 		...rest
 	} = props;
@@ -30,7 +31,11 @@ function Media({ ...props }) {
 	return (
 		<div {...rest} className={yayclasses}>
 			<div className={classes.mediaLink}>
-				<div className={classes.mediaAvatar}>
+				<div
+					style={{ cursor: avatarClick ? 'pointer' : 'default' }}
+					className={classes.mediaAvatar}
+					onClick={avatarClick}
+				>
 					<img src={avatar} alt={avatarAlt} />
 				</div>
 				<div className={classes.mediaFooter}>{footer}</div>
@@ -63,6 +68,7 @@ Media.propTypes = {
 	title: PropTypes.node,
 	body: PropTypes.node,
 	footer: PropTypes.node,
+	avatarClick: PropTypes.func,
 	innerMedias: PropTypes.arrayOf(PropTypes.object),
 };
 

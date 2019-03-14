@@ -28,7 +28,7 @@ const Bio = ({ user, classes }) => {
 				NProgress.done();
 				Router.push(
 					`/welcome?slug=8`,
-					`/welcome/pro`,
+					`/welcome/profile/interests`,
 					{ shallow: true },
 					{ scroll: false },
 				);

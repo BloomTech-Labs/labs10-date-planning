@@ -111,6 +111,7 @@ const Composed = adopt({
 });
 
 const UserModal = ({ classes, user, router, currentUser }) => {
+	console.log(router);
 	return (
 		<Composed id={user}>
 			{({ like, unlike, block, potentialMatch }) => {
@@ -133,8 +134,11 @@ const UserModal = ({ classes, user, router, currentUser }) => {
 							scroll='body'
 							onClose={() =>
 								Router.push(
-									router.pathname,
-									router.pathname,
+									{
+										pathname: router.pathname,
+										query: { slug: router.query.slug },
+									},
+									`${router.pathname}/${router.query.slug}`,
 									{ shallow: true },
 									{ scroll: false },
 								)}
@@ -165,8 +169,11 @@ const UserModal = ({ classes, user, router, currentUser }) => {
 									onClick={e => {
 										e.stopPropagation();
 										Router.push(
-											router.pathname,
-											router.pathname,
+											{
+												pathname: router.pathname,
+												query: { slug: router.query.slug },
+											},
+											`${router.pathname}/${router.query.slug}`,
 											{ shallow: true },
 											{ scroll: false },
 										);

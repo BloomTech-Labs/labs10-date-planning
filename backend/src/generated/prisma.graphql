@@ -2513,6 +2513,9 @@ input GenreWhereUniqueInput {
   id: ID
 }
 
+"""Raw JSON value"""
+scalar Json
+
 """
 The `Long` scalar type represents non-fractional signed whole numeric values.
 Long can represent values between -(2^63) and 2^63 - 1.
@@ -2555,6 +2558,7 @@ type Mutation {
   deleteManyEvents(where: EventWhereInput): BatchPayload!
   deleteManyGenres(where: GenreWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
+  executeRaw(database: PrismaDatabase, query: String!): Json!
 }
 
 enum MutationType {
@@ -2589,6 +2593,10 @@ enum Permission {
   MONTHLY
   YEARLY
   ADMIN
+}
+
+enum PrismaDatabase {
+  default
 }
 
 type ProfilePic implements Node {
