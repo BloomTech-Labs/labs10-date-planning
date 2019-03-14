@@ -240,10 +240,11 @@ module.exports = {
 		});
 
 		// calculate eventScore with .4 coef
-		const eventScore =
-			combinedEvents.length === 0
-				? 0
-				: Math.floor(sharedEvents.length / combinedEvents.length * 10000 * 40 / 100);
+		const eventScore = combinedEvents.length < 10 ? combinedEvents.length : 10;
+			
+			// combinedEvents.length === 0
+			// 	? 0
+			// 	: Math.floor(sharedEvents.length / combinedEvents.length * 10000 * 40 / 100);
 
 		// query current user events genre
 		const currentUser = await db.query.users(
@@ -288,16 +289,16 @@ module.exports = {
 		}, 0);
 
 		// calculate genreScore with .2 coef
-		const genreScore =
-			currentUserGenres.length + matchingUserGenres.length === 0
-				? 0
-				: Math.floor(
-						sharedGenre /
-							(matchingUserGenres.length + currentUserGenres.length - sharedGenre) *
-							10000 *
-							20 /
-							100,
-					);
+		const genreScore = sharedGenre < 5 ? sharedGenre : 5;
+			// currentUserGenres.length + matchingUserGenres.length === 0
+			// 	? 0
+			// 	: Math.floor(
+			// 			sharedGenre /
+			// 				(matchingUserGenres.length + currentUserGenres.length - sharedGenre) *
+			// 				10000 *
+			// 				20 /
+			// 				100,
+			// 		);
 
 		// get shared interest between the two users
 		const sharedInterest = currentUser[0].interests.reduce((shared, interest) => {
@@ -307,13 +308,14 @@ module.exports = {
 
 		// calculate interestScore with .4 coef
 
-		const interestScore = currentUser[0].interests.length + matchingUser[0].interests.length === 0
-			? 0
-			: Math.floor( sharedInterest.length / (matchingUser[0].interests.length + currentUser[0].interests.length - sharedInterest.length) * 10000 * 40 / 100 );
+		const interestScore = sharedInterest.length < 5 ? sharedInterest.length : 5;
+			// currentUser[0].interests.length + matchingUser[0].interests.length === 0
+			// ? 0
+			// : Math.floor( sharedInterest.length / (matchingUser[0].interests.length + currentUser[0].interests.length - sharedInterest.length) * 10000 * 40 / 100 );
 
 
 		// compatibility score is the sum of eventScore and genreScore
-		const score = eventScore + genreScore + interestScore;
+		const score = 600*eventScore + 200*genreScore + 800*interestScore;
 
 		return score;
 	},
