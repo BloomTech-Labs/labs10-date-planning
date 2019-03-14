@@ -8,7 +8,6 @@ import Button from '../../styledComponents/CustomButtons/Button';
 
 const Gender = ({ user }) => {
 	const handleSelect = (value, updateUser) => {
-		console.log('started');
 		NProgress.start();
 		updateUser({ variables: { gender: value } });
 	};
@@ -19,7 +18,7 @@ const Gender = ({ user }) => {
 				NProgress.done();
 				Router.push(
 					`/welcome?slug=2`,
-					`/welcome/profile/gender/preferences`,
+					`/welcome/profile/age`,
 					{ shallow: true },
 					{ scroll: false },
 				);
