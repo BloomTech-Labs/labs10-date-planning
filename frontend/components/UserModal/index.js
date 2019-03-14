@@ -49,6 +49,7 @@ import { UDPATE_SEEN_MSG_MUTATION } from '../Mutations/updateSeenMessage';
 import Chat from './Chat';
 import Transition from '../Transistion';
 import CommonEvents from './CommonEvents';
+import CommonInterests from './CommonInterests';
 //StyledComponents
 import Button from '../../styledComponents/CustomButtons/Button';
 import GridContainer from '../../styledComponents/Grid/GridContainer';
@@ -155,10 +156,10 @@ const UserModal = ({ classes, user, router, currentUser }) => {
 								root: classes.modalRoot,
 								//paper: classes.modalLarge,
 							}}
+							style={{ maxHeight: '100vh' }}
 							open={user ? true : false}
 							fullWidth
 							fullScreen
-							maxWidth='lg'
 							TransitionComponent={Transition}
 							scroll='body'
 							onClose={() =>
@@ -310,8 +311,6 @@ const UserModal = ({ classes, user, router, currentUser }) => {
 														))}
 													</Slider>
 												</div>
-											</GridItem>
-											<GridItem md={2} lg={2}>
 												<div
 													style={{
 														backgroundColor: '#1b1b1b59',
@@ -334,8 +333,11 @@ const UserModal = ({ classes, user, router, currentUser }) => {
 													</div>
 												</div>
 											</GridItem>
+											<GridItem md={5} lg={5}>
+												<CommonEvents id={user} />
+												<CommonInterests match={match} user={currentUser} />
+											</GridItem>
 										</GridContainer>
-										<CommonEvents id={user} />
 									</GridItem>
 
 									<GridItem md={4} lg={4}>
@@ -353,7 +355,7 @@ const UserModal = ({ classes, user, router, currentUser }) => {
 														currentUser={currentUser}
 														subscribeToNewMessages={() => {
 															data &&
-															data.getConversation &&
+																data.getConversation &&
 																subscribeToMore({
 																	document: MESSAGE_SUBSCRIPTION,
 																	variables: {
@@ -365,10 +367,10 @@ const UserModal = ({ classes, user, router, currentUser }) => {
 																		{ subscriptionData },
 																	) => {
 																		if (!subscriptionData)
-																			return prev
+																			return prev;
 																		return {
-																			...prev
-																		}
+																			...prev,
+																		};
 																	},
 																});
 														}}

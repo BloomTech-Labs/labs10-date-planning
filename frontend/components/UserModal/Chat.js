@@ -18,36 +18,36 @@ import Button from '../../styledComponents/CustomButtons/Button';
 import styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles.jsx';
 
 const SEND_MESSAGE_MUTATION = gql`
-  mutation SEND_MESSAGE_MUTATION($id: String!, $message: String!) {
-    sendMessage(id: $id, message: $message) {
-      id
-      users {
-        id
-        firstName
-        img {
-          id
-          img_url
-          default
-        }
-      }
-      messages {
-        id
-        text
-        seen
-        createdAt
-        from {
-          id
-          firstName
-          img {
-            id
-            img_url
-            default
-          }
-        }
-        updatedAt
-      }
-    }
-  }
+	mutation SEND_MESSAGE_MUTATION($id: String!, $message: String!) {
+		sendMessage(id: $id, message: $message) {
+			id
+			users {
+				id
+				firstName
+				img {
+					id
+					img_url
+					default
+				}
+			}
+			messages {
+				id
+				text
+				seen
+				createdAt
+				from {
+					id
+					firstName
+					img {
+						id
+						img_url
+						default
+					}
+				}
+				updatedAt
+			}
+		}
+	}
 `;
 
 const MARK_SEEN = gql`
@@ -87,7 +87,7 @@ const Chat = ({ classes, data, id, currentUser, subscribeToNewMessages }) => {
 		let messages = data.getConversation.messages;
 		let user = data.getConversation.users.find(usr => usr.id !== id);
 		let match = data.getConversation.users.find(usr => usr.id === id);
-		console.log(messages);
+
 		return (
 			<div className={classes.chatBorder}>
 				<div className={classes.chat}>
@@ -101,7 +101,7 @@ const Chat = ({ classes, data, id, currentUser, subscribeToNewMessages }) => {
 								key={msg.id}
 								avatar={img}
 								title={
-									<span>
+									<span style={{ color: '#fafafa' }}>
 										{msg.from.firstName}
 										<small
 											style={{
