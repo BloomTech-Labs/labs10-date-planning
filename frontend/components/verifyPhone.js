@@ -18,7 +18,16 @@ const Verify = ({ classes }) => {
   const [verified, setVerified] = useState(false);
   const [phone, setPhone] = useState("");
   const [code, setCode] = useState(undefined);
+  const [err, setError] = useState(undefined)
   console.log(phone);
+
+  const handleError = error => {
+    console.log('handleerror verify phone')
+    NProgress.done()
+    if (error.message.includes('Field name = phone')) {
+      setError()
+    }
+  }
   const [verifyPhone] = useMutation(SEND_VERIFICATION_MUTATION, {
     variables: { phone },
     onCompleted: () => {
@@ -27,7 +36,7 @@ const Verify = ({ classes }) => {
       setVerifySent(true);
     },
     onError: err => {
-      NProgress.done();
+      handleError()
       alert(err.message);
     }
   });
