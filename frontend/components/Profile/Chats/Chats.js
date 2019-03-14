@@ -71,7 +71,7 @@ const Chats = ({ subscribeToNewChats, subscribetoNewMessages, data, currentUser,
 		<div className={classes.container} style={{ padding: '30px 0' }}>
 			<GridContainer style={{ height: '100%', flexDirection: 'column' }}>
 				<LikedBy user={currentUser} setSeleccted={handleSelectUser} />
-				<GridContainer style={{ height: 'calc(100vh - 300px)' }}>
+				<GridContainer style={{ height: 'calc(100vh - 300px)', overflow: 'scroll' }}>
 					<GridItem sm={12} md={4} lg={4}>
 						<Paper
 							style={{

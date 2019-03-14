@@ -119,7 +119,7 @@ const Mutation = {
 			where: { email: args.email },
 			data: { resetToken, resetTokenExpiry },
 		});
-		console.log(res, resetToken); // just to check and make sure the resetToken and expiry are getting set
+		// console.log(res, resetToken); // just to check and make sure the resetToken and expiry are getting set
 		const mailRes = await transport.sendMail({
 			from: 'support@up4.life',
 			to: user.email,
@@ -469,6 +469,13 @@ const Mutation = {
 				return { message: 'Phone successfully verified!' };
 			}
 		});
+	},
+	async deleteUser(parent, args, { request, db }, info) {
+		const { user } = request;
+		let user = await db.mutation.deleteUser({
+			where: { id: user.id },
+		});
+		return { message: 'User deleted' };
 	},
 };
 
