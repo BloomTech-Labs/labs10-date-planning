@@ -12,7 +12,7 @@ import CustomInput from '../styledComponents/CustomInput/CustomInput.jsx';
 const Verify = ({ classes }) => {
 	const [ verify, setVerify ] = useState(false);
 	const [ verifySent, setVerifySent ] = useState(false);
-	const [ verified, setVerified ] = useState(true);
+	const [ verified, setVerified ] = useState(false);
 	const [ phone, setPhone ] = useState('');
 	const [ code, setCode ] = useState(undefined);
 	console.log(phone);

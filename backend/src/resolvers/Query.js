@@ -2,6 +2,7 @@ const axios = require('axios');
 const { forwardTo } = require('prisma-binding');
 const { transformEvents, fetchEvents, setDates, getScore } = require('../utils');
 const stripe = require('../stripe');
+const moment = require('moment');
 const MessageQuery = require('./Messages/MessageQuery');
 const UserQuery = require('./User/UserQuery');
 
@@ -39,9 +40,9 @@ const Query = {
 	},
 	async user(parent, args, { request, db }, info) {
 		// finds a user based on the args provided in the mutation
-		const { userId } = request
+		const { userId } = request;
 
-		let score = 0
+		let score = 0;
 		if (args.where.id) {
 			score = await getScore(userId, args.where.id, db);
 		}
@@ -66,13 +67,13 @@ const Query = {
 				interests {
 					id
 				}
-			}`
-		)
+			}`,
+		);
 
 		return {
 			...user,
-			score
-		}
+			score,
+		};
 	},
 	async getEvents(parent, { location, alt, page, ...args }, { db, request }, info) {
 		location = location.split(',')[0].toLowerCase();
@@ -224,6 +225,17 @@ const Query = {
 		});
 
 		return invoices.data;
+	},
+
+	async remainingMessages(parent, args, { db, request }, info) {
+		const { userId, user } = request;
+		const sentMessages = await db.query.directMessages({
+			where: {
+				AND: [ { from: { id: user.id } }, { createdAt_gte: moment().startOf('isoWeek') } ],
+			},
+		});
+
+		return 20 - sentMessages.length;
 	},
 };
 
