@@ -217,6 +217,7 @@ const Chat = ({ classes, data, id, currentUser, subscribeToNewMessages, match, c
 						>
 							<CustomInput
 								id='logged'
+								className={classes.inputWidth}
 								formControlProps={{
 									fullWidth: true,
 								}}
