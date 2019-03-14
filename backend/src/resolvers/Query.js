@@ -12,7 +12,6 @@ const Query = {
 	async userEvents(parent, args, { request, db }, info) {
 		const { user } = request;
 		if (!user) throw new Error('You must be logged in to use this feature!');
-		console.log(user);
 		let events = await db.query.events(
 			{
 				where: {
@@ -77,7 +76,6 @@ const Query = {
 	},
 	async getEvents(parent, { location, alt, page, ...args }, { db, request }, info) {
 		location = location.split(',')[0].toLowerCase();
-		console.log(page);
 		let cats =
 			!args.categories || !args.categories.length
 				? [ 'KZFzniwnSyZfZ7v7nJ', 'KZFzniwnSyZfZ7v7na', 'KZFzniwnSyZfZ7v7n1' ]
