@@ -109,12 +109,15 @@ const Pricing = ({ classes, currentUser, client }) => {
                   />
                 </li>
               </ul>
-              <Button
-                color={currentSubs !== "FREE" ? "primary" : "white"}
-                disabled={currentSubs !== "FREE"}
-              >
-                {currentSubs === "FREE" ? "Current Plan" : "Choose Plan"}
-              </Button>
+              {
+                currentUser.permissions === 'FREE'
+                && <Button
+                  color={currentSubs !== "FREE" ? "primary" : "white"}
+                  disabled={currentSubs !== "FREE"}
+                >
+                  {currentSubs === "FREE" ? "Current Plan" : "Choose Plan"}
+                </Button>
+              }
             </CardBody>
           </Card>
         </GridItem>
