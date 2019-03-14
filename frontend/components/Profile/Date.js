@@ -53,6 +53,16 @@ const DELETE_EVENT = gql`
 	}
 `;
 
+const Wrapper = ({ classes, carousel, children }) => {
+	if (carousel)
+		return (
+			<Slider {...settings} className={classes.slicky}>
+				{children}
+			</Slider>
+		);
+	else return <div style={{ display: 'flex' }}>{children}</div>;
+};
+
 const DateView = ({ date, classes, client, currentUser, refetch }) => {
 	const [ deleteEvent ] = useMutation(DELETE_EVENT, {
 		variables: { id: currentUser.id, eventId: date.id },
@@ -74,22 +84,9 @@ const DateView = ({ date, classes, client, currentUser, refetch }) => {
 					position: 'relative',
 					border: '4px solid #4cb5ae',
 					borderRadius: '11px',
+					backgroundImage: `url(${date.image_url})`,
 				}}
 			>
-				<div
-					style={{
-						backgroundSize: 'cover',
-						backgroundPosition: 'center',
-						position: 'absolute',
-
-						left: 0,
-						right: 0,
-						top: 0,
-						bottom: 0,
-						display: 'block',
-						backgroundImage: `url(${date.image_url})`,
-					}}
-				/>
 				<IconButton
 					style={{ position: 'absolute', top: 0, right: 0, zIndex: 3 }}
 					aria-label='Delete'
@@ -97,7 +94,15 @@ const DateView = ({ date, classes, client, currentUser, refetch }) => {
 				>
 					<Delete fontSize='small' style={{ color: '#fafafa' }} />
 				</IconButton>
-				<CardBody background style={{ maxWidth: '100%', padding: '12px', height: '100%' }}>
+				<CardBody
+					background
+					style={{
+						maxWidth: '100%',
+						padding: '12px',
+						height: '100%',
+						paddingBottom: carousel ? 0 : '42px',
+					}}
+				>
 					<h4 style={{ margin: '2px 11px' }} className={classes.cardTitleWhite}>
 						{date.title}{' '}
 					</h4>
@@ -115,7 +120,7 @@ const DateView = ({ date, classes, client, currentUser, refetch }) => {
 						)}
 					</h6>
 
-					<Slider {...settings} className={classes.slicky}>
+					<Wrapper carousel={carousel} classes={classes}>
 						{date.attending.filter(usr => usr.id !== currentUser.id).map((usr, i) => {
 							let chat = currentUser
 								? currentUser.chats.find(x => x.users.some(y => y.id === usr.id))
@@ -127,7 +132,7 @@ const DateView = ({ date, classes, client, currentUser, refetch }) => {
 								<div
 									className={classes.eventUserCard}
 									style={{
-										width: '96%',
+										width: carousel && '96%',
 										margin: '5px',
 									}}
 									onClick={() => {
@@ -186,7 +191,7 @@ const DateView = ({ date, classes, client, currentUser, refetch }) => {
 								</div>
 							);
 						})}
-					</Slider>
+					</Wrapper>
 				</CardBody>
 			</Card>
 		</GridItem>

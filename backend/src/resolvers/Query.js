@@ -38,14 +38,42 @@ const Query = {
 			info,
 		);
 	},
-	user(parent, args, { db }, info) {
+	async user(parent, args, { request, db }, info) {
 		// finds a user based on the args provided in the mutation
-		return db.query.user(
+		const { userId } = request
+
+		let score = 0
+		if (args.where.id) {
+			score = await getScore(userId, args.where.id, db);
+		}
+
+		const user = await db.query.user(
 			{
 				...args,
 			},
-			info,
-		);
+			`{
+				id
+				firstName
+				dob
+				img {
+					id
+					default
+					img_url
+				}
+				biography
+				events {
+					id
+				}
+				interests {
+					id
+				}
+			}`
+		)
+
+		return {
+			...user,
+			score
+		}
 	},
 	async getEvents(parent, { location, alt, page, ...args }, { db, request }, info) {
 		location = location.split(',')[0].toLowerCase();
