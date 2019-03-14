@@ -214,7 +214,20 @@ const UserModal = ({ classes, user, router, currentUser }) => {
 												<FavoriteBorder className={classes.notFavorite} />
 											)}
 										</IconButton>
-
+										{match.score > 7000 ? (
+											<h3
+												style={{
+													color: '#fafafa',
+													border: '2px solid #cabac8',
+													borderRadius: '4px',
+													margin: 0,
+													padding: '10px 5px',
+												}}
+												className={classes.title}
+											>
+												{match.score * 0.01}% match!
+											</h3>
+										) : null}
 										<CustomDropdown
 											dropPlacement='bottom-end'
 											caret={false}
