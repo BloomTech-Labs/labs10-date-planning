@@ -266,6 +266,12 @@ const javascriptStyles = theme => {
 			zIndex: 7,
 			fill: 'url(#favoriteID) #ff101f',
 		},
+		slicky: {
+			'& .slick-slide': {},
+			'& .slick-dots li button:before': {
+				color: 'transparent',
+			},
+		},
 	};
 };
 

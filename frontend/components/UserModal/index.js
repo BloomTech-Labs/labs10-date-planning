@@ -111,17 +111,9 @@ const UserModal = ({ classes, user, router, currentUser }) => {
 	return (
 		<Composed id={user}>
 			{({ like, unlike, block, potentialMatch }) => {
-				//console.log(potentialMatch);
 				let match = potentialMatch.data ? potentialMatch.data.user : null;
 				let isLiked = currentUser ? currentUser.liked.find(usr => usr.id === user) : false;
-				{
-					/* let userImg =
-					currentUser && currentUser.img.find(img => img.default)
-						? currentUser.img.find(img => img.default).img_url
-						: null; */
-				}
 
-				//console.log(match.events, currentUser.events);
 				if (!match) return <div />;
 				else {
 					NProgress.done();
@@ -129,7 +121,6 @@ const UserModal = ({ classes, user, router, currentUser }) => {
 						<Dialog
 							classes={{
 								root: classes.modalRoot,
-								//paper: classes.modalLarge,
 							}}
 							style={{ maxHeight: '100vh' }}
 							open={user ? true : false}
@@ -249,8 +240,6 @@ const UserModal = ({ classes, user, router, currentUser }) => {
 									backgroundImage:
 										'url("https://www.transparenttextures.com/patterns/dark-matter.png")',
 								}}
-								// id='notice-modal-slide-description'
-								//classes={{ root: 'dialogContent' }}
 								className={classes.modalBody}
 							>
 								<GridContainer>
@@ -269,18 +258,25 @@ const UserModal = ({ classes, user, router, currentUser }) => {
 												md={7}
 												lg={7}
 											>
-												<div style={{ width: '100%' }}>
-													<Slider {...settings}>
+												<div
+													style={{
+														width: '100%',
+													}}
+												>
+													<Slider
+														{...settings}
+														className={classes.slicky}
+													>
 														{match.img.map(img => (
 															<div key={img.img_url}>
 																<img
 																	src={img.img_url}
 																	style={{
-																		borderRadius: '6px',
 																		overflow: 'hidden',
 																		height: '100%',
 																		width: '100%',
 																		border: '4px solid #b2ddf7',
+																		borderRadius: '6px',
 																	}}
 																/>
 															</div>
@@ -367,67 +363,3 @@ const UserModal = ({ classes, user, router, currentUser }) => {
 };
 
 export default withRouter(withApollo(withStyles(styles)(UserModal)));
-
-//const [ event, setEvent ] = useState(undefined);
-//const [ isShowing, setIsShowing ] = useState(false);
-// useEffect(
-// 	() => {
-// 		if (modal === true) {
-// 			NProgress.start();
-// 			getEvent();
-// 		} else {
-// 			setEvent(undefined);
-// 		}
-// 	},
-// 	[ modal ],
-// );
-
-// useEffect(
-// 	() => {
-// 		if (event) {
-// 			setIsShowing(true);
-// 		}
-// 	},
-// 	[ event ],
-// );
-
-// useEffect(
-// 	() => {
-// 		if (!isShowing) {
-// 			showModal(false);
-// 		} else {
-// 			NProgress.done();
-// 		}
-// 	},
-// 	[ isShowing ],
-// );
-
-// const getEvent = async () => {
-// 	let { data } = await client.query({
-// 		query: EVENT_QUERY,
-// 		variables: { id },
-// 	});
-// 	console.log(data.getEvent);
-// 	setEvent(data.getEvent);
-// };
-
-//const [ messageModal, showMessageModal ] = useState({});
-
-// const handleClick = async (e, addEvent, user) => {
-// 	console.log(event);
-// 	e.stopPropagation();
-// 	if (user.permissions === 'FREE') {
-// 		if (user.events.length === 5) {
-// 			showMessageModal({
-// 				error: 'You have reached your maximum limit for your free account.',
-// 			});
-// 		} else {
-// 			showMessageModal({
-// 				warning: `You have ${5 - user.events.length} remaining.`,
-// 			});
-// 		}
-// 	} else {
-// 		showMessageModal({ message: true });
-// 	}
-// 	addEvent();
-// };
