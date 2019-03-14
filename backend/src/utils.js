@@ -315,9 +315,8 @@ module.exports = {
 
 
 		// compatibility score is the sum of eventScore and genreScore
-		const score = 400*eventScore + 400*genreScore + 800*interestScore;
+		const score = 600*eventScore + 200*genreScore + 800*interestScore;
 
-		console.log({score})
 		return score;
 	},
 };
