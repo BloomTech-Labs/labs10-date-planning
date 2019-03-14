@@ -40,13 +40,11 @@ const Composed = adopt({
 			{render}
 		</Value>
 	),
-	filters: ({ user, render }) => (
+	filters: ({ render }) => (
 		<State
 			initial={{
 				cats: [],
-				genres: user.data.currentUser
-					? user.data.currentUser.interests.map(x => x.tmID)
-					: [],
+				genres: [],
 				dates: [],
 			}}
 		>

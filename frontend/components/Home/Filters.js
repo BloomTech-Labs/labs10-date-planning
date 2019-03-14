@@ -32,9 +32,9 @@ const Filters = ({ classes, filters, user }) => {
 	const { data } = useQuery(ALL_GENRE_QUERY);
 	const [ categoryFilters, setCategeoryFilters ] = useState([]);
 	const [ dateFilters, setDateFilters ] = useState([]);
-	const [ genreFilters, setGenreFilters ] = useState(user.interests.map(x => x.tmID));
+	const [ genreFilters, setGenreFilters ] = useState([]);
 	const [ selectedDate, setSelectedDate ] = useState(null);
-	console.log();
+
 	const handleCategoryFilters = ({ target: { id } }) => {
 		categoryFilters.indexOf(id) !== -1
 			? setCategeoryFilters(categoryFilters.filter(i => i !== id))
@@ -55,6 +55,12 @@ const Filters = ({ classes, filters, user }) => {
 	const handleDateChange = date => {
 		setSelectedDate(date);
 	};
+
+	useEffect(() => {
+		if (user.interests.length) {
+			setGenreFilters(user.interests.map(x => x.tmID));
+		}
+	}, []);
 
 	useEffect(
 		() => {
