@@ -19,14 +19,17 @@ const Verify = ({ classes }) => {
   const [phone, setPhone] = useState("");
   const [code, setCode] = useState(undefined);
   const [err, setError] = useState(undefined)
-  console.log(phone);
+  console.log(phone); 
 
-  const handleError = error => {
-    console.log('handleerror verify phone')
+  const handleError = err => {
     NProgress.done()
-    if (error.message.includes('Field name = phone')) {
-      setError()
-    }
+    if (err.message.includes('Field name = phone')) {
+      console.log('innerhandleerror phone')
+      console.log(err.message)
+      setError({message: 'Please update a valid phone number.'})
+      alert('Please update a valid phone number.')
+      }
+    
   }
   const [verifyPhone] = useMutation(SEND_VERIFICATION_MUTATION, {
     variables: { phone },
@@ -36,8 +39,7 @@ const Verify = ({ classes }) => {
       setVerifySent(true);
     },
     onError: err => {
-      handleError()
-      alert(err.message);
+      handleError(err);
     }
   });
   const [checkVerify] = useMutation(CHECK_VERIFICATION_MUTATION, {
