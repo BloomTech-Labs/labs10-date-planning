@@ -81,7 +81,7 @@ const Event = React.memo(({ event, classes, user, refetch }) => {
 		let dateB = new Date(b);
 		return dateA - dateB;
 	});
-	console.log(error);
+
 	return (
 		<div
 			style={{

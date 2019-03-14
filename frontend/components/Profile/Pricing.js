@@ -145,7 +145,7 @@ const Pricing = ({ classes, currentUser, client }) => {
               <h3
                 className={`${classes.cardTitleWhite} ${classes.marginTop30}`}
               >
-                <small>$</small> 9.99 <small>/month</small>
+                <small>$</small> 4.99 <small>/month</small>
               </h3>
               <ul style={{ marginBottom: "36px" }}>
                 <li>

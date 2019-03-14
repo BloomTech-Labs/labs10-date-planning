@@ -192,13 +192,12 @@ const Chat = ({ chat, currentUser, classes, client }) => {
 						) : (
 							<form
 								className={classes.expandedChat}
-								onSubmit={() => {
+								onSubmit={e => {
+									e.preventDefault();
 									NProgress.start();
 									sendMessage();
-
 									setMessage('');
 								}}
-
 							>
 								<CustomInput
 									id='logged'
@@ -214,21 +213,22 @@ const Chat = ({ chat, currentUser, classes, client }) => {
 										style: { color: '#fafafa', width: '80%' },
 									}}
 								/>
-								
-							/>
-							<ButtonBase type='submit'>
-								<Button
-									style={{background: 'transparent', borderRadius: '6px !important'}}
-									justIcon
-									className={classes.floatRight}
-									component='div'
-								>
-									<Send />
-								</Button>
-							</ButtonBase>
-						</form>
-					)}
-
+								/>
+								<ButtonBase type='submit'>
+									<Button
+										style={{
+											background: 'transparent',
+											borderRadius: '6px !important',
+										}}
+										justIcon
+										className={classes.floatRight}
+										component='div'
+									>
+										<Send />
+									</Button>
+								</ButtonBase>
+							</form>
+						)}
 				</Mutation>
 			)}
 		</div>

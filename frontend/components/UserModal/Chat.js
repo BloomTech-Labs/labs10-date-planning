@@ -15,6 +15,7 @@ import Verify from '../verifyPhone';
 import CustomInput from '../../styledComponents/CustomInput/CustomInput.jsx';
 import Media from '../../styledComponents/Media/Media.jsx';
 import Button from '../../styledComponents/CustomButtons/Button';
+import { ButtonBase } from '@material-ui/core';
 
 import styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles.jsx';
 
@@ -71,8 +72,11 @@ const Chat = ({ classes, data, id, currentUser, subscribeToNewMessages, match, c
 	const markAllAsSeen = useMutation(MARK_SEEN);
 	const msgRef = useRef(null);
 
+	//Flip flop this lil guy
+	currentUser.verified = true;
+
 	useEffect(() => {
-		//subscribeToNewMessages();
+		subscribeToNewMessages();
 		if (!currentUser.verified) {
 			setError({
 				msg: 'You must verify your account before you can send messages!',
@@ -128,7 +132,7 @@ const Chat = ({ classes, data, id, currentUser, subscribeToNewMessages, match, c
 				{messages ? (
 					messages.map(msg => {
 						let fromMatch = msg.from.id === id;
-						let unseen = !msg.seen;
+						let unseen = !msg.seen && msg.from.id !== currentUser.id;
 						let img = msg.from.img.find(img => img.default).img_url;
 						return (
 							<Media
@@ -188,57 +192,59 @@ const Chat = ({ classes, data, id, currentUser, subscribeToNewMessages, match, c
 					NProgress.done();
 				}}
 			>
-				{sendMessage => (
-					<div>
-						<Media
-							avatar={currentUser.img.find(i => i.default).img_url}
-							currentUser
-							body={
-								error ? !error.link ? (
-									<Verify />
-								) : (
-									<div>
-										<h4>{error.msg}</h4>
-										<Button onClick={() => Router.push(error.link)}>
-											{error.linkText}
-										</Button>
-									</div>
-								) : (
-									<CustomInput
-										id='logged'
-										formControlProps={{
-											fullWidth: true,
-										}}
-										inputProps={{
-											multiline: true,
-											rows: 6,
-											placeholder: data.getConversation
-												? `Respond to ${match.firstName}`
-												: `Send ${match.firstName} a message.`,
-											value: message,
-											onChange: e => setMessage(e.target.value),
-										}}
-									/>
-								)
-							}
-							footer={
+				{sendMessage =>
+					error ? !error.link ? (
+						<Verify />
+					) : (
+						<div>
+							<h4>{error.msg}</h4>
+							<Button
+								onClick={() => Router.push('/profile?slug=billing', error.link)}
+							>
+								{error.linkText}
+							</Button>
+						</div>
+					) : (
+						<form
+							className={classes.expandedChat}
+							onSubmit={e => {
+								e.preventDefault();
+								NProgress.start();
+								sendMessage();
+
+								setMessage('');
+							}}
+						>
+							<CustomInput
+								id='logged'
+								formControlProps={{
+									fullWidth: true,
+								}}
+								inputProps={{
+									multiline: true,
+									rows: 6,
+									placeholder: data.getConversation
+										? `Respond to ${match.firstName}`
+										: `Send ${match.firstName} a message.`,
+									value: message,
+									onChange: e => setMessage(e.target.value),
+								}}
+							/>
+							<ButtonBase type='submit'>
 								<Button
-									color='primary'
-									justIcon
-									disabled={error !== null}
-									className={classes.floatRight}
-									onClick={() => {
-										NProgress.start();
-										sendMessage();
-										setMessage('');
+									style={{
+										background: 'transparent',
+										borderRadius: '6px !important',
 									}}
+									justIcon
+									className={classes.floatRight}
+									component='div'
 								>
 									<Send />
 								</Button>
-							}
-						/>
-					</div>
-				)}
+							</ButtonBase>
+						</form>
+					)}
 			</Mutation>
 		</div>
 	);

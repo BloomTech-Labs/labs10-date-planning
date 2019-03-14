@@ -52,7 +52,7 @@ type Query {
 	getSharedEvents(userToMatchId: String!): [Event!]!
 	getMatchUsers: [MatchScore!]!
 	getScore: Int
-	getMessages: [DirectMessage]
+	getMessages(id: String): [DirectMessage]
 	genres: [Genre!]
 	userEvents: [Event]
 	getLikedByList: [User!]!
