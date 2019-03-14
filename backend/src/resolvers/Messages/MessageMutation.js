@@ -1,4 +1,4 @@
-const moment = require('moment')
+const moment = require('moment');
 
 module.exports = {
 	async createChat(parent, args, { request, db }, info) {
@@ -13,14 +13,14 @@ module.exports = {
 				where: {
 					AND: [
 						{ from: { id: user.id } },
-						{ createdAt_gte: moment().startOf('isoWeek') }
-					]
-				}
-			})
+						{ createdAt_gte: moment().startOf('isoWeek') },
+					],
+				},
+			});
 
-			if (sentMessages.length > 10) throw new Error('You have reached 10 DMs per week for FREE account.')
+			if (sentMessages.length > 20)
+				throw new Error('You have reached 20 DMs per week for FREE account.');
 		}
-
 
 		// check to see if chat between users already exists
 		let [ chat ] = await db.query.chats(
@@ -62,12 +62,13 @@ module.exports = {
 				where: {
 					AND: [
 						{ from: { id: user.id } },
-						{ createdAt_gte: moment().startOf('isoWeek') }
-					]
-				}
-			})
+						{ createdAt_gte: moment().startOf('isoWeek') },
+					],
+				},
+			});
 
-			if (sentMessages.length >= 20) throw new Error('You have reached 20 DMs per week for FREE account.')
+			if (sentMessages.length >= 20)
+				throw new Error('You have reached 20 DMs per week for FREE account.');
 		}
 
 		let [ chat ] = await db.query.chats({
@@ -142,34 +143,34 @@ module.exports = {
 	async markAllAsSeen(parent, args, { request, db }, info) {
 		const { user, userId } = request;
 
-		if (!user) throw new Error('You must be logged in to start a conversation!')
+		if (!user) throw new Error('You must be logged in to start a conversation!');
 
 		const chat = db.query.chat({
 			where: {
-				id: args.chatId
-			}
-		})
+				id: args.chatId,
+			},
+		});
 
-		if (!chat) throw new Error('Chat does not exist')
+		if (!chat) throw new Error('Chat does not exist');
 
 		await db.mutation.updateManyDirectMessages({
 			where: {
 				AND: [
 					{ chat: { id: args.chatId } },
 					{ from: { id_not: userId } },
-					{ seen: false }
-				]
+					{ seen: false },
+				],
 			},
 			data: {
-				seen: true
-			}
-		})
+				seen: true,
+			},
+		});
 
 		return db.mutation.updateChat({
 			where: {
-				id: args.chatId
+				id: args.chatId,
 			},
-			data: {}
-		})
-	}
-}
+			data: {},
+		});
+	},
+};

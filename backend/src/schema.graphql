@@ -37,6 +37,7 @@ type Query {
 		dates: [String]
 		genres: [String]
 	): AllEvents
+	remainingMessages: Int
 	getEvent(id: String!): Event
 	geoHash(city: String!): GeoHash
 	currentUser: User

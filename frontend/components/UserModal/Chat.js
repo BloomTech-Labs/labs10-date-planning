@@ -1,16 +1,17 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, Fragment } from 'react';
 import NProgress from 'nprogress';
 import moment from 'moment';
+import Router from 'next/router';
 import gql from 'graphql-tag';
 
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Send } from '@material-ui/icons';
 
-import { Mutation } from 'react-apollo';
+import { Mutation, withApollo } from 'react-apollo';
 import { useMutation } from 'react-apollo-hooks';
 
 // import { SEND_MESSAGE_MUTATION } from '../Mutations/sendMessage';
-
+import Verify from '../verifyPhone';
 import CustomInput from '../../styledComponents/CustomInput/CustomInput.jsx';
 import Media from '../../styledComponents/Media/Media.jsx';
 import Button from '../../styledComponents/CustomButtons/Button';
@@ -58,13 +59,29 @@ const MARK_SEEN = gql`
 	}
 `;
 
-const Chat = ({ classes, data, id, currentUser, subscribeToNewMessages, match }) => {
+const REMAINING_MESSAGES = gql`
+	query {
+		remainingMessages
+	}
+`;
+
+const Chat = ({ classes, data, id, currentUser, subscribeToNewMessages, match, client }) => {
 	const [ message, setMessage ] = useState('');
+	const [ error, setError ] = useState(null);
 	const markAllAsSeen = useMutation(MARK_SEEN);
 	const msgRef = useRef(null);
 
 	useEffect(() => {
 		subscribeToNewMessages();
+		if (!currentUser.verified) {
+			setError({
+				msg: 'You must verify your account before you can send messages!',
+				link: null,
+				linkText: 'Verify now?',
+			});
+		} else if (currentUser.permissions === 'FREE') {
+			getRemainingMessages();
+		}
 	}, []);
 	useEffect(
 		() => {
@@ -90,7 +107,16 @@ const Chat = ({ classes, data, id, currentUser, subscribeToNewMessages, match })
 			});
 		}
 	});
-
+	const getRemainingMessages = async () => {
+		let messagesRemaining = await client.query({ query: REMAINING_MESSAGES });
+		if (messagesRemaining.data.remainingMessages === 0) {
+			setError({
+				msg: 'You are out of weekly messages allowed on a free account!',
+				link: '/profile/billing',
+				linkText: 'Go Pro?',
+			});
+		}
+	};
 	let messages =
 		data.getConversation && data.getConversation.messages.length
 			? data.getConversation.messages
@@ -168,26 +194,38 @@ const Chat = ({ classes, data, id, currentUser, subscribeToNewMessages, match })
 							avatar={currentUser.img.find(i => i.default).img_url}
 							currentUser
 							body={
-								<CustomInput
-									id='logged'
-									formControlProps={{
-										fullWidth: true,
-									}}
-									inputProps={{
-										multiline: true,
-										rows: 6,
-										placeholder: data.getConversation
-											? `Respond to ${match.firstName}`
-											: `Send ${match.firstName} a message.`,
-										value: message,
-										onChange: e => setMessage(e.target.value),
-									}}
-								/>
+								error ? !error.link ? (
+									<Verify />
+								) : (
+									<div>
+										<h4>{error.msg}</h4>
+										<Button onClick={() => Router.push(error.link)}>
+											{error.linkText}
+										</Button>
+									</div>
+								) : (
+									<CustomInput
+										id='logged'
+										formControlProps={{
+											fullWidth: true,
+										}}
+										inputProps={{
+											multiline: true,
+											rows: 6,
+											placeholder: data.getConversation
+												? `Respond to ${match.firstName}`
+												: `Send ${match.firstName} a message.`,
+											value: message,
+											onChange: e => setMessage(e.target.value),
+										}}
+									/>
+								)
 							}
 							footer={
 								<Button
 									color='primary'
 									justIcon
+									disabled={error !== null}
 									className={classes.floatRight}
 									onClick={() => {
 										NProgress.start();
@@ -206,4 +244,4 @@ const Chat = ({ classes, data, id, currentUser, subscribeToNewMessages, match })
 	);
 };
 
-export default withStyles(styles)(Chat);
+export default withApollo(withStyles(styles)(Chat));
