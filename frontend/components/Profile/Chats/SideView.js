@@ -6,6 +6,7 @@ import styles from "../../../static/jss/material-kit-pro-react/views/componentsS
 
 const Chat = ({ chat, setChat, selectedChat, classes }) => {
 <<<<<<< HEAD
+<<<<<<< HEAD
 	const isSelected = selectedChat ? chat.id === selectedChat.id : false;
 	return (
 		<div
@@ -57,6 +58,8 @@ const Chat = ({ chat, setChat, selectedChat, classes }) => {
 		</div>
 	);
 =======
+=======
+>>>>>>> 592c3b1c1cadf0c08e2c89edfcdab593647d6d23
   const isSelected = selectedChat ? chat.id === selectedChat.id : false;
   return (
     <div
@@ -111,7 +114,10 @@ const Chat = ({ chat, setChat, selectedChat, classes }) => {
       </div>
     </div>
   );
+<<<<<<< HEAD
 >>>>>>> a63e5b3d780d76d5065e80f4fc04a44bdcbffc77
+=======
+>>>>>>> 592c3b1c1cadf0c08e2c89edfcdab593647d6d23
 };
 
 export default withStyles(styles)(Chat);
