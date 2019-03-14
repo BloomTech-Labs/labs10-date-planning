@@ -37,20 +37,20 @@ const Pro = ({classes}) => {
 				}}
 			>
 				<h2>Our awesome pro features</h2>
-				<GridContainer>
-					<GridItem sm={4} md={3} lg={3}>
+				<GridContainer >
+					<GridItem style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}} sm={4} md={3} lg={3}>
 						<Favorite className={classes.favorite} style={{ width: '100px', height: '100px' }} />
 						<p>See who has liked you</p>
 					</GridItem>
-					<GridItem sm={4} md={3} lg={3}>
+					<GridItem style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}} sm={4} md={3} lg={3}>
 						<Event className={classes.event} style={{ width: '100px', height: '100px' }} />
 						<p>Express interest in an unlimited number of events</p>
 					</GridItem>
-					<GridItem sm={4} md={3} lg={3}>
+					<GridItem style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}} sm={4} md={3} lg={3}>
 						<ChatBubble className={classes.chat} style={{ width: '100px', height: '100px' }} />
 						<p>Send an unlimited number of messages</p>
 					</GridItem>
-					<GridItem sm={4} md={3} lg={3}>
+					<GridItem style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}} sm={4} md={3} lg={3}>
 						<Receipt className={classes.receipt} style={{ width: '100px', height: '100px' }} />
 						<p>View read receipts</p>
 					</GridItem>
