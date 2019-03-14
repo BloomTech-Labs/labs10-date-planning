@@ -87,6 +87,9 @@ const landingPageStyle = {
   registerButton: {
     backgroundImage:
       "linear-gradient(to right, #f6655a, #f9574c, #fc473e, #fe332f, #ff101f)"
+  },
+  loginButton: {
+    backgroundColor: '#81d6e3'
   }
 };
 

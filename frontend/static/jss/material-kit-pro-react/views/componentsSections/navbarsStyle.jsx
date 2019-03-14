@@ -58,6 +58,9 @@ const navbarsStyle = theme => ({
 		borderRadius: '50%',
 		marginLeft: '5px',
 	},
+	messageDropdown: {
+		backgroundColor: 'red'
+	}
 });
 
 export default navbarsStyle;
