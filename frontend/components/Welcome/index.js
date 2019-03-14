@@ -13,6 +13,7 @@ import Age from './Age';
 import AgePrefs from './AgePrefs';
 import Location from './Location';
 import Images from './Images';
+import Interests from './Interests';
 import Bio from './Bio';
 import Pro from './ProFeatures';
 
@@ -37,6 +38,7 @@ function getSteps() {
 		'Location',
 		'Images',
 		'Bio',
+		'Interests',
 		'Go Pro',
 	];
 }
@@ -60,6 +62,8 @@ function getStepContent(stepIndex, user) {
 		case 7:
 			return <Bio />;
 		case 8:
+			return <Interests />;
+		case 9:
 			return <Pro />;
 		default:
 			return 'Unknown stepIndex';
@@ -85,6 +89,8 @@ function getImage(stepIndex) {
 		case 7:
 			return triangle7;
 		case 8:
+			return triangle8;
+		case 9:
 			return triangle8;
 		default:
 			return null;
