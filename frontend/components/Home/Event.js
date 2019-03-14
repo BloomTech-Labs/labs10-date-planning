@@ -26,7 +26,7 @@ import standIn from '../../static/img/placeholder.jpg';
 
 //Components
 import Up4 from './UpFor';
-
+import ErrorModal from '../SplashPage/ErrorModal';
 //Styled components
 import Card from '../../styledComponents/Card/Card';
 import CardHeader from '../../styledComponents/Card/CardHeader';
@@ -47,11 +47,11 @@ const Event = React.memo(({ event, classes, user, refetch }) => {
 		onCompleted: e => console.log(e),
 		onError: e => console.log(e),
 	});
-
+	const [ error, setError ] = useState(null);
 	const [ rotate, setRotate ] = useState('');
 	const [ height, setHeight ] = useState(0);
 	const [ val, set ] = useState(false);
-	const [ saved, setSaved ] = useState('false')
+	const [ saved, setSaved ] = useState('false');
 	const divEl = useRef(null);
 	const imgEl = useRef(null);
 	let isSaved = user ? user.events.find(e => e.id === event.id) : false;
@@ -90,6 +90,7 @@ const Event = React.memo(({ event, classes, user, refetch }) => {
 				opacity: height === 0 ? '0' : '1',
 			}}
 		>
+			{error ? <ErrorModal error={error} billing /> : null}
 			<div
 				style={{ height: height }}
 				className={`${classes.rotatingCardContainer} ${classes.manualRotate} ${rotate}`}
@@ -145,7 +146,10 @@ const Event = React.memo(({ event, classes, user, refetch }) => {
 											},
 										});
 									}}
-									onError={() => NProgress.done()}
+									onError={e => {
+										NProgress.done();
+										setError(e);
+									}}
 									onCompleted={() => {
 										NProgress.done();
 									}}

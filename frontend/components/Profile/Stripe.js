@@ -48,7 +48,7 @@ const Billing = props => {
 			{createOrder => {
 				return (
 					<StripeCheckout
-						amount={props.subsType === 'MONTHLY' ? 999 : 2999}
+						amount={props.subsType === 'MONTHLY' ? 499 : 2999}
 						name='Up4'
 						description='One year subscription'
 						stripeKey='pk_test_cwlMq3xP1YmTHtoyiwqKNwYb'

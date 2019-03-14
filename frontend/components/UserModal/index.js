@@ -173,7 +173,9 @@ const UserModal = ({ classes, user, router, currentUser }) => {
 												pathname: router.pathname,
 												query: { slug: router.query.slug },
 											},
-											router.query.slug ? `${router.pathname}/${router.query.slug}` : router.pathname,
+											router.query.slug
+												? `${router.pathname}/${router.query.slug}`
+												: router.pathname,
 											{ shallow: true },
 											{ scroll: false },
 										);
