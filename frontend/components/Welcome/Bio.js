@@ -59,7 +59,7 @@ const Bio = ({ user, classes }) => {
 						}}
 						className={classes.textArea}
 					>
-						<h2>Write something about yourself</h2>
+						<h2>What I'd like you to know about me is...</h2>
 						<CustomInput
 							//labelText='About'
 

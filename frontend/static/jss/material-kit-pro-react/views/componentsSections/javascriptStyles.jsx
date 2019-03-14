@@ -213,46 +213,45 @@ const javascriptStyles = theme => {
 		registerField: {
 			color: '#fafafa !important',
 		},
-
-		login: {
-			backgroundColor: '#262323',
-			backgroundImage:
-				'url("https://www.transparenttextures.com/theme/images/transparent.png")',
-			border: '2px solid #81d6e3',
-			'& input': {
-				color: '#fafafa',
-			},
-		},
-		loginHeader: {
-			backgroundImage:
-				'linear-gradient(to right, #81d6e3, #71d0df, #5ecadb, #49c3d8, #2dbdd4)',
-			background: 'transparent',
-		},
-		loginButton: {
-			backgroundImage:
-				'linear-gradient(to right, #81d6e3, #71d0df, #5ecadb, #49c3d8, #2dbdd4)',
-			color: '#fafafa !important',
-		},
-		registerModalButton: {
-			backgroundImage:
-				'linear-gradient(to right, #8dd2cd, #7ecbc5, #6ec3bd, #5ebcb6, #4cb5ae)',
-			color: '#fafafa !important',
-		},
-		expandedChat: {
-			display: 'flex',
-			justifyContent: 'flex-end',
-			alignItems: 'flex-end',
-			borderTop: '2px solid #b2ddf7',
-			'& ::after': {
-				borderBottomColor: '#81d6e3',
-			},
-			'& button': {
-				backgroundImage:
-					'linear-gradient(to right, #81d6e3, #71d0df, #5ecadb, #49c3d8, #2dbdd4)',
-				background: 'transparent',
-			},
-		},
-		userFavorite: {
+    login: {
+      backgroundColor: "#262323",
+      backgroundImage:
+        'url("https://www.transparenttextures.com/theme/images/transparent.png")',
+      border: "2px solid #81d6e3",
+      "& input": {
+        color: "#fafafa"
+      }
+    },
+    loginHeader: {
+      backgroundImage:
+        "linear-gradient(to right, #81d6e3, #71d0df, #5ecadb, #49c3d8, #2dbdd4)",
+      background: "transparent"
+    },
+    loginButton: {
+      backgroundImage:
+        "linear-gradient(to right, #81d6e3, #71d0df, #5ecadb, #49c3d8, #2dbdd4)",
+      color: "#fafafa !important"
+    },
+    registerModalButton: {
+      backgroundImage:
+        "linear-gradient(to right, #8dd2cd, #7ecbc5, #6ec3bd, #5ebcb6, #4cb5ae)",
+      color: "#fafafa !important"
+    },
+    expandedChat: {
+      display: "flex",
+      justifyContent: "flex-end",
+      alignItems: "flex-end",
+      borderTop: "2px solid #b2ddf7",
+      "& ::after": {
+        borderBottomColor: "#81d6e3"
+      },
+      "& button": {
+        backgroundImage:
+          "linear-gradient(to right, #81d6e3, #71d0df, #5ecadb, #49c3d8, #2dbdd4)",
+        background: "transparent"
+      }
+    },
+        userFavorite: {
 			fontSize: '30px',
 			// marginTop: '4px',
 			// marginRight: '4px',
@@ -272,7 +271,11 @@ const javascriptStyles = theme => {
 				color: 'transparent',
 			},
 		},
-	};
+    location: {
+      fill: 'url(#indexID) #4CB5AE',
+    }
+  };
+
 };
 
 export default javascriptStyles;

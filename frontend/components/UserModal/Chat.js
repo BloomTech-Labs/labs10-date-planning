@@ -119,9 +119,8 @@ const Chat = ({ classes, data, id, currentUser, subscribeToNewMessages, match })
 										>
 											· {moment(msg.createdAt).fromNow()}
 											{unseen ? (
-												<span style={{ color: 'red', paddingLeft: '3px' }}>
-													new
-												</span>
+							<span style={{ color: 'red', marginLeft: '6px' }}>new</span>
+
 											) : null}
 										</small>
 									</span>
