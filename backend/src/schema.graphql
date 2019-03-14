@@ -81,8 +81,10 @@ type MessageSubscriptionPayload {
 }
 
 type BatchPayload {
-  """The number of nodes that have been affected by the Batch operation."""
-  count: Long!
+	"""
+	The number of nodes that have been affected by the Batch operation.
+	"""
+	count: Long!
 }
 
 type DirectMessage {
@@ -138,6 +140,7 @@ type User {
 	stripeSubscriptionId: String
 	score: Int
 	chats: [Chat]
+	verified: Boolean
 }
 
 type AllEvents {
@@ -166,7 +169,7 @@ type Event {
 	price: PriceRange
 	notes: String
 	genre: String
-	category: String 
+	category: String
 }
 
 type LocationInfo {
@@ -182,8 +185,6 @@ type PriceRange {
 	max: String
 	currency: String
 }
-
-
 
 type Location {
 	city: String
@@ -219,4 +220,3 @@ type MatchScore {
 	user: User!
 	score: Int
 }
-
