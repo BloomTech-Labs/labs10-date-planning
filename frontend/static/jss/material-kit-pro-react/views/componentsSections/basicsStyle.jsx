@@ -257,6 +257,14 @@ const basicsStyle = theme => ({
 		background: 'transparent',
 		color: '#fafafa',
 	},
+	interests: {
+		'& span': {
+			color: '#fafafa'
+		},
+		'& svg': {
+			color: '#fafafa'
+		}
+	}
 });
 
 export default basicsStyle;
