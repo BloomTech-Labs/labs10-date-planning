@@ -146,7 +146,12 @@ const javascriptStyles = theme => {
     chat: {
       height: "600px",
       overflowY: "scroll",
-      borderBottom: "1px solid #c8c8c8"
+      backgroundColor: "#373737",
+      backgroundImage:
+        "url(https://www.transparenttextures.com/patterns/dark-fish-skin.png)",
+      border: "1px solid #cabac8",
+      borderRadius: '6px',
+      margin: '4px'
     },
 
     messageList: {

@@ -19,9 +19,9 @@ const CommonEvents = ({ classes, id }) => {
 	if (!data.getSharedEvents) return <div>loading</div>;
 	return (
 		<div>
-			<h4 className={classes.title} style={{ color: '#fafafa' }}>
+			{/* <h4 className={classes.title} style={{ color: '#fafafa' }}>
 				Events in Common
-			</h4>
+			</h4> */}
 			<GridContainer>
 				{/* <h4 style={{textAlign: 'center'}}className={classes.title}>Events in common</h4> */}
 				{/* <GridContainer style={{ display: 'flex' }}> */}
