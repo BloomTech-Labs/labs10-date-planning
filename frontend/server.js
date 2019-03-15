@@ -1,35 +1,44 @@
 const express = require("express");
 const next = require("next");
 const port = parseInt(process.env.PORT, 10) || 3000;
-const dev = process.env.NODE_ENV !== "production";
-const app = next({ dev });
-const handle = app.getRequestHandler();
+const routes = require("./routes");
+const app = next({ dev: process.env.NODE_ENV !== "production" });
+const handler = routes.getRequestHandler(app);
 
 app.prepare().then(() => {
-	const server = express();
-	server.get("/billing", (req, res) => app.render(req, res, "/billing"));
-	server.get("/joinus", (req, res) => app.render(req, res, "/joinus"));
-	server.get("/profile", (req, res) => {
-		app.render(req, res, "/profile");
-	});
-	server.get("/home", (req, res) => app.render(req, res, "/"));
-	server.get("/welcome", (req, res) => {
-		const actualPage = Object.assign({ slug: req.params.slug }, req.query);
-
-		app.render(req, res, "/welcome", actualPage);
-	});
-
-	server.get("/", (req, res) => app.render(req, res, "/"));
-
-	server.get("*", (req, res) => {
-		return handle(req, res);
-	});
-
-	server.listen(port, err => {
-		if (err) throw err;
-		console.log(`Listening on http://localhost:${port}`);
-	});
+	express()
+		.use(handler)
+		.listen(port, err => {
+			if (err) throw err;
+			console.log(`Listening on http://localhost:${port}`);
+		});
 });
+
+// app.prepare().then(() => {
+// 	const server = express();
+// 	server.get("/billing", (req, res) => app.render(req, res, "/billing"));
+// 	server.get("/joinus", (req, res) => app.render(req, res, "/joinus"));
+// 	server.get("/profile", (req, res) => {
+// 		app.render(req, res, "/profile");
+// 	});
+// 	server.get("/home", (req, res) => app.render(req, res, "/"));
+// 	server.get("/welcome", (req, res) => {
+// 		const actualPage = Object.assign({ slug: req.params.slug }, req.query);
+
+// 		app.render(req, res, "/welcome", actualPage);
+// 	});
+
+// 	server.get("/", (req, res) => app.render(req, res, "/"));
+
+// 	server.get("*", (req, res) => {
+// 		return handle(req, res);
+// 	});
+
+// 	server.listen(port, err => {
+// 		if (err) throw err;
+// 		console.log(`Listening on http://localhost:${port}`);
+// 	});
+// });
 
 // let actualPage;
 // const { slug } = req.params;
