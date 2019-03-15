@@ -164,7 +164,7 @@ const UserModal = ({ classes, user, router, currentUser }) => {
 								className={`${classes.modalHeader} ${classes.userModalHeader}`}
 							>
 								<Button
-									simple
+									simple="true"
 									className={classes.modalCloseButton}
 									key='close'
 									aria-label='Close'
@@ -321,6 +321,7 @@ const UserModal = ({ classes, user, router, currentUser }) => {
 														marginBottom: 0,
 														display: 'flex',
 														alignItems: 'flex-start',
+														zIndex: 2
 													}}
 													className={classes.gradientBox}
 												>

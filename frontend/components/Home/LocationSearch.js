@@ -52,7 +52,7 @@ const Search = ({ setLocation }) => {
 							/>
 							<Button
 								justIcon
-								round
+								round='true'
 								disabled={!selectedItem}
 								onClick={() => {
 									let city = input.slice(0, -5);

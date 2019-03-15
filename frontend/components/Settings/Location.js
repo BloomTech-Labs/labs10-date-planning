@@ -53,9 +53,9 @@ const Location = ({ user, classes }) => {
           {user.location ? user.location : "Set your default location"}
         </Typography>
         <IconButton
-          justIcon
-          simple
-          round
+          // justIcon
+          simple="true"
+          round="true"
           color="primary"
           onClick={() => showModal(true)}
         >
@@ -79,7 +79,7 @@ const Location = ({ user, classes }) => {
         >
           {" "}
           <Button
-            simple
+            simple="true"
             className={classes.modalCloseButton}
             key="close"
             aria-label="Close"
@@ -140,8 +140,8 @@ const Location = ({ user, classes }) => {
                             }}
                           />
                           <Button
-                            justIcon
-                            round
+                            // justIcon
+                            round='true'
                             disabled={!selectedItem}
                             onClick={() => {
                               updateLocation();

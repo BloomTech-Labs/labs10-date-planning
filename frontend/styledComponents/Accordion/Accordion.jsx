@@ -115,15 +115,15 @@ Accordion.propTypes = {
 			content: PropTypes.node,
 		}),
 	).isRequired,
-	activeColor: PropTypes.oneOf([
-		'primary',
-		'secondary',
-		'warning',
-		'danger',
-		'success',
-		'info',
-		'rose',
-	]),
+	// activeColor: PropTypes.oneOf([
+	// 	'primary',
+	// 	'secondary',
+	// 	'warning',
+	// 	'danger',
+	// 	'success',
+	// 	'info',
+	// 	'rose',
+	// ]),
 };
 
 export default withStyles(accordionStyle)(Accordion);

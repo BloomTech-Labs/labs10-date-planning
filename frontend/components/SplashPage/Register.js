@@ -195,7 +195,7 @@ const Register = ({ classes, showing, setShowing }) => {
                     className={classes.modalHeader}
                   >
                     <Button
-                      simple
+                      simple="true"
                       className={classes.modalCloseButton}
                       key="close"
                       aria-label="Close"
@@ -282,7 +282,7 @@ const Register = ({ classes, showing, setShowing }) => {
                                 <Fragment>
                                   <Button
                                     justIcon
-                                    round
+                                    round='true'
                                     color="google"
                                     onClick={e =>
                                       firebaseSignup(e, firebaseAuth, "google")
@@ -293,7 +293,7 @@ const Register = ({ classes, showing, setShowing }) => {
 
 																	<Button
 																		justIcon
-																		round
+																		round='true'
 																		color='facebook'
 																		onClick={e =>
 																			firebaseSignup(
@@ -306,7 +306,7 @@ const Register = ({ classes, showing, setShowing }) => {
 																	</Button>
 																	<Button
 																		justIcon
-																		round
+																		round='true'
 																		color='instagram'
 																		onClick={e =>
 																			firebaseSignup(
@@ -529,7 +529,7 @@ const Register = ({ classes, showing, setShowing }) => {
                                     <ButtonBase type="submit">
                                       <Button
                                         className={classes.registerModalButton}
-                                        round
+                                        round='true'
                                         // disabled
                                         disabled={!terms}
                                         color="primary"

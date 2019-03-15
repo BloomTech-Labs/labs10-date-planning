@@ -56,6 +56,7 @@ const LikedBy = ({ user, setSelected, classes }) => {
       )}
       {data.getLikedByList.map(usr => (
         <div
+          key={usr.id}
           style={{
             height: "60px",
             margin: "20px",
