@@ -74,7 +74,6 @@ const DateView = ({ date, classes, client, currentUser, refetch }) => {
 		onCompleted: () => console.log('hi'),
 	});
 	const carousel = date.attending.filter(usr => usr.id !== currentUser.id).length > 3;
-	console.log(carousel);
 
 	return (
 		<GridItem sm={12} md={6} lg={6}>
@@ -130,7 +129,7 @@ const DateView = ({ date, classes, client, currentUser, refetch }) => {
 								: false;
 							return (
 								<div
-									key={currentUser.id}
+									key={usr.id}
 									className={classes.eventUserCard}
 									style={{
 										width: carousel && '96%',

@@ -130,7 +130,6 @@ const Chat = ({ chat, currentUser, classes, client }) => {
 			<div className={classes.messageList} ref={msgRef}>
 				{chat &&
 					chat.messages.map(msg => {
-					
 						const img = msg.from.img.find(x => x.default).img_url;
 						return (
 							<Media
@@ -222,6 +221,7 @@ const Chat = ({ chat, currentUser, classes, client }) => {
 									placeholder={`Respond to ${friend.firstName}`}
 									rows={1}
 									maxRows={4}
+									value={message}
 									onKeyDown={e => {
 										if (e.keyCode === 13) {
 											sendMessage();

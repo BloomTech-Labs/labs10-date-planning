@@ -48,7 +48,7 @@ const Bio = ({ classes, currentUser }) => {
 						rows: 5,
 						style: { height: '140px', color: '#fafafa' },
 						maxLength: 350,
-						value: bio,
+						value: `${charsLeft > 0 ? bio : bio.slice(0, 350)}`,
 						onChange: e => {
 							handleInput(e);
 						},
