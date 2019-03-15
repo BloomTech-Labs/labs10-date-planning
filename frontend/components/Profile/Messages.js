@@ -51,7 +51,6 @@ const Messages = ({
 	};
 
 	const handleSelectUser = usr => {
-		console.log(usr);
 		let chat;
 		if (data.getUserChats && data.getUserChats.length) {
 			chat = data.getUserChats.find(chat => chat.users.some(x => x.id === usr.id));

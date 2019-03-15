@@ -87,36 +87,38 @@ class CustomDropdown extends React.Component {
 						{dropdownHeader}
 					</MenuItem>
 				) : null}
-				{dropdownList.map((prop, key) => {
-					if (prop.divider) {
-						return (
-							<Divider
-								key={key}
-								onClick={() => this.handleCloseMenu('divider')}
-								className={classes.dropdownDividerItem}
-							/>
-						);
-					} else if (prop.ref === 'multi') {
+				<div style={{ maxHeight: '300px', overflow: 'scroll' }}>
+					{dropdownList.map((prop, key) => {
+						if (prop.divider) {
+							return (
+								<Divider
+									key={key}
+									onClick={() => this.handleCloseMenu('divider')}
+									className={classes.dropdownDividerItem}
+								/>
+							);
+						} else if (prop.ref === 'multi') {
+							return (
+								<MenuItem
+									key={key}
+									className={dropdownItem}
+									style={{ overflow: 'visible', padding: 0 }}
+								>
+									{prop}
+								</MenuItem>
+							);
+						}
 						return (
 							<MenuItem
 								key={key}
+								onClick={() => this.handleCloseMenu(prop)}
 								className={dropdownItem}
-								style={{ overflow: 'visible', padding: 0 }}
 							>
 								{prop}
 							</MenuItem>
 						);
-					}
-					return (
-						<MenuItem
-							key={key}
-							onClick={() => this.handleCloseMenu(prop)}
-							className={dropdownItem}
-						>
-							{prop}
-						</MenuItem>
-					);
-				})}
+					})}
+				</div>
 			</MenuList>
 		);
 		return (

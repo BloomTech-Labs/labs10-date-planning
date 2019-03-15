@@ -16,7 +16,6 @@ const Meta = () => (
 		<link rel='mask-icon' href='/static/icons/safari-pinned-tab.svg' color='#5bbad5' />
 		<link rel='shortcut icon' href='/static/icons/favicon.ico' />
 		<meta name='msapplication-TileColor' content='#00aba9' />
-		<link rel='stylesheet' href='/css/react-phone-number-input/style.css' />
 		<meta name='msapplication-config' content='/static/icons/browserconfig.xml' />
 		<meta name='theme-color' content='#ffffff' />>
 		<link href='https://fonts.googleapis.com/css?family=Baumans' rel='stylesheet' />
