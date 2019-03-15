@@ -22,7 +22,7 @@ import { timeline } from 'popmotion';
 
 const Dates = ({ classes, user }) => {
 	const { data, error } = useQuery(USER_EVENTS_QUERY);
-	console.log(data, error);
+
 	if (!data.userEvents) return <div>loading</div>;
 	let previousDates = data.userEvents.filter(date =>
 		moment(date.times[date.times.length - 1]).isBefore(moment()),

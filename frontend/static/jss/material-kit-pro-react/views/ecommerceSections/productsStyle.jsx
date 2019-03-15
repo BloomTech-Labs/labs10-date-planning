@@ -1,15 +1,15 @@
 import {
-  section,
-  container,
-  cardTitle,
-  coloredShadow,
-  mlAuto,
-  mrAuto
-} from "../../../material-kit-pro-react";
+	section,
+	container,
+	cardTitle,
+	coloredShadow,
+	mlAuto,
+	mrAuto,
+} from '../../../material-kit-pro-react';
 
-import customCheckboxRadioSwitch from "../../../material-kit-pro-react/customCheckboxRadioSwitchStyle";
+import customCheckboxRadioSwitch from '../../../material-kit-pro-react/customCheckboxRadioSwitchStyle';
 
-import tooltipsStyle from "../../../material-kit-pro-react/tooltipsStyle";
+import tooltipsStyle from '../../../material-kit-pro-react/tooltipsStyle';
 
 const styles = {
   ...customCheckboxRadioSwitch,

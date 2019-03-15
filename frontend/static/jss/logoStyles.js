@@ -14,7 +14,7 @@ const styles = {
 		cursor: 'pointer',
 		position: 'relative',
 		right: '5px',
-		top: '3px'
+		top: '3px',
 	},
 	mainUp: {
 		color: '#81d6e3',

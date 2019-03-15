@@ -10,7 +10,6 @@ import style from '../../static/jss/material-kit-pro-react/views/componentsSecti
 
 const CommonInterests = ({ match, user, classes }) => {
 	let interests = user.interests.filter(x => match.interests.some(y => x.id === y.id));
-
 	if (!interests.length) return <div />;
 	return (
 		<div className={classes.interests}>

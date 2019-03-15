@@ -80,11 +80,11 @@ const Footer = ({ classes }) => {
 									<i className='fab fa-github' />
 								</Button>
 							</li>
-							<li>
+							{/* <li>
 								<Button onClick={() => deleteUser()} color='google' justIcon simple>
 									<i className='fab fa-google-plus-g' />
 								</Button>
-							</li>
+							</li> */}
 							{/* <li>
 								<Button
 									href='https://dribbble.com/creativetim'

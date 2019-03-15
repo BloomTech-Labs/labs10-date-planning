@@ -384,6 +384,7 @@ const UserModal = ({ classes, user, router, currentUser }) => {
                     </GridContainer>
                   </GridItem>
 
+
                   <GridItem md={4} lg={4}>
                     <Query
                       query={GET_CONVERSATION_QUERY}
@@ -427,6 +428,7 @@ const UserModal = ({ classes, user, router, currentUser }) => {
       }}
     </Composed>
   );
+
 };
 
 export default withRouter(withApollo(withStyles(styles)(UserModal)));

@@ -8,7 +8,13 @@ import typographyStyle from '../../static/jss/material-kit-pro-react/components/
 
 function Primary({ ...props }) {
 	const { classes, children } = props;
-	return <div className={classes.defaultFontStyle + ' ' + classes.primaryText + classes.customPrimary}>{children}</div>;
+	return (
+		<div
+			className={classes.defaultFontStyle + ' ' + classes.primaryText + classes.customPrimary}
+		>
+			{children}
+		</div>
+	);
 }
 
 Primary.propTypes = {
