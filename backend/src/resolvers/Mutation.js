@@ -266,7 +266,7 @@ const Mutation = {
 					{
 						plan:
 							args.subscription === 'MONTHLY'
-								? 'plan_EYPPZzmOjy3P3I'
+								? 'plan_EhVWWzHeQHwdJC'
 								: 'plan_EYPg6RkTFwJFRA',
 					},
 				],
@@ -280,7 +280,7 @@ const Mutation = {
 						id: subscription.items.data[0].id,
 						plan:
 							args.subscription === 'MONTHLY'
-								? 'plan_EYPPZzmOjy3P3I'
+								? 'plan_EhVWWzHeQHwdJC'
 								: 'plan_EYPg6RkTFwJFRA',
 					},
 				],
