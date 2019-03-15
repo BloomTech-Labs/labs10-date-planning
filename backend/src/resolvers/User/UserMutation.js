@@ -1,4 +1,4 @@
-const { transport, report } = require("../../mailmail");
+const { transport, report } = require("../../mail");
 
 module.exports = {
 	async blockUser(parent, args, { request, db }, info) {
