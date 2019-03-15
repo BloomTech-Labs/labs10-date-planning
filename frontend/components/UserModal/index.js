@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { withApollo, Mutation, Query } from "react-apollo";
 import gql from "graphql-tag";
 import NProgress from "nprogress";
@@ -126,7 +126,7 @@ const Composed = adopt({
 });
 
 const UserModal = ({ classes, user, router, currentUser }) => {
-  console.log(router);
+  const [reportUser, handleReport] = useState(false);
   return (
     <Composed id={user}>
       {({ like, unlike, block, potentialMatch }) => {
@@ -134,7 +134,7 @@ const UserModal = ({ classes, user, router, currentUser }) => {
         let isLiked = currentUser
           ? currentUser.liked.find(usr => usr.id === user)
           : false;
-        console.log(match);
+
         if (!match) return <div />;
         else {
           NProgress.done();
@@ -228,7 +228,7 @@ const UserModal = ({ classes, user, router, currentUser }) => {
                       className={classes.modalTitle}
                     >
                       {match.firstName.toUpperCase()}
-                      <span style={{ padding: "0 3px" }}>&#8226;</span>{" "}
+                      <span style={{ padding: "0 3px" }}>&#8226;</span>
                       {getAge(match.dob)}
                     </h4>
                     <IconButton
@@ -243,7 +243,9 @@ const UserModal = ({ classes, user, router, currentUser }) => {
                     </IconButton>
                     <ReportUser
                       currentUser={currentUser}
-                      userToReport={match}
+                      user={match}
+                      open={reportUser}
+                      setOpen={handleReport}
                     />
                     {/* {match.score > 7000 ? (
                       <h3
@@ -272,7 +274,7 @@ const UserModal = ({ classes, user, router, currentUser }) => {
                         <Fire />
                       </div>
                     ) : null}
-                    {console.log('my score yo', match.score)}
+
                     <CustomDropdown
                       dropPlacement="bottom-end"
                       caret={false}
@@ -288,8 +290,13 @@ const UserModal = ({ classes, user, router, currentUser }) => {
                         style: { marginBottom: 0 },
                         color: "transparent"
                       }}
-                      dropdownList={[`Block ${match.firstName}`]}
-                      onClick={() => block()}
+                      dropdownList={[
+                        `Block ${match.firstName}`,
+                        `Report ${match.firstName}`
+                      ]}
+                      onClick={e =>
+                        e.includes("Block") ? block() : handleReport(true)
+                      }
                     />
                   </div>
                 </div>

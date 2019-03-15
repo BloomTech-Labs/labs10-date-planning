@@ -479,9 +479,8 @@ const Mutation = {
 				where: { id: user.id },
 				data: { verified: true },
 			});
-			if (user) {
-				return { message: 'Phone successfully verified!' };
-			}
+
+			return { message: 'Phone successfully verified!' };
 		});
 	},
 	async deleteUser(parent, args, { request, db }, info) {

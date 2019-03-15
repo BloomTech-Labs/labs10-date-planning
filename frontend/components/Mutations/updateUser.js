@@ -5,7 +5,9 @@ export const UPDATE_USER_MUTATION = gql`
 		$location: String
 		$dob: String
 		$gender: Gender
-		$genderPrefs: [GenderPref!]
+
+		$genderPrefs: [GenderPrefs!]
+
 		$minAgePref: Int
 		$maxAgePref: Int
 		$biography: String

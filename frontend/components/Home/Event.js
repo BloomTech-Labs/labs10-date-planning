@@ -9,7 +9,7 @@ import Router from 'next/router';
 import { CURRENT_USER_QUERY } from '../Queries/User';
 import { ADD_EVENT_MUTATION } from '../Mutations/addEvent';
 import { DELETE_EVENT_MUTATION } from '../Mutations/updateUser';
-
+import { ALL_EVENTS_QUERY } from '../Queries/AllEvents';
 //MUI
 import {
 	Favorite,
@@ -128,14 +128,16 @@ const Event = React.memo(({ event, classes, user, refetch }) => {
 										address: event.location.address,
 										lat: event.location.lat,
 										long: event.location.long,
-
 										description: event.description,
 									}}
 									update={(cache, { data: { addEvent } }) => {
 										const { currentUser } = cache.readQuery({
 											query: CURRENT_USER_QUERY,
 										});
-
+										// const lilCache = cache.readQuery({
+										// 	query: ALL_EVENTS_QUERY,
+										// });
+										console.log(addEvent);
 										cache.writeQuery({
 											query: CURRENT_USER_QUERY,
 											data: {
@@ -151,6 +153,7 @@ const Event = React.memo(({ event, classes, user, refetch }) => {
 										setError(e);
 									}}
 									onCompleted={() => {
+										refetch();
 										NProgress.done();
 									}}
 								>

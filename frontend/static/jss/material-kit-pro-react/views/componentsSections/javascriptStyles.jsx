@@ -303,9 +303,11 @@ const javascriptStyles = theme => {
       resize: "none",
       fontSize: "16px",
       userSelect: "all",
-      color: "#fafafa"
+      color: "#fafafa",
+      borderBottom: '1px solid gray'
     },
     fire60: {
+      marginLeft: "45px",
       "& svg": {
         height: "60px",
         width: "60px",
@@ -313,6 +315,7 @@ const javascriptStyles = theme => {
       }
     },
     fire80: {
+      marginLeft: "45px",
       "& svg": {
         height: "60px",
         width: "60px",
@@ -320,10 +323,16 @@ const javascriptStyles = theme => {
       }
     },
     fire90: {
+      marginLeft: "45px",
       "& svg": {
         height: "60px",
         width: "60px",
         color: "red"
+      }
+    },
+    slidinUser: {
+      "&:hover": {
+        backgroundColor: '#2c2b2b !important'
       }
     }
   };
