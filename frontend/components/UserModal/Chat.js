@@ -252,6 +252,7 @@ const Chat = ({
                 }
                 rows={1}
                 maxRows={4}
+                value={message}
                 onKeyDown={e => {
                   if (e.keyCode === 13) {
                     sendMessage();
