@@ -94,7 +94,7 @@ const Events = React.memo(({ classes, router, href, ...props }) => {
 				filters,
 				user: { data: { currentUser } },
 			}) => {
-				let getEvents = data.getEvents || [];
+				let getEvents = (data && data.getEvents) || [];
 				return (
 					<div className={classes.background}>
 						{router.query.user && (
@@ -239,7 +239,7 @@ const Events = React.memo(({ classes, router, href, ...props }) => {
 												</GridItem>
 											</GridContainer>
 										) : (
-											<div>Loading</div>
+											<div />
 										)}
 									</GridItem>
 								</GridContainer>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { withApollo, Mutation, Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import NProgress from 'nprogress';
@@ -113,7 +113,7 @@ const Composed = adopt({
 });
 
 const UserModal = ({ classes, user, router, currentUser }) => {
-	console.log(router);
+	const [ reportUser, handleReport ] = useState(false);
 	return (
 		<Composed id={user}>
 			{({ like, unlike, block, potentialMatch }) => {
@@ -164,7 +164,7 @@ const UserModal = ({ classes, user, router, currentUser }) => {
 								className={`${classes.modalHeader} ${classes.userModalHeader}`}
 							>
 								<Button
-									simple="true"
+									simple='true'
 									className={classes.modalCloseButton}
 									key='close'
 									aria-label='Close'
@@ -212,7 +212,7 @@ const UserModal = ({ classes, user, router, currentUser }) => {
 											className={classes.modalTitle}
 										>
 											{match.firstName.toUpperCase()}
-											<span style={{ padding: '0 3px' }}>&#8226;</span>{' '}
+											<span style={{ padding: '0 3px' }}>&#8226;</span>
 											{getAge(match.dob)}
 										</h4>
 										<IconButton
@@ -225,10 +225,12 @@ const UserModal = ({ classes, user, router, currentUser }) => {
 												<FavoriteBorder className={classes.notFavorite} />
 											)}
 										</IconButton>
-										{/* <ReportUser
+										<ReportUser
 											currentUser={currentUser}
-											userToReport={match}
-										/> */}
+											user={match}
+											open={reportUser}
+											setOpen={handleReport}
+										/>
 										{match.score > 7000 ? (
 											<h3
 												style={{
@@ -262,7 +264,8 @@ const UserModal = ({ classes, user, router, currentUser }) => {
 												`Block ${match.firstName}`,
 												`Report ${match.firstName}`,
 											]}
-											onClick={() => block()}
+											onClick={e =>
+												e.includes('Block') ? block() : handleReport(true)}
 										/>
 									</div>
 								</div>
@@ -327,7 +330,7 @@ const UserModal = ({ classes, user, router, currentUser }) => {
 														marginBottom: 0,
 														display: 'flex',
 														alignItems: 'flex-start',
-														zIndex: 2
+														zIndex: 2,
 													}}
 													className={classes.gradientBox}
 												>
