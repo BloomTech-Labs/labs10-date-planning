@@ -194,7 +194,7 @@ const Reset = ({ resetToken, classes }) => {
 											>
 												<Button
 													color='primary'
-													simple
+													simple="true"
 													disabled={!password || !confirmPassword}
 													size='lg'
 													component='div'

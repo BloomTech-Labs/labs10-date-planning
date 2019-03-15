@@ -30,7 +30,7 @@ const ErrorModal = ({ modal, showModal, classes }) => {
 			>
 				{' '}
 				<Button
-					simple
+					simple="true"
 					className={classes.modalCloseButton}
 					key='close'
 					aria-label='Close'

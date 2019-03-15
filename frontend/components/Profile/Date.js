@@ -130,6 +130,7 @@ const DateView = ({ date, classes, client, currentUser, refetch }) => {
 								: false;
 							return (
 								<div
+									key={currentUser.id}
 									className={classes.eventUserCard}
 									style={{
 										width: carousel && '96%',
