@@ -302,7 +302,8 @@ const javascriptStyles = theme => {
       border: 'none',
       resize: 'none',
       fontSize: '16px',
-      userSelect: 'all'
+      userSelect: 'all',
+      color: '#fafafa'
     }
   };
 };
