@@ -1,11 +1,13 @@
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 
 export const UPDATE_USER_MUTATION = gql`
 	mutation UPDATE_USER_MUTATION(
 		$location: String
 		$dob: String
 		$gender: Gender
+
 		$genderPrefs: [GenderPrefs!]
+
 		$minAgePref: Int
 		$maxAgePref: Int
 		$biography: String

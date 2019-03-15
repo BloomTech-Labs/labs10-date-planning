@@ -122,7 +122,7 @@ const Chat = ({ chat, currentUser, classes, client }) => {
         overflow: "hidden",
         display: "flex",
         flexDirection: "column",
-		justifyContent: 'space-between'
+        justifyContent: "space-between"
       }}
     >
       <div className={classes.messageList} ref={msgRef}>
@@ -222,7 +222,13 @@ const Chat = ({ chat, currentUser, classes, client }) => {
                   onChange={e => setMessage(e.target.value)}
                   placeholder={`Respond to ${friend.firstName}`}
                   rows={1}
-				  maxRows={4}
+                  maxRows={4}
+                  onKeyDown={e => {
+                    if (e.keyCode === 13) {
+                      sendMessage();
+                      setMessage("");
+                    }
+                  }}
                 />
                 <ButtonBase type="submit">
                   <Button
