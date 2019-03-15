@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Wed Mar 13 2019 22:59:09 GMT-0700 (Pacific Daylight Time)
+# timestamp: Thu Mar 14 2019 16:44:08 GMT-0700 (Pacific Daylight Time)
 
 type AggregateChat {
   count: Int!
@@ -2081,6 +2081,13 @@ enum Gender {
   OTHER
 }
 
+enum GenderPrefs {
+  MALE
+  FEMALE
+  OTHER
+  FRIENDS
+}
+
 type Genre implements Node {
   id: ID!
   tmID: String!
@@ -3002,7 +3009,7 @@ type User implements Node {
   resetTokenExpiry: Float
   interests(where: GenreWhereInput, orderBy: GenreOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Genre!]
   events(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event!]
-  genderPrefs: [Gender!]!
+  genderPrefs: [GenderPrefs!]!
   minAgePref: Int
   maxAgePref: Int
   permissions: Permission!
@@ -3027,7 +3034,7 @@ type UserConnection {
 }
 
 input UserCreategenderPrefsInput {
-  set: [Gender!]
+  set: [GenderPrefs!]
 }
 
 input UserCreateInput {
@@ -3246,7 +3253,7 @@ type UserPreviousValues {
   imageLarge: String
   resetToken: String
   resetTokenExpiry: Float
-  genderPrefs: [Gender!]!
+  genderPrefs: [GenderPrefs!]!
   minAgePref: Int
   maxAgePref: Int
   permissions: Permission!
@@ -4054,7 +4061,7 @@ input UserUpdateDataInput {
 }
 
 input UserUpdategenderPrefsInput {
-  set: [Gender!]
+  set: [GenderPrefs!]
 }
 
 input UserUpdateInput {
