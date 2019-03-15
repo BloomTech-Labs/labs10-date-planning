@@ -1,165 +1,163 @@
-import React, { useEffect, useState, Fragment } from "react";
-import gql from "graphql-tag";
-import { Mutation } from "react-apollo";
-import firebase from "firebase/app";
-import Router from "next/router";
-import NProgress from "nprogress";
+import React, { useEffect, useState, Fragment } from 'react';
+import gql from 'graphql-tag';
+import { Mutation } from 'react-apollo';
+import firebase from 'firebase/app';
+import Router from 'next/router';
+import NProgress from 'nprogress';
 //MUI
-import withStyles from "@material-ui/core/styles/withStyles";
+import withStyles from '@material-ui/core/styles/withStyles';
 import {
-  DialogTitle,
-  Dialog,
-  DialogContent,
-  InputAdornment,
-  Checkbox,
-  FormControlLabel,
-  ButtonBase,
-  IconButton,
-  Icon
-} from "@material-ui/core";
+	DialogTitle,
+	Dialog,
+	DialogContent,
+	InputAdornment,
+	Checkbox,
+	FormControlLabel,
+	ButtonBase,
+	IconButton,
+	Icon,
+} from '@material-ui/core';
 import {
-  Visibility,
-  VisibilityOff,
-  MusicNote,
-  Restaurant,
-  Face,
-  Email,
-  Check,
-  Close,
-  LockOutlined
-} from "@material-ui/icons";
+	Visibility,
+	VisibilityOff,
+	MusicNote,
+	Restaurant,
+	Face,
+	Email,
+	Check,
+	Close,
+	LockOutlined,
+} from '@material-ui/icons';
 //Q&M
-import { CURRENT_USER_QUERY } from "../Queries/User";
+import { CURRENT_USER_QUERY } from '../Queries/User';
 //Components
-import ErrorModal from "./ErrorModal";
-import Terms from "../../components/SplashPage/Terms";
-import Transition from "../Transistion";
+import ErrorModal from './ErrorModal';
+import Terms from '../../components/SplashPage/Terms';
+import Transition from '../Transistion';
 //styled components
-import Button from "../../styledComponents/CustomButtons/Button";
-import Card from "../../styledComponents/Card/Card";
-import GridContainer from "../../styledComponents/Grid/GridContainer";
-import GridItem from "../../styledComponents/Grid/GridItem";
-import CustomInput from "../../styledComponents/CustomInput/CustomInput";
-import InfoArea from "../../styledComponents/InfoArea/InfoArea";
+import Button from '../../styledComponents/CustomButtons/Button';
+import Card from '../../styledComponents/Card/Card';
+import GridContainer from '../../styledComponents/Grid/GridContainer';
+import GridItem from '../../styledComponents/Grid/GridItem';
+import CustomInput from '../../styledComponents/CustomInput/CustomInput';
+import InfoArea from '../../styledComponents/InfoArea/InfoArea';
 //assets
-import TheaterMasks from "../../static/icons/TheatreMask";
-import Futbol from "../../static/icons/futbol-solid.js";
+import TheaterMasks from '../../static/icons/TheatreMask';
+import Futbol from '../../static/icons/futbol-solid.js';
 //styles
-import Styles from "../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles";
+import Styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles';
 //utils
-import { auth } from "../../utils/firebase";
+import { auth } from '../../utils/firebase';
 
 const REGISTER_USER = gql`
-  mutation REGISTER_USER(
-    $firstName: String!
-    $lastName: String!
-    $email: String!
-    $password: String!
-  ) {
-    signup(
-      firstName: $firstName
-      lastName: $lastName
-      email: $email
-      password: $password
-    ) {
-      id
-      firstName
-      lastName
-      email
-    }
-  }
+	mutation REGISTER_USER(
+		$firstName: String!
+		$lastName: String!
+		$email: String!
+		$password: String!
+	) {
+		signup(firstName: $firstName, lastName: $lastName, email: $email, password: $password) {
+			id
+			firstName
+			lastName
+			email
+		}
+	}
 `;
 const FIREBASE_SIGNUP = gql`
-  mutation FIREBASE_LOGIN($idToken: String!) {
-    firebaseAuth(idToken: $idToken) {
-      token
-      user {
-        id
-        firstName
-        email
-      }
-    }
-  }
+	mutation FIREBASE_LOGIN($idToken: String!) {
+		firebaseAuth(idToken: $idToken) {
+			token
+			user {
+				id
+				firstName
+				email
+			}
+		}
+	}
 `;
 
 const Register = ({ classes, showing, setShowing }) => {
-  const [passwordShowing, setPasswordShowing] = useState(false);
-  // const [showing, setModalShowing] = useState(false);
-  const [termsShowing, setTermsShowing] = useState(false);
-  const [terms, setTerms] = useState(false);
-  const [user, setUser] = useState({
-    name: undefined,
-    email: undefined,
-    password: undefined
-  });
-  const [err, setError] = useState({
-    name: undefined,
-    email: undefined,
-    password: undefined
-  });
-  const [serverError, setServerError] = useState(undefined);
-  const handleChange = ({ target: { name, value } }) => {
-    setUser({ ...user, [name]: value });
-  };
+	const [ passwordShowing, setPasswordShowing ] = useState(false);
+	// const [showing, setModalShowing] = useState(false);
+	const [ termsShowing, setTermsShowing ] = useState(false);
+	const [ terms, setTerms ] = useState(false);
+	const [ user, setUser ] = useState({
+		name: undefined,
+		email: undefined,
+		password: undefined,
+	});
+	const [ err, setError ] = useState({
+		name: undefined,
+		email: undefined,
+		password: undefined,
+	});
+	const [ serverError, setServerError ] = useState(undefined);
+	const handleChange = ({ target: { name, value } }) => {
+		setUser({ ...user, [name]: value });
+	};
 
-  useEffect(() => {
-    if (err.password) {
-      setError({ ...err, password: undefined });
-    }
-  }, [user.password]);
+	useEffect(
+		() => {
+			if (err.password) {
+				setError({ ...err, password: undefined });
+			}
+		},
+		[ user.password ],
+	);
 
-  const firebaseSignup = async (e, firebaseAuth, company) => {
-    e.preventDefault();
+	const firebaseSignup = async (e, firebaseAuth, company) => {
+		e.preventDefault();
 
-    try {
-      let provider;
-      switch (company) {
-        case "google":
-          provider = new firebase.auth.GoogleAuthProvider();
-          break;
-        case "facebook":
-          provider = new firebase.auth.FacebookAuthProvider();
-          break;
-        case "twitter":
-          provider = new firebase.auth.TwitterAuthProvider();
-          break;
-        default:
-          provider = undefined;
-      }
-      await auth.signInWithPopup(provider);
-      const idToken = await auth.currentUser.getIdToken(true);
-      await firebaseAuth({ variables: { idToken } });
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  const handleSubmit = async (e, signup) => {
-    e.preventDefault();
-    let nameArray = user.name.split(" ");
-    if (nameArray.length < 2) {
-      setError({ ...err, name: "First name and last name required." });
-    } else {
-      let newUser = await signup({
-        variables: {
-          email: user.email,
-          password: user.password,
-          firstName: nameArray[0],
-          lastName: nameArray[1]
-        }
-      });
-    }
-  };
+		try {
+			let provider;
+			switch (company) {
+				case 'google':
+					provider = new firebase.auth.GoogleAuthProvider();
+					break;
+				case 'facebook':
+					provider = new firebase.auth.FacebookAuthProvider();
+					break;
+				case 'twitter':
+					provider = new firebase.auth.TwitterAuthProvider();
+					break;
+				default:
+					provider = undefined;
+			}
+			await auth.signInWithPopup(provider);
+			const idToken = await auth.currentUser.getIdToken(true);
+			await firebaseAuth({ variables: { idToken } });
+		} catch (err) {
+			console.log(err);
+		}
+	};
+	const handleSubmit = async (e, signup) => {
+		e.preventDefault();
+		let nameArray = user.name.split(' ');
+		if (nameArray.length < 2) {
+			setError({ ...err, name: 'First name and last name required.' });
+		} else {
+			let newUser = await signup({
+				variables: {
+					email: user.email,
+					password: user.password,
+					firstName: nameArray[0],
+					lastName: nameArray[1],
+				},
+			});
+		}
+	};
 
-  const handleError = error => {
-    NProgress.done();
-    if (error.message.includes("unique")) {
-      setError({ ...err, email: "A user with this email already exists." });
-    } else if (error.message.includes("Password")) {
-      setError({ ...err, password: error.message });
-    } else {
-      setServerError(error);
-    }
-  };
+	const handleError = error => {
+		NProgress.done();
+		if (error.message.includes('unique')) {
+			setError({ ...err, email: 'A user with this email already exists.' });
+		} else if (error.message.includes('Password')) {
+			setError({ ...err, password: error.message });
+		} else {
+			setServerError(error);
+		}
+	};
 
   return (
     <Fragment>
@@ -293,54 +291,58 @@ const Register = ({ classes, showing, setShowing }) => {
                                     <i className="fab fa-google" />
                                   </Button>
 
-                                  <Button
-                                    justIcon
-                                    round
-                                    color="facebook"
-                                    onClick={e =>
-                                      firebaseSignup(
-                                        e,
-                                        firebaseAuth,
-                                        "facebook"
-                                      )
-                                    }
-                                  >
-                                    <i className="fab fa-facebook-f" />
-                                  </Button>
-                                  <Button
-                                    justIcon
-                                    round
-                                    color="instagram"
-                                    onClick={e =>
-                                      firebaseSignup(e, firebaseAuth, "twitter")
-                                    }
-                                  >
-                                    <i className="fab fa-twitter" />
-                                  </Button>
-                                </Fragment>
-                              );
-                            }}
-                          </Mutation>
+																	<Button
+																		justIcon
+																		round
+																		color='facebook'
+																		onClick={e =>
+																			firebaseSignup(
+																				e,
+																				firebaseAuth,
+																				'facebook',
+																			)}
+																	>
+																		<i className='fab fa-facebook-f' />
+																	</Button>
+																	<Button
+																		justIcon
+																		round
+																		color='instagram'
+																		onClick={e =>
+																			firebaseSignup(
+																				e,
+																				firebaseAuth,
+																				'twitter',
+																			)}
+																	>
+																		<i className='fab fa-twitter' />
+																	</Button>
+																</Fragment>
+															);
+														}}
+													</Mutation>
 
-                          <h4 className={classes.socialTitle}>
-                            or be classical
-                          </h4>
-                        </div>
-                        <Mutation
-                          mutation={REGISTER_USER}
-                          refetchQueries={[{ query: CURRENT_USER_QUERY }]}
-                          onCompleted={() => {
-                            NProgress.done();
-                            Router.push(
-                              "/welcome?slug=0",
-                              "/welcome/profile/getstarted"
-                            );
-                          }}
-                          onError={handleError}
-                          awaitRefetchQueries
-                        >
-                          {(signup, { loading, called }) => {
-                            if (called) NProgress.start();
+													<h4 className={classes.socialTitle}>
+														or be classical
+													</h4>
+												</div>
+												<Mutation
+													mutation={REGISTER_USER}
+													refetchQueries={[
+														{ query: CURRENT_USER_QUERY },
+													]}
+													onCompleted={() => {
+														NProgress.done();
+														Router.push(
+															'/welcome?slug=0',
+															'/welcome/profile/getstarted',
+														);
+													}}
+													onError={handleError}
+													awaitRefetchQueries
+												>
+													{(signup, { loading, called }) => {
+														if (called) NProgress.start();
 
                             return (
                               <form
@@ -549,12 +551,12 @@ const Register = ({ classes, showing, setShowing }) => {
               )}
             </Card>
 
-            <ErrorModal error={serverError} />
-          </Dialog>
-        </div>
-      </GridItem>
-    </Fragment>
-  );
+						<ErrorModal error={serverError} />
+					</Dialog>
+				</div>
+			</GridItem>
+		</Fragment>
+	);
 };
 
 export default withStyles(Styles)(Register);

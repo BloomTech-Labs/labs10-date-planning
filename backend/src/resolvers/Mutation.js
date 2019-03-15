@@ -31,6 +31,13 @@ const Mutation = {
 					...args,
 					password,
 					permissions: 'FREE', // default permission for user is FREE tier
+					img: {
+						create: {
+							img_url:
+								'https://res.cloudinary.com/dcwn6afsq/image/upload/v1552598409/up4/autftv4fj3l7qlkkt56j.jpg',
+							default: true,
+						},
+					},
 				},
 			},
 			info,
@@ -61,7 +68,14 @@ const Mutation = {
 						lastName: nameArray[1] || '',
 						email: email,
 						password: 'firebaseAuth',
-						img: { create: { img_url: photoURL } },
+						img: {
+							create: {
+								img_url: photoURL
+									? photoURL
+									: 'https://res.cloudinary.com/dcwn6afsq/image/upload/v1552598409/up4/autftv4fj3l7qlkkt56j.jpg',
+								default: true,
+							},
+						},
 						phone: phoneNumber || null,
 						imageThumbnail: photoURL || '',
 						imageLarge: photoURL || '',
@@ -119,7 +133,7 @@ const Mutation = {
 			where: { email: args.email },
 			data: { resetToken, resetTokenExpiry },
 		});
-		console.log(res, resetToken); // just to check and make sure the resetToken and expiry are getting set
+		// console.log(res, resetToken); // just to check and make sure the resetToken and expiry are getting set
 		const mailRes = await transport.sendMail({
 			from: 'support@up4.life',
 			to: user.email,
@@ -469,6 +483,37 @@ const Mutation = {
 				return { message: 'Phone successfully verified!' };
 			}
 		});
+	},
+	async deleteUser(parent, args, { request, db }, info) {
+		const { user } = request;
+		let res = await db.mutation.deleteUser({
+			where: { id: user.id },
+		});
+		return { message: 'User deleted' };
+	},
+	async uploadImage(parent, { url }, { request, db }, info) {
+		const { user } = request;
+		let res = await db.mutation.createProfilePic(
+			{
+				data: {
+					default: true,
+					img_url: url,
+					user: { connect: { id: user.id } },
+				},
+			},
+			`{id}`,
+		);
+		return db.mutation.updateUser(
+			{
+				where: { id: user.id },
+				data: {
+					img: {
+						updateMany: [ { where: { id_not: res.id }, data: { default: false } } ],
+					},
+				},
+			},
+			info,
+		);
 	},
 };
 

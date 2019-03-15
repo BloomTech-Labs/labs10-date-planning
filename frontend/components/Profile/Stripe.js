@@ -46,6 +46,7 @@ const Billing = props => {
 			]}
 		>
 			{createOrder => {
+				if (props.user.permissions !== "FREE") return null
 				return (
 					<StripeCheckout
 						amount={props.subsType === "MONTHLY" ? 499 : 2999}

@@ -222,9 +222,8 @@ module.exports = {
 		});
 
 		// calculate eventScore giving 10 max points
-		let eventScore = Math.floor(Math.log2(3.5 * sharedEvents.length + 1) * 1000)
-		eventScore = eventScore > 5000 ? 5000 : eventScore
-
+		let eventScore = Math.floor(Math.log2(3.5 * sharedEvents.length + 1) * 1000);
+		eventScore = eventScore > 5000 ? 5000 : eventScore;
 
 		// query current user events genre and current user interests
 		const currentUser = await db.query.users(
@@ -278,8 +277,8 @@ module.exports = {
 		}, []);
 
 		// calculate interestScore giving 5 max point
-		let interestScore = Math.floor(Math.log2(3 * sharedInterest.length + 1) * 1000)
-		interestScore = interestScore > 5000 ? 5000 : interestScore
+		let interestScore = Math.floor(Math.log2(3 * sharedInterest.length + 1) * 1000);
+		interestScore = interestScore > 5000 ? 5000 : interestScore;
 
 		// compatibility score is the sum of eventScore, genreScore, and interestScore
 		const score = eventScore + 0 * genreScore + interestScore;

@@ -1,5 +1,5 @@
-# source: http://localhost:4466
-# timestamp: Wed Mar 13 2019 22:59:09 GMT-0700 (Pacific Daylight Time)
+# source: http://up4pr-publi-1pn1os38alx3e-1821962472.us-east-1.elb.amazonaws.com
+# timestamp: Thu Mar 14 2019 18:42:12 GMT-0500 (Central Daylight Time)
 
 type AggregateChat {
   count: Int!
@@ -2081,6 +2081,13 @@ enum Gender {
   OTHER
 }
 
+enum GenderPrefs {
+  MALE
+  FEMALE
+  OTHER
+  FRIENDS
+}
+
 type Genre implements Node {
   id: ID!
   tmID: String!
@@ -2517,9 +2524,6 @@ input GenreWhereUniqueInput {
   id: ID
 }
 
-"""Raw JSON value"""
-scalar Json
-
 """
 The `Long` scalar type represents non-fractional signed whole numeric values.
 Long can represent values between -(2^63) and 2^63 - 1.
@@ -2562,7 +2566,6 @@ type Mutation {
   deleteManyEvents(where: EventWhereInput): BatchPayload!
   deleteManyGenres(where: GenreWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
-  executeRaw(database: PrismaDatabase, query: String!): Json!
 }
 
 enum MutationType {
@@ -2597,10 +2600,6 @@ enum Permission {
   MONTHLY
   YEARLY
   ADMIN
-}
-
-enum PrismaDatabase {
-  default
 }
 
 type ProfilePic implements Node {
@@ -3002,7 +3001,7 @@ type User implements Node {
   resetTokenExpiry: Float
   interests(where: GenreWhereInput, orderBy: GenreOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Genre!]
   events(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event!]
-  genderPrefs: [Gender!]!
+  genderPrefs: [GenderPrefs!]!
   minAgePref: Int
   maxAgePref: Int
   permissions: Permission!
@@ -3027,7 +3026,7 @@ type UserConnection {
 }
 
 input UserCreategenderPrefsInput {
-  set: [Gender!]
+  set: [GenderPrefs!]
 }
 
 input UserCreateInput {
@@ -3246,7 +3245,7 @@ type UserPreviousValues {
   imageLarge: String
   resetToken: String
   resetTokenExpiry: Float
-  genderPrefs: [Gender!]!
+  genderPrefs: [GenderPrefs!]!
   minAgePref: Int
   maxAgePref: Int
   permissions: Permission!
@@ -4054,7 +4053,7 @@ input UserUpdateDataInput {
 }
 
 input UserUpdategenderPrefsInput {
-  set: [Gender!]
+  set: [GenderPrefs!]
 }
 
 input UserUpdateInput {

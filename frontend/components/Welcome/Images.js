@@ -12,10 +12,11 @@ import defaultImage from '../../static/img/placeholder.jpg';
 import { openUploadWidget } from '../../utils/cloudinary';
 
 const UPLOAD_IMAGE_MUTATION = gql`
-	mutation UPLOAD_IMAGE_MUTATION($default: Boolean, $img_url: String!) {
-		updateUser(data: { img: { create: { default: $default, img_url: $img_url } } }) {
+	mutation UPLOAD_IMAGE_MUTATION($url: String!) {
+		uploadImage(url: $url) {
 			id
 			img {
+				id
 				img_url
 				default
 			}
@@ -29,8 +30,7 @@ const GenderPrefs = ({ user }) => {
 				NProgress.start();
 				uploadImage({
 					variables: {
-						default: true,
-						img_url: result.info.secure_url,
+						url: result.info.secure_url,
 					},
 				});
 			}
