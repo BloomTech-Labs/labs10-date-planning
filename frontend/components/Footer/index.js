@@ -75,7 +75,7 @@ const Footer = ({ classes }) => {
 									href='https://github.com/Lambda-School-Labs/labs10-date-planning'
 									color='twitter'
 									justIcon
-									simple
+									simple="true"
 								>
 									<i className='fab fa-github' />
 								</Button>

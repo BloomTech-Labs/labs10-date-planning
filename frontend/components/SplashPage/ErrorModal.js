@@ -46,7 +46,7 @@ const ErrorModal = ({ error, classes, billing }) => {
 							: showModal(false);
 					}}
 					color='danger'
-					simple
+					simple="true"
 					className={
 						classes.modalSmallFooterFirstButton +
 						' ' +

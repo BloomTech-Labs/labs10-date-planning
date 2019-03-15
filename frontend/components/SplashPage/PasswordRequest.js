@@ -47,7 +47,7 @@ const Reset = ({ classes }) => {
 							{!reset ? (
 								<Button
 									color='rose'
-									simple
+									simple="true"
 									onClick={e => {
 										e.stopPropagation();
 										setReset(true);
@@ -69,8 +69,8 @@ const Reset = ({ classes }) => {
 										}}
 									/>
 									<Button
-										justIcon
-										round
+										// justIcon
+										round='true'
 										disabled={!email}
 										onClick={() => {
 											NProgress.start();

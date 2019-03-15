@@ -140,7 +140,7 @@ const Login = ({ classes, showing, setShowing }) => {
 								className={`${classes.textCenter} ${classes.cardLoginHeader} ${classes.loginHeader}`}
 							>
 								<Button
-									simple
+									simple="true"
 									className={classes.modalCloseButton}
 									key='close'
 									aria-label='Close'
@@ -318,7 +318,7 @@ const Login = ({ classes, showing, setShowing }) => {
 												<Button
 													className={classes.loginButton}
 													color='primary'
-													simple
+													simple="true"
 													// disabled
 													disabled={!user.email || !user.password}
 													size='lg'
