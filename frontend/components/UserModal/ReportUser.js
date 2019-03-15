@@ -14,11 +14,11 @@ import Transition from '../Transistion';
 import styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles.jsx';
 
 const REPORT_USER = gql`
-  mutation REPORT_USER($message: String! id: String!) {
-    reportUser(message: $message, id: $id) {
-      message
-    }
-  }
+	mutation REPORT_USER($message: String!, $id: String!) {
+		reportUser(message: $message, id: $id) {
+			message
+		}
+	}
 `;
 
 const ReportUser = ({ user, open, setOpen, classes }) => {
