@@ -47,6 +47,11 @@ app.prepare().then(() => {
 		app.render(req, res, `/profile`, slugObj);
 	});
 
+	server.get("/home/user/:userId", (req, res) => {
+		const { userId } = req.params;
+		app.render(req, res, "/home", { user: userId });
+	});
+
 	server.get("*", (req, res) => {
 		return handle(req, res);
 	});
