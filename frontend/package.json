@@ -53,6 +53,7 @@
 		"react-adopt": "^0.6.0",
 		"react-apollo": "^2.4.1",
 		"react-apollo-hooks": "^0.4.2",
+		"react-autosize-textarea": "^6.0.0",
 		"react-avatar-editor": "^11.0.6",
 		"react-avatar-image-cropper": "^1.2.0",
 		"react-cropper": "^1.2.0",
@@ -77,12 +78,12 @@
 	"jest": {
 		"setupTestFrameworkScriptFile": "<rootDir>/jest.setup.js",
 		"testPathIgnorePatterns": [
-		  "<rootDir>/.next/",
-		  "<rootDir>/node_modules/"
+			"<rootDir>/.next/",
+			"<rootDir>/node_modules/"
 		],
 		"transform": {
-		  "\\.(gql|graphql)$": "jest-transform-graphql",
-		  ".*": "babel-jest"
+			"\\.(gql|graphql)$": "jest-transform-graphql",
+			".*": "babel-jest"
 		}
 	},
 	"babel": {
