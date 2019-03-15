@@ -196,11 +196,11 @@ const Nav = ({ classes, color, router, href, currentUser }) => {
 												style={{
 													display: 'flex',
 													padding: '5px',
-													backgroundImage:
+													backgroundColor:
 														newMessages.some(
 															msg => msg.chat.id === chat.id,
 														) &&
-														'linear-gradient(to right, #e2dae1, #e0cede, #dec3da, #dbb7d7, #d9abd3)',
+														'#fb6f7870',
 												}}
 											>
 												<img
