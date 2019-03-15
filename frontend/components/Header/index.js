@@ -45,7 +45,7 @@ const Nav = ({ classes, color, router, href, currentUser }) => {
 
 	const handleClick = (e, signout, client) => {
 		if (e === 'Sign out') {
-			signout();
+			// signout();
 
 			client.cache.reset().then(() => {
 				Router.push('/joinus');
@@ -196,11 +196,10 @@ const Nav = ({ classes, color, router, href, currentUser }) => {
 												style={{
 													display: 'flex',
 													padding: '5px',
-													backgroundColor:
+													borderBottom:
 														newMessages.some(
 															msg => msg.chat.id === chat.id,
-														) &&
-														'#fb6f7870',
+														) && '1 px solid #fb6f7870',
 												}}
 											>
 												<img

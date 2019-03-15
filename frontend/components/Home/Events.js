@@ -94,7 +94,10 @@ const Events = React.memo(({ classes, router, href, ...props }) => {
 				filters,
 				user: { data: { currentUser } },
 			}) => {
-				let getEvents = (data && data.getEvents) || [];
+				let getEvents =
+					data && data.getEvents && data.getEvents.events
+						? data.getEvents
+						: { events: [] };
 				return (
 					<div className={classes.background}>
 						{router.query.user && (

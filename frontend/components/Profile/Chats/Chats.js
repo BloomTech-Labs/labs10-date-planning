@@ -12,14 +12,13 @@ import SmallChat from './SideView';
 const Chats = ({ subscribeToNewChats, subscribetoNewMessages, data, currentUser, classes }) => {
 	const [ chatId, setChatId ] = useState(undefined);
 	const [ newChatUser, setNewChatUser ] = useState(undefined);
-	console.log(data);
+
 	useEffect(() => {
 		subscribeToNewChats();
 		subscribetoNewMessages();
 	}, []);
 
 	const handleSelectUser = usr => {
-		console.log(usr);
 		let chat;
 		if (data.getUserChats && data.getUserChats.length) {
 			chat = data.getUserChats.find(chat => chat.users.some(x => x.id === usr.id));
@@ -35,7 +34,6 @@ const Chats = ({ subscribeToNewChats, subscribetoNewMessages, data, currentUser,
 		return userChats
 			.filter(msg => msg.messages)
 			.map(chatObj => {
-				console.log(chatObj);
 				let newMsgs = chatObj.messages.filter(
 					msg => msg.from.id !== currentUser.id && !msg.seen,
 				);
