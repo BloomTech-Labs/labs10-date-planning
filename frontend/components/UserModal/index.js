@@ -33,6 +33,8 @@ import CustomDropdown from '../../styledComponents/CustomDropdown/CustomDropdown
 //styles
 import styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles.jsx';
 
+import ReportUser from './ReportUser'
+
 //utils
 import getAge from '../../utils/getAge';
 
@@ -223,6 +225,7 @@ const UserModal = ({ classes, user, router, currentUser }) => {
 												<FavoriteBorder className={classes.notFavorite} />
 											)}
 										</IconButton>
+										<ReportUser currentUser={currentUser} userToReport={match} />
 										{match.score > 7000 ? (
 											<h3
 												style={{
