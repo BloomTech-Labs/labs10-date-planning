@@ -67,13 +67,14 @@ const Chat = ({ chat, currentUser, classes, client }) => {
 	const markAllAsSeen = useMutation(MARK_SEEN);
 
 	useEffect(() => {
-		if (!currentUser.verified) {
-			setError({
-				msg: 'You must verify your account before you can send messages!',
-				link: null,
-				linkText: 'Verify now?',
-			});
-		} else if (currentUser.permissions === 'FREE') {
+		// if (!currentUser.verified) {
+		// 	setError({
+		// 		msg: 'You must verify your account before you can send messages!',
+		// 		link: null,
+		// 		linkText: 'Verify now?',
+		// 	});
+		// } else
+		if (currentUser.permissions === 'FREE') {
 			getRemainingMessages();
 		}
 	}, []);
