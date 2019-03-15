@@ -70,7 +70,7 @@ const GenderPrefs = () => {
 								handleTextFieldChange,
 								pick12hOr24hFormat,
 							}) => ( */}
-							<Paper style={{ overflow: 'hidden', zIndex: 1 }}>
+							<Paper style={{ overflow: 'hidden', zIndex: 1, padding: '20px' }}>
 								<InlineDatePicker
 									// label='Date of birth'
 									value={selectedDate}

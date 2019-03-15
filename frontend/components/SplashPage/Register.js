@@ -228,7 +228,8 @@ const Register = ({ classes, showing, setShowing }) => {
                           title="Music"
                           description={
                             <p>
-                             From the biggest acts in town to more intimate venues, find out who's playing in your area.
+                              From the biggest acts in town to more intimate
+                              venues, find out who's playing in your area.
                             </p>
                           }
                           icon={MusicNote}
@@ -239,7 +240,8 @@ const Register = ({ classes, showing, setShowing }) => {
                           title="Theater"
                           description={
                             <p>
-							Comedy, musicals, classical productions.  Discover the productions on offer near you.
+                              Comedy, musicals, classical productions. Discover
+                              the productions on offer near you.
                             </p>
                           }
                           icon={TheaterMasks}
@@ -248,11 +250,7 @@ const Register = ({ classes, showing, setShowing }) => {
                         <InfoArea
                           className={classes.infoArea}
                           title="Sports"
-                          description={
-                            <p>
-                            Sports ball.  If you're into that.
-                            </p>
-                          }
+                          description={<p>Sports ball. If you're into that.</p>}
                           icon={Futbol}
                           iconColor="info"
                         />
@@ -518,7 +516,8 @@ const Register = ({ classes, showing, setShowing }) => {
                                           onClick={() => setTermsShowing(true)}
                                           href="#"
                                         >
-                                          terms and conditions
+                                          terms and conditions and privacy
+                                          policy
                                         </a>
                                         .
                                       </span>
@@ -527,7 +526,7 @@ const Register = ({ classes, showing, setShowing }) => {
                                   <div className={classes.textCenter}>
                                     <ButtonBase type="submit">
                                       <Button
-									  	className={classes.registerModalButton}
+                                        className={classes.registerModalButton}
                                         round
                                         // disabled
                                         disabled={!terms}
