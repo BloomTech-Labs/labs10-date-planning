@@ -53,6 +53,7 @@
 		"react-adopt": "^0.6.0",
 		"react-apollo": "^2.5.2",
 		"react-apollo-hooks": "^0.4.3",
+		"react-autosize-textarea": "^6.0.0",
 		"react-avatar-editor": "^11.0.6",
 		"react-avatar-image-cropper": "^1.2.0",
 		"react-cropper": "^1.2.0",
