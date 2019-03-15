@@ -114,12 +114,12 @@ const styles = {
     "& div": {
       backgroundColor: "#2e2e2e",
       backgroundImage:
-		'url("https://www.transparenttextures.com/patterns/dark-fish-skin.png")',
-		borderBottom: 'none !important',
+        'url("https://www.transparenttextures.com/patterns/dark-fish-skin.png")',
+      borderBottom: "none !important"
     },
-    '& svg': {
-    	color: '#fafafa',
-    	borderColor: '#fafafa'
+    "& svg": {
+      color: "#fafafa",
+      borderColor: "#fafafa"
     },
     "& ::after": {
       borderBottomColor: "#b2ddf7"
@@ -132,15 +132,20 @@ const styles = {
     },
     "& h4": {
       color: "#fafafa"
-	},
-	'& button': {
-		backgroundColor: '#ff101f'
-	}
+    },
+    "& button": {
+      backgroundColor: "#ff101f"
+    },
+    '& input': {
+      color: '#fafafa'
+    },
+    '& li': {
+      color: '#fafafa'
+    }
   },
   transparentButton: {
-	  backgroundColor: 'transparent !important'
+    backgroundColor: "transparent !important"
   }
-
 };
 
 export default styles;
