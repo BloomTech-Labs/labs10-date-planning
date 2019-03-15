@@ -131,7 +131,7 @@ type User {
 	img: [ProfilePic]
 	permissions: Permission
 	interests: [Genre]
-	genderPrefs: [Gender]
+	genderPrefs: [GenderPrefs]
 	minAgePref: Int
 	maxAgePref: Int
 	events: [Event!]!
