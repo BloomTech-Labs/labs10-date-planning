@@ -211,9 +211,9 @@ module.exports = {
 			subject: `Report User ID: ${id}`,
 			html: formatEmail(`User Reported for Inappropriate Behavior
 		  \n\n
-      Additional text from victim here: 
+      The reporting User's account of the problem is as follows: 
       \n
-      ${message}`)
+      "${message}"`)
 		});
 
 		// check to see if reported user is among the 'likes' for our currentUser
