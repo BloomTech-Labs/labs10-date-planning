@@ -67,7 +67,7 @@ function getStepContent(stepIndex, user) {
 		case 9:
 			return <Pro />;
 		default:
-			return 'Unknown stepIndex';
+			return <Main user={user} />;
 	}
 }
 

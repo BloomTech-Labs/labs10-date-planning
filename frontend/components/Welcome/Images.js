@@ -70,7 +70,9 @@ const GenderPrefs = ({ user }) => {
 					>
 						<h2>I look like...</h2>
 						<div className={'thumbnail'}>
-							{user.img.length ? <img src={user.img[0].img_url} alt='...' /> : null}
+							{user.img.length ? (
+								<img src={user.img.find(x => x.default).img_url} alt='...' />
+							) : null}
 						</div>
 						<div style={{ display: 'flex' }}>
 							<Button
