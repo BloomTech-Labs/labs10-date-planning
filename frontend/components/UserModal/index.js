@@ -13,7 +13,7 @@ import {
   Dialog,
   DialogContent,
   IconButton,
-  SvgIcon
+  Tooltip
 } from "@material-ui/core";
 import { Close, Favorite, FavoriteBorder, MoreHoriz } from "@material-ui/icons";
 //Q&M
@@ -262,16 +262,25 @@ const UserModal = ({ classes, user, router, currentUser }) => {
                       </h3>
                     ) : null} */}
                     {match.score > 6000 ? (
-                      <div
-                        className={`${
-                          match.score > 9000
-                            ? classes.fire90
-                            : match.score > 8000
-                            ? classes.fire80
-                            : classes.fire60
-                        }`}
-                      >
-                        <Fire />
+                      <div>
+                        <Tooltip
+                          style={{fontSize: '18px'}}
+                          title={`${(match.score * 0.01).toFixed()} % match!`}
+                          placement="right"
+                        
+                        >
+                          <div
+                            className={`${
+                              match.score > 9000
+                                ? classes.fire90
+                                : match.score > 8000
+                                ? classes.fire80
+                                : classes.fire60
+                            }`}
+                          >
+                            <Fire />
+                          </div>
+                        </Tooltip>
                       </div>
                     ) : null}
 
