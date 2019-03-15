@@ -29,6 +29,7 @@ type Mutation {
 	markAllAsSeen(chatId: String!): Chat!
 	deleteUser: Message
 	uploadImage(url: String!): User!
+	reportUser(id: ID!, message: String!): Message
 }
 
 type Query {
