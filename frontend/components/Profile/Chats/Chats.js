@@ -97,7 +97,7 @@ const Chats = ({ subscribeToNewChats, subscribetoNewMessages, data, currentUser,
 							>
 								{' '}
 								<div style={{ margin: '15px' }} className={classes.title}>
-									Slidin' in to your DMs
+									Slidin' into your DMs
 								</div>
 							</Typography>
 							<div
