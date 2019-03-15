@@ -23,6 +23,7 @@ module.exports = [
 	{ name: 'Hockey', tmID: 'KnvZfZ7vAdI', category: 'SPORTS' },
 	{ name: 'Soccer', tmID: 'KnvZfZ7vA7E', category: 'SPORTS' },
 	{ name: 'Tennis', tmID: 'KnvZfZ7vAAv', category: 'SPORTS' },
+	{ name: 'Motorsports', tmID: 'KnvZfZ7vA7k', category: 'SPORTS' },
 
 	{ name: 'Circus', tmID: 'KnvZfZ7v7n1', category: 'ARTS_THEATRE' },
 	{ name: 'Classical', tmID: 'KnvZfZ7v7nJ', category: 'ARTS_THEATRE' },

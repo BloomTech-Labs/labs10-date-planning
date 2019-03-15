@@ -74,7 +74,7 @@ const Chats = ({ subscribeToNewChats, subscribetoNewMessages, data, currentUser,
 				<GridContainer
 					style={{ height: 'calc(100vh - 300px)', overflow: 'scroll', width: '100%' }}
 				>
-					<GridItem sm={12} md={4} lg={4}>
+					<GridItem sm={12} md={4} lg={4} style={{ height: '100%' }}>
 						<Paper
 							style={{
 								height: '100%',
@@ -100,7 +100,13 @@ const Chats = ({ subscribeToNewChats, subscribetoNewMessages, data, currentUser,
 									Slidin' into your DMs
 								</div>
 							</Typography>
-							<div style={{ padding: '20px 5px 20px' }}>
+							<div
+								style={{
+									padding: '20px 5px 20px',
+									maxHeight: '100%',
+									overflow: 'scroll',
+								}}
+							>
 								{data.getUserChats &&
 									formattedChats(data.getUserChats).map((chat, i) => (
 										<div

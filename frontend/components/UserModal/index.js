@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { withApollo, Mutation, Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import NProgress from 'nprogress';
@@ -33,7 +33,7 @@ import CustomDropdown from '../../styledComponents/CustomDropdown/CustomDropdown
 //styles
 import styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles.jsx';
 
-import ReportUser from './ReportUser'
+import ReportUser from './ReportUser';
 
 //utils
 import getAge from '../../utils/getAge';
@@ -113,13 +113,13 @@ const Composed = adopt({
 });
 
 const UserModal = ({ classes, user, router, currentUser }) => {
-	console.log(router);
+	const [ reportUser, handleReport ] = useState(false);
 	return (
 		<Composed id={user}>
 			{({ like, unlike, block, potentialMatch }) => {
 				let match = potentialMatch.data ? potentialMatch.data.user : null;
 				let isLiked = currentUser ? currentUser.liked.find(usr => usr.id === user) : false;
-				console.log(match);
+
 				if (!match) return <div />;
 				else {
 					NProgress.done();
@@ -164,7 +164,7 @@ const UserModal = ({ classes, user, router, currentUser }) => {
 								className={`${classes.modalHeader} ${classes.userModalHeader}`}
 							>
 								<Button
-									simple="true"
+									simple='true'
 									className={classes.modalCloseButton}
 									key='close'
 									aria-label='Close'
@@ -212,7 +212,7 @@ const UserModal = ({ classes, user, router, currentUser }) => {
 											className={classes.modalTitle}
 										>
 											{match.firstName.toUpperCase()}
-											<span style={{ padding: '0 3px' }}>&#8226;</span>{' '}
+											<span style={{ padding: '0 3px' }}>&#8226;</span>
 											{getAge(match.dob)}
 										</h4>
 										<IconButton
@@ -225,7 +225,12 @@ const UserModal = ({ classes, user, router, currentUser }) => {
 												<FavoriteBorder className={classes.notFavorite} />
 											)}
 										</IconButton>
-										<ReportUser currentUser={currentUser} userToReport={match} />
+										<ReportUser
+											currentUser={currentUser}
+											user={match}
+											open={reportUser}
+											setOpen={handleReport}
+										/>
 										{match.score > 7000 ? (
 											<h3
 												style={{
@@ -255,8 +260,12 @@ const UserModal = ({ classes, user, router, currentUser }) => {
 												style: { marginBottom: 0 },
 												color: 'transparent',
 											}}
-											dropdownList={[ `Block ${match.firstName}` ]}
-											onClick={() => block()}
+											dropdownList={[
+												`Block ${match.firstName}`,
+												`Report ${match.firstName}`,
+											]}
+											onClick={e =>
+												e.includes('Block') ? block() : handleReport(true)}
 										/>
 									</div>
 								</div>
@@ -321,6 +330,9 @@ const UserModal = ({ classes, user, router, currentUser }) => {
 														marginBottom: 0,
 														display: 'flex',
 														alignItems: 'flex-start',
+
+												
+
 													}}
 													className={classes.gradientBox}
 												>
