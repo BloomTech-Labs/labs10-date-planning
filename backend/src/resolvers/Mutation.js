@@ -265,7 +265,7 @@ const Mutation = {
 				items: [
 					{
 						plan:
-							user.subscription === 'MONTHLY'
+							args.subscription === 'MONTHLY'
 								? 'plan_EYPPZzmOjy3P3I'
 								: 'plan_EYPg6RkTFwJFRA',
 					},
