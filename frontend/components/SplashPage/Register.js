@@ -159,139 +159,137 @@ const Register = ({ classes, showing, setShowing }) => {
 		}
 	};
 
-	return (
-		<Fragment>
-			<GridItem xs={6} sm={6} md={6} lg={6}>
-				<div className={`${classes.section} cd-section`} id='javascriptComponents'>
-					<Dialog
-						classes={{
-							root: classes.modalRoot,
-							paper: classes.modal + ' ' + classes.modalSignup,
-							container: classes.modalContainer,
-						}}
-						open={showing}
-						TransitionComponent={Transition}
-						keepMounted
-						onClose={() => {
-							setShowing(false);
-						}}
-						aria-labelledby='signup-modal-slide-title'
-						aria-describedby='signup-modal-slide-description'
-					>
-						<Card plain className={classes.modalSignupCard + ' ' + classes.register}>
-							{termsShowing ? (
-								<Terms setTermsShowing={setTermsShowing} />
-							) : (
-								<div>
-									<DialogTitle
-										id='signup-modal-slide-title'
-										disableTypography
-										className={classes.modalHeader}
-									>
-										<Button
-											simple
-											className={classes.modalCloseButton}
-											key='close'
-											aria-label='Close'
-											onClick={() => setShowing(false)}
-										>
-											<Close className={classes.modalClose} />
-										</Button>
-										<h3
-											className={`${classes.cardTitle} ${classes.modalTitle}`}
-										>
-											Register
-										</h3>
-									</DialogTitle>
-									<DialogContent
-										id='signup-modal-slide-description'
-										className={classes.modalBody}
-									>
-										<GridContainer>
-											<GridItem
-												xs={12}
-												sm={5}
-												md={5}
-												className={classes.mlAuto}
-											>
-												<InfoArea
-													className={classes.infoArea}
-													title='Music'
-													description={
-														<p>
-															From the biggest acts in town to more
-															intimate venues, find out who's playing
-															in your area.
-														</p>
-													}
-													icon={MusicNote}
-													iconColor='rose'
-												/>
-												<InfoArea
-													className={classes.infoArea}
-													title='Theater'
-													description={
-														<p>
-															Comedy, musicals, classical productions.
-															Discover the productions on offer near
-															you.
-														</p>
-													}
-													icon={TheaterMasks}
-													iconColor='primary'
-												/>
-												<InfoArea
-													className={classes.infoArea}
-													title='Sports'
-													description={
-														<p>Sports ball. If you're into that.</p>
-													}
-													icon={Futbol}
-													iconColor='info'
-												/>
-											</GridItem>
-											<GridItem
-												xs={12}
-												sm={5}
-												md={5}
-												className={classes.mrAuto}
-											>
-												<div className={classes.textCenter}>
-													<Mutation
-														mutation={FIREBASE_SIGNUP}
-														refetchQueries={[
-															{ query: CURRENT_USER_QUERY },
-														]}
-														awaitRefetchQueries
-														onError={error => {
-															NProgress.done();
-															setServerError(error);
-														}}
-														onCompleted={() => {
-															NProgress.done();
-															Router.push(
-																'/welcome?slug=0',
-																'/welcome/profile/getstarted',
-															);
-														}}
-													>
-														{(firebaseAuth, { called }) => {
-															if (called) NProgress.start();
-															return (
-																<Fragment>
-																	<Button
-																		justIcon
-																		round
-																		color='google'
-																		onClick={e =>
-																			firebaseSignup(
-																				e,
-																				firebaseAuth,
-																				'google',
-																			)}
-																	>
-																		<i className='fab fa-google' />
-																	</Button>
+  return (
+    <Fragment>
+      <GridItem xs={6} sm={6} md={6} lg={6}>
+        <div
+          className={`${classes.section} cd-section`}
+          id="javascriptComponents"
+        >
+          <Dialog
+            classes={{
+              root: classes.modalRoot,
+              paper: classes.modal + " " + classes.modalSignup,
+              container: classes.modalContainer
+            }}
+            open={showing}
+            TransitionComponent={Transition}
+            keepMounted
+            onClose={() => {
+              setShowing(false);
+            }}
+            aria-labelledby="signup-modal-slide-title"
+            aria-describedby="signup-modal-slide-description"
+          >
+            <Card
+              plain
+              className={classes.modalSignupCard + " " + classes.register}
+            >
+              {termsShowing ? (
+                <Terms setTermsShowing={setTermsShowing} />
+              ) : (
+                <div>
+                  <DialogTitle
+                    id="signup-modal-slide-title"
+                    disableTypography
+                    className={classes.modalHeader}
+                  >
+                    <Button
+                      simple
+                      className={classes.modalCloseButton}
+                      key="close"
+                      aria-label="Close"
+                      onClick={() => setShowing(false)}
+                    >
+                      {" "}
+                      <Close className={classes.modalClose} />
+                    </Button>
+                    <h3
+                      className={`${classes.cardTitle} ${classes.modalTitle}`}
+                    >
+                      Register
+                    </h3>
+                  </DialogTitle>
+                  <DialogContent
+                    id="signup-modal-slide-description"
+                    className={classes.modalBody}
+                  >
+                    <GridContainer>
+                      <GridItem
+                        xs={12}
+                        sm={5}
+                        md={5}
+                        className={classes.mlAuto}
+                      >
+                        <InfoArea
+                          className={classes.infoArea}
+                          title="Music"
+                          description={
+                            <p>
+                              From the biggest acts in town to more intimate
+                              venues, find out who's playing in your area.
+                            </p>
+                          }
+                          icon={MusicNote}
+                          iconColor="rose"
+                        />
+                        <InfoArea
+                          className={classes.infoArea}
+                          title="Theater"
+                          description={
+                            <p>
+                              Comedy, musicals, classical productions. Discover
+                              the productions on offer near you.
+                            </p>
+                          }
+                          icon={TheaterMasks}
+                          iconColor="primary"
+                        />
+                        <InfoArea
+                          className={classes.infoArea}
+                          title="Sports"
+                          description={<p>Sports ball. If you're into that.</p>}
+                          icon={Futbol}
+                          iconColor="info"
+                        />
+                      </GridItem>
+                      <GridItem
+                        xs={12}
+                        sm={5}
+                        md={5}
+                        className={classes.mrAuto}
+                      >
+                        <div className={classes.textCenter}>
+                          <Mutation
+                            mutation={FIREBASE_SIGNUP}
+                            refetchQueries={[{ query: CURRENT_USER_QUERY }]}
+                            awaitRefetchQueries
+                            onError={error => {
+                              NProgress.done();
+                              setServerError(error);
+                            }}
+                            onCompleted={() => {
+                              NProgress.done();
+                              Router.push(
+                                "/welcome?slug=0",
+                                "/welcome/profile/getstarted"
+                              );
+                            }}
+                          >
+                            {(firebaseAuth, { called }) => {
+                              if (called) NProgress.start();
+                              return (
+                                <Fragment>
+                                  <Button
+                                    justIcon
+                                    round
+                                    color="google"
+                                    onClick={e =>
+                                      firebaseSignup(e, firebaseAuth, "google")
+                                    }
+                                  >
+                                    <i className="fab fa-google" />
+                                  </Button>
 
 																	<Button
 																		justIcon
@@ -346,246 +344,212 @@ const Register = ({ classes, showing, setShowing }) => {
 													{(signup, { loading, called }) => {
 														if (called) NProgress.start();
 
-														return (
-															<form
-																disabled
-																className={classes.form}
-																onSubmit={e =>
-																	handleSubmit(e, signup)}
-															>
-																<fieldset
-																	style={{ border: 'none' }}
-																	disabled={loading}
-																	aria-busy={loading}
-																>
-																	<CustomInput
-																		error={err.name}
-																		id='name'
-																		formControlProps={{
-																			fullWidth: true,
-																			className:
-																				classes.customFormControlClasses,
-																		}}
-																		inputProps={{
-																			startAdornment: (
-																				<InputAdornment
-																					position='start'
-																					className={
-																						classes.inputAdornment
-																					}
-																				>
-																					<Face
-																						className={
-																							classes.inputAdornmentIcon
-																						}
-																					/>
-																				</InputAdornment>
-																			),
-																			placeholder:
-																				'Full Name...',
-																			autoComplete: 'name',
-																			autoFocus: true,
-																			required: true,
-																			name: 'name',
-																			value: user.name,
-																			onChange: handleChange,
-																		}}
-																		labelText={err.name}
-																		labelProps={{
-																			error: true,
-																		}}
-																	/>
-																	<CustomInput
-																		error={err.email}
-																		id='email'
-																		formControlProps={{
-																			fullWidth: true,
-																			className:
-																				classes.customFormControlClasses,
-																		}}
-																		inputProps={{
-																			startAdornment: (
-																				<InputAdornment
-																					position='start'
-																					className={
-																						classes.inputAdornment
-																					}
-																				>
-																					<Email
-																						className={
-																							classes.inputAdornmentIcon
-																						}
-																					/>
-																				</InputAdornment>
-																			),
-																			placeholder: 'Email...',
-																			required: true,
-																			name: 'email',
-																			value: user.email,
-																			onChange: handleChange,
-																		}}
-																		labelText={err.email}
-																		labelProps={{
-																			error: true,
-																		}}
-																	/>
-																	<CustomInput
-																		error={err.password}
-																		id='password'
-																		formControlProps={{
-																			fullWidth: true,
-																			className:
-																				classes.customFormControlClasses,
-																		}}
-																		inputProps={{
-																			endAdornment: (
-																				<InputAdornment position='end'>
-																					<IconButton
-																						aria-label='Toggle password visibility'
-																						onClick={() =>
-																							setPasswordShowing(
-																								!passwordShowing,
-																							)}
-																					>
-																						{!err.password &&
-																							(passwordShowing ? (
-																								<Visibility
-																								/>
-																							) : (
-																								<VisibilityOff
-																								/>
-																							))}
-																					</IconButton>
-																				</InputAdornment>
-																			),
-																			startAdornment: (
-																				<InputAdornment
-																					position='start'
-																					className={
-																						classes.inputAdornment
-																					}
-																				>
-																					<LockOutlined
-																						className={
-																							classes.inputAdornmentIcon
-																						}
-																					/>
-																				</InputAdornment>
-																			),
-																			placeholder:
-																				'Password...',
-																			autoComplete:
-																				'new-password',
-																			required: true,
-																			name: 'password',
-																			type: passwordShowing
-																				? 'text'
-																				: 'password',
-																			value: user.password,
-																			onChange: handleChange,
-																			error:
-																				err.password &&
-																				true,
-																		}}
-																		labelText='Must be at least 8 characters including a number.'
-																		labelProps={{
-																			error: err.password
-																				? true
-																				: false,
-																		}}
-																	/>
-																	<FormControlLabel
-																		classes={{
-																			label: classes.label,
-																		}}
-																		control={
-																			<Checkbox
-																				tabIndex={-1}
-																				checked={terms}
-																				required={true}
-																				onClick={() =>
-																					setTerms(
-																						!terms,
-																					)}
-																				checkedIcon={
-																					<Check
-																						className={
-																							classes.checkedIcon +
-																							' ' +
-																							classes.registerCheck
-																						}
-																					/>
-																				}
-																				icon={
-																					<Check
-																						className={
-																							classes.uncheckedIcon +
-																							' ' +
-																							classes.registerCheck
-																						}
-																					/>
-																				}
-																				classes={{
-																					checked:
-																						classes.checked,
-																					root:
-																						classes.checkRoot,
-																				}}
-																			/>
-																		}
-																		label={
-																			<span
-																				style={{
-																					color:
-																						'#fafafa',
-																				}}
-																			>
-																				I agree to the{' '}
-																				<a
-																					onClick={() =>
-																						setTermsShowing(
-																							true,
-																						)}
-																					href='#'
-																				>
-																					terms and
-																					conditions
-																				</a>
-																				.
-																			</span>
-																		}
-																	/>
-																	<div
-																		className={
-																			classes.textCenter
-																		}
-																	>
-																		<ButtonBase type='submit'>
-																			<Button
-																				className={
-																					classes.registerModalButton
-																				}
-																				round
-																				// disabled
-																				disabled={!terms}
-																				color='primary'
-																				component='div'
-																			>
-																				Get Started
-																			</Button>
-																		</ButtonBase>{' '}
-																	</div>
-																</fieldset>
-															</form>
-														);
-													}}
-												</Mutation>
-											</GridItem>
-										</GridContainer>
-									</DialogContent>
-								</div>
-							)}
-						</Card>
+                            return (
+                              <form
+                                disabled
+                                className={classes.form}
+                                onSubmit={e => handleSubmit(e, signup)}
+                              >
+                                <fieldset
+                                  style={{ border: "none" }}
+                                  disabled={loading}
+                                  aria-busy={loading}
+                                >
+                                  <CustomInput
+                                    error={err.name}
+                                    id="name"
+                                    formControlProps={{
+                                      fullWidth: true,
+                                      className:
+                                        classes.customFormControlClasses
+                                    }}
+                                    inputProps={{
+                                      startAdornment: (
+                                        <InputAdornment
+                                          position="start"
+                                          className={classes.inputAdornment}
+                                        >
+                                          <Face
+                                            className={
+                                              classes.inputAdornmentIcon
+                                            }
+                                          />
+                                        </InputAdornment>
+                                      ),
+                                      placeholder: "Full Name...",
+                                      autoComplete: "name",
+                                      autoFocus: true,
+                                      required: true,
+                                      name: "name",
+                                      value: user.name,
+                                      onChange: handleChange
+                                    }}
+                                    labelText={err.name}
+                                    labelProps={{
+                                      error: true
+                                    }}
+                                  />
+                                  <CustomInput
+                                    error={err.email}
+                                    id="email"
+                                    formControlProps={{
+                                      fullWidth: true,
+                                      className:
+                                        classes.customFormControlClasses
+                                    }}
+                                    inputProps={{
+                                      startAdornment: (
+                                        <InputAdornment
+                                          position="start"
+                                          className={classes.inputAdornment}
+                                        >
+                                          <Email
+                                            className={
+                                              classes.inputAdornmentIcon
+                                            }
+                                          />
+                                        </InputAdornment>
+                                      ),
+                                      placeholder: "Email...",
+                                      required: true,
+                                      name: "email",
+                                      value: user.email,
+                                      onChange: handleChange
+                                    }}
+                                    labelText={err.email}
+                                    labelProps={{
+                                      error: true
+                                    }}
+                                  />
+                                  <CustomInput
+                                    error={err.password}
+                                    id="password"
+                                    formControlProps={{
+                                      fullWidth: true,
+                                      className:
+                                        classes.customFormControlClasses
+                                    }}
+                                    inputProps={{
+                                      endAdornment: (
+                                        <InputAdornment position="end">
+                                          <IconButton
+                                            aria-label="Toggle password visibility"
+                                            onClick={() =>
+                                              setPasswordShowing(
+                                                !passwordShowing
+                                              )
+                                            }
+                                          >
+                                            {!err.password &&
+                                              (passwordShowing ? (
+                                                <Visibility />
+                                              ) : (
+                                                <VisibilityOff />
+                                              ))}
+                                          </IconButton>
+                                        </InputAdornment>
+                                      ),
+                                      startAdornment: (
+                                        <InputAdornment
+                                          position="start"
+                                          className={classes.inputAdornment}
+                                        >
+                                          <LockOutlined
+                                            className={
+                                              classes.inputAdornmentIcon
+                                            }
+                                          />
+                                        </InputAdornment>
+                                      ),
+                                      placeholder: "Password...",
+                                      autoComplete: "new-password",
+                                      required: true,
+                                      name: "password",
+                                      type: passwordShowing
+                                        ? "text"
+                                        : "password",
+                                      value: user.password,
+                                      onChange: handleChange,
+                                      error: err.password && true
+                                    }}
+                                    labelText="Must be at least 8 characters including a number."
+                                    labelProps={{
+                                      error: err.password ? true : false
+                                    }}
+                                  />
+                                  <FormControlLabel
+                                    classes={{
+                                      label: classes.label
+                                    }}
+                                    control={
+                                      <Checkbox
+                                        tabIndex={-1}
+                                        checked={terms}
+                                        required={true}
+                                        onClick={() => setTerms(!terms)}
+                                        checkedIcon={
+                                          <Check
+                                            className={
+                                              classes.checkedIcon +
+                                              " " +
+                                              classes.registerCheck
+                                            }
+                                          />
+                                        }
+                                        icon={
+                                          <Check
+                                            className={
+                                              classes.uncheckedIcon +
+                                              " " +
+                                              classes.registerCheck
+                                            }
+                                          />
+                                        }
+                                        classes={{
+                                          checked: classes.checked,
+                                          root: classes.checkRoot
+                                        }}
+                                      />
+                                    }
+                                    label={
+                                      <span style={{ color: "#fafafa" }}>
+                                        I agree to the{" "}
+                                        <a
+                                          onClick={() => setTermsShowing(true)}
+                                          href="#"
+                                        >
+                                          terms and conditions and privacy
+                                          policy
+                                        </a>
+                                        .
+                                      </span>
+                                    }
+                                  />
+                                  <div className={classes.textCenter}>
+                                    <ButtonBase type="submit">
+                                      <Button
+                                        className={classes.registerModalButton}
+                                        round
+                                        // disabled
+                                        disabled={!terms}
+                                        color="primary"
+                                        component="div"
+                                      >
+                                        Get Started
+                                      </Button>
+                                    </ButtonBase>{" "}
+                                  </div>
+                                </fieldset>
+                              </form>
+                            );
+                          }}
+                        </Mutation>
+                      </GridItem>
+                    </GridContainer>
+                  </DialogContent>
+                </div>
+              )}
+            </Card>
 
 						<ErrorModal error={serverError} />
 					</Dialog>
