@@ -6,15 +6,18 @@ const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
 	const server = express();
+
 	server.get("/welcome/profile/:page/:subPage", (req, res) => {
 		const { page, subPage } = req.params;
 		const slug = subPage ? getSlug(page, subPage) : getSlug(page);
 		app.render(req, res, `/welcome`, { slug });
 	});
+
 	server.get("/welcome/profile/:page", (req, res) => {
 		const slug = getSlug(req.params.page);
 		app.render(req, res, `/welcome`, { slug });
 	});
+
 	server.get("/welcome/:page", (req, res) => {
 		const slug = getSlug(req.params.page);
 		app.render(req, res, `/welcome`, { slug });
