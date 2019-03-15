@@ -129,7 +129,7 @@ const Messages = ({
 							>
 								{' '}
 								<h4 style={{ margin: '15px' }} className={classes.title}>
-									Slidin' in to your DMs
+									Slidin' into your DMs
 								</h4>
 							</Typography>
 							<ChatList
