@@ -1,5 +1,7 @@
+
 # source: http://up4pr-publi-1pn1os38alx3e-1821962472.us-east-1.elb.amazonaws.com
 # timestamp: Thu Mar 14 2019 18:42:12 GMT-0500 (Central Daylight Time)
+
 
 type AggregateChat {
   count: Int!
