@@ -55,14 +55,18 @@ const User = props => (
 );
 
 export const isLoggedIn = async client => {
-	console.log(client);
-	let response = await client.query({
-		query: CURRENT_USER_QUERY,
-	});
-	if (response) {
-		return { currentUser: response.data };
+	try {
+		let response = await client.query({
+			query: CURRENT_USER_QUERY,
+			operationName: 'hellayyy',
+		});
+		if (response) {
+			return { currentUser: response.data };
+		}
+	} catch (e) {
+		console.log(e);
+		return {};
 	}
-	return {};
 };
 
 User.propTypes = {

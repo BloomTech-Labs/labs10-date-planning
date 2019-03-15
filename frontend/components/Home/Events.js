@@ -36,9 +36,7 @@ const Composed = adopt({
 	location: ({ user, render }) => (
 		// not sure what happened but the default for this value is not working at all
 		// had to add it into the Query to make site work
-		<Value initial={user.data.currentUser ? user.data.currentUser.location : 'Los Angeles, CA'}>
-			{render}
-		</Value>
+		<Value initial={user.data.currentUser && user.data.currentUser.location}>{render}</Value>
 	),
 	filters: ({ render }) => (
 		<State
@@ -90,7 +88,6 @@ const Events = React.memo(({ classes, router, href, ...props }) => {
 				updateUser,
 				drawer,
 				location,
-				page,
 				filters,
 				user: { data: { currentUser } },
 			}) => {

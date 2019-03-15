@@ -225,7 +225,7 @@ const Nav = ({ classes, color, router, href, currentUser }) => {
 													</div>
 													<div
 														style={{
-															maxWidth: '165px',
+															maxWidth: '300px',
 															overflow: 'hidden',
 															textOverflow: 'ellipsis',
 														}}

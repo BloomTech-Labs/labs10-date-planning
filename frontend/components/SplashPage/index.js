@@ -55,7 +55,10 @@ const Splash = ({ classes }) => {
 									Sign Up
 								</Button>
 
-								<Button className={classes.loginButton} onClick={() => setLoginShowing(true)}>
+								<Button
+									className={classes.loginButton}
+									onClick={() => setLoginShowing(true)}
+								>
 									Log In
 								</Button>
 							</GridContainer>

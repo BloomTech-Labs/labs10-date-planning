@@ -26,6 +26,7 @@ const UPLOAD_IMAGE_MUTATION = gql`
 const GenderPrefs = ({ user }) => {
 	const handleUpload = async uploadImage => {
 		openUploadWidget((error, result) => {
+			console.log(result.event);
 			if (result.event === 'success') {
 				NProgress.start();
 				uploadImage({
@@ -40,9 +41,10 @@ const GenderPrefs = ({ user }) => {
 	return (
 		<Mutation
 			mutation={UPLOAD_IMAGE_MUTATION}
-			onCompleted={() => {
+			onCompleted={e => {
 				NProgress.done();
 			}}
+			onError={e => console.log(e)}
 		>
 			{uploadImage => (
 				<div
@@ -83,7 +85,7 @@ const GenderPrefs = ({ user }) => {
 							>
 								{user.img.length ? 'Change' : 'Upload'}
 							</Button>
-							{user.img.length && (
+							{user.img.length ? (
 								<Button
 									color='danger'
 									onClick={() =>
@@ -96,7 +98,7 @@ const GenderPrefs = ({ user }) => {
 								>
 									Next
 								</Button>
-							)}
+							) : null}
 						</div>
 					</div>
 				</div>

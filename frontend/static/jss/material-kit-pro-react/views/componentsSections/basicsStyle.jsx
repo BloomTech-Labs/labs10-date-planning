@@ -80,8 +80,8 @@ const basicsStyle = theme => ({
 		backgroundColor: '#2d2d2d80',
 
 		'& svg': {
-			color : '#fafafa'
-		}
+			color: '#fafafa',
+		},
 	},
 	drawerHeader: {
 		display: 'flex',

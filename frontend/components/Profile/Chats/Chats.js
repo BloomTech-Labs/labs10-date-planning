@@ -76,6 +76,7 @@ const Chats = ({ subscribeToNewChats, subscribetoNewMessages, data, currentUser,
 						<Paper
 							style={{
 								height: '100%',
+								overflow: 'scroll',
 								minWidth: '250px',
 								backgroundColor: '#1f1e1e',
 								backgroundImage:
