@@ -114,7 +114,6 @@ const Chat = ({ chat, currentUser, classes, client }) => {
 	if (chat) {
 		friend = chat.users.find(user => user.id !== currentUser.id);
 	}
-
 	return (
 		<div
 			style={{
@@ -206,7 +205,7 @@ const Chat = ({ chat, currentUser, classes, client }) => {
 									}}
 									inputProps={{
 										multiline: true,
-										rows: 6,
+										rows: 1,
 										placeholder: `Respond to ${friend.firstName}`,
 										value: message,
 										onChange: e => setMessage(e.target.value),

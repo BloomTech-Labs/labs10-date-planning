@@ -84,7 +84,7 @@ const Chats = ({ subscribeToNewChats, subscribetoNewMessages, data, currentUser,
 							className={classes.paper}
 						>
 							<Typography
-								variant='div'
+								variant='h6'
 								gutterBottom
 								style={{
 									textAlign: 'center',
@@ -94,9 +94,9 @@ const Chats = ({ subscribeToNewChats, subscribetoNewMessages, data, currentUser,
 								}}
 							>
 								{' '}
-								<h4 style={{ margin: '15px' }} className={classes.title}>
+								<div style={{ margin: '15px' }} className={classes.title}>
 									Slidin' in to your DMs
-								</h4>
+								</div>
 							</Typography>
 							<div style={{ padding: '20px 5px 20px' }}>
 								{data.getUserChats &&
