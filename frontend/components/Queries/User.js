@@ -12,6 +12,7 @@ const CURRENT_USER_QUERY = gql`
 			biography
 			dob
 			location
+			gender
 			genderPrefs
 			minAgePref
 			maxAgePref

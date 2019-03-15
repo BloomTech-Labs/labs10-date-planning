@@ -33,7 +33,7 @@ import CustomDropdown from '../../styledComponents/CustomDropdown/CustomDropdown
 //styles
 import styles from '../../static/jss/material-kit-pro-react/views/componentsSections/javascriptStyles.jsx';
 
-import ReportUser from './ReportUser'
+import ReportUser from './ReportUser';
 
 //utils
 import getAge from '../../utils/getAge';
@@ -119,7 +119,7 @@ const UserModal = ({ classes, user, router, currentUser }) => {
 			{({ like, unlike, block, potentialMatch }) => {
 				let match = potentialMatch.data ? potentialMatch.data.user : null;
 				let isLiked = currentUser ? currentUser.liked.find(usr => usr.id === user) : false;
-				console.log(match);
+
 				if (!match) return <div />;
 				else {
 					NProgress.done();
@@ -225,7 +225,10 @@ const UserModal = ({ classes, user, router, currentUser }) => {
 												<FavoriteBorder className={classes.notFavorite} />
 											)}
 										</IconButton>
-										<ReportUser currentUser={currentUser} userToReport={match} />
+										{/* <ReportUser
+											currentUser={currentUser}
+											userToReport={match}
+										/> */}
 										{match.score > 7000 ? (
 											<h3
 												style={{
@@ -255,7 +258,10 @@ const UserModal = ({ classes, user, router, currentUser }) => {
 												style: { marginBottom: 0 },
 												color: 'transparent',
 											}}
-											dropdownList={[ `Block ${match.firstName}` ]}
+											dropdownList={[
+												`Block ${match.firstName}`,
+												`Report ${match.firstName}`,
+											]}
 											onClick={() => block()}
 										/>
 									</div>
