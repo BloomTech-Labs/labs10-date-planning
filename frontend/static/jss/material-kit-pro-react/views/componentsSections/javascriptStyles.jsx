@@ -252,7 +252,7 @@ const javascriptStyles = theme => {
       display: "flex",
       justifyContent: "flex-end",
       alignItems: "flex-end",
-      marginTop: '20px',
+      marginTop: "20px",
       // borderTop: "2px solid #b2ddf7",
       "& textarea": {
         color: "#fafafa"
@@ -265,7 +265,7 @@ const javascriptStyles = theme => {
           "linear-gradient(to right, #81d6e3, #71d0df, #5ecadb, #49c3d8, #2dbdd4)",
         background: "transparent",
         borderRadius: "6px",
-        marginLeft: "20px",
+        marginLeft: "20px"
         // position: 'relative',
         // bottom: '16px'
       }
@@ -297,13 +297,34 @@ const javascriptStyles = theme => {
       width: "80%"
     },
     textareaAutosize: {
-      width: '100%',
-      background: 'transparent',
-      border: 'none',
-      resize: 'none',
-      fontSize: '16px',
-      userSelect: 'all',
-      color: '#fafafa'
+      width: "100%",
+      background: "transparent",
+      border: "none",
+      resize: "none",
+      fontSize: "16px",
+      userSelect: "all",
+      color: "#fafafa"
+    },
+    fire60: {
+      "& svg": {
+        height: "60px",
+        width: "60px",
+        color: "yellow"
+      }
+    },
+    fire80: {
+      "& svg": {
+        height: "60px",
+        width: "60px",
+        color: "orange"
+      }
+    },
+    fire90: {
+      "& svg": {
+        height: "60px",
+        width: "60px",
+        color: "red"
+      }
     }
   };
 };
