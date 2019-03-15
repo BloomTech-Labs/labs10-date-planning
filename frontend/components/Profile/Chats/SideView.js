@@ -9,6 +9,7 @@ const Chat = ({ chat, setChat, selectedChat, classes }) => {
 	return (
 		<div
 			onClick={() => setChat(chat.id)}
+			className={classes.slidinUser}
 			style={{
 				display: 'flex',
 				marginBottom: '20px',
