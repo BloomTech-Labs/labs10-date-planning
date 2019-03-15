@@ -223,6 +223,7 @@ const Chat = ({ chat, currentUser, classes, client }) => {
                   placeholder={`Respond to ${friend.firstName}`}
                   rows={1}
                   maxRows={4}
+                  value={message}
                   onKeyDown={e => {
                     if (e.keyCode === 13) {
                       sendMessage();

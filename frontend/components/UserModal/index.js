@@ -321,7 +321,6 @@ const UserModal = ({ classes, user, router, currentUser }) => {
 														marginBottom: 0,
 														display: 'flex',
 														alignItems: 'flex-start',
-														zIndex: 2
 													}}
 													className={classes.gradientBox}
 												>
