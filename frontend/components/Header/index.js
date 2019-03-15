@@ -114,7 +114,7 @@ const Nav = ({ classes, color, router, href, currentUser }) => {
 							className={classes.navLink}
 							onClick={e => {
 								e.preventDefault();
-								Router.push('/');
+								Router.push('/home');
 							}}
 							color='transparent'
 						>
